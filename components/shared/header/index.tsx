@@ -6,6 +6,7 @@ import React from "react";
 import { HeartIcon, ShoppingCart, UserIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Theme from "./theme";
+import MobileNavigation from "./MobileNavigation";
 
 const Header = () => {
   return (
@@ -46,6 +47,7 @@ const Header = () => {
           </Button>
           <Theme />
         </div>
+        <MobileNavigation />
       </div>
     </header>
   );

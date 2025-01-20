@@ -8,3 +8,5 @@ export function cn(...inputs: ClassValue[]) {
 export function getCurrentYear(): number {
   return new Date().getFullYear();
 }
+
+export const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
