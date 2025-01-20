@@ -3,12 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-import { ShoppingCart, UserIcon } from "lucide-react";
+import { HeartIcon, ShoppingCart, UserIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Theme from "./theme";
 
 const Header = () => {
   return (
-    <header className="w-full border-b">
+    <header className="w-full border-b ">
       <div className="wrapper flex-between">
         <div className="flex-start">
           <Link href="/" className="flex-start">
@@ -24,17 +25,26 @@ const Header = () => {
             </span>
           </Link>
         </div>
-        <div className="space-x-2">
+        <div className="space-x-1">
           <Button asChild variant="ghost">
             <Link href="/cart">
-              <ShoppingCart /> Cart
+              <ShoppingCart />
             </Link>
           </Button>
-          <Button asChild>
+          <Button asChild variant="ghost">
+            <Link href="/cart">
+              <HeartIcon />
+            </Link>
+          </Button>
+          <Button
+            asChild
+            className="primary-gradient min-h-[24px] !text-light-900 border-0.2 border-slate-300"
+          >
             <Link href="/sign-in">
-              <UserIcon /> SignIn
+              <UserIcon />
             </Link>
           </Button>
+          <Theme />
         </div>
       </div>
     </header>
