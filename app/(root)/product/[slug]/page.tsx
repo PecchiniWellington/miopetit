@@ -40,7 +40,7 @@ const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
         </p>
         <h1 className="h3-bold">{name}</h1>
         <p>
-          {rating} of {numReviews} Reviews
+          {rating.toString()} of {numReviews} Reviews
         </p>
         <div className="flex flex-col sm:flex-row sm:item-center gap-3">
           <ProductPrice
