@@ -5,8 +5,9 @@ import React from "react";
 
 import { HeartIcon, ShoppingCart, UserIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+
+import MobileNavigation from "./mobile-navigation";
 import Theme from "./theme";
-import MobileNavigation from "./MobileNavigation";
 
 const Header = () => {
   return (
