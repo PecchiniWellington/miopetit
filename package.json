@@ -6,7 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "prisma generate",
+    "open-prisma": "prisma studio"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.4",
