@@ -20,10 +20,13 @@ export const metadata: Metadata = {
   description: "Sign in to your account",
 };
 
-const SignInPage = async () => {
+const SignInPage = async (props: {
+  searchParams: Promise<{ callback: string }>;
+}) => {
   const session = await auth();
+  const { callback } = await props.searchParams;
   if (session) {
-    redirect("/");
+    redirect(callback || "/");
   }
   return (
     <div className="w-full max-w-md mx-auto">
