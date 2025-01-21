@@ -11,8 +11,15 @@ export async function getLatestProducts() {
       createdAt: "desc",
     },
   });
+
+  const productsData = products.map((product) => ({
+    ...product,
+    price: product.price.toString(),
+    rating: product.rating.toString(),
+  }));
   /* prisma.$disconnect(); */
-  return convertToPlainObject(products);
+  /*  return convertToPlainObject(productsData); */
+  return productsData;
 }
 
 // Get product by slug
