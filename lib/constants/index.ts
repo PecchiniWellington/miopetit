@@ -19,5 +19,5 @@ export const SIGN_UP_DEFAULT_VALUES = {
   name: "",
   email: "",
   password: "",
-  confirm_password: "",
+  confirmPassword: "",
 };

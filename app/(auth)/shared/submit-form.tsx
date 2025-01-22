@@ -1,7 +1,7 @@
 "use client";
 import { Input } from "../../../components/ui/input";
 import { useSearchParams } from "next/navigation";
-import { capitalizeFirstLetter, removeUnderscore } from "@/lib/utils";
+import { camelCaseToSpaces, capitalizeFirstLetter } from "@/lib/utils";
 import ChangeForm from "./change-form";
 import SubmitButton from "./submit-button";
 import { signInWithCredentials, signUpUser } from "@/lib/actions/user.action";
@@ -17,6 +17,7 @@ const SubmitForm = ({ defaultValues, formType }: any) => {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/";
 
+  console.log("DATA", data, action);
   return (
     <form action={action} className="space-y-6">
       <input type="hidden" name="callbackUrl" value={callbackUrl} />
@@ -24,7 +25,7 @@ const SubmitForm = ({ defaultValues, formType }: any) => {
         {Object.keys(defaultValues).map((key) => (
           <div key={key}>
             <label htmlFor={key}>
-              {capitalizeFirstLetter(removeUnderscore(key))}
+              {capitalizeFirstLetter(camelCaseToSpaces(key))}
             </label>
             <Input
               type={key}
