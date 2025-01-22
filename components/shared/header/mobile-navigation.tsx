@@ -1,4 +1,4 @@
-import { LogOut } from "lucide-react";
+import { LogOut, UserIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -78,7 +78,9 @@ const MobileNavigation = async () => {
               <SheetClose asChild>
                 <Link href={ROUTES.SIGN_IN}>
                   <Button className="small-medium btn-secondary min-h-[41px] w-full rounded-lg px-4 py-3 shadow-none">
-                    <span className="primary-text-gradient">Log In</span>
+                    <Link href={ROUTES.SIGN_IN}>
+                      <UserIcon />
+                    </Link>
                   </Button>
                 </Link>
               </SheetClose>
