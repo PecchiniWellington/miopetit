@@ -36,3 +36,18 @@ export const camelCaseToSpaces = (text: string) => {
 export const capitalizeFirstLetter = (text: string) => {
   return text.charAt(0).toUpperCase() + text.slice(1);
 };
+
+export const formatError = (error: any) => {
+  if (error.name === "ZodError") {
+    const fieldErrors = Object.keys(error.errors).map((field) => {
+      return error.errors[field].message;
+    });
+    return fieldErrors.join(",\n");
+  } else if (
+    error.name === "PrismaClientKnownRequestError" &&
+    error.code === "P2002"
+  ) {
+    const field = error.meta?.target ? error.meta.target[0] : "Field";
+    return `${field.charAt(0).toUpperCase() + field.slice(1)} already exists`;
+  }
+};

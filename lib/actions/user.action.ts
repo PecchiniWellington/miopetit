@@ -4,6 +4,7 @@ import { signInFormSchema, signUpFormSchema } from "../validator";
 import { signIn, signOut } from "@/auth";
 import { hashSync } from "bcryptjs";
 import { prisma } from "@/db/prisma";
+import { formatError } from "../utils";
 
 // Sign in the user with creadentials
 export const signInWithCredentials = async (
@@ -23,7 +24,7 @@ export const signInWithCredentials = async (
     if (isRedirectError(error)) {
       throw error;
     }
-    return { success: false, message: "Invalid credentials" };
+    return { success: false, message: formatError(error) };
   }
 };
 
@@ -65,6 +66,6 @@ export const signUpUser = async (prevState: unknown, formData: FormData) => {
     if (isRedirectError(error)) {
       throw error;
     }
-    return { success: false, message: "Invalid credentials" };
+    return { success: false, message: formatError(error) };
   }
 };
