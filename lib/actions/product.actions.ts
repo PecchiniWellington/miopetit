@@ -18,8 +18,7 @@ export async function getLatestProducts() {
     rating: product.rating.toString(),
   }));
   /* prisma.$disconnect(); */
-  /*  return convertToPlainObject(productsData); */
-  return productsData;
+  return convertToPlainObject(productsData);
 }
 
 // Get product by slug
