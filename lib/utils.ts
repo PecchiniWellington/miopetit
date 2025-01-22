@@ -24,3 +24,10 @@ export function formatNumberWithDecimal(
   const [int, decimal] = num.toString().split(".");
   return decimal ? `${int}.${decimal.padEnd(decimalPlaces, "0")}` : `${int}.00`;
 }
+
+export const removeUnderscore = (text: string) => {
+  return text.replace(/_/g, " ");
+};
+export const capitalizeFirstLetter = (text: string) => {
+  return text.charAt(0).toUpperCase() + text.slice(1);
+};

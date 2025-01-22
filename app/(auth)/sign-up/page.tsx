@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { APP_NAME, SIGN_IN_DEFAULT_VALUES } from "@/lib/constants";
+import { APP_NAME, SIGN_UP_DEFAULT_VALUES } from "@/lib/constants";
 import { Metadata } from "next";
 
 import Image from "next/image";
@@ -15,11 +15,11 @@ import { redirect } from "next/navigation";
 import SubmitForm from "../shared/submit-form";
 
 export const metadata: Metadata = {
-  title: "Sign In",
-  description: "Sign in to your account",
+  title: "SignUp",
+  description: "Sign up to your account",
 };
 
-const SignInPage = async (props: {
+const SignUpPage = async (props: {
   searchParams: Promise<{ callback: string }>;
 }) => {
   const session = await auth();
@@ -31,7 +31,7 @@ const SignInPage = async (props: {
   return (
     <div className="w-full max-w-md mx-auto">
       <Card>
-        <CardHeader title="Sign In" className="space-y-4">
+        <CardHeader title="Sign Un" className="space-y-4">
           <Link href="/" className="flex-center">
             <Image
               src="/images/miopetit.svg"
@@ -42,14 +42,14 @@ const SignInPage = async (props: {
             />
           </Link>
         </CardHeader>
-        <CardTitle className="text-center">Sign In</CardTitle>
+        <CardTitle className="text-center">Create Account</CardTitle>
         <CardDescription className="text-center">
-          Sign in to your account
+          Enter your information below to sign up
         </CardDescription>
         <CardContent className="space-y-4">
           <SubmitForm
-            formType="sign-in"
-            defaultValues={SIGN_IN_DEFAULT_VALUES}
+            formType="sign-up"
+            defaultValues={SIGN_UP_DEFAULT_VALUES}
           />
         </CardContent>
       </Card>
@@ -57,4 +57,4 @@ const SignInPage = async (props: {
   );
 };
 
-export default SignInPage;
+export default SignUpPage;

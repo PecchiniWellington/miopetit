@@ -1,7 +1,9 @@
 "use server";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
-import { signInFormSchema } from "../validator";
+import { signInFormSchema, signUpFormSchema } from "../validator";
 import { signIn, signOut } from "@/auth";
+import { hashSync } from "bcryptjs";
+import { prisma } from "@/db/prisma";
 
 // Sign in the user with creadentials
 export const signInWithCredentials = async (
@@ -29,4 +31,35 @@ export const signInWithCredentials = async (
 export const signOutUser = async () => {
   await signOut();
   return { success: true, message: "User signed out successfully" };
+};
+
+export const signUpUser = async (prevState: unknown, formData: FormData) => {
+  try {
+    const user = signUpFormSchema.parse({
+      name: formData.get("name"),
+      email: formData.get("email"),
+      password: formData.get("password"),
+      confirmPassword: formData.get("confirmPassword"),
+    });
+
+    await prisma.user.create({
+      data: {
+        name: user.name,
+        email: user.email,
+        password: hashSync(user.password, 10),
+      },
+    });
+
+    await signIn("credentials", {
+      email: user.email,
+      password: user.password,
+    });
+
+    return { success: true, message: "User signedUp successfully" };
+  } catch (error) {
+    if (isRedirectError(error)) {
+      throw error;
+    }
+    return { success: false, message: "Invalid credentials" };
+  }
 };
