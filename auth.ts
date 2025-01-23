@@ -3,6 +3,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "./db/prisma";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { compareSync } from "bcryptjs";
+import { NextResponse } from "next/server";
 
 const config = {
   session: {
@@ -54,7 +55,6 @@ const config = {
       session.user.role = token.role;
       session.user.name = token.name;
 
-      console.log("session", session);
       if (trigger === "update") {
         session.user.email = user.email;
       }
@@ -75,6 +75,27 @@ const config = {
         }
       }
       return token;
+    },
+    authorized({ request, auth }: any) {
+      // check for session cart cookie
+      if (!request.cookies.get("sessionCartId")) {
+        // Generate new session cart id cookie
+        const sessionCartId = crypto.randomUUID();
+
+        // Clone the req headers
+        const newRequestHeaders = new Headers(request.headers);
+        // Create new response and  add the new headers
+        const response = NextResponse.next({
+          request: { headers: newRequestHeaders },
+        });
+
+        //Set newly generated session cart id in the response cookie
+        response.cookies.set("sessionCartId", sessionCartId);
+
+        return response;
+      } else {
+        return true;
+      }
     },
   },
 } satisfies NextAuthConfig;

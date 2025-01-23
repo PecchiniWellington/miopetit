@@ -17,7 +17,6 @@ const SubmitForm = ({ defaultValues, formType }: any) => {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/";
 
-  console.log("DATA", data, action);
   return (
     <form action={action} className="space-y-6">
       <input type="hidden" name="callbackUrl" value={callbackUrl} />

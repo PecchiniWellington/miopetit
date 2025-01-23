@@ -13,7 +13,8 @@ export const AddToCart = ({ item }: { item: CartItem }) => {
   const { toast } = useToast();
   const handleAddToCart = async () => {
     const res = await addItemToCart(item);
-    if (!res.success) {
+    console.log("RES", res);
+    if (!res?.success) {
       toast({
         className: "bg-red-100 text-red-700 px-5 py-2",
         title: "Error",
