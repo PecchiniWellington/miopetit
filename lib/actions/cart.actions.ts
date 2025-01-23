@@ -5,9 +5,10 @@ import { convertToPlainObject, formatError, round2 } from "../utils";
 import { cookies } from "next/headers";
 import { auth } from "@/auth";
 import { prisma } from "@/db/prisma";
-import { Cart } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { cartItemSchema, insertCartSchema } from "../validator";
 import { revalidatePath } from "next/cache";
+import { get } from "http";
 
 // Calculate cart prices
 const calcPrice = (items: CartItem[]) => {
@@ -59,7 +60,7 @@ const getProductByItemProductId = async (item: CartItem) => {
 };
 
 // Add item to cart
-const pushProductToDatabase = async (
+const createNewCart = async (
   userId: string | undefined,
   item: CartItem,
   sessionCartId: string,
@@ -78,12 +79,53 @@ const pushProductToDatabase = async (
 
   // revalidate product page from cache to update cart count
   revalidatePath(`/product/${product.slug}`);
+
   return {
     success: true,
-    message: "Item added to cart successfully",
+    message: `${product.name} added to cart successfully`,
   };
 };
 
+const updateExistingCart = async (
+  cart: any,
+  item: CartItem,
+  product: Product
+) => {
+  // Update existing cart in database
+  const existingItem = (cart.items as CartItem[]).find(
+    (i) => i.productId === item.productId
+  );
+
+  // check if item exists
+  if (existingItem) {
+    // check if there is enough stock
+    if (product.stock < existingItem.qty + 1) {
+      throw new Error("Not enough stock");
+    }
+    existingItem.qty = existingItem.qty + 1;
+  } else {
+    // add new item
+    if (product.stock < 1) throw new Error("Not enough stock");
+    cart.items.push(item);
+  }
+  await prisma.cart.update({
+    where: { id: cart.id },
+    data: {
+      items: cart.items as Prisma.CartUpdateitemsInput[],
+      ...calcPrice(cart.items as CartItem[]),
+    },
+  });
+
+  revalidatePath(`/product/${product.slug}`);
+  return {
+    success: true,
+    message: `${product.name} ${
+      existingItem ? "updated in " : "added to"
+    } cart`,
+  };
+};
+
+/* EXPORTS ACTION CART */
 export async function addItemToCart(data: CartItem) {
   try {
     const { sessionCartId } = await getSessionCartId();
@@ -93,14 +135,9 @@ export async function addItemToCart(data: CartItem) {
     const { product } = await getProductByItemProductId(item);
 
     if (!cart) {
-      const t = await pushProductToDatabase(
-        userId,
-        item,
-        sessionCartId,
-        product
-      );
-
-      return t;
+      return await createNewCart(userId, item, sessionCartId, product);
+    } else {
+      return await updateExistingCart(cart, item, product);
     }
   } catch (error) {
     return { success: false, message: formatError(error) };
@@ -127,4 +164,51 @@ export async function getMyCart() {
     shippingPrice: cart.shippingPrice.toString(),
     taxPrice: cart.taxPrice.toString(),
   });
+}
+
+export async function removeItemFromCart(productId: string) {
+  try {
+    await getSessionCartId();
+    const product = await prisma.product.findFirst({
+      where: { id: productId },
+    });
+    if (!product) throw new Error("Product not found");
+
+    // Get user cart from database
+    const cart = await getMyCart();
+    if (!cart) throw new Error("Cart not found");
+
+    // Check for item in cart
+    const exist = (cart.items as CartItem[]).find(
+      (i) => i.productId === productId
+    );
+
+    // Check if only one item in qty
+    if (exist) {
+      if (exist?.qty === 1) {
+        cart.items = (cart.items as CartItem[]).filter(
+          (i) => i.productId !== exist.productId
+        );
+      } else {
+        // Update item qty
+        exist.qty = exist.qty - 1;
+      }
+    }
+    await prisma.cart.update({
+      where: { id: cart.id },
+      data: {
+        items: cart.items as Prisma.CartUpdateitemsInput[],
+        ...calcPrice(cart.items as CartItem[]),
+      },
+    });
+
+    revalidatePath(`/product/${product.slug}`);
+
+    return {
+      success: true,
+      message: `${product.name} removed from cart`,
+    };
+  } catch (error) {
+    return { success: false, message: formatError(error) };
+  }
 }
