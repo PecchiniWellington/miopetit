@@ -159,10 +159,10 @@ export async function getMyCart() {
   return convertToPlainObject({
     ...cart,
     items: cart.items as CartItem[],
-    itemsPrice: cart.itemsPrice.toString(),
-    totalPrice: cart.totalPrice.toString(),
-    shippingPrice: cart.shippingPrice.toString(),
-    taxPrice: cart.taxPrice.toString(),
+    itemsPrice: cart.itemsPrice.toString() as unknown as Prisma.Decimal,
+    totalPrice: cart.totalPrice.toString() as unknown as Prisma.Decimal,
+    shippingPrice: cart.shippingPrice.toString() as unknown as Prisma.Decimal,
+    taxPrice: cart.taxPrice.toString() as unknown as Prisma.Decimal,
   });
 }
 
