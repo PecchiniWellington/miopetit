@@ -35,7 +35,7 @@ const ShippingAddressForm = ({ address }: { address: IShippingAddress }) => {
 
   const form = useForm<z.infer<typeof shippingAddressSchema>>({
     resolver: zodResolver(shippingAddressSchema),
-    defaultValues: address || SHIPPING_ADDRESS_DEFAULT_VALUES, //FIXME: defaultValues delete in production
+    defaultValues: address || SHIPPING_ADDRESS_DEFAULT_VALUES,
   });
 
   const onSubmit: SubmitHandler<z.infer<typeof shippingAddressSchema>> = async (

@@ -6,6 +6,8 @@ import { redirect } from "next/navigation";
 import React from "react";
 import ShippingAddressForm from "./shipping-address-form";
 import { IShippingAddress } from "@/types";
+import { Check } from "lucide-react";
+import CheckoutSteps from "@/components/shared/checkout-steps";
 
 export const metadata: Metadata = {
   title: "Shipping Address",
@@ -26,6 +28,7 @@ const ShippingAddress = async () => {
 
   return (
     <div>
+      <CheckoutSteps current={1} />
       <ShippingAddressForm address={user.address as IShippingAddress} />
     </div>
   );
