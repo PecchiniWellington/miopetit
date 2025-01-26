@@ -80,7 +80,15 @@ const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
         {stock > 0 && (
           <div className="flex-center mt-10">
             <AddToCart
-              cart={cart}
+              cart={{
+                ...cart,
+                sessionCartId: cart!.sessionCartId ?? "",
+                items: cart!.items ?? [],
+                itemsPrice: cart!.itemsPrice.toString(),
+                totalPrice: cart!.totalPrice.toString(),
+                shippingPrice: cart!.shippingPrice.toString(),
+                taxPrice: cart!.taxPrice.toString(),
+              }}
               item={{
                 productId: product.id.toString(),
                 name: product.name,
