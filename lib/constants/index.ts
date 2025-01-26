@@ -21,3 +21,11 @@ export const SIGN_UP_DEFAULT_VALUES = {
   password: "",
   confirmPassword: "",
 };
+
+export const SHIPPING_ADDRESS_DEFAULT_VALUES = {
+  fullname: "Wellington Pecchini",
+  streetAddress: "123 Main st",
+  city: "Padova",
+  postalCode: "35124",
+  country: "Italy",
+}; // FIXME: REMOVE DEFAULT VALUES
