@@ -11,7 +11,17 @@ const CartPage = async () => {
   const cart = await getMyCart();
   return (
     <>
-      <CartTable cart={cart} />
+      <CartTable
+        cart={{
+          ...cart,
+          sessionCartId: cart!.sessionCartId ?? "",
+          items: cart!.items ?? [],
+          itemsPrice: cart!.itemsPrice.toString(),
+          totalPrice: cart!.totalPrice.toString(),
+          shippingPrice: cart!.shippingPrice.toString(),
+          taxPrice: cart!.taxPrice.toString(),
+        }}
+      />
     </>
   );
 };
