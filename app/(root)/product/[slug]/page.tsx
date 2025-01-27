@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { getMyCart } from "@/lib/actions/cart.actions";
 import { getProductBySlug } from "@/lib/actions/product.actions";
+import { CartItem } from "@/types";
 
 import React from "react";
 
@@ -82,7 +83,7 @@ const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
             <AddToCart
               cart={{
                 ...cart,
-                items: cart?.items as any,
+                items: cart?.items as CartItem[],
                 sessionCartId: cart?.id as string,
                 itemsPrice: cart?.itemsPrice as unknown as string,
                 totalPrice: cart?.totalPrice as unknown as string,

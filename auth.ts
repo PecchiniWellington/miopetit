@@ -4,6 +4,9 @@ import { prisma } from "./db/prisma";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { compareSync } from "bcryptjs";
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
+import { request } from "http";
+import { any } from "zod";
 
 const config = {
   session: {
@@ -63,6 +66,7 @@ const config = {
     },
     async jwt({ token, user, trigger, session }: any) {
       if (user) {
+        token.id = user.id;
         token.role = user.role;
 
         if (user.name === "NO_NAME") {
@@ -72,6 +76,30 @@ const config = {
             where: { id: user.id },
             data: { name: token.name },
           });
+        }
+
+        if (trigger === "signIn" || trigger === "signUp") {
+          const cookiesObject = await cookies();
+          const sessionCartId = cookiesObject.get("sessionCartId")?.value;
+
+          if (sessionCartId) {
+            const sessionCart = await prisma.cart.findFirst({
+              where: { sessionCartId },
+            });
+
+            if (sessionCart) {
+              // Delete current user cart
+              await prisma.cart.deleteMany({
+                where: { userId: user.id },
+              });
+
+              // Assign new cart
+              await prisma.cart.update({
+                where: { id: sessionCart.id },
+                data: { userId: user.id },
+              });
+            }
+          }
         }
       }
       return token;

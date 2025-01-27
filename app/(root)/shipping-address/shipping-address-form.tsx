@@ -28,7 +28,7 @@ import { useTransition } from "react";
 import { ArrowRight, Loader } from "lucide-react";
 import { updateUserAddress } from "@/lib/actions/user.action";
 
-const ShippingAddressForm = ({ address }: { address: IShippingAddress }) => {
+const ShippingAddressForm = ({ address }: { address?: IShippingAddress }) => {
   const router = useRouter();
   const { toast } = useToast();
   const [isPending, setIsPending] = useTransition();

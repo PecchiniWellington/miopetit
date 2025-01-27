@@ -46,7 +46,7 @@ export const AddToCart = ({ cart, item }: { cart?: Cart; item: CartItem }) => {
 
   //Check if the item is already in the cart
   const existItem =
-    cart && cart?.items.find((i) => i.productId === item.productId);
+    cart && cart?.items?.find((i) => i.productId === item.productId);
 
   const handleRemoveFromCart = async () => {
     setIsPending(async () => {

@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import React from "react";
 import { CartTable } from "./cart-table";
 import { getMyCart } from "@/lib/actions/cart.actions";
+import { Cart, CartItem } from "@/types";
 
 export const metadata: Metadata = {
   title: "Shopping Cart",
@@ -15,7 +16,7 @@ const CartPage = async () => {
       <CartTable
         cart={{
           ...cart,
-          items: cart?.items as any,
+          items: cart?.items as CartItem[],
           sessionCartId: cart?.id as string,
           itemsPrice: cart?.itemsPrice as unknown as string,
           totalPrice: cart?.totalPrice as unknown as string,

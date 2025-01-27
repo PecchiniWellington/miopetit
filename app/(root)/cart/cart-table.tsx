@@ -79,7 +79,8 @@ export const CartTable = ({ cart }: { cart?: Cart }) => {
   return (
     <>
       <h1 className="py-4 h2-bold">Sopping Cart</h1>
-      {!cart || cart.items.length === 0 ? (
+
+      {!cart?.items || cart?.items?.length === 0 ? (
         <div>
           Cart is empty. <Link href="/">Go Shopping</Link>
         </div>
@@ -95,7 +96,7 @@ export const CartTable = ({ cart }: { cart?: Cart }) => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {cart.items.map((item: any) => (
+                {cart?.items?.map((item: any) => (
                   <TableRow key={item?.slug}>
                     <TableCell>
                       <Link
@@ -154,7 +155,7 @@ export const CartTable = ({ cart }: { cart?: Cart }) => {
             <CardContent className="p-4 gap-4">
               <div className="pb-3 text-xl">
                 Subtotal (
-                {cart?.items.reduce((a, c) => a + c?.qty, 0)?.toString()}):
+                {cart?.items?.reduce((a, c) => a + c?.qty, 0)?.toString()}):
                 <span className="font-bold">
                   {formatCurrency(cart?.itemsPrice)}
                 </span>
