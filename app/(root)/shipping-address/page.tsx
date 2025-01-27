@@ -24,20 +24,10 @@ const ShippingAddress = async () => {
 
   if (!userId) {
     /* TODO: inserire le agevolazioni se ti autentichi */
-    return (
-      <div>
-        <CheckoutSteps current={1} />
-        <ShippingAddressForm />
-      </div>
-    );
+    return <ShippingAddressForm />;
   } else {
     const user = await getUserById(userId);
-    return (
-      <div>
-        <CheckoutSteps current={1} />
-        <ShippingAddressForm address={user.address as IShippingAddress} />
-      </div>
-    );
+    return <ShippingAddressForm address={user.address as IShippingAddress} />;
   }
 };
 

@@ -1,12 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  ControllerRenderProps,
-  FormProvider,
-  SubmitHandler,
-  useForm,
-} from "react-hook-form";
+import { ControllerRenderProps, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -27,6 +22,7 @@ import { IShippingAddress } from "@/types";
 import { useTransition } from "react";
 import { ArrowRight, Loader } from "lucide-react";
 import { updateUserAddress } from "@/lib/actions/user.action";
+import CheckoutSteps from "@/components/shared/checkout-steps";
 
 const ShippingAddressForm = ({ address }: { address?: IShippingAddress }) => {
   const router = useRouter();
@@ -58,6 +54,7 @@ const ShippingAddressForm = ({ address }: { address?: IShippingAddress }) => {
 
   return (
     <>
+      <CheckoutSteps current={1} />
       <div className="max-w-md mx-auto space-y-4">
         <h1 className="h2-bold mt-4">Shipping Address</h1>
         <p className="text-sm text-muted-foreground">
