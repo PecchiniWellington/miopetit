@@ -10,6 +10,7 @@ import { hashSync } from "bcryptjs";
 import { prisma } from "@/db/prisma";
 import { formatError } from "../utils";
 import { IShippingAddress } from "@/types";
+import { cookies } from "next/headers";
 
 // Sign in the user with creadentials
 export const signInWithCredentials = async (
@@ -35,6 +36,7 @@ export const signInWithCredentials = async (
 
 // Sign out the user
 export const signOutUser = async () => {
+  (await cookies()).delete("sessionCartId");
   await signOut();
   return { success: true, message: "User signed out successfully" };
 };

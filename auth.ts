@@ -35,7 +35,7 @@ const config = {
         });
 
         if (user && user.password) {
-          const isMatch = await compareSync(
+          const isMatch = compareSync(
             credentials.password as string,
             user.password
           );
