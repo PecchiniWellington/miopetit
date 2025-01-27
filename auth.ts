@@ -5,10 +5,12 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { compareSync } from "bcryptjs";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { request } from "http";
-import { any } from "zod";
 
 const config = {
+  pages: {
+    signIn: "/sign-in",
+    error: "/error",
+  },
   session: {
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60,
@@ -17,6 +19,7 @@ const config = {
   adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
+      /* 
       name: "Credentials",
       credentials: {
         email: {
@@ -25,7 +28,7 @@ const config = {
           placeholder: "wellintone.creative@gmail.com",
         },
         password: { label: "Password", type: "password" },
-      },
+      }, */
       async authorize(credentials, req) {
         if (credentials == null) return null;
         const user = await prisma.user.findFirst({
@@ -105,6 +108,25 @@ const config = {
       return token;
     },
     authorized({ request, auth }: any) {
+      // Array of regex pattern of path we want to protect
+      const protectedPaths = [
+        /\/shipping-address/,
+        /\/payment-method/,
+        /\/place-order/,
+        /\/profile/,
+        /\/user\/(.*)/,
+        /\/order\/(.*)/,
+        /\/admin/,
+      ];
+
+      // Get pathname from the request
+      const { pathname } = request.nextUrl;
+
+      // Check if user is not authenticated and accessing a protected path
+      if (!auth && protectedPaths.some((path) => path.test(pathname))) {
+        return false;
+      }
+
       // check for session cart cookie
       if (!request.cookies.get("sessionCartId")) {
         // Generate new session cart id cookie

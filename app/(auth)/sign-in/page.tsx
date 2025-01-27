@@ -20,13 +20,13 @@ export const metadata: Metadata = {
 };
 
 const SignInPage = async (props: {
-  searchParams: Promise<{ callback: string }>;
+  searchParams: Promise<{ callbackUrl: string }>;
 }) => {
   const session = await auth();
 
-  const { callback } = await props.searchParams;
+  const { callbackUrl } = await props.searchParams;
   if (session) {
-    redirect(callback || "/");
+    redirect(callbackUrl || "/");
   }
   return (
     <div className="w-full max-w-md mx-auto">
