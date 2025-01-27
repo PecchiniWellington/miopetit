@@ -6,9 +6,6 @@ import { redirect } from "next/navigation";
 import React from "react";
 import ShippingAddressForm from "./shipping-address-form";
 import { IShippingAddress } from "@/types";
-import { Check } from "lucide-react";
-import CheckoutSteps from "@/components/shared/checkout-steps";
-import { useToast } from "@/hooks/use-toast";
 
 export const metadata: Metadata = {
   title: "Shipping Address",
@@ -24,7 +21,8 @@ const ShippingAddress = async () => {
 
   if (!userId) {
     /* TODO: inserire le agevolazioni se ti autentichi */
-    return <ShippingAddressForm />;
+    /*  return <ShippingAddressForm />; */
+    redirect("/login");
   } else {
     const user = await getUserById(userId);
     return <ShippingAddressForm address={user.address as IShippingAddress} />;

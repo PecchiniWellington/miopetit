@@ -3,6 +3,7 @@ import { getUserById } from "@/lib/actions/user.action";
 import { Metadata } from "next";
 import React from "react";
 import PaymentMethodForm from "./payment-method-form";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Select Payment Method",
@@ -14,11 +15,12 @@ const PaymentMethod = async () => {
   const userId = session?.user?.id;
   if (!userId) {
     /* TODO: inserire le agevolazioni se ti autentichi */
-    return (
+    redirect("/login");
+    /* return (
       <>
         <PaymentMethodForm />
       </>
-    );
+    ); */
   } else {
     const user = await getUserById(userId);
     return (

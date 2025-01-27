@@ -4,6 +4,8 @@ import {
   cartItemSchema,
   shippingAddressSchema,
   paymentMethodSchema,
+  insertOrderSchema,
+  insertOrderItemSchema,
 } from "@/lib/validator";
 import { z } from "zod";
 
@@ -19,3 +21,16 @@ export type IShippingAddress = z.infer<typeof shippingAddressSchema>;
 
 // Payment method type
 export type IPaymentMethod = z.infer<typeof paymentMethodSchema>;
+
+// Orders
+export type IOrderItem = z.infer<typeof insertOrderItemSchema>;
+export type IOrder = z.infer<typeof insertOrderSchema> & {
+  id: string;
+  createdAt: Date;
+  isPaid: Boolean;
+  paidAt: Date | null;
+  isDelivered: Boolean;
+  deliveredAt: Date | null;
+  orderItems: IOrderItem[]; // va orderitems????
+  user: { name: string; email: string };
+};
