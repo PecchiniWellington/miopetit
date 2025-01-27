@@ -12,6 +12,6 @@ export type Product = z.infer<typeof insertProductSchema> & {
   createdAt: Date;
 };
 
-export type Cart = z.infer<typeof insertCartSchema> & {};
-export type CartItem = z.infer<typeof cartItemSchema> & {};
-export type IShippingAddress = z.infer<typeof shippingAddressSchema> & {};
+export type Cart = z.infer<typeof insertCartSchema>;
+export type CartItem = z.infer<typeof cartItemSchema>;
+export type IShippingAddress = z.infer<typeof shippingAddressSchema>;
