@@ -1,4 +1,5 @@
 "use client";
+
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
@@ -25,6 +26,7 @@ import {
   createPaypalOrder,
 } from "@/lib/actions/order.action";
 import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 const OrderDetailsTable = ({
   order,
@@ -49,6 +51,7 @@ const OrderDetailsTable = ({
     user,
   } = order;
 
+  const router = useRouter();
   const { toast } = useToast();
   const PrintLoadingState = () => {
     const [{ isPending, isRejected }] = usePayPalScriptReducer();
@@ -80,6 +83,8 @@ const OrderDetailsTable = ({
       variant: res.success ? "default" : "destructive",
       description: res.message,
     });
+
+    router.push(`/order/${order.id}`);
   };
 
   return (
