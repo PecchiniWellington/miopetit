@@ -82,7 +82,7 @@ export function formatId(id: string) {
 }
 
 // Format date and times
-export function formatDateTime(dateString: string) {
+export function formatDateTime(dateString: any) {
   const dateTimeOptions: Intl.DateTimeFormatOptions = {
     year: "numeric", // Abbreviated year  name (e.g., "2024")
     month: "short", // Abbreviated month  name (e.g., "Oct")

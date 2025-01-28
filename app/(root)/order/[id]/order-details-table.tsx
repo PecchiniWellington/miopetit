@@ -1,3 +1,4 @@
+"use client";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
@@ -14,9 +15,24 @@ import {
 } from "@/components/ui/table";
 import Link from "next/link";
 import Image from "next/image";
-import PlaceOrderForm from "../../place-order/place-order-form";
+import {
+  PayPalButtons,
+  PayPalScriptProvider,
+  usePayPalScriptReducer,
+} from "@paypal/react-paypal-js";
+import {
+  approvePaypalOrder,
+  createPaypalOrder,
+} from "@/lib/actions/order.action";
+import { useToast } from "@/hooks/use-toast";
 
-const OrderDetailsTable = ({ order }: { order: IOrder }) => {
+const OrderDetailsTable = ({
+  order,
+  paypalClientId,
+}: {
+  order: IOrder;
+  paypalClientId: string;
+}) => {
   const {
     id,
     shippingAddress,
@@ -32,6 +48,40 @@ const OrderDetailsTable = ({ order }: { order: IOrder }) => {
     orderitems,
     user,
   } = order;
+
+  const { toast } = useToast();
+  const PrintLoadingState = () => {
+    const [{ isPending, isRejected }] = usePayPalScriptReducer();
+    let status = "";
+
+    if (isPending) {
+      status = "Loading Paypal...";
+    } else if (isRejected) {
+      status = "Failed to load Paypal";
+    }
+    return status;
+  };
+
+  const handleCreatePayPalOrder = async () => {
+    const res = await createPaypalOrder(id);
+
+    if (!res.success) {
+      toast({
+        variant: "destructive",
+        description: res.message,
+      });
+    }
+    return res.data;
+  };
+  const handleApprovePayPalOrder = async (data: { orderID: string }) => {
+    const res = await approvePaypalOrder(order.id, data);
+
+    toast({
+      variant: res.success ? "default" : "destructive",
+      description: res.message,
+    });
+  };
+
   return (
     <>
       <h1 className="py-4 text-2xl">Order {formatId(order.id)}</h1>
@@ -46,7 +96,7 @@ const OrderDetailsTable = ({ order }: { order: IOrder }) => {
                   variant="secondary"
                   className="bg-green-100 text-green-700"
                 >
-                  Paid at {formatDateTime(paidAt!.toISOString()).dateTime}
+                  Paid at {formatDateTime(paidAt!).dateTime}
                 </Badge>
               ) : (
                 <Badge
@@ -151,6 +201,17 @@ const OrderDetailsTable = ({ order }: { order: IOrder }) => {
                 <div>Total</div>
                 <div>{formatCurrency(totalPrice as unknown as string)}</div>
               </div>
+
+              {/* Paypal Payment */}
+              {!isPaid && paymentMethod === "PayPal" && (
+                <PayPalScriptProvider options={{ clientId: paypalClientId }}>
+                  <PrintLoadingState />
+                  <PayPalButtons
+                    createOrder={handleCreatePayPalOrder}
+                    onApprove={handleApprovePayPalOrder}
+                  />
+                </PayPalScriptProvider>
+              )}
             </CardContent>
           </Card>
         </div>
