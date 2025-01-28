@@ -76,3 +76,48 @@ export function formatCurrency(amount: number | string | null) {
     return CURRENCY_FORMATTER.format(Number(amount));
   } else "NaN";
 }
+
+export function formatId(id: string) {
+  return `..${id.substring(id.length - 6)}`;
+}
+
+// Format date and times
+export function formatDateTime(dateString: string) {
+  const dateTimeOptions: Intl.DateTimeFormatOptions = {
+    year: "numeric", // Abbreviated year  name (e.g., "2024")
+    month: "short", // Abbreviated month  name (e.g., "Oct")
+    day: "numeric", // day of the month (e.g., "25")
+    hour: "numeric", // numeric hour (e.g., "8")
+    minute: "numeric", // numeric minute (e.g., "30")
+    hour12: true, // use 12-hour clock (true) or 24-hour (false)
+  };
+  const dateOptions: Intl.DateTimeFormatOptions = {
+    weekday: "short", // Abbreviated weekday name (e.g., "Mon")
+    month: "short", // Abbreviated month  name (e.g., "Oct")
+    year: "numeric", // Abbreviated year  name (e.g., "2024")
+    day: "numeric", // day of the month (e.g., "25")
+  };
+  const timeOptions: Intl.DateTimeFormatOptions = {
+    hour: "numeric", // numeric hour (e.g., "8")
+    minute: "numeric", // numeric minute (e.g., "30")
+    hour12: true, // use 12-hour clock (true) or 24-hour (false)
+  };
+  const formattedDateTime: string = new Date(dateString).toLocaleString(
+    "it-IT",
+    dateTimeOptions
+  );
+  const formattedDate: string = new Date(dateString).toLocaleString(
+    "it-IT",
+    dateOptions
+  );
+  const formattedTime: string = new Date(dateString).toLocaleString(
+    "it-IT",
+    timeOptions
+  );
+
+  return {
+    dateTime: formattedDateTime,
+    dateOnly: formattedDate,
+    timeOnly: formattedTime,
+  };
+}

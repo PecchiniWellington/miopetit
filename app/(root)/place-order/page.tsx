@@ -122,33 +122,37 @@ const PlaceOlderPage = async () => {
               </CardContent>
             </Card>
           </div>
-          <Card>
-            <CardContent className="p-4 gap-4 space-y-4">
-              <div className="flex justify-between">
-                <div>Items</div>
-                <div>
-                  {formatCurrency(cart?.itemsPrice as unknown as string)}
+          <div>
+            <Card>
+              <CardContent className="p-4 gap-4 space-y-4">
+                <div className="flex justify-between">
+                  <div>Items</div>
+                  <div>
+                    {formatCurrency(cart?.itemsPrice as unknown as string)}
+                  </div>
                 </div>
-              </div>
-              <div className="flex justify-between">
-                <div>Tax</div>
-                <div>{formatCurrency(cart?.taxPrice as unknown as string)}</div>
-              </div>
-              <div className="flex justify-between">
-                <div>Shipping</div>
-                <div>
-                  {formatCurrency(cart?.shippingPrice as unknown as string)}
+                <div className="flex justify-between">
+                  <div>Tax</div>
+                  <div>
+                    {formatCurrency(cart?.taxPrice as unknown as string)}
+                  </div>
                 </div>
-              </div>
-              <div className="flex justify-between">
-                <div>Total</div>
-                <div>
-                  {formatCurrency(cart?.totalPrice as unknown as string)}
+                <div className="flex justify-between">
+                  <div>Shipping</div>
+                  <div>
+                    {formatCurrency(cart?.shippingPrice as unknown as string)}
+                  </div>
                 </div>
-              </div>
-              <PlaceOrderForm />
-            </CardContent>
-          </Card>
+                <div className="flex justify-between">
+                  <div>Total</div>
+                  <div>
+                    {formatCurrency(cart?.totalPrice as unknown as string)}
+                  </div>
+                </div>
+                <PlaceOrderForm />
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </>
     );
