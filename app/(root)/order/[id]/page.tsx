@@ -7,7 +7,7 @@ import { getOrderById } from "@/lib/actions/order/order.action";
 import { auth } from "@/auth";
 import ROLES from "@/lib/constants/roles";
 
-const metadata: Metadata = {
+export const metadata: Metadata = {
   title: "Order Details",
 };
 const OrderDetailsPage = async (props: { params: Promise<{ id: string }> }) => {

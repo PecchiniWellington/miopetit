@@ -45,7 +45,7 @@ const PaymentCard = ({
   };
 
   const handleCreatePayPalOrder = async () => {
-    const res = await createPaypalOrder(id);
+    const res = await createPaypalOrder(order.id);
 
     if (!res.success) {
       toast({
@@ -55,6 +55,7 @@ const PaymentCard = ({
     }
     return res.data;
   };
+
   const handleApprovePayPalOrder = async (data: { orderID: string }) => {
     const res = await approvePaypalOrder(order.id, data);
 

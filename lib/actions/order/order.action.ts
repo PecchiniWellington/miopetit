@@ -6,11 +6,17 @@ import { auth } from "@/auth";
 import { getMyCart } from "../cart.actions";
 import { getUserById } from "../user/user.action";
 import { prisma } from "@/db/prisma";
-import { CartItem, IPaymentResult, SalesDataType } from "@/types";
+import {
+  CartItem,
+  IPaymentResult,
+  IShippingAddress,
+  SalesDataType,
+} from "@/types";
 import { revalidatePath } from "next/cache";
 import { PAGE_SIZE } from "@/lib/constants";
-import { insertOrderSchema } from "@/lib/validators";
+import { insertOrderSchema, shippingAddressSchema } from "@/lib/validators";
 import { Prisma } from "@prisma/client";
+import { sendPurchaseReceipt } from "@/email";
 
 export async function createOrder() {
   try {
@@ -161,6 +167,14 @@ export async function updateOrderToPaid({
   });
 
   if (!updatedOrder) throw new Error("Order not found");
+
+  sendPurchaseReceipt({
+    order: {
+      ...updatedOrder,
+      shippingAddress: updatedOrder.shippingAddress as IShippingAddress,
+      paymentResult: updatedOrder.paymentResult as IPaymentResult,
+    },
+  });
 }
 
 // Get my orders

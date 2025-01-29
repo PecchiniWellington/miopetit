@@ -16,7 +16,7 @@ const OrderCard = ({
       <CardContent className="p-4 gap-4">
         <h2 className="text-xl pb-4">{title}</h2>
         <p className="mb-2">{subtitle}</p>
-        <p>{children}</p>
+        <div>{children}</div>
         {isPaid ? (
           <Badge variant="secondary" className="bg-green-100 text-green-700">
             {type} at {formatDateTime(paidAt!).dateTime}

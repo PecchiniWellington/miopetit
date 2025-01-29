@@ -31,3 +31,5 @@ export const SHIPPING_ADDRESS_DEFAULT_VALUES = {
 };
 
 export const PAGE_SIZE = Number(process.env.PAGE_SIZE) || 12;
+
+export const SENDER_EMAIL = process.env.SENDER_EMAIL || "onboarding@resend.dev";
