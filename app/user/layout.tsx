@@ -13,8 +13,8 @@ export default function UserLayout({
 }>) {
   return (
     <>
-      <div className="w-full border-b ">
-        <div className="wrapper flex-between">
+      <div className="w-full">
+        <div className="wrapper flex-between border-b">
           <div className="flex-start">
             <Link href="/" className="flex-start">
               <Image
@@ -35,9 +35,7 @@ export default function UserLayout({
             <Menu />
           </div>
         </div>
-      </div>
-      <div className="flex space-y-4 p-8 pt-6 container mx-auto">
-        {children}
+        <div className=" p-8 pt-6 container mx-auto w-full">{children}</div>
       </div>
     </>
   );

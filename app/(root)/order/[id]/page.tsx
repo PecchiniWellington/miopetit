@@ -1,9 +1,9 @@
-import { getOrderById } from "@/lib/actions/order.action";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import React from "react";
 import OrderDetailsTable from "./order-details-table";
 import { IShippingAddress } from "@/types";
+import { getOrderById } from "@/lib/actions/order/order.action";
 
 const metadata: Metadata = {
   title: "Order Details",

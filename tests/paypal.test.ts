@@ -1,4 +1,4 @@
-import { createOrder } from "@/lib/actions/order.action";
+import { createOrder } from "@/lib/actions/order/order.action";
 import { generateAccessToken, paypal } from "../lib/paypal";
 
 // Test to generate access token from PayPal

@@ -24,7 +24,7 @@ import {
 import {
   approvePaypalOrder,
   createPaypalOrder,
-} from "@/lib/actions/order.action";
+} from "@/lib/actions/order/paypal.action";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 

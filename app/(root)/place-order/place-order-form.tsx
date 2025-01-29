@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { createOrder } from "@/lib/actions/order.action";
+import { createOrder } from "@/lib/actions/order/order.action";
 import { Check, Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
