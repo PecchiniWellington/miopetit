@@ -5,7 +5,10 @@ import PurchaseReceiptEmail from "./purchase.receipt";
 require("dotenv").config();
 
 console.log("Resend", process.env.RESEND_API_KEY);
-const resend = new Resend(process.env.RESEND_API_KEY as string);
+const resend = new Resend(
+  (process.env.RESEND_API_KEY as string) ||
+    "re_NadEpwJe_8XhyMfe2BvyTUJ6VuhdxGNdB"
+);
 
 export const sendPurchaseReceipt = async (order: any) => {
   try {
