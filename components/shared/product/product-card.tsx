@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import ROUTES from "@/lib/constants/routes";
+import { ROUTES } from "@/lib/constants/routes";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";

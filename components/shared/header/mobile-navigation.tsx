@@ -11,7 +11,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import ROUTES from "@/lib/constants/routes";
+import { ROUTES } from "@/lib/constants/routes";
 import NavLinks from "./nav-links";
 
 const MobileNavigation = async () => {

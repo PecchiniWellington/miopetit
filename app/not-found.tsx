@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { APP_NAME } from "@/lib/constants";
-import ROUTES from "@/lib/constants/routes";
+import { ROUTES } from "@/lib/constants/routes";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
