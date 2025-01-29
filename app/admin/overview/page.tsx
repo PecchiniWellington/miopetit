@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import TinyBarChart from "@/components/shared/charts/tiny-bar-chart";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -96,7 +97,9 @@ const AdminOverviewPage = async () => {
           <CardHeader>
             <CardTitle className="text-sm font-medium">Overview</CardTitle>
           </CardHeader>
-          <CardContent>{/* CHART */}</CardContent>
+          <CardContent>
+            <TinyBarChart data={{ salesData: summary.salesData }} />
+          </CardContent>
         </Card>
         <Card className="col-span-3">
           <CardHeader>

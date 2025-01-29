@@ -235,3 +235,56 @@ export async function getOrderSummary() {
     salesData,
   };
 }
+
+// Get All orders
+export async function getAllOrders({
+  limit = PAGE_SIZE,
+  page,
+}: {
+  limit?: number;
+  page: number;
+}) {
+  const data = await prisma.order.findMany({
+    orderBy: { createdAt: "desc" },
+    include: { orderitems: true, user: { select: { name: true } } },
+    skip: (page - 1) * limit,
+    take: limit,
+  });
+
+  const dataCount = await prisma.order.count();
+
+  return {
+    data,
+    totalPages: Math.ceil(dataCount / limit),
+  };
+}
+
+// Delete Order
+export async function deleteOrder(orderId: string) {
+  try {
+    const order = await prisma.order.findFirst({
+      where: { id: orderId },
+      include: { orderitems: true },
+    });
+
+    if (!order) throw new Error("Order not found");
+
+    await prisma.$transaction(async (tx) => {
+      // Iterate over products and update stock
+      for (const item of order.orderitems) {
+        await tx.product.update({
+          where: { id: item.productId },
+          data: { stock: { increment: item.qty } },
+        });
+      }
+
+      // Delete order
+      await tx.order.delete({ where: { id: orderId } });
+    });
+
+    revalidatePath("/admin/orders");
+    return { success: true, message: "Order delete successfully" };
+  } catch (error) {
+    return { success: false, message: formatError(error) };
+  }
+}
