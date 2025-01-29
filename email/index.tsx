@@ -7,7 +7,7 @@ require("dotenv").config();
 console.log("Resend", process.env.RESEND_API_KEY);
 const resend = new Resend(
   (process.env.RESEND_API_KEY as string) ||
-    "re_NadEpwJe_8XhyMfe2BvyTUJ6VuhdxGNdB"
+    "re_FiWKUKfj_GCuqahrs7g2Uz6tkJcudjr9w"
 );
 
 export const sendPurchaseReceipt = async (order: any) => {
