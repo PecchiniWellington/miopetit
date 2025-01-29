@@ -23,7 +23,7 @@ const OrderDetailsTable = ({
   paypalClientId,
   isAdmin,
 }: {
-  order: IOrder;
+  order: Omit<IOrder, "paymentResult">;
   paypalClientId: string;
   isAdmin: boolean;
 }) => {

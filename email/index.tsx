@@ -1,24 +1,20 @@
 import { Resend } from "resend";
 import { APP_NAME, SENDER_EMAIL } from "@/lib/constants";
 import PurchaseReceiptEmail from "./purchase.receipt";
+import { IOrder } from "@/types";
 
 require("dotenv").config();
 
-console.log("Resend", process.env.RESEND_API_KEY);
 const resend = new Resend(
   (process.env.RESEND_API_KEY as string) ||
-    "re_FiWKUKfj_GCuqahrs7g2Uz6tkJcudjr9w"
+    "re_NadEpwJe_8XhyMfe2BvyTUJ6VuhdxGNdB"
 );
 
-export const sendPurchaseReceipt = async (order: any) => {
-  try {
-    await resend.emails.send({
-      from: `${APP_NAME} <${SENDER_EMAIL}>`,
-      to: order.user?.email,
-      subject: `${APP_NAME} - Abbiamo confermato l'ordine #${order.id}`,
-      react: <PurchaseReceiptEmail order={order} />,
-    });
-  } catch (error) {
-    console.error(error);
-  }
+export const sendPurchaseReceipt = async ({ order }: { order: IOrder }) => {
+  await resend.emails.send({
+    from: `${APP_NAME} <${SENDER_EMAIL}>`,
+    to: order?.user?.email as string,
+    subject: `${APP_NAME} - Abbiamo confermato l'ordine #${order.id}`,
+    react: <PurchaseReceiptEmail order={order} />,
+  });
 };

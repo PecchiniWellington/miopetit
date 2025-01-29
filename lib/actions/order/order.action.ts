@@ -123,39 +123,34 @@ export async function updateOrderToPaid({
   orderId: string;
   paymentResult?: IPaymentResult;
 }) {
-  try {
-    const order = await prisma.order.findFirst({
-      where: { id: orderId },
-      include: { orderitems: true },
-    });
+  const order = await prisma.order.findFirst({
+    where: { id: orderId },
+    include: { orderitems: true },
+  });
 
-    if (!order) throw new Error("Order not found");
-    if (order.isPaid) throw new Error("Order already paid");
+  if (!order) throw new Error("Order not found");
+  if (order.isPaid) throw new Error("Order already paid");
 
-    // Transaction to update order and account for product stock
-    await prisma.$transaction(async (tx) => {
-      // Iterate over products and update stock
-      for (const item of order.orderitems) {
-        await tx.product.update({
-          where: { id: item.productId },
-          data: { stock: { increment: -item.qty } },
-        });
-      }
-
-      // Update order to paid
-      await tx.order.update({
-        where: { id: orderId },
-        data: {
-          isPaid: true,
-          paidAt: new Date(),
-          paymentResult,
-        },
+  // Transaction to update order and account for product stock
+  await prisma.$transaction(async (tx) => {
+    // Iterate over products and update stock
+    for (const item of order.orderitems) {
+      await tx.product.update({
+        where: { id: item.productId },
+        data: { stock: { increment: -item.qty } },
       });
+    }
+
+    // Update order to paid
+    await tx.order.update({
+      where: { id: orderId },
+      data: {
+        isPaid: true,
+        paidAt: new Date(),
+        paymentResult,
+      },
     });
-    revalidatePath(`/order/${orderId}`);
-  } catch (error) {
-    return { success: false, message: formatError(error) };
-  }
+  });
 
   // Get updated order after transaction
   const updatedOrder = await prisma.order.findFirst({
@@ -165,6 +160,7 @@ export async function updateOrderToPaid({
       user: { select: { email: true, name: true } },
     },
   });
+  /*  revalidatePath(`/order/${orderId}`); */
 
   if (!updatedOrder) throw new Error("Order not found");
 
