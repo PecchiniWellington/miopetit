@@ -63,6 +63,7 @@ const config = {
 
       if (trigger === "update") {
         session.user.email = user.email;
+        session.user.name = user.name;
       }
 
       return session;
@@ -105,6 +106,13 @@ const config = {
           }
         }
       }
+
+      // Handle session updates
+      if (session?.user.name && trigger === "update") {
+        token.name = session.user.name;
+        token.email = session.user.email;
+      }
+
       return token;
     },
     authorized({ request, auth }: any) {

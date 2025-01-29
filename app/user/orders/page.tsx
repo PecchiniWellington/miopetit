@@ -89,7 +89,7 @@ const UserOrdersPage = async (props: {
             ))}
           </TableBody>
         </Table>
-        {orders.data.length > 1 && (
+        {orders.totalPages > 1 && (
           <Pagination
             page={Number(page) || 1}
             totalPages={orders?.totalPages}
