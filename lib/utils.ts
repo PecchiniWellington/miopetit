@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import qs from "query-string";
+import { z } from "zod";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -146,3 +147,10 @@ export function formUrlQuery({
     { skipNull: true }
   );
 }
+
+export const currency = z
+  .string()
+  .refine(
+    (val) => /^\d+(\.\d{2})?$/.test(formatNumberWithDecimal(Number(val))),
+    "Price must have exactly two decimal places"
+  );

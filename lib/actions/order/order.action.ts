@@ -5,11 +5,11 @@ import { convertToPlainObject, formatError } from "../../utils";
 import { auth } from "@/auth";
 import { getMyCart } from "../cart.actions";
 import { getUserById } from "../user.action";
-import { insertOrderSchema } from "../../validator";
 import { prisma } from "@/db/prisma";
 import { CartItem, IPaymentResult } from "@/types";
 import { revalidatePath } from "next/cache";
 import { PAGE_SIZE } from "@/lib/constants";
+import { insertOrderSchema } from "@/lib/validators";
 
 export async function createOrder() {
   try {

@@ -1,17 +1,19 @@
 "use server";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
-import {
-  paymentMethodSchema,
-  shippingAddressSchema,
-  signInFormSchema,
-  signUpFormSchema,
-} from "../validator";
+
 import { auth, signIn, signOut } from "@/auth";
 import { hashSync } from "bcryptjs";
 import { prisma } from "@/db/prisma";
 import { formatError } from "../utils";
 import { IPaymentMethod, IShippingAddress } from "@/types";
 import { cookies } from "next/headers";
+
+import {
+  paymentMethodSchema,
+  shippingAddressSchema,
+  signInFormSchema,
+  signUpFormSchema,
+} from "@/lib/validators";
 
 // Sign in the user with creadentials
 export const signInWithCredentials = async (

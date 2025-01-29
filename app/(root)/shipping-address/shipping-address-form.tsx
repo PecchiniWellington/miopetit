@@ -16,13 +16,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
-import { shippingAddressSchema } from "@/lib/validator";
 import { SHIPPING_ADDRESS_DEFAULT_VALUES } from "@/lib/constants";
 import { IShippingAddress } from "@/types";
 import { useTransition } from "react";
 import { ArrowRight, Loader } from "lucide-react";
 import { updateUserAddress } from "@/lib/actions/user.action";
 import CheckoutSteps from "@/components/shared/checkout-steps";
+import { shippingAddressSchema } from "@/lib/validators";
 
 const ShippingAddressForm = ({ address }: { address?: IShippingAddress }) => {
   const router = useRouter();
