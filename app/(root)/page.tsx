@@ -1,3 +1,5 @@
+import DealCountdown from "@/components/deal-countdown";
+import IconBoxes from "@/components/icons-boxes";
 import ProductList from "@/components/shared/product/product-list";
 import { getLatestProducts } from "@/lib/actions/product.actions";
 
@@ -7,6 +9,8 @@ export default async function Home() {
   return (
     <>
       <ProductList data={latestProducts} title="Newest Products" />
+      <DealCountdown />
+      <IconBoxes />
     </>
   );
 }
