@@ -1,0 +1,75 @@
+"use client";
+import React from "react";
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogCancel,
+} from "../ui/alert-dialog";
+import { useToast } from "@/hooks/use-toast";
+import { Button } from "../ui/button";
+import { Trash2 } from "lucide-react";
+
+const DeleteDialog = ({
+  id,
+  action,
+}: {
+  id: string;
+  action: (id: string) => Promise<{ success: boolean; message?: string }>;
+}) => {
+  const [open, setOpen] = React.useState(false);
+  const [isPending, setIsPending] = React.useTransition();
+  const { toast } = useToast();
+
+  const handleDeleteClick = () => {
+    setIsPending(async () => {
+      const res = await action(id);
+
+      if (!res.success) {
+        toast({ variant: "destructive", description: res.message });
+      } else {
+        setOpen(false);
+        toast({ description: res.message });
+      }
+    });
+  };
+
+  return (
+    <AlertDialog open={open} onOpenChange={setOpen}>
+      <AlertDialogTrigger asChild>
+        <Button className="bg-red-100 text-red-700 px-4 py-2">
+          <Trash2 height={10} width={10} />
+        </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent className="bg-slate-200 dark:bg-slate-900 dark:text-slate-100">
+        <AlertDialogHeader>
+          <AlertDialogTitle>
+            Are you sure you want to delete this order?
+          </AlertDialogTitle>
+          <AlertDialogDescription>
+            This action cannot be undone.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel className="text-slate-100 bg-slate-700 px-4 py-2">
+            Cancel
+          </AlertDialogCancel>
+          <Button
+            className="text-red-100 bg-red-700 px-4 py-2"
+            size="sm"
+            disabled={isPending}
+            onClick={handleDeleteClick}
+          >
+            {isPending ? "Deleting..." : "Delete"}
+          </Button>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+};
+
+export default DeleteDialog;

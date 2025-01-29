@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import DeleteDialog from "@/components/shared/delete-dialog";
 import Pagination from "@/components/shared/pagination";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -10,7 +11,7 @@ import {
   Table,
   TableCell,
 } from "@/components/ui/table";
-import { getAllOrders } from "@/lib/actions/order/order.action";
+import { deleteOrder, getAllOrders } from "@/lib/actions/order/order.action";
 import { formatId, formatDateTime, formatCurrency } from "@/lib/utils";
 import { Check, CircleAlert, ClockAlert, Edit2, Trash2 } from "lucide-react";
 
@@ -88,9 +89,8 @@ const AdminOrdersPage = async (props: {
                       <Edit2 height={10} width={10} />
                     </Link>
                   </Button>
-                  <Button className="bg-red-100 text-red-700 px-4 py-2">
-                    <Trash2 height={10} width={10} />
-                  </Button>
+
+                  <DeleteDialog id={order.id} action={deleteOrder} />
                 </TableCell>
               </TableRow>
             ))}
