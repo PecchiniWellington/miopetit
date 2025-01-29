@@ -39,3 +39,8 @@ export type IOrder = z.infer<typeof insertOrderSchema> & {
 
 // Payment result
 export type IPaymentResult = z.infer<typeof paymentResultSchema>;
+
+export type SalesDataType = {
+  month: string;
+  totalSales: number;
+}[];

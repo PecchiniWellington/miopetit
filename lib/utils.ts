@@ -27,6 +27,13 @@ export function formatNumberWithDecimal(
   return decimal ? `${int}.${decimal.padEnd(decimalPlaces, "0")}` : `${int}.00`;
 }
 
+// Format Number
+const NUMBER_FORMATTER = new Intl.NumberFormat("it-IT");
+
+export function formatNumber(num: number) {
+  return NUMBER_FORMATTER.format(num);
+}
+
 export const removeUnderscore = (text: string) => {
   return text.replace(/_/g, " ");
 };
