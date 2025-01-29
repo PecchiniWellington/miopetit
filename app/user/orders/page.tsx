@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Metadata } from "next";
 import Link from "next/link";
 import { Check, CircleAlert, ClockAlert } from "lucide-react";
+import Pagination from "@/components/shared/pagination";
 
 export const metadata: Metadata = {
   title: "My Orders",
@@ -88,6 +89,12 @@ const UserOrdersPage = async (props: {
             ))}
           </TableBody>
         </Table>
+        {orders.data.length > 1 && (
+          <Pagination
+            page={Number(page) || 1}
+            totalPages={orders?.totalPages}
+          />
+        )}
       </div>
     </div>
   );

@@ -1,10 +1,23 @@
-import Footer from "@/components/footer";
-import Header from "@/components/shared/header";
 import Menu from "@/components/shared/header/menu";
 import { APP_NAME } from "@/lib/constants";
 import Image from "next/image";
 import Link from "next/link";
 import MainNav from "./main-nav";
+import LeftSidebar from "@/components/shared/sidebar/left-sidebar";
+import { USER_ROUTES } from "@/lib/constants/routes";
+
+const links = [
+  {
+    label: "Profile",
+    route: USER_ROUTES.PROFILE,
+    imgUrl: "/assets/icons/user.svg",
+  },
+  {
+    label: "Orders",
+    route: USER_ROUTES.ORDERS,
+    imgUrl: "/assets/icons/clock.svg",
+  },
+];
 
 export default function UserLayout({
   children,
@@ -14,8 +27,8 @@ export default function UserLayout({
   return (
     <>
       <div className="w-full">
-        <div className="wrapper flex-between border-b">
-          <div className="flex-start">
+        <div className="flex-between border-b">
+          <div className="flex-start wrapper">
             <Link href="/" className="flex-start">
               <Image
                 src="/images/petitLogo.png"
@@ -31,11 +44,15 @@ export default function UserLayout({
           </div>
           <MainNav className="mx-6" />
           {/* MAIN NAV  */}
-          <div className="ml-auto items-center flex space-x-4">
+          <div className="mx-6 items-center flex space-x-4">
             <Menu />
           </div>
         </div>
-        <div className=" p-8 pt-6 container mx-auto w-full">{children}</div>
+
+        <div className="flex  w-full">
+          <LeftSidebar sidebarLinks={links} />
+          <div className="p-6 flex-1">{children}</div>
+        </div>
       </div>
     </>
   );

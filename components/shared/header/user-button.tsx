@@ -60,6 +60,12 @@ const UserButton = async () => {
             </div>
           </DropdownMenuLabel>
 
+          <DropdownMenuItem>
+            <Link href="/user/profile" className="w-full">
+              <span className="block py-2 px-4">Profile</span>
+            </Link>
+          </DropdownMenuItem>
+
           <form action={signOutUser as any}>
             <Button
               type="submit"

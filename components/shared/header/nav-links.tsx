@@ -6,15 +6,16 @@ import { usePathname } from "next/navigation";
 import React from "react";
 
 import { SheetClose } from "@/components/ui/sheet";
-import { sidebarLinks } from "@/lib/constants/sidebarLinks";
 import { cn } from "@/lib/utils";
 
 const NavLinks = ({
   isMobileNav = false,
   userId,
+  sidebarLinks,
 }: {
   isMobileNav?: boolean;
   userId?: string;
+  sidebarLinks: { imgUrl: string; route: string; label: string }[];
 }) => {
   const pathname = usePathname();
 
@@ -42,7 +43,7 @@ const NavLinks = ({
             )}
           >
             <Image
-              src={item.imgURL}
+              src={item.imgUrl}
               alt={item.label}
               width={20}
               height={20}
