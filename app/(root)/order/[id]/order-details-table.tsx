@@ -1,11 +1,9 @@
 "use client";
 
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
+import { formatCurrency, formatId } from "@/lib/utils";
 import { IOrder } from "@/types";
 
-import React from "react";
 import {
   TableHeader,
   TableRow,
@@ -16,24 +14,18 @@ import {
 } from "@/components/ui/table";
 import Link from "next/link";
 import Image from "next/image";
-import {
-  PayPalButtons,
-  PayPalScriptProvider,
-  usePayPalScriptReducer,
-} from "@paypal/react-paypal-js";
-import {
-  approvePaypalOrder,
-  createPaypalOrder,
-} from "@/lib/actions/order/paypal.action";
-import { useToast } from "@/hooks/use-toast";
-import { useRouter } from "next/navigation";
+
+import PaymentCard from "./payment-card";
+import OrderCard from "./order-card";
 
 const OrderDetailsTable = ({
   order,
   paypalClientId,
+  isAdmin,
 }: {
   order: IOrder;
   paypalClientId: string;
+  isAdmin: boolean;
 }) => {
   const {
     id,
@@ -51,94 +43,32 @@ const OrderDetailsTable = ({
     user,
   } = order;
 
-  const router = useRouter();
-  const { toast } = useToast();
-  const PrintLoadingState = () => {
-    const [{ isPending, isRejected }] = usePayPalScriptReducer();
-    let status = "";
-
-    if (isPending) {
-      status = "Loading Paypal...";
-    } else if (isRejected) {
-      status = "Failed to load Paypal";
-    }
-    return status;
-  };
-
-  const handleCreatePayPalOrder = async () => {
-    const res = await createPaypalOrder(id);
-
-    if (!res.success) {
-      toast({
-        variant: "destructive",
-        description: res.message,
-      });
-    }
-    return res.data;
-  };
-  const handleApprovePayPalOrder = async (data: { orderID: string }) => {
-    const res = await approvePaypalOrder(order.id, data);
-
-    toast({
-      variant: res.success ? "default" : "destructive",
-      description: res.message,
-    });
-
-    router.push(`/order/${order.id}`);
-  };
-
   return (
     <>
       <h1 className="py-4 text-2xl">Order {formatId(order.id)}</h1>
       <div className="grid md:grid-cols-3 md:gap-5">
-        <div className="col-span-2 space-4-y overflow-x-auto">
-          <Card>
-            <CardContent className="p-4 gap-4">
-              <h2 className="text-xl pb-4">Payment Method</h2>
-              <p className="mb-2">{paymentMethod}</p>
-              {isPaid ? (
-                <Badge
-                  variant="secondary"
-                  className="bg-green-100 text-green-700"
-                >
-                  Paid at {formatDateTime(paidAt!).dateTime}
-                </Badge>
-              ) : (
-                <Badge
-                  variant="destructive"
-                  className="bg-red-100 text-red-700 "
-                >
-                  Not Paid
-                </Badge>
-              )}
-            </CardContent>
-          </Card>
-          <Card className="my-2">
-            <CardContent className="p-4 gap-4">
-              <h2 className="text-xl pb-4">Shipping Address</h2>
-              <p>{shippingAddress.fullname}</p>
-              <p className="mb-2">
-                {shippingAddress.streetAddress}, {shippingAddress.city}
-                {shippingAddress.postalCode}, {shippingAddress.country}
-              </p>
-              {isDelivered ? (
-                <Badge
-                  variant="secondary"
-                  className="bg-green-100 text-green-700"
-                >
-                  Delivered at{" "}
-                  {formatDateTime(deliveredAt!.toISOString()).dateTime}
-                </Badge>
-              ) : (
-                <Badge
-                  variant="destructive"
-                  className="bg-red-100 text-red-700 "
-                >
-                  Not Delivered
-                </Badge>
-              )}
-            </CardContent>
-          </Card>
+        <div className="col-span-2 space-4-y overflow-x-auto flex flex-col gap-2">
+          <OrderCard
+            isPaid={isPaid}
+            subtitle={paymentMethod}
+            paidAt={paidAt}
+            title="Payment Method"
+            type="Paid"
+          />
+
+          <OrderCard
+            isPaid={isDelivered}
+            subtitle={shippingAddress.fullname}
+            paidAt={deliveredAt}
+            title="Shipping Address"
+            type="Delivered"
+          >
+            <p className="mb-2">
+              {shippingAddress.streetAddress}, {shippingAddress.city}
+              {shippingAddress.postalCode}, {shippingAddress.country}
+            </p>
+          </OrderCard>
+
           <Card>
             <CardContent className="p-4 gap-4">
               <h2 className="text-xl pb-4">Order Items</h2>
@@ -188,37 +118,17 @@ const OrderDetailsTable = ({
           </Card>
         </div>
         <div>
-          <Card>
-            <CardContent className="p-4 gap-4 space-y-4">
-              <div className="flex justify-between">
-                <div>Items</div>
-                <div>{formatCurrency(itemsPrice as unknown as string)}</div>
-              </div>
-              <div className="flex justify-between">
-                <div>Tax</div>
-                <div>{formatCurrency(taxPrice as unknown as string)}</div>
-              </div>
-              <div className="flex justify-between">
-                <div>Shipping</div>
-                <div>{formatCurrency(shippingPrice as unknown as string)}</div>
-              </div>
-              <div className="flex justify-between">
-                <div>Total</div>
-                <div>{formatCurrency(totalPrice as unknown as string)}</div>
-              </div>
-
-              {/* Paypal Payment */}
-              {!isPaid && paymentMethod === "PayPal" && (
-                <PayPalScriptProvider options={{ clientId: paypalClientId }}>
-                  <PrintLoadingState />
-                  <PayPalButtons
-                    createOrder={handleCreatePayPalOrder}
-                    onApprove={handleApprovePayPalOrder}
-                  />
-                </PayPalScriptProvider>
-              )}
-            </CardContent>
-          </Card>
+          <PaymentCard
+            itemsPrice={itemsPrice}
+            taxPrice={taxPrice}
+            shippingPrice={shippingPrice}
+            totalPrice={totalPrice}
+            isPaid={isPaid}
+            paymentMethod={paymentMethod}
+            paypalClientId={paypalClientId}
+            isAdmin={isAdmin}
+            order={order}
+          />
         </div>
       </div>
     </>

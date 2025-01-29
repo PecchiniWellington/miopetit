@@ -11,6 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getOrderSummary } from "@/lib/actions/order/order.action";
+import ROLES from "@/lib/constants/roles";
 import {
   formatCurrency,
   formatDateTime,
@@ -35,7 +36,7 @@ export const metadata: Metadata = {
 const AdminOverviewPage = async () => {
   const session = await auth();
 
-  if (session?.user?.role !== "admin") {
+  if (session?.user?.role !== ROLES.ADMIN) {
     throw new Error("Unauthorized");
   }
 

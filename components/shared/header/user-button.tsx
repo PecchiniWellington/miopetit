@@ -8,6 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { signOutUser } from "@/lib/actions/auth/auth.actions";
+import ROLES from "@/lib/constants/roles";
 
 import { UserIcon } from "lucide-react";
 import Link from "next/link";
@@ -66,7 +67,7 @@ const UserButton = async () => {
             </Link>
           </DropdownMenuItem>
 
-          {session.user?.role === "admin" && (
+          {session.user?.role === ROLES.ADMIN && (
             <DropdownMenuItem>
               <Link href="/admin/overview" className="w-full">
                 <span className="block py-2 px-4">Admin Dashboard</span>

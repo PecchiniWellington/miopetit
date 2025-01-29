@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { PAYMENT_METHODS } from "../constants";
+import { PAYMENT_METHODS } from "../constants/payment-methods";
 
 // Schema for the payment method
 export const paymentMethodSchema = z

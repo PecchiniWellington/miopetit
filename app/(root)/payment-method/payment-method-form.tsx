@@ -11,7 +11,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
-import { DEFAULT_PAYMENT_METHOD, PAYMENT_METHODS } from "@/lib/constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader, ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -21,6 +20,10 @@ import { z } from "zod";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { paymentMethodSchema } from "@/lib/validators";
 import { updateUserPaymentMethod } from "@/lib/actions/user/user-payment-actions";
+import {
+  DEFAULT_PAYMENT_METHOD,
+  PAYMENT_METHODS,
+} from "@/lib/constants/payment-methods";
 
 const PaymentMethodForm = ({
   preferredPaymentMethod,

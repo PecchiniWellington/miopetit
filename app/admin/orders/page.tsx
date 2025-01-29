@@ -12,6 +12,7 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { deleteOrder, getAllOrders } from "@/lib/actions/order/order.action";
+import ROLES from "@/lib/constants/roles";
 import { formatId, formatDateTime, formatCurrency } from "@/lib/utils";
 import { Check, CircleAlert, ClockAlert, Edit2, Trash2 } from "lucide-react";
 
@@ -29,7 +30,7 @@ const AdminOrdersPage = async (props: {
   const { page = "1" } = await props.searchParams;
   const session = await auth();
 
-  if (session?.user?.role !== "admin") throw new Error("Unauthorized");
+  if (session?.user?.role !== ROLES.ADMIN) throw new Error("Unauthorized");
 
   const orders = await getAllOrders({ page: Number(page) });
 
