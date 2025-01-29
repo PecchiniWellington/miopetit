@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { getMyCart } from "@/lib/actions/cart.actions";
-import { getUserById } from "@/lib/actions/user.action";
+import { getUserById } from "@/lib/actions/user/user.action";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 import React from "react";

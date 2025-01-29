@@ -4,9 +4,6 @@ import Link from "next/link";
 import React from "react";
 
 import Menu from "./menu";
-import { Button } from "@/components/ui/button";
-import { signOutUser } from "@/lib/actions/user.action";
-import { signOut } from "@/auth";
 
 const Header = () => {
   return (

@@ -1,3 +1,5 @@
+"use server";
+
 // Get new paypal order
 
 import { prisma } from "@/db/prisma";

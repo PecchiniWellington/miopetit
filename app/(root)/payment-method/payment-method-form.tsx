@@ -19,8 +19,8 @@ import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { updateUserPaymentMethod } from "@/lib/actions/user.action";
 import { paymentMethodSchema } from "@/lib/validators";
+import { updateUserPaymentMethod } from "@/lib/actions/user/user-payment-actions";
 
 const PaymentMethodForm = ({
   preferredPaymentMethod,

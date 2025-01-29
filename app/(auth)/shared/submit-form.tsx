@@ -4,8 +4,12 @@ import { useSearchParams } from "next/navigation";
 import { camelCaseToSpaces, capitalizeFirstLetter } from "@/lib/utils";
 import ChangeForm from "./change-form";
 import SubmitButton from "./submit-button";
-import { signInWithCredentials, signUpUser } from "@/lib/actions/user.action";
+
 import { useActionState } from "react";
+import {
+  signInWithCredentials,
+  signUpUser,
+} from "@/lib/actions/auth/auth.actions";
 
 const SubmitForm = ({ defaultValues, formType }: any) => {
   const actionType =
