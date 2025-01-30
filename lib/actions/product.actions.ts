@@ -36,6 +36,17 @@ export async function getProductBySlug(slug: string) {
   return convertToPlainObject(product);
 }
 
+// Get product by id
+export async function getProductById(id: string) {
+  const product = await prisma.product.findFirst({
+    where: {
+      id,
+    },
+  });
+  /* prisma.$disconnect(); */
+  return convertToPlainObject(product);
+}
+
 // Get All products
 export async function getAllProducts({
   query,
