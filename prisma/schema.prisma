@@ -43,7 +43,7 @@ model User {
   emailVerified DateTime? @map("email_verified")
   image         String?
   password      String?
-  role          String?   @default("USER")
+  role          String    @default("USER")
   address       Json?     @db.Json
   paymentMethod String?
   createdAt     DateTime  @default(now()) @map("created_at") @db.Timestamp(6)
