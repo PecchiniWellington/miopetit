@@ -6,6 +6,7 @@ import MainNav from "./main-nav";
 import LeftSidebar from "@/components/shared/sidebar/left-sidebar";
 import { ADMIN_ROUTES } from "@/lib/constants/routes";
 import { Input } from "@/components/ui/input";
+import AdminSearch from "@/components/admin/admin-search";
 
 const links = [
   {
@@ -56,16 +57,7 @@ export default function AdminLayout({
           <MainNav className="mx-6" />
           {/* MAIN NAV  */}
           <div className="mx-6 items-center flex space-x-4">
-            <div>
-              <Input
-                type="search"
-                placeholder="Search..."
-                className="md:w-[100px] lg:w-[300px]"
-              />
-            </div>
-          </div>
-
-          <div className="mx-6 items-center flex space-x-4">
+            <AdminSearch />
             <Menu />
           </div>
         </div>

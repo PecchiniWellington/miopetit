@@ -25,12 +25,12 @@ export const metadata: Metadata = {
 };
 
 const UsersPage = async (props: {
-  searchParams: Promise<{ page: string }>;
+  searchParams: Promise<{ page: string; query: string }>;
 }) => {
-  const { page = "1" } = await props.searchParams;
+  const { page = "1", query: searchText } = await props.searchParams;
   const session = await auth();
 
-  const users = await getAllUsers({ page: Number(page) });
+  const users = await getAllUsers({ page: Number(page), query: searchText });
 
   const Roles = ({ userRole }: any) => {
     switch (userRole) {
@@ -68,7 +68,20 @@ const UsersPage = async (props: {
 
   return (
     <div className="space-y-2">
-      <div className="h2-bold">Users</div>
+      <div className="flex items-center gap-3">
+        <h1 className="h2-bold">Users</h1>
+        {searchText && (
+          <div>
+            Filterd by <i>&quot;{searchText}&quot;</i>{" "}
+            <Link href="/admin/users">
+              <Button variant="outline" size="sm">
+                Remove Filter
+              </Button>
+            </Link>
+          </div>
+        )}{" "}
+        {/* TODO: uguale a quello del product */}
+      </div>
       <div className="overflow-x-auto">
         <Table>
           <TableHeader>

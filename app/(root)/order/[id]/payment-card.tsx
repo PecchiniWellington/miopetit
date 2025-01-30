@@ -2,9 +2,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { toast, useToast } from "@/hooks/use-toast";
 import {
-  updateOrderToPaidCOD,
   updateOrderToDeliveredCOD,
-} from "@/lib/actions/order/order.action";
+  updateOrderToPaidCOD,
+} from "@/lib/actions/admin/admin.actions";
+
 import {
   createPaypalOrder,
   approvePaypalOrder,

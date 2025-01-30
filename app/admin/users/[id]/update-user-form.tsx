@@ -17,6 +17,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import { updateUser } from "@/lib/actions/admin/admin.actions";
 import { USER_ROLES } from "@/lib/constants/roles";
 import { updateUserSchema } from "@/lib/validators/user.validator";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -39,7 +40,39 @@ const UpdateUserForm = ({
     defaultValues: user,
   });
 
-  const onSubmit = () => {};
+  const onSubmit = async (values: z.infer<typeof updateUserSchema>) => {
+    try {
+      const res = await updateUser({
+        ...values,
+        id: user.id,
+      });
+
+      if (!res.success) {
+        toast({
+          className: "bg-red-100 text-red-700 px-5 py-2",
+          title: "Error",
+          description: res.message,
+        });
+        return;
+      }
+
+      toast({
+        className: "bg-green-100 text-green-700 px-5 py-2",
+        title: "Success",
+        description: res.message,
+      });
+
+      form.reset();
+
+      router.push("/admin/users");
+    } catch (error) {
+      toast({
+        className: "bg-red-100 text-red-700 px-5 py-2",
+        title: "Error",
+        description: (error as Error).message,
+      });
+    }
+  };
 
   return (
     <Form {...form}>
@@ -64,7 +97,11 @@ const UpdateUserForm = ({
               <FormItem className="w-full">
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter product email" {...field} />
+                  <Input
+                    disabled={true}
+                    placeholder="Enter product email"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -87,11 +124,7 @@ const UpdateUserForm = ({
               <FormItem className="w-full">
                 <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input
-                    disabled={true}
-                    placeholder="Enter product name"
-                    {...field}
-                  />
+                  <Input placeholder="Enter product name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -123,7 +156,7 @@ const UpdateUserForm = ({
                         <SelectValue placeholder="Select a role"></SelectValue>
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent>
+                    <SelectContent className="bg-slate-100 dark:bg-slate-800 dark:text-white">
                       {USER_ROLES.map((role) => (
                         <SelectItem key={role} value={role}>
                           {role.charAt(0).toUpperCase() + role.slice(1)}
