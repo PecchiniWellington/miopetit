@@ -22,6 +22,9 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { createProduct, updateProduct } from "@/lib/actions/product.actions";
+import { Card, CardContent } from "../ui/card";
+import Image from "next/image";
+import { UploadButton } from "@/lib/uploadthing";
 
 const ProductForm = ({
   type,
@@ -49,14 +52,13 @@ const ProductForm = ({
   const onSubmit: SubmitHandler<z.infer<typeof insertProductSchema>> = async (
     data
   ) => {
-    console.log(data);
     if (type === "Create") {
       const res = await createProduct(data);
       if (!res.success) {
         toast({
           className: "bg-red-100 text-red-700 px-5 py-2",
           title: "Error",
-          description: res.message,
+          description: res.error,
         });
       } else {
         toast({
@@ -66,7 +68,9 @@ const ProductForm = ({
         });
         router.push("/admin/products");
       }
-    } else {
+    }
+
+    if (type === "Update") {
       if (!productId) {
         router.push("/admin/products");
         return;
@@ -88,6 +92,8 @@ const ProductForm = ({
       }
     }
   };
+
+  const images = form.watch("images");
 
   return (
     <Form {...form}>
@@ -245,6 +251,47 @@ const ProductForm = ({
         </div>
         <div className="upload-field flex flex-col  md:flex-row gap-5">
           {/* Images */}
+          <FormField
+            control={form.control}
+            name="images"
+            render={() => (
+              <FormItem className="w-full">
+                <FormLabel>Images</FormLabel>
+                <Card>
+                  <CardContent className="space-y-2 mt-2 min-h-8">
+                    <div className="flex-start space-x-2">
+                      {images.map((image) => (
+                        <Image
+                          key={image}
+                          src={image}
+                          alt="Product Image"
+                          width={100}
+                          height={100}
+                          className="w-20 h-20 object-cover object-center rounded-sm"
+                        />
+                      ))}
+                      <FormControl>
+                        <UploadButton
+                          endpoint="imageUploader"
+                          onClientUploadComplete={(res: { url: string }[]) => {
+                            form.setValue("images", [...images, res[0].url]);
+                          }}
+                          onUploadError={(err: Error) => {
+                            toast({
+                              className: "bg-red-100 text-red-700 px-5 py-2",
+                              title: "Error",
+                              description: err.message,
+                            });
+                          }}
+                        />
+                      </FormControl>
+                    </div>
+                  </CardContent>
+                </Card>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
         <div className="upload-field ">{/* isFeatured */}</div>
         <div>

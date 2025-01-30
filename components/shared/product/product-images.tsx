@@ -8,7 +8,7 @@ const ProductImages = ({ images }: { images: string[] }) => {
   return (
     <div className="space-y-4">
       <Image
-        src={images[current]}
+        src={images[current] || "/images/placeholder.jpg"}
         alt="product image" // TODO: Add alt text from BE (SEO)
         width={1000}
         height={1000}
@@ -25,7 +25,7 @@ const ProductImages = ({ images }: { images: string[] }) => {
             )}
           >
             <Image
-              src={image}
+              src={image || "/images/placeholder.jpg"}
               alt="product image" // TODO: Add alt text from BE (SEO)
               width={100}
               height={100}

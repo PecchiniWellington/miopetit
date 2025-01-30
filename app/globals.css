@@ -494,3 +494,12 @@ code {
     --radius: 0.5rem;
   }
 }
+
+/* Uploadthing button text ovverride */
+html.dark .upload-field .text-white {
+  color: #ffffff !important;
+}
+
+.upload-field .text-white {
+  color: #000000 !important;
+}
