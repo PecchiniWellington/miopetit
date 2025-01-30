@@ -13,7 +13,7 @@ const ProductCard = ({ product }: { product: Product }) => {
     <CardHeader className="p-0 items-center">
       <Link href={`/product/${slug}`}>
         <Image
-          src={images[0]}
+          src={images[0] || "/images/placeholder.jpg"}
           alt={name}
           height={300}
           width={300}

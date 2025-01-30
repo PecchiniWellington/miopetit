@@ -33,3 +33,18 @@ export const SHIPPING_ADDRESS_DEFAULT_VALUES = {
 export const PAGE_SIZE = Number(process.env.PAGE_SIZE) || 12;
 
 export const SENDER_EMAIL = process.env.SENDER_EMAIL || "onboarding@resend.dev";
+
+export const PRODUCT_DEFAULT_VALUES = {
+  name: "",
+  slug: "",
+  category: "",
+  images: [],
+  brand: "",
+  description: "",
+  price: "0",
+  stock: 0,
+  rating: "0",
+  numReviews: "0",
+  isFeatured: false,
+  banner: null,
+};
