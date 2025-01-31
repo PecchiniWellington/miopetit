@@ -8,6 +8,7 @@ import {
   paymentResultSchema,
   shippingAddressSchema,
 } from "@/lib/validators";
+import { insertReviewSchema } from "@/lib/validators/reviews.validator";
 
 import { z } from "zod";
 
@@ -45,3 +46,9 @@ export type SalesDataType = {
   month: string;
   totalSales: number;
 }[];
+
+export type Review = z.infer<typeof insertReviewSchema> & {
+  id: string;
+  createdAt: Date;
+  user?: { name: string; email: string };
+};

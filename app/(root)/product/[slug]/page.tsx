@@ -1,4 +1,5 @@
 import NotFound from "@/app/not-found";
+import { auth } from "@/auth";
 import { AddToCart } from "@/components/shared/product/add-to-cart";
 import ProductImages from "@/components/shared/product/product-images";
 import ProductPrice from "@/components/shared/product/product-price";
@@ -9,9 +10,13 @@ import { getProductBySlug } from "@/lib/actions/product.actions";
 import { CartItem } from "@/types";
 
 import React from "react";
+import ReviewList from "./review-list";
 
 const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
   const { slug } = await props.params;
+
+  const session = await auth();
+  const userId = session?.user.id;
 
   const product = await getProductBySlug(slug);
   if (!product) return NotFound();
@@ -30,13 +35,13 @@ const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
     images,
   } = product;
 
-  const ProductPageLeftImages = (
+  const ProductPageLeftImages = () => (
     <div className="col-span-2">
       <ProductImages images={images} />
     </div>
   );
 
-  const ProductPageCenterBio = (
+  const ProductPageCenterBio = () => (
     <div className="col-span-2 p-5">
       <div className="flex flex-col gap-6">
         <p>
@@ -61,7 +66,7 @@ const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
     </div>
   );
 
-  const ProductPageRightCard = (
+  const ProductPageRightCard = () => (
     <Card>
       <CardContent className="p-4">
         <div className="mb-2 flex justify-between">
@@ -106,13 +111,25 @@ const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
   );
 
   return (
-    <section>
-      <div className="grid grid-cols-1 md:grid-cols-5">
-        {ProductPageLeftImages}
-        {ProductPageCenterBio}
-        <div>{ProductPageRightCard}</div>
-      </div>
-    </section>
+    <>
+      <section>
+        <div className="grid grid-cols-1 md:grid-cols-5">
+          <ProductPageLeftImages />
+          <ProductPageCenterBio />
+          <div>
+            <ProductPageRightCard />
+          </div>
+        </div>
+      </section>
+      <section className="mt-10">
+        <h2 className="h2-bold">Customer Reviews</h2>
+        <ReviewList
+          userId={userId || ""}
+          productId={product.id.toString()}
+          productSlug={product.slug}
+        />
+      </section>
+    </>
   );
 };
 

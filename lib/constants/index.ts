@@ -48,3 +48,9 @@ export const PRODUCT_DEFAULT_VALUES = {
   isFeatured: false,
   banner: null,
 };
+
+export const REVIEW_FORM_DEFAULT_VALUES = {
+  title: "",
+  comment: "",
+  rating: 0,
+};
