@@ -1,4 +1,4 @@
-import ProductForm from "@/components/admin/product-form";
+import ProductForm from "@/components/admin/product-form/product-form";
 import { Metadata } from "next";
 import React from "react";
 

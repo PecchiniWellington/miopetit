@@ -10,7 +10,6 @@ import {
 import { Product } from "@/types";
 import React from "react";
 import AutoPlay from "embla-carousel-autoplay";
-import { delay } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
 

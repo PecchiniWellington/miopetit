@@ -1,5 +1,6 @@
 import { ROUTES } from "@/lib/constants/routes";
-import { Link } from "lucide-react";
+import Link from "next/link";
+
 import React from "react";
 
 const ProductCardName = ({ slug, name }: { slug: string; name: string }) => {
