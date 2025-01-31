@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import DynamicButton from "@/components/dynamic-button";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -36,9 +36,9 @@ const Search = async () => {
           placeholder="Search..."
           className="md:w-[100px] lg:w-[300px]"
         />
-        <Button type="submit" className="bg-slate-100 text-slate-700">
+        <DynamicButton>
           <SearchIcon height={10} width={10} />
-        </Button>
+        </DynamicButton>
       </div>
     </form>
   );

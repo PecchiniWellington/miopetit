@@ -23,6 +23,7 @@ import { ArrowRight, Loader } from "lucide-react";
 import { updateUserAddress } from "@/lib/actions/user/user.action";
 import CheckoutSteps from "@/components/shared/checkout-steps";
 import { shippingAddressSchema } from "@/lib/validators";
+import DynamicButton from "@/components/dynamic-button";
 
 const ShippingAddressForm = ({ address }: { address?: IShippingAddress }) => {
   const router = useRouter();
@@ -177,18 +178,14 @@ const ShippingAddressForm = ({ address }: { address?: IShippingAddress }) => {
               ></FormField>
             </div>
             <div className="w-full flex gap-2">
-              <Button
-                type="submit"
-                disabled={isPending}
-                className="primary-gradient min-h-[24px] !text-light-900 border-0.2 border-slate-300"
-              >
+              <DynamicButton isPending={isPending}>
                 {isPending ? (
                   <Loader className="animate-spin h-4 w-4" />
                 ) : (
                   <ArrowRight className="h-4 w-4" />
                 )}
                 Continue
-              </Button>
+              </DynamicButton>
             </div>
           </form>
         </Form>

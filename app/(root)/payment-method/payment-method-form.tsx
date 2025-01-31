@@ -1,7 +1,6 @@
 "use client";
 import CheckoutSteps from "@/components/shared/checkout-steps";
 
-import { Button } from "@/components/ui/button";
 import {
   FormField,
   FormItem,
@@ -24,6 +23,7 @@ import {
   DEFAULT_PAYMENT_METHOD,
   PAYMENT_METHODS,
 } from "@/lib/constants/payment-methods";
+import DynamicButton from "@/components/dynamic-button";
 
 const PaymentMethodForm = ({
   preferredPaymentMethod,
@@ -108,18 +108,14 @@ const PaymentMethodForm = ({
               />
             </div>
             <div className="w-full flex gap-2">
-              <Button
-                type="submit"
-                disabled={isPending}
-                className="primary-gradient min-h-[24px] !text-light-900 border-0.2 border-slate-300"
-              >
+              <DynamicButton isPending={isPending}>
                 {isPending ? (
                   <Loader className="animate-spin h-4 w-4" />
                 ) : (
                   <ArrowRight className="h-4 w-4" />
                 )}
                 Continue
-              </Button>
+              </DynamicButton>
             </div>
           </form>
         </Form>

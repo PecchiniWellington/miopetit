@@ -1,4 +1,5 @@
 "use client";
+import DynamicButton from "@/components/dynamic-button";
 import { Button } from "@/components/ui/button";
 import { createOrder } from "@/lib/actions/order/order.action";
 import { Check, Loader } from "lucide-react";
@@ -18,18 +19,14 @@ const PlaceOrderForm = () => {
   const PlaceOrderButton = () => {
     const { pending } = useFormStatus();
     return (
-      <Button
-        type="submit"
-        disabled={pending}
-        className="primary-gradient min-h-[24px] !text-light-900 border-0.2 border-slate-300 w-full"
-      >
+      <DynamicButton isPending={pending}>
         {pending ? (
           <Loader className="h-4 w-4 animate-spin" />
         ) : (
           <Check className="h-4 w-4 " />
         )}{" "}
         Place Order
-      </Button>
+      </DynamicButton>
     );
   };
   return (

@@ -10,12 +10,12 @@ import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Form } from "../../ui/form";
-import { Button } from "../../ui/button";
 import { createProduct, updateProduct } from "@/lib/actions/product.actions";
 import UploadImage from "./upload-image";
 import UploadImageFeaturedProduct from "./upload-image-featured-product";
 import DynamicFormField from "@/components/shared/dynamic-form-field";
 import SlugFormField from "./slug-form-field";
+import DynamicButton from "@/components/dynamic-button";
 
 const ProductForm = ({
   type,
@@ -168,13 +168,9 @@ const ProductForm = ({
 
         <div>
           {/* Submit */}
-          <Button
-            type="submit"
-            disabled={form.formState.isSubmitting}
-            className="primary-gradient min-h-[24px] !text-light-900 border-0.2 border-slate-300 "
-          >
+          <DynamicButton isPending={form.formState.isSubmitting}>
             {form.formState.isSubmitting ? "Submitting..." : `${type} Product`}
-          </Button>
+          </DynamicButton>
         </div>
       </form>
     </Form>

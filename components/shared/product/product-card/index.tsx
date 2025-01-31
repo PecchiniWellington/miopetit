@@ -14,9 +14,9 @@ const ProductCard = ({ product }: { product: Product }) => {
       <ProductCardHeader images={images} name={name} slug={slug} />
       <CardContent className="p-4 grid gap-4">
         <ProductCardBrand brand={brand} />
-        <ProductCardName name={name} slug={product.slug} />
+        <ProductCardName name={name} slug={slug} />
         <div className="flex-between gap-4">
-          <ProductCardStar rating={product.rating} />
+          <ProductCardStar rating={rating} />
           <ProductStock price={price} stock={stock} />
         </div>
       </CardContent>

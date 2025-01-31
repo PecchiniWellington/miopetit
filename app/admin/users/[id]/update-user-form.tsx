@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/components/ui/button";
+import DynamicButton from "@/components/dynamic-button";
 import {
   FormField,
   FormItem,
@@ -171,14 +171,9 @@ const UpdateUserForm = ({
           />
         </div>
         <div className="flex-between">
-          <Button
-            type="submit"
-            className=" w-full bg-slate-400"
-            variant="outline"
-            disabled={form.formState.isSubmitting}
-          >
+          <DynamicButton isPending={form.formState.isSubmitting}>
             {form.formState.isSubmitting ? "Submitting..." : "Update User"}
-          </Button>
+          </DynamicButton>
         </div>
       </form>
     </Form>

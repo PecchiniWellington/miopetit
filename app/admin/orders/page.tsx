@@ -1,9 +1,9 @@
 import { auth } from "@/auth";
+import DynamicButton from "@/components/dynamic-button";
 import LayoutTitle from "@/components/layout-title";
 import DeleteDialog from "@/components/shared/delete-dialog";
 import Pagination from "@/components/shared/pagination";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
   TableHeader,
   TableRow,
@@ -16,14 +16,7 @@ import { deleteOrder, getAllOrders } from "@/lib/actions/admin/admin.actions";
 
 import ROLES from "@/lib/constants/roles";
 import { formatId, formatDateTime, formatCurrency } from "@/lib/utils";
-import {
-  Check,
-  CircleAlert,
-  ClockAlert,
-  Edit2,
-  Layout,
-  Trash2,
-} from "lucide-react";
+import { Check, CircleAlert, ClockAlert, Edit2 } from "lucide-react";
 
 import { Metadata } from "next";
 import Link from "next/link";
@@ -50,11 +43,9 @@ const AdminOrdersPage = async (props: {
         {searchText && (
           <div>
             Filterd by <i>&quot;{searchText}&quot;</i>{" "}
-            <Link href="/admin/orders">
-              <Button variant="outline" size="sm">
-                Remove Filter
-              </Button>
-            </Link>
+            <DynamicButton>
+              <Link href="/admin/orders">Remove Filter</Link>
+            </DynamicButton>
           </div>
         )}{" "}
         {/* TODO: uguale a quello del product */}
@@ -109,11 +100,11 @@ const AdminOrdersPage = async (props: {
                   )}
                 </TableCell>
                 <TableCell className="flex items-center space-x-2">
-                  <Button className="bg-slate-100 text-slate-700 px-4 py-2">
+                  <DynamicButton>
                     <Link href={`/order/${order.id}`}>
                       <Edit2 height={10} width={10} />
                     </Link>
-                  </Button>
+                  </DynamicButton>
 
                   <DeleteDialog id={order.id} action={deleteOrder} />
                 </TableCell>
@@ -121,12 +112,9 @@ const AdminOrdersPage = async (props: {
             ))}
           </TableBody>
         </Table>
-        {orders.totalPages > 1 && (
-          <Pagination
-            page={Number(page) || 1}
-            totalPages={orders?.totalPages}
-          />
-        )}
+        {/*   {orders.totalPages > 1 && ( */}
+        <Pagination page={Number(page) || 1} totalPages={orders?.totalPages} />
+        {/*  )} */}
       </div>
     </div>
   );

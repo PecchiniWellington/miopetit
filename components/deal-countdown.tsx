@@ -1,9 +1,9 @@
 "use client";
 import React, { useEffect } from "react";
-import { Button } from "./ui/button";
 import Link from "next/link";
 import Image from "next/image";
 import useCountdown from "@/hooks/use-countdown";
+import DynamicButton from "./dynamic-button";
 
 // Static date for the countdown (replace with desired date)
 const TARGET_DATE = new Date("2025-04-31T23:59:59");
@@ -40,12 +40,9 @@ const DealCountdown = () => {
           </p>
 
           <div className="text-center">
-            <Button
-              asChild
-              className="primary-gradient min-h-[24px] !text-light-900 border-0.2 border-slate-300"
-            >
+            <DynamicButton>
               <Link href="/search">View Products</Link>
-            </Button>
+            </DynamicButton>
           </div>
         </div>
         <div className="flex justify-center">
@@ -78,12 +75,9 @@ const DealCountdown = () => {
           <StatBox label="Second" value={seconds} />
         </ul>
         <div className="text-center">
-          <Button
-            asChild
-            className="primary-gradient min-h-[24px] !text-light-900 border-0.2 border-slate-300"
-          >
+          <DynamicButton>
             <Link href="/search">View Products</Link>
-          </Button>
+          </DynamicButton>
         </div>
       </div>
       <div className="flex justify-center">

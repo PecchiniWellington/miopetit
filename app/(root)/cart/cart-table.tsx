@@ -1,4 +1,5 @@
 "use client";
+import DynamicButton from "@/components/dynamic-button";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -120,31 +121,19 @@ export const CartTable = ({ cart }: { cart?: Cart }) => {
                       €{item?.price}
                     </TableCell>
                     <TableCell className="text-center gap-2">
-                      <Button
-                        disabled={isPending}
-                        variant="outline"
-                        className=" primary-gradient min-h-[24px] !text-light-900 border-0.2 border-slate-300"
-                        onClick={() => handleRemoveFromCart(item.productId)}
-                      >
-                        {isPending ? (
-                          <Loader className="h-4 w-4 animate-spin" />
-                        ) : (
-                          <Minus className="h-4 w-4" />
-                        )}
-                      </Button>
+                      <DynamicButton
+                        isPending={isPending}
+                        handleAction={() =>
+                          handleRemoveFromCart(item.productId)
+                        }
+                        icon={<Minus className="h-4 w-4" />}
+                      />
                       <span className="px-3">{item.qty}</span>
-                      <Button
-                        disabled={isPending}
-                        variant="outline"
-                        className=" primary-gradient min-h-[24px] !text-light-900 border-0.2 border-slate-300"
-                        onClick={() => handleAddToCart(item)}
-                      >
-                        {isPending ? (
-                          <Loader className="h-4 w-4 animate-spin" />
-                        ) : (
-                          <Plus className="h-4 w-4" />
-                        )}
-                      </Button>
+                      <DynamicButton
+                        isPending={isPending}
+                        handleAction={() => handleAddToCart(item.productId)}
+                        icon={<Plus className="h-4 w-4" />}
+                      />
                     </TableCell>
                   </TableRow>
                 ))}
@@ -160,10 +149,10 @@ export const CartTable = ({ cart }: { cart?: Cart }) => {
                   {formatCurrency(cart?.itemsPrice)}
                 </span>
               </div>
-              <Button
-                className=" w-full primary-gradient min-h-[24px] !text-light-900 border-0.2 border-slate-300"
-                disabled={isPending}
-                onClick={() =>
+
+              <DynamicButton
+                isPending={isPending}
+                handleAction={() =>
                   startTransition(() => router.push("/shipping-address"))
                 }
               >
@@ -173,7 +162,7 @@ export const CartTable = ({ cart }: { cart?: Cart }) => {
                   <ArrowRight className="w-4 h-4 " />
                 )}
                 Proceed to Checkout
-              </Button>
+              </DynamicButton>
             </CardContent>
           </Card>
         </div>

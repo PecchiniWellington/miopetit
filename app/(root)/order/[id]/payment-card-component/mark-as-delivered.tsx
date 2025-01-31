@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import DynamicButton from "@/components/dynamic-button";
 import { useToast } from "@/hooks/use-toast";
 import { updateOrderToDeliveredCOD } from "@/lib/actions/admin/admin.actions";
 
@@ -9,11 +9,9 @@ export const MarkAsDeliveredButton = ({ order }: any) => {
   const { toast } = useToast();
 
   return (
-    <Button
-      type="button"
-      disabled={isPending}
-      className="bg-slate-500 text-slate-100 "
-      onClick={() =>
+    <DynamicButton
+      isPending={isPending}
+      handleAction={() =>
         setIsPending(async () => {
           const res = await updateOrderToDeliveredCOD(order.id);
           toast({
@@ -24,6 +22,6 @@ export const MarkAsDeliveredButton = ({ order }: any) => {
       }
     >
       {isPending ? "Processing..." : "Mark as Delivered"}
-    </Button>
+    </DynamicButton>
   );
 };

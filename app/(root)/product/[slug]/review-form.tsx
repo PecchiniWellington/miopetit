@@ -1,5 +1,6 @@
 "use client";
 
+import DynamicButton from "@/components/dynamic-button";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -103,9 +104,9 @@ const ReviewForm = ({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <Button onClick={handleOpenForm} variant="outline">
+      <DynamicButton handleAction={handleOpenForm}>
         Write a review
-      </Button>
+      </DynamicButton>
       <DialogContent className="sm:max-w-[425px] bg-slate-100 dark:bg-slate-800 dark:text-white">
         <Form {...form}>
           <form method="post" onSubmit={form.handleSubmit(onSubmit)}>
@@ -172,14 +173,9 @@ const ReviewForm = ({
               />
             </div>
             <DialogFooter>
-              <Button
-                type="submit"
-                variant="outline"
-                disabled={form.formState.isSubmitting}
-                className="w-full primary-gradient min-h-[24px] !text-light-900 border-0.2 border-slate-300"
-              >
+              <DynamicButton isPending={form.formState.isSubmitting}>
                 {form.formState.isSubmitting ? "Submitting..." : "Submit"}
-              </Button>
+              </DynamicButton>
             </DialogFooter>
           </form>
         </Form>

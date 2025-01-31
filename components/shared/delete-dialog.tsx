@@ -11,8 +11,8 @@ import {
   AlertDialogCancel,
 } from "../ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
-import { Button } from "../ui/button";
 import { Trash2 } from "lucide-react";
+import DynamicButton from "../dynamic-button";
 
 const DeleteDialog = ({
   id,
@@ -41,9 +41,9 @@ const DeleteDialog = ({
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
-        <Button className="bg-red-100 text-red-700 px-4 py-2">
+        <DynamicButton>
           <Trash2 height={10} width={10} />
-        </Button>
+        </DynamicButton>
       </AlertDialogTrigger>
       <AlertDialogContent className="bg-slate-200 dark:bg-slate-900 dark:text-slate-100">
         <AlertDialogHeader>
@@ -58,14 +58,9 @@ const DeleteDialog = ({
           <AlertDialogCancel className="text-slate-100 bg-slate-700 px-4 py-2">
             Cancel
           </AlertDialogCancel>
-          <Button
-            className="text-red-100 bg-red-700 px-4 py-2"
-            size="sm"
-            disabled={isPending}
-            onClick={handleDeleteClick}
-          >
+          <DynamicButton isPending={isPending} handleAction={handleDeleteClick}>
             {isPending ? "Deleting..." : "Delete"}
-          </Button>
+          </DynamicButton>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

@@ -1,7 +1,7 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Button } from "../ui/button";
 import { formUrlQuery } from "@/lib/utils";
+import DynamicButton from "../dynamic-button";
 
 type PaginationProps = {
   page: number | string;
@@ -26,24 +26,20 @@ const Pagination = ({ page, totalPages, urlParamName }: PaginationProps) => {
 
   return (
     <div className="flex gap-2">
-      <Button
-        size="lg"
-        variant="outline"
+      <DynamicButton
         className="w-28"
         disabled={Number(page) <= 1}
-        onClick={() => handleClick("prev")}
+        handleAction={() => handleClick("prev")}
       >
         Previous
-      </Button>
-      <Button
-        size="lg"
-        variant="outline"
+      </DynamicButton>
+      <DynamicButton
         className="w-28"
         disabled={Number(page) >= totalPages}
-        onClick={() => handleClick("next")}
+        handleAction={() => handleClick("next")}
       >
         Next
-      </Button>
+      </DynamicButton>
     </div>
   );
 };

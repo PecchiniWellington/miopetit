@@ -20,6 +20,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import React from "react";
 import PlaceOrderForm from "./place-order-form";
+import DynamicButton from "@/components/dynamic-button";
 
 export const metadata: Metadata = {
   title: "Place Older",
@@ -56,9 +57,9 @@ const PlaceOlderPage = async () => {
                   {userAddress.postalCode}, {userAddress.country}{" "}
                 </p>
                 <div className="mt-3">
-                  <Link href="/shipping-address">
-                    <Button variant="outline">Edit</Button>
-                  </Link>
+                  <DynamicButton>
+                    <Link href="/shipping-address">Edit </Link>
+                  </DynamicButton>
                 </div>
               </CardContent>
             </Card>
@@ -68,9 +69,9 @@ const PlaceOlderPage = async () => {
                 <p>{user.paymentMethod}</p>
 
                 <div className="mt-3">
-                  <Link href="/payment-method">
-                    <Button variant="outline">Edit</Button>
-                  </Link>
+                  <DynamicButton>
+                    <Link href="/payment-method">Edit</Link>
+                  </DynamicButton>
                 </div>
               </CardContent>
             </Card>

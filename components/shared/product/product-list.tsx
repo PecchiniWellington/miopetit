@@ -1,6 +1,7 @@
 import React from "react";
 import ProductCard from "./product-card";
 import { Product } from "@/types/index";
+import CardSkeleton from "../skeleton/card-skeleton";
 
 interface IProductListProps {
   data: Product[];
@@ -16,9 +17,14 @@ const ProductList = ({ data, title, limit }: IProductListProps) => {
       <div>
         {data.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {limitedData.map((product: Product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+            {limitedData ? (
+              limitedData.map((product: Product) => (
+                <ProductCard key={product.id} product={product} />
+              ))
+            ) : (
+              <div>SUCA</div>
+              /*  <CardSkeleton /> */
+            )}
           </div>
         ) : (
           <p>No products found</p>

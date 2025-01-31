@@ -1,3 +1,4 @@
+import DynamicButton from "@/components/dynamic-button";
 import ProductCard from "@/components/shared/product/product-card";
 import { Button } from "@/components/ui/button";
 import {
@@ -200,9 +201,9 @@ const SearchPage = async (props: {
             (category !== "all" && category !== "") ||
             rating !== "all" ||
             price !== "all" ? (
-              <Button variant={"link"} asChild>
+              <DynamicButton>
                 <Link href="/search">Clear</Link>
-              </Button>
+              </DynamicButton>
             ) : null}
           </div>
           <div>

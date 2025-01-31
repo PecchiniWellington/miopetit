@@ -1,4 +1,5 @@
 "use client";
+import DynamicButton from "@/components/dynamic-button";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -96,14 +97,9 @@ const ProfileForm = () => {
             )}
           />
         </div>
-        <Button
-          type="submit"
-          className="w-full button col-span-2 primary-gradient min-h-[24px] !text-light-900 border-0.2 border-slate-300"
-          size="lg"
-          disabled={form.formState.isSubmitting}
-        >
+        <DynamicButton isPending={form.formState.isSubmitting}>
           {form.formState.isSubmitting ? "Saving..." : "Save"}
-        </Button>
+        </DynamicButton>
       </form>
     </Form>
   );

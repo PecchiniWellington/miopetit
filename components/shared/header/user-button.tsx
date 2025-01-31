@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import DynamicButton from "@/components/dynamic-button";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -19,14 +20,11 @@ const UserButton = async () => {
 
   if (!session) {
     return (
-      <Button
-        asChild
-        className="primary-gradient min-h-[24px] !text-light-900 border-0.2 border-slate-300"
-      >
+      <DynamicButton>
         <Link href="/sign-in">
           <UserIcon />
         </Link>
-      </Button>
+      </DynamicButton>
     );
   }
 
@@ -37,12 +35,7 @@ const UserButton = async () => {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <div className="flex items-center">
-            <Button
-              variant="ghost"
-              className="relative w-8 h-8 rounded-full flex items-center justify-center ml-2 bg-gray-200"
-            >
-              {firstInitial}
-            </Button>
+            <DynamicButton>{firstInitial}</DynamicButton>
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent
@@ -76,13 +69,7 @@ const UserButton = async () => {
           )}
 
           <form action={signOutUser as any}>
-            <Button
-              type="submit"
-              variant="ghost"
-              className="w-full mt-2 py-4 px-2 h-4 justify-start primary-gradient min-h-[24px] !text-light-900 border-0.2 border-slate-300"
-            >
-              Sign Out
-            </Button>
+            <DynamicButton>Sign Out</DynamicButton>
           </form>
         </DropdownMenuContent>
       </DropdownMenu>

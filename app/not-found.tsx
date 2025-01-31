@@ -1,6 +1,8 @@
+import DynamicButton from "@/components/dynamic-button";
 import { Button } from "@/components/ui/button";
 import { APP_NAME } from "@/lib/constants";
 import { ROUTES } from "@/lib/constants/routes";
+import { Minus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -18,9 +20,10 @@ const NotFound = () => {
       <div className="p-6 rounded-lg shadow-md text-center w-1/3">
         <h1 className="text-3xl font-bold mb-4">Not Found</h1>
         <p className="text-destructive">Could not find requested page</p>
-        <Button variant="outline" className="mt-4 ml-2">
+
+        <DynamicButton>
           <Link href={ROUTES.HOME}>Back To home</Link>
-        </Button>
+        </DynamicButton>
       </div>
     </div>
   );

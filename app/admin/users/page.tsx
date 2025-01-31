@@ -8,7 +8,6 @@ import {
   Table,
 } from "@/components/ui/table";
 import { formatId } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import { Edit2 } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -19,6 +18,7 @@ import { deleteUser, getAllUsers } from "@/lib/actions/admin/admin.actions";
 import DeleteDialog from "@/components/shared/delete-dialog";
 import { auth } from "@/auth";
 import LayoutTitle from "@/components/layout-title";
+import DynamicButton from "@/components/dynamic-button";
 
 export const metadata: Metadata = {
   title: "Users",
@@ -75,9 +75,7 @@ const UsersPage = async (props: {
           <div>
             Filterd by <i>&quot;{searchText}&quot;</i>{" "}
             <Link href="/admin/users">
-              <Button variant="outline" size="sm">
-                Remove Filter
-              </Button>
+              <DynamicButton>Remove Filter</DynamicButton>
             </Link>
           </div>
         )}{" "}
@@ -104,11 +102,11 @@ const UsersPage = async (props: {
                   <Roles userRole={user.role} />
                 </TableCell>
                 <TableCell className="flex items-center space-x-2">
-                  <Button className="bg-slate-100 text-slate-700 px-4 py-2">
+                  <DynamicButton>
                     <Link href={`/admin/users/${user.id}`}>
                       <Edit2 height={10} width={10} />
                     </Link>
-                  </Button>
+                  </DynamicButton>
                   <DeleteDialog action={deleteUser} id={user.id} />
                 </TableCell>
               </TableRow>

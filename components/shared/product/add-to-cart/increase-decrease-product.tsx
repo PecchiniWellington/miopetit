@@ -1,3 +1,4 @@
+import DynamicButton from "@/components/dynamic-button";
 import { Button } from "@/components/ui/button";
 import { Loader, Minus, Plus } from "lucide-react";
 import React from "react";
@@ -15,29 +16,21 @@ const IncreaseDecreaseProduct = ({
 }) => {
   return (
     <>
-      <Button
-        variant="outline"
-        className="primary-gradient min-h-[24px] !text-light-900 border-0.2 border-slate-300"
-        onClick={handleRemoveFromCart}
-      >
+      <DynamicButton handleAction={handleRemoveFromCart}>
         {isPending ? (
           <Loader className="h-4 w-4 animate-spin" />
         ) : (
           <Minus className="h-4 w-4" />
         )}
-      </Button>
+      </DynamicButton>
       <span className="px-3">{existItem.qty}</span>
-      <Button
-        variant="outline"
-        className=" primary-gradient min-h-[24px] !text-light-900 border-0.2 border-slate-300"
-        onClick={handleAddToCart}
-      >
+      <DynamicButton handleAction={handleAddToCart}>
         {isPending ? (
           <Loader className="h-4 w-4 animate-spin" />
         ) : (
           <Plus className="h-4 w-4" />
         )}
-      </Button>
+      </DynamicButton>
     </>
   );
 };

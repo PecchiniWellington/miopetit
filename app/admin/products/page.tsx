@@ -1,7 +1,8 @@
+import DynamicButton from "@/components/dynamic-button";
 import LayoutTitle from "@/components/layout-title";
 import DeleteDialog from "@/components/shared/delete-dialog";
 import Pagination from "@/components/shared/pagination";
-import { Button } from "@/components/ui/button";
+
 import {
   Table,
   TableBody,
@@ -46,16 +47,14 @@ const ProductsPage = async (props: {
             <div>
               Filterd by <i>&quot;{searchQuery}&quot;</i>{" "}
               <Link href="/admin/products">
-                <Button variant="outline" size="sm">
-                  Remove Filter
-                </Button>
+                <DynamicButton>Remove Filter</DynamicButton>
               </Link>
             </div>
           )}
         </div>
-        <Button asChild variant="outline">
+        <DynamicButton>
           <Link href="/admin/products/create">Create Product</Link>
-        </Button>
+        </DynamicButton>
       </div>
 
       <Table>
@@ -82,9 +81,9 @@ const ProductsPage = async (props: {
               <TableCell>{product.stock}</TableCell>
               <TableCell>{product.rating}</TableCell>
               <TableCell className="flex gap-1">
-                <Button asChild variant="outline">
+                <DynamicButton>
                   <Link href={`/admin/products/${product.id}`}>Edit</Link>
-                </Button>
+                </DynamicButton>
                 <DeleteDialog id={product.id} action={deleteProduct} />
               </TableCell>
             </TableRow>
