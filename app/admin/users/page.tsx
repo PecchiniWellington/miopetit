@@ -18,6 +18,7 @@ import ROLES from "@/lib/constants/roles";
 import { deleteUser, getAllUsers } from "@/lib/actions/admin/admin.actions";
 import DeleteDialog from "@/components/shared/delete-dialog";
 import { auth } from "@/auth";
+import LayoutTitle from "@/components/layout-title";
 
 export const metadata: Metadata = {
   title: "Users",
@@ -69,7 +70,7 @@ const UsersPage = async (props: {
   return (
     <div className="space-y-2">
       <div className="flex items-center gap-3">
-        <h1 className="h2-bold">Users</h1>
+        <LayoutTitle title="Users" />
         {searchText && (
           <div>
             Filterd by <i>&quot;{searchText}&quot;</i>{" "}

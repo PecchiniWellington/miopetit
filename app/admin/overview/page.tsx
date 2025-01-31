@@ -1,33 +1,14 @@
 import { auth } from "@/auth";
 import TinyBarChart from "@/components/shared/charts/tiny-bar-chart";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { getOrderSummary } from "@/lib/actions/order/order.action";
 import ROLES from "@/lib/constants/roles";
-import {
-  formatCurrency,
-  formatDateTime,
-  formatNumber,
-  formatNumberWithDecimal,
-} from "@/lib/utils";
-import {
-  BadgeDollarSign,
-  Barcode,
-  CreditCard,
-  User,
-  Users,
-} from "lucide-react";
+import { formatCurrency, formatNumber } from "@/lib/utils";
+import { BadgeDollarSign, Barcode, CreditCard, Users } from "lucide-react";
 import { Metadata } from "next";
-import Link from "next/link";
 import React from "react";
+import RecentSalesTable from "./recent-sales-table";
+import OverviewCard from "./overview-card";
+import LayoutTitle from "@/components/layout-title";
 
 export const metadata: Metadata = {
   title: "Admin Dashboard Overview",
@@ -44,102 +25,30 @@ const AdminOverviewPage = async () => {
 
   return (
     <div className="space-y-2">
-      <h1 className="h2-bold">Dashboard</h1>
+      <LayoutTitle title="Dashboard" />
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row justify-between items-center space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
-            <BadgeDollarSign />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {formatCurrency(
-                summary.totalSales._sum.totalPrice?.toString() || "0"
-              )}
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row justify-between items-center space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Sales</CardTitle>
-            <CreditCard />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {formatNumber(summary.ordersCount)}
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row justify-between items-center space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Customers</CardTitle>
-            <Users />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {formatNumber(summary.usersCount)}
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row justify-between items-center space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Products</CardTitle>
-            <Barcode />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {formatNumber(summary.productsCount)}
-            </div>
-          </CardContent>
-        </Card>
+        <OverviewCard icon={<BadgeDollarSign />} title="Total Revenue">
+          {formatCurrency(
+            summary.totalSales._sum.totalPrice?.toString() || "0"
+          )}
+        </OverviewCard>
+        <OverviewCard icon={<CreditCard />} title="Sales">
+          {formatNumber(summary.ordersCount)}
+        </OverviewCard>
+        <OverviewCard icon={<Users />} title="Customers">
+          {formatNumber(summary.usersCount)}
+        </OverviewCard>
+        <OverviewCard icon={<Barcode />} title="Products">
+          {formatNumber(summary.productsCount)}
+        </OverviewCard>
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-        <Card className="col-span-4">
-          <CardHeader>
-            <CardTitle className="text-sm font-medium">Overview</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <TinyBarChart data={{ salesData: summary.salesData }} />
-          </CardContent>
-        </Card>
-        <Card className="col-span-3">
-          <CardHeader>
-            <CardTitle className="text-sm font-medium">Recent Sales</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>BUYER</TableHead>
-                  <TableHead>DATE</TableHead>
-                  <TableHead>TOTAL</TableHead>
-                  <TableHead>ACTIONS</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {summary.latestSales.map((order) => (
-                  <TableRow key={order.id}>
-                    <TableCell>{order.user?.name}</TableCell>
-                    <TableCell>
-                      {formatDateTime(order.createdAt).dateOnly}
-                    </TableCell>
-                    <TableCell>
-                      {formatCurrency(order.totalPrice.toString())}
-                    </TableCell>
-                    <TableCell>
-                      <Link
-                        className="border-2 py-1 px-2 rounded-md "
-                        href={`/order/${order.id}`}
-                      >
-                        Detail
-                      </Link>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
+        <OverviewCard title="Overview" className="col-span-4">
+          <TinyBarChart data={{ salesData: summary.salesData }} />
+        </OverviewCard>
+        <OverviewCard title="Recent Sales" className="col-span-3">
+          <RecentSalesTable summary={summary} />
+        </OverviewCard>
       </div>
     </div>
   );

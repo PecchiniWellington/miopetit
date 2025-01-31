@@ -1,7 +1,7 @@
 import NotFound from "@/app/not-found";
 import { auth } from "@/auth";
-import { AddToCart } from "@/components/shared/product/add-to-cart";
-import ProductImages from "@/components/shared/product/product-images";
+import { AddToCart } from "@/components/shared/product/add-to-cart/add-to-cart";
+import ProductImages from "@/components/shared/product/product-image/product-images";
 import ProductPrice from "@/components/shared/product/product-price";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -24,17 +24,7 @@ const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
 
   const cart = await getMyCart();
 
-  const {
-    brand,
-    category,
-    name,
-    numReviews,
-    rating,
-    description,
-    price,
-    stock,
-    images,
-  } = product;
+  const { brand, category, name, description, price, stock, images } = product;
 
   const ProductPageLeftImages = () => (
     <div className="col-span-2">

@@ -1,3 +1,4 @@
+import LayoutTitle from "@/components/layout-title";
 import DeleteDialog from "@/components/shared/delete-dialog";
 import Pagination from "@/components/shared/pagination";
 import { Button } from "@/components/ui/button";
@@ -40,7 +41,7 @@ const ProductsPage = async (props: {
     <div className="space-y-2">
       <div className="flex-between">
         <div className="flex items-center gap-3">
-          <h1 className="h2-bold">Products</h1>
+          <LayoutTitle title="Products" />
           {searchQuery && (
             <div>
               Filterd by <i>&quot;{searchQuery}&quot;</i>{" "}

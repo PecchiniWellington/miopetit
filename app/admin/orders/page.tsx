@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import LayoutTitle from "@/components/layout-title";
 import DeleteDialog from "@/components/shared/delete-dialog";
 import Pagination from "@/components/shared/pagination";
 import { Badge } from "@/components/ui/badge";
@@ -15,7 +16,14 @@ import { deleteOrder, getAllOrders } from "@/lib/actions/admin/admin.actions";
 
 import ROLES from "@/lib/constants/roles";
 import { formatId, formatDateTime, formatCurrency } from "@/lib/utils";
-import { Check, CircleAlert, ClockAlert, Edit2, Trash2 } from "lucide-react";
+import {
+  Check,
+  CircleAlert,
+  ClockAlert,
+  Edit2,
+  Layout,
+  Trash2,
+} from "lucide-react";
 
 import { Metadata } from "next";
 import Link from "next/link";
@@ -38,7 +46,7 @@ const AdminOrdersPage = async (props: {
   return (
     <div className="space-y-2">
       <div className="flex items-center gap-3">
-        <h1 className="h2-bold">Orders</h1>
+        <LayoutTitle title="Orders" />
         {searchText && (
           <div>
             Filterd by <i>&quot;{searchText}&quot;</i>{" "}
