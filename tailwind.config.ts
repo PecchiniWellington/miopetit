@@ -11,8 +11,26 @@ const config: Config = {
     extend: {
       colors: {
         primary: {
-          "100": "#FFF1E6",
-          "500": "#ff8fe9",
+          "100": "#ffe6f7",
+          "200": "#ffccf0",
+          "300": "#ffb3e8",
+          "400": "#ff99e1",
+          "500": "#ff80d9",
+          "600": "#ff66d2",
+          "700": "#ff4dcc",
+          "800": "#ff33c5",
+          "900": "#ff1abf",
+        },
+        secondary: {
+          "100": "#e6ebf0",
+          "200": "#ccd7e1",
+          "300": "#b3c3d2",
+          "400": "#99afc3",
+          "500": "#809bb4",
+          "600": "#6687a5",
+          "700": "#4d7396",
+          "800": "#335f87",
+          "900": "#1a4b78",
         },
         dark: {
           "100": "#110A0F",
@@ -67,9 +85,29 @@ const config: Config = {
         inter: ["var(--font-inter)"],
         "space-grotesk": ["var(--font-space-grotesk)"],
       },
+      primary: {
+        DEFAULT: "hsl(var(--primary))",
+        foreground: "hsl(var(--primary-foreground))",
+      },
+      secondary: {
+        DEFAULT: "hsl(var(--secondary))",
+        foreground: "hsl(var(--secondary-foreground))",
+      },
+      muted: {
+        DEFAULT: "hsl(var(--muted))",
+        foreground: "hsl(var(--muted-foreground))",
+      },
+      accent: {
+        DEFAULT: "hsl(var(--accent))",
+        foreground: "hsl(var(--accent-foreground))",
+      },
+      destructive: {
+        DEFAULT: "hsl(var(--destructive))",
+        foreground: "hsl(var(--destructive-foreground))",
+      },
     },
   },
-  /* plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")], */
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 };
 
 export default config;

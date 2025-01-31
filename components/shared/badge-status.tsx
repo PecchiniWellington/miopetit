@@ -12,6 +12,14 @@ export const BadgeStatus: React.FC<BadgeStatusProps> = ({
   status,
 }) => {
   switch (status) {
+    case STATUS.PRIMARY:
+      return (
+        <Badge className="bg-primary-100 text-primary-700">{children}</Badge>
+      );
+    case STATUS.PRIMARY_ACTIVE:
+      return (
+        <Badge className="text-primary-100 bg-primary-500">{children}</Badge>
+      );
     case STATUS.DANGER:
       return <Badge className="bg-red-100 text-red-700">{children}</Badge>;
     case STATUS.WARNING:

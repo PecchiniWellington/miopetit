@@ -1,6 +1,7 @@
 import { Loader, Minus } from "lucide-react";
 import React from "react";
 import { Button } from "./ui/button";
+import { type } from "os";
 
 const DynamicButton = ({
   isPending,
@@ -18,10 +19,10 @@ const DynamicButton = ({
   className?: string;
 }) => {
   return (
+    /* btn${type ? "-" + type : ""} */
     <Button
       disabled={isPending}
-      variant="outline"
-      className={`focus-visible:ring-0 focus-visible:ring-offset-0 primary-gradient min-h-[24px] !text-light-900 border-0.2 border-slate-300 ${className}`}
+      className={`focus-visible:ring-0 focus-visible:ring-offset-0 btn  ${className} `}
       onClick={handleAction ? (value?) => handleAction(value) : undefined}
     >
       {isPending ? <Loader className="h-4 w-4 animate-spin" /> : icon}

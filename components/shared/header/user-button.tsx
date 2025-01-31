@@ -20,7 +20,7 @@ const UserButton = async () => {
 
   if (!session) {
     return (
-      <DynamicButton>
+      <DynamicButton className="btn-ghost">
         <Link href="/sign-in">
           <UserIcon />
         </Link>
@@ -35,7 +35,9 @@ const UserButton = async () => {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <div className="flex items-center">
-            <DynamicButton>{firstInitial}</DynamicButton>
+            <DynamicButton className="btn-outline rounded-full">
+              {firstInitial}
+            </DynamicButton>
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent
@@ -69,7 +71,7 @@ const UserButton = async () => {
           )}
 
           <form action={signOutUser as any}>
-            <DynamicButton>Sign Out</DynamicButton>
+            <DynamicButton className="btn-ghost">Sign Out</DynamicButton>
           </form>
         </DropdownMenuContent>
       </DropdownMenu>

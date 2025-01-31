@@ -1,10 +1,11 @@
 import DynamicButton from "@/components/dynamic-button";
+import { BadgeStatus } from "@/components/shared/badge-status";
 import ProductCard from "@/components/shared/product/product-card";
-import { Button } from "@/components/ui/button";
 import {
   getAllProducts,
   getProductCategories,
 } from "@/lib/actions/product.actions";
+import { STATUS } from "@/lib/constants";
 import Link from "next/link";
 
 const prices = [
@@ -214,7 +215,11 @@ const SearchPage = async (props: {
                 href={getFilterUrl({ s })}
                 className={`mx-2 ${sort === s && "font-bold"}`}
               >
-                {s}
+                <BadgeStatus
+                  status={sort === s ? STATUS.PRIMARY_ACTIVE : STATUS.PRIMARY}
+                >
+                  {s}
+                </BadgeStatus>
               </Link>
             ))}
           </div>

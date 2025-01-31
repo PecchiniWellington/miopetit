@@ -12,7 +12,7 @@ const Header = () => {
     <header className="w-full border-b ">
       <div className="wrapper flex-between">
         <div className="flex-start">
-          <CategoryDrawer />
+          {/* <CategoryDrawer /> */}
           <Link href="/" className="flex-start">
             <Image
               src="/images/petitLogo.png"

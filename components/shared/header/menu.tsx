@@ -11,7 +11,7 @@ const Menu = () => {
     <div className="flex justify-end gap-3">
       <nav className="hidden md:flex w-full max-w-xs gap-1">
         <Theme />
-        <DynamicButton>
+        <DynamicButton className="btn-ghost">
           <Link href="/cart">
             <ShoppingCart />
           </Link>

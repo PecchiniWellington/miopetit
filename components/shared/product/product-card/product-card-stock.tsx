@@ -8,7 +8,10 @@ export const ProductStock = ({
   price: string;
 }) =>
   stock > 0 ? (
-    <ProductPrice value={Number(price)} className="text-lg text-primary-500" />
+    <ProductPrice
+      value={Number(price)}
+      className="text-lg text-primary-500 font-bold"
+    />
   ) : (
     <p className="text-destructive">Out of stock</p>
   );

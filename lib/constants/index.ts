@@ -56,6 +56,8 @@ export const REVIEW_FORM_DEFAULT_VALUES = {
 };
 
 export const STATUS = {
+  PRIMARY: "primary",
+  PRIMARY_ACTIVE: "primary-active",
   DANGER: "danger",
   WARNING: "warning",
   SUCCESS: "success",
