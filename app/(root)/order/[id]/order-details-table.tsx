@@ -1,29 +1,21 @@
 "use client";
 
 import { Card, CardContent } from "@/components/ui/card";
-import { formatCurrency, formatId } from "@/lib/utils";
+import { formatId } from "@/lib/utils";
 import { IOrder } from "@/types";
 
-import {
-  TableHeader,
-  TableRow,
-  TableHead,
-  TableBody,
-  TableCell,
-  Table,
-} from "@/components/ui/table";
-import Link from "next/link";
-import Image from "next/image";
-
-import PaymentCard from "./payment-card";
+import PaymentCard from "./payment-card-component";
 import OrderCard from "./order-card";
+import ResumeItemsTable from "./resume-items-table";
 
 const OrderDetailsTable = ({
   order,
+  stripeClientSecret,
   paypalClientId,
   isAdmin,
 }: {
   order: Omit<IOrder, "paymentResult">;
+  stripeClientSecret: string | null;
   paypalClientId: string;
   isAdmin: boolean;
 }) => {
@@ -69,55 +61,11 @@ const OrderDetailsTable = ({
             </p>
           </OrderCard>
 
-          <Card>
-            <CardContent className="p-4 gap-4">
-              <h2 className="text-xl pb-4">Order Items</h2>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Item</TableHead>
-                    <TableHead>Quantity</TableHead>
-                    <TableHead>Price</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {orderitems.map((item) => (
-                    <TableRow key={item.slug}>
-                      <TableCell>
-                        <Link
-                          href={`/product/${item.slug}`}
-                          className="flex items-center"
-                        >
-                          <Image
-                            src={item.image}
-                            alt={item.name}
-                            width={50}
-                            height={50}
-                          />
-
-                          <span className="px-2">{item.name}</span>
-                        </Link>
-                      </TableCell>
-                      <TableCell>
-                        <Link href={`/product/${item.slug}`}>
-                          <span className="px-2">{item.qty}</span>
-                        </Link>
-                      </TableCell>
-                      <TableCell>
-                        <Link href={`/product/${item.slug}`}>
-                          <span className="px-2">
-                            {formatCurrency(item?.price)}
-                          </span>
-                        </Link>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
+          <OrderCard title="Order Items">
+            <ResumeItemsTable orderitems={orderitems} />
+          </OrderCard>
         </div>
-        <div>
+        <div className="col-span-2 md:col-span-1 mt-2 md:mt-0 flex flex-col gap-4">
           <PaymentCard
             itemsPrice={itemsPrice}
             taxPrice={taxPrice}
@@ -126,6 +74,7 @@ const OrderDetailsTable = ({
             isPaid={isPaid}
             paymentMethod={paymentMethod}
             paypalClientId={paypalClientId}
+            stripeClientSecret={stripeClientSecret}
             isAdmin={isAdmin}
             order={order}
           />

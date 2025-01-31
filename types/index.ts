@@ -53,3 +53,5 @@ export type Review = z.infer<typeof insertReviewSchema> & {
   createdAt: Date;
   user?: { name: string };
 };
+
+export type IStatus = "danger" | "warning" | "success" | "default";

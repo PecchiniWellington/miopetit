@@ -54,3 +54,10 @@ export const REVIEW_FORM_DEFAULT_VALUES = {
   comment: "",
   rating: 0,
 };
+
+export const STATUS = {
+  DANGER: "danger",
+  WARNING: "warning",
+  SUCCESS: "success",
+  DEFAULT: "default",
+};

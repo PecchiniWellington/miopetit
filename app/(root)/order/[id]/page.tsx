@@ -6,6 +6,7 @@ import { IShippingAddress } from "@/types";
 import { getOrderById } from "@/lib/actions/order/order.action";
 import { auth } from "@/auth";
 import ROLES from "@/lib/constants/roles";
+import Stripe from "stripe";
 
 export const metadata: Metadata = {
   title: "Order Details",
@@ -17,6 +18,22 @@ const OrderDetailsPage = async (props: { params: Promise<{ id: string }> }) => {
 
   const session = await auth();
 
+  let client_secret = null;
+
+  // CHeck if is not paid and using stripe
+  if (order.paymentMethod === "stripe" && !order.isPaid) {
+    // Initialize Stripe instance
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY! as string);
+
+    // Create a PaymentIntent with the order total price
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: Math.round(Number(order.totalPrice) * 100),
+      currency: "USD",
+      metadata: { orderId: order.id },
+    });
+    client_secret = paymentIntent.client_secret;
+  }
+
   return (
     <div>
       <OrderDetailsTable
@@ -24,6 +41,7 @@ const OrderDetailsPage = async (props: { params: Promise<{ id: string }> }) => {
           ...order,
           shippingAddress: order.shippingAddress as IShippingAddress,
         }}
+        stripeClientSecret={client_secret}
         paypalClientId={process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || "sb"}
         isAdmin={session?.user?.role === ROLES.ADMIN || false}
       />
