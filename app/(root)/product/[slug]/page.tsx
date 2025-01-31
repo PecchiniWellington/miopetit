@@ -11,6 +11,7 @@ import { CartItem } from "@/types";
 
 import React from "react";
 import ReviewList from "./review-list";
+import Rating from "@/components/shared/product/rating";
 
 const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
   const { slug } = await props.params;
@@ -48,9 +49,8 @@ const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
           {brand} - {category}
         </p>
         <h1 className="h3-bold">{name}</h1>
-        <p>
-          {rating.toString()} of {numReviews} Reviews
-        </p>
+        <Rating value={Number(product.rating)} />
+        <p>{product.numReviews} reviews</p>
         <div className="flex flex-col sm:flex-row sm:item-center gap-3">
           <ProductPrice
             value={Number(product.price)}

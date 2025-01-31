@@ -5,6 +5,7 @@ import Link from "next/link";
 import React from "react";
 import ProductPrice from "./product-price";
 import { Product } from "@/types";
+import Rating from "./rating";
 
 const ProductCard = ({ product }: { product: Product }) => {
   const { images, name, slug, brand, price, rating, stock } = product;
@@ -33,7 +34,7 @@ const ProductCard = ({ product }: { product: Product }) => {
     </Link>
   );
 
-  const ProductCardStar = <p>{rating} Stars</p>;
+  const ProductCardStar = <Rating value={Number(product.rating)} />;
 
   const ProductStock =
     stock > 0 ? (
