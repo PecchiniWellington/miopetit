@@ -10,12 +10,12 @@ const ProductCard = ({ product }: { product: Product }) => {
   const { images, name, slug, brand, price, rating, stock } = product;
 
   return (
-    <Card className="w-full max-w-sm overflow-hidden">
+    <Card className="w-full max-w-sm overflow-hidden bg-white">
       <ProductCardHeader images={images} name={name} slug={slug} />
-      <CardContent className="p-4 grid gap-4">
+      <CardContent className="p-4 grid gap-1 border-t-2">
         <ProductCardBrand brand={brand} />
         <ProductCardName name={name} slug={slug} />
-        <div className="flex-between gap-4">
+        <div className="flex-between gap-1 flex-wrap mt-2">
           <ProductCardStar rating={rating} />
           <ProductStock price={price} stock={stock} />
         </div>

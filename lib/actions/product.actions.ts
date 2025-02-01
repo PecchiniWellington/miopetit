@@ -9,9 +9,13 @@ import { updateProductSchema } from "../validators/product.validator";
 import { Prisma } from "@prisma/client";
 
 // Get latest products
-export async function getLatestProducts() {
+export async function getLatestProducts({
+  limit = LATEST_PRODUCTS_LIMIT,
+}: {
+  limit?: number;
+}) {
   const products = await prisma.product.findMany({
-    take: LATEST_PRODUCTS_LIMIT,
+    take: limit,
     orderBy: {
       createdAt: "desc",
     },

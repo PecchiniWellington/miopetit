@@ -206,7 +206,7 @@ const CategoryType = async (props: {
             rating !== "all" ||
             price !== "all" ? (
               <DynamicButton>
-                <Link href="/search">Clear</Link>
+                <Link href={`/category/${slug}`}>Clear</Link>
               </DynamicButton>
             ) : null}
           </div>
