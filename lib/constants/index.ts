@@ -63,3 +63,10 @@ export const STATUS = {
   SUCCESS: "success",
   DEFAULT: "default",
 };
+
+export const CATEGORIES_DEFAULT_VALUES = {
+  /* Attenzione all'id */
+  name: "",
+  slug: "",
+  description: "",
+};

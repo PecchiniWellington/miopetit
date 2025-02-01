@@ -1,10 +1,15 @@
 import DynamicButton from "@/components/dynamic-button";
 import DynamicFormField from "@/components/shared/dynamic-form-field";
+import { Button } from "@/components/ui/button";
 import { insertProductSchema } from "@/lib/validators";
 import React from "react";
 import slugify from "slugify";
 
 const SlugFormField = ({ form }: any) => {
+  const handleSetValue = (e: any) => {
+    e.preventDefault();
+    form.setValue("slug", slugify(form.getValues("name"), { lower: true }));
+  };
   return (
     <div className="flex flex-col space-y-2 w-full">
       <DynamicFormField
@@ -14,16 +19,12 @@ const SlugFormField = ({ form }: any) => {
         title="Slug"
         placeholder="Enter slug"
       />
-      <DynamicButton
-        handleAction={() => {
-          form.setValue(
-            "slug",
-            slugify(form.getValues("name"), { lower: true })
-          );
-        }}
+      <Button
+        className={`focus-visible:ring-0 focus-visible:ring-offset-0 btn `}
+        onClick={(e) => handleSetValue(e)}
       >
         Generate
-      </DynamicButton>
+      </Button>
     </div>
   );
 };

@@ -15,4 +15,5 @@ export const ADMIN_ROUTES = {
   PRODUCTS: "/admin/products",
   ORDERS: "/admin/orders",
   USERS: "/admin/users",
+  CATEGORIES: "/admin/categories",
 };

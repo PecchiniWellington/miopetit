@@ -8,6 +8,7 @@ import {
   paymentResultSchema,
   shippingAddressSchema,
 } from "@/lib/validators";
+import { categorySchema } from "@/lib/validators/category.validator";
 import { insertReviewSchema } from "@/lib/validators/reviews.validator";
 
 import { z } from "zod";
@@ -55,3 +56,5 @@ export type Review = z.infer<typeof insertReviewSchema> & {
 };
 
 export type IStatus = "danger" | "warning" | "success" | "default";
+
+export type ICategory = z.infer<typeof categorySchema>;

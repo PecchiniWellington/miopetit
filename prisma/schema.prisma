@@ -158,3 +158,13 @@ model Review {
   user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
+
+model Category {
+  id          String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String
+  slug        String  @unique(map: "category_slug_idx")
+  description String?
+
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+  updatedAt DateTime @updatedAt
+}

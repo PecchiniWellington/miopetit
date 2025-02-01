@@ -7,6 +7,8 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { updateOrderToPaid } from "../order/order.action";
 import { Prisma } from "@prisma/client";
+import { ICategory } from "@/types";
+import { categorySchema } from "@/lib/validators/category.validator";
 
 // Get all the users
 export async function getAllUsers({
@@ -195,6 +197,53 @@ export async function updateOrderToDeliveredCOD(orderId: string) {
 
     revalidatePath(`/order/${orderId}`);
     return { success: true, message: "Order updated to delivered" };
+  } catch (error) {
+    return { success: false, message: formatError(error) };
+  }
+}
+
+export async function createCategory(category: ICategory) {
+  try {
+    const data = categorySchema.parse(category);
+    console.log("DATA", data);
+    await prisma.category.create({
+      data,
+    });
+
+    revalidatePath("/admin/categories");
+    return { success: true, message: "Category created successfully" };
+  } catch (error) {
+    console.log("SONO QUI?", error);
+    return { success: false, message: formatError(error) };
+  }
+}
+
+/* TODO: */
+export async function updateCategory(category: ICategory) {
+  try {
+    await prisma.category.create({
+      data: category,
+    });
+
+    revalidatePath("/admin/categories");
+    return { success: true, message: "Category created successfully" };
+  } catch (error) {
+    return { success: false, message: formatError(error) };
+  }
+}
+
+export async function getAllCategories() {
+  try {
+    const data = await prisma.category.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+
+    const dataCount = await prisma.category.count();
+
+    return {
+      data,
+      totalPages: Math.ceil(dataCount / 4),
+    };
   } catch (error) {
     return { success: false, message: formatError(error) };
   }

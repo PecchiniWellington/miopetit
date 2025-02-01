@@ -29,6 +29,11 @@ const links = [
     route: ADMIN_ROUTES.USERS,
     imgUrl: "/assets/icons/user.svg",
   },
+  {
+    label: "Categories",
+    route: ADMIN_ROUTES.CATEGORIES,
+    imgUrl: "/assets/icons/bronze-medal.svg",
+  },
 ];
 
 export default function AdminLayout({
