@@ -6,11 +6,13 @@ import React from "react";
 import Menu from "./menu";
 import CategoryDrawer from "./category-drawer";
 import Search from "./search";
+import { NavigationMenuDemo } from "@/components/mega-menu";
+import CtBanner from "@/components/ct-banner";
 
 const Header = () => {
   return (
     <header className="w-full border-b ">
-      <div className="wrapper flex-between">
+      <div className="wrapper p-5 flex-between bg-primary-400">
         <div className="flex-start">
           {/* <CategoryDrawer /> */}
           <Link href="/" className="flex-start">
@@ -30,6 +32,12 @@ const Header = () => {
           <Search />
         </div>
         <Menu />
+      </div>
+      <div className="bg-primary-300 wrapper  ">
+        <NavigationMenuDemo />
+      </div>
+      <div>
+        <CtBanner />
       </div>
     </header>
   );

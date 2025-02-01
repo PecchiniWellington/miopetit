@@ -11,8 +11,11 @@ body {
 }
 
 @layer utilities {
-  .wrapper {
+  /* .wrapper {
     @apply max-w-7xl lg:mx-auto p-5 md:px-10 w-full;
+  } */
+  .wrapper {
+    @apply /*  max-w-7xl */ lg:mx-auto md:px-10 w-full;
   }
 
   .background-light850_dark100 {
