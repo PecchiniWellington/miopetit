@@ -53,8 +53,8 @@ export default async function Home() {
       <ProductList
         data={latestProducts}
         title="Newest Products"
-        width={100}
-        height={100}
+        /* width={100}
+        height={100} */
       />
       <ViewAllProductButton />
       <DealCountdown />

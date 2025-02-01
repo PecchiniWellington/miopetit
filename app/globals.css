@@ -14,8 +14,11 @@ body {
   /* .wrapper {
     @apply max-w-7xl lg:mx-auto p-5 md:px-10 w-full;
   } */
+  .max-w-8xl {
+    max-width: 87.5rem;
+  }
   .wrapper {
-    @apply /*  max-w-7xl */ lg:mx-auto md:px-10 w-full;
+    @apply max-w-8xl lg:mx-auto md:px-10 w-full;
   }
 
   .background-light850_dark100 {
