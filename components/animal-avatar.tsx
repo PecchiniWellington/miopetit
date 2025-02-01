@@ -2,7 +2,6 @@ import Image from "next/image";
 import React from "react";
 
 const AnimalAvatar = ({ image, name }: any) => {
-  console.log(`/images${image!}`);
   return (
     <div>
       <div className="rounded-full overflow-hidden relative mx-auto  h-full border-4 border-primary-500">

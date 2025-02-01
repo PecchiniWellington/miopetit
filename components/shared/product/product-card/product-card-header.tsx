@@ -20,6 +20,7 @@ export const ProductCardHeader = ({
         height={300}
         width={300}
         priority={true}
+        className="h-[300px] object-contain p-4"
       />
     </Link>
   </CardHeader>

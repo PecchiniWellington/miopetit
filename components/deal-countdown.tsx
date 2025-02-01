@@ -47,7 +47,7 @@ const DealCountdown = () => {
         </div>
         <div className="flex justify-center">
           <Image
-            src="/images/promo.jpg"
+            src="/images/royal-canin-4.jpg"
             alt="promotion"
             width={300}
             height={300}
@@ -82,7 +82,8 @@ const DealCountdown = () => {
       </div>
       <div className="flex justify-center">
         <Image
-          src="/images/promo.jpg"
+          src="/images/royal-canin-4.jpg"
+          className="object-cover"
           alt="promotion"
           width={300}
           height={300}

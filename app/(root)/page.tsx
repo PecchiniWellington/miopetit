@@ -1,4 +1,6 @@
+import AnimalAvatar from "@/components/animal-avatar";
 import CarouselAnimalsCategory from "@/components/carousels/carousel-animals-catergory";
+import CarouselBrands from "@/components/carousels/carousel-brands";
 import DealCountdown from "@/components/deal-countdown";
 import IconBoxes from "@/components/icons-boxes";
 import ProductCarousel from "@/components/shared/product/product-carousel";
@@ -60,7 +62,8 @@ export default async function Home() {
         <h1>Per chi stai comprando?</h1>
         <CarouselAnimalsCategory />
       </div>
-      <div>
+      <IconBoxes />
+      <div className="mt-12">
         <Image
           src="/images/porta-un-amico.png"
           alt="product"
@@ -73,10 +76,77 @@ export default async function Home() {
       <div>
         <SpecialOfferBrand data={latestProducts} title="Offerta Royal Canin" />
       </div>
-      <ProductList data={latestProducts} title="Newest Products" />
-      <ViewAllProductButton />
+      <div className="flex justify-between items-center  gap-4">
+        <AnimalAvatar
+          name="Toys, treats & more"
+          image="coccola-tutti.png"
+          alt="product"
+          width={400}
+          height={400}
+        />
+        <AnimalAvatar
+          name="Regali Cani"
+          image="coccola-cani.png"
+          alt="product"
+          width={400}
+          height={400}
+        />
+        <AnimalAvatar
+          name="Regali Gatti"
+          image="coccola-gatti.png"
+          alt="product"
+          width={400}
+          height={400}
+        />
+        <AnimalAvatar
+          name="Regali Piccoli Animali"
+          image="coccola-piccoli-animali.png"
+          alt="product"
+          width={400}
+          height={400}
+        />
+        <AnimalAvatar
+          name="Regali per te"
+          image="coccola-te.png"
+          alt="product"
+          width={400}
+          height={400}
+        />
+      </div>
       <DealCountdown />
-      <IconBoxes />
+
+      <div>
+        <h1 className="h2-bold">CANE</h1>
+        <div className="border-t-4 border-secondary-800 ">
+          <CarouselBrands />
+          <div className="bg-slate-100 px-8 py-1">
+            <ProductList data={latestProducts} title="I Prodotti più venduti" />
+          </div>
+        </div>
+      </div>
+      <div className="mt-12">
+        <h1 className="h2-bold">GATTO</h1>
+        <div className="border-t-4 border-secondary-800 ">
+          <CarouselBrands />
+          <div className="bg-slate-100 px-8 py-1">
+            <ProductList data={latestProducts} title="I Prodotti più venduti" />
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-12">
+        <Image
+          src="/images/Modo-semplice-per-spedire.png"
+          alt="product"
+          height="0"
+          width="0"
+          sizes="100vw"
+          className="w-full h-full object-center object-cover"
+        />
+      </div>
+
+      {/* <ProductList data={latestProducts} title="Newest Products" />
+      <ViewAllProductButton /> */}
     </>
   );
 }
