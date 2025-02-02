@@ -1,10 +1,8 @@
 import DynamicButton from "@/components/dynamic-button";
 import { BadgeStatus } from "@/components/shared/badge-status";
 import ProductCard from "@/components/shared/product/product-card";
-import {
-  getAllProducts,
-  getProductCategories,
-} from "@/lib/actions/product.actions";
+import { getAllCategories } from "@/lib/actions/admin/admin.actions";
+import { getAllProducts } from "@/lib/actions/product.actions";
 import { STATUS } from "@/lib/constants";
 import Link from "next/link";
 
@@ -110,7 +108,7 @@ const SearchPage = async (props: {
     return `/search?${new URLSearchParams(params).toString()}`;
   };
 
-  const categories = await getProductCategories();
+  const categories = await getAllCategories();
 
   return (
     <div className="grid md:grid-cols-5 md:gap-5">
@@ -127,13 +125,13 @@ const SearchPage = async (props: {
                 Any
               </Link>
             </li>
-            {categories.map((x) => (
-              <li key={x.category}>
+            {categories.data?.map((x) => (
+              <li key={x.id}>
                 <Link
-                  href={getFilterUrl({ c: x.category })}
-                  className={`${category === x.category && "font-bold"}`}
+                  href={getFilterUrl({ c: x.name })}
+                  className={`${category === x.name && "font-bold"}`}
                 >
-                  {x.category}
+                  {x.name}
                 </Link>
               </li>
             ))}

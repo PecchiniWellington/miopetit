@@ -7,11 +7,12 @@ import {
   SelectValue,
   SelectItem,
 } from "@/components/ui/select";
-import { getProductCategories } from "@/lib/actions/product.actions";
+import { getAllCategories } from "@/lib/actions/admin/admin.actions";
+import { ICategory } from "@/types";
 import { SearchIcon } from "lucide-react";
 
 const Search = async () => {
-  const categories = await getProductCategories();
+  const categories = await getAllCategories();
   return (
     <form action="/search" method="GET">
       <div className="flex w-full max-w-sm items-center space-x-2 ">
@@ -23,9 +24,10 @@ const Search = async () => {
             <SelectItem value="all" key="All">
               All
             </SelectItem>
-            {categories.map((x) => (
-              <SelectItem value={x.category} key={x.category}>
-                {x.category}
+
+            {categories.data?.map((x: ICategory) => (
+              <SelectItem value={x.id} key={x.id}>
+                {x.name}
               </SelectItem>
             ))}
           </SelectContent>

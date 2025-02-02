@@ -30,8 +30,6 @@ const ProductsPage = async (props: {
   const searchQuery = searchParams.query || "";
   const category = searchParams.category || "";
 
-  console.log(searchQuery);
-
   const products = await getAllProducts({
     query: searchQuery,
     page,

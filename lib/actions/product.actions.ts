@@ -7,6 +7,7 @@ import { z } from "zod";
 import { insertProductSchema } from "../validators";
 import { updateProductSchema } from "../validators/product.validator";
 import { Prisma } from "@prisma/client";
+import { getAllCategories } from "./admin/admin.actions";
 
 // Get latest products
 export async function getLatestProducts({
@@ -101,6 +102,7 @@ export async function getAllProducts({
         }
       : {};
 
+  const categories = await getAllCategories();
   const data = await prisma.product.findMany({
     where: {
       ...queryFilter,
@@ -122,7 +124,20 @@ export async function getAllProducts({
 
   const productCount = await prisma.product.count();
 
-  return { data, totalPages: Math.ceil(productCount / limit) };
+  const categoryMap = categories?.data?.reduce(
+    (acc, cat) => {
+      acc[cat.id] = cat.name;
+      return acc;
+    },
+    {} as Record<string, string>
+  );
+
+  const updatedData = data.map((item) => ({
+    ...item,
+    category: categoryMap?.[item.category] ?? "N/A",
+  }));
+
+  return { data: updatedData, totalPages: Math.ceil(productCount / limit) };
   /* prisma.$disconnect(); */
 }
 
@@ -193,14 +208,14 @@ export async function updateProduct(data: z.infer<typeof updateProductSchema>) {
 }
 
 // Get product All Categories
-export async function getProductCategories() {
+/* export async function getProductCategories() {
   const data = await prisma.product.groupBy({
     by: ["category"],
     _count: true,
   });
 
   return data;
-}
+} */
 
 // Get featured products
 export async function getFeaturedProducts() {

@@ -17,6 +17,7 @@ import {
 } from "@/lib/validators/category.validator";
 import {
   createCategory,
+  updataCategory,
   updateCategory,
 } from "@/lib/actions/admin/admin.actions";
 import SlugFormField from "./product-form/slug-form-field";
@@ -27,7 +28,7 @@ const CategoryForm = ({
   categoryId,
 }: {
   type: "Create" | "Update";
-  category?: ICategory;
+  category?: any;
   categoryId?: string;
 }) => {
   const router = useRouter();
@@ -74,8 +75,8 @@ const CategoryForm = ({
         router.push("/admin/categories");
         return;
       }
-      /* const res = await updateCategory({ ...data, id: categoryId });
-      handleResponse(res, "Category updated"); */
+      const res = await updataCategory({ ...data, id: categoryId });
+      handleResponse(res, "Category updated");
     }
   };
 

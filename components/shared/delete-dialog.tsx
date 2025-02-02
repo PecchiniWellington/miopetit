@@ -13,6 +13,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { Trash2 } from "lucide-react";
 import DynamicButton from "../dynamic-button";
+import { Button } from "../ui/button";
 
 const DeleteDialog = ({
   id,
@@ -41,9 +42,9 @@ const DeleteDialog = ({
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
-        <DynamicButton>
+        <Button>
           <Trash2 height={10} width={10} />
-        </DynamicButton>
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent className="bg-slate-200 dark:bg-slate-900 dark:text-slate-100">
         <AlertDialogHeader>

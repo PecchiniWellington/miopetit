@@ -8,7 +8,10 @@ import { z } from "zod";
 import { updateOrderToPaid } from "../order/order.action";
 import { Prisma } from "@prisma/client";
 import { ICategory } from "@/types";
-import { categorySchema } from "@/lib/validators/category.validator";
+import {
+  categorySchema,
+  updateCategorySchema,
+} from "@/lib/validators/category.validator";
 
 // Get all the users
 export async function getAllUsers({
@@ -205,7 +208,6 @@ export async function updateOrderToDeliveredCOD(orderId: string) {
 export async function createCategory(category: ICategory) {
   try {
     const data = categorySchema.parse(category);
-    console.log("DATA", data);
     await prisma.category.create({
       data,
     });
@@ -245,6 +247,83 @@ export async function getAllCategories() {
       totalPages: Math.ceil(dataCount / 4),
     };
   } catch (error) {
+    return { success: false, message: formatError(error) };
+  }
+}
+export async function deleteCategory(id: string) {
+  try {
+    const data = await prisma.category.findFirst({
+      where: {
+        id: id,
+      },
+    });
+
+    if (!data) {
+      throw new Error("Category not found");
+    }
+    await prisma.$transaction(async (tx) => {
+      // Delete products associated with the category
+      await tx.product.deleteMany({
+        where: {
+          id: id,
+        },
+      });
+
+      // Delete the category
+      await tx.category.delete({
+        where: {
+          id: id,
+        },
+      });
+    });
+    revalidatePath("/admin/categories");
+    return { success: true, error: "Category deleted successfully" };
+  } catch (error) {
+    return { success: false, message: formatError(error) };
+  }
+}
+
+export async function getCategoryById(id: string) {
+  try {
+    const data = await prisma.category.findFirst({
+      where: {
+        id: id,
+      },
+    });
+    return {
+      data,
+    };
+  } catch (error) {
+    return { success: false, message: formatError(error) };
+  }
+}
+export async function updataCategory(
+  data: z.infer<typeof updateCategorySchema>
+) {
+  try {
+    const category = updateCategorySchema.parse(data);
+    const existingCategory = await prisma.category.findFirst({
+      where: {
+        id: category.id,
+      },
+    });
+    if (!existingCategory) throw new Error("Category not found");
+
+    await prisma.category.update({
+      where: {
+        id: data.id,
+      },
+      data: {
+        name: data.name,
+        slug: data.slug,
+        description: data.description,
+      },
+    });
+    revalidatePath("/admin/categories");
+
+    return { success: true, message: "Product created successfully" };
+  } catch (error) {
+    console.log("SONO QUI");
     return { success: false, message: formatError(error) };
   }
 }

@@ -57,4 +57,6 @@ export type Review = z.infer<typeof insertReviewSchema> & {
 
 export type IStatus = "danger" | "warning" | "success" | "default";
 
-export type ICategory = z.infer<typeof categorySchema>;
+export type ICategory = z.infer<typeof categorySchema> & {
+  id: string;
+};

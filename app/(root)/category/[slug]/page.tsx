@@ -1,10 +1,8 @@
 import DynamicButton from "@/components/dynamic-button";
 import { BadgeStatus } from "@/components/shared/badge-status";
 import ProductCard from "@/components/shared/product/product-card";
-import {
-  getAllProducts,
-  getProductCategories,
-} from "@/lib/actions/product.actions";
+import { getAllCategories } from "@/lib/actions/admin/admin.actions";
+import { getAllProducts } from "@/lib/actions/product.actions";
 import { STATUS } from "@/lib/constants";
 import Link from "next/link";
 
@@ -113,7 +111,7 @@ const CategoryType = async (props: {
     return `/category/${slug}?${new URLSearchParams(params).toString()}`;
   };
 
-  const categories = await getProductCategories();
+  const categories = await getAllCategories();
 
   return (
     <div className="grid md:grid-cols-5 md:gap-5">
@@ -130,13 +128,13 @@ const CategoryType = async (props: {
                 Any
               </Link>
             </li>
-            {categories.map((x) => (
-              <li key={x.category}>
+            {categories.data?.map((x) => (
+              <li key={x.id}>
                 <Link
-                  href={getFilterUrl({ c: x.category })}
-                  className={`${category === x.category && "font-bold"}`}
+                  href={getFilterUrl({ c: x.id })}
+                  className={`${category === x.name && "font-bold"}`}
                 >
-                  {x.category}
+                  {x.name}
                 </Link>
               </li>
             ))}
@@ -157,7 +155,7 @@ const CategoryType = async (props: {
             {prices.map((x) => (
               <li key={x.value}>
                 <Link
-                  href={getFilterUrl({ p: x.value })}
+                  href={getFilterUrl({ p: x.name })}
                   className={`${price === x.value && "font-bold"}`}
                 >
                   {x.name}

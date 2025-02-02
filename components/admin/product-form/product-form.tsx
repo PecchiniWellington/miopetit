@@ -4,27 +4,42 @@ import { useToast } from "@/hooks/use-toast";
 import { PRODUCT_DEFAULT_VALUES } from "@/lib/constants";
 import { insertProductSchema } from "@/lib/validators";
 import { updateProductSchema } from "@/lib/validators/product.validator";
-import { Product } from "@/types";
+import { ICategory, Product } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
-import { Form } from "../../ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "../../ui/form";
 import { createProduct, updateProduct } from "@/lib/actions/product.actions";
 import UploadImage from "./upload-image";
 import UploadImageFeaturedProduct from "./upload-image-featured-product";
 import DynamicFormField from "@/components/shared/dynamic-form-field";
 import SlugFormField from "./slug-form-field";
 import DynamicButton from "@/components/dynamic-button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const ProductForm = ({
   type,
   product,
   productId,
+  categories,
 }: {
   type: "Create" | "Update";
   product?: Product;
   productId?: string;
+  categories?: ICategory[];
 }) => {
   const router = useRouter();
   const { toast } = useToast();
@@ -107,12 +122,43 @@ const ProductForm = ({
         </div>
         <div className="flex flex-col  md:flex-row gap-5">
           {/* Category */}
-          <DynamicFormField
+          {/*  <DynamicFormField
             control={form.control}
             name="category"
             schema={insertProductSchema}
             title="Category"
             placeholder="Enter category"
+          /> */}
+          <FormField
+            control={form.control}
+            name="category"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Category</FormLabel>
+                <Select
+                  onValueChange={(value) => {
+                    field.onChange(value);
+                  }}
+                  value={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select Slug" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent className="bg-slate-100 dark:bg-slate-800 dark:text-white">
+                    {categories?.map((category) => (
+                      <SelectItem
+                        key={category.id}
+                        value={category.id.toString()}
+                      >
+                        {category.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormItem>
+            )}
           />
           {/* Brand */}
           <DynamicFormField

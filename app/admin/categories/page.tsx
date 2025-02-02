@@ -11,8 +11,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getAllCategories } from "@/lib/actions/admin/admin.actions";
-import { deleteProduct } from "@/lib/actions/product.actions";
+import {
+  deleteCategory,
+  getAllCategories,
+} from "@/lib/actions/admin/admin.actions";
 import { formatDateTime, formatId } from "@/lib/utils";
 import Link from "next/link";
 import React from "react";
@@ -80,7 +82,7 @@ const AdminCategoriesPage = async (props: {
                 <DynamicButton>
                   <Link href={`/admin/categories/${product.id}`}>Edit</Link>
                 </DynamicButton>
-                <DeleteDialog id={product.id} action={deleteProduct} />
+                <DeleteDialog id={product.id} action={deleteCategory} />
               </TableCell>
             </TableRow>
           ))}
