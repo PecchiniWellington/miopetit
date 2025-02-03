@@ -16,4 +16,5 @@ export const ADMIN_ROUTES = {
   ORDERS: "/admin/orders",
   USERS: "/admin/users",
   CATEGORIES: "/admin/categories",
+  UPLOAD: "/admin/upload",
 };

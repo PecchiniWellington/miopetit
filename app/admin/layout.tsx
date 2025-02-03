@@ -34,6 +34,11 @@ const links = [
     route: ADMIN_ROUTES.CATEGORIES,
     imgUrl: "/assets/icons/bronze-medal.svg",
   },
+  {
+    label: "Upload",
+    route: ADMIN_ROUTES.UPLOAD,
+    imgUrl: "/assets/icons/upload-file-svgrepo-com.svg",
+  },
 ];
 
 export default function AdminLayout({
