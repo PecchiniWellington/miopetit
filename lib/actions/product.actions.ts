@@ -82,7 +82,7 @@ export async function getAllProducts({
       : {};
 
   const categoryFilter: Prisma.ProductWhereInput =
-    category && category !== "all" ? { category } : {};
+    category && category !== "all" ? { categoryId: category } : {};
 
   const priceFilter: Prisma.ProductWhereInput =
     price && price !== "all"
@@ -110,6 +110,7 @@ export async function getAllProducts({
       ...priceFilter,
       ...ratingFilter,
     },
+
     orderBy:
       sort === "lowest"
         ? { price: "asc" }
@@ -126,17 +127,18 @@ export async function getAllProducts({
 
   const categoryMap = categories?.data?.reduce(
     (acc, cat) => {
-      acc[cat.id] = cat.name;
+      acc[cat.id] = [cat.name, cat.slug];
       return acc;
     },
-    {} as Record<string, string>
+    {} as Record<string, [string, string]>
   );
 
   const updatedData = data.map((item) => ({
     ...item,
-    category: categoryMap?.[item.category] ?? "N/A",
+    category: categoryMap?.[item.categoryId] ?? "N/A",
   }));
 
+  console.log("updatedData", updatedData);
   return { data: updatedData, totalPages: Math.ceil(productCount / limit) };
   /* prisma.$disconnect(); */
 }
@@ -208,14 +210,14 @@ export async function updateProduct(data: z.infer<typeof updateProductSchema>) {
 }
 
 // Get product All Categories
-/* export async function getProductCategories() {
+export async function getProductCategories() {
   const data = await prisma.product.groupBy({
-    by: ["category"],
+    by: ["categoryId"],
     _count: true,
   });
 
   return data;
-} */
+}
 
 // Get featured products
 export async function getFeaturedProducts() {

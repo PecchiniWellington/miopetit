@@ -6,7 +6,7 @@ import ProductCardName from "./product-card-name";
 import { ProductStock } from "./product-card-stock";
 import ProductCardBrand from "./product-card-brand";
 
-const ProductCard = ({ product }: { product: Product }) => {
+const ProductCard = ({ product }: { product: any }) => {
   const { images, name, slug, brand, price, rating, stock } = product;
 
   return (
