@@ -1,27 +1,13 @@
 "use client";
 
-import { cn, formatDateTime, formatId } from "@/lib/utils";
 import Papa from "papaparse";
 
 const DownloadCSV = ({ csvData }: any) => {
   const downloadCSV = () => {
-    console.log(csvData);
-    /* if (!csvData || csvData.length === 0) {
-      alert("No categories available to download.");
-      return;
-    } */
     if (!csvData || csvData.length === 0) {
       alert("No data available to download.");
       return;
     }
-    /*  const csvData = categories.map((category: any) => ({
-      ID: formatId(category.id),
-      Name: category.name,
-      Slug: category.slug || "N/A",
-      Created_At: formatDateTime(category.createdAt).dateTime,
-      Updated_At: formatDateTime(category.updatedAt).dateTime,
-      Description: category.description || "N/A",
-    })); */
 
     const csv = Papa.unparse(csvData);
     console.log("SUCA", csv);

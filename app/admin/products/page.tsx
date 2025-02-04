@@ -12,13 +12,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { deleteProduct, getAllProducts } from "@/lib/actions/product.actions";
-import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
-import { Trash } from "lucide-react";
+import { formatCurrency, formatId } from "@/lib/utils";
 import Link from "next/link";
 import React from "react";
 import DownloadCSV from "../categories/download-csv";
-import { Product } from "@/types";
-import { PRODUCT_DEFAULT_VALUES } from "@/lib/constants";
 
 const ProductsPage = async (props: {
   searchParams: {
@@ -33,26 +30,13 @@ const ProductsPage = async (props: {
   const searchQuery = searchParams.query || "";
   const category = searchParams.category || "";
 
-  const products = await getAllProducts({
+  const productsResponse = await getAllProducts({
     query: searchQuery,
     page,
     category,
   });
 
-  const csvData =
-    products &&
-    products.data?.map((product: Product) => ({
-      name: product.name || PRODUCT_DEFAULT_VALUES.name,
-      slug: product.slug || PRODUCT_DEFAULT_VALUES.slug,
-      categoryId: product.categoryId || PRODUCT_DEFAULT_VALUES.categoryId,
-      brand: product.brand || PRODUCT_DEFAULT_VALUES.name,
-      description: product.description || PRODUCT_DEFAULT_VALUES.description,
-      stock: product.stock || PRODUCT_DEFAULT_VALUES.stock,
-      images: product.images || PRODUCT_DEFAULT_VALUES.images,
-      isFeatured: product.isFeatured || PRODUCT_DEFAULT_VALUES.isFeatured,
-      banner: product.banner || PRODUCT_DEFAULT_VALUES.banner,
-      price: product.price || PRODUCT_DEFAULT_VALUES.price,
-    }));
+  const products = JSON.parse(JSON.stringify(productsResponse));
 
   return (
     <div className="space-y-2">
@@ -61,7 +45,7 @@ const ProductsPage = async (props: {
           <LayoutTitle title="Products" />
           {searchQuery && (
             <div>
-              Filterd by <i>&quot;{searchQuery}&quot;</i>{" "}
+              Filtered by <i>&quot;{searchQuery}&quot;</i>{" "}
               <Link href="/admin/products">
                 <DynamicButton>Remove Filter</DynamicButton>
               </Link>
@@ -72,7 +56,7 @@ const ProductsPage = async (props: {
           <DynamicButton>
             <Link href="/admin/products/create">Create Product</Link>
           </DynamicButton>
-          <DownloadCSV csvData={csvData} />
+          <DownloadCSV csvData={products.data} />
         </div>
       </div>
 
@@ -89,7 +73,7 @@ const ProductsPage = async (props: {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {products.data.map((product) => (
+          {products.data.map((product: any) => (
             <TableRow key={product.id}>
               <TableCell>{formatId(product.id)}</TableCell>
               <TableCell>{product.name}</TableCell>

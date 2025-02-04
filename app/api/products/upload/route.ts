@@ -1,10 +1,14 @@
 import { prisma } from "@/db/prisma";
+import { mapProductsForDatabase } from "@/lib/utils";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
     const body = await req.json().catch(() => null);
     console.log("Received Data:", body); // DEBUG
+
+    const formattedProducts = mapProductsForDatabase(body);
+    console.log("formattedProducts", formattedProducts); // DEBUG
 
     if (body === null || !Array.isArray(body)) {
       console.error("Invalid data format", body);
@@ -22,15 +26,17 @@ export async function POST(req: Request) {
       );
     }
 
-    await prisma.category.createMany({
-      data: body,
+    await prisma.product.createMany({
+      data: formattedProducts,
       skipDuplicates: true,
     });
 
-    return NextResponse.json({ message: "Categories uploaded successfully" });
+    return NextResponse.json({ message: "Products uploaded successfully" });
   } catch (error) {
     console.error("Upload Error:", error); // DEBUG
     if (error instanceof Error) {
+      console.error("Error Message:", error.message);
+      console.error("Stack Trace:", error.stack);
       return NextResponse.json({ message: error.message }, { status: 500 });
     }
     return NextResponse.json(
@@ -47,6 +53,10 @@ export async function GET() {
     return NextResponse.json(categories);
   } catch (error) {
     console.error("Database Error:", error);
+    if (error instanceof Error) {
+      console.error("Error Message:", error.message);
+      console.error("Stack Trace:", error.stack);
+    }
     return NextResponse.json({ message: "Database Error" }, { status: 500 });
   }
 }

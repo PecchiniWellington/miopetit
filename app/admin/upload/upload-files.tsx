@@ -8,6 +8,7 @@ import { Progress } from "@/components/ui/progress";
 import { Alert } from "@/components/ui/alert";
 import Link from "next/link";
 import Papa from "papaparse";
+import { PRODUCT_DEFAULT_VALUES } from "@/lib/constants";
 
 export default function UploadFiles() {
   const inputFileRef = useRef<HTMLInputElement>(null);
@@ -16,6 +17,14 @@ export default function UploadFiles() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [csvFile, setCsvFile] = useState<File | null>(null);
+  const [urlPath, setUrlPath] = useState("categories");
+  const [formattedData, setFormattedData] = useState<any[]>([]);
+
+  // Gestisce il cambio del path in base alla selezione
+  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = event.target.value;
+    setUrlPath(selectedValue);
+  };
 
   // Caricamento del file CSV
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,25 +51,68 @@ export default function UploadFiles() {
         skipEmptyLines: true,
       });
 
-      // **Mappare i dati del CSV ai campi del database**
-      const formattedData = data.map((item: any) => ({
-        name: item.Name, // CSV → DB
-        slug: item.Slug, // CSV → DB
-        description: item.Description || null, // Opzionale
-        createdAt: new Date(item.Created_At), // Converte in formato Date
-        updatedAt: new Date(item.Updated_At), // Converte in formato Date
+      let formattedData = data.map((item: any) => ({
+        /*    ...PRODUCT_DEFAULT_VALUES, */
+        ...item,
       }));
 
-      console.log("Formatted Data:", formattedData);
+      switch (urlPath) {
+        case "categories":
+          try {
+            const responseCategory = await fetch(`/api/categories/upload`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(formattedData),
+            });
 
-      const response = await fetch("/api/categories/upload", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ categories: formattedData }),
-      });
+            if (!responseCategory.ok) {
+              const errorText = await responseCategory.text();
+              const errorData = errorText ? JSON.parse(errorText) : {};
+              throw new Error(errorData.message || "Failed to upload data.");
+            }
+          } catch (error) {
+            console.log("Error:", error);
+            setErrorMessage(error.message);
+          }
+          break;
+        case "products":
+          try {
+            const response = await fetch(`/api/products/upload`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(formattedData),
+            });
 
-      if (!response.ok) {
-        throw new Error("Failed to upload categories.");
+            if (!response.ok) {
+              const errorText = await response.text();
+              const errorData = errorText ? JSON.parse(errorText) : {};
+              throw new Error(errorData.message || "Failed to upload data.");
+            }
+          } catch (error) {
+            console.log("Error:", error);
+            setErrorMessage(error.message);
+          }
+          break;
+        case "users":
+          try {
+            const response = await fetch(`/api/users/upload`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(formattedData),
+            });
+
+            if (!response.ok) {
+              const errorText = await response.text();
+              const errorData = errorText ? JSON.parse(errorText) : {};
+              throw new Error(errorData.message || "Failed to upload data.");
+            }
+          } catch (error) {
+            console.log("Error:", error);
+            setErrorMessage(error.message);
+          }
+          break;
+        default:
+          setFormattedData([]);
       }
 
       setSuccess(true);
@@ -72,28 +124,23 @@ export default function UploadFiles() {
     }
   };
 
-  // Scaricare il CSV
-  const downloadCSV = () => {
-    if (!tableData.length) {
-      setErrorMessage("No data available to download.");
-      return;
-    }
-
-    const csv = Papa.unparse(tableData);
-    const blob = new Blob([csv], { type: "text/csv" });
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "categories.csv";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  };
-
   return (
     <>
       <h1 className="text-3xl font-semibold mb-6">Upload Your Files</h1>
+
+      <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-700">
+          Select Data Type
+        </label>
+        <select
+          onChange={handleSelectChange}
+          className="w-full p-2 border rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="categories">Categories</option>
+          <option value="products">Products</option>
+          <option value="users">Users</option>
+        </select>
+      </div>
 
       <div className="mb-4">
         <Input
@@ -123,22 +170,6 @@ export default function UploadFiles() {
           Upload successful! ✅
         </Alert>
       )}
-
-      {tableData.length > 0 && (
-        <div className="mt-6 p-4 border rounded-lg bg-gray-100 shadow-md">
-          <h2 className="text-xl font-semibold mb-2">JSON Output</h2>
-          <pre className="overflow-auto p-2 bg-white border rounded-md text-sm max-h-96">
-            {JSON.stringify(tableData, null, 2)}
-          </pre>
-        </div>
-      )}
-
-      <Button
-        onClick={downloadCSV}
-        className="mt-4 bg-green-600 text-white hover:bg-green-700"
-      >
-        Download CSV
-      </Button>
     </>
   );
 }

@@ -161,3 +161,35 @@ export const currency = z
     (val) => /^\d+(\.\d{2})?$/.test(formatNumberWithDecimal(Number(val))),
     "Price must have exactly two decimal places"
   );
+
+export function mapProductsForDatabase(products: any[]): any[] {
+  return products.map((product) => ({
+    name: product.name,
+    slug: product.slug,
+    images: product.images.includes(",")
+      ? product.images.split(",")
+      : [product.images], // Converte in array
+    brand: product.brand,
+    description: product.description,
+    stock: parseInt(product.stock, 10), // Converte in numero
+    price: parseFloat(product.price), // Converte in numero decimale
+    rating: parseFloat(product.rating), // Converte in numero decimale
+    numReviews: parseInt(product.numReviews, 10), // Converte in numero intero
+    isFeatured: product.isFeatured.toLowerCase() === "true", // Converte in booleano
+    banner: product.banner || null, // Se vuoto, imposta `null`
+    categoryId: product.categoryId, // Deve essere un UUID valido
+  }));
+}
+
+export function mapUsersForDatabase(users: any[]): any[] {
+  return users.map((user) => ({
+    name: user.name || "NO_NAME", // Default se manca il nome
+    email: user.email,
+    emailVerified: user.emailVerified ? new Date(user.emailVerified) : null, // Converte in Date o `null`
+    image: user.image || null, // Converte stringhe vuote in `null`
+    password: user.password, // Mantiene la password così com'è
+    role: user.role?.toUpperCase() === "ADMIN" ? "ADMIN" : "USER", // Assicura che il ruolo sia valido
+    address: user.address ? JSON.parse(user.address) : null, // Se è una stringa JSON, la converte
+    paymentMethod: user.paymentMethod || null, // Converte stringhe vuote in `null`
+  }));
+}

@@ -19,6 +19,8 @@ import DeleteDialog from "@/components/shared/delete-dialog";
 import { auth } from "@/auth";
 import LayoutTitle from "@/components/layout-title";
 import DynamicButton from "@/components/dynamic-button";
+import DownloadCSV from "../categories/download-csv";
+import { getAllProducts } from "@/lib/actions/product.actions";
 
 export const metadata: Metadata = {
   title: "Users",
@@ -26,12 +28,22 @@ export const metadata: Metadata = {
 };
 
 const UsersPage = async (props: {
-  searchParams: Promise<{ page: string; query: string }>;
+  searchParams: {
+    query: string;
+    page: string;
+    users: string;
+  };
 }) => {
-  const { page = "1", query: searchText } = await props.searchParams;
+  const searchParams = await props.searchParams;
   const session = await auth();
 
-  const users = await getAllUsers({ page: Number(page), query: searchText });
+  const page = Number(searchParams.page) || 1;
+  const searchQuery = searchParams.query || "";
+
+  const users = await getAllUsers({
+    query: searchQuery,
+    page,
+  });
 
   const Roles = ({ userRole }: any) => {
     switch (userRole) {
@@ -69,17 +81,24 @@ const UsersPage = async (props: {
 
   return (
     <div className="space-y-2">
-      <div className="flex items-center gap-3">
-        <LayoutTitle title="Users" />
-        {searchText && (
-          <div>
-            Filterd by <i>&quot;{searchText}&quot;</i>{" "}
-            <Link href="/admin/users">
-              <DynamicButton>Remove Filter</DynamicButton>
-            </Link>
-          </div>
-        )}{" "}
-        {/* TODO: uguale a quello del product */}
+      <div className="flex-between">
+        <div className="flex items-center gap-3">
+          <LayoutTitle title="Users" />
+          {searchQuery && (
+            <div>
+              Filtered by <i>&quot;{searchQuery}&quot;</i>{" "}
+              <Link href="/admin/products">
+                <DynamicButton>Remove Filter</DynamicButton>
+              </Link>
+            </div>
+          )}
+        </div>
+        <div className="flex gap-2">
+          <DynamicButton>
+            <Link href="/admin/users/create">Create User</Link>
+          </DynamicButton>
+          <DownloadCSV csvData={users.data} />
+        </div>
       </div>
       <div className="overflow-x-auto">
         <Table>

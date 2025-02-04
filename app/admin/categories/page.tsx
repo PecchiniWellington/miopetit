@@ -32,18 +32,8 @@ const AdminCategoriesPage = async (props: {
   const searchQuery = searchParams.query || "";
   const category = searchParams.category || "";
 
-  const categories = await getAllCategories();
-
-  const csvData =
-    categories &&
-    categories.data?.map((category: any) => ({
-      ID: formatId(category.id),
-      Name: category.name,
-      Slug: category.slug || "N/A",
-      Created_At: formatDateTime(category.createdAt).dateTime,
-      Updated_At: formatDateTime(category.updatedAt).dateTime,
-      Description: category.description || "N/A",
-    }));
+  const categoriesResponse = await getAllCategories();
+  const categories = JSON.parse(JSON.stringify(categoriesResponse));
 
   return (
     <div className="space-y-2">
@@ -63,7 +53,7 @@ const AdminCategoriesPage = async (props: {
           <DynamicButton>
             <Link href="/admin/categories/create">Create Category</Link>
           </DynamicButton>
-          <DownloadCSV csvData={csvData} />
+          <DownloadCSV csvData={categories} />
         </div>
       </div>
 
@@ -80,27 +70,27 @@ const AdminCategoriesPage = async (props: {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {categories?.data?.map((product) => (
-            <TableRow key={product.id}>
-              <TableCell>{formatId(product.id)}</TableCell>
-              <TableCell>{product.name}</TableCell>
-              <TableCell>{product.slug ? product.slug : "N/A"}</TableCell>
+          {categories?.data?.map((category: any) => (
+            <TableRow key={category.id}>
+              <TableCell>{formatId(category.id)}</TableCell>
+              <TableCell>{category.name}</TableCell>
+              <TableCell>{category.slug ? category.slug : "N/A"}</TableCell>
               <TableCell>
-                {formatDateTime(product.createdAt).dateTime}
+                {formatDateTime(category.createdAt).dateTime}
               </TableCell>
               <TableCell>
-                {formatDateTime(product.updatedAt).dateTime}
+                {formatDateTime(category.updatedAt).dateTime}
               </TableCell>
 
               <TableCell className="flex gap-1">
                 <DynamicButton>
-                  <Link href={`/admin/categories/${product.id}`}>Edit</Link>
+                  <Link href={`/admin/categories/${category.id}`}>Edit</Link>
                 </DynamicButton>
-                <DeleteDialog id={product.id} action={deleteCategory} />
+                <DeleteDialog id={category.id} action={deleteCategory} />
               </TableCell>
               {/* hidden */}
               <TableCell className="hidden">
-                {product.description ? product.description : "N/A"}
+                {category.description ? category.description : "N/A"}
               </TableCell>
             </TableRow>
           ))}

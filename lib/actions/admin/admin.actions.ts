@@ -15,13 +15,19 @@ import {
 
 // Get all the users
 export async function getAllUsers({
+  query,
   limit = PAGE_SIZE,
   page,
-  query,
+  price,
+  rating,
+  sort,
 }: {
+  query: string;
   limit?: number;
   page: number;
-  query?: string;
+  price?: string;
+  rating?: string;
+  sort?: string;
 }) {
   const queryFilter: Prisma.UserWhereInput =
     query && query !== "all"

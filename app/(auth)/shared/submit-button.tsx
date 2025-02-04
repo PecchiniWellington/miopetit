@@ -8,7 +8,7 @@ const SubmitButton = ({ formType = "sign-in" }) => {
   const { pending } = useFormStatus();
 
   return (
-    <DynamicButton isPending={pending}>
+    <Button type="submit" disabled={pending}>
       {formType === "sign-in"
         ? pending
           ? "Signing in..."
@@ -16,7 +16,7 @@ const SubmitButton = ({ formType = "sign-in" }) => {
         : pending
           ? "Creating account..."
           : "Sign Up"}
-    </DynamicButton>
+    </Button>
   );
 };
 

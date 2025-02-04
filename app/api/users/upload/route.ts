@@ -1,4 +1,5 @@
 import { prisma } from "@/db/prisma";
+import { mapUsersForDatabase } from "@/lib/utils";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
@@ -22,15 +23,17 @@ export async function POST(req: Request) {
       );
     }
 
-    await prisma.category.createMany({
-      data: body,
+    await prisma.user.createMany({
+      data: mapUsersForDatabase(body),
       skipDuplicates: true,
     });
 
-    return NextResponse.json({ message: "Categories uploaded successfully" });
+    return NextResponse.json({ message: "Users uploaded successfully" });
   } catch (error) {
     console.error("Upload Error:", error); // DEBUG
     if (error instanceof Error) {
+      console.error("Error Message:", error.message);
+      console.error("Stack Trace:", error.stack);
       return NextResponse.json({ message: error.message }, { status: 500 });
     }
     return NextResponse.json(
@@ -42,11 +45,15 @@ export async function POST(req: Request) {
 
 export async function GET() {
   try {
-    const categories = await prisma.category.findMany();
-    console.log("DB Connection OK, Found Categories:", categories.length);
-    return NextResponse.json(categories);
+    const users = await prisma.user.findMany();
+    console.log("DB Connection OK, Found Users:", users.length);
+    return NextResponse.json(users);
   } catch (error) {
     console.error("Database Error:", error);
+    if (error instanceof Error) {
+      console.error("Error Message:", error.message);
+      console.error("Stack Trace:", error.stack);
+    }
     return NextResponse.json({ message: "Database Error" }, { status: 500 });
   }
 }
