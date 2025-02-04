@@ -6,6 +6,8 @@ export const APP_DESCRIPTION =
 
 export const BASE_URL =
   process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+export const BASE_URL_IMAGE =
+  process.env.BASE_URL_IMAGE || "https://utfs.io/f/";
 
 export const LATEST_PRODUCTS_LIMIT =
   Number(process.env.LATEST_PRODUCTS_LIMIT) || 4;

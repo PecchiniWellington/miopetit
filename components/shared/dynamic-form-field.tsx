@@ -37,13 +37,13 @@ const DynamicFormField = ({
               <Textarea
                 placeholder={placeholder}
                 {...field}
-                className={`resize-none ${className}`}
+                className={`resize-none bg-transparent border-slate-700 ${className}`}
               />
             ) : (
               <Input
                 placeholder={placeholder}
                 {...field}
-                className={className}
+                className={`bg-transparent border-slate-700 ${className}`}
               />
             )}
           </FormControl>

@@ -124,13 +124,7 @@ const ProductForm = ({
         </div>
         <div className="flex flex-col  md:flex-row gap-5">
           {/* Category */}
-          {/*  <DynamicFormField
-            control={form.control}
-            name="category"
-            schema={insertProductSchema}
-            title="Category"
-            placeholder="Enter category"
-          /> */}
+
           <FormField
             control={form.control}
             name="categoryId"
@@ -143,12 +137,12 @@ const ProductForm = ({
                   }}
                   value={field.value}
                 >
-                  <FormControl>
+                  <FormControl className="border-slate-700 w-full min-w-[300px]">
                     <SelectTrigger>
                       <SelectValue placeholder="Select Slug" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent className="bg-slate-100 dark:bg-slate-800 dark:text-white">
+                  <SelectContent className=" bg-slate-100 dark:bg-slate-800 dark:text-white">
                     {categories?.map((category) => (
                       <SelectItem key={category.id} value={category.id}>
                         {category.name}
@@ -213,9 +207,9 @@ const ProductForm = ({
 
         <div>
           {/* Submit */}
-          <Button type="submit" disabled={form.formState.isSubmitting}>
+          <DynamicButton disabled={form.formState.isSubmitting}>
             {form.formState.isSubmitting ? "Submitting..." : `${type} Product`}
-          </Button>
+          </DynamicButton>
         </div>
       </form>
     </Form>

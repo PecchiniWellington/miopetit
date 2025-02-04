@@ -1,7 +1,13 @@
 "use client";
 
+import DeleteDialog from "@/components/shared/delete-dialog";
+import { deleteProduct } from "@/lib/actions/product.actions";
+import { BASE_URL_IMAGE } from "@/lib/constants";
+import { formatId } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { Edit, Search, Trash2 } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
 const PRODUCT_DATA = [
@@ -47,7 +53,7 @@ const PRODUCT_DATA = [
   },
 ];
 
-const ProductsTable = () => {
+const ProductsTable = ({ products }: any) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredProducts, setFilteredProducts] = useState(PRODUCT_DATA);
 
@@ -89,63 +95,75 @@ const ProductsTable = () => {
           <thead>
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                Name
+                ID
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                Category
+                NAME
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                Price
+                PRICE
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                Stock
+                CATEGORY
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                Sales
+                STOCK
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                Actions
+                RATING
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                ACTIONS
               </th>
             </tr>
           </thead>
 
           <tbody className="divide-y divide-gray-700">
-            {filteredProducts.map((product) => (
+            {products.data.map((product: any) => (
               <motion.tr
                 key={product.id}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.3 }}
               >
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                  {formatId(product.id)}
+                </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-100 flex gap-2 items-center">
-                  <img
-                    src="https://images.unsplash.com/photo-1627989580309-bfaf3e58af6f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8d2lyZWxlc3MlMjBlYXJidWRzfGVufDB8fDB8fHww"
+                  <Image
+                    src={
+                      `${product.images[0]}` || "/public/images/placeholder.jpg"
+                    }
                     alt="Product img"
                     className="size-10 rounded-full"
+                    height={40}
+                    width={40}
                   />
+
                   {product.name}
+                </td>
+
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                  {product.price}
                 </td>
 
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                   {product.category}
                 </td>
-
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                  ${product.price.toFixed(2)}
-                </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                   {product.stock}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                  {product.sales}
+                  {product.rating}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                   <button className="text-indigo-400 hover:text-indigo-300 mr-2">
-                    <Edit size={18} />
+                    <Link href={`/admin-2/products/${product.id}`}>
+                      {" "}
+                      <Edit size={18} />
+                    </Link>
                   </button>
-                  <button className="text-red-400 hover:text-red-300">
-                    <Trash2 size={18} />
-                  </button>
+                  <DeleteDialog id={product.id} action={deleteProduct} />
                 </td>
               </motion.tr>
             ))}

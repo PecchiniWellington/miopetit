@@ -139,7 +139,11 @@ export async function getAllProducts({
   }));
 
   console.log("updatedData", updatedData);
-  return { data: updatedData, totalPages: Math.ceil(productCount / limit) };
+  return {
+    data: updatedData,
+    totalPages: Math.ceil(productCount / limit),
+    totalProducts: productCount,
+  };
   /* prisma.$disconnect(); */
 }
 

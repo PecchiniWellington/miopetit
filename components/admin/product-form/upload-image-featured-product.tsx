@@ -18,13 +18,13 @@ export const UploadImageFeaturedProduct = ({
   form,
 }: any) => {
   return (
-    <Card>
+    <Card className="border-slate-700 flex align-center ">
       <CardContent className="space-y-2 mt-2">
         <FormField
           control={form.control}
           name="isFeatured"
           render={({ field }) => (
-            <FormItem className=" space-x-2 items-center">
+            <FormItem className=" space-x-2 items-center  flex align-center">
               <FormControl>
                 <Checkbox
                   checked={field.value}

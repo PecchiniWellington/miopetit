@@ -19,8 +19,8 @@ export const UploadImage = ({ form, images }: any) => {
       render={() => (
         <FormItem className="w-full">
           <FormLabel>Images</FormLabel>
-          <Card>
-            <CardContent className="space-y-2 mt-2 min-h-8">
+          <Card className="border-slate-700">
+            <CardContent className="space-y-2 mt-2 min-h-8 ">
               <div className="flex-start space-x-2">
                 {images.map((image: string) => (
                   <Image

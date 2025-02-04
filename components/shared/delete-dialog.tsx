@@ -43,7 +43,11 @@ const DeleteDialog = ({
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
         <Button>
-          <Trash2 height={10} width={10} />
+          <Trash2
+            height={10}
+            width={10}
+            className="text-red-400 hover:text-red-300"
+          />
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent className="bg-slate-200 dark:bg-slate-900 dark:text-slate-100">

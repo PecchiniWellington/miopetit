@@ -9,9 +9,8 @@ body {
 :root {
   --radius: 8px;
 }
-/* 
-@layer utilities {
 
+@layer utilities {
   .max-w-8xl {
     max-width: 87.5rem;
   }
@@ -310,8 +309,8 @@ body {
 }
 
 .no-scrollbar {
-  -ms-overflow-style: none; 
-  scrollbar-width: none; 
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .active-theme {
@@ -390,4 +389,3 @@ code {
     --radius: 0.5rem;
   }
 }
- */
