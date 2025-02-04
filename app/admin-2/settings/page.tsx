@@ -1,3 +1,4 @@
+"use client";
 import Header from "@/components/admin-2/common/Header";
 import ConnectedAccounts from "@/components/admin-2/settings/ConnectedAccounts";
 import DangerZone from "@/components/admin-2/settings/DangerZone";

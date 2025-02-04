@@ -1,3 +1,4 @@
+"use client";
 import { CheckCircle, Clock, DollarSign, ShoppingBag } from "lucide-react";
 import { motion } from "framer-motion";
 import StatCard from "@/components/admin-2/common/StatCard";

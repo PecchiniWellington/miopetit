@@ -1,3 +1,4 @@
+"use client";
 import { motion } from "framer-motion";
 
 import Header from "@/components/admin-2/common/Header";
