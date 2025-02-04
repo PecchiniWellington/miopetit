@@ -116,6 +116,10 @@ export default function UploadFiles() {
       }
 
       setSuccess(true);
+      setCsvFile(null); // Reset the file input
+      if (inputFileRef.current) {
+        inputFileRef.current.value = ""; // Clear the file input value
+      }
     } catch (error: any) {
       console.error("Upload Error:", error);
       setErrorMessage(error.message || "Error uploading data.");
