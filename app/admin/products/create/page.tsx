@@ -1,4 +1,4 @@
-import ProductForm from "@/components/admin/product-form/product-form";
+import ProductForm from "@/components/admin-1/product-form/product-form";
 import { getAllCategories } from "@/lib/actions/admin/admin.actions";
 import { Metadata } from "next";
 import React from "react";

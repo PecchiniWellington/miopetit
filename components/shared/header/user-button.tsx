@@ -9,9 +9,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { signOutUser } from "@/lib/actions/auth/auth.actions";
+import { getUserById } from "@/lib/actions/user/user.action";
 import ROLES from "@/lib/constants/roles";
 
 import { UserIcon } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -29,15 +31,28 @@ const UserButton = async () => {
   }
 
   const firstInitial = session.user?.name?.charAt(0).toUpperCase() ?? "";
+  const user = await getUserById(session.user?.id!);
+
+  console.log("IMAGE", session.user);
 
   return (
     <div className="flex gap-2 items-center">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <div className="flex items-center">
-            <DynamicButton className="btn-outline rounded-full">
-              {firstInitial}
-            </DynamicButton>
+            {user.image ? (
+              <Image
+                alt="user avatar"
+                src={user.image}
+                height={40}
+                width={40}
+                className="rounded-full"
+              />
+            ) : (
+              <DynamicButton className="btn-outline rounded-full overflow-hidden">
+                <div>{firstInitial}</div>
+              </DynamicButton>
+            )}
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent

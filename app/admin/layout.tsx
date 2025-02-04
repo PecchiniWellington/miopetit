@@ -6,7 +6,7 @@ import MainNav from "./main-nav";
 import LeftSidebar from "@/components/shared/sidebar/left-sidebar";
 import { ADMIN_ROUTES } from "@/lib/constants/routes";
 import { Input } from "@/components/ui/input";
-import AdminSearch from "@/components/admin/admin-search";
+import AdminSearch from "@/components/admin-1/admin-search";
 
 const links = [
   {

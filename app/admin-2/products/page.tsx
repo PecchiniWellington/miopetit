@@ -1,8 +1,8 @@
-import Header from "@/components/admin-2/common/Header";
+import Header from "@/components/admin/common/Header";
 
-import CategoryDistributionChart from "@/components/admin-2/overview/CategoryDistributionChart";
-import SalesTrendChart from "@/components/admin-2/products/SalesTrendChart";
-import ProductsTable from "@/components/admin-2/products/ProductsTable";
+import CategoryDistributionChart from "@/components/admin/overview/CategoryDistributionChart";
+import SalesTrendChart from "@/components/admin/products/SalesTrendChart";
+import ProductsTable from "@/components/admin/products/ProductsTable";
 import { getAllProducts } from "@/lib/actions/product.actions";
 import DownloadCSV from "@/app/admin/categories/download-csv";
 import DynamicButton from "@/components/dynamic-button";

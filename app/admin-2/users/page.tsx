@@ -1,14 +1,13 @@
 import { Badge } from "lucide-react";
 
-import Header from "@/components/admin-2/common/Header";
-import UsersTable from "@/components/admin-2/users/UsersTable";
-import UserGrowthChart from "@/components/admin-2/users/UserGrowthChart";
-import UserActivityHeatmap from "@/components/admin-2/users/UserActivityHeatmap";
-import UserDemographicsChart from "@/components/admin-2/users/UserDemographicsChart";
+import Header from "@/components/admin/common/Header";
+import UsersTable from "@/components/admin/users/UsersTable";
+import UserGrowthChart from "@/components/admin/users/UserGrowthChart";
+import UserActivityHeatmap from "@/components/admin/users/UserActivityHeatmap";
+import UserDemographicsChart from "@/components/admin/users/UserDemographicsChart";
 import UsersCard from "./users-card";
 import { auth } from "@/auth";
 import { getAllUsers } from "@/lib/actions/admin/admin.actions";
-import ROLES from "@/lib/constants/roles";
 import DownloadCSV from "@/app/admin/categories/download-csv";
 import DynamicButton from "@/components/dynamic-button";
 import Link from "next/link";

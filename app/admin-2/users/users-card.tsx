@@ -1,5 +1,5 @@
 "use client";
-import StatCard from "@/components/admin-2/common/StatCard";
+import StatCard from "@/components/admin/common/StatCard";
 import CardWorking from "@/components/dev/card-working";
 import { motion } from "framer-motion";
 import { UsersIcon, UserPlus, UserCheck, UserX } from "lucide-react";

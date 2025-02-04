@@ -48,6 +48,7 @@ const config = {
               name: user.name,
               email: user.email,
               role: user.role,
+              image: user.image,
             };
           } else return null;
         } else return null;
@@ -60,10 +61,12 @@ const config = {
       session.user.id = token.sub;
       session.user.role = token.role;
       session.user.name = token.name;
+      session.user.image = token.image;
 
       if (trigger === "update") {
         session.user.email = user.email;
         session.user.name = user.name;
+        session.user.image = user.image;
       }
 
       return session;
@@ -111,6 +114,7 @@ const config = {
       if (session?.user.name && trigger === "update") {
         token.name = session.user.name;
         token.email = session.user.email;
+        token.image = session.user.image;
       }
 
       return token;
