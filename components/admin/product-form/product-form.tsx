@@ -29,6 +29,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
 
 const ProductForm = ({
   type,
@@ -76,6 +77,7 @@ const ProductForm = ({
     };
 
     if (type === "Create") {
+      console.log("SUCA", data);
       const res = await createProduct(data);
       handleResponse(res, "Product created");
     }
@@ -131,7 +133,7 @@ const ProductForm = ({
           /> */}
           <FormField
             control={form.control}
-            name="category"
+            name="categoryId"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Category</FormLabel>
@@ -148,10 +150,7 @@ const ProductForm = ({
                   </FormControl>
                   <SelectContent className="bg-slate-100 dark:bg-slate-800 dark:text-white">
                     {categories?.map((category) => (
-                      <SelectItem
-                        key={category.id}
-                        value={category.id.toString()}
-                      >
+                      <SelectItem key={category.id} value={category.id}>
                         {category.name}
                       </SelectItem>
                     ))}
@@ -214,9 +213,9 @@ const ProductForm = ({
 
         <div>
           {/* Submit */}
-          <DynamicButton isPending={form.formState.isSubmitting}>
+          <Button type="submit" disabled={form.formState.isSubmitting}>
             {form.formState.isSubmitting ? "Submitting..." : `${type} Product`}
-          </DynamicButton>
+          </Button>
         </div>
       </form>
     </Form>

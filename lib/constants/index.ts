@@ -37,7 +37,8 @@ export const SENDER_EMAIL = process.env.SENDER_EMAIL || "onboarding@resend.dev";
 export const PRODUCT_DEFAULT_VALUES = {
   name: "",
   slug: "",
-  category: "",
+  category: {},
+  categoryId: "",
   images: [],
   brand: "",
   description: "",

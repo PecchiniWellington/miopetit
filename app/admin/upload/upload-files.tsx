@@ -2,83 +2,117 @@
 
 import CSVTable from "@/components/CSVTable";
 import { useState, useRef } from "react";
-import { Button } from "@/components/ui/button"; // Bottone per l'upload
-import { Input } from "@/components/ui/input"; // Input per la selezione file
-import { Progress } from "@/components/ui/progress"; // Barra di progresso
-import { Alert } from "@/components/ui/alert"; // Alert per messaggi
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Progress } from "@/components/ui/progress";
+import { Alert } from "@/components/ui/alert";
 import Link from "next/link";
+import Papa from "papaparse";
 
-export default function FileUploadPage() {
+export default function UploadFiles() {
   const inputFileRef = useRef<HTMLInputElement>(null);
-  const [blobs, setBlobs] = useState<any[]>([]); // Array per i file caricati
-  const [uploadProgress, setUploadProgress] = useState(0); // Per gestire la barra di progresso
-  const [errorMessage, setErrorMessage] = useState<string | null>(null); // Per gestire gli errori
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [selectedTable, setSelectedTable] = useState<string>("");
+  const [tableData, setTableData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [csvFile, setCsvFile] = useState<File | null>(null);
 
-  const handleFileUpload = async (event: React.FormEvent) => {
-    event.preventDefault();
-    setErrorMessage(null); // Reset dell'errore prima di un nuovo tentativo
-
-    if (!inputFileRef.current?.files) {
-      setErrorMessage("No files selected.");
-      return;
-    }
-
-    const files = Array.from(inputFileRef.current.files);
-    const uploadedBlobs: any[] = [];
-
-    try {
-      for (const file of files) {
-        const responseFile = await fetch(
-          `/api/avatar/upload?filename=${file.name}`,
-          {
-            method: "POST",
-            body: file,
-          }
-        );
-
-        if (!responseFile.ok) {
-          throw new Error(`Failed to upload ${file.name}`);
-        }
-
-        const newBlob = await responseFile.json();
-        uploadedBlobs.push(newBlob);
-        setUploadProgress((prev) => Math.min(prev + 100 / files.length, 100)); // Progressivo aggiornamento della barra di progresso
-      }
-
-      setBlobs(uploadedBlobs); // Aggiorna con i blob caricati
-      setUploadProgress(0); // Reset della barra di progresso dopo il caricamento
-    } catch (error: any) {
-      setErrorMessage(error.message || "An error occurred during upload.");
-      setUploadProgress(0);
+  // Caricamento del file CSV
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      setCsvFile(event.target.files[0]);
     }
   };
 
-  const isCSV = (file: any) => {
-    return file.url.endsWith(".csv");
+  // Parsing del CSV e upload al database
+  const uploadOnDb = async () => {
+    if (!csvFile) {
+      setErrorMessage("No file selected.");
+      return;
+    }
+
+    setLoading(true);
+    setErrorMessage(null);
+    setSuccess(false);
+
+    try {
+      const text = await csvFile.text();
+      const { data } = Papa.parse(text, {
+        header: true,
+        skipEmptyLines: true,
+      });
+
+      // **Mappare i dati del CSV ai campi del database**
+      const formattedData = data.map((item: any) => ({
+        name: item.Name, // CSV → DB
+        slug: item.Slug, // CSV → DB
+        description: item.Description || null, // Opzionale
+        createdAt: new Date(item.Created_At), // Converte in formato Date
+        updatedAt: new Date(item.Updated_At), // Converte in formato Date
+      }));
+
+      console.log("Formatted Data:", formattedData);
+
+      const response = await fetch("/api/categories/upload", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ categories: formattedData }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to upload categories.");
+      }
+
+      setSuccess(true);
+    } catch (error: any) {
+      console.error("Upload Error:", error);
+      setErrorMessage(error.message || "Error uploading data.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Scaricare il CSV
+  const downloadCSV = () => {
+    if (!tableData.length) {
+      setErrorMessage("No data available to download.");
+      return;
+    }
+
+    const csv = Papa.unparse(tableData);
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "categories.csv";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   };
 
   return (
     <>
       <h1 className="text-3xl font-semibold mb-6">Upload Your Files</h1>
 
-      <form onSubmit={handleFileUpload} className="mb-4">
-        <div className="flex flex-col gap-4">
-          <Input
-            name="files"
-            ref={inputFileRef}
-            type="file"
-            required
-            multiple
-            className="w-full p-3 border rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <Button
-            type="submit"
-            className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-          >
-            Upload Files
-          </Button>
-        </div>
-      </form>
+      <div className="mb-4">
+        <Input
+          type="file"
+          accept=".csv"
+          ref={inputFileRef}
+          onChange={handleFileUpload}
+          className="w-full p-3 border rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <Button
+          onClick={uploadOnDb}
+          disabled={!csvFile || loading}
+          className="w-full mt-2 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700"
+        >
+          {loading ? "Uploading..." : "Start Upload"}
+        </Button>
+      </div>
 
       {errorMessage && (
         <Alert variant="destructive" className="mb-4">
@@ -86,41 +120,27 @@ export default function FileUploadPage() {
         </Alert>
       )}
 
-      {uploadProgress > 0 && (
-        <div className="mb-4">
-          <p>Caricamento in corso...</p>
-          <Progress value={uploadProgress} max={100} />
+      {success && (
+        <Alert variant="default" className="mb-4">
+          Upload successful! ✅
+        </Alert>
+      )}
+
+      {tableData.length > 0 && (
+        <div className="mt-6 p-4 border rounded-lg bg-gray-100 shadow-md">
+          <h2 className="text-xl font-semibold mb-2">JSON Output</h2>
+          <pre className="overflow-auto p-2 bg-white border rounded-md text-sm max-h-96">
+            {JSON.stringify(tableData, null, 2)}
+          </pre>
         </div>
       )}
 
-      {blobs.length > 0 && (
-        <div className="mt-6">
-          {blobs.map((blob, index) => {
-            if (isCSV(blob)) {
-              return (
-                <div
-                  key={index}
-                  className="mb-6 p-4 border rounded-lg bg-gray-50 shadow-md"
-                >
-                  <p>
-                    CSV URL:{" "}
-                    <a href={blob.url} className="text-blue-500">
-                      {blob.url}
-                    </a>
-                  </p>
-                  <Button className="mt-2 bg-green-600 text-white hover:bg-green-700">
-                    <Link href={blob.url} download>
-                      Download CSV
-                    </Link>
-                  </Button>
-                  <CSVTable CSV_URL={blob.url} />
-                </div>
-              );
-            }
-            return null;
-          })}
-        </div>
-      )}
+      <Button
+        onClick={downloadCSV}
+        className="mt-4 bg-green-600 text-white hover:bg-green-700"
+      >
+        Download CSV
+      </Button>
     </>
   );
 }

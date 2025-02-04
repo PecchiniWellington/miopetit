@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input"; // Input per la selezione file
 import { Progress } from "@/components/ui/progress"; // Barra di progresso
 import { Alert } from "@/components/ui/alert"; // Alert per messaggi
 
-export default function ImageUploadPage() {
+export default function UploadImage() {
   const inputFileRef = useRef<HTMLInputElement>(null);
   const [blobs, setBlobs] = useState<any[]>([]); // Array per i file caricati
   const [uploadProgress, setUploadProgress] = useState(0); // Per gestire la barra di progresso
@@ -17,7 +17,7 @@ export default function ImageUploadPage() {
     setErrorMessage(null); // Reset dell'errore prima di un nuovo tentativo
 
     if (!inputFileRef.current?.files) {
-      setErrorMessage("No files selected.");
+      setErrorMessage("Drag and drop files here or click to upload.");
       return;
     }
 
@@ -67,11 +67,11 @@ export default function ImageUploadPage() {
             type="file"
             required
             multiple
-            className="w-full p-3 border rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full min-h-48 p-3 border rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <Button
             type="submit"
-            className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            className="w-32 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
           >
             Upload Images
           </Button>
@@ -92,15 +92,15 @@ export default function ImageUploadPage() {
       )}
 
       {blobs.length > 0 && (
-        <div className="mt-6">
+        <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {blobs.map((blob, index) => {
             if (isImage(blob)) {
               return (
                 <div
                   key={index}
-                  className="mb-6 p-4 border rounded-lg bg-gray-50 shadow-md"
+                  className="p-4 border rounded-lg bg-gray-50 shadow-md"
                 >
-                  <p>
+                  <p className="text-sm text-gray-600">
                     Image URL:{" "}
                     <a href={blob.url} className="text-blue-500">
                       {blob.url}
@@ -109,8 +109,7 @@ export default function ImageUploadPage() {
                   <img
                     src={blob.url}
                     alt={`Uploaded file ${index}`}
-                    width={200}
-                    className="mt-2 rounded-lg shadow-lg"
+                    className="mt-2 rounded-lg shadow-lg w-full h-auto"
                   />
                 </div>
               );
