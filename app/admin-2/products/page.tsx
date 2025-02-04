@@ -9,6 +9,8 @@ import DynamicButton from "@/components/dynamic-button";
 import ProductCard from "./products-card";
 import Link from "next/link";
 import { getOrderSummary } from "@/lib/actions/order/order.action";
+import CardWorking from "@/components/dev/card-working";
+import { getAllCategories } from "@/lib/actions/admin/admin.actions";
 
 const ProductsPage = async (props: {
   searchParams: {
@@ -29,10 +31,11 @@ const ProductsPage = async (props: {
     category,
   });
   const summary = await getOrderSummary();
+  const categories = await getAllCategories();
 
   const products = JSON.parse(JSON.stringify(productsResponse));
   const overviewSummary = JSON.parse(JSON.stringify(summary));
-  console.log("PRIDU", products);
+  const categoriesDistribution = JSON.parse(JSON.stringify(categories));
 
   return (
     <div className="flex-1 overflow-auto relative z-10">
@@ -51,8 +54,12 @@ const ProductsPage = async (props: {
 
         {/* CHARTS */}
         <div className="grid grid-col-1 lg:grid-cols-2 gap-8">
-          <SalesTrendChart />
-          <CategoryDistributionChart />
+          <CardWorking>
+            <SalesTrendChart />
+          </CardWorking>
+          <CategoryDistributionChart
+            categoriesDistribution={categoriesDistribution}
+          />
         </div>
       </main>
     </div>

@@ -17,9 +17,29 @@ const categoryData = [
   { name: "Sports & Outdoors", value: 1900 },
 ];
 
-const COLORS = ["#6366F1", "#8B5CF6", "#EC4899", "#10B981", "#F59E0B"];
+const generateColors = (numColors: number) => {
+  const colors = [];
+  for (let i = 0; i < numColors; i++) {
+    const hue = Math.floor((i * 360) / numColors);
+    colors.push(`hsl(${hue}, 60%, 40%)`);
+  }
+  return colors;
+};
 
-const CategoryDistributionChart = () => {
+const CategoryDistributionChart = ({
+  categoriesDistribution,
+}: {
+  categoriesDistribution: any;
+}) => {
+  const colors = generateColors(categoryData.length);
+
+  const newValue = categoriesDistribution?.data?.map((item: any) => {
+    return {
+      name: item.name,
+      value: item.Product.length,
+    };
+  });
+
   return (
     <motion.div
       className="bg-gray-800 bg-opacity-50 backdrop-blur-md shadow-lg rounded-xl p-6 border border-gray-700"
@@ -34,7 +54,7 @@ const CategoryDistributionChart = () => {
         <ResponsiveContainer width={"100%"} height={"100%"}>
           <PieChart>
             <Pie
-              data={categoryData}
+              data={newValue}
               cx={"50%"}
               cy={"50%"}
               labelLine={false}
@@ -45,10 +65,10 @@ const CategoryDistributionChart = () => {
                 `${name} ${(percent * 100).toFixed(0)}%`
               }
             >
-              {categoryData.map((entry, index) => (
+              {categoriesDistribution?.data?.map((entry: any, index: any) => (
                 <Cell
                   key={`cell-${index}`}
-                  fill={COLORS[index % COLORS.length]}
+                  fill={colors[index % colors.length]}
                 />
               ))}
             </Pie>

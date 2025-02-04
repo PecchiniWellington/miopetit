@@ -52,6 +52,7 @@ export async function getAllUsers({
   return {
     data,
     totalPages: Math.ceil(dataCount / limit),
+    totalUsers: dataCount,
   };
 }
 
@@ -244,6 +245,9 @@ export async function getAllCategories() {
   try {
     const data = await prisma.category.findMany({
       orderBy: { createdAt: "desc" },
+      include: {
+        Product: true,
+      },
     });
 
     const dataCount = await prisma.category.count();
@@ -251,6 +255,10 @@ export async function getAllCategories() {
     return {
       data,
       totalPages: Math.ceil(dataCount / 4),
+      productCount: data.reduce(
+        (acc, category) => acc + category.Product.length,
+        0
+      ),
     };
   } catch (error) {
     return { success: false, message: formatError(error) };

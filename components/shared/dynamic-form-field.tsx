@@ -8,6 +8,7 @@ import { Textarea } from "../ui/textarea";
 import { Input } from "../ui/input";
 
 interface DynamicFormFieldProps {
+  disabled?: boolean;
   control: any;
   name: string;
   schema: z.ZodType<any, any>;
@@ -18,6 +19,7 @@ interface DynamicFormFieldProps {
 }
 
 const DynamicFormField = ({
+  disabled,
   control,
   name,
   title,
@@ -35,12 +37,14 @@ const DynamicFormField = ({
           <FormControl>
             {type === "textarea" ? (
               <Textarea
+                disabled
                 placeholder={placeholder}
                 {...field}
                 className={`resize-none bg-transparent border-slate-700 ${className}`}
               />
             ) : (
               <Input
+                disabled={disabled}
                 placeholder={placeholder}
                 {...field}
                 className={`bg-transparent border-slate-700 ${className}`}

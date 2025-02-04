@@ -1,0 +1,29 @@
+import { getUserById } from "@/lib/actions/user/user.action";
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
+import React from "react";
+import UpdateUserForm from "./update-user-form";
+
+export const metadata: Metadata = {
+  title: "Admin User Detail",
+  description: "Admin User Detail Page",
+};
+
+const AdminUserDetailPage = async (props: {
+  params: Promise<{ id: string }>;
+}) => {
+  const { id } = await props.params;
+
+  const user = await getUserById(id);
+
+  if (!user) notFound();
+
+  return (
+    <div className="space-y-8 mx-auto flex-1 overflow-auto relative z-10 max-w-7xl py-6 px-4 lg:px-8">
+      <h1 className="h2-bold">Update User</h1>
+      <UpdateUserForm user={user} />
+    </div>
+  );
+};
+
+export default AdminUserDetailPage;

@@ -1,59 +1,48 @@
 "use client";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Search } from "lucide-react";
+import { Edit, Edit2, Search } from "lucide-react";
+import { formatId } from "@/lib/utils";
+import ROLES from "@/lib/constants/roles";
+import { Badge } from "@/components/ui/badge";
+import DynamicButton from "@/components/dynamic-button";
+import DeleteDialog from "@/components/shared/delete-dialog";
+import { deleteUser } from "@/lib/actions/admin/admin.actions";
+import Link from "next/link";
+import { deleteProduct } from "@/lib/actions/product.actions";
 
-const userData = [
-  {
-    id: 1,
-    name: "John Doe",
-    email: "john@example.com",
-    role: "Customer",
-    status: "Active",
-  },
-  {
-    id: 2,
-    name: "Jane Smith",
-    email: "jane@example.com",
-    role: "Admin",
-    status: "Active",
-  },
-  {
-    id: 3,
-    name: "Bob Johnson",
-    email: "bob@example.com",
-    role: "Customer",
-    status: "Inactive",
-  },
-  {
-    id: 4,
-    name: "Alice Brown",
-    email: "alice@example.com",
-    role: "Customer",
-    status: "Active",
-  },
-  {
-    id: 5,
-    name: "Charlie Wilson",
-    email: "charlie@example.com",
-    role: "Moderator",
-    status: "Active",
-  },
-];
+const Roles = ({ userRole }: any) => {
+  switch (userRole) {
+    case ROLES.ADMIN:
+      return (
+        <Badge className="bg-blue-100 text-blue-700"> {ROLES.ADMIN}</Badge>
+      );
 
-const UsersTable = () => {
+    case ROLES.USER:
+      return (
+        <Badge className="bg-purple-100 text-purple-700"> {ROLES.USER}</Badge>
+      );
+
+    case ROLES.EDITOR:
+      return (
+        <Badge className="bg-orange-100 text-orange-700">{ROLES.EDITOR}</Badge>
+      );
+
+    case ROLES.CONTRIBUTOR:
+      return (
+        <Badge className="bg-teal-100 text-teal-700">{ROLES.CONTRIBUTOR}</Badge>
+      );
+
+    default:
+      return <div>No role</div>;
+  }
+};
+
+const UsersTable = ({ users }: any) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredUsers, setFilteredUsers] = useState(userData);
 
   const handleSearch = (e: any) => {
-    const term = e.target.value.toLowerCase();
-    setSearchTerm(term);
-    const filtered = userData.filter(
-      (user) =>
-        user.name.toLowerCase().includes(term) ||
-        user.email.toLowerCase().includes(term)
-    );
-    setFilteredUsers(filtered);
+    return;
   };
 
   return (
@@ -82,6 +71,9 @@ const UsersTable = () => {
           <thead>
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                Id
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                 Name
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
@@ -100,13 +92,18 @@ const UsersTable = () => {
           </thead>
 
           <tbody className="divide-y divide-gray-700">
-            {filteredUsers.map((user) => (
+            {users.data.map((user: any) => (
               <motion.tr
                 key={user.id}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.3 }}
               >
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-800 text-blue-100">
+                    {formatId(user.id)}
+                  </span>
+                </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center">
                     <div className="flex-shrink-0 h-10 w-10">
@@ -126,9 +123,7 @@ const UsersTable = () => {
                   <div className="text-sm text-gray-300">{user.email}</div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-800 text-blue-100">
-                    {user.role}
-                  </span>
+                  <Roles userRole={user.role} />
                 </td>
 
                 <td className="px-6 py-4 whitespace-nowrap">
@@ -139,17 +134,18 @@ const UsersTable = () => {
                         : "bg-red-800 text-red-100"
                     }`}
                   >
-                    {user.status}
+                    {user.status || "N/D"}
                   </span>
                 </td>
 
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                   <button className="text-indigo-400 hover:text-indigo-300 mr-2">
-                    Edit
+                    <Link href={`/admin-2/users/${user.id}`}>
+                      {" "}
+                      <Edit size={18} />
+                    </Link>
                   </button>
-                  <button className="text-red-400 hover:text-red-300">
-                    Delete
-                  </button>
+                  <DeleteDialog id={user.id} action={deleteUser} />
                 </td>
               </motion.tr>
             ))}
