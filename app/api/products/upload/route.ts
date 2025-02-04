@@ -33,11 +33,11 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ message: "Products uploaded successfully" });
   } catch (error) {
-    console.error("Upload Error:", error); // DEBUG
-    if (error instanceof Error) {
-      console.error("Error Message:", error.message);
+    /*     console.error("Upload Error:", error); // DEBUG
+     */ if (error instanceof Error) {
+      /*       console.error("Error Message:", error.message);
       console.error("Stack Trace:", error.stack);
-      return NextResponse.json({ message: error.message }, { status: 500 });
+ */ return NextResponse.json({ message: error.message }, { status: 500 });
     }
     return NextResponse.json(
       { message: "Internal Server Error" },

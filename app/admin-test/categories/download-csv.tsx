@@ -10,7 +10,6 @@ const DownloadCSV = ({ csvData }: any) => {
     }
 
     const csv = Papa.unparse(csvData);
-    console.log("SUCA", csv);
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");

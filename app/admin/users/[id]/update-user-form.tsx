@@ -67,7 +67,6 @@ const UpdateUserForm = ({
 
       const { url } = await response.json();
       setValue("image", url); // ✅ Salva l'URL nel form
-      console.log("Image uploaded:", url);
 
       // ✅ Aggiorna il form con il nuovo valore e invialo
       const formValues = form.getValues();

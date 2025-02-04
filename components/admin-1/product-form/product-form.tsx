@@ -77,7 +77,6 @@ const ProductForm = ({
     };
 
     if (type === "Create") {
-      console.log("SUCA", data);
       const res = await createProduct(data);
       handleResponse(res, "Product created");
     }

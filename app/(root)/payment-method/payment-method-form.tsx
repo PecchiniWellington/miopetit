@@ -42,8 +42,6 @@ const PaymentMethodForm = ({
   });
 
   const onSubmit = async (value: z.infer<typeof paymentMethodSchema>) => {
-    console.log("RES", value);
-
     setIsPending(async () => {
       const res = await updateUserPaymentMethod(value);
       if (!res.success) {

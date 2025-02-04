@@ -140,7 +140,7 @@ const UsersTable = ({ users }: any) => {
 
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                   <button className="text-indigo-400 hover:text-indigo-300 mr-2">
-                    <Link href={`/admin-2/users/${user.id}`}>
+                    <Link href={`/admin/users/${user.id}`}>
                       {" "}
                       <Edit size={18} />
                     </Link>

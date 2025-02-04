@@ -16,6 +16,7 @@ const AdminProductUpdatePage = async (props: {
   const { id } = await props.params;
   const product = await getProductById(id);
   const { data } = await getAllCategories();
+  const categoriesDistribution = JSON.parse(JSON.stringify(data));
 
   if (!product) return notFound();
 
@@ -26,7 +27,7 @@ const AdminProductUpdatePage = async (props: {
         type="Update"
         product={product}
         productId={product.id}
-        categories={data}
+        categories={categoriesDistribution}
       />
     </div>
   );

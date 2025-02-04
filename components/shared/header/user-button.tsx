@@ -33,8 +33,6 @@ const UserButton = async () => {
   const firstInitial = session.user?.name?.charAt(0).toUpperCase() ?? "";
   const user = await getUserById(session.user?.id!);
 
-  console.log("IMAGE", session.user);
-
   return (
     <div className="flex gap-2 items-center">
       <DropdownMenu>

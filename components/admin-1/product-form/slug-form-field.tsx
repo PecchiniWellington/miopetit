@@ -20,7 +20,7 @@ const SlugFormField = ({ form }: any) => {
         placeholder="Enter slug"
       />
       <Button
-        className={`focus-visible:ring-0 focus-visible:ring-offset-0 btn `}
+        className={`focus-visible:ring-0 focus-visible:ring-offset-0 btn w-[200px]`}
         onClick={(e) => handleSetValue(e)}
       >
         Generate

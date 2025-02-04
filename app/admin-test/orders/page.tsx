@@ -34,7 +34,11 @@ const AdminOrdersPage = async (props: {
 
   if (session?.user?.role !== ROLES.ADMIN) throw new Error("Unauthorized");
 
-  const orders = await getAllOrders({ page: Number(page), query: searchText });
+  const ordersResponse = await getAllOrders({
+    page: Number(page),
+    query: searchText,
+  });
+  const orders = JSON.parse(JSON.stringify(ordersResponse));
 
   return (
     <div className="space-y-2">
@@ -64,7 +68,7 @@ const AdminOrdersPage = async (props: {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {orders.data.map((order) => (
+            {orders.data.map((order: any) => (
               <TableRow key={order.id}>
                 <TableCell>{formatId(order.id)}</TableCell>
                 <TableCell>

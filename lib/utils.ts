@@ -144,8 +144,6 @@ export function formUrlQuery({
   const query = qs.parse(params);
   query[key] = value;
 
-  console.log("VALUE", value);
-
   return qs.stringifyUrl(
     {
       url: window.location.pathname,

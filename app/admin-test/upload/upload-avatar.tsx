@@ -18,7 +18,6 @@ export default function UploadAvatar({
   const inputFileRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const selectedFile = watch(name);
-  console.log("Selected file:", selectedFile);
 
   // ✅ Se c'è un valore iniziale dal database, impostalo come preview
   useEffect(() => {

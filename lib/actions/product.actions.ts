@@ -138,7 +138,6 @@ export async function getAllProducts({
     category: categoryMap?.[item.categoryId] ?? "N/A",
   }));
 
-  console.log("updatedData", updatedData);
   return {
     data: updatedData,
     totalPages: Math.ceil(productCount / limit),

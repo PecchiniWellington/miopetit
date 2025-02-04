@@ -76,7 +76,7 @@ const Sidebar = () => {
               pathname === item.href;
 
             return (
-              <Link key={item.href} href={`/admin-2${item.href}`}>
+              <Link key={item.href} href={`/admin${item.href}`}>
                 <motion.div
                   className={`${isActive ? "bg-gray-700" : ""} flex items-center p-4 text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors mb-2`}
                 >

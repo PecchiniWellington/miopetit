@@ -4,7 +4,6 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   try {
     const body = await req.json().catch(() => null);
-    console.log("Received Data:", body); // DEBUG
 
     if (body === null || !Array.isArray(body)) {
       console.error("Invalid data format", body);

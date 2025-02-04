@@ -44,7 +44,7 @@ const ProductsPage = async (props: {
       <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8">
         <div className="flex w-full gap-2 mb-6">
           <DynamicButton>
-            <Link href="/admin-2/products/create">Create Product</Link>
+            <Link href="/admin/products/create">Create Product</Link>
           </DynamicButton>
           <DownloadCSV csvData={products.data} />
         </div>

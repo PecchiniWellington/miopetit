@@ -223,7 +223,6 @@ export async function createCategory(category: ICategory) {
     revalidatePath("/admin/categories");
     return { success: true, message: "Category created successfully" };
   } catch (error) {
-    console.log("SONO QUI?", error);
     return { success: false, message: formatError(error) };
   }
 }
@@ -338,7 +337,6 @@ export async function updataCategory(
 
     return { success: true, message: "Product created successfully" };
   } catch (error) {
-    console.log("SONO QUI");
     return { success: false, message: formatError(error) };
   }
 }

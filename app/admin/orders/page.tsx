@@ -1,11 +1,10 @@
-"use client";
-import { CheckCircle, Clock, DollarSign, ShoppingBag } from "lucide-react";
-import { motion } from "framer-motion";
-import StatCard from "@/components/admin/common/StatCard";
 import DailyOrders from "@/components/admin/orders/DailyOrders";
 import OrderDistribution from "@/components/admin/orders/OrderDistribution";
 import OrdersTable from "@/components/admin/orders/OrdersTable";
 import Header from "@/components/admin/common/Header";
+import OrderCards from "./order-card";
+import { getAllOrders } from "@/lib/actions/admin/admin.actions";
+import CardWorking from "@/components/dev/card-working";
 
 const orderStats = {
   totalOrders: "1,234",
@@ -14,50 +13,34 @@ const orderStats = {
   totalRevenue: "$98,765",
 };
 
-const OrdersPage = () => {
+const OrdersPage = async (props: {
+  searchParams: Promise<{ page: string; query: string }>;
+}) => {
+  const { page = "1", query: searchText } = await props.searchParams;
+  const ordersResponse = await getAllOrders({
+    page: Number(page),
+    query: searchText,
+  });
+  const orders = JSON.parse(JSON.stringify(ordersResponse));
   return (
     <div className="flex-1 relative z-10 overflow-auto">
       <Header title={"Orders"} />
 
       <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8">
-        <motion.div
-          className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-        >
-          <StatCard
-            name="Total Orders"
-            icon={ShoppingBag}
-            value={orderStats.totalOrders}
-            color="#6366F1"
-          />
-          <StatCard
-            name="Pending Orders"
-            icon={Clock}
-            value={orderStats.pendingOrders}
-            color="#F59E0B"
-          />
-          <StatCard
-            name="Completed Orders"
-            icon={CheckCircle}
-            value={orderStats.completedOrders}
-            color="#10B981"
-          />
-          <StatCard
-            name="Total Revenue"
-            icon={DollarSign}
-            value={orderStats.totalRevenue}
-            color="#EF4444"
-          />
-        </motion.div>
+        <CardWorking>
+          <OrderCards orderStats={orderStats} />
+        </CardWorking>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          <DailyOrders />
-          <OrderDistribution />
+          <CardWorking>
+            <DailyOrders />
+          </CardWorking>
+          <CardWorking>
+            <OrderDistribution />
+          </CardWorking>
         </div>
 
-        <OrdersTable />
+        <OrdersTable orders={orders} />
       </main>
     </div>
   );

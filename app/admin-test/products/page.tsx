@@ -85,7 +85,7 @@ const ProductsPage = async (props: {
               <TableCell>{product.rating}</TableCell>
               <TableCell className="flex gap-1">
                 <DynamicButton>
-                  <Link href={`/admin-2/products/${product.id}`}>Edit</Link>
+                  <Link href={`/admin/products/${product.id}`}>Edit</Link>
                 </DynamicButton>
                 <DeleteDialog id={product.id} action={deleteProduct} />
               </TableCell>
