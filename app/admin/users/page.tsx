@@ -1,30 +1,24 @@
-import Pagination from "@/components/shared/pagination";
-import {
-  TableHeader,
-  TableRow,
-  TableHead,
-  TableBody,
-  TableCell,
-  Table,
-} from "@/components/ui/table";
-import { formatId } from "@/lib/utils";
-import { Edit2 } from "lucide-react";
-import { Metadata } from "next";
-import Link from "next/link";
-import React from "react";
-import { Badge } from "@/components/ui/badge";
-import ROLES from "@/lib/constants/roles";
-import { deleteUser, getAllUsers } from "@/lib/actions/admin/admin.actions";
-import DeleteDialog from "@/components/shared/delete-dialog";
-import { auth } from "@/auth";
-import LayoutTitle from "@/components/layout-title";
-import DynamicButton from "@/components/dynamic-button";
-import DownloadCSV from "../categories/download-csv";
-import { getAllProducts } from "@/lib/actions/product.actions";
+import { Badge } from "lucide-react";
 
-export const metadata: Metadata = {
-  title: "Users",
-  description: "Manage users",
+import Header from "@/components/admin/common/Header";
+import UsersTable from "@/components/admin/users/UsersTable";
+import UserGrowthChart from "@/components/admin/users/UserGrowthChart";
+import UserActivityHeatmap from "@/components/admin/users/UserActivityHeatmap";
+import UserDemographicsChart from "@/components/admin/users/UserDemographicsChart";
+import UsersCard from "./users-card";
+import { auth } from "@/auth";
+import { getAllUsers } from "@/lib/actions/admin/admin.actions";
+import DownloadCSV from "@/app/admin-test/categories/download-csv";
+import DynamicButton from "@/components/dynamic-button";
+import Link from "next/link";
+import { getOrderSummary } from "@/lib/actions/order/order.action";
+import CardWorking from "@/components/dev/card-working";
+
+const userStats = {
+  totalUsers: 152845,
+  newUsersToday: 243,
+  activeUsers: 98520,
+  churnRate: "2.4%",
 };
 
 const UsersPage = async (props: {
@@ -40,104 +34,49 @@ const UsersPage = async (props: {
   const page = Number(searchParams.page) || 1;
   const searchQuery = searchParams.query || "";
 
-  const users = await getAllUsers({
+  const usersResponse = await getAllUsers({
     query: searchQuery,
     page,
   });
 
-  const Roles = ({ userRole }: any) => {
-    switch (userRole) {
-      case ROLES.ADMIN:
-        return (
-          <Badge className="bg-blue-100 text-blue-700"> {ROLES.ADMIN}</Badge>
-        );
+  const summaryResponse = await getOrderSummary();
 
-      case ROLES.USER:
-        return (
-          <Badge className="bg-purple-100 text-purple-700"> {ROLES.USER}</Badge>
-        );
-
-      case ROLES.EDITOR:
-        return (
-          <Badge className="bg-orange-100 text-orange-700">
-            {ROLES.EDITOR}
-          </Badge>
-        );
-
-      case ROLES.CONTRIBUTOR:
-        return (
-          <Badge className="bg-teal-100 text-teal-700">
-            {ROLES.CONTRIBUTOR}
-          </Badge>
-        );
-
-      default:
-        return <div>No role</div>;
-    }
-  };
+  const users = JSON.parse(JSON.stringify(usersResponse));
+  const summary = JSON.parse(JSON.stringify(summaryResponse));
 
   // remove user logged in from the list
-  users.data = users.data.filter((user) => user.id !== session?.user?.id);
+  users.data = users.data.filter((user: any) => user.id !== session?.user?.id);
 
   return (
-    <div className="space-y-2">
-      <div className="flex-between">
-        <div className="flex items-center gap-3">
-          <LayoutTitle title="Users" />
-          {searchQuery && (
-            <div>
-              Filtered by <i>&quot;{searchQuery}&quot;</i>{" "}
-              <Link href="/admin/products">
-                <DynamicButton>Remove Filter</DynamicButton>
-              </Link>
-            </div>
-          )}
-        </div>
-        <div className="flex gap-2">
+    <div className="flex-1 overflow-auto relative z-10">
+      <Header title="Users" />
+
+      <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8 ">
+        <div className="flex gap-2 mb-4">
           <DynamicButton>
             <Link href="/admin/users/create">Create User</Link>
           </DynamicButton>
           <DownloadCSV csvData={users.data} />
         </div>
-      </div>
-      <div className="overflow-x-auto">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>ID</TableHead>
-              <TableHead>NAME</TableHead>
-              <TableHead>EMAIL</TableHead>
-              <TableHead>ROLE</TableHead>
-              <TableHead>ACTIONS</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {users.data.map((user) => (
-              <TableRow key={user.id}>
-                <TableCell>{formatId(user.id)}</TableCell>
-                <TableCell>{user.name}</TableCell>
-                <TableCell>{user.email}</TableCell>
-                <TableCell>
-                  <Roles userRole={user.role} />
-                </TableCell>
-                <TableCell className="flex items-center space-x-2">
-                  <DynamicButton>
-                    <Link href={`/admin/users/${user.id}`}>
-                      <Edit2 height={10} width={10} />
-                    </Link>
-                  </DynamicButton>
-                  <DeleteDialog action={deleteUser} id={user.id} />
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-        {users.totalPages > 1 && (
-          <Pagination page={Number(page) || 1} totalPages={users?.totalPages} />
-        )}
-      </div>
+        {/* STATS */}
+        <UsersCard userStats={userStats} summary={summary} users={users} />
+
+        <UsersTable users={users} />
+
+        {/* USER CHARTS */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+          <CardWorking>
+            <UserGrowthChart />
+          </CardWorking>
+          <CardWorking>
+            <UserActivityHeatmap />
+          </CardWorking>
+          <CardWorking>
+            <UserDemographicsChart />
+          </CardWorking>
+        </div>
+      </main>
     </div>
   );
 };
-
 export default UsersPage;

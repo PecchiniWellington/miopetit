@@ -19,7 +19,7 @@ const AdminUserDetailPage = async (props: {
   if (!user) notFound();
 
   return (
-    <div className="space-y-8 max-w-lg mx-auto">
+    <div className="space-y-8 mx-auto flex-1 overflow-auto relative z-10 max-w-7xl py-6 px-4 lg:px-8">
       <h1 className="h2-bold">Update User</h1>
       <UpdateUserForm user={user} />
     </div>

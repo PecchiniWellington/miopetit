@@ -1,30 +1,30 @@
 "use client";
-import DynamicButton from "@/components/dynamic-button";
+import UploadAvatar from "@/app/admin-test/upload/upload-avatar";
+import DynamicFormField from "@/components/shared/dynamic-form-field";
+import { Button } from "@/components/ui/button";
 import {
   FormField,
   FormItem,
   FormLabel,
   FormControl,
   FormMessage,
-  Form,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectItem,
-  SelectTrigger,
-  SelectContent,
-  SelectValue,
-} from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { updateUser } from "@/lib/actions/admin/admin.actions";
 import { USER_ROLES } from "@/lib/constants/roles";
 import { updateUserSchema } from "@/lib/validators/user.validator";
 import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@radix-ui/react-select";
 
+import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React from "react";
-import { ControllerRenderProps, useForm } from "react-hook-form";
+import { useForm, FormProvider, ControllerRenderProps } from "react-hook-form";
 import { z } from "zod";
 
 const UpdateUserForm = ({
@@ -35,148 +35,154 @@ const UpdateUserForm = ({
   const router = useRouter();
   const { toast } = useToast();
 
+  // ✅ Imposta il valore di default dall'utente del database
   const form = useForm<z.infer<typeof updateUserSchema>>({
     resolver: zodResolver(updateUserSchema),
-    defaultValues: user,
+    defaultValues: { ...user, image: user.image || "" }, // Usa l'avatar dal database
   });
+
+  const { handleSubmit, setValue, watch, reset, formState } = form;
+
+  const startUpload = async (e: any) => {
+    e.preventDefault();
+
+    try {
+      const image = watch("image");
+
+      if (!(image instanceof File)) {
+        throw new Error("Nessun file selezionato.");
+      }
+
+      const formData = new FormData();
+      formData.append("file", image);
+
+      const response = await fetch("/api/avatar/upload-profile-image", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error(`Errore HTTP: ${response.status}`);
+      }
+
+      const { url } = await response.json();
+      setValue("image", url); // ✅ Salva l'URL nel form
+      console.log("Image uploaded:", url);
+
+      // ✅ Aggiorna il form con il nuovo valore e invialo
+      const formValues = form.getValues();
+      onSubmit({ ...formValues, image: url });
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
+  };
 
   const onSubmit = async (values: z.infer<typeof updateUserSchema>) => {
     try {
       const res = await updateUser({
         ...values,
         id: user.id,
+        image: values.image, // ✅ Ora è un URL, non un File
       });
 
       if (!res.success) {
-        toast({
-          className: "bg-red-100 text-red-700 px-5 py-2",
-          title: "Error",
-          description: res.message,
-        });
-        return;
+        throw new Error(res.message);
       }
 
       toast({
         className: "bg-green-100 text-green-700 px-5 py-2",
         title: "Success",
-        description: res.message,
+        description: "Utente aggiornato con successo!",
       });
 
-      form.reset();
-
+      reset();
       router.push("/admin/users");
-    } catch (error) {
+    } catch (error: any) {
       toast({
         className: "bg-red-100 text-red-700 px-5 py-2",
         title: "Error",
-        description: (error as Error).message,
+        description: error.message,
       });
     }
   };
 
   return (
-    <Form {...form}>
-      <form
-        className="space-y-4"
-        onSubmit={form.handleSubmit(onSubmit)}
-        method="POST"
-      >
-        <div>
-          {/* Email */}
-          <FormField
-            control={form.control}
-            name="email"
-            render={({
-              field,
-            }: {
-              field: ControllerRenderProps<
-                z.infer<typeof updateUserSchema>,
-                "email"
-              >;
-            }) => (
-              <FormItem className="w-full">
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input
-                    disabled={true}
-                    placeholder="Enter product email"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+    <FormProvider {...form}>
+      <form className="space-y-4" onSubmit={startUpload} method="POST">
+        <div className="upload-field flex flex-col md:flex-row gap-5">
+          <UploadAvatar name="image" control={form.control} />
         </div>
+
+        {/* Email */}
+        <DynamicFormField
+          disabled
+          control={form.control}
+          name="email"
+          schema={updateUserSchema}
+          title="Email"
+          placeholder="Enter email"
+        />
+
         {/* Name */}
-        <div>
-          <FormField
-            control={form.control}
-            name="name"
-            render={({
-              field,
-            }: {
-              field: ControllerRenderProps<
-                z.infer<typeof updateUserSchema>,
-                "name"
-              >;
-            }) => (
-              <FormItem className="w-full">
-                <FormLabel>Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="Enter product name" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
+        <DynamicFormField
+          control={form.control}
+          name="name"
+          schema={updateUserSchema}
+          title="Name"
+          placeholder="Enter name"
+        />
+
         {/* Role */}
-        <div>
-          <FormField
-            control={form.control}
-            name="role"
-            render={({
-              field,
-            }: {
-              field: ControllerRenderProps<
-                z.infer<typeof updateUserSchema>,
-                "role"
-              >;
-            }) => (
-              <FormItem className="w-full">
-                <FormLabel>Role</FormLabel>
-                <FormControl>
-                  <Select
-                    onValueChange={field.onChange}
-                    value={field.value.toString()}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a role"></SelectValue>
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent className="bg-slate-100 dark:bg-slate-800 dark:text-white">
-                      {USER_ROLES.map((role) => (
-                        <SelectItem key={role} value={role}>
-                          {role.charAt(0).toUpperCase() + role.slice(1)}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
+        <FormField
+          control={form.control}
+          name="role"
+          render={({
+            field,
+          }: {
+            field: ControllerRenderProps<
+              z.infer<typeof updateUserSchema>,
+              "role"
+            >;
+          }) => (
+            <FormItem className="w-full">
+              <FormLabel>Role</FormLabel>
+              <FormControl>
+                <Select
+                  onValueChange={field.onChange}
+                  value={field.value.toString()}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a role"></SelectValue>
+                  </SelectTrigger>
+                  <SelectContent>
+                    {USER_ROLES.map((role) => (
+                      <SelectItem key={role} value={role}>
+                        {role.charAt(0).toUpperCase() + role.slice(1)}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* Submit Button */}
         <div className="flex-between">
-          <DynamicButton isPending={form.formState.isSubmitting}>
-            {form.formState.isSubmitting ? "Submitting..." : "Update User"}
-          </DynamicButton>
+          <Button type="submit" disabled={formState.isSubmitting}>
+            {formState.isSubmitting ? (
+              <div className="flex items-center gap-2">
+                <Loader2 className="animate-spin w-5 h-5" />
+                Uploading & Updating...
+              </div>
+            ) : (
+              "Update User"
+            )}
+          </Button>
         </div>
       </form>
-    </Form>
+    </FormProvider>
   );
 };
 
