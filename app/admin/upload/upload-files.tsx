@@ -11,9 +11,7 @@ import Papa from "papaparse";
 
 export default function UploadFiles() {
   const inputFileRef = useRef<HTMLInputElement>(null);
-  const [uploadProgress, setUploadProgress] = useState(0);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [selectedTable, setSelectedTable] = useState<string>("");
   const [tableData, setTableData] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);

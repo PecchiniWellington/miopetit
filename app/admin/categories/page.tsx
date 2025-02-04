@@ -34,6 +34,17 @@ const AdminCategoriesPage = async (props: {
 
   const categories = await getAllCategories();
 
+  const csvData =
+    categories &&
+    categories.data?.map((category: any) => ({
+      ID: formatId(category.id),
+      Name: category.name,
+      Slug: category.slug || "N/A",
+      Created_At: formatDateTime(category.createdAt).dateTime,
+      Updated_At: formatDateTime(category.updatedAt).dateTime,
+      Description: category.description || "N/A",
+    }));
+
   return (
     <div className="space-y-2">
       <div className="flex justify-between items-center">
@@ -52,7 +63,7 @@ const AdminCategoriesPage = async (props: {
           <DynamicButton>
             <Link href="/admin/categories/create">Create Category</Link>
           </DynamicButton>
-          <DownloadCSV categories={categories?.data} />
+          <DownloadCSV csvData={csvData} />
         </div>
       </div>
 

@@ -12,10 +12,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { deleteProduct, getAllProducts } from "@/lib/actions/product.actions";
-import { formatCurrency, formatId } from "@/lib/utils";
+import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
 import { Trash } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+import DownloadCSV from "../categories/download-csv";
+import { Product } from "@/types";
+import { PRODUCT_DEFAULT_VALUES } from "@/lib/constants";
 
 const ProductsPage = async (props: {
   searchParams: {
@@ -36,6 +39,21 @@ const ProductsPage = async (props: {
     category,
   });
 
+  const csvData =
+    products &&
+    products.data?.map((product: Product) => ({
+      name: product.name || PRODUCT_DEFAULT_VALUES.name,
+      slug: product.slug || PRODUCT_DEFAULT_VALUES.slug,
+      categoryId: product.categoryId || PRODUCT_DEFAULT_VALUES.categoryId,
+      brand: product.brand || PRODUCT_DEFAULT_VALUES.name,
+      description: product.description || PRODUCT_DEFAULT_VALUES.description,
+      stock: product.stock || PRODUCT_DEFAULT_VALUES.stock,
+      images: product.images || PRODUCT_DEFAULT_VALUES.images,
+      isFeatured: product.isFeatured || PRODUCT_DEFAULT_VALUES.isFeatured,
+      banner: product.banner || PRODUCT_DEFAULT_VALUES.banner,
+      price: product.price || PRODUCT_DEFAULT_VALUES.price,
+    }));
+
   return (
     <div className="space-y-2">
       <div className="flex-between">
@@ -50,9 +68,12 @@ const ProductsPage = async (props: {
             </div>
           )}
         </div>
-        <DynamicButton>
-          <Link href="/admin/products/create">Create Product</Link>
-        </DynamicButton>
+        <div className="flex gap-2">
+          <DynamicButton>
+            <Link href="/admin/products/create">Create Product</Link>
+          </DynamicButton>
+          <DownloadCSV csvData={csvData} />
+        </div>
       </div>
 
       <Table>

@@ -1,25 +1,30 @@
 "use client";
 
-import { formatDateTime, formatId } from "@/lib/utils";
+import { cn, formatDateTime, formatId } from "@/lib/utils";
 import Papa from "papaparse";
 
-const DownloadCSV = ({ categories }: { categories: any }) => {
+const DownloadCSV = ({ csvData }: any) => {
   const downloadCSV = () => {
-    if (!categories || categories.length === 0) {
+    console.log(csvData);
+    /* if (!csvData || csvData.length === 0) {
       alert("No categories available to download.");
       return;
+    } */
+    if (!csvData || csvData.length === 0) {
+      alert("No data available to download.");
+      return;
     }
-
-    const csvData = categories.map((category: any) => ({
+    /*  const csvData = categories.map((category: any) => ({
       ID: formatId(category.id),
       Name: category.name,
       Slug: category.slug || "N/A",
       Created_At: formatDateTime(category.createdAt).dateTime,
       Updated_At: formatDateTime(category.updatedAt).dateTime,
       Description: category.description || "N/A",
-    }));
+    })); */
 
     const csv = Papa.unparse(csvData);
+    console.log("SUCA", csv);
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
