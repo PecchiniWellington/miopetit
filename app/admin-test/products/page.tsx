@@ -18,11 +18,11 @@ import Link from "next/link";
 import DownloadCSV from "../categories/download-csv";
 
 const ProductsPage = async (props: {
-  searchParams: {
+  searchParams: Promise<{
     query: string;
     page: string;
     category: string;
-  };
+  }>;
 }) => {
   const searchParams = await props.searchParams;
 
