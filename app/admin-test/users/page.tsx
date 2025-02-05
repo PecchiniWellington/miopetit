@@ -26,11 +26,11 @@ export const metadata: Metadata = {
 };
 
 const UsersPage = async (props: {
-  searchParams: {
+  searchParams: Promise<{
     query: string;
     page: string;
     users: string;
-  };
+  }>;
 }) => {
   const searchParams = await props.searchParams;
   const session = await auth();
