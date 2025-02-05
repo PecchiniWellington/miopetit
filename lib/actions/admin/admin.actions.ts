@@ -98,6 +98,7 @@ export async function updateUser(user: z.infer<typeof updateUserSchema>) {
       data: {
         name: user.name,
         role: user.role,
+        status: user.status,
         image: user.image,
       },
     });

@@ -1,16 +1,15 @@
 "use client";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Edit, Edit2, Search } from "lucide-react";
+import { Edit, Search } from "lucide-react";
 import { formatId } from "@/lib/utils";
 import ROLES from "@/lib/constants/roles";
 import { Badge } from "@/components/ui/badge";
-import DynamicButton from "@/components/dynamic-button";
 import DeleteDialog from "@/components/shared/delete-dialog";
 import { deleteUser } from "@/lib/actions/admin/admin.actions";
 import Link from "next/link";
-import { deleteProduct } from "@/lib/actions/product.actions";
 import Image from "next/image";
+import { USER_STATUS_ACTIVATION } from "@/lib/constants/user-status";
 
 const Roles = ({ userRole }: any) => {
   switch (userRole) {
@@ -32,6 +31,42 @@ const Roles = ({ userRole }: any) => {
     case ROLES.CONTRIBUTOR:
       return (
         <Badge className="bg-teal-100 text-teal-700">{ROLES.CONTRIBUTOR}</Badge>
+      );
+
+    default:
+      return <Badge className="bg-gray-400 text-gray-700">NO ROLE</Badge>;
+  }
+};
+const Status = ({ userRole }: any) => {
+  switch (userRole) {
+    case USER_STATUS_ACTIVATION.ACTIVE:
+      return (
+        <Badge className="bg-teal-100 text-teal-700">
+          {" "}
+          {USER_STATUS_ACTIVATION.ACTIVE}
+        </Badge>
+      );
+
+    case USER_STATUS_ACTIVATION.INACTIVE:
+      return (
+        <Badge className="bg-orange-100 text-orange-700">
+          {" "}
+          {USER_STATUS_ACTIVATION.INACTIVE}
+        </Badge>
+      );
+
+    case USER_STATUS_ACTIVATION.PENDING:
+      return (
+        <Badge className="bg-orange-100 text-orange-700">
+          {USER_STATUS_ACTIVATION.PENDING}
+        </Badge>
+      );
+
+    case USER_STATUS_ACTIVATION.BANNED:
+      return (
+        <Badge className="bg-red-100 text-red-700">
+          {USER_STATUS_ACTIVATION.BANNED}
+        </Badge>
       );
 
     default:
@@ -113,8 +148,9 @@ const UsersTable = ({ users }: any) => {
                           <Image
                             src={user.image}
                             alt={user.name}
-                            width={40}
-                            height={40}
+                            width={50}
+                            height={50}
+                            className="object-cover h-full w-full"
                           />
                         ) : (
                           <div>{user.name.charAt(0)}</div>

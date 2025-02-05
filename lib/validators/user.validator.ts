@@ -10,30 +10,5 @@ export const updateUserProfileSchema = z.object({
 export const updateUserSchema = updateUserProfileSchema.extend({
   id: z.string().min(1, "ID is required"),
   role: z.string().min(1, "Role is required"),
+  status: z.string().optional(),
 });
-
-/* <FormField
-            control={form.control}
-            name="image"
-            render={({
-              field,
-            }: {
-              field: ControllerRenderProps<
-                z.infer<typeof updateUserSchema>,
-                "image"
-              >;
-            }) => (
-              <FormItem className="w-full">
-                {JSON.stringify(field.value)}
-                <FormLabel>Image</FormLabel>
-                <FormControl>
-                  <Input
-                    value={field.value || "/images/placeholder.jpg"}
-                    disabled={true}
-                    placeholder="Enter  image"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          /> */

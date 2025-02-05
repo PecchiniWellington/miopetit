@@ -6,6 +6,7 @@ import DynamicFormField from "@/components/shared/dynamic-form-field";
 import { useToast } from "@/hooks/use-toast";
 import { updateUser } from "@/lib/actions/admin/admin.actions";
 import { USER_ROLES } from "@/lib/constants/roles";
+import { USER_STATUS } from "@/lib/constants/user-status";
 import { updateUserSchema } from "@/lib/validators/user.validator";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -85,6 +86,9 @@ const UpdateUserForm = ({
   const roles = USER_ROLES.map((role) => {
     return { label: role, value: role };
   });
+  const status = USER_STATUS.map((userStatus) => {
+    return { label: userStatus, value: userStatus };
+  });
 
   return (
     <FormProvider {...form}>
@@ -124,15 +128,15 @@ const UpdateUserForm = ({
             placeholder="Enter role"
           />
 
-          {/* Role */}
+          {/* Status */}
           <DynamicFormField
             type="select"
-            options={roles}
+            options={status}
             control={form.control}
-            name="role"
+            name="status"
             schema={updateUserSchema}
-            title="Role"
-            placeholder="Enter role"
+            title="Status"
+            placeholder="Enter status"
           />
         </div>
 

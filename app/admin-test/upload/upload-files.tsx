@@ -53,22 +53,16 @@ export default function UploadFiles() {
       });
 
       let formattedData = data.map((item: any) => ({
-        /*    ...PRODUCT_DEFAULT_VALUES, */
         ...item,
         categoryId: item.categoryId || "d0380863-516c-4fda-9ddf-818252b7916f",
       }));
-
-      /*  console.log(
-        "Formatted Data:",
-        JSON.stringify(formatCategoriesData(formattedData), null, 2)
-      );  */ // DEBUG
 
       switch (urlPath) {
         case "categories":
           try {
             const data = formatCategoriesData(formattedData);
             /*   console.log("Data to be sent:", JSON.stringify(data, null, 2)); */ // DEBUG
-            const responseCategory = await fetch(`/api/categories/upload`, {
+            const responseCategory = await fetch(`/api/upload/categories`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ data: formattedData }),
@@ -86,7 +80,7 @@ export default function UploadFiles() {
           break;
         case "products":
           try {
-            const response = await fetch(`/api/products/upload`, {
+            const response = await fetch(`/api/upload/products`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify(formattedData),
@@ -104,7 +98,25 @@ export default function UploadFiles() {
           break;
         case "users":
           try {
-            const response = await fetch(`/api/users/upload`, {
+            const response = await fetch(`/api/upload/users`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(formattedData),
+            });
+
+            if (!response.ok) {
+              const errorText = await response.text();
+              const errorData = errorText ? JSON.parse(errorText) : {};
+              throw new Error(errorData.message || "Failed to upload data.");
+            }
+          } catch (error) {
+            console.log("Error:", error);
+            setErrorMessage(error.message);
+          }
+          break;
+        case "orders":
+          try {
+            const response = await fetch(`/api/upload/orders`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify(formattedData),
@@ -152,6 +164,7 @@ export default function UploadFiles() {
           <option value="categories">Categories</option>
           <option value="products">Products</option>
           <option value="users">Users</option>
+          <option value="orders">Orders</option>
         </select>
       </div>
 
