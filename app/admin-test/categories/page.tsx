@@ -19,13 +19,13 @@ import { ICategory } from "@/types";
 import Link from "next/link";
 import DownloadCSV from "./download-csv";
 
-const AdminCategoriesPage = async (props: {
+const AdminCategoriesPage: React.FC<{
   searchParams: {
     query: string;
     page: string;
     category: string;
   };
-}) => {
+}> = async (props) => {
   const searchParams = await props.searchParams;
 
   const page = Number(searchParams.page) || 1;
