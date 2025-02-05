@@ -1,13 +1,13 @@
-import { ArrowLeftFromLine, HomeIcon } from "lucide-react";
+import { ArrowLeftFromLine } from "lucide-react";
 import Link from "next/link";
 
-const Header = ({ title }: any) => {
+const Header = ({ title }: { title: string }) => {
   return (
-    <header className="bg-gray-800 bg-opacity-50 backdrop-blur-md shadow-lg border-b border-gray-700">
-      <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-start items-center">
+    <header className="bg-opacity/50 border-b border-gray-700 bg-gray-800 shadow-lg backdrop-blur-md">
+      <div className="mx-auto flex max-w-7xl items-center justify-start p-4 sm:px-6 lg:px-8">
         <Link
           href="/"
-          className="border-slate-600 border-2 mr-4 rounded-2 px-2 py-1"
+          className="mr-4 rounded-2 border-2 border-slate-600 px-2 py-1"
         >
           <ArrowLeftFromLine />
         </Link>

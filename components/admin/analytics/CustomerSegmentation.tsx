@@ -1,13 +1,13 @@
 "use client";
 import { motion } from "framer-motion";
 import {
-  ResponsiveContainer,
+  Legend,
+  PolarAngleAxis,
+  PolarGrid,
+  PolarRadiusAxis,
   Radar,
   RadarChart,
-  PolarGrid,
-  PolarAngleAxis,
-  PolarRadiusAxis,
-  Legend,
+  ResponsiveContainer,
   Tooltip,
 } from "recharts";
 
@@ -23,12 +23,12 @@ const customerSegmentationData = [
 const CustomerSegmentation = () => {
   return (
     <motion.div
-      className="bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-lg shadow-lg rounded-xl p-6 border border-gray-700"
+      className="bg-opacity/50 rounded-xl border border-gray-700 bg-gray-800 p-6 shadow-lg backdrop-blur-lg"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.6 }}
     >
-      <h2 className="text-xl font-semibold text-gray-100 mb-4">
+      <h2 className="mb-4 text-xl font-semibold text-gray-100">
         Customer Segmentation
       </h2>
       <div style={{ width: "100%", height: 300 }}>

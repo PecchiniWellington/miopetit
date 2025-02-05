@@ -2,12 +2,12 @@
 
 import { motion } from "framer-motion";
 import {
-  DollarSign,
-  Users,
-  ShoppingBag,
-  Eye,
   ArrowDownRight,
   ArrowUpRight,
+  DollarSign,
+  Eye,
+  ShoppingBag,
+  Users,
 } from "lucide-react";
 
 const overviewData = [
@@ -19,13 +19,12 @@ const overviewData = [
 
 const OverviewCards = () => {
   return (
-    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8">
+    <div className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
       {overviewData.map((item, index) => (
         <motion.div
           key={item.name}
-          className="bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-lg shadow-lg
-            rounded-xl p-6 border border-gray-700
-          "
+          className="bg-opacity-50/50 rounded-xl border border-gray-700 bg-gray-800
+            p-6 shadow-lg backdrop-blur-lg"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: index * 0.1 }}
@@ -40,7 +39,7 @@ const OverviewCards = () => {
 
             <div
               className={`
-              p-3 rounded-full bg-opacity-20 ${item.change >= 0 ? "bg-green-500" : "bg-red-500"}
+              rounded-full bg-opacity-20 p-3 ${item.change >= 0 ? "bg-green-500" : "bg-red-500"}
               `}
             >
               <item.icon

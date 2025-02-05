@@ -1,7 +1,7 @@
 import Header from "@/components/admin/common/Header";
-import SalesOverviewChart from "@/components/admin/overview/SalesOverviewChart";
 import CategoryDistributionChart from "@/components/admin/overview/CategoryDistributionChart";
 import SalesChannelChart from "@/components/admin/overview/SalesChannelChart";
+import SalesOverviewChart from "@/components/admin/overview/SalesOverviewChart";
 import { getAllCategories } from "@/lib/actions/admin/admin.actions";
 import OverviewCard from "./overview-card";
 
@@ -10,16 +10,16 @@ const OverviewPage = async () => {
   const categoriesDistribution = JSON.parse(JSON.stringify(categories));
 
   return (
-    <div className="flex-1 overflow-auto relative z-10">
+    <div className="relative z-10 flex-1 overflow-auto">
       <Header title="Overview" />
 
-      <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8">
+      <main className="mx-auto max-w-7xl px-4 py-6 lg:px-8">
         {/* STATS */}
         <OverviewCard />
 
         {/* CHARTS */}
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
           <SalesOverviewChart />
           <CategoryDistributionChart
             categoriesDistribution={categoriesDistribution}

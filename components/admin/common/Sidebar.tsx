@@ -1,4 +1,5 @@
 "use client";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   BarChart2,
   DollarSign,
@@ -9,10 +10,9 @@ import {
   TrendingUp,
   Users,
 } from "lucide-react";
-import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 
 const SIDEBAR_ITEMS = [
   {
@@ -54,22 +54,22 @@ const Sidebar = () => {
   const pathname = usePathname();
   return (
     <motion.div
-      className={`relative z-10 transition-all duration-300 ease-in-out flex-shrink-0 ${
+      className={`relative z-10 shrink-0 transition-all duration-300 ease-in-out ${
         isSidebarOpen ? "w-64" : "w-20"
       }`}
       animate={{ width: isSidebarOpen ? 256 : 80 }}
     >
-      <div className="h-full bg-gray-800 bg-opacity-50 backdrop-blur-md p-4 flex flex-col border-r border-gray-700">
+      <div className="flex h-full flex-col border-r border-gray-700 bg-gray-800/50 p-4 backdrop-blur-md">
         <motion.button
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          className="p-2 rounded-full hover:bg-gray-700 transition-colors max-w-fit"
+          className="max-w-fit rounded-full p-2 transition-colors hover:bg-gray-700"
         >
           <Menu size={24} />
         </motion.button>
 
-        <nav className="mt-8 flex-grow">
+        <nav className="mt-8 grow">
           {SIDEBAR_ITEMS.map((item) => {
             const isActive =
               (pathname.includes(item.href) && item.href.length > 1) ||
@@ -78,7 +78,7 @@ const Sidebar = () => {
             return (
               <Link key={item.href} href={`/admin${item.href}`}>
                 <motion.div
-                  className={`${isActive ? "bg-gray-700" : ""} flex items-center p-4 text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors mb-2`}
+                  className={`${isActive ? "bg-gray-700" : ""} mb-2 flex items-center rounded-lg p-4 text-sm font-medium transition-colors hover:bg-gray-700`}
                 >
                   <item.icon
                     size={20}

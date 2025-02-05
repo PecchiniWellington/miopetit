@@ -1,7 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Papa from "papaparse";
 import {
   Table,
   TableBody,
@@ -10,8 +8,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import Papa from "papaparse";
+import { useEffect, useState } from "react";
 
-export default function CSVTable({ CSV_URL }: any) {
+export default function CSVTable({ CSV_URL }: { CSV_URL: string }) {
   const [data, setData] = useState<string[][]>([]);
   const [searchName, setSearchName] = useState("");
   const [searchId, setSearchId] = useState("");
@@ -79,7 +79,7 @@ export default function CSVTable({ CSV_URL }: any) {
           placeholder="Cerca per nome"
           value={searchName}
           onChange={(e) => setSearchName(e.target.value)}
-          className="border p-2 mr-2"
+          className="mr-2 border p-2"
         />
         <input
           type="text"
@@ -109,11 +109,7 @@ export default function CSVTable({ CSV_URL }: any) {
                   const fullImageUrl = getImageUrl(baseName); // Usa il nome base per ottenere l'URL
                   return (
                     <TableCell key={cellIndex}>
-                      <img
-                        src={fullImageUrl}
-                        alt="image"
-                        className="w-16 h-16"
-                      />
+                      <img src={fullImageUrl} alt="image" className="size-16" />
                     </TableCell>
                   );
                 }
@@ -130,7 +126,7 @@ export default function CSVTable({ CSV_URL }: any) {
         <button
           onClick={() => paginate(currentPage - 1)}
           disabled={currentPage === 1}
-          className="px-4 py-2 mr-2 bg-gray-200 rounded"
+          className="mr-2 rounded bg-gray-200 px-4 py-2"
         >
           Precedente
         </button>
@@ -140,7 +136,7 @@ export default function CSVTable({ CSV_URL }: any) {
         <button
           onClick={() => paginate(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="px-4 py-2 ml-2 bg-gray-200 rounded"
+          className="ml-2 rounded bg-gray-200 px-4 py-2"
         >
           Successivo
         </button>

@@ -1,10 +1,10 @@
 import Menu from "@/components/shared/header/menu";
+import LeftSidebar from "@/components/shared/sidebar/left-sidebar";
 import { APP_NAME } from "@/lib/constants";
+import { USER_ROUTES } from "@/lib/constants/routes";
 import Image from "next/image";
 import Link from "next/link";
 import MainNav from "./main-nav";
-import LeftSidebar from "@/components/shared/sidebar/left-sidebar";
-import { USER_ROUTES } from "@/lib/constants/routes";
 
 const links = [
   {
@@ -37,21 +37,21 @@ export default function UserLayout({
                 width={48}
                 priority={true}
               />
-              <span className="hidden lg:block font-bold text-2xl ml-3">
+              <span className="ml-3 hidden text-2xl font-bold lg:block">
                 {APP_NAME}
               </span>
             </Link>
           </div>
           <MainNav className="mx-6" />
           {/* MAIN NAV  */}
-          <div className="mx-6 items-center flex space-x-4">
+          <div className="mx-6 flex items-center space-x-4">
             <Menu />
           </div>
         </div>
 
         <div className="flex  w-full">
           <LeftSidebar sidebarLinks={links} />
-          <div className="p-6 flex-1">{children}</div>
+          <div className="flex-1 p-6">{children}</div>
         </div>
       </div>
     </>

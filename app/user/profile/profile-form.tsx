@@ -1,6 +1,5 @@
 "use client";
 import DynamicButton from "@/components/dynamic-button";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -14,7 +13,6 @@ import { updateUserProfile } from "@/lib/actions/user/user.action";
 import { updateUserProfileSchema } from "@/lib/validators/user.validator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSession } from "next-auth/react";
-import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 

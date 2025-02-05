@@ -1,4 +1,5 @@
 "use client";
+import { motion } from "framer-motion";
 import {
   Bar,
   BarChart,
@@ -9,7 +10,6 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { motion } from "framer-motion";
 
 const productPerformanceData = [
   { name: "Product A", sales: 4000, revenue: 2400, profit: 2400 },
@@ -22,12 +22,12 @@ const productPerformanceData = [
 const ProductPerformance = () => {
   return (
     <motion.div
-      className="bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-lg shadow-lg rounded-xl p-6 border border-gray-700"
+      className="rounded-xl border border-gray-700 bg-gray-800 bg-opacity-50 p-6 shadow-lg backdrop-blur-lg"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.4 }}
     >
-      <h2 className="text-xl font-semibold text-gray-100 mb-4">
+      <h2 className="mb-4 text-xl font-semibold text-gray-100">
         Product Performance
       </h2>
       <div style={{ width: "100%", height: 300 }}>

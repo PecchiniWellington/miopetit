@@ -1,14 +1,22 @@
 "use client";
 import StatCard from "@/components/admin/common/StatCard";
 import { motion } from "framer-motion";
-import { ShoppingBag, Clock, CheckCircle, DollarSign } from "lucide-react";
-import React from "react";
+import { CheckCircle, Clock, DollarSign, ShoppingBag } from "lucide-react";
 
-const OrderCards = ({ orderStats }: any) => {
+const OrderCards = ({
+  orderStats,
+}: {
+  orderStats: {
+    totalOrders: string;
+    pendingOrders: string;
+    completedOrders: string;
+    totalRevenue: string;
+  };
+}) => {
   return (
     <div>
       <motion.div
-        className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8"
+        className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}

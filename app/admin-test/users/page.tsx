@@ -1,26 +1,24 @@
+import { auth } from "@/auth";
+import DynamicButton from "@/components/dynamic-button";
+import LayoutTitle from "@/components/layout-title";
+import DeleteDialog from "@/components/shared/delete-dialog";
 import Pagination from "@/components/shared/pagination";
+import { Badge } from "@/components/ui/badge";
 import {
-  TableHeader,
-  TableRow,
-  TableHead,
+  Table,
   TableBody,
   TableCell,
-  Table,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
+import { deleteUser, getAllUsers } from "@/lib/actions/admin/admin.actions";
+import ROLES from "@/lib/constants/roles";
 import { formatId } from "@/lib/utils";
 import { Edit2 } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
-import React from "react";
-import { Badge } from "@/components/ui/badge";
-import ROLES from "@/lib/constants/roles";
-import { deleteUser, getAllUsers } from "@/lib/actions/admin/admin.actions";
-import DeleteDialog from "@/components/shared/delete-dialog";
-import { auth } from "@/auth";
-import LayoutTitle from "@/components/layout-title";
-import DynamicButton from "@/components/dynamic-button";
 import DownloadCSV from "../categories/download-csv";
-import { getAllProducts } from "@/lib/actions/product.actions";
 
 export const metadata: Metadata = {
   title: "Users",
@@ -45,7 +43,7 @@ const UsersPage = async (props: {
     page,
   });
 
-  const Roles = ({ userRole }: any) => {
+  const Roles = ({ userRole }: { userRole: string }) => {
     switch (userRole) {
       case ROLES.ADMIN:
         return (
