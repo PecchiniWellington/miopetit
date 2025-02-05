@@ -1,15 +1,15 @@
 "use client";
 import { motion } from "framer-motion";
 import {
-  BarChart,
   Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  Legend,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Legend,
-  Cell,
 } from "recharts";
 
 const COLORS = ["#6366F1", "#8B5CF6", "#EC4899", "#10B981", "#F59E0B"];
@@ -24,12 +24,12 @@ const SALES_CHANNEL_DATA = [
 const SalesChannelChart = () => {
   return (
     <motion.div
-      className="bg-gray-800 bg-opacity-50 backdrop-blur-md shadow-lg rounded-xl p-6 lg:col-span-2 border border-gray-700"
+      className="rounded-xl border border-gray-700 bg-gray-800 bg-opacity-50 p-6 shadow-lg backdrop-blur-md lg:col-span-2"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.4 }}
     >
-      <h2 className="text-lg font-medium mb-4 text-gray-100">
+      <h2 className="mb-4 text-lg font-medium text-gray-100">
         Sales by Channel
       </h2>
 

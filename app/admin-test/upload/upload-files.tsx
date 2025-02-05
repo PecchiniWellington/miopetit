@@ -14,7 +14,6 @@ export default function UploadFiles() {
   const [success, setSuccess] = useState(false);
   const [csvFile, setCsvFile] = useState<File | null>(null);
   const [urlPath, setUrlPath] = useState("categories");
-  const [, setFormattedData] = useState<any[]>([]);
 
   // Gestisce il cambio del path in base alla selezione
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -47,6 +46,7 @@ export default function UploadFiles() {
         skipEmptyLines: true,
       });
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const formattedData = data.map((item: any) => ({
         ...item,
         categoryId: item.categoryId || "d0380863-516c-4fda-9ddf-818252b7916f",
@@ -55,7 +55,7 @@ export default function UploadFiles() {
       switch (urlPath) {
         case "categories":
           try {
-            const data = formatCategoriesData(formattedData);
+            formatCategoriesData(formattedData);
             const responseCategory = await fetch(`/api/upload/categories`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -69,7 +69,11 @@ export default function UploadFiles() {
             }
           } catch (error) {
             console.error("Errore durante l'upload:", error);
-            setErrorMessage(error.message);
+            if (error instanceof Error) {
+              setErrorMessage(error.message);
+            } else {
+              setErrorMessage("An unknown error occurred.");
+            }
           }
           break;
         case "products":
@@ -86,8 +90,12 @@ export default function UploadFiles() {
               throw new Error(errorData.message || "Failed to upload data.");
             }
           } catch (error) {
-            console.log("Error:", error);
-            setErrorMessage(error.message);
+            console.error("Errore durante l'upload:", error);
+            if (error instanceof Error) {
+              setErrorMessage(error.message);
+            } else {
+              setErrorMessage("An unknown error occurred.");
+            }
           }
           break;
         case "users":
@@ -104,8 +112,12 @@ export default function UploadFiles() {
               throw new Error(errorData.message || "Failed to upload data.");
             }
           } catch (error) {
-            console.log("Error:", error);
-            setErrorMessage(error.message);
+            console.error("Errore durante l'upload:", error);
+            if (error instanceof Error) {
+              setErrorMessage(error.message);
+            } else {
+              setErrorMessage("An unknown error occurred.");
+            }
           }
           break;
         case "orders":
@@ -122,12 +134,16 @@ export default function UploadFiles() {
               throw new Error(errorData.message || "Failed to upload data.");
             }
           } catch (error) {
-            console.log("Error:", error);
-            setErrorMessage(error.message);
+            console.error("Errore durante l'upload:", error);
+            if (error instanceof Error) {
+              setErrorMessage(error.message);
+            } else {
+              setErrorMessage("An unknown error occurred.");
+            }
           }
           break;
         default:
-          setFormattedData([]);
+          return [];
       }
 
       setSuccess(true);
@@ -135,9 +151,13 @@ export default function UploadFiles() {
       if (inputFileRef.current) {
         inputFileRef.current.value = ""; // Clear the file input value
       }
-    } catch (error: any) {
-      console.error("Upload Error:", error);
-      setErrorMessage(error.message || "Error uploading data.");
+    } catch (error) {
+      console.error("Errore durante l'upload:", error);
+      if (error instanceof Error) {
+        setErrorMessage(error.message);
+      } else {
+        setErrorMessage("An unknown error occurred.");
+      }
     } finally {
       setLoading(false);
     }

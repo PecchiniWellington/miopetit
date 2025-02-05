@@ -9,7 +9,7 @@ import { useRef, useState } from "react";
 
 export default function UploadImage() {
   const inputFileRef = useRef<HTMLInputElement>(null);
-  const [blobs, setBlobs] = useState<any[]>([]); // Array per i file caricati
+  const [blobs, setBlobs] = useState<{ url: string }[]>([]); // Array per i file caricati
   const [uploadProgress, setUploadProgress] = useState(0); // Per gestire la barra di progresso
   const [errorMessage, setErrorMessage] = useState<string | null>(null); // Per gestire gli errori
 
@@ -23,7 +23,7 @@ export default function UploadImage() {
     }
 
     const files = Array.from(inputFileRef.current.files);
-    const uploadedBlobs: any[] = [];
+    const uploadedBlobs: { url: string }[] = [];
 
     try {
       for (const file of files) {
@@ -40,19 +40,21 @@ export default function UploadImage() {
         }
 
         const newBlob = await responseImage.json();
-        uploadedBlobs.push(newBlob);
+        uploadedBlobs.push({ url: newBlob });
         setUploadProgress((prev) => Math.min(prev + 100 / files.length, 100)); // Progressivo aggiornamento della barra di progresso
       }
 
       setBlobs(uploadedBlobs); // Aggiorna con i blob caricati
       setUploadProgress(0); // Reset della barra di progresso dopo il caricamento
-    } catch (error: any) {
-      setErrorMessage(error.message || "An error occurred during upload.");
-      setUploadProgress(0);
+    } catch (error) {
+      if (error instanceof Error) {
+        setErrorMessage(error.message || "An error occurred during upload.");
+        setUploadProgress(0);
+      }
     }
   };
 
-  const isImage = (file: any) => {
+  const isImage = (file: { url: string }) => {
     return file.url.match(/\.(jpeg|jpg|gif|png|bmp|webp)$/i) !== null;
   };
 

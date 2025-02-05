@@ -8,18 +8,25 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { toast } from "@/hooks/use-toast";
+import { insertProductSchema } from "@/lib/validators";
+import { updateProductSchema } from "@/lib/validators/product.validator";
 
 import { UploadButton } from "@uploadthing/react";
 import Image from "next/image";
 
 import { Control, UseFormSetValue } from "react-hook-form";
+import { z } from "zod";
 
 interface UploadImageFeaturedProductProps {
   isFeatured: boolean;
   banner: string | null;
   form: {
-    control: Control<any>;
-    setValue: UseFormSetValue<any>;
+    control: Control<
+      z.infer<typeof insertProductSchema | typeof updateProductSchema>
+    >;
+    setValue: UseFormSetValue<
+      z.infer<typeof insertProductSchema | typeof updateProductSchema>
+    >;
   };
 }
 
@@ -27,13 +34,13 @@ export const UploadImageFeaturedProduct: React.FC<
   UploadImageFeaturedProductProps
 > = ({ isFeatured, banner, form }) => {
   return (
-    <Card className="align-center flex border-slate-700 ">
+    <Card className="flex border-slate-700 ">
       <CardContent className="mt-2 space-y-2">
         <FormField
           control={form.control}
           name="isFeatured"
           render={({ field }) => (
-            <FormItem className=" align-center flex  items-center space-x-2">
+            <FormItem className="flex  items-center space-x-2">
               <FormControl>
                 <Checkbox
                   checked={field.value}

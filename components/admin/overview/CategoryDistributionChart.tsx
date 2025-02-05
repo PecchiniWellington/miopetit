@@ -1,12 +1,13 @@
 "use client";
+import { ICategory } from "@/types";
 import { motion } from "framer-motion";
 import {
-  PieChart,
-  Pie,
   Cell,
-  Tooltip,
-  ResponsiveContainer,
   Legend,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
 } from "recharts";
 
 const categoryData = [
@@ -29,11 +30,11 @@ const generateColors = (numColors: number) => {
 const CategoryDistributionChart = ({
   categoriesDistribution,
 }: {
-  categoriesDistribution: any;
+  categoriesDistribution: { data: ICategory[] };
 }) => {
   const colors = generateColors(categoryData.length);
 
-  const newValue = categoriesDistribution?.data?.map((item: any) => {
+  const newValue = categoriesDistribution?.data?.map((item: ICategory) => {
     return {
       name: item.name,
       value: item.Product.length,
@@ -42,12 +43,12 @@ const CategoryDistributionChart = ({
 
   return (
     <motion.div
-      className="bg-gray-800 bg-opacity-50 backdrop-blur-md shadow-lg rounded-xl p-6 border border-gray-700"
+      className="rounded-xl border border-gray-700 bg-gray-800 bg-opacity-50 p-6 shadow-lg backdrop-blur-md"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.3 }}
     >
-      <h2 className="text-lg font-medium mb-4 text-gray-100">
+      <h2 className="mb-4 text-lg font-medium text-gray-100">
         Category Distribution
       </h2>
       <div className="h-80">
@@ -65,12 +66,14 @@ const CategoryDistributionChart = ({
                 `${name} ${(percent * 100).toFixed(0)}%`
               }
             >
-              {categoriesDistribution?.data?.map((entry: any, index: any) => (
-                <Cell
-                  key={`cell-${index}`}
-                  fill={colors[index % colors.length]}
-                />
-              ))}
+              {categoriesDistribution?.data?.map(
+                (entry: ICategory, index: number) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={colors[index % colors.length]}
+                  />
+                )
+              )}
             </Pie>
             <Tooltip
               contentStyle={{

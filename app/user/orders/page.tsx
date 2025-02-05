@@ -1,3 +1,5 @@
+import Pagination from "@/components/shared/pagination";
+import { Badge } from "@/components/ui/badge";
 import {
   Table,
   TableBody,
@@ -8,11 +10,9 @@ import {
 } from "@/components/ui/table";
 import { getMyOrders } from "@/lib/actions/order/order.action";
 import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
-import { Badge } from "@/components/ui/badge";
+import { Check, CircleAlert, ClockAlert } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
-import { Check, CircleAlert, ClockAlert } from "lucide-react";
-import Pagination from "@/components/shared/pagination";
 
 export const metadata: Metadata = {
   title: "My Orders",
@@ -46,13 +46,13 @@ const UserOrdersPage = async (props: {
               <TableRow key={order.id}>
                 <TableCell>{formatId(order.id)}</TableCell>
                 <TableCell>
-                  {formatDateTime(order.createdAt).dateTime}
+                  {formatDateTime(order.createdAt.toString()).dateTime}
                 </TableCell>
                 <TableCell>{formatCurrency(order.totalPrice)}</TableCell>
                 <TableCell>
                   {order.isPaid && order.paidAt ? (
                     <Badge className="bg-green-100 text-green-700">
-                      {formatDateTime(order.paidAt).dateTime}
+                      {formatDateTime(order.paidAt.toString()).dateTime}
 
                       <Check className="ml-2" height={15} width={15} />
                     </Badge>
@@ -66,7 +66,7 @@ const UserOrdersPage = async (props: {
                 <TableCell>
                   {order.isDelivered && order.deliveredAt ? (
                     <Badge className="bg-green-100 text-green-700">
-                      {formatDateTime(order.deliveredAt).dateTime}
+                      {formatDateTime(order.deliveredAt.toString()).dateTime}
                       <Check className="ml-2" height={15} width={15} />
                     </Badge>
                   ) : (
@@ -79,7 +79,7 @@ const UserOrdersPage = async (props: {
                 <TableCell>
                   <Link
                     href={`/order/${order.id}`}
-                    className="primary-gradient px-4 py-2 min-h-[24px] !text-light-900 border-0.2 border-slate-300 rounded-lg"
+                    className="primary-gradient min-h-[24px] rounded-lg border-0.2 border-slate-300 px-4 py-2 !text-light-900"
                   >
                     <span className="px-2">Details</span>
                   </Link>
