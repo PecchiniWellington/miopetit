@@ -5,7 +5,7 @@ import { deleteProduct } from "@/lib/actions/product.actions";
 import { BASE_URL_IMAGE } from "@/lib/constants";
 import { formatId } from "@/lib/utils";
 import { motion } from "framer-motion";
-import { Edit, Search, Trash2 } from "lucide-react";
+import { Edit, Eye, Search, Trash2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -158,11 +158,19 @@ const ProductsTable = ({ products }: any) => {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                   <button className="text-indigo-400 hover:text-indigo-300 mr-2">
-                    <Link href={`/admin/products/${product.id}`}>
+                    <Link href={`/admin/products/${product.id}/edit`}>
                       {" "}
                       <Edit size={18} />
                     </Link>
                   </button>
+
+                  <button className="text-orange-400 hover:text-orange-300 ml-2">
+                    <Link href={`/admin/products/${product.id}/resume`}>
+                      {" "}
+                      <Eye size={18} />
+                    </Link>
+                  </button>
+
                   <DeleteDialog id={product.id} action={deleteProduct} />
                 </td>
               </motion.tr>

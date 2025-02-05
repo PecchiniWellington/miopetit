@@ -61,7 +61,6 @@ export default function UploadFiles() {
         case "categories":
           try {
             const data = formatCategoriesData(formattedData);
-            /*   console.log("Data to be sent:", JSON.stringify(data, null, 2)); */ // DEBUG
             const responseCategory = await fetch(`/api/upload/categories`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
