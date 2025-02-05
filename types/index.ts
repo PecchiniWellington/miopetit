@@ -1,7 +1,7 @@
 import { USER_STATUS_ACTIVATION } from "@/lib/constants/user-status";
 import {
-  insertCartSchema,
   cartItemSchema,
+  insertCartSchema,
   insertOrderItemSchema,
   insertOrderSchema,
   insertProductSchema,
@@ -64,6 +64,8 @@ export type IStatus = "danger" | "warning" | "success" | "default";
 
 export type ICategory = z.infer<typeof categorySchema> & {
   id: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 export interface IAddress {

@@ -1,18 +1,18 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { Controller, useFormContext } from "react-hook-form";
 import { FormControl, FormItem, FormLabel } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { XCircle } from "lucide-react";
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
+import { Control, Controller, useFormContext } from "react-hook-form";
 
 export default function UploadAvatar({
   name,
   control,
 }: {
   name: string;
-  control: any;
+  control: Control;
 }) {
   const { setValue, watch } = useFormContext();
   const inputFileRef = useRef<HTMLInputElement>(null);
@@ -48,26 +48,26 @@ export default function UploadAvatar({
     <Controller
       name={name}
       control={control}
-      render={({ field }) => (
+      render={() => (
         <FormItem className="relative">
           <FormLabel>Upload Avatar</FormLabel>
           <FormControl>
-            <div className="relative w-32 h-32 border-2 border-dashed border-gray-300 rounded-full flex items-center justify-center cursor-pointer">
+            <div className="relative flex size-32 cursor-pointer items-center justify-center rounded-full border-2 border-dashed border-gray-300">
               {preview ? (
-                <div className="relative w-full h-full">
+                <div className="relative size-full">
                   <button
                     type="button"
-                    className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                    className="absolute right-0 top-0 rounded-full bg-red-500 p-1 text-white hover:bg-red-600"
                     onClick={handleRemoveImage}
                   >
-                    <XCircle className="w-5 h-5" />
+                    <XCircle className="size-5" />
                   </button>
                   <Image
                     height={120}
                     width={120}
                     alt="Preview"
                     src={preview}
-                    className="w-full h-full object-cover rounded-full"
+                    className="size-full rounded-full object-cover"
                   />
                 </div>
               ) : (
@@ -76,7 +76,7 @@ export default function UploadAvatar({
                   accept="image/*"
                   ref={inputFileRef}
                   onChange={handleFileChange}
-                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                  className="absolute inset-0 size-full cursor-pointer opacity-0"
                 />
               )}
             </div>

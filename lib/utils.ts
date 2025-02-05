@@ -1,6 +1,7 @@
+import { Product } from "@prisma/client";
 import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
 import qs from "query-string";
+import { twMerge } from "tailwind-merge";
 import { z } from "zod";
 
 export function cn(...inputs: ClassValue[]) {
@@ -93,7 +94,7 @@ export function formatId(id: string) {
 }
 
 // Format date and times
-export function formatDateTime(dateString: string) {
+export function formatDateTime(dateString: string | undefined) {
   const dateTimeOptions: Intl.DateTimeFormatOptions = {
     year: "numeric", // Abbreviated year  name (e.g., "2024")
     month: "short", // Abbreviated month  name (e.g., "Oct")

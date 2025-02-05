@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { Alert } from "@/components/ui/alert"; // Alert per messaggi
 import { Button } from "@/components/ui/button"; // Bottone per l'upload
 import { Input } from "@/components/ui/input"; // Input per la selezione file
 import { Progress } from "@/components/ui/progress"; // Barra di progresso
-import { Alert } from "@/components/ui/alert"; // Alert per messaggi
+import Image from "next/image";
+import { useRef, useState } from "react";
 
 export default function UploadImage() {
   const inputFileRef = useRef<HTMLInputElement>(null);
@@ -57,7 +58,7 @@ export default function UploadImage() {
 
   return (
     <>
-      <h1 className="text-3xl font-semibold mb-6">Upload Your Images</h1>
+      <h1 className="mb-6 text-3xl font-semibold">Upload Your Images</h1>
 
       <form onSubmit={handleFileUpload} className="mb-4">
         <div className="flex flex-col gap-4">
@@ -67,11 +68,11 @@ export default function UploadImage() {
             type="file"
             required
             multiple
-            className="w-full min-h-48 p-3 border rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="min-h-48 w-full rounded-lg border bg-white p-3 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <Button
             type="submit"
-            className="w-32 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            className="w-32 rounded-lg bg-blue-600 py-2 text-white hover:bg-blue-700"
           >
             Upload Images
           </Button>
@@ -92,13 +93,13 @@ export default function UploadImage() {
       )}
 
       {blobs.length > 0 && (
-        <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {blobs.map((blob, index) => {
             if (isImage(blob)) {
               return (
                 <div
                   key={index}
-                  className="p-4 border rounded-lg bg-gray-50 shadow-md"
+                  className="rounded-lg border bg-gray-50 p-4 shadow-md"
                 >
                   <p className="text-sm text-gray-600">
                     Image URL:{" "}
@@ -106,10 +107,12 @@ export default function UploadImage() {
                       {blob.url}
                     </a>
                   </p>
-                  <img
+                  <Image
+                    height={200}
+                    width={200}
                     src={blob.url}
                     alt={`Uploaded file ${index}`}
-                    className="mt-2 rounded-lg shadow-lg w-full h-auto"
+                    className="mt-2 h-auto w-full rounded-lg shadow-lg"
                   />
                 </div>
               );

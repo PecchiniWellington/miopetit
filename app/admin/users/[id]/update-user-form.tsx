@@ -12,7 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useForm, FormProvider } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 
 const UpdateUserForm = ({
@@ -93,7 +93,7 @@ const UpdateUserForm = ({
   return (
     <FormProvider {...form}>
       <form className="space-y-4" onSubmit={startUpload} method="POST">
-        <div className="upload-field flex flex-col md:flex-row gap-5">
+        <div className="upload-field flex flex-col gap-5 md:flex-row">
           <UploadAvatar name="image" control={form.control} />
         </div>
 
@@ -116,7 +116,7 @@ const UpdateUserForm = ({
           placeholder="Enter name"
         />
 
-        <div className="flex justify-start items-start ">
+        <div className="flex items-start justify-start ">
           {/* Role */}
           <DynamicFormField
             type="select"
@@ -145,7 +145,7 @@ const UpdateUserForm = ({
           <DynamicButton disabled={formState.isSubmitting}>
             {formState.isSubmitting ? (
               <div className="flex items-center gap-2">
-                <Loader2 className="animate-spin w-5 h-5" />
+                <Loader2 className="size-5 animate-spin" />
                 Uploading & Updating...
               </div>
             ) : (

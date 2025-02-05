@@ -13,9 +13,7 @@ export default function UserLayout({
       </div>
 
       <Sidebar />
-      <div className="w-full  h-screen overflow-scroll  border-1">
-        {children}
-      </div>
+      <div className="h-screen  w-full overflow-scroll  border">{children}</div>
     </div>
   );
 }

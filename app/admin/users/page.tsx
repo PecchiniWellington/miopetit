@@ -1,18 +1,16 @@
-import { Badge } from "lucide-react";
-
+import DownloadCSV from "@/app/admin-test/categories/download-csv";
+import { auth } from "@/auth";
 import Header from "@/components/admin/common/Header";
-import UsersTable from "@/components/admin/users/UsersTable";
-import UserGrowthChart from "@/components/admin/users/UserGrowthChart";
 import UserActivityHeatmap from "@/components/admin/users/UserActivityHeatmap";
 import UserDemographicsChart from "@/components/admin/users/UserDemographicsChart";
-import UsersCard from "./users-card";
-import { auth } from "@/auth";
-import { getAllUsers } from "@/lib/actions/admin/admin.actions";
-import DownloadCSV from "@/app/admin-test/categories/download-csv";
-import DynamicButton from "@/components/dynamic-button";
-import Link from "next/link";
-import { getOrderSummary } from "@/lib/actions/order/order.action";
+import UserGrowthChart from "@/components/admin/users/UserGrowthChart";
+import UsersTable from "@/components/admin/users/UsersTable";
 import CardWorking from "@/components/dev/card-working";
+import DynamicButton from "@/components/dynamic-button";
+import { getAllUsers } from "@/lib/actions/admin/admin.actions";
+import { getOrderSummary } from "@/lib/actions/order/order.action";
+import Link from "next/link";
+import UsersCard from "./users-card";
 
 const userStats = {
   totalUsers: 152845,
@@ -49,11 +47,11 @@ const UsersPage = async (props: {
   users.data = users.data.filter((user: any) => user.id !== session?.user?.id);
 
   return (
-    <div className="flex-1 overflow-auto relative z-10">
+    <div className="relative z-10 flex-1 overflow-auto">
       <Header title="Users" />
 
-      <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8 ">
-        <div className="flex gap-2 mb-4">
+      <main className="mx-auto max-w-7xl px-4 py-6 lg:px-8 ">
+        <div className="mb-4 flex gap-2">
           <DynamicButton>
             <Link href="/admin/users/create">Create User</Link>
           </DynamicButton>
@@ -65,7 +63,7 @@ const UsersPage = async (props: {
         <UsersTable users={users} />
 
         {/* USER CHARTS */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+        <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
           <UserGrowthChart users={users} />
           <CardWorking>
             <UserActivityHeatmap />

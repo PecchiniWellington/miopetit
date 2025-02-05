@@ -2,8 +2,7 @@
 import StatCard from "@/components/admin/common/StatCard";
 import CardWorking from "@/components/dev/card-working";
 import { motion } from "framer-motion";
-import { UsersIcon, UserPlus, UserCheck, UserX } from "lucide-react";
-import React from "react";
+import { UserCheck, UserPlus, UsersIcon, UserX } from "lucide-react";
 
 const UsersCard = ({
   userStats,
@@ -21,7 +20,7 @@ const UsersCard = ({
   const active = users.data.filter((user: any) => user.status === "ACTIVE");
   return (
     <motion.div
-      className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8"
+      className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1 }}

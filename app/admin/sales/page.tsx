@@ -3,10 +3,10 @@ import { motion } from "framer-motion";
 
 import Header from "@/components/admin/common/Header";
 import StatCard from "@/components/admin/common/StatCard";
-import { CreditCard, DollarSign, ShoppingCart, TrendingUp } from "lucide-react";
-import SalesOverviewChart from "@/components/admin/sales/SalesOverviewChart";
-import SalesByCategoryChart from "@/components/admin/sales/SalesByCategoryChart";
 import DailySalesTrend from "@/components/admin/sales/DailySalesTrend";
+import SalesByCategoryChart from "@/components/admin/sales/SalesByCategoryChart";
+import SalesOverviewChart from "@/components/admin/sales/SalesOverviewChart";
+import { CreditCard, DollarSign, ShoppingCart, TrendingUp } from "lucide-react";
 
 const salesStats = {
   totalRevenue: "$1,234,567",
@@ -17,13 +17,13 @@ const salesStats = {
 
 const SalesPage = () => {
   return (
-    <div className="flex-1 overflow-auto relative z-10">
+    <div className="relative z-10 flex-1 overflow-auto">
       <Header title="Sales Dashboard" />
 
-      <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8">
+      <main className="mx-auto max-w-7xl px-4 py-6 lg:px-8">
         {/* SALES STATS */}
         <motion.div
-          className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8"
+          className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
@@ -56,7 +56,7 @@ const SalesPage = () => {
 
         <SalesOverviewChart />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <div className="mb-8 grid grid-cols-1 gap-8 lg:grid-cols-2">
           <SalesByCategoryChart />
           <DailySalesTrend />
         </div>

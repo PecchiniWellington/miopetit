@@ -1,13 +1,13 @@
 "use client";
-import { UserCheck, UserPlus, UsersIcon, UserX } from "lucide-react";
 import { motion } from "framer-motion";
+import { UserCheck, UserPlus, UsersIcon, UserX } from "lucide-react";
 
 import Header from "@/components/admin/common/Header";
 import StatCard from "@/components/admin/common/StatCard";
-import UsersTable from "@/components/admin/users/UsersTable";
-import UserGrowthChart from "@/components/admin/users/UserGrowthChart";
 import UserActivityHeatmap from "@/components/admin/users/UserActivityHeatmap";
 import UserDemographicsChart from "@/components/admin/users/UserDemographicsChart";
+import UserGrowthChart from "@/components/admin/users/UserGrowthChart";
+import UsersTable from "@/components/admin/users/UsersTable";
 
 const userStats = {
   totalUsers: 152845,
@@ -16,19 +16,21 @@ const userStats = {
   churnRate: "2.4%",
 };
 
-const Admin2Page = ({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) => {
+const Admin2Page = (
+  {
+    /* children, */
+  }: Readonly<{
+    children: React.ReactNode;
+  }>
+) => {
   return (
-    <div className="flex-1 overflow-auto relative z-10">
+    <div className="relative z-10 flex-1 overflow-auto">
       <Header title="Users" />
 
-      <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8">
+      <main className="mx-auto max-w-7xl px-4 py-6 lg:px-8">
         {/* STATS */}
         <motion.div
-          className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8"
+          className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
@@ -62,7 +64,7 @@ const Admin2Page = ({
         <UsersTable />
 
         {/* USER CHARTS */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+        <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
           <UserGrowthChart />
           <UserActivityHeatmap />
           <UserDemographicsChart />

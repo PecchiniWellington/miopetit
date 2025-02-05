@@ -3,7 +3,6 @@ import { getAllCategories } from "@/lib/actions/admin/admin.actions";
 import { getProductById } from "@/lib/actions/product.actions";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import React from "react";
 
 export const metadata: Metadata = {
   title: "Update Product",
@@ -21,7 +20,7 @@ const AdminProductUpdatePage = async (props: {
   if (!product) return notFound();
 
   return (
-    <div className="space-y-8 mx-auto flex-1 overflow-auto relative z-10 max-w-7xl py-6 px-4 lg:px-8">
+    <div className="relative z-10 mx-auto max-w-7xl flex-1 space-y-8 overflow-auto px-4 py-6 lg:px-8">
       <h1 className="h2-bold">Update Product</h1>
       <ProductForm
         type="Update"

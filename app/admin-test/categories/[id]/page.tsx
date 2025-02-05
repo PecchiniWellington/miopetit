@@ -1,12 +1,8 @@
 import CategoryForm from "@/components/admin-1/category-form";
-import {
-  getAllCategories,
-  getCategoryById,
-} from "@/lib/actions/admin/admin.actions";
+import { getCategoryById } from "@/lib/actions/admin/admin.actions";
 
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import React from "react";
 
 export const metadata: Metadata = {
   title: "Update Category",
@@ -22,7 +18,7 @@ const AdminCategoryUpdatePage = async (props: {
   if (!category) return notFound();
 
   return (
-    <div className="space-y-8 max-w-5-xl mx-auto">
+    <div className="mx-auto max-w-5xl space-y-8">
       <h1 className="h2-bold">Update Category</h1>
       <CategoryForm
         type="Update"

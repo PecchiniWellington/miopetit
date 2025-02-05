@@ -1,16 +1,16 @@
 import {
-  TableHeader,
-  TableRow,
-  TableHead,
+  Table,
   TableBody,
   TableCell,
-  Table,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
-import { formatDateTime, formatCurrency } from "@/lib/utils";
+import { formatCurrency, formatDateTime } from "@/lib/utils";
+import { IOrder } from "@/types";
 import Link from "next/link";
-import React from "react";
 
-const RecentSalesTable = ({ summary }: any) => {
+const RecentSalesTable = ({ summary }: { summary: any }) => {
   return (
     <Table>
       <TableHeader>
@@ -22,14 +22,16 @@ const RecentSalesTable = ({ summary }: any) => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {summary.latestSales.map((order: any) => (
+        {summary.latestSales.map((order: IOrder) => (
           <TableRow key={order.id}>
             <TableCell>{order.user?.name}</TableCell>
-            <TableCell>{formatDateTime(order.createdAt).dateOnly}</TableCell>
+            <TableCell>
+              {formatDateTime(order.createdAt.toString()).dateOnly}
+            </TableCell>
             <TableCell>{formatCurrency(order.totalPrice.toString())}</TableCell>
             <TableCell>
               <Link
-                className="border-2 py-1 px-2 rounded-md "
+                className="rounded-md border-2 px-2 py-1 "
                 href={`/order/${order.id}`}
               >
                 Detail

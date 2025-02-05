@@ -57,9 +57,7 @@ const ShippingAddressForm = ({ address }: { address?: IShippingAddress }) => {
       <CheckoutSteps current={1} />
       <div className="mx-auto max-w-md space-y-4">
         <h1 className="h2-bold mt-4">Shipping Address</h1>
-        <p className="text-muted-foreground text-sm">
-          Please enter an address to ship to
-        </p>
+        <p className=" text-sm">Please enter an address to ship to</p>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}

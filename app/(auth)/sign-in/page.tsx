@@ -29,7 +29,7 @@ const SignInPage = async (props: {
     redirect(callbackUrl || "/");
   }
   return (
-    <div className="w-full max-w-md mx-auto">
+    <div className="mx-auto w-full max-w-md">
       <Card>
         <CardHeader title="Sign In" className="space-y-4">
           <Link href="/" className="flex-center">

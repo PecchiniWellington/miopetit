@@ -1,14 +1,13 @@
 "use client";
 import StatCard from "@/components/admin/common/StatCard";
 import { motion } from "framer-motion";
-import { Zap, Users, ShoppingBag, BarChart2 } from "lucide-react";
-import React from "react";
+import { BarChart2, ShoppingBag, Users, Zap } from "lucide-react";
 
 const OverviewCard = () => {
   return (
     <div>
       <motion.div
-        className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8"
+        className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}

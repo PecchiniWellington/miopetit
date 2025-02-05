@@ -1,25 +1,20 @@
 "use client";
 
-import CSVTable from "@/components/CSVTable";
-import { useState, useRef } from "react";
+import { Alert } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Progress } from "@/components/ui/progress";
-import { Alert } from "@/components/ui/alert";
-import Link from "next/link";
+import { formatCategoriesData } from "@/lib/utils";
 import Papa from "papaparse";
-import { PRODUCT_DEFAULT_VALUES } from "@/lib/constants";
-import { formatCategoriesData, formatError } from "@/lib/utils";
+import { useRef, useState } from "react";
 
 export default function UploadFiles() {
   const inputFileRef = useRef<HTMLInputElement>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [tableData, setTableData] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [csvFile, setCsvFile] = useState<File | null>(null);
   const [urlPath, setUrlPath] = useState("categories");
-  const [formattedData, setFormattedData] = useState<any[]>([]);
+  const [, setFormattedData] = useState<any[]>([]);
 
   // Gestisce il cambio del path in base alla selezione
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -52,7 +47,7 @@ export default function UploadFiles() {
         skipEmptyLines: true,
       });
 
-      let formattedData = data.map((item: any) => ({
+      const formattedData = data.map((item: any) => ({
         ...item,
         categoryId: item.categoryId || "d0380863-516c-4fda-9ddf-818252b7916f",
       }));
@@ -150,7 +145,7 @@ export default function UploadFiles() {
 
   return (
     <>
-      <h1 className="text-3xl font-semibold mb-6">Upload Your Files</h1>
+      <h1 className="mb-6 text-3xl font-semibold">Upload Your Files</h1>
 
       <div className="mb-4">
         <label className="block text-sm font-medium text-gray-700">
@@ -158,7 +153,7 @@ export default function UploadFiles() {
         </label>
         <select
           onChange={handleSelectChange}
-          className="w-full p-2 border rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full rounded-lg border bg-white p-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="categories">Categories</option>
           <option value="products">Products</option>
@@ -173,12 +168,12 @@ export default function UploadFiles() {
           accept=".csv"
           ref={inputFileRef}
           onChange={handleFileUpload}
-          className="w-full p-3 border rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full rounded-lg border bg-white p-3 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <Button
           onClick={uploadOnDb}
           disabled={!csvFile || loading}
-          className="w-full mt-2 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700"
+          className="mt-2 w-full rounded-lg bg-yellow-600 py-2 text-white hover:bg-yellow-700"
         >
           {loading ? "Uploading..." : "Start Upload"}
         </Button>

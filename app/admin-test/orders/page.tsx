@@ -5,22 +5,22 @@ import DeleteDialog from "@/components/shared/delete-dialog";
 import Pagination from "@/components/shared/pagination";
 import { Badge } from "@/components/ui/badge";
 import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
   TableHeader,
   TableRow,
-  TableHead,
-  TableBody,
-  Table,
-  TableCell,
 } from "@/components/ui/table";
 import { deleteOrder, getAllOrders } from "@/lib/actions/admin/admin.actions";
 
 import ROLES from "@/lib/constants/roles";
-import { formatId, formatDateTime, formatCurrency } from "@/lib/utils";
+import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
+import { IOrder } from "@/types";
 import { Check, CircleAlert, ClockAlert, Edit2 } from "lucide-react";
 
 import { Metadata } from "next";
 import Link from "next/link";
-import React from "react";
 
 export const metadata: Metadata = {
   title: "Admin Orders",
@@ -68,18 +68,18 @@ const AdminOrdersPage = async (props: {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {orders.data.map((order: any) => (
+            {orders.data.map((order: IOrder) => (
               <TableRow key={order.id}>
                 <TableCell>{formatId(order.id)}</TableCell>
                 <TableCell>
-                  {formatDateTime(order.createdAt).dateTime}
+                  {formatDateTime(order.createdAt.toString()).dateTime}
                 </TableCell>
                 <TableCell>{order?.user?.name}</TableCell>
                 <TableCell>{formatCurrency(order.totalPrice)}</TableCell>
                 <TableCell>
                   {order.isPaid && order.paidAt ? (
                     <Badge className="bg-green-100 text-green-700">
-                      {formatDateTime(order.paidAt).dateTime}
+                      {formatDateTime(order.paidAt.toString()).dateTime}
 
                       <Check className="ml-2" height={15} width={15} />
                     </Badge>
@@ -93,7 +93,7 @@ const AdminOrdersPage = async (props: {
                 <TableCell>
                   {order.isDelivered && order.deliveredAt ? (
                     <Badge className="bg-green-100 text-green-700">
-                      {formatDateTime(order.deliveredAt).dateTime}
+                      {formatDateTime(order.deliveredAt.toString()).dateTime}
                       <Check className="ml-2" height={15} width={15} />
                     </Badge>
                   ) : (

@@ -9,14 +9,14 @@ import Header from "@/components/admin/common/Header";
 
 const AnalyticsPage = () => {
   return (
-    <div className="flex-1 overflow-auto relative z-10 bg-gray-900">
+    <div className="relative z-10 flex-1 overflow-auto bg-gray-900">
       <Header title={"Analytics Dashboard"} />
 
-      <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8">
+      <main className="mx-auto max-w-7xl px-4 py-6 lg:px-8">
         <OverviewCards />
         <RevenueChart />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <div className="mb-8 grid grid-cols-1 gap-8 lg:grid-cols-2">
           <ChannelPerformance />
           <ProductPerformance />
           <UserRetention />

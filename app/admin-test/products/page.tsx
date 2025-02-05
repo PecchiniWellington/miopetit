@@ -13,8 +13,8 @@ import {
 } from "@/components/ui/table";
 import { deleteProduct, getAllProducts } from "@/lib/actions/product.actions";
 import { formatCurrency, formatId } from "@/lib/utils";
+import { ICategory, Product } from "@/types";
 import Link from "next/link";
-import React from "react";
 import DownloadCSV from "../categories/download-csv";
 
 const ProductsPage = async (props: {
@@ -73,24 +73,26 @@ const ProductsPage = async (props: {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {products.data.map((product: any) => (
-            <TableRow key={product.id}>
-              <TableCell>{formatId(product.id)}</TableCell>
-              <TableCell>{product.name}</TableCell>
-              <TableCell className="text-right">
-                {formatCurrency(product.price)}
-              </TableCell>
-              <TableCell>{product.category}</TableCell>
-              <TableCell>{product.stock}</TableCell>
-              <TableCell>{product.rating}</TableCell>
-              <TableCell className="flex gap-1">
-                <DynamicButton>
-                  <Link href={`/admin/products/${product.id}`}>Edit</Link>
-                </DynamicButton>
-                <DeleteDialog id={product.id} action={deleteProduct} />
-              </TableCell>
-            </TableRow>
-          ))}
+          {products.data.map(
+            ({ product }: { product: Product & { category: ICategory } }) => (
+              <TableRow key={product.id}>
+                <TableCell>{formatId(product.id)}</TableCell>
+                <TableCell>{product.name}</TableCell>
+                <TableCell className="text-right">
+                  {formatCurrency(product.price)}
+                </TableCell>
+                <TableCell>{product.category.name}</TableCell>
+                <TableCell>{product.stock}</TableCell>
+                <TableCell>{product.rating}</TableCell>
+                <TableCell className="flex gap-1">
+                  <DynamicButton>
+                    <Link href={`/admin/products/${product.id}`}>Edit</Link>
+                  </DynamicButton>
+                  <DeleteDialog id={product.id} action={deleteProduct} />
+                </TableCell>
+              </TableRow>
+            )
+          )}
         </TableBody>
       </Table>
       {/* Pagination */}

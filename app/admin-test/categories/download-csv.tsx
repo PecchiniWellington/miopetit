@@ -2,7 +2,7 @@
 
 import Papa from "papaparse";
 
-const DownloadCSV = ({ csvData }: any) => {
+const DownloadCSV = ({ csvData }: { csvData: unknown[] }) => {
   const downloadCSV = () => {
     if (!csvData || csvData.length === 0) {
       alert("No data available to download.");
@@ -24,7 +24,7 @@ const DownloadCSV = ({ csvData }: any) => {
   return (
     <button
       onClick={downloadCSV}
-      className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
+      className="rounded-md bg-green-600 px-4 py-2 text-white hover:bg-green-700"
     >
       Download CSV
     </button>

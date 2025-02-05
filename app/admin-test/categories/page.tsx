@@ -15,8 +15,8 @@ import {
   getAllCategories,
 } from "@/lib/actions/admin/admin.actions";
 import { formatDateTime, formatId } from "@/lib/utils";
+import { ICategory } from "@/types";
 import Link from "next/link";
-import React from "react";
 import DownloadCSV from "./download-csv";
 
 const AdminCategoriesPage = async (props: {
@@ -30,14 +30,13 @@ const AdminCategoriesPage = async (props: {
 
   const page = Number(searchParams.page) || 1;
   const searchQuery = searchParams.query || "";
-  const category = searchParams.category || "";
 
   const categoriesResponse = await getAllCategories();
   const categories = JSON.parse(JSON.stringify(categoriesResponse));
 
   return (
     <div className="space-y-2">
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <LayoutTitle title="Categories" />
           {searchQuery && (
@@ -70,16 +69,16 @@ const AdminCategoriesPage = async (props: {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {categories?.data?.map((category: any) => (
+          {categories?.data?.map((category: ICategory) => (
             <TableRow key={category.id}>
               <TableCell>{formatId(category.id)}</TableCell>
               <TableCell>{category.name}</TableCell>
               <TableCell>{category.slug ? category.slug : "N/A"}</TableCell>
               <TableCell>
-                {formatDateTime(category.createdAt).dateTime}
+                {formatDateTime(category?.createdAt?.toString()).dateTime}
               </TableCell>
               <TableCell>
-                {formatDateTime(category.updatedAt).dateTime}
+                {formatDateTime(category?.updatedAt?.toString()).dateTime}
               </TableCell>
 
               <TableCell className="flex gap-1">
