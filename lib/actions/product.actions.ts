@@ -133,10 +133,12 @@ export async function getAllProducts({
     {} as Record<string, [string, string]>
   );
 
-  const updatedData = data.map((item) => ({
-    ...item,
-    category: categoryMap?.[item.categoryId] ?? "N/A",
-  }));
+  const updatedData = data.map((item) => {
+    return {
+      ...item,
+      category: categoryMap?.[item.categoryId][1] ?? "N/A",
+    };
+  });
 
   return {
     data: updatedData,

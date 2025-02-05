@@ -191,3 +191,13 @@ export function mapUsersForDatabase(users: any[]): any[] {
     paymentMethod: user.paymentMethod || null, // Converte stringhe vuote in `null`
   }));
 }
+
+export function formatCategoriesData(data: any[]) {
+  return data.map((item) => ({
+    name: item.Name?.trim() || "Unnamed Category", // ✅ Assicura che il nome sia presente
+    slug: item.Slug?.trim().toLowerCase() || "default-slug", // ✅ Normalizza lo slug
+    description: item.Description || null,
+    createdAt: new Date(), // ✅ Prisma accetta il formato `Date`
+    updatedAt: new Date(),
+  }));
+}

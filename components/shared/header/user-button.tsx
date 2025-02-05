@@ -31,14 +31,14 @@ const UserButton = async () => {
   }
 
   const firstInitial = session.user?.name?.charAt(0).toUpperCase() ?? "";
-  const user = await getUserById(session.user?.id!);
+  const user = session ? await getUserById(session.user?.id!) : undefined;
 
   return (
     <div className="flex gap-2 items-center">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <div className="flex items-center">
-            {user.image ? (
+            {user?.image ? (
               <Image
                 alt="user avatar"
                 src={user.image}

@@ -1,28 +1,13 @@
 import { prisma } from "@/db/prisma";
+import { formatCategoriesData } from "@/lib/utils";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json().catch(() => null);
-
-    if (body === null || !Array.isArray(body)) {
-      console.error("Invalid data format", body);
-      return NextResponse.json(
-        { message: "Invalid data format" },
-        { status: 400 }
-      );
-    }
-
-    if (body.length === 0) {
-      console.error("Empty data array", body);
-      return NextResponse.json(
-        { message: "Empty data array" },
-        { status: 400 }
-      );
-    }
+    const body = await req.json();
 
     await prisma.category.createMany({
-      data: body,
+      data: formatCategoriesData(body.data),
       skipDuplicates: true,
     });
 
@@ -30,7 +15,10 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error("Upload Error:", error); // DEBUG
     if (error instanceof Error) {
-      return NextResponse.json({ message: error.message }, { status: 500 });
+      return NextResponse.json(
+        { message: error.message || "Unknown error" },
+        { status: 500 }
+      );
     }
     return NextResponse.json(
       { message: "Internal Server Error" },

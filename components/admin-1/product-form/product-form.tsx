@@ -30,6 +30,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import SearchSelect from "@/components/shared/search-select";
 
 const ProductForm = ({
   type,
@@ -95,6 +96,11 @@ const ProductForm = ({
   const isFeatured = form.watch("isFeatured");
   const banner = form.watch("banner");
 
+  const formatCategoriesDataForSelect = categories?.map((category) => ({
+    value: category.id,
+    label: category.name,
+  }));
+
   return (
     <Form {...form}>
       <form
@@ -130,7 +136,7 @@ const ProductForm = ({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Category</FormLabel>
-                <Select
+                {/* <Select
                   onValueChange={(value) => {
                     field.onChange(value);
                   }}
@@ -148,7 +154,14 @@ const ProductForm = ({
                       </SelectItem>
                     ))}
                   </SelectContent>
-                </Select>
+                </Select> */}
+                <SearchSelect
+                  options={formatCategoriesDataForSelect!}
+                  onSelect={(value) => {
+                    field.onChange(value);
+                  }}
+                  placeholder="Choose an animal"
+                />
               </FormItem>
             )}
           />

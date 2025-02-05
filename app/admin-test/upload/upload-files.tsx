@@ -9,6 +9,7 @@ import { Alert } from "@/components/ui/alert";
 import Link from "next/link";
 import Papa from "papaparse";
 import { PRODUCT_DEFAULT_VALUES } from "@/lib/constants";
+import { formatCategoriesData, formatError } from "@/lib/utils";
 
 export default function UploadFiles() {
   const inputFileRef = useRef<HTMLInputElement>(null);
@@ -54,15 +55,23 @@ export default function UploadFiles() {
       let formattedData = data.map((item: any) => ({
         /*    ...PRODUCT_DEFAULT_VALUES, */
         ...item,
+        categoryId: item.categoryId || "d0380863-516c-4fda-9ddf-818252b7916f",
       }));
+
+      /*  console.log(
+        "Formatted Data:",
+        JSON.stringify(formatCategoriesData(formattedData), null, 2)
+      );  */ // DEBUG
 
       switch (urlPath) {
         case "categories":
           try {
+            const data = formatCategoriesData(formattedData);
+            /*   console.log("Data to be sent:", JSON.stringify(data, null, 2)); */ // DEBUG
             const responseCategory = await fetch(`/api/categories/upload`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(formattedData),
+              body: JSON.stringify({ data: formattedData }),
             });
 
             if (!responseCategory.ok) {
@@ -71,7 +80,7 @@ export default function UploadFiles() {
               throw new Error(errorData.message || "Failed to upload data.");
             }
           } catch (error) {
-            console.log("Error:", error);
+            console.error("Errore durante l'upload:", error);
             setErrorMessage(error.message);
           }
           break;

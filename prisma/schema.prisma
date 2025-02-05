@@ -29,7 +29,7 @@ model Product {
   banner      String?
   createdAt   DateTime    @default(now()) @db.Timestamp(6)
   updatedAt   DateTime    @updatedAt
-  categoryId  String      @db.Uuid
+  categoryId  String?     @db.Uuid
   category    Category?   @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   orderitems  OrderItem[]
   Review      Review[]
@@ -141,7 +141,7 @@ model OrderItem {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt DateTime @updatedAt @map("updated_at")
   order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  Product   Product  @relation(fields: [productId], references: [id])
 
   @@id([orderId, productId], map: "orderItems_orderId_productId_pk")
 }
@@ -166,7 +166,8 @@ model Category {
   slug        String  @unique(map: "category_slug_idx")
   description String?
 
-  createdAt DateTime  @default(now()) @db.Timestamp(6)
-  updatedAt DateTime  @updatedAt
-  Product   Product[]
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+  updatedAt DateTime @updatedAt
+
+  Product Product[]
 }
