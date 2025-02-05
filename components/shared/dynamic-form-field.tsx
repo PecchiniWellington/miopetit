@@ -6,6 +6,7 @@ import { z } from "zod";
 import { FormItem, FormLabel, FormControl, FormMessage } from "../ui/form";
 import { Textarea } from "../ui/textarea";
 import { Input } from "../ui/input";
+import SearchSelect from "./search-select";
 
 interface DynamicFormFieldProps {
   disabled?: boolean;
@@ -14,8 +15,9 @@ interface DynamicFormFieldProps {
   schema: z.ZodType<any, any>;
   title: string;
   placeholder?: string;
-  type?: "input" | "textarea";
+  type?: "input" | "textarea" | "select";
   className?: string;
+  options?: { label: string; value: string }[];
 }
 
 const DynamicFormField = ({
@@ -26,6 +28,7 @@ const DynamicFormField = ({
   placeholder,
   type = "input",
   className,
+  options,
 }: DynamicFormFieldProps) => {
   return (
     <Controller
@@ -37,10 +40,17 @@ const DynamicFormField = ({
           <FormControl>
             {type === "textarea" ? (
               <Textarea
-                disabled
+                disabled={disabled}
                 placeholder={placeholder}
                 {...field}
                 className={`resize-none bg-transparent border-slate-700 ${className}`}
+              />
+            ) : type === "select" ? (
+              <SearchSelect
+                value={field.value}
+                options={options! || []}
+                onSelect={(value) => field.onChange(value)}
+                placeholder="Choose an option"
               />
             ) : (
               <Input

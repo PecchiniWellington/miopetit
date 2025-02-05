@@ -14,19 +14,11 @@ const UsersCard = ({
   summary: any;
   users: any;
 }) => {
-  const getTodayNewActiveUsers = () => {
-    const today = new Date().toISOString().split("T")[0];
-    return users.filter(
-      (user: any) =>
-        user.createdAt.startsWith(today) && user.status === "Active"
-    ).length;
-  };
-
   const today = new Date().toISOString().split("T")[0];
   const newUserToday = users.data.filter((user: any) =>
     user.createdAt.startsWith(today)
   ).length;
-  const active = users.data.filter((user: any) => user.status === "Active");
+  const active = users.data.filter((user: any) => user.status === "ACTIVE");
   return (
     <motion.div
       className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8"

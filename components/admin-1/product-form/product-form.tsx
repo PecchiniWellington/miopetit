@@ -136,25 +136,7 @@ const ProductForm = ({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Category</FormLabel>
-                {/* <Select
-                  onValueChange={(value) => {
-                    field.onChange(value);
-                  }}
-                  value={field.value}
-                >
-                  <FormControl className="border-slate-700 w-full min-w-[300px]">
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select Slug" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent className=" bg-slate-100 dark:bg-slate-800 dark:text-white">
-                    {categories?.map((category) => (
-                      <SelectItem key={category.id} value={category.id}>
-                        {category.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select> */}
+
                 <SearchSelect
                   options={formatCategoriesDataForSelect!}
                   onSelect={(value) => {

@@ -10,6 +10,7 @@ import DeleteDialog from "@/components/shared/delete-dialog";
 import { deleteUser } from "@/lib/actions/admin/admin.actions";
 import Link from "next/link";
 import { deleteProduct } from "@/lib/actions/product.actions";
+import Image from "next/image";
 
 const Roles = ({ userRole }: any) => {
   switch (userRole) {
@@ -34,7 +35,7 @@ const Roles = ({ userRole }: any) => {
       );
 
     default:
-      return <div>No role</div>;
+      return <Badge className="bg-gray-400 text-gray-700">NO ROLE</Badge>;
   }
 };
 
@@ -107,8 +108,17 @@ const UsersTable = ({ users }: any) => {
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center">
                     <div className="flex-shrink-0 h-10 w-10">
-                      <div className="h-10 w-10 rounded-full bg-gradient-to-r from-purple-400 to-blue-500 flex items-center justify-center text-white font-semibold">
-                        {user.name.charAt(0)}
+                      <div className="h-10 w-10 overflow-hidden rounded-full bg-gradient-to-r from-purple-400 to-blue-500 flex items-center justify-center text-white font-semibold">
+                        {user.image ? (
+                          <Image
+                            src={user.image}
+                            alt={user.name}
+                            width={40}
+                            height={40}
+                          />
+                        ) : (
+                          <div>{user.name.charAt(0)}</div>
+                        )}
                       </div>
                     </div>
                     <div className="ml-4">
@@ -129,9 +139,11 @@ const UsersTable = ({ users }: any) => {
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span
                     className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                      user.status === "Active"
+                      user.status === "ACTIVE"
                         ? "bg-green-800 text-green-100"
-                        : "bg-red-800 text-red-100"
+                        : user.status === "PENDING"
+                          ? "bg-yellow-800 text-yellow-100"
+                          : "bg-red-800 text-red-100"
                     }`}
                   >
                     {user.status || "N/D"}

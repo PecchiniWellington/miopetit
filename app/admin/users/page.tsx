@@ -37,6 +37,7 @@ const UsersPage = async (props: {
   const usersResponse = await getAllUsers({
     query: searchQuery,
     page,
+    limit: 100,
   });
 
   const summaryResponse = await getOrderSummary();
@@ -65,9 +66,7 @@ const UsersPage = async (props: {
 
         {/* USER CHARTS */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
-          <CardWorking>
-            <UserGrowthChart />
-          </CardWorking>
+          <UserGrowthChart users={users} />
           <CardWorking>
             <UserActivityHeatmap />
           </CardWorking>

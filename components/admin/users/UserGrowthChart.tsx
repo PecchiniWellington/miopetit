@@ -10,16 +10,52 @@ import {
 } from "recharts";
 import { motion } from "framer-motion";
 
-const userGrowthData = [
-  { month: "Jan", users: 1000 },
-  { month: "Feb", users: 1500 },
-  { month: "Mar", users: 2000 },
-  { month: "Apr", users: 3000 },
-  { month: "May", users: 4000 },
-  { month: "Jun", users: 5000 },
+const monthNames = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
 ];
 
-const UserGrowthChart = () => {
+const UserGrowthChart = ({ users }: any) => {
+  const createdAt = users.data.reduce((acc, user) => {
+    const date = new Date(user.createdAt);
+    const monthIndex = date.getMonth();
+    const monthName = monthNames[monthIndex];
+
+    const existingEntry = acc.find((entry) => entry.month === monthName);
+    if (existingEntry) {
+      existingEntry.users += 1;
+    } else {
+      acc.push({ month: monthName, users: 1 });
+    }
+
+    return acc;
+  }, []);
+
+  console.log("CREA", createdAt);
+  /*  const userGrowthData = users.reduce((acc, user) => {
+    const date = new Date(user.createdAt);
+    const monthIndex = date.getMonth(); 
+    const monthName = monthNames[monthIndex]; 
+
+    const existingEntry = acc.find((entry) => entry.month === monthName);
+    if (existingEntry) {
+      existingEntry.users += 1;
+    } else {
+      acc.push({ month: monthName, users: 1 });
+    }
+
+    return acc;
+  }, []); */
   return (
     <motion.div
       className="bg-gray-800 bg-opacity-50 backdrop-blur-md shadow-lg rounded-xl p-6 border border-gray-700"
@@ -30,7 +66,7 @@ const UserGrowthChart = () => {
       <h2 className="text-xl font-semibold text-gray-100 mb-4">User Growth</h2>
       <div className="h-[320px]">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={userGrowthData}>
+          <LineChart data={createdAt.reverse()}>
             <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
             <XAxis dataKey="month" stroke="#9CA3AF" />
             <YAxis stroke="#9CA3AF" />
