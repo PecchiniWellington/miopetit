@@ -1,13 +1,15 @@
 "use server";
 
-import { CartItem, Product } from "@/types";
-import { convertToPlainObject, formatError, round2 } from "../utils";
-import { cookies } from "next/headers";
 import { auth } from "@/auth";
 import { prisma } from "@/db/prisma";
+import { cartItemSchema, insertCartSchema } from "@/lib/validators";
+import { Cart, CartItem, Product } from "@/types";
 import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
-import { insertCartSchema, cartItemSchema } from "@/lib/validators";
+import { cookies } from "next/headers";
+import { convertToPlainObject, formatError, round2 } from "../utils";
+
+/* TODO: controllare cart che potrebbe causare problemi soprattuto epr l'id */
 
 // Calculate cart prices
 const calcPrice = (items: CartItem[]) => {
@@ -86,7 +88,7 @@ const createNewCart = async (
 };
 
 const updateExistingCart = async (
-  cart: any,
+  cart: Cart & { id: string },
   item: CartItem,
   product: Product
 ) => {
@@ -136,7 +138,17 @@ export async function addItemToCart(data: CartItem) {
     if (!cart) {
       return await createNewCart(userId, item, sessionCartId, product);
     } else {
-      return await updateExistingCart(cart, item, product);
+      return await updateExistingCart(
+        {
+          ...cart,
+          itemsPrice: cart.itemsPrice.toString(),
+          totalPrice: cart.totalPrice.toString(),
+          shippingPrice: cart.shippingPrice.toString(),
+          taxPrice: cart.taxPrice.toString(),
+        },
+        item,
+        product
+      );
     }
   } catch (error) {
     return { success: false, message: formatError(error) };
@@ -157,6 +169,7 @@ export async function getMyCart() {
   // Convert decimals and return
   return convertToPlainObject({
     ...cart,
+    id: cart.id,
     items: cart.items as CartItem[],
     itemsPrice: cart.itemsPrice.toString() as unknown as Prisma.Decimal,
     totalPrice: cart.totalPrice.toString() as unknown as Prisma.Decimal,

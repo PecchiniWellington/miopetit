@@ -8,16 +8,15 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Product } from "@/types";
-import React from "react";
 import AutoPlay from "embla-carousel-autoplay";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 
 const ProductCarousel = ({ data }: { data: Product[] }) => {
   // FIXME: cambiare product type(sono simili tra prisma e types)
   return (
     <Carousel
-      className="w-full mb-12"
+      className="mb-12 w-full"
       opts={{
         loop: true,
       }}
@@ -39,10 +38,10 @@ const ProductCarousel = ({ data }: { data: Product[] }) => {
                   height="0"
                   width="0"
                   sizes="100vw"
-                  className="w-full h-full object-center object-cover"
+                  className="size-full object-cover object-center"
                 />
                 <div className="absolute inset-0 flex items-end justify-center">
-                  <h2 className="bg-gray-900 bg-opacity-50 text-2xl font-bold px-2 text-white">
+                  <h2 className="bg-gray-900 bg-opacity-50 px-2 text-2xl font-bold text-white">
                     {product.name}
                   </h2>
                 </div>

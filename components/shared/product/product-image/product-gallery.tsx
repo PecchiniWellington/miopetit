@@ -1,6 +1,5 @@
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import React from "react";
 
 const ProductGallery = ({
   images,
@@ -27,7 +26,7 @@ const ProductGallery = ({
             alt="product image" // TODO: Add alt text from BE (SEO)
             width={100}
             height={100}
-            className="w-20 h-20 object-cover object-center"
+            className="size-20 object-cover object-center"
           />
         </div>
       ))}

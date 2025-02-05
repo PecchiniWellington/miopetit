@@ -1,6 +1,4 @@
-import React from "react";
-
-import { auth, signOut } from "@/auth";
+import { auth } from "@/auth";
 import NavLinks from "../header/nav-links";
 
 const LeftSidebar = async ({

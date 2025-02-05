@@ -10,8 +10,8 @@ export const ProductStock = ({
   stock > 0 ? (
     <ProductPrice
       value={Number(price)}
-      className="text-lg text-primary-500 font-bold"
+      className="text-lg font-bold text-primary-500"
     />
   ) : (
-    <p className="text-destructive">Out of stock</p>
+    <p>Out of stock</p>
   );

@@ -1,7 +1,5 @@
 import DynamicButton from "@/components/dynamic-button";
-import { Button } from "@/components/ui/button";
 import { Loader, Minus, Plus } from "lucide-react";
-import React from "react";
 
 const IncreaseDecreaseProduct = ({
   handleAddToCart,
@@ -12,23 +10,23 @@ const IncreaseDecreaseProduct = ({
   handleAddToCart: () => void;
   handleRemoveFromCart: () => void;
   isPending: boolean;
-  existItem: any;
+  existItem: number;
 }) => {
   return (
     <>
       <DynamicButton handleAction={handleRemoveFromCart}>
         {isPending ? (
-          <Loader className="h-4 w-4 animate-spin" />
+          <Loader className="size-4 animate-spin" />
         ) : (
-          <Minus className="h-4 w-4" />
+          <Minus className="size-4" />
         )}
       </DynamicButton>
-      <span className="px-3">{existItem.qty}</span>
+      <span className="px-3">{existItem.toString()}</span>
       <DynamicButton handleAction={handleAddToCart}>
         {isPending ? (
-          <Loader className="h-4 w-4 animate-spin" />
+          <Loader className="size-4 animate-spin" />
         ) : (
-          <Plus className="h-4 w-4" />
+          <Plus className="size-4" />
         )}
       </DynamicButton>
     </>

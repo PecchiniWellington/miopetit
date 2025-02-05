@@ -1,7 +1,5 @@
-import React from "react";
-import ProductCard from "./product-card";
 import { Product } from "@/types/index";
-import CardSkeleton from "../skeleton/card-skeleton";
+import ProductCard from "./product-card";
 
 interface IProductListProps {
   data: Product[];
@@ -16,14 +14,13 @@ const ProductList = ({ data, title, limit }: IProductListProps) => {
       <h2 className="h2-bold mb-4">{title}</h2>
       <div>
         {data.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {limitedData ? (
               limitedData.map((product: Product) => (
                 <ProductCard key={product.id} product={product} />
               ))
             ) : (
-              <div>SUCA</div>
-              /*  <CardSkeleton /> */
+              <div>WORKING....</div>
             )}
           </div>
         ) : (

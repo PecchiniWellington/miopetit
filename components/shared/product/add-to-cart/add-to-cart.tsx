@@ -67,7 +67,7 @@ export const AddToCart = ({ cart, item }: { cart?: Cart; item: CartItem }) => {
   };
   return existItem ? (
     <IncreaseDecreaseProduct
-      existItem={existItem}
+      existItem={existItem.qty}
       handleAddToCart={handleAddToCart}
       handleRemoveFromCart={handleRemoveFromCart}
       isPending={isPending}

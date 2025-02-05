@@ -1,22 +1,21 @@
 "use server";
 
-import { isRedirectError } from "next/dist/client/components/redirect-error";
-import { convertToPlainObject, formatError } from "../../utils";
 import { auth } from "@/auth";
-import { getMyCart } from "../cart.actions";
-import { getUserById } from "../user/user.action";
 import { prisma } from "@/db/prisma";
+import { sendPurchaseReceipt } from "@/email";
+import { PAGE_SIZE } from "@/lib/constants";
+import { insertOrderSchema } from "@/lib/validators";
 import {
   CartItem,
   IPaymentResult,
   IShippingAddress,
   SalesDataType,
 } from "@/types";
-import { revalidatePath } from "next/cache";
-import { PAGE_SIZE } from "@/lib/constants";
-import { insertOrderSchema, shippingAddressSchema } from "@/lib/validators";
 import { Prisma } from "@prisma/client";
-import { sendPurchaseReceipt } from "@/email";
+import { isRedirectError } from "next/dist/client/components/redirect-error";
+import { convertToPlainObject, formatError } from "../../utils";
+import { getMyCart } from "../cart.actions";
+import { getUserById } from "../user/user.action";
 
 export async function createOrder() {
   try {

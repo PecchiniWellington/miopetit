@@ -12,7 +12,7 @@ export const ProductCardHeader = ({
   images: string[];
   name: string;
 }) => (
-  <CardHeader className="p-0 items-center">
+  <CardHeader className="items-center p-0">
     <Link href={`/product/${slug}`}>
       <Image
         src={images[0] || "/images/placeholder.jpg"}

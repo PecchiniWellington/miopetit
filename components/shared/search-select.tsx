@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "../ui/input";
 
 interface SearchSelectProps {
@@ -39,9 +39,9 @@ export default function SearchSelect({
   };
 
   return (
-    <div className="relative w-full max-w-sm min-w-[400px]">
+    <div className="relative w-full min-w-[400px] max-w-sm">
       <div
-        className="border border-slate-700 bg-transparent rounded-md p-2 flex items-center justify-between cursor-pointer"
+        className="flex cursor-pointer items-center justify-between rounded-md border border-slate-700 bg-transparent p-2"
         onClick={() => setIsOpen(!isOpen)}
       >
         <span className="text-white">
@@ -54,11 +54,11 @@ export default function SearchSelect({
       </div>
 
       {isOpen && (
-        <div className="absolute left-0 mt-2 w-full bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 border border-slate-700 rounded-md shadow-lg z-10">
+        <div className="absolute left-0 z-10 mt-2 w-full rounded-md border border-slate-700 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 shadow-lg">
           <Input
             type="text"
             placeholder="Search..."
-            className="w-full p-2 border-none focus:outline-none bg-gray-900 rounded-b-none"
+            className="w-full rounded-b-none border-none bg-gray-900 p-2 focus:outline-none"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -67,14 +67,14 @@ export default function SearchSelect({
               filteredOptions.map((option) => (
                 <li
                   key={option.value}
-                  className="p-2 cursor-pointer hover:bg-slate-900"
+                  className="cursor-pointer p-2 hover:bg-slate-900"
                   onClick={() => handleSelect(option.value)}
                 >
                   {option.label}
                 </li>
               ))
             ) : (
-              <li className="p-2 text-gray-500 text-center">
+              <li className="p-2 text-center text-gray-500">
                 No results found
               </li>
             )}
