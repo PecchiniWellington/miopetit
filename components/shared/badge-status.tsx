@@ -1,6 +1,6 @@
+import { STATUS } from "@/lib/constants";
 import React from "react";
 import { Badge } from "../ui/badge";
-import { STATUS } from "@/lib/constants";
 
 interface BadgeStatusProps {
   children: React.ReactNode;
@@ -18,7 +18,7 @@ export const BadgeStatus: React.FC<BadgeStatusProps> = ({
       );
     case STATUS.PRIMARY_ACTIVE:
       return (
-        <Badge className="text-primary-100 bg-primary-500">{children}</Badge>
+        <Badge className="bg-primary-500 text-primary-100">{children}</Badge>
       );
     case STATUS.DANGER:
       return <Badge className="bg-red-100 text-red-700">{children}</Badge>;

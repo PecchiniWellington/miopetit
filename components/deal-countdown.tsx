@@ -1,8 +1,7 @@
 "use client";
-import React, { useEffect } from "react";
-import Link from "next/link";
-import Image from "next/image";
 import useCountdown from "@/hooks/use-countdown";
+import Image from "next/image";
+import Link from "next/link";
 import DynamicButton from "./dynamic-button";
 
 // Static date for the countdown (replace with desired date)
@@ -10,7 +9,7 @@ const TARGET_DATE = new Date("2025-04-31T23:59:59");
 
 const StatBox = ({ label, value }: { label: string; value: number }) => {
   return (
-    <li className="p-4 w-full text-center">
+    <li className="w-full p-4 text-center">
       <p className="text-3xl font-bold">{value}</p>
       <p>{label}</p>
     </li>
@@ -22,8 +21,8 @@ const DealCountdown = () => {
 
   if (days === null) {
     return (
-      <section className="grid grid-cols-1 md:grid-cols-2 my-20">
-        <div className="flex flex-col gap-2 justify-center">
+      <section className="my-20 grid grid-cols-1 md:grid-cols-2">
+        <div className="flex flex-col justify-center gap-2">
           <h3 className="text-3xl font-bold">Loading Countdown...</h3>
         </div>
       </section>
@@ -32,8 +31,8 @@ const DealCountdown = () => {
 
   if (days === 0 && hours === 0 && minutes === 0 && seconds === 0) {
     return (
-      <section className="grid grid-cols-1 md:grid-cols-2 my-20">
-        <div className="flex flex-col gap-2 justify-center">
+      <section className="my-20 grid grid-cols-1 md:grid-cols-2">
+        <div className="flex flex-col justify-center gap-2">
           <h3 className="text-3xl font-bold">Deal Has Ended</h3>
           <p>
             This deal is no longer available. Check out our latest promotions
@@ -58,8 +57,8 @@ const DealCountdown = () => {
   }
 
   return (
-    <section className="grid grid-cols-1 md:grid-cols-2 my-20">
-      <div className="flex flex-col gap-2 justify-center">
+    <section className="my-20 grid grid-cols-1 md:grid-cols-2">
+      <div className="flex flex-col justify-center gap-2">
         <h3 className="text-3xl font-bold">Deal Of The Month</h3>
         <p>
           Laboris quis aliqua anim consequat pariatur ut amet magna in nulla

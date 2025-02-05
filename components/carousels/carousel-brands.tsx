@@ -7,8 +7,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { Product } from "@/types";
-import React from "react";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -63,20 +61,17 @@ const CarouselBrands = () => {
       }}
     >
       <CarouselContent>
-        {brands.map((brand: any) => (
-          <CarouselItem
-            key={brand.name}
-            className={`md:basis-1/2 lg:basis-1/4`}
-          >
-            <Link href={`/category/${brand.name}`}>
+        {brands.map(({ name, image }) => (
+          <CarouselItem key={name} className={`md:basis-1/2 lg:basis-1/4`}>
+            <Link href={`/category/${name}`}>
               <div className="relative mx-auto h-full">
                 <Image
-                  src={`/images/${brand.image!}`}
-                  alt={brand.name}
+                  src={`/images/${image}`}
+                  alt={name}
                   height="0"
                   width="0"
                   sizes="100vw"
-                  className="w-full h-full object-center object-cover"
+                  className="size-full object-cover object-center"
                 />
               </div>
             </Link>

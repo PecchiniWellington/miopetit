@@ -1,4 +1,5 @@
 "use client";
+import { motion } from "framer-motion";
 import {
   Bar,
   BarChart,
@@ -9,7 +10,6 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { motion } from "framer-motion";
 
 const userActivityData = [
   {
@@ -80,12 +80,12 @@ const userActivityData = [
 const UserActivityHeatmap = () => {
   return (
     <motion.div
-      className="bg-gray-800 bg-opacity-50 backdrop-blur-md shadow-lg rounded-xl p-6 border border-gray-700"
+      className="rounded-xl border border-gray-700 bg-gray-800/50 p-6 shadow-lg backdrop-blur-md"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.4 }}
     >
-      <h2 className="text-xl font-semibold text-gray-100 mb-4">
+      <h2 className="mb-4 text-xl font-semibold text-gray-100">
         User Activity Heatmap
       </h2>
       <div style={{ width: "100%", height: 300 }}>

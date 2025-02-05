@@ -3,23 +3,22 @@
 import { useToast } from "@/hooks/use-toast";
 import { CATEGORIES_DEFAULT_VALUES } from "@/lib/constants";
 
+import DynamicButton from "@/components/dynamic-button";
+import DynamicFormField from "@/components/shared/dynamic-form-field";
+import {
+  createCategory,
+  updataCategory,
+} from "@/lib/actions/admin/admin.actions";
+import {
+  categorySchema,
+  updateCategorySchema,
+} from "@/lib/validators/category.validator";
 import { ICategory } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
-import DynamicFormField from "@/components/shared/dynamic-form-field";
-import DynamicButton from "@/components/dynamic-button";
 import { Form } from "../ui/form";
-import {
-  categorySchema,
-  updateCategorySchema,
-} from "@/lib/validators/category.validator";
-import {
-  createCategory,
-  updataCategory,
-  updateCategory,
-} from "@/lib/actions/admin/admin.actions";
 import SlugFormField from "./product-form/slug-form-field";
 
 const CategoryForm = ({
@@ -28,7 +27,7 @@ const CategoryForm = ({
   categoryId,
 }: {
   type: "Create" | "Update";
-  category?: any;
+  category?: ICategory;
   categoryId?: string;
 }) => {
   const router = useRouter();
@@ -48,7 +47,10 @@ const CategoryForm = ({
   const onSubmit: SubmitHandler<z.infer<typeof categorySchema>> = async (
     data
   ) => {
-    const handleResponse = (res: any, successMessage: string) => {
+    const handleResponse = (
+      res: { success: boolean; error?: string; message?: string },
+      successMessage: string
+    ) => {
       if (!res.success) {
         toast({
           className: "bg-red-100 text-red-700 px-5 py-2",
@@ -87,7 +89,7 @@ const CategoryForm = ({
         method="POST"
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        <div className="flex flex-col  md:flex-row gap-5">
+        <div className="flex flex-col  gap-5 md:flex-row">
           {/* Name */}
           <DynamicFormField
             control={form.control}

@@ -1,8 +1,8 @@
 "use client";
 import { Lock } from "lucide-react";
+import { useState } from "react";
 import SettingSection from "./SettingSection";
 import ToggleSwitch from "./ToggleSwitch";
-import { useState } from "react";
 
 const Security = () => {
   const [twoFactor, setTwoFactor] = useState(false);
@@ -16,8 +16,8 @@ const Security = () => {
       />
       <div className="mt-4">
         <button
-          className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded 
-        transition duration-200
+          className="rounded bg-indigo-600 px-4 py-2 font-bold text-white transition 
+        duration-200 hover:bg-indigo-700
         "
         >
           Change Password

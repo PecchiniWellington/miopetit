@@ -1,6 +1,10 @@
 "use client";
 
+import DynamicButton from "@/components/dynamic-button";
+import DynamicFormField from "@/components/shared/dynamic-form-field";
+import SearchSelect from "@/components/shared/search-select";
 import { useToast } from "@/hooks/use-toast";
+import { createProduct, updateProduct } from "@/lib/actions/product.actions";
 import { PRODUCT_DEFAULT_VALUES } from "@/lib/constants";
 import { insertProductSchema } from "@/lib/validators";
 import { updateProductSchema } from "@/lib/validators/product.validator";
@@ -9,28 +13,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "../../ui/form";
-import { createProduct, updateProduct } from "@/lib/actions/product.actions";
+import { Form, FormField, FormItem, FormLabel } from "../../ui/form";
+import SlugFormField from "./slug-form-field";
 import UploadImage from "./upload-image";
 import UploadImageFeaturedProduct from "./upload-image-featured-product";
-import DynamicFormField from "@/components/shared/dynamic-form-field";
-import SlugFormField from "./slug-form-field";
-import DynamicButton from "@/components/dynamic-button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-import SearchSelect from "@/components/shared/search-select";
 
 const ProductForm = ({
   type,
@@ -60,7 +46,10 @@ const ProductForm = ({
   const onSubmit: SubmitHandler<z.infer<typeof insertProductSchema>> = async (
     data
   ) => {
-    const handleResponse = (res: any, successMessage: string) => {
+    const handleResponse = (
+      res: { success: boolean; error?: string; message?: string },
+      successMessage: string
+    ) => {
       if (!res.success) {
         toast({
           className: "bg-red-100 text-red-700 px-5 py-2",
@@ -108,7 +97,7 @@ const ProductForm = ({
         method="POST"
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        <div className="flex flex-col  md:flex-row gap-5">
+        <div className="flex flex-col  gap-5 md:flex-row">
           {/* Name */}
           <DynamicFormField
             control={form.control}
@@ -127,7 +116,7 @@ const ProductForm = ({
             placeholder="Enter slug"
           />
         </div>
-        <div className="flex flex-col  md:flex-row gap-5">
+        <div className="flex flex-col  gap-5 md:flex-row">
           {/* Category */}
 
           <FormField
@@ -156,7 +145,7 @@ const ProductForm = ({
             placeholder="Enter brand"
           />
         </div>
-        <div className="flex flex-col  md:flex-row gap-5">
+        <div className="flex flex-col  gap-5 md:flex-row">
           {/* Price */}
           <DynamicFormField
             control={form.control}
@@ -174,7 +163,7 @@ const ProductForm = ({
             placeholder="Enter stock"
           />
         </div>
-        <div className="upload-field flex flex-col  md:flex-row gap-5">
+        <div className="upload-field flex flex-col  gap-5 md:flex-row">
           {/* Images */}
           <UploadImage form={form} images={images} />
         </div>

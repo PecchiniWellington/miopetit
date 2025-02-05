@@ -1,23 +1,27 @@
 /* components/DynamicFormField.tsx */
 
-import { Controller } from "react-hook-form";
+import { Control, Controller } from "react-hook-form";
 
 import { z } from "zod";
-import { FormItem, FormLabel, FormControl, FormMessage } from "../ui/form";
-import { Textarea } from "../ui/textarea";
+import { FormControl, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
+import { Textarea } from "../ui/textarea";
 import SearchSelect from "./search-select";
 
+interface Option {
+  label: string;
+  value: string;
+}
 interface DynamicFormFieldProps {
   disabled?: boolean;
-  control: any;
+  control: Control;
   name: string;
-  schema: z.ZodType<any, any>;
+  schema: z.ZodType<unknown>;
   title: string;
   placeholder?: string;
   type?: "input" | "textarea" | "select";
   className?: string;
-  options?: { label: string; value: string }[];
+  options?: Option[];
 }
 
 const DynamicFormField = ({
@@ -43,7 +47,7 @@ const DynamicFormField = ({
                 disabled={disabled}
                 placeholder={placeholder}
                 {...field}
-                className={`resize-none bg-transparent border-slate-700 ${className}`}
+                className={`resize-none border-slate-700 bg-transparent ${className}`}
               />
             ) : type === "select" ? (
               <SearchSelect
@@ -57,7 +61,7 @@ const DynamicFormField = ({
                 disabled={disabled}
                 placeholder={placeholder}
                 {...field}
-                className={`bg-transparent border-slate-700 ${className}`}
+                className={`border-slate-700 bg-transparent ${className}`}
               />
             )}
           </FormControl>

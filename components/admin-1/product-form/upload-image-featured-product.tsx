@@ -1,16 +1,15 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
+  FormControl,
   FormField,
   FormItem,
-  FormControl,
   FormLabel,
 } from "@/components/ui/form";
 import { toast } from "@/hooks/use-toast";
 
 import { UploadButton } from "@uploadthing/react";
 import Image from "next/image";
-import React from "react";
 
 export const UploadImageFeaturedProduct = ({
   isFeatured,
@@ -18,13 +17,13 @@ export const UploadImageFeaturedProduct = ({
   form,
 }: any) => {
   return (
-    <Card className="border-slate-700 flex align-center ">
-      <CardContent className="space-y-2 mt-2">
+    <Card className="align-center flex border-slate-700 ">
+      <CardContent className="mt-2 space-y-2">
         <FormField
           control={form.control}
           name="isFeatured"
           render={({ field }) => (
-            <FormItem className=" space-x-2 items-center  flex align-center">
+            <FormItem className=" align-center flex  items-center space-x-2">
               <FormControl>
                 <Checkbox
                   checked={field.value}
@@ -41,7 +40,7 @@ export const UploadImageFeaturedProduct = ({
             alt="Banner Image"
             width={100}
             height={100}
-            className="w-full object-cover object-center rounded-sm"
+            className="w-full rounded-sm object-cover object-center"
           />
         )}
         {isFeatured && !banner && (

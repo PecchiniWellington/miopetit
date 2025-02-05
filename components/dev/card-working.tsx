@@ -1,14 +1,12 @@
-import React from "react";
-
-const CardWorking = ({ children }: any) => {
+const CardWorking = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="relative">
       {children}
-      <div className="rounded-xl absolute inset-0   flex items-center justify-center text-white ">
-        <div className="text-white text-2xl font-semibold rounded-xl">
+      <div className="absolute inset-0 flex   items-center justify-center rounded-xl text-white ">
+        <div className="rounded-xl text-2xl font-semibold text-white">
           WORKING...
         </div>
-        <div className=" rounded-xl opacity-55 bg-red-900 absolute inset-0"></div>
+        <div className=" absolute inset-0 rounded-xl bg-red-900 opacity-55"></div>
       </div>
     </div>
   );

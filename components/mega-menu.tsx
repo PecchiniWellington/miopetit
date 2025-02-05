@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
 
 import { cn } from "@/lib/utils";
 
@@ -12,8 +11,8 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import Link from "next/link";
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -58,26 +57,26 @@ export function NavigationMenuDemo() {
     <NavigationMenu className="wrapper justify-start">
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger className="font-bold ml-0 pl-0">
+          <NavigationMenuTrigger className="ml-0 pl-0 font-bold">
             CANI
           </NavigationMenuTrigger>
           <NavigationMenuContent className="bg-slate-100">
             <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
               <li className="row-span-3">
                 <NavigationMenuLink asChild>
-                  <a
-                    className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+                  <Link
+                    className="flex size-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-gray-500 to-gray-700 p-6 no-underline outline-none focus:shadow-md"
                     href="/"
                   >
                     {/*  <Icons.logo className="h-6 w-6" /> */}
                     <div className="mb-2 mt-4 text-lg font-medium">
                       shadcn/ui
                     </div>
-                    <p className="text-sm leading-tight text-muted-foreground">
+                    <p className="text-sm leading-tight text-gray-500">
                       Beautifully designed components built with Radix UI and
                       Tailwind CSS.
                     </p>
-                  </a>
+                  </Link>
                 </NavigationMenuLink>
               </li>
               <ListItem href="/docs" title="Introduction">
@@ -131,7 +130,7 @@ const ListItem = React.forwardRef<
           {...props}
         >
           <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+          <p className="line-clamp-2 text-sm leading-snug text-gray-500">
             {children}
           </p>
         </a>

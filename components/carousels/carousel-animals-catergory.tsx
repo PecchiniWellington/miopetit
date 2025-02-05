@@ -7,8 +7,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { Product } from "@/types";
-import React from "react";
 import Link from "next/link";
 import AnimalAvatar from "../animal-avatar";
 
@@ -49,7 +47,7 @@ const CarouselAnimalsCategory = () => {
   // FIXME: cambiare product type(sono simili tra prisma e types)
   return (
     <Carousel
-      className="w-full mb-12"
+      className="mb-12 w-full"
       opts={{
         loop: true,
         startIndex: 0,
@@ -57,14 +55,11 @@ const CarouselAnimalsCategory = () => {
       }}
     >
       <CarouselContent>
-        {animals.map((category: any) => (
-          <CarouselItem
-            key={category.name}
-            className={`md:basis-1/2 lg:basis-1/5`}
-          >
-            <Link href={`/category/${category.name}`}>
+        {animals.map(({ name, image }) => (
+          <CarouselItem key={name} className={`md:basis-1/2 lg:basis-1/5`}>
+            <Link href={`/category/${name}`}>
               <div className="relative mx-auto h-full">
-                <AnimalAvatar image={category.image} name={category.name} />
+                <AnimalAvatar image={image} name={name} />
               </div>
             </Link>
           </CarouselItem>

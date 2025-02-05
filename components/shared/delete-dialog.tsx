@@ -1,18 +1,18 @@
 "use client";
-import React from "react";
-import {
-  AlertDialog,
-  AlertDialogTrigger,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogCancel,
-} from "../ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
 import { Trash2 } from "lucide-react";
+import React from "react";
 import DynamicButton from "../dynamic-button";
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../ui/alert-dialog";
 import { Button } from "../ui/button";
 
 const DeleteDialog = ({
@@ -60,7 +60,7 @@ const DeleteDialog = ({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel className="text-slate-100 bg-slate-700 px-4 py-2">
+          <AlertDialogCancel className="bg-slate-700 px-4 py-2 text-slate-100">
             Cancel
           </AlertDialogCancel>
           <DynamicButton isPending={isPending} handleAction={handleDeleteClick}>
