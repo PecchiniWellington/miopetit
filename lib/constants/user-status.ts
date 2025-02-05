@@ -1,11 +1,9 @@
-import ROLES from "./roles";
-
-export const USER_STATUS_ACTIVATION = {
-  ACTIVE: "ACTIVE",
-  PENDING: "PENDING",
-  INACTIVE: "INACTIVE",
-  BANNED: "BANNED",
-};
+export enum USER_STATUS_ACTIVATION {
+  ACTIVE = "ACTIVE",
+  PENDING = "PENDING",
+  INACTIVE = "INACTIVE",
+  BANNED = "BANNED",
+}
 
 export const USER_STATUS = process.env.USER_STATUS
   ? process.env.USER_STATUS.split(",")

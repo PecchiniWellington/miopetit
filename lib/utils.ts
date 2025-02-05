@@ -1,7 +1,9 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import qs from "query-string";
-import { z } from "zod";
+import { z, ZodError } from "zod";
+import { ICategory, IUser, Product } from "@/types";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -46,19 +48,27 @@ export const capitalizeFirstLetter = (text: string) => {
   return text.charAt(0).toUpperCase() + text.slice(1);
 };
 
-export const formatError = (error: any) => {
-  if (error.name === "ZodError") {
-    const fieldErrors = Object.keys(error.errors).map((field) => {
-      return error.errors[field].message;
-    });
+export const formatError = ({
+  error,
+}: {
+  error: ZodError | PrismaClientKnownRequestError;
+}): string => {
+  if (error instanceof ZodError) {
+    // `error.errors` è un array, non un oggetto con chiavi
+    const fieldErrors = error.errors.map((err) => err.message);
     return fieldErrors.join(",\n");
   } else if (
-    error.name === "PrismaClientKnownRequestError" &&
+    error instanceof PrismaClientKnownRequestError &&
     error.code === "P2002"
   ) {
-    const field = error.meta?.target ? error.meta.target[0] : "Field";
+    // Prisma `error.meta?.target` potrebbe essere un array o altro
+    const field = Array.isArray(error.meta?.target)
+      ? error.meta.target[0]
+      : "Field";
     return `${field.charAt(0).toUpperCase() + field.slice(1)} already exists`;
   }
+
+  return "An unknown error occurred";
 };
 
 export function round2(value: number | string) {
@@ -83,7 +93,9 @@ export function formatCurrency(amount: number | string | null) {
     return CURRENCY_FORMATTER.format(amount);
   } else if (typeof amount === "string") {
     return CURRENCY_FORMATTER.format(Number(amount));
-  } else "NaN";
+  } else {
+    return "NaN";
+  }
 }
 
 export function formatId(id: string) {
@@ -91,7 +103,7 @@ export function formatId(id: string) {
 }
 
 // Format date and times
-export function formatDateTime(dateString: any) {
+export function formatDateTime(dateString: string) {
   const dateTimeOptions: Intl.DateTimeFormatOptions = {
     year: "numeric", // Abbreviated year  name (e.g., "2024")
     month: "short", // Abbreviated month  name (e.g., "Oct")
@@ -160,44 +172,42 @@ export const currency = z
     "Price must have exactly two decimal places"
   );
 
-export function mapProductsForDatabase(products: any[]): any[] {
+export function mapProductsForDatabase(products: Product[]) {
   return products.map((product) => ({
     name: product.name,
     slug: product.slug,
-    images: product.images.includes(",")
-      ? product.images.split(",")
-      : [product.images], // Converte in array
+    images: product.images, // Converte in array
     brand: product.brand,
     description: product.description,
-    stock: parseInt(product.stock, 10), // Converte in numero
-    price: parseFloat(product.price), // Converte in numero decimale
-    rating: parseFloat(product.rating), // Converte in numero decimale
-    numReviews: parseInt(product.numReviews, 10), // Converte in numero intero
-    isFeatured: product.isFeatured.toLowerCase() === "true", // Converte in booleano
-    banner: product.banner || null, // Se vuoto, imposta `null`
-    categoryId: product.categoryId, // Deve essere un UUID valido
+    stock: product.stock,
+    price: parseFloat(product.price),
+    rating: parseFloat(product.rating),
+    numReviews: product.numReviews,
+    isFeatured: product.isFeatured,
+    banner: product.banner || null,
+    categoryId: product.categoryId,
   }));
 }
 
-export function mapUsersForDatabase(users: any[]): any[] {
+export function mapUsersForDatabase(users: IUser[]) {
   return users.map((user) => ({
-    name: user.name || "NO_NAME", // Default se manca il nome
+    name: user.name || "NO_NAME",
     email: user.email,
-    emailVerified: user.emailVerified ? new Date(user.emailVerified) : null, // Converte in Date o `null`
-    image: user.image || null, // Converte stringhe vuote in `null`
-    password: user.password, // Mantiene la password così com'è
-    role: user.role?.toUpperCase() === "ADMIN" ? "ADMIN" : "USER", // Assicura che il ruolo sia valido
-    address: user.address ? JSON.parse(user.address) : null, // Se è una stringa JSON, la converte
-    paymentMethod: user.paymentMethod || null, // Converte stringhe vuote in `null`
+    emailVerified: user.emailVerified ? new Date(user.emailVerified) : null,
+    image: user.image || null,
+    password: user.password,
+    role: user.role?.toUpperCase() === "ADMIN" ? "ADMIN" : "USER",
+    address: user.address || {},
+    paymentMethod: user.paymentMethod || null,
   }));
 }
 
-export function formatCategoriesData(data: any[]) {
+export function formatCategoriesData(data: ICategory[]) {
   return data.map((item) => ({
-    name: item.Name?.trim() || "Unnamed Category", // ✅ Assicura che il nome sia presente
-    slug: item.Slug?.trim().toLowerCase() || "default-slug", // ✅ Normalizza lo slug
-    description: item.Description || null,
-    createdAt: new Date(), // ✅ Prisma accetta il formato `Date`
+    name: item.name?.trim() || "Unnamed Category",
+    slug: item.slug?.trim().toLowerCase() || "default-slug",
+    description: item.description || null,
+    createdAt: new Date(),
     updatedAt: new Date(),
   }));
 }

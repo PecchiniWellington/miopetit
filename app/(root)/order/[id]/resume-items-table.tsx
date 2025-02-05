@@ -7,12 +7,13 @@ import {
   Table,
 } from "@/components/ui/table";
 import { formatCurrency } from "@/lib/utils";
+import { IOrderItem } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 
 import React from "react";
 
-const ResumeItemsTable = ({ orderitems }: any) => {
+const ResumeItemsTable = ({ orderitems }: { orderitems: IOrderItem[] }) => {
   return (
     <Table>
       <TableHeader>
@@ -23,7 +24,7 @@ const ResumeItemsTable = ({ orderitems }: any) => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {orderitems.map((item: any) => (
+        {orderitems.map((item: IOrderItem) => (
           <TableRow key={item.slug}>
             <TableCell>
               <Link

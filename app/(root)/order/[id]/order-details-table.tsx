@@ -1,6 +1,5 @@
 "use client";
 
-import { Card, CardContent } from "@/components/ui/card";
 import { formatId } from "@/lib/utils";
 import { IOrder } from "@/types";
 
@@ -20,7 +19,6 @@ const OrderDetailsTable = ({
   isAdmin: boolean;
 }) => {
   const {
-    id,
     shippingAddress,
     paymentMethod,
     itemsPrice,
@@ -32,14 +30,13 @@ const OrderDetailsTable = ({
     isDelivered,
     deliveredAt,
     orderitems,
-    user,
   } = order;
 
   return (
     <>
       <h1 className="py-4 text-2xl">Order {formatId(order.id)}</h1>
       <div className="grid md:grid-cols-3 md:gap-5">
-        <div className="col-span-2 space-4-y overflow-x-auto flex flex-col gap-2">
+        <div className="col-span-2 flex flex-col gap-2 space-y-4 overflow-x-auto">
           <OrderCard
             isPaid={isPaid}
             subtitle={paymentMethod}
@@ -65,7 +62,7 @@ const OrderDetailsTable = ({
             <ResumeItemsTable orderitems={orderitems} />
           </OrderCard>
         </div>
-        <div className="col-span-2 md:col-span-1 mt-2 md:mt-0 flex flex-col gap-4">
+        <div className="col-span-2 mt-2 flex flex-col gap-4 md:col-span-1 md:mt-0">
           <PaymentCard
             itemsPrice={itemsPrice}
             taxPrice={taxPrice}

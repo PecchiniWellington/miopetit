@@ -5,10 +5,24 @@ import StripePayment from "./stripe-payment";
 import { MarkAsDeliveredButton } from "./mark-as-delivered";
 import { MarkAsPaidButton } from "./mark-as-paid";
 import { ResumeCard } from "./resume-card";
+import { IOrder } from "@/types";
 
-const PaymentCard = ({
+interface PaymentCardProps {
+  order: Omit<IOrder, "paymentResult">;
+  itemsPrice: string;
+  totalPrice: string;
+  taxPrice: string;
+  shippingPrice: string;
+  isAdmin: boolean;
+  isPaid: boolean;
+  paymentMethod: string;
+  isDelivered?: boolean;
+  paypalClientId: string;
+  stripeClientSecret: string | null;
+}
+
+const PaymentCard: React.FC<PaymentCardProps> = ({
   order,
-  id,
   itemsPrice,
   totalPrice,
   taxPrice,
@@ -19,12 +33,10 @@ const PaymentCard = ({
   isDelivered,
   paypalClientId,
   stripeClientSecret,
-}: any) => {
-  // Button to mark order as paid
-
+}) => {
   return (
     <Card>
-      <CardContent className="p-4 gap-4 space-y-4">
+      <CardContent className="gap-4 space-y-4 p-4">
         <ResumeCard
           itemsPrice={itemsPrice}
           taxPrice={taxPrice}

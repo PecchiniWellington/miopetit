@@ -6,27 +6,31 @@ import IconBoxes from "@/components/icons-boxes";
 import ProductCarousel from "@/components/shared/product/product-carousel";
 import ProductList from "@/components/shared/product/product-list";
 import SpecialOfferBrand from "@/components/special-offers-brand";
-import ViewAllProductButton from "@/components/view-all-products-button";
 import {
-  getAllProducts,
   getFeaturedProducts,
   getLatestProducts,
 } from "@/lib/actions/product.actions";
-import { LATEST_PRODUCTS_LIMIT } from "@/lib/constants";
+import { Product } from "@/types";
 import Image from "next/image";
 
 export default async function Home() {
   const latestProducts = await getLatestProducts({
     limit: 12,
   });
-  const featuredProducts = await getFeaturedProducts();
+  let featuredProducts = await getFeaturedProducts();
+  featuredProducts = featuredProducts.map((product: Product) => ({
+    ...product,
+    categoryId: product.categoryId || null,
+    createdAt: product.createdAt || new Date(),
+    updatedAt: product.updatedAt || new Date(),
+  }));
 
   return (
     <>
       {featuredProducts.length > 0 && (
         <ProductCarousel data={featuredProducts} />
       )}
-      <div className="flex justify-between items-center  gap-4">
+      <div className="flex items-center justify-between  gap-4">
         <Image
           src="/images/affari-quindici.png"
           alt="product"
@@ -70,13 +74,13 @@ export default async function Home() {
           height="0"
           width="0"
           sizes="100vw"
-          className="w-full h-full object-center object-cover"
+          className="size-full object-cover object-center"
         />
       </div>
       <div>
         <SpecialOfferBrand data={latestProducts} title="Offerta Royal Canin" />
       </div>
-      <div className="flex justify-between items-center  gap-4">
+      <div className="flex items-center justify-between  gap-4">
         <AnimalAvatar
           name="Toys, treats & more"
           image="coccola-tutti.png"
@@ -141,7 +145,7 @@ export default async function Home() {
           height="0"
           width="0"
           sizes="100vw"
-          className="w-full h-full object-center object-cover"
+          className="size-full object-cover object-center"
         />
       </div>
 

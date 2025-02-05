@@ -1,3 +1,4 @@
+import { USER_STATUS_ACTIVATION } from "@/lib/constants/user-status";
 import {
   insertCartSchema,
   cartItemSchema,
@@ -10,6 +11,9 @@ import {
 } from "@/lib/validators";
 import { categorySchema } from "@/lib/validators/category.validator";
 import { insertReviewSchema } from "@/lib/validators/reviews.validator";
+import { Order } from "@prisma/client";
+import { Session } from "inspector";
+import { Account } from "next-auth";
 
 import { z } from "zod";
 
@@ -18,6 +22,7 @@ export type Product = z.infer<typeof insertProductSchema> & {
   rating: string;
   numReviews: number;
   createdAt: Date;
+  updatedAt: Date;
 };
 
 export type Cart = z.infer<typeof insertCartSchema>;
@@ -32,9 +37,9 @@ export type IOrderItem = z.infer<typeof insertOrderItemSchema>;
 export type IOrder = z.infer<typeof insertOrderSchema> & {
   id: string;
   createdAt: Date;
-  isPaid: Boolean;
+  isPaid: boolean;
   paidAt: Date | null;
-  isDelivered: Boolean;
+  isDelivered: boolean;
   deliveredAt: Date | null;
   orderitems: IOrderItem[];
   paymentResult: IPaymentResult;
@@ -60,3 +65,31 @@ export type IStatus = "danger" | "warning" | "success" | "default";
 export type ICategory = z.infer<typeof categorySchema> & {
   id: string;
 };
+
+export interface IAddress {
+  fullname: string;
+  streetAddress: string;
+  city: string;
+  postalCode: string;
+  country: string;
+}
+
+export interface IUser {
+  id: string;
+  name: string;
+  email: string;
+  emailVerified?: Date;
+  image?: string;
+  password?: string;
+  role: USER_STATUS_ACTIVATION;
+  address?: IAddress;
+  paymentMethod?: string;
+  status: USER_STATUS_ACTIVATION;
+  createdAt: Date;
+  updatedAt: Date;
+  accounts: Account[];
+  sessions: Session[];
+  Cart: Cart[];
+  Order: Order[];
+  Review: Review[];
+}
