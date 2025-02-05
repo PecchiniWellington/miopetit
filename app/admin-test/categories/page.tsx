@@ -20,13 +20,13 @@ import Link from "next/link";
 import DownloadCSV from "./download-csv";
 
 const AdminCategoriesPage: React.FC<{
-  searchParams: {
+  searchParams: Promise<{
     query: string;
     page: string;
     category: string;
-  };
+  }>;
 }> = async (props) => {
-  const searchParams = props.searchParams;
+  const searchParams = await props.searchParams;
 
   const page = Number(searchParams.page) || 1;
   const searchQuery = searchParams.query || "";
