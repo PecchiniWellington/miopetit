@@ -4,7 +4,7 @@ import { IconType } from "react-icons";
 export interface IStatCard {
   name: string;
   icon: IconType;
-  value: string;
+  value: string | number;
   color: string;
 }
 

@@ -11,7 +11,17 @@ import {
 } from "@/lib/actions/auth/auth.actions";
 import { useActionState } from "react";
 
-const SubmitForm = ({ defaultValues, formType }: any) => {
+const SubmitForm = ({
+  defaultValues,
+  formType,
+}: {
+  defaultValues: {
+    email: string;
+    password: string;
+  };
+
+  formType: string;
+}) => {
   const actionType =
     formType === "sign-in" ? signInWithCredentials : signUpUser;
   const [data, action] = useActionState(actionType, {
@@ -25,26 +35,28 @@ const SubmitForm = ({ defaultValues, formType }: any) => {
     <form action={action} className="space-y-6">
       <input type="hidden" name="callbackUrl" value={callbackUrl} />
       <div className="space-y-6">
-        {Object.keys(defaultValues).map((key) => (
-          <div key={key}>
-            <label htmlFor={key}>
-              {capitalizeFirstLetter(camelCaseToSpaces(key))}
-            </label>
-            <Input
-              type={key}
-              id={key}
-              name={key}
-              defaultValue={defaultValues[key]}
-              autoComplete={key}
-            />
-          </div>
-        ))}
+        {(Object.keys(defaultValues) as (keyof typeof defaultValues)[]).map(
+          (key) => (
+            <div key={key}>
+              <label htmlFor={key}>
+                {capitalizeFirstLetter(camelCaseToSpaces(key))}
+              </label>
+              <Input
+                type={key}
+                id={key}
+                name={key}
+                defaultValue={defaultValues[key]}
+                autoComplete={key}
+              />
+            </div>
+          )
+        )}
 
         <div>
           <SubmitButton formType={formType} />
         </div>
         {data && !data.success && (
-          <div className="text-red text-center text-sm">{data.message}</div>
+          <div className="text-center text-sm text-red-500">{data.message}</div>
         )}
         <ChangeForm formType={formType} />
       </div>

@@ -1,14 +1,14 @@
 "use client";
 import { motion } from "framer-motion";
 import {
-  LineChart,
+  CartesianGrid,
+  Legend,
   Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Legend,
 } from "recharts";
 
 const salesData = [
@@ -20,15 +20,15 @@ const salesData = [
   { month: "Jun", sales: 5500 },
 ];
 
-const SalesTrendChart = ({ product }: any) => {
+const SalesTrendChart = (/* { product }: { product: Product } */) => {
   return (
     <motion.div
-      className="bg-gray-800 bg-opacity-50 backdrop-blur-md shadow-lg rounded-xl p-6 border border-gray-700"
+      className="rounded-xl border border-gray-700 bg-gray-800/50 p-6 shadow-lg backdrop-blur-md"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.3 }}
     >
-      <h2 className="text-xl font-semibold text-gray-100 mb-4">Sales Trend</h2>
+      <h2 className="mb-4 text-xl font-semibold text-gray-100">Sales Trend</h2>
       <div style={{ width: "100%", height: 300 }}>
         <ResponsiveContainer>
           <LineChart data={salesData}>

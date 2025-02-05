@@ -11,6 +11,7 @@ import { getAllUsers } from "@/lib/actions/admin/admin.actions";
 import { getOrderSummary } from "@/lib/actions/order/order.action";
 import Link from "next/link";
 import UsersCard from "./users-card";
+import { IUser } from "@/types";
 
 const userStats = {
   totalUsers: 152845,
@@ -44,7 +45,9 @@ const UsersPage = async (props: {
   const summary = JSON.parse(JSON.stringify(summaryResponse));
 
   // remove user logged in from the list
-  users.data = users.data.filter((user: any) => user.id !== session?.user?.id);
+  users.data = users.data.filter(
+    (user: IUser) => user.id !== session?.user?.id
+  );
 
   return (
     <div className="relative z-10 flex-1 overflow-auto">

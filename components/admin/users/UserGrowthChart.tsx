@@ -1,4 +1,5 @@
 "use client";
+import { IUser } from "@/types";
 import { motion } from "framer-motion";
 import {
   CartesianGrid,
@@ -9,7 +10,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-
+/* 
 const monthNames = [
   "Jan",
   "Feb",
@@ -23,20 +24,22 @@ const monthNames = [
   "Oct",
   "Nov",
   "Dec",
-];
+]; */
 
-const UserGrowthChart = ({ users }: any) => {
-  const createdAt = users.data.reduce((acc, user) => {
-    const date = new Date(user.createdAt);
+const UserGrowthChart = ({ users }: { users: { data: IUser[] } }) => {
+  const createdAt = users.data.reduce((acc /* user */) => {
+    /*  const date = new Date(user.createdAt);
     const monthIndex = date.getMonth();
-    const monthName = monthNames[monthIndex];
+    const monthName = monthNames[monthIndex]; */
 
-    const existingEntry = acc.find((entry) => entry.month === monthName);
-    if (existingEntry) {
-      existingEntry.users += 1;
+    /*  const existingEntry = acc.find(
+      (entry: IUser) => entry.createdAt.toString() === monthName
+    ); */
+    /* if (existingEntry) {
+      (existingEntry as IUser).users += 1;
     } else {
       acc.push({ month: monthName, users: 1 });
-    }
+    } */
 
     return acc;
   }, []);

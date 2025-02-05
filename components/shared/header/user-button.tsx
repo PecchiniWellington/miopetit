@@ -7,13 +7,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { signOutUser } from "@/lib/actions/auth/auth.actions";
 import { getUserById } from "@/lib/actions/user/user.action";
 import ROLES from "@/lib/constants/roles";
 
 import { UserIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import SignOutBtn from "./sign-out-btn";
 
 const UserButton = async () => {
   const session = await auth();
@@ -82,9 +82,7 @@ const UserButton = async () => {
             </DropdownMenuItem>
           )}
 
-          <form action={signOutUser as any}>
-            <DynamicButton className="btn-ghost">Sign Out</DynamicButton>
-          </form>
+          <SignOutBtn />
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

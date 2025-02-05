@@ -1,10 +1,19 @@
 import DynamicFormField from "@/components/shared/dynamic-form-field";
 import { Button } from "@/components/ui/button";
 import { insertProductSchema } from "@/lib/validators";
+import { updateProductSchema } from "@/lib/validators/product.validator";
+import { FormProviderProps } from "react-hook-form";
 import slugify from "slugify";
+import { z } from "zod";
 
-const SlugFormField = ({ form }: any) => {
-  const handleSetValue = (e: Event) => {
+const SlugFormField = ({
+  form,
+}: {
+  form: FormProviderProps<
+    z.infer<typeof insertProductSchema | typeof updateProductSchema>
+  >;
+}) => {
+  const handleSetValue = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     form.setValue("slug", slugify(form.getValues("name"), { lower: true }));
   };

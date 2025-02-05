@@ -1,6 +1,7 @@
 "use client";
 import StatCard from "@/components/admin/common/StatCard";
 import CardWorking from "@/components/dev/card-working";
+import { IOrder, IUser } from "@/types";
 import { motion } from "framer-motion";
 import { UserCheck, UserPlus, UsersIcon, UserX } from "lucide-react";
 
@@ -9,15 +10,20 @@ const UsersCard = ({
   summary,
   users,
 }: {
-  userStats: any;
-  summary: any;
-  users: any;
+  userStats: {
+    totalUsers: number;
+    newUsersToday: number;
+    activeUsers: number;
+    churnRate: string;
+  };
+  summary: IOrder & { usersCount: number };
+  users: { data: IUser[] };
 }) => {
   const today = new Date().toISOString().split("T")[0];
-  const newUserToday = users.data.filter((user: any) =>
-    user.createdAt.startsWith(today)
+  const newUserToday = users.data.filter((user: IUser) =>
+    String(user?.createdAt).startsWith(today)
   ).length;
-  const active = users.data.filter((user: any) => user.status === "ACTIVE");
+  const active = users.data.filter((user: IUser) => user.status === "ACTIVE");
   return (
     <motion.div
       className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4"
@@ -28,7 +34,7 @@ const UsersCard = ({
       <StatCard
         name="Total Users"
         icon={UsersIcon}
-        value={summary.usersCount.toLocaleString() - 1}
+        value={(summary.usersCount - 1).toLocaleString()}
         color="#6366F1"
       />
       <StatCard

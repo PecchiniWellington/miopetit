@@ -10,7 +10,7 @@ import { formatCurrency, formatDateTime } from "@/lib/utils";
 import { IOrder } from "@/types";
 import Link from "next/link";
 
-const RecentSalesTable = ({ summary }: { summary: any }) => {
+const RecentSalesTable = ({ summary }: { summary: IOrder }) => {
   return (
     <Table>
       <TableHeader>
@@ -22,7 +22,7 @@ const RecentSalesTable = ({ summary }: { summary: any }) => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {summary.latestSales.map((order: IOrder) => (
+        {summary?.latestSales?.map((order: any) => (
           <TableRow key={order.id}>
             <TableCell>{order.user?.name}</TableCell>
             <TableCell>

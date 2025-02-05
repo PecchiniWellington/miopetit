@@ -5,13 +5,14 @@ import { deleteUser } from "@/lib/actions/admin/admin.actions";
 import ROLES from "@/lib/constants/roles";
 import { USER_STATUS_ACTIVATION } from "@/lib/constants/user-status";
 import { formatId } from "@/lib/utils";
+import { IUser } from "@/types";
 import { motion } from "framer-motion";
 import { Edit, Search } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
-const Roles = ({ userRole }: { userRole: ROLES }) => {
+const Roles = ({ userRole }: { userRole: string }) => {
   switch (userRole) {
     case ROLES.ADMIN:
       return (
@@ -73,10 +74,11 @@ const Status = ({ userStatus }: { userStatus: USER_STATUS_ACTIVATION }) => {
   }
 };
 
-const UsersTable = ({ users }: any) => {
+import { ChangeEvent } from "react";
+const UsersTable = ({ users }: { users: { data: IUser[] } }) => {
   const [searchTerm] = useState("");
 
-  const handleSearch = (e: Event) => {
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     console.log(e);
     return;
   };
@@ -128,7 +130,7 @@ const UsersTable = ({ users }: any) => {
           </thead>
 
           <tbody className="divide-y divide-gray-700">
-            {users.data.map((user: any) => (
+            {users?.data?.map((user: IUser) => (
               <motion.tr
                 key={user.id}
                 initial={{ opacity: 0 }}

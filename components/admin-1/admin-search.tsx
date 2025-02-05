@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { Input } from "../ui/input";
 import { usePathname, useSearchParams } from "next/navigation";
-import { Button } from "../ui/button";
+import React, { useEffect } from "react";
 import DynamicButton from "../dynamic-button";
+import { Input } from "../ui/input";
 
 const AdminSearch = () => {
   const searchParams = useSearchParams();

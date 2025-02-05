@@ -1,7 +1,8 @@
 "use client";
+import { HelpCircle, Plus } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
 import SettingSection from "./SettingSection";
-import { HelpCircle, Plus } from "lucide-react";
 
 const ConnectedAccounts = () => {
   const [connectedAccounts, setConnectedAccounts] = useState([
@@ -32,15 +33,17 @@ const ConnectedAccounts = () => {
           className="flex items-center justify-between py-3"
         >
           <div className="flex gap-1">
-            <img
+            <Image
+              width={24}
+              height={24}
               src={account.icon}
               alt="Social img"
-              className="size-6 object-cover rounded-full mr-2"
+              className="mr-2 size-6 rounded-full object-cover"
             />
             <span className="text-gray-300">{account.name}</span>
           </div>
           <button
-            className={`px-3 py-1 rounded ${
+            className={`rounded px-3 py-1 ${
               account.connected
                 ? "bg-green-600 hover:bg-green-700"
                 : "bg-gray-600 hover:bg-gray-700"
@@ -63,7 +66,7 @@ const ConnectedAccounts = () => {
           </button>
         </div>
       ))}
-      <button className="mt-4 flex items-center text-indigo-400 hover:text-indigo-300 transition duration-200">
+      <button className="mt-4 flex items-center text-indigo-400 transition duration-200 hover:text-indigo-300">
         <Plus size={18} className="mr-2" /> Add Account
       </button>
     </SettingSection>

@@ -30,14 +30,18 @@ const UpdateUserForm = ({
 
   const { setValue, watch, reset, formState } = form;
 
-  const startUpload = async (e: any) => {
+  const startUpload = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
       const image = watch("image");
 
       const formData = new FormData();
-      formData.append("file", image);
+      if (image) {
+        formData.append("file", image);
+      } else {
+        throw new Error("No image selected");
+      }
 
       const response = await fetch("/api/avatar/upload-profile-image", {
         method: "POST",
@@ -74,11 +78,11 @@ const UpdateUserForm = ({
 
       reset();
       router.push("/admin/users");
-    } catch (error: any) {
+    } catch (error) {
       toast({
         className: "bg-red-100 text-red-700 px-5 py-2",
         title: "Error",
-        description: error.message,
+        description: (error as Error).message,
       });
     }
   };

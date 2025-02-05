@@ -1,3 +1,4 @@
+import { OurFileRouter } from "@/app/api/uploadthing/core";
 import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -11,11 +12,20 @@ import { toast } from "@/hooks/use-toast";
 import { UploadButton } from "@uploadthing/react";
 import Image from "next/image";
 
-export const UploadImageFeaturedProduct = ({
-  isFeatured,
-  banner,
-  form,
-}: any) => {
+import { Control, UseFormSetValue } from "react-hook-form";
+
+interface UploadImageFeaturedProductProps {
+  isFeatured: boolean;
+  banner: string | null;
+  form: {
+    control: Control<any>;
+    setValue: UseFormSetValue<any>;
+  };
+}
+
+export const UploadImageFeaturedProduct: React.FC<
+  UploadImageFeaturedProductProps
+> = ({ isFeatured, banner, form }) => {
   return (
     <Card className="align-center flex border-slate-700 ">
       <CardContent className="mt-2 space-y-2">
@@ -44,7 +54,7 @@ export const UploadImageFeaturedProduct = ({
           />
         )}
         {isFeatured && !banner && (
-          <UploadButton
+          <UploadButton<OurFileRouter, "imageUploader">
             endpoint="imageUploader"
             onClientUploadComplete={(res: { url: string }[]) => {
               form.setValue("banner", res[0].url);

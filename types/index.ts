@@ -23,6 +23,7 @@ export type Product = z.infer<typeof insertProductSchema> & {
   numReviews: number;
   createdAt: Date;
   updatedAt: Date;
+  category?: string;
 };
 
 export type Cart = z.infer<typeof insertCartSchema>;
@@ -44,6 +45,7 @@ export type IOrder = z.infer<typeof insertOrderSchema> & {
   orderitems: IOrderItem[];
   paymentResult: IPaymentResult;
   user: { name: string; email: string } | null;
+  latestSales?: IOrderItem[];
 };
 
 // Payment result

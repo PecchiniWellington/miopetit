@@ -2,9 +2,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export interface IOverviewProps {
   children: React.ReactNode;
-  icon?: string;
+  icon?: React.ReactNode;
   title: string;
-  className: string;
+  className?: string;
 }
 
 const OverviewCard = ({ children, icon, title, className }: IOverviewProps) => {
