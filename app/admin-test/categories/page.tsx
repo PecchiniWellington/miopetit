@@ -26,7 +26,7 @@ const AdminCategoriesPage: React.FC<{
     category: string;
   };
 }> = async (props) => {
-  const searchParams = await props.searchParams;
+  const searchParams = props.searchParams;
 
   const page = Number(searchParams.page) || 1;
   const searchQuery = searchParams.query || "";
