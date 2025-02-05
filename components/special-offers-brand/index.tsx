@@ -9,10 +9,10 @@ interface IProductListProps {
   limit?: number;
 }
 
-const SpecialOfferBrand = ({ data, title, limit }: IProductListProps) => {
+const SpecialOfferBrand = ({ data, title }: IProductListProps) => {
   return (
-    <div className="bg-slate-200 my-12  grid md:grid-cols-4 md:gap-10 p-12">
-      <div className="flex flex-col md:col-span-1 gap-2">
+    <div className="my-12 grid  bg-slate-200 p-12 md:grid-cols-4 md:gap-10">
+      <div className="flex flex-col gap-2 md:col-span-1">
         {title && <h1 className="h1-bold">{title}</h1>}
         <Image
           src="/images/royalCanin-deal.webp"
@@ -20,11 +20,11 @@ const SpecialOfferBrand = ({ data, title, limit }: IProductListProps) => {
           height="0"
           width="0"
           sizes="80vw"
-          className="w-full h-full object-center object-cover"
+          className="size-full object-cover object-center"
         />
-        <div className="description">
+        <div>
           <div className="h2-bold">Promozione esclusiva per il tuo cane!</div>
-          <p className="text-gray-500 mt-2">
+          <p className="mt-2 text-gray-500">
             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quaerat ut
             laborum voluptatum. Error modi explicabo minus deleniti id.
           </p>

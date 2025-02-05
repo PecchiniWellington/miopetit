@@ -5,8 +5,6 @@ import { formatError } from "../../utils";
 import { IShippingAddress } from "@/types";
 
 import { shippingAddressSchema } from "@/lib/validators";
-import { PAGE_SIZE } from "@/lib/constants";
-import { redirect } from "next/dist/server/api-utils";
 
 // Get user by id
 export const getUserById = async (userId: string) => {

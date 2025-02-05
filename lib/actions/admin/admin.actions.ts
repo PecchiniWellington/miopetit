@@ -18,9 +18,6 @@ export async function getAllUsers({
   query,
   limit = PAGE_SIZE,
   page,
-  price,
-  rating,
-  sort,
 }: {
   query: string;
   limit?: number;

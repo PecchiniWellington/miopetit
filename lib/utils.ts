@@ -1,9 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import qs from "query-string";
-import { z, ZodError } from "zod";
-import { ICategory, IUser, Product } from "@/types";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { z } from "zod";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -48,27 +46,19 @@ export const capitalizeFirstLetter = (text: string) => {
   return text.charAt(0).toUpperCase() + text.slice(1);
 };
 
-export const formatError = ({
-  error,
-}: {
-  error: ZodError | PrismaClientKnownRequestError;
-}): string => {
-  if (error instanceof ZodError) {
-    // `error.errors` è un array, non un oggetto con chiavi
-    const fieldErrors = error.errors.map((err) => err.message);
+export const formatError = (error: Unknown) => {
+  if (error.name === "ZodError") {
+    const fieldErrors = Object.keys(error.errors).map((field) => {
+      return error.errors[field].message;
+    });
     return fieldErrors.join(",\n");
   } else if (
-    error instanceof PrismaClientKnownRequestError &&
+    error.name === "PrismaClientKnownRequestError" &&
     error.code === "P2002"
   ) {
-    // Prisma `error.meta?.target` potrebbe essere un array o altro
-    const field = Array.isArray(error.meta?.target)
-      ? error.meta.target[0]
-      : "Field";
+    const field = error.meta?.target ? error.meta.target[0] : "Field";
     return `${field.charAt(0).toUpperCase() + field.slice(1)} already exists`;
   }
-
-  return "An unknown error occurred";
 };
 
 export function round2(value: number | string) {
@@ -94,7 +84,7 @@ export function formatCurrency(amount: number | string | null) {
   } else if (typeof amount === "string") {
     return CURRENCY_FORMATTER.format(Number(amount));
   } else {
-    return "NaN";
+    return 0;
   }
 }
 
@@ -176,38 +166,40 @@ export function mapProductsForDatabase(products: Product[]) {
   return products.map((product) => ({
     name: product.name,
     slug: product.slug,
-    images: product.images, // Converte in array
+    images: product.images.includes(",")
+      ? product.images.split(",")
+      : [product.images], // Converte in array
     brand: product.brand,
     description: product.description,
-    stock: product.stock,
-    price: parseFloat(product.price),
-    rating: parseFloat(product.rating),
-    numReviews: product.numReviews,
-    isFeatured: product.isFeatured,
-    banner: product.banner || null,
-    categoryId: product.categoryId,
+    stock: parseInt(product.stock, 10), // Converte in numero
+    price: parseFloat(product.price), // Converte in numero decimale
+    rating: parseFloat(product.rating), // Converte in numero decimale
+    numReviews: parseInt(product.numReviews, 10), // Converte in numero intero
+    isFeatured: product.isFeatured.toLowerCase() === "true", // Converte in booleano
+    banner: product.banner || null, // Se vuoto, imposta `null`
+    categoryId: product.categoryId, // Deve essere un UUID valido
   }));
 }
 
-export function mapUsersForDatabase(users: IUser[]) {
+export function mapUsersForDatabase(users: []) {
   return users.map((user) => ({
-    name: user.name || "NO_NAME",
+    name: user.name || "NO_NAME", // Default se manca il nome
     email: user.email,
-    emailVerified: user.emailVerified ? new Date(user.emailVerified) : null,
-    image: user.image || null,
-    password: user.password,
-    role: user.role?.toUpperCase() === "ADMIN" ? "ADMIN" : "USER",
-    address: user.address || {},
-    paymentMethod: user.paymentMethod || null,
+    emailVerified: user.emailVerified ? new Date(user.emailVerified) : null, // Converte in Date o `null`
+    image: user.image || null, // Converte stringhe vuote in `null`
+    password: user.password, // Mantiene la password così com'è
+    role: user.role?.toUpperCase() === "ADMIN" ? "ADMIN" : "USER", // Assicura che il ruolo sia valido
+    address: user.address ? JSON.parse(user.address) : null, // Se è una stringa JSON, la converte
+    paymentMethod: user.paymentMethod || null, // Converte stringhe vuote in `null`
   }));
 }
 
-export function formatCategoriesData(data: ICategory[]) {
+export function formatCategoriesData(data) {
   return data.map((item) => ({
-    name: item.name?.trim() || "Unnamed Category",
-    slug: item.slug?.trim().toLowerCase() || "default-slug",
-    description: item.description || null,
-    createdAt: new Date(),
+    name: item.Name?.trim() || "Unnamed Category", // ✅ Assicura che il nome sia presente
+    slug: item.Slug?.trim().toLowerCase() || "default-slug", // ✅ Normalizza lo slug
+    description: item.Description || null,
+    createdAt: new Date(), // ✅ Prisma accetta il formato `Date`
     updatedAt: new Date(),
   }));
 }

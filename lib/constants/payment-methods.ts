@@ -1,5 +1,3 @@
-import ROLES from "./roles";
-
 export const PAYMENT_METHODS_TYPE = {
   PAYPAL: "PayPal",
   CASH_ON_DELIVERY: "CashOnDelivery",
@@ -16,5 +14,3 @@ export const PAYMENT_METHODS = process.env.PAYMENT_METHODS
 
 export const DEFAULT_PAYMENT_METHOD =
   process.env.DEFAULT_PAYMENT_METHOD || PAYMENT_METHODS_TYPE.PAYPAL;
-
-export default ROLES;

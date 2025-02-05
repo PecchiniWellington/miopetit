@@ -1,7 +1,6 @@
 "use server";
 import { auth } from "@/auth";
 
-import React from "react";
 import { z } from "zod";
 import { insertReviewSchema } from "../validators/reviews.validator";
 import { prisma } from "@/db/prisma";
