@@ -3,8 +3,8 @@
 import { formatId } from "@/lib/utils";
 import { IOrder } from "@/types";
 
-import PaymentCard from "./payment-card-component";
 import OrderCard from "./order-card";
+import PaymentCard from "./payment-card-component";
 import ResumeItemsTable from "./resume-items-table";
 
 const OrderDetailsTable = ({

@@ -41,7 +41,7 @@ const ProductCarousel = ({ data }: { data: Product[] }) => {
                   className="size-full object-cover object-center"
                 />
                 <div className="absolute inset-0 flex items-end justify-center">
-                  <h2 className="bg-gray-900 bg-opacity-50 px-2 text-2xl font-bold text-white">
+                  <h2 className="bg-gray-900/50 px-2 text-2xl font-bold text-white">
                     {product.name}
                   </h2>
                 </div>

@@ -1,17 +1,23 @@
 import { toast } from "@/hooks/use-toast";
 import {
-  createPaypalOrder,
   approvePaypalOrder,
+  createPaypalOrder,
 } from "@/lib/actions/order/paypal.action";
+import { IOrder } from "@/types";
 import {
-  PayPalScriptProvider,
   PayPalButtons,
+  PayPalScriptProvider,
   usePayPalScriptReducer,
 } from "@paypal/react-paypal-js";
 import router from "next/router";
-import React from "react";
 
-const PayPalPayment = ({ paypalClientId, order }: any) => {
+const PayPalPayment = ({
+  paypalClientId,
+  order,
+}: {
+  paypalClientId: string;
+  order: IOrder;
+}) => {
   const handleCreatePayPalOrder = async () => {
     const res = await createPaypalOrder(order.id);
 

@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
+import DynamicButton from "@/components/dynamic-button";
 import CheckoutSteps from "@/components/shared/checkout-steps";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Table,
@@ -18,9 +18,7 @@ import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import React from "react";
 import PlaceOrderForm from "./place-order-form";
-import DynamicButton from "@/components/dynamic-button";
 
 export const metadata: Metadata = {
   title: "Place Older",
@@ -47,10 +45,10 @@ const PlaceOlderPage = async () => {
         <CheckoutSteps current={3} />
         <h1 className="py-4 text-2xl">Place Order</h1>
         <div className="grid md:grid-cols-3 md:gap-5">
-          <div className="md:col-span-2 overflow-x-auto space-y-4">
+          <div className="space-y-4 overflow-x-auto md:col-span-2">
             <Card>
-              <CardContent className="p-4 gap-4">
-                <h2 className="text-xl pb-4">Shipping Address</h2>
+              <CardContent className="gap-4 p-4">
+                <h2 className="pb-4 text-xl">Shipping Address</h2>
                 <p>{userAddress.fullname}</p>
                 <p>
                   {userAddress.streetAddress}, {userAddress.city}{" "}
@@ -64,8 +62,8 @@ const PlaceOlderPage = async () => {
               </CardContent>
             </Card>
             <Card>
-              <CardContent className="p-4 gap-4">
-                <h2 className="text-xl pb-4">Payment Method</h2>
+              <CardContent className="gap-4 p-4">
+                <h2 className="pb-4 text-xl">Payment Method</h2>
                 <p>{user.paymentMethod}</p>
 
                 <div className="mt-3">
@@ -76,8 +74,8 @@ const PlaceOlderPage = async () => {
               </CardContent>
             </Card>
             <Card>
-              <CardContent className="p-4 gap-4">
-                <h2 className="text-xl pb-4">Order Items</h2>
+              <CardContent className="gap-4 p-4">
+                <h2 className="pb-4 text-xl">Order Items</h2>
                 <Table>
                   <TableHeader>
                     <TableRow>
@@ -125,7 +123,7 @@ const PlaceOlderPage = async () => {
           </div>
           <div>
             <Card>
-              <CardContent className="p-4 gap-4 space-y-4">
+              <CardContent className="gap-4 space-y-4 p-4">
                 <div className="flex justify-between">
                   <div>Items</div>
                   <div>

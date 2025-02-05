@@ -4,7 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ControllerRenderProps, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { Button } from "@/components/ui/button";
+import DynamicButton from "@/components/dynamic-button";
+import CheckoutSteps from "@/components/shared/checkout-steps";
 import {
   Form,
   FormControl,
@@ -14,16 +15,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
-import { SHIPPING_ADDRESS_DEFAULT_VALUES } from "@/lib/constants";
-import { IShippingAddress } from "@/types";
-import { useTransition } from "react";
-import { ArrowRight, Loader } from "lucide-react";
 import { updateUserAddress } from "@/lib/actions/user/user.action";
-import CheckoutSteps from "@/components/shared/checkout-steps";
+import { SHIPPING_ADDRESS_DEFAULT_VALUES } from "@/lib/constants";
 import { shippingAddressSchema } from "@/lib/validators";
-import DynamicButton from "@/components/dynamic-button";
+import { IShippingAddress } from "@/types";
+import { ArrowRight, Loader } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useTransition } from "react";
 
 const ShippingAddressForm = ({ address }: { address?: IShippingAddress }) => {
   const router = useRouter();
@@ -56,9 +55,9 @@ const ShippingAddressForm = ({ address }: { address?: IShippingAddress }) => {
   return (
     <>
       <CheckoutSteps current={1} />
-      <div className="max-w-md mx-auto space-y-4">
+      <div className="mx-auto max-w-md space-y-4">
         <h1 className="h2-bold mt-4">Shipping Address</h1>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-muted-foreground text-sm">
           Please enter an address to ship to
         </p>
         <Form {...form}>
@@ -67,7 +66,7 @@ const ShippingAddressForm = ({ address }: { address?: IShippingAddress }) => {
             method="post"
             className="space-y-4"
           >
-            <div className="flex flex-col md:flex-row gap-5">
+            <div className="flex flex-col gap-5 md:flex-row">
               <FormField
                 control={form.control}
                 name="fullname"
@@ -89,7 +88,7 @@ const ShippingAddressForm = ({ address }: { address?: IShippingAddress }) => {
                 )}
               ></FormField>
             </div>
-            <div className="flex flex-col md:flex-row gap-5">
+            <div className="flex flex-col gap-5 md:flex-row">
               <FormField
                 control={form.control}
                 name="streetAddress"
@@ -111,7 +110,7 @@ const ShippingAddressForm = ({ address }: { address?: IShippingAddress }) => {
                 )}
               ></FormField>
             </div>
-            <div className="flex flex-col md:flex-row gap-5">
+            <div className="flex flex-col gap-5 md:flex-row">
               <FormField
                 control={form.control}
                 name="city"
@@ -133,7 +132,7 @@ const ShippingAddressForm = ({ address }: { address?: IShippingAddress }) => {
                 )}
               ></FormField>
             </div>
-            <div className="flex flex-col md:flex-row gap-5">
+            <div className="flex flex-col gap-5 md:flex-row">
               <FormField
                 control={form.control}
                 name="postalCode"
@@ -155,7 +154,7 @@ const ShippingAddressForm = ({ address }: { address?: IShippingAddress }) => {
                 )}
               ></FormField>
             </div>
-            <div className="flex flex-col md:flex-row gap-5">
+            <div className="flex flex-col gap-5 md:flex-row">
               <FormField
                 control={form.control}
                 name="country"
@@ -177,12 +176,12 @@ const ShippingAddressForm = ({ address }: { address?: IShippingAddress }) => {
                 )}
               ></FormField>
             </div>
-            <div className="w-full flex gap-2">
+            <div className="flex w-full gap-2">
               <DynamicButton isPending={isPending}>
                 {isPending ? (
-                  <Loader className="animate-spin h-4 w-4" />
+                  <Loader className="size-4 animate-spin" />
                 ) : (
-                  <ArrowRight className="h-4 w-4" />
+                  <ArrowRight className="size-4" />
                 )}
                 Continue
               </DynamicButton>

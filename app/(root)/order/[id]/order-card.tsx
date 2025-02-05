@@ -3,8 +3,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { STATUS } from "@/lib/constants";
 import { formatDateTime } from "@/lib/utils";
 
-import React from "react";
-
 const OrderCard = ({
   children,
   isPaid,
@@ -12,16 +10,24 @@ const OrderCard = ({
   paidAt,
   title,
   type,
-}: any) => {
+}: {
+  children?: React.ReactNode;
+  isPaid?: boolean;
+  subtitle?: string;
+  paidAt?: Date | null;
+  title?: string;
+  type?: string;
+}) => {
   return (
     <Card>
-      <CardContent className="p-4 gap-4">
-        <h2 className="text-xl pb-4">{title}</h2>
+      <CardContent className="gap-4 p-4">
+        <h2 className="pb-4 text-xl">{title}</h2>
         <p className="mb-2">{subtitle}</p>
         <div>{children}</div>
         {isPaid && type ? (
           <BadgeStatus status="success">
-            {type} at {formatDateTime(paidAt!).dateTime}
+            {type} at{" "}
+            {paidAt ? formatDateTime(paidAt.toString()).dateTime : "N/A"}
           </BadgeStatus>
         ) : (
           type && <BadgeStatus status={STATUS.DANGER}>No {type}</BadgeStatus>

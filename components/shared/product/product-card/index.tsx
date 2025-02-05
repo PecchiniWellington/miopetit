@@ -1,11 +1,12 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { Product } from "@/types";
 import ProductCardBrand from "./product-card-brand";
 import { ProductCardHeader } from "./product-card-header";
 import ProductCardName from "./product-card-name";
 import ProductCardStar from "./product-card-star";
 import { ProductStock } from "./product-card-stock";
 
-const ProductCard = ({ product }: { product: any }) => {
+const ProductCard = ({ product }: { product: Product }) => {
   const { images, name, slug, brand, price, rating, stock } = product;
 
   return (

@@ -1,15 +1,14 @@
-import React from "react";
-import Theme from "./theme";
-import { ShoppingCart } from "lucide-react";
-import MobileNavigation from "./mobile-navigation";
-import Link from "next/link";
-import UserButton from "./user-button";
 import DynamicButton from "@/components/dynamic-button";
+import { ShoppingCart } from "lucide-react";
+import Link from "next/link";
+import MobileNavigation from "./mobile-navigation";
+import Theme from "./theme";
+import UserButton from "./user-button";
 
 const Menu = () => {
   return (
     <div className="flex justify-end gap-3">
-      <nav className="hidden md:flex w-full max-w-xs gap-1">
+      <nav className="hidden w-full max-w-xs gap-1 md:flex">
         <Theme />
         <DynamicButton className="btn-ghost">
           <Link href="/cart">

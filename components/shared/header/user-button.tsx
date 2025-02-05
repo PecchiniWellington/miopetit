@@ -1,6 +1,5 @@
 import { auth } from "@/auth";
 import DynamicButton from "@/components/dynamic-button";
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,7 +14,6 @@ import ROLES from "@/lib/constants/roles";
 import { UserIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 
 const UserButton = async () => {
   const session = await auth();
@@ -31,10 +29,11 @@ const UserButton = async () => {
   }
 
   const firstInitial = session.user?.name?.charAt(0).toUpperCase() ?? "";
-  const user = session ? await getUserById(session.user?.id!) : undefined;
+  const userId = session.user?.id;
+  const user = userId ? await getUserById(userId) : undefined;
 
   return (
-    <div className="flex gap-2 items-center">
+    <div className="flex items-center gap-2">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <div className="flex items-center">
@@ -47,7 +46,7 @@ const UserButton = async () => {
                 className="rounded-full"
               />
             ) : (
-              <DynamicButton className="btn-outline rounded-full overflow-hidden">
+              <DynamicButton className="btn-outline overflow-hidden rounded-full">
                 <div>{firstInitial}</div>
               </DynamicButton>
             )}
@@ -63,7 +62,7 @@ const UserButton = async () => {
               <div className="text-sm font-bold  leading-none ">
                 {session.user?.name}
               </div>
-              <div className="text-sm text-muted-foreground leading-none text-slate-400">
+              <div className="text-sm leading-none text-slate-400">
                 {session.user?.email}
               </div>
             </div>
@@ -71,14 +70,14 @@ const UserButton = async () => {
 
           <DropdownMenuItem>
             <Link href="/user/profile" className="w-full">
-              <span className="block py-2 px-4">Profile</span>
+              <span className="block px-4 py-2">Profile</span>
             </Link>
           </DropdownMenuItem>
 
           {session.user?.role === ROLES.ADMIN && (
             <DropdownMenuItem>
               <Link href="/admin/overview" className="w-full">
-                <span className="block py-2 px-4">Admin Dashboard</span>
+                <span className="block px-4 py-2">Admin Dashboard</span>
               </Link>
             </DropdownMenuItem>
           )}

@@ -1,7 +1,6 @@
 "use client";
 
 import DynamicButton from "@/components/dynamic-button";
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -10,11 +9,11 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import {
+  Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  Form,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -36,7 +35,6 @@ import { insertReviewSchema } from "@/lib/validators/reviews.validator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { StarIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -52,7 +50,6 @@ const ReviewForm = ({
 }) => {
   const [open, setOpen] = useState(false);
   const { toast } = useToast();
-  const router = useRouter();
 
   const form = useForm<z.infer<typeof insertReviewSchema>>({
     resolver: zodResolver(insertReviewSchema),
@@ -107,7 +104,7 @@ const ReviewForm = ({
       <DynamicButton handleAction={handleOpenForm}>
         Write a review
       </DynamicButton>
-      <DialogContent className="sm:max-w-[425px] bg-slate-100 dark:bg-slate-800 dark:text-white">
+      <DialogContent className="bg-slate-100 dark:bg-slate-800 dark:text-white sm:max-w-[425px]">
         <Form {...form}>
           <form method="post" onSubmit={form.handleSubmit(onSubmit)}>
             <DialogHeader>
@@ -116,7 +113,7 @@ const ReviewForm = ({
                 Share your thoughts with other customers
               </DialogDescription>
             </DialogHeader>
-            <div className="grid gap-4-py-4">
+            <div className="grid gap-4 py-4">
               <FormField
                 control={form.control}
                 name="title"
@@ -162,7 +159,7 @@ const ReviewForm = ({
                             key={index}
                             value={(index + 1).toString()}
                           >
-                            {index + 1} <StarIcon className="inline h-4 w-4" />
+                            {index + 1} <StarIcon className="inline size-4" />
                           </SelectItem>
                         ))}
                       </SelectContent>

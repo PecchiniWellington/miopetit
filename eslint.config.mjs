@@ -1,8 +1,8 @@
+import { FlatCompat } from "@eslint/eslintrc";
+import js from "@eslint/js";
+import tailwindcss from "eslint-plugin-tailwindcss";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import js from "@eslint/js";
-import { FlatCompat } from "@eslint/eslintrc";
-import tailwindcss from "eslint-plugin-tailwindcss";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -24,6 +24,14 @@ const eslintConfig = [
       "no-undef": "off",
     },
   },
+  {
+    ignores: [
+      "components/ui/**/*.js",
+      "components/ui/**/*.ts",
+      "components/ui/**/*.tsx",
+    ],
+  },
+
   {
     plugins: {
       tailwindcss,

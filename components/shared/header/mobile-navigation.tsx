@@ -1,8 +1,8 @@
-import { LogOut, UserIcon } from "lucide-react";
+import { UserIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-/* import { auth, signOut } from "@/auth"; */
+import DynamicButton from "@/components/dynamic-button";
 import {
   Sheet,
   SheetClose,
@@ -11,14 +11,10 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { ROUTES } from "@/lib/constants/routes";
-import NavLinks from "./nav-links";
 import { sidebarLinks } from "@/lib/constants/sidebarLinks";
-import DynamicButton from "@/components/dynamic-button";
+import NavLinks from "./nav-links";
 
 const MobileNavigation = async () => {
-  /*  const session = await auth();
-  const userId = session?.user?.id; */
-
   return (
     <Sheet>
       <SheetTrigger asChild>

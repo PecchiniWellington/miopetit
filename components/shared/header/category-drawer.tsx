@@ -10,7 +10,6 @@ import {
 import { getProductCategories } from "@/lib/actions/product.actions";
 import { MenuIcon } from "lucide-react";
 import Link from "next/link";
-import React from "react";
 
 const CategoryDrawer = async () => {
   const categories = await getProductCategories();
@@ -24,7 +23,7 @@ const CategoryDrawer = async () => {
       <DrawerContent className="h-full max-w-sm bg-slate-50 dark:bg-slate-700">
         <DrawerHeader>
           <DrawerTitle>Select a category</DrawerTitle>
-          <div className="space-y-1 mt-4">
+          <div className="mt-4 space-y-1">
             {categories.map((x) => (
               <DynamicButton key={x.category} className="w-full justify-start">
                 <DrawerClose asChild>

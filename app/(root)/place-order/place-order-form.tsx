@@ -1,6 +1,5 @@
 "use client";
 import DynamicButton from "@/components/dynamic-button";
-import { Button } from "@/components/ui/button";
 import { createOrder } from "@/lib/actions/order/order.action";
 import { Check, Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -21,9 +20,9 @@ const PlaceOrderForm = () => {
     return (
       <DynamicButton isPending={pending}>
         {pending ? (
-          <Loader className="h-4 w-4 animate-spin" />
+          <Loader className="size-4 animate-spin" />
         ) : (
-          <Check className="h-4 w-4 " />
+          <Check className="size-4 " />
         )}{" "}
         Place Order
       </DynamicButton>

@@ -1,7 +1,5 @@
 "use client";
-import DynamicButton from "@/components/dynamic-button";
 import { Button } from "@/components/ui/button";
-import React from "react";
 import { useFormStatus } from "react-dom";
 
 const SubmitButton = ({ formType = "sign-in" }) => {

@@ -1,10 +1,21 @@
-const StripePayment = ({ order, stripeClientSecret }: any) => {
+import { IOrder } from "@/types";
+
+const StripePayment = (
+  {
+    /*  order,
+  stripeClientSecret, */
+  }: {
+    order: IOrder;
+    stripeClientSecret: string;
+  }
+) => {
   return (
-    <StripePayment
+    <div>CIAO</div>
+    /*  <StripePayment
       priceInCents={Number(order.totalPrice) * 100}
       orderId={order.id}
       clientSecret={stripeClientSecret}
-    />
+    /> */
   );
 };
 

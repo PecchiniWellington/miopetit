@@ -112,9 +112,9 @@ const SearchPage = async (props: {
 
   return (
     <div className="grid md:grid-cols-5 md:gap-5">
-      <div className="filter-links">
+      <div className="rounded-md bg-gray-100 p-4">
         {/* Categories links */}
-        <div className="text-xl mb-2 mt-3">Categories</div>
+        <div className="mb-2 mt-3 text-xl">Categories</div>
         <div>
           <ul className="space-y-1">
             <li>
@@ -138,7 +138,7 @@ const SearchPage = async (props: {
           </ul>
         </div>
         {/* Prices links */}
-        <div className="text-xl mb-2 mt-3">Price</div>
+        <div className="mb-2 mt-3 text-xl">Price</div>
         <div>
           <ul className="space-y-1">
             <li>
@@ -162,7 +162,7 @@ const SearchPage = async (props: {
           </ul>
         </div>
         {/* Rating links */}
-        <div className="text-xl mb-2 mt-3">Customer Review</div>
+        <div className="mb-2 mt-3 text-xl">Customer Review</div>
         <div>
           <ul className="space-y-1">
             <li>
@@ -186,8 +186,8 @@ const SearchPage = async (props: {
           </ul>
         </div>
       </div>
-      <div className="md:col-span-4 space-y-4">
-        <div className="flex-between flex-col md:flex-row my-4">
+      <div className="space-y-4 md:col-span-4">
+        <div className="flex-between my-4 flex-col md:flex-row">
           <div className="flex items-center">
             {q !== "all" && q !== "" && "Query: " + q + ""}
             {category !== "all" &&

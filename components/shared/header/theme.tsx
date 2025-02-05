@@ -1,8 +1,8 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import * as React from "react";
 
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,8 +10,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MoonIcon, SunIcon } from "lucide-react";
-import DynamicButton from "@/components/dynamic-button";
-import { Button } from "@/components/ui/button";
 
 const Theme = () => {
   const { setTheme } = useTheme();

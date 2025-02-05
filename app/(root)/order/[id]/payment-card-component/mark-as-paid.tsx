@@ -1,10 +1,11 @@
 import DynamicButton from "@/components/dynamic-button";
 import { useToast } from "@/hooks/use-toast";
 import { updateOrderToPaidCOD } from "@/lib/actions/admin/admin.actions";
+import { IOrder } from "@/types";
 
 import { useTransition } from "react";
 
-export const MarkAsPaidButton = ({ order }: any) => {
+export const MarkAsPaidButton = ({ order }: { order: IOrder }) => {
   const [isPending, setIsPending] = useTransition();
   const { toast } = useToast();
 

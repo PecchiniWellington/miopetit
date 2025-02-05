@@ -1,11 +1,6 @@
 "use client";
 
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import ReviewForm from "./review-form";
-import { getReviews } from "@/lib/actions/review.action";
-import { Review } from "@/types";
-import useReview from "@/hooks/use-reviews";
+import Rating from "@/components/shared/product/rating";
 import {
   Card,
   CardContent,
@@ -13,9 +8,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Calendar, User } from "lucide-react";
+import useReview from "@/hooks/use-reviews";
+import { getReviews } from "@/lib/actions/review.action";
 import { formatDateTime } from "@/lib/utils";
-import Rating from "@/components/shared/product/rating";
+import { Calendar, User } from "lucide-react";
+import Link from "next/link";
+import ReviewForm from "./review-form";
 
 const ReviewList = ({
   userId,
@@ -46,7 +44,7 @@ const ReviewList = ({
         <div>
           Please{" "}
           <Link
-            className="text-blue-700 px-2 hover:underline hover:text-blue-500"
+            className="px-2 text-blue-700 hover:text-blue-500 hover:underline"
             href={`/sign-in?callbackUrl=/product/${productSlug}`}
           >
             {/* TODO: centralizzare la callback */}
@@ -74,12 +72,12 @@ const ReviewList = ({
                   {/* RATING */}
                   <Rating value={review.rating} />
                   <div className="flex items-center">
-                    <User className="mr-1 h-3 w-3" />
+                    <User className="mr-1 size-3" />
                     {review.user ? review.user.name : "Anonymous"}
                   </div>
                   <div className="flex items-center">
-                    <Calendar className="mr-1 h-3 w-3" />
-                    {formatDateTime(review.createdAt).dateTime}
+                    <Calendar className="mr-1 size-3" />
+                    {formatDateTime(review.createdAt.toString()).dateTime}
                   </div>
                 </div>
               </CardContent>

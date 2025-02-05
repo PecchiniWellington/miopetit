@@ -1,15 +1,15 @@
 "use client";
-import { Input } from "../../../components/ui/input";
-import { useSearchParams } from "next/navigation";
 import { camelCaseToSpaces, capitalizeFirstLetter } from "@/lib/utils";
+import { useSearchParams } from "next/navigation";
+import { Input } from "../../../components/ui/input";
 import ChangeForm from "./change-form";
 import SubmitButton from "./submit-button";
 
-import { useActionState } from "react";
 import {
   signInWithCredentials,
   signUpUser,
 } from "@/lib/actions/auth/auth.actions";
+import { useActionState } from "react";
 
 const SubmitForm = ({ defaultValues, formType }: any) => {
   const actionType =
@@ -44,7 +44,7 @@ const SubmitForm = ({ defaultValues, formType }: any) => {
           <SubmitButton formType={formType} />
         </div>
         {data && !data.success && (
-          <div className="text-sm text-center text-red">{data.message}</div>
+          <div className="text-red text-center text-sm">{data.message}</div>
         )}
         <ChangeForm formType={formType} />
       </div>

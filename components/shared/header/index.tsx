@@ -1,21 +1,18 @@
 import { APP_NAME } from "@/lib/constants";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 
-import Menu from "./menu";
-import CategoryDrawer from "./category-drawer";
-import Search from "./search";
-import { NavigationMenuDemo } from "@/components/mega-menu";
 import CtBanner from "@/components/ct-banner";
+import { NavigationMenuDemo } from "@/components/mega-menu";
+import Menu from "./menu";
+import Search from "./search";
 
 const Header = () => {
   return (
     <header className="w-full border-b ">
       <div className="bg-primary-400">
-        <div className="wrapper py-5 flex-between">
+        <div className="wrapper flex-between py-5">
           <div className="flex-start ">
-            {/* <CategoryDrawer /> */}
             <Link href="/" className="flex-start">
               <Image
                 src="/images/petitLogo.png"
@@ -24,7 +21,7 @@ const Header = () => {
                 width={48}
                 priority={true}
               />
-              <span className="hidden lg:block font-bold text-2xl">
+              <span className="hidden text-2xl font-bold lg:block">
                 {APP_NAME}
               </span>
             </Link>

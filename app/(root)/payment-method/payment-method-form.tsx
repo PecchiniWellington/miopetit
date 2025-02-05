@@ -1,29 +1,29 @@
 "use client";
 import CheckoutSteps from "@/components/shared/checkout-steps";
 
+import DynamicButton from "@/components/dynamic-button";
 import {
+  Form,
+  FormControl,
   FormField,
   FormItem,
-  FormControl,
-  Form,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useToast } from "@/hooks/use-toast";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader, ArrowRight } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useTransition } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { paymentMethodSchema } from "@/lib/validators";
+import { useToast } from "@/hooks/use-toast";
 import { updateUserPaymentMethod } from "@/lib/actions/user/user-payment-actions";
 import {
   DEFAULT_PAYMENT_METHOD,
   PAYMENT_METHODS,
 } from "@/lib/constants/payment-methods";
-import DynamicButton from "@/components/dynamic-button";
+import { paymentMethodSchema } from "@/lib/validators";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ArrowRight, Loader } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 const PaymentMethodForm = ({
   preferredPaymentMethod,
@@ -59,18 +59,16 @@ const PaymentMethodForm = ({
   return (
     <>
       <CheckoutSteps current={2} />
-      <div className="max-w-md mx-auto space-y-4">
+      <div className="mx-auto max-w-md space-y-4">
         <h1 className="h2-bold mt-4">Payment Method</h1>
-        <p className="text-sm text-muted-foreground">
-          Please select a payment method
-        </p>
+        <p className="text-sm text-gray-500">Please select a payment method</p>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             method="post"
             className="space-y-4"
           >
-            <div className="flex flex-col md:flex-row gap-5">
+            <div className="flex flex-col gap-5 md:flex-row">
               <FormField
                 control={form.control}
                 name="type"
@@ -105,12 +103,12 @@ const PaymentMethodForm = ({
                 )}
               />
             </div>
-            <div className="w-full flex gap-2">
+            <div className="flex w-full gap-2">
               <DynamicButton isPending={isPending}>
                 {isPending ? (
-                  <Loader className="animate-spin h-4 w-4" />
+                  <Loader className="size-4 animate-spin" />
                 ) : (
-                  <ArrowRight className="h-4 w-4" />
+                  <ArrowRight className="size-4" />
                 )}
                 Continue
               </DynamicButton>

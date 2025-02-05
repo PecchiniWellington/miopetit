@@ -1,28 +1,25 @@
 "use client";
 import DynamicButton from "@/components/dynamic-button";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Table,
-  TableHeader,
-  TableRow,
-  TableHead,
   TableBody,
   TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
 import { useToast } from "@/hooks/use-toast";
 import { addItemToCart, removeItemFromCart } from "@/lib/actions/cart.actions";
 import { formatCurrency } from "@/lib/utils";
-import { CartItem } from "@/types";
-import { Cart } from "@/types";
+import { Cart, CartItem } from "@/types";
 import { ToastAction } from "@radix-ui/react-toast";
 import { ArrowRight, Loader, Minus, Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 import { useRouter } from "next/navigation";
-import { format } from "path";
-import React, { startTransition, useTransition } from "react";
+import { startTransition, useTransition } from "react";
 
 export const CartTable = ({ cart }: { cart?: Cart }) => {
   const router = useRouter();
@@ -79,7 +76,7 @@ export const CartTable = ({ cart }: { cart?: Cart }) => {
 
   return (
     <>
-      <h1 className="py-4 h2-bold">Sopping Cart</h1>
+      <h1 className="h2-bold py-4">Sopping Cart</h1>
 
       {!cart?.items || cart?.items?.length === 0 ? (
         <div>
@@ -97,7 +94,7 @@ export const CartTable = ({ cart }: { cart?: Cart }) => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {cart?.items?.map((item: any) => (
+                {cart?.items?.map((item: CartItem) => (
                   <TableRow key={item?.slug}>
                     <TableCell>
                       <Link
@@ -112,27 +109,27 @@ export const CartTable = ({ cart }: { cart?: Cart }) => {
                           height={50}
                         />
 
-                        <span className="text-gray-500 text-sm ml-4">
+                        <span className="ml-4 text-sm text-gray-500">
                           {item?.name}
                         </span>
                       </Link>
                     </TableCell>
-                    <TableCell className="text-center gap-2">
+                    <TableCell className="gap-2 text-center">
                       €{item?.price}
                     </TableCell>
-                    <TableCell className="text-center gap-2">
+                    <TableCell className="gap-2 text-center">
                       <DynamicButton
                         isPending={isPending}
                         handleAction={() =>
                           handleRemoveFromCart(item.productId)
                         }
-                        icon={<Minus className="h-4 w-4" />}
+                        icon={<Minus className="size-4" />}
                       />
                       <span className="px-3">{item.qty}</span>
                       <DynamicButton
                         isPending={isPending}
-                        handleAction={() => handleAddToCart(item.productId)}
-                        icon={<Plus className="h-4 w-4" />}
+                        handleAction={() => handleAddToCart(item)} // TODO: prima era item.productId
+                        icon={<Plus className="size-4" />}
                       />
                     </TableCell>
                   </TableRow>
@@ -141,7 +138,7 @@ export const CartTable = ({ cart }: { cart?: Cart }) => {
             </Table>
           </div>
           <Card>
-            <CardContent className="p-4 gap-4">
+            <CardContent className="gap-4 p-4">
               <div className="pb-3 text-xl">
                 Subtotal (
                 {cart?.items?.reduce((a, c) => a + c?.qty, 0)?.toString()}):
@@ -157,9 +154,9 @@ export const CartTable = ({ cart }: { cart?: Cart }) => {
                 }
               >
                 {isPending ? (
-                  <Loader className="w-4 h-4 animate-spin" />
+                  <Loader className="size-4 animate-spin" />
                 ) : (
-                  <ArrowRight className="w-4 h-4 " />
+                  <ArrowRight className="size-4 " />
                 )}
                 Proceed to Checkout
               </DynamicButton>

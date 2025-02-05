@@ -1,14 +1,14 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { PAYMENT_METHODS_TYPE } from "@/lib/constants/payment-methods";
-import PayPalPayment from "./paypal-payment";
-import StripePayment from "./stripe-payment";
+import { IOrder } from "@/types";
 import { MarkAsDeliveredButton } from "./mark-as-delivered";
 import { MarkAsPaidButton } from "./mark-as-paid";
+import PayPalPayment from "./paypal-payment";
 import { ResumeCard } from "./resume-card";
-import { IOrder } from "@/types";
+import StripePayment from "./stripe-payment";
 
 interface PaymentCardProps {
-  order: Omit<IOrder, "paymentResult">;
+  order: IOrder; // Omit<IOrder, "paymentResult">
   itemsPrice: string;
   totalPrice: string;
   taxPrice: string;
