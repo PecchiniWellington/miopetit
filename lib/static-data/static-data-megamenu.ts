@@ -1,0 +1,213 @@
+export const categoriesDog = [
+  {
+    title: "Cibo",
+    items: [
+      { name: "Cibo secco", slug: "cibo-secco" },
+      { name: "Cibo umido", slug: "cibo-umido" },
+      { name: "Snack", slug: "snack" },
+      { name: "Diete cibo secco", slug: "diete-cibo-secco" },
+      { name: "Diete cibo umido", slug: "diete-cibo-umido" },
+    ],
+  },
+  {
+    title: "Accessori",
+    items: [
+      { name: "Abbigliamento", slug: "abbigliamento" },
+      { name: "Addestramento", slug: "addestramento" },
+      { name: "Contenitori cibo", slug: "contenitori-cibo" },
+      { name: "Toelettatura", slug: "toelettatura" },
+    ],
+  },
+  {
+    title: "Giochi",
+    items: [],
+  },
+  {
+    title: "Guinzaglieria",
+    items: [],
+  },
+  {
+    title: "Trasportini e viaggio",
+    items: [],
+  },
+  {
+    title: "Cucce e lettini",
+    items: [],
+  },
+  {
+    title: "Igiene",
+    items: [
+      { name: "Igiene manto e cute", slug: "igiene-manto-e-cute" },
+      { name: "Igiene orale", slug: "igiene-orale" },
+      { name: "Pannolini", slug: "pannolini" },
+      { name: "Sacchetti igienici", slug: "sacchetti-igienici" },
+      { name: "Porta sacchettini", slug: "porta-sacchettini" },
+      { name: "Traversine igieniche", slug: "traversine-igieniche" },
+      { name: "Salviette", slug: "salviette" },
+    ],
+  },
+  {
+    title: "Antiparassitari e curativi",
+    items: [
+      { name: "Antiparassitari", slug: "antiparassitari" },
+      { name: "Insettorepellenti", slug: "insettorepellenti" },
+      { name: "Alimenti complementari", slug: "alimenti-complementari" },
+      { name: "Parafarmacia", slug: "parafarmacia" },
+    ],
+  },
+];
+
+export const brandsDog = [
+  "/brands/proplan.png",
+  "/brands/hipork.png",
+  "/brands/virtus.png",
+  "/brands/hills.png",
+  "/brands/expacial.png",
+  "/brands/nextdog.png",
+  "/brands/petaround.png",
+  "/brands/inthenature.png",
+];
+
+/* CATS */
+
+export const categoriesCats = [
+  {
+    title: "Cibo",
+    items: [
+      { name: "Cibo secco", slug: "cibo-secco" },
+      { name: "Cibo umido", slug: "cibo-umido" },
+      { name: "Snack", slug: "snack" },
+      { name: "Diete cibo secco", slug: "diete-cibo-secco" },
+      { name: "Diete cibo umido", slug: "diete-cibo-umido" },
+    ],
+  },
+  {
+    title: "Accessori",
+    items: [
+      { name: "Abbigliamento", slug: "abbigliamento" },
+      { name: "Addestramento", slug: "addestramento" },
+      { name: "Contenitori cibo", slug: "contenitori-cibo" },
+      { name: "Toelettatura", slug: "toelettatura" },
+    ],
+  },
+  {
+    title: "Giochi",
+    items: [],
+  },
+  {
+    title: "Guinzaglieria",
+    items: [],
+  },
+  {
+    title: "Trasportini e viaggio",
+    items: [],
+  },
+  {
+    title: "Cucce e lettini",
+    items: [],
+  },
+  {
+    title: "Igiene",
+    items: [
+      { name: "Igiene manto e cute", slug: "igiene-manto-e-cute" },
+      { name: "Igiene orale", slug: "igiene-orale" },
+      { name: "Pannolini", slug: "pannolini" },
+      { name: "Sacchetti igienici", slug: "sacchetti-igienici" },
+      { name: "Porta sacchettini", slug: "porta-sacchettini" },
+      { name: "Traversine igieniche", slug: "traversine-igieniche" },
+      { name: "Salviette", slug: "salviette" },
+    ],
+  },
+  {
+    title: "Antiparassitari e curativi",
+    items: [
+      { name: "Antiparassitari", slug: "antiparassitari" },
+      { name: "Insettorepellenti", slug: "insettorepellenti" },
+      { name: "Alimenti complementari", slug: "alimenti-complementari" },
+      { name: "Parafarmacia", slug: "parafarmacia" },
+    ],
+  },
+];
+
+export const brandsCats = [
+  "/brands/proplan.png",
+  "/brands/hipork.png",
+  "/brands/virtus.png",
+  "/brands/hills.png",
+  "/brands/expacial.png",
+  "/brands/nextdog.png",
+  "/brands/petaround.png",
+  "/brands/inthenature.png",
+];
+
+/* CATS */
+
+export const categoriesSmallAnimals = [
+  {
+    title: "Cibo",
+    items: [
+      { name: "Cibo secco", slug: "cibo-secco" },
+      { name: "Cibo umido", slug: "cibo-umido" },
+      { name: "Snack", slug: "snack" },
+      { name: "Diete cibo secco", slug: "diete-cibo-secco" },
+      { name: "Diete cibo umido", slug: "diete-cibo-umido" },
+    ],
+  },
+  {
+    title: "Accessori",
+    items: [
+      { name: "Abbigliamento", slug: "abbigliamento" },
+      { name: "Addestramento", slug: "addestramento" },
+      { name: "Contenitori cibo", slug: "contenitori-cibo" },
+      { name: "Toelettatura", slug: "toelettatura" },
+    ],
+  },
+  {
+    title: "Giochi",
+    items: [],
+  },
+  {
+    title: "Guinzaglieria",
+    items: [],
+  },
+  {
+    title: "Trasportini e viaggio",
+    items: [],
+  },
+  {
+    title: "Cucce e lettini",
+    items: [],
+  },
+  {
+    title: "Igiene",
+    items: [
+      { name: "Igiene manto e cute", slug: "igiene-manto-e-cute" },
+      { name: "Igiene orale", slug: "igiene-orale" },
+      { name: "Pannolini", slug: "pannolini" },
+      { name: "Sacchetti igienici", slug: "sacchetti-igienici" },
+      { name: "Porta sacchettini", slug: "porta-sacchettini" },
+      { name: "Traversine igieniche", slug: "traversine-igieniche" },
+      { name: "Salviette", slug: "salviette" },
+    ],
+  },
+  {
+    title: "Antiparassitari e curativi",
+    items: [
+      { name: "Antiparassitari", slug: "antiparassitari" },
+      { name: "Insettorepellenti", slug: "insettorepellenti" },
+      { name: "Alimenti complementari", slug: "alimenti-complementari" },
+      { name: "Parafarmacia", slug: "parafarmacia" },
+    ],
+  },
+];
+
+export const brandsSmallAnimals = [
+  "/brands/proplan.png",
+  "/brands/hipork.png",
+  "/brands/virtus.png",
+  "/brands/hills.png",
+  "/brands/expacial.png",
+  "/brands/nextdog.png",
+  "/brands/petaround.png",
+  "/brands/inthenature.png",
+];

@@ -207,3 +207,14 @@ export function formatCategoriesData(data: ICategory[]) {
     updatedAt: new Date(),
   }));
 }
+
+export function generateSlug(input: string): string {
+  return input
+    .toLowerCase() // Converti tutto in minuscolo
+    .trim() // Rimuove spazi iniziali e finali
+    .normalize("NFD") // Decompone i caratteri accentati
+    .replace(/[\u0300-\u036f]/g, "") // Rimuove i segni diacritici (accenti)
+    .replace(/[^a-z0-9\s-]/g, "") // Rimuove caratteri speciali
+    .replace(/\s+/g, "-") // Sostituisce spazi con trattini
+    .replace(/-+/g, "-"); // Evita doppi trattini
+}

@@ -3,7 +3,15 @@ import Image from "next/image";
 import Link from "next/link";
 
 import CtBanner from "@/components/ct-banner";
-import { NavigationMenuDemo } from "@/components/mega-menu";
+import MegaMenu from "@/components/megamenu";
+import {
+  brandsCats,
+  brandsDog,
+  brandsSmallAnimals,
+  categoriesCats,
+  categoriesDog,
+  categoriesSmallAnimals,
+} from "@/lib/static-data/static-data-megamenu";
 import Menu from "./menu";
 import Search from "./search";
 
@@ -32,9 +40,29 @@ const Header = () => {
           <Menu />
         </div>
       </div>
-      <div className="bg-primary-300">
+      {/* <div className="bg-primary-300">
         <NavigationMenuDemo />
-      </div>
+      </div> */}
+      <nav className="wrapper relative z-50 flex gap-6">
+        <MegaMenu
+          section="Cani"
+          brands={brandsDog}
+          categories={categoriesDog}
+          image="/images/dog.png"
+        />
+        <MegaMenu
+          section="Gatti"
+          brands={brandsCats}
+          categories={categoriesCats}
+          image="/images/cat.png"
+        />
+        <MegaMenu
+          section="Piccoli Animali"
+          brands={brandsSmallAnimals}
+          categories={categoriesSmallAnimals}
+          image="/images/bird.png"
+        />
+      </nav>
       <div>
         <CtBanner />
       </div>
