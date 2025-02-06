@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import CtBanner from "@/components/ct-banner";
-import MegaMenu from "@/components/megamenu";
+import MegaMenu from "@/components/mega-menu/mega-menu";
 import menuCat from "@/db/mega-menu/menu-cats.json";
 import menuDog from "@/db/mega-menu/menu-dogs.json";
 import menuSmallAnimals from "@/db/mega-menu/menu-small-animals.json";
@@ -35,9 +35,7 @@ const Header = () => {
           <Menu />
         </div>
       </div>
-      {/* <div className="bg-primary-300">
-        <NavigationMenuDemo />
-      </div> */}
+
       <nav className="wrapper relative z-50 flex gap-6">
         <MegaMenu data={menuDog} brands={["Royal Canin", "Purina", "Hill’s"]} />
         <MegaMenu data={menuCat} brands={["Royal Canin", "Purina", "Hill’s"]} />
@@ -45,18 +43,6 @@ const Header = () => {
           data={menuSmallAnimals}
           brands={["Royal Canin", "Purina", "Hill’s"]}
         />
-        {/* <MegaMenu
-          section="Gatti"
-          brands={brandsCats}
-          categories={categoriesCats}
-          image="/images/cat.png"
-        />
-        <MegaMenu
-          section="Piccoli Animali"
-          brands={brandsSmallAnimals}
-          categories={categoriesSmallAnimals}
-          image="/images/bird.png"
-        /> */}
       </nav>
       <div>
         <CtBanner />

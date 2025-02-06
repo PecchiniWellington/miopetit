@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import Header from "@/components/admin/common/Header";
-import MenuEditor from "@/components/mega-menu-config/menu-editor";
+import MenuEditor from "@/components/admin/mega-menu-config/menu-editor";
 import {
   Accordion,
   AccordionContent,

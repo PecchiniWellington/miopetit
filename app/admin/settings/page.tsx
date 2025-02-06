@@ -1,11 +1,11 @@
 import { auth } from "@/auth";
 import Header from "@/components/admin/common/Header";
+import MenuEditor from "@/components/admin/mega-menu-config/menu-editor";
 import ConnectedAccounts from "@/components/admin/settings/ConnectedAccounts";
 import DangerZone from "@/components/admin/settings/DangerZone";
 import Notifications from "@/components/admin/settings/Notifications";
 import Profile from "@/components/admin/settings/Profile";
 import Security from "@/components/admin/settings/Security";
-import MenuEditor from "@/components/mega-menu-config/menu-editor";
 import { getUserById } from "@/lib/actions/user/user.action";
 
 const SettingsPage = async () => {
