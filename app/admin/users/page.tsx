@@ -9,9 +9,9 @@ import CardWorking from "@/components/dev/card-working";
 import DynamicButton from "@/components/dynamic-button";
 import { getAllUsers } from "@/lib/actions/admin/admin.actions";
 import { getOrderSummary } from "@/lib/actions/order/order.action";
+import { IUser } from "@/types";
 import Link from "next/link";
 import UsersCard from "./users-card";
-import { IUser } from "@/types";
 
 const userStats = {
   totalUsers: 152845,
@@ -21,11 +21,11 @@ const userStats = {
 };
 
 const UsersPage = async (props: {
-  searchParams: {
+  searchParams: Promise<{
     query: string;
     page: string;
     users: string;
-  };
+  }>;
 }) => {
   const searchParams = await props.searchParams;
   const session = await auth();

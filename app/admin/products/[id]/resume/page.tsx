@@ -8,11 +8,11 @@ import UserDemographicsChart from "@/components/admin/users/UserDemographicsChar
 import ProductResumeCard from "./products-resume-card";
 
 const ProductsOverviewPage = async (props: {
-  searchParams: {
+  searchParams: Promise<{
     query: string;
     page: string;
     category: string;
-  };
+  }>;
   params: Promise<{ id: string }>;
 }) => {
   const { id } = await props.params;

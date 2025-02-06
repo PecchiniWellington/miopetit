@@ -12,11 +12,11 @@ import Link from "next/link";
 import ProductCard from "./products-card";
 
 const ProductsPage = async (props: {
-  searchParams: {
+  searchParams: Promise<{
     query: string;
     page: string;
     category: string;
-  };
+  }>;
 }) => {
   const searchParams = await props.searchParams;
 
