@@ -26,8 +26,8 @@ const monthNames = [
   "Dec",
 ]; */
 
-const UserGrowthChart = ({ users }: { users: { data: IUser[] } }) => {
-  const createdAt = users.data.reduce((acc /* user */) => {
+const UserGrowthChart = ({ users }: { users?: { data: IUser[] } }) => {
+  const createdAt = users?.data.reduce((acc /* user */) => {
     /*  const date = new Date(user.createdAt);
     const monthIndex = date.getMonth();
     const monthName = monthNames[monthIndex]; */
@@ -69,7 +69,7 @@ const UserGrowthChart = ({ users }: { users: { data: IUser[] } }) => {
       <h2 className="mb-4 text-xl font-semibold text-gray-100">User Growth</h2>
       <div className="h-[320px]">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={createdAt.reverse()}>
+          <LineChart data={createdAt?.reverse()}>
             <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
             <XAxis dataKey="month" stroke="#9CA3AF" />
             <YAxis stroke="#9CA3AF" />

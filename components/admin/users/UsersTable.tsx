@@ -75,7 +75,7 @@ const Status = ({ userStatus }: { userStatus: USER_STATUS_ACTIVATION }) => {
 };
 
 import { ChangeEvent } from "react";
-const UsersTable = ({ users }: { users: { data: IUser[] } }) => {
+const UsersTable = ({ users }: { users?: { data: IUser[] } }) => {
   const [searchTerm] = useState("");
 
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
