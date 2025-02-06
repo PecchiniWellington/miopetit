@@ -19,6 +19,7 @@ interface MenuItem {
 interface Category {
   title: string;
   items: MenuItem[];
+  index?: number;
 }
 
 export default function MenuEditor() {
@@ -60,7 +61,7 @@ export default function MenuEditor() {
         } else {
           alert("Formato JSON non valido!");
         }
-      } catch (error) {
+      } catch {
         alert("Errore nel caricamento del file JSON!");
       }
     };
@@ -140,7 +141,7 @@ const CategoryItem = ({
 }: {
   category: Category;
   index: number;
-  setMenu: (menu: any) => void;
+  setMenu: (menu: Category[] | ((prevMenu: Category[]) => Category[])) => void;
 }) => {
   const [{ isDragging }, dragRef] = useDrag({
     type: ItemType.CATEGORY,
@@ -150,12 +151,12 @@ const CategoryItem = ({
     }),
   });
 
-  const [, dropRef] = useDrop({
+  const [, dropRef] = useDrop<Category>({
     accept: ItemType.CATEGORY,
-    hover: (draggedItem: { index: number }) => {
-      setMenu((prevMenu: any) => {
+    hover: (draggedItem: { index?: number }) => {
+      setMenu((prevMenu) => {
         const updatedMenu = [...prevMenu];
-        const [movedItem] = updatedMenu.splice(draggedItem.index, 1);
+        const [movedItem] = updatedMenu.splice(draggedItem.index!, 1);
         updatedMenu.splice(index, 0, movedItem);
         draggedItem.index = index;
         return updatedMenu;
@@ -165,7 +166,9 @@ const CategoryItem = ({
 
   return (
     <div
-      ref={(node) => dragRef(dropRef(node))}
+      ref={(node) => {
+        dragRef(dropRef(node));
+      }}
       className={`mb-2 cursor-move rounded bg-gray-500 p-3 shadow ${isDragging ? "opacity-50" : ""}`}
     >
       <div className="flex items-center justify-between">
@@ -173,7 +176,7 @@ const CategoryItem = ({
           className="mb-2 w-full border bg-[#1F2937] p-2"
           value={category.title}
           onChange={(e) =>
-            setMenu((prevMenu: any) => {
+            setMenu((prevMenu: Category[]) => {
               const updatedMenu = [...prevMenu];
               updatedMenu[index].title = e.target.value;
               return updatedMenu;
@@ -182,7 +185,9 @@ const CategoryItem = ({
         />
         <button
           onClick={() =>
-            setMenu((prevMenu: any) => prevMenu.filter((_, i) => i !== index))
+            setMenu((prevMenu: Category[]) =>
+              prevMenu.filter((_, i) => i !== index)
+            )
           }
           className="ml-2 rounded bg-red-500 px-2 py-1 text-white"
         >
@@ -192,7 +197,7 @@ const CategoryItem = ({
 
       <button
         onClick={() =>
-          setMenu((prevMenu: any) => {
+          setMenu((prevMenu: Category[]) => {
             const updatedMenu = [...prevMenu];
             updatedMenu[index].items.push({
               name: "Nuova Voce",
@@ -216,7 +221,7 @@ const CategoryItem = ({
               className="grow border p-1 text-slate-700"
               value={item.name}
               onChange={(e) =>
-                setMenu((prevMenu: any) => {
+                setMenu((prevMenu: Category[]) => {
                   const updatedMenu = [...prevMenu];
                   updatedMenu[index].items[itemIndex].name = e.target.value;
                   return updatedMenu;
@@ -227,7 +232,7 @@ const CategoryItem = ({
               className="w-32 border p-1 text-slate-700"
               value={item.slug}
               onChange={(e) =>
-                setMenu((prevMenu: any) => {
+                setMenu((prevMenu: Category[]) => {
                   const updatedMenu = [...prevMenu];
                   updatedMenu[index].items[itemIndex].slug = e.target.value;
                   return updatedMenu;
@@ -236,7 +241,7 @@ const CategoryItem = ({
             />
             <button
               onClick={() =>
-                setMenu((prevMenu: any) => {
+                setMenu((prevMenu: Category[]) => {
                   const updatedMenu = [...prevMenu];
                   updatedMenu[index].items = updatedMenu[index].items.filter(
                     (_, i) => i !== itemIndex
