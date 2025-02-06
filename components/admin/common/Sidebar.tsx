@@ -4,6 +4,7 @@ import {
   BarChart2,
   DollarSign,
   Menu,
+  MonitorCog,
   Settings,
   ShoppingBag,
   ShoppingCart,
@@ -46,6 +47,12 @@ const SIDEBAR_ITEMS = [
     icon: Settings,
     color: "#6EE7B7",
     href: "/settings",
+  },
+  {
+    name: "Configurations",
+    icon: MonitorCog,
+    color: "#ff33c5",
+    href: "/configurations",
   },
 ];
 

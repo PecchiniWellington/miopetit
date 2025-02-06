@@ -4,14 +4,9 @@ import Link from "next/link";
 
 import CtBanner from "@/components/ct-banner";
 import MegaMenu from "@/components/megamenu";
-import {
-  brandsCats,
-  brandsDog,
-  brandsSmallAnimals,
-  categoriesCats,
-  categoriesDog,
-  categoriesSmallAnimals,
-} from "@/lib/static-data/static-data-megamenu";
+import menuCat from "@/db/mega-menu/menu-cats.json";
+import menuDog from "@/db/mega-menu/menu-dogs.json";
+import menuSmallAnimals from "@/db/mega-menu/menu-small-animals.json";
 import Menu from "./menu";
 import Search from "./search";
 
@@ -44,13 +39,13 @@ const Header = () => {
         <NavigationMenuDemo />
       </div> */}
       <nav className="wrapper relative z-50 flex gap-6">
+        <MegaMenu data={menuDog} brands={["Royal Canin", "Purina", "Hill’s"]} />
+        <MegaMenu data={menuCat} brands={["Royal Canin", "Purina", "Hill’s"]} />
         <MegaMenu
-          section="Cani"
-          brands={brandsDog}
-          categories={categoriesDog}
-          image="/images/dog.png"
+          data={menuSmallAnimals}
+          brands={["Royal Canin", "Purina", "Hill’s"]}
         />
-        <MegaMenu
+        {/* <MegaMenu
           section="Gatti"
           brands={brandsCats}
           categories={categoriesCats}
@@ -61,7 +56,7 @@ const Header = () => {
           brands={brandsSmallAnimals}
           categories={categoriesSmallAnimals}
           image="/images/bird.png"
-        />
+        /> */}
       </nav>
       <div>
         <CtBanner />
