@@ -1,8 +1,10 @@
-import AnimalAvatar from "@/components/animal-avatar";
 import CarouselAnimalsCategory from "@/components/carousels/carousel-animals-catergory";
 import CarouselBrands from "@/components/carousels/carousel-brands";
+import CarouselProducts from "@/components/carousels/carousel-products";
 import DealCountdown from "@/components/deal-countdown";
 import IconBoxes from "@/components/icons-boxes";
+import Gifts from "@/components/root/gifts";
+import PresentationDeals from "@/components/root/presentation-deals";
 import ProductCarousel from "@/components/shared/product/product-carousel";
 import ProductList from "@/components/shared/product/product-list";
 import SpecialOfferBrand from "@/components/special-offers-brand";
@@ -18,6 +20,7 @@ export default async function Home() {
     limit: 12,
   });
   let featuredProducts = await getFeaturedProducts();
+  console.log("featuredProducts", featuredProducts);
   featuredProducts = featuredProducts.map((product: Product) => ({
     ...product,
     categoryId: product.categoryId || null,
@@ -30,43 +33,16 @@ export default async function Home() {
       {featuredProducts.length > 0 && (
         <ProductCarousel data={featuredProducts} />
       )}
-      <div className="flex items-center justify-between  gap-4">
-        <Image
-          src="/images/affari-quindici.png"
-          alt="product"
-          width={400}
-          height={400}
-        />
-        <Image
-          src="/images/migliori-prodotti.png"
-          alt="product"
-          width={400}
-          height={400}
-        />
-        <Image
-          src="/images/prendi-3.png"
-          alt="product"
-          width={400}
-          height={400}
-        />
-        <Image
-          src="/images/quaranta-percento.png"
-          alt="product"
-          width={400}
-          height={400}
-        />
-        <Image
-          src="/images/risparmia-30.png"
-          alt="product"
-          width={400}
-          height={400}
-        />
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
+        <PresentationDeals />
       </div>
       <div className="my-12">
         <h1>Per chi stai comprando?</h1>
         <CarouselAnimalsCategory />
       </div>
-      <IconBoxes />
+      <div className="my-12">
+        <IconBoxes />
+      </div>
       <div className="mt-12">
         <Image
           src="/images/porta-un-amico.png"
@@ -77,18 +53,11 @@ export default async function Home() {
           className="size-full object-cover object-center"
         />
       </div>
-      <div>
+      <div className="mt-12">
         <SpecialOfferBrand data={latestProducts} title="Offerta Royal Canin" />
       </div>
-      <div className="flex items-center justify-between  gap-4">
-        <AnimalAvatar name="Toys, treats & more" image="coccola-tutti.png" />
-        <AnimalAvatar name="Regali Cani" image="coccola-cani.png" />
-        <AnimalAvatar name="Regali Gatti" image="coccola-gatti.png" />
-        <AnimalAvatar
-          name="Regali Piccoli Animali"
-          image="coccola-piccoli-animali.png"
-        />
-        <AnimalAvatar name="Regali per te" image="coccola-te.png" />
+      <div className="">
+        <Gifts />
       </div>
       <DealCountdown />
 
@@ -97,7 +66,15 @@ export default async function Home() {
         <div className="border-t-4 border-secondary-800 ">
           <CarouselBrands />
           <div className="bg-slate-100 px-8 py-1">
-            <ProductList data={latestProducts} title="I Prodotti più venduti" />
+            <div className="block md:hidden">
+              <CarouselProducts data={latestProducts} />
+            </div>
+            <div className="hidden md:block">
+              <ProductList
+                data={latestProducts}
+                title="I Prodotti più venduti"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -106,7 +83,15 @@ export default async function Home() {
         <div className="border-t-4 border-secondary-800 ">
           <CarouselBrands />
           <div className="bg-slate-100 px-8 py-1">
-            <ProductList data={latestProducts} title="I Prodotti più venduti" />
+            <div className="block md:hidden">
+              <CarouselProducts data={latestProducts} />
+            </div>
+            <div className="hidden md:block">
+              <ProductList
+                data={latestProducts}
+                title="I Prodotti più venduti"
+              />
+            </div>
           </div>
         </div>
       </div>

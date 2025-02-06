@@ -34,14 +34,17 @@ const CategoryDistributionChart = ({
 }) => {
   const colors = generateColors(categoryData.length);
 
-  const newValue = categoriesDistribution?.data?.map(
-    (item: ICategory & { Product: Product[] }) => {
+  const newValue = categoriesDistribution?.data
+    .filter((item) => item.Product.length > 0)
+    .slice(0, 5)
+    .map((item: ICategory & { Product: Product[] }) => {
       return {
         name: item.name,
         value: item?.Product?.length,
       };
-    }
-  );
+    });
+
+  /*  .filter((item) => item.value > 0); */
 
   return (
     <motion.div

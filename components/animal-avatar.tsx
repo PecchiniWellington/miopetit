@@ -1,19 +1,29 @@
 import Image from "next/image";
 
-const AnimalAvatar = ({ image, name }: { image: string; name: string }) => {
+const AnimalAvatar = ({
+  image,
+  name,
+  rounded = "rounded-full",
+}: {
+  image: string;
+  name: string;
+  rounded?: string;
+}) => {
   return (
-    <div>
-      <div className="relative mx-auto h-full overflow-hidden  rounded-full  ">
+    <div className="align-center flex-col justify-center gap-4 border-2 border-secondary-800 border-opacity-10 p-4">
+      <div
+        className={`relative mx-auto flex justify-center overflow-hidden ${rounded} align-middle`}
+      >
         <Image
           src={`/images/${image!}`}
           alt={name}
-          height="0"
-          width="0"
+          height={200}
+          width={200}
           sizes="100vw"
-          className="size-full object-cover object-center"
+          className="rounded-full object-cover object-center"
         />
       </div>
-      <h2 className="mt-2 bg-secondary-900 text-center  text-2xl font-bold text-white">
+      <h2 className="mt-2  text-center  text-lg font-bold text-secondary-900 opacity-80 sm:w-full  sm:text-xl md:text-xl">
         {name.charAt(0).toUpperCase() + name.slice(1)}
       </h2>
     </div>

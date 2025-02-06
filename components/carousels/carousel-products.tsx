@@ -7,7 +7,8 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { ICategory, Product } from "@/types";
+import { Product } from "@/types";
+import ProductCard from "../shared/product/product-card";
 
 const CarouselProducts = ({ data }: { data: Product[] }) => {
   // FIXME: cambiare product type(sono simili tra prisma e types)
@@ -21,15 +22,14 @@ const CarouselProducts = ({ data }: { data: Product[] }) => {
       }}
     >
       <CarouselContent>
-        {data.map((category: ICategory) => (
+        {data.map((category: Product) => (
           <CarouselItem
             key={category.name}
             className={`md:basis-1/2 lg:basis-1/4`}
           >
-            {/*  <div className="relative mx-auto h-full">
+            <div className="relative mx-auto h-full">
               <ProductCard key={category.id} product={category} />
-            </div> */}
-            QUESTO è IL CODICE ORIGINALE
+            </div>
           </CarouselItem>
         ))}
       </CarouselContent>

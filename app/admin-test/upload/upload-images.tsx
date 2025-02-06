@@ -28,7 +28,7 @@ export default function UploadImage() {
     try {
       for (const file of files) {
         const responseImage = await fetch(
-          `/api/avatar/upload?filename=${file.name}`,
+          `/api/avatar/upload?filename=${encodeURIComponent(file.name)}`,
           {
             method: "POST",
             body: file,
@@ -40,8 +40,17 @@ export default function UploadImage() {
         }
 
         const newBlob = await responseImage.json();
-        uploadedBlobs.push({ url: newBlob });
-        setUploadProgress((prev) => Math.min(prev + 100 / files.length, 100)); // Progressivo aggiornamento della barra di progresso
+        console.log("Received Blob:", newBlob);
+
+        // Assicuriamoci che `newBlob` abbia una proprietà `url` valida
+        if (typeof newBlob.url !== "string") {
+          throw new Error("Invalid response format: missing `url` field");
+        }
+
+        uploadedBlobs.push({ url: newBlob.url });
+
+        // Progressivo aggiornamento della barra di progresso
+        setUploadProgress((prev) => Math.min(prev + 100 / files.length, 100));
       }
 
       setBlobs(uploadedBlobs); // Aggiorna con i blob caricati
@@ -55,7 +64,10 @@ export default function UploadImage() {
   };
 
   const isImage = (file: { url: string }) => {
-    return file.url.match(/\.(jpeg|jpg|gif|png|bmp|webp)$/i) !== null;
+    return (
+      typeof file.url === "string" &&
+      file.url.match(/\.(jpeg|jpg|gif|png|bmp|webp)$/i) !== null
+    );
   };
 
   return (

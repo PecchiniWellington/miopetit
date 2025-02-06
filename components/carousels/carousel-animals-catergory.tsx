@@ -56,9 +56,12 @@ const CarouselAnimalsCategory = () => {
     >
       <CarouselContent>
         {animals.map(({ name, image }) => (
-          <CarouselItem key={name} className={`md:basis-1/2 lg:basis-1/5`}>
+          <CarouselItem
+            key={name}
+            className={`basis-1/2 md:basis-1/3 lg:basis-1/5`}
+          >
             <Link href={`/category/${name}`}>
-              <div className="relative mx-auto h-full">
+              <div className="relative mx-auto h-full ">
                 <AnimalAvatar image={image} name={name} />
               </div>
             </Link>
