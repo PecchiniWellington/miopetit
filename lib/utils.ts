@@ -1,3 +1,4 @@
+import { ICategory, IUser } from "@/types";
 import { Product } from "@prisma/client";
 import { clsx, type ClassValue } from "clsx";
 import qs from "query-string";
@@ -47,7 +48,8 @@ export const capitalizeFirstLetter = (text: string) => {
   return text.charAt(0).toUpperCase() + text.slice(1);
 };
 
-export const formatError = (error: Unknown) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const formatError = (error: any) => {
   if (error.name === "ZodError") {
     const fieldErrors = Object.keys(error.errors).map((field) => {
       return error.errors[field].message;
@@ -94,7 +96,7 @@ export function formatId(id: string) {
 }
 
 // Format date and times
-export function formatDateTime(dateString: string | undefined) {
+export function formatDateTime(dateString?: string) {
   const dateTimeOptions: Intl.DateTimeFormatOptions = {
     year: "numeric", // Abbreviated year  name (e.g., "2024")
     month: "short", // Abbreviated month  name (e.g., "Oct")
@@ -114,18 +116,21 @@ export function formatDateTime(dateString: string | undefined) {
     minute: "numeric", // numeric minute (e.g., "30")
     hour12: true, // use 12-hour clock (true) or 24-hour (false)
   };
-  const formattedDateTime: string = new Date(dateString).toLocaleString(
+  if (!dateString) {
+    return {
+      dateTime: "",
+      dateOnly: "",
+      timeOnly: "",
+    };
+  }
+
+  const date = new Date(dateString);
+  const formattedDateTime: string = date.toLocaleString(
     "it-IT",
     dateTimeOptions
   );
-  const formattedDate: string = new Date(dateString).toLocaleString(
-    "it-IT",
-    dateOptions
-  );
-  const formattedTime: string = new Date(dateString).toLocaleString(
-    "it-IT",
-    timeOptions
-  );
+  const formattedDate: string = date.toLocaleString("it-IT", dateOptions);
+  const formattedTime: string = date.toLocaleString("it-IT", timeOptions);
 
   return {
     dateTime: formattedDateTime,
@@ -167,22 +172,20 @@ export function mapProductsForDatabase(products: Product[]) {
   return products.map((product) => ({
     name: product.name,
     slug: product.slug,
-    images: product.images.includes(",")
-      ? product.images.split(",")
-      : [product.images], // Converte in array
+    images: product.images, // Converte in array
     brand: product.brand,
     description: product.description,
-    stock: parseInt(product.stock, 10), // Converte in numero
-    price: parseFloat(product.price), // Converte in numero decimale
-    rating: parseFloat(product.rating), // Converte in numero decimale
-    numReviews: parseInt(product.numReviews, 10), // Converte in numero intero
-    isFeatured: product.isFeatured.toLowerCase() === "true", // Converte in booleano
+    stock: parseInt(product.stock.toString(), 10), // Converte in numero
+    price: parseFloat(product.price.toString()), // Converte in numero decimale
+    rating: parseFloat(product.rating.toString()), // Converte in numero decimale
+    numReviews: parseInt(product.numReviews.toString(), 10), // Converte in numero intero
+    isFeatured: Boolean(product.isFeatured.toString().toLowerCase()) === true, // Converte in booleano
     banner: product.banner || null, // Se vuoto, imposta `null`
     categoryId: product.categoryId, // Deve essere un UUID valido
   }));
 }
 
-export function mapUsersForDatabase(users: []) {
+export function mapUsersForDatabase(users: IUser[]) {
   return users.map((user) => ({
     name: user.name || "NO_NAME", // Default se manca il nome
     email: user.email,
@@ -190,16 +193,16 @@ export function mapUsersForDatabase(users: []) {
     image: user.image || null, // Converte stringhe vuote in `null`
     password: user.password, // Mantiene la password così com'è
     role: user.role?.toUpperCase() === "ADMIN" ? "ADMIN" : "USER", // Assicura che il ruolo sia valido
-    address: user.address ? JSON.parse(user.address) : null, // Se è una stringa JSON, la converte
+    address: user.address ? JSON.parse(user.address.toString()) : null, // Se è una stringa JSON, la converte
     paymentMethod: user.paymentMethod || null, // Converte stringhe vuote in `null`
   }));
 }
 
-export function formatCategoriesData(data) {
+export function formatCategoriesData(data: ICategory[]) {
   return data.map((item) => ({
-    name: item.Name?.trim() || "Unnamed Category", // ✅ Assicura che il nome sia presente
-    slug: item.Slug?.trim().toLowerCase() || "default-slug", // ✅ Normalizza lo slug
-    description: item.Description || null,
+    name: item.name?.trim() || "Unnamed Category", // ✅ Assicura che il nome sia presente
+    slug: item.slug?.trim().toLowerCase() || "default-slug", // ✅ Normalizza lo slug
+    description: item.description || null,
     createdAt: new Date(), // ✅ Prisma accetta il formato `Date`
     updatedAt: new Date(),
   }));

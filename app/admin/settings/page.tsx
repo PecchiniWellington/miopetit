@@ -9,6 +9,10 @@ import { getUserById } from "@/lib/actions/user/user.action";
 
 const SettingsPage = async () => {
   const session = await auth();
+  if (!session || !session.user || !session.user.id) {
+    // Handle the case where session or session.user.id is null or undefined
+    throw new Error("User session is not valid");
+  }
   const user = await getUserById(session.user.id);
   return (
     <div className="relative z-10 flex-1 overflow-auto bg-gray-900">

@@ -2,16 +2,16 @@
 import { prisma } from "@/db/prisma";
 import { PAGE_SIZE } from "@/lib/constants";
 import { formatError } from "@/lib/utils";
-import { updateUserSchema } from "@/lib/validators/user.validator";
-import { revalidatePath } from "next/cache";
-import { z } from "zod";
-import { updateOrderToPaid } from "../order/order.action";
-import { Prisma } from "@prisma/client";
-import { ICategory } from "@/types";
 import {
   categorySchema,
   updateCategorySchema,
 } from "@/lib/validators/category.validator";
+import { updateUserSchema } from "@/lib/validators/user.validator";
+import { ICategory } from "@/types";
+import { Prisma } from "@prisma/client";
+import { revalidatePath } from "next/cache";
+import { z } from "zod";
+import { updateOrderToPaid } from "../order/order.action";
 
 // Get all the users
 export async function getAllUsers({

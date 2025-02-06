@@ -12,7 +12,8 @@ export default function UploadAvatar({
   control,
 }: {
   name: string;
-  control: Control;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  control: Control<any>;
 }) {
   const { setValue, watch } = useFormContext();
   const inputFileRef = useRef<HTMLInputElement>(null);

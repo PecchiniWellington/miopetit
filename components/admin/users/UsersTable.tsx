@@ -38,7 +38,7 @@ const Roles = ({ userRole }: { userRole: string }) => {
       return <Badge className="bg-gray-400 text-gray-700">NO ROLE</Badge>;
   }
 };
-const Status = ({ userStatus }: { userStatus: USER_STATUS_ACTIVATION }) => {
+const Status = ({ userStatus }: { userStatus: string }) => {
   switch (userStatus) {
     case USER_STATUS_ACTIVATION.ACTIVE:
       return (

@@ -1,5 +1,5 @@
 "use client";
-import { ICategory } from "@/types";
+import { ICategory, Product } from "@/types";
 import { motion } from "framer-motion";
 import {
   Cell,
@@ -30,16 +30,18 @@ const generateColors = (numColors: number) => {
 const CategoryDistributionChart = ({
   categoriesDistribution,
 }: {
-  categoriesDistribution: { data: ICategory[] };
+  categoriesDistribution: { data: (ICategory & { Product: Product[] })[] };
 }) => {
   const colors = generateColors(categoryData.length);
 
-  const newValue = categoriesDistribution?.data?.map((item: ICategory) => {
-    return {
-      name: item.name,
-      value: item.Product.length,
-    };
-  });
+  const newValue = categoriesDistribution?.data?.map(
+    (item: ICategory & { Product: Product[] }) => {
+      return {
+        name: item.name,
+        value: item?.Product?.length,
+      };
+    }
+  );
 
   return (
     <motion.div

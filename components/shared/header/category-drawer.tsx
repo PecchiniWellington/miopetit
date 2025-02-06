@@ -25,10 +25,13 @@ const CategoryDrawer = async () => {
           <DrawerTitle>Select a category</DrawerTitle>
           <div className="mt-4 space-y-1">
             {categories.map((x) => (
-              <DynamicButton key={x.category} className="w-full justify-start">
+              <DynamicButton
+                key={x.category.id}
+                className="w-full justify-start"
+              >
                 <DrawerClose asChild>
-                  <Link href={`/search?category=${x.category}`}>
-                    {x.category} ({x._count})
+                  <Link href={`/search?category=${x.category.slug}`}>
+                    {x.category.name} {/* ({x._count}) */}
                   </Link>
                 </DrawerClose>
               </DynamicButton>

@@ -33,7 +33,7 @@ const ProductsOverviewPage = async (props: {
 
         {/* CHARTS */}
         <div className=" mb-8">
-          <SalesTrendChart product={product} />
+          <SalesTrendChart /* product={product} */ />
         </div>
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
           <UserDemographicsChart />

@@ -8,6 +8,7 @@ import { updateUser } from "@/lib/actions/admin/admin.actions";
 import { USER_ROLES } from "@/lib/constants/roles";
 import { USER_STATUS } from "@/lib/constants/user-status";
 import { updateUserSchema } from "@/lib/validators/user.validator";
+import { IUser } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Loader2 } from "lucide-react";
@@ -15,11 +16,7 @@ import { useRouter } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 
-const UpdateUserForm = ({
-  user,
-}: {
-  user: z.infer<typeof updateUserSchema>;
-}) => {
+const UpdateUserForm = ({ user }: { user: IUser }) => {
   const router = useRouter();
   const { toast } = useToast();
 

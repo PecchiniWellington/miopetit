@@ -107,14 +107,7 @@ const ProductForm = ({
             placeholder="Enter name"
           />
           {/* Slug */}
-          <SlugFormField
-            form={form}
-            control={form.control}
-            name="slug"
-            schema={insertProductSchema}
-            title="Slug"
-            placeholder="Enter slug"
-          />
+          <SlugFormField form={form} />
         </div>
         <div className="flex flex-col  gap-5 md:flex-row">
           {/* Category */}
