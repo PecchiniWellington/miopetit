@@ -1,43 +1,39 @@
 "use client";
 import DynamicButton from "@/components/dynamic-button";
 import {
+  Form,
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
   FormMessage,
-  Form,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
   Select,
+  SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectContent,
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { updateUser } from "@/lib/actions/admin/admin.actions";
 import { USER_ROLES } from "@/lib/constants/roles";
 import { updateUserSchema } from "@/lib/validators/user.validator";
+import { IUser } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useRouter } from "next/navigation";
-import React from "react";
 import { ControllerRenderProps, useForm } from "react-hook-form";
 import { z } from "zod";
 
-const UpdateUserForm = ({
-  user,
-}: {
-  user: z.infer<typeof updateUserSchema>;
-}) => {
+const UpdateUserForm = ({ user }: { user: IUser }) => {
   const router = useRouter();
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof updateUserSchema>>({
     resolver: zodResolver(updateUserSchema),
-    defaultValues: user,
+    defaultValues: {}, // TODO: set default values
   });
 
   const onSubmit = async (values: z.infer<typeof updateUserSchema>) => {

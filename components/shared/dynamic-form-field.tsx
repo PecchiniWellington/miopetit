@@ -2,8 +2,6 @@
 
 import { Control, Controller } from "react-hook-form";
 
-import { insertProductSchema } from "@/lib/validators";
-import { updateProductSchema } from "@/lib/validators/product.validator";
 import { z } from "zod";
 import { FormControl, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
@@ -16,9 +14,9 @@ interface Option {
 }
 interface DynamicFormFieldProps {
   disabled?: boolean;
-  control: Control<
-    z.infer<typeof insertProductSchema | typeof updateProductSchema>
-  >;
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  control: Control<any>;
   name: string;
   schema: z.ZodType<unknown>;
   title: string;

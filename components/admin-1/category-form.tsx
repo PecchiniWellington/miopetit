@@ -27,7 +27,7 @@ const CategoryForm = ({
   categoryId,
 }: {
   type: "Create" | "Update";
-  category?: ICategory;
+  category?: ICategory | null;
   categoryId?: string;
 }) => {
   const router = useRouter();
@@ -68,7 +68,7 @@ const CategoryForm = ({
     };
 
     if (type === "Create") {
-      const res = await createCategory(data);
+      const res = await createCategory(data as ICategory);
       handleResponse(res, "Category created");
     }
 
@@ -99,14 +99,7 @@ const CategoryForm = ({
             placeholder="Enter name"
           />
           {/* Slug */}
-          <SlugFormField
-            form={form}
-            control={form.control}
-            name="slug"
-            schema={categorySchema}
-            title="Slug"
-            placeholder="Enter slug"
-          />
+          <SlugFormField form={form} />
         </div>
 
         <div>

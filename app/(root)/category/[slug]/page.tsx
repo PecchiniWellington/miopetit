@@ -114,6 +114,7 @@ const CategoryType = async (props: {
   };
 
   const categories = await getProductCategories();
+  console.log(categories);
 
   return (
     <div className="grid md:grid-cols-5 md:gap-5">
@@ -131,12 +132,12 @@ const CategoryType = async (props: {
               </Link>
             </li>
             {categories.map((x) => (
-              <li key={x.category}>
+              <li key={x.category.id}>
                 <Link
-                  href={getFilterUrl({ c: x.category })}
-                  className={`${category === x.category && "font-bold"}`}
+                  href={getFilterUrl({ c: x.category.slug })}
+                  className={`${category === x.category.slug && "font-bold"}`}
                 >
-                  {x.category}
+                  {x.category.name}
                 </Link>
               </li>
             ))}

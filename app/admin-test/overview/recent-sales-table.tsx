@@ -7,14 +7,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { formatCurrency, formatDateTime } from "@/lib/utils";
-import { IOrder } from "@/types";
+import { ILatestSales } from "@/types";
 import Link from "next/link";
 
-const RecentSalesTable = ({
-  summary,
-}: {
-  summary: { latestSales: IOrder[] };
-}) => {
+const RecentSalesTable = ({ summary }: { summary: ILatestSales[] }) => {
   return (
     <Table>
       <TableHeader>
@@ -26,7 +22,7 @@ const RecentSalesTable = ({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {summary?.latestSales?.map((order: IOrder) => (
+        {summary?.map((order: ILatestSales) => (
           <TableRow key={order.id}>
             <TableCell>{order.user?.name}</TableCell>
             <TableCell>

@@ -81,41 +81,14 @@ export default async function Home() {
         <SpecialOfferBrand data={latestProducts} title="Offerta Royal Canin" />
       </div>
       <div className="flex items-center justify-between  gap-4">
-        <AnimalAvatar
-          name="Toys, treats & more"
-          image="coccola-tutti.png"
-          alt="product"
-          width={400}
-          height={400}
-        />
-        <AnimalAvatar
-          name="Regali Cani"
-          image="coccola-cani.png"
-          alt="product"
-          width={400}
-          height={400}
-        />
-        <AnimalAvatar
-          name="Regali Gatti"
-          image="coccola-gatti.png"
-          alt="product"
-          width={400}
-          height={400}
-        />
+        <AnimalAvatar name="Toys, treats & more" image="coccola-tutti.png" />
+        <AnimalAvatar name="Regali Cani" image="coccola-cani.png" />
+        <AnimalAvatar name="Regali Gatti" image="coccola-gatti.png" />
         <AnimalAvatar
           name="Regali Piccoli Animali"
           image="coccola-piccoli-animali.png"
-          alt="product"
-          width={400}
-          height={400}
         />
-        <AnimalAvatar
-          name="Regali per te"
-          image="coccola-te.png"
-          alt="product"
-          width={400}
-          height={400}
-        />
+        <AnimalAvatar name="Regali per te" image="coccola-te.png" />
       </div>
       <DealCountdown />
 

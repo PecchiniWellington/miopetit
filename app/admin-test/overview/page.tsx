@@ -1,14 +1,13 @@
 import { auth } from "@/auth";
+import LayoutTitle from "@/components/layout-title";
 import TinyBarChart from "@/components/shared/charts/tiny-bar-chart";
 import { getOrderSummary } from "@/lib/actions/order/order.action";
 import ROLES from "@/lib/constants/roles";
 import { formatCurrency, formatNumber } from "@/lib/utils";
 import { BadgeDollarSign, Barcode, CreditCard, Users } from "lucide-react";
 import { Metadata } from "next";
-import React from "react";
-import RecentSalesTable from "./recent-sales-table";
 import OverviewCard from "./overview-card";
-import LayoutTitle from "@/components/layout-title";
+import RecentSalesTable from "./recent-sales-table";
 
 export const metadata: Metadata = {
   title: "Admin Dashboard Overview",
@@ -47,7 +46,7 @@ const AdminOverviewPage = async () => {
           <TinyBarChart data={{ salesData: summary.salesData }} />
         </OverviewCard>
         <OverviewCard title="Recent Sales" className="col-span-3">
-          <RecentSalesTable summary={summary} />
+          <RecentSalesTable summary={summary.latestSales} />
         </OverviewCard>
       </div>
     </div>

@@ -8,7 +8,7 @@ import { ResumeCard } from "./resume-card";
 import StripePayment from "./stripe-payment";
 
 interface PaymentCardProps {
-  order: IOrder; // Omit<IOrder, "paymentResult">
+  order: /* IOrder */ Omit<IOrder, "paymentResult">;
   itemsPrice: string;
   totalPrice: string;
   taxPrice: string;
@@ -52,7 +52,10 @@ const PaymentCard: React.FC<PaymentCardProps> = ({
         {!isPaid &&
           paymentMethod === PAYMENT_METHODS_TYPE.STRIPE &&
           stripeClientSecret && (
-            <StripePayment order={order} clientSecret={stripeClientSecret} />
+            <StripePayment
+              order={order}
+              stripeClientSecret={stripeClientSecret}
+            />
           )}
         {/* Cash On Delivery Payment */}
         {isAdmin &&

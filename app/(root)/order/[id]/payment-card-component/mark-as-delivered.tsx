@@ -5,7 +5,11 @@ import { IOrder } from "@/types";
 
 import { useTransition } from "react";
 
-export const MarkAsDeliveredButton = ({ order }: { order: IOrder }) => {
+export const MarkAsDeliveredButton = ({
+  order,
+}: {
+  order: Omit<IOrder, "paymentResult">;
+}) => {
   const [isPending, setIsPending] = useTransition();
   const { toast } = useToast();
 

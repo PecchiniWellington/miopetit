@@ -5,7 +5,7 @@ const StripePayment = (
     /*  order,
   stripeClientSecret, */
   }: {
-    order: IOrder;
+    order: Omit<IOrder, "paymentResult">;
     stripeClientSecret: string;
   }
 ) => {

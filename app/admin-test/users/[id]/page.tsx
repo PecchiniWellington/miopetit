@@ -1,4 +1,5 @@
 import { getUserById } from "@/lib/actions/user/user.action";
+import { IUser } from "@/types";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import UpdateUserForm from "./update-user-form";
@@ -13,7 +14,7 @@ const AdminUserDetailPage = async (props: {
 }) => {
   const { id } = await props.params;
 
-  const user = await getUserById(id);
+  const user: IUser = await getUserById(id);
 
   if (!user) notFound();
 

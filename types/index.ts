@@ -1,4 +1,3 @@
-import { USER_STATUS_ACTIVATION } from "@/lib/constants/user-status";
 import {
   cartItemSchema,
   insertCartSchema,
@@ -12,6 +11,7 @@ import {
 import { categorySchema } from "@/lib/validators/category.validator";
 import { insertReviewSchema } from "@/lib/validators/reviews.validator";
 import { Order } from "@prisma/client";
+import { JsonValue } from "@prisma/client/runtime/library";
 import { Session } from "inspector";
 import { Account } from "next-auth";
 
@@ -45,7 +45,14 @@ export type IOrder = z.infer<typeof insertOrderSchema> & {
   orderitems: IOrderItem[];
   paymentResult: IPaymentResult;
   user: { name: string; email: string } | null;
-  latestSales?: IOrderItem[];
+  latestSales?: ILatestSales[];
+};
+
+export type ILatestSales = {
+  user: { name: string } | null;
+  id: string;
+  createdAt: Date;
+  totalPrice: string;
 };
 
 // Payment result
@@ -82,18 +89,18 @@ export interface IUser {
   id: string;
   name: string;
   email: string;
-  emailVerified?: Date;
-  image?: string;
-  password?: string;
-  role: USER_STATUS_ACTIVATION;
-  address?: IAddress;
-  paymentMethod?: string;
-  status: USER_STATUS_ACTIVATION;
+  emailVerified?: Date | null;
+  image?: string | null;
+  password?: string | null;
+  role: string;
+  address?: JsonValue | null; // TODO: Change to IAddress
+  paymentMethod?: string | null;
+  status: string;
   createdAt: Date;
   updatedAt: Date;
-  accounts: Account[];
-  sessions: Session[];
-  Cart: Cart[];
-  Order: Order[];
-  Review: Review[];
+  accounts?: Account[];
+  sessions?: Session[];
+  Cart?: Cart[];
+  Order?: Order[];
+  Review?: Review[];
 }

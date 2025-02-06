@@ -16,7 +16,7 @@ const PayPalPayment = ({
   order,
 }: {
   paypalClientId: string;
-  order: IOrder;
+  order: Omit<IOrder, "paymentResult">;
 }) => {
   const handleCreatePayPalOrder = async () => {
     const res = await createPaypalOrder(order.id);

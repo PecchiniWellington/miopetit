@@ -1,12 +1,12 @@
 "use server";
 import { prisma } from "@/db/prisma";
-import { convertToPlainObject, formatError } from "../utils";
-import { LATEST_PRODUCTS_LIMIT, PAGE_SIZE } from "../constants";
+import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
+import { LATEST_PRODUCTS_LIMIT, PAGE_SIZE } from "../constants";
+import { convertToPlainObject, formatError } from "../utils";
 import { insertProductSchema } from "../validators";
 import { updateProductSchema } from "../validators/product.validator";
-import { Prisma } from "@prisma/client";
 import { getAllCategories } from "./admin/admin.actions";
 
 // Get latest products
@@ -98,8 +98,17 @@ export async function getAllProducts({
         }
       : {};
 
+  const categories = await getAllCategories();
   const categoryFilter: Prisma.ProductWhereInput =
-    category && category !== "all" ? { categoryId: category } : {};
+    category && category !== "all"
+      ? {
+          categoryId: {
+            in: categories?.data
+              ?.filter((cat) => cat.slug === category)
+              .map((cat) => cat.id),
+          },
+        }
+      : {};
 
   const priceFilter: Prisma.ProductWhereInput =
     price && price !== "all"
@@ -119,7 +128,6 @@ export async function getAllProducts({
         }
       : {};
 
-  const categories = await getAllCategories();
   const data = await prisma.product.findMany({
     where: {
       ...queryFilter,
@@ -153,7 +161,9 @@ export async function getAllProducts({
   const updatedData = data.map((item) => {
     return {
       ...item,
-      category: categoryMap?.[item.categoryId][1] ?? "N/A",
+      category: item.categoryId
+        ? (categoryMap?.[item.categoryId][1] ?? "N/A")
+        : "N/A",
     };
   });
 
@@ -232,13 +242,40 @@ export async function updateProduct(data: z.infer<typeof updateProductSchema>) {
 }
 
 // Get product All Categories
-export async function getProductCategories() {
+/* export async function getProductCategories() {
   const data = await prisma.product.groupBy({
     by: ["categoryId"],
     _count: true,
   });
 
   return data;
+} */
+
+export async function getProductCategories() {
+  const data = await prisma.product.groupBy({
+    by: ["categoryId"],
+    _count: true,
+  });
+
+  const categories = await getAllCategories();
+  const categoryMap = categories?.data?.reduce(
+    (acc, cat) => {
+      acc[cat.id] = { id: cat.id, name: cat.name, slug: cat.slug };
+      return acc;
+    },
+    {} as Record<string, { id: string; name: string; slug: string }>
+  );
+
+  const result = data.map((item) => ({
+    ...item,
+    category: categoryMap?.[item.categoryId!] ?? {
+      id: "N/A",
+      name: "N/A",
+      slug: "N/A",
+    },
+  }));
+
+  return result;
 }
 
 // Get featured products
