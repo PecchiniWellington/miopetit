@@ -16,7 +16,7 @@ import { isRedirectError } from "next/dist/client/components/redirect-error";
 
 import { convertToPlainObject, formatError } from "@/lib/utils";
 import { getMyCart } from "../cart/cart.actions";
-import { getUserById } from "../user/user.action";
+import { getUserById } from "../user";
 
 export async function createOrder() {
   try {
@@ -33,7 +33,7 @@ export async function createOrder() {
     if (!cart || cart.items.length === 0) {
       return { success: false, message: "Cart is empty", redirectTo: "/cart" };
     }
-    if (!user.address) {
+    if (!user || !user.address) {
       return {
         success: false,
         message: "No shipping address",
@@ -167,6 +167,7 @@ export async function updateOrderToPaid({
   sendPurchaseReceipt({
     order: {
       ...updatedOrder,
+      orderitems: updatedOrder.orderitems as CartItem[],
       shippingAddress: updatedOrder.shippingAddress as IShippingAddress,
       paymentResult: updatedOrder.paymentResult as IPaymentResult,
     },

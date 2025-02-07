@@ -1,7 +1,7 @@
-import { getUserById } from "@/core/actions/user/user.action";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import UpdateUserForm from "./update-user-form";
+import { getUserById } from "@/core/actions/user";
 
 export const metadata: Metadata = {
   title: "Admin User Detail",

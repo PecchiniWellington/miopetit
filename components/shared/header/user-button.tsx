@@ -7,13 +7,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { getUserById } from "@/core/actions/user/user.action";
 import ROLES from "@/lib/constants/roles";
 
 import { UserIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import SignOutBtn from "./sign-out-btn";
+import { getUserById } from "@/core/actions/user";
 
 const UserButton = async () => {
   const session = await auth();

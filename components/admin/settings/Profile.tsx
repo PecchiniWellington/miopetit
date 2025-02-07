@@ -6,30 +6,27 @@ import Link from "next/link";
 import SettingSection from "./SettingSection";
 
 const Profile = ({ userLogged }: { userLogged: IUser }) => {
-  {
-    console.log(userLogged);
-  }
   return (
     <SettingSection icon={User} title={"Profile"}>
       <div className="mb-6 flex flex-col items-center sm:flex-row">
         <Image
           height={80}
           width={80}
-          src={userLogged.image || "/images/placeholder.jpg"}
+          src={userLogged?.image ? userLogged.image : "/images/placeholder.jpg"}
           alt="Profile"
           className="mr-4 size-20 rounded-full object-cover"
         />
 
         <div>
           <h3 className="text-lg font-semibold text-gray-100">
-            {userLogged.name}
+            {userLogged?.name}
           </h3>
-          <p className="text-gray-400">{userLogged.email}</p>
+          <p className="text-gray-400">{userLogged?.email}</p>
         </div>
       </div>
 
       <Link
-        href={`/admin/users/${userLogged.id}`}
+        href={`/admin/users/${userLogged?.id}`}
         className="w-full rounded bg-indigo-600 px-4 py-2 font-bold text-white transition duration-200 hover:bg-indigo-700 sm:w-auto"
       >
         Edit Profile
