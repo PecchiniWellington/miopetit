@@ -7,7 +7,7 @@ import SalesTrendChart from "@/components/admin/products/SalesTrendChart";
 import DynamicButton from "@/components/dynamic-button";
 import { getAllCategories } from "@/core/actions/admin/admin.actions";
 import { getOrderSummary } from "@/core/actions/order/order.action";
-import { getAllProducts } from "@/core/actions/products/product.actions";
+import { getAllProducts } from "@/core/actions/products";
 import Link from "next/link";
 import ProductCard from "./products-card";
 

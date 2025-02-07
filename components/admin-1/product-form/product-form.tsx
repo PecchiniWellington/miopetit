@@ -3,6 +3,7 @@
 import DynamicButton from "@/components/dynamic-button";
 import DynamicFormField from "@/components/shared/dynamic-form-field";
 import SearchSelect from "@/components/shared/search-select";
+import { createProduct, updateProduct } from "@/core/actions/products";
 import { insertProductSchema } from "@/core/validators";
 import { updateProductSchema } from "@/core/validators/product.validator";
 import { useToast } from "@/hooks/use-toast";
@@ -16,10 +17,6 @@ import { Form, FormField, FormItem, FormLabel } from "../../ui/form";
 import SlugFormField from "./slug-form-field";
 import UploadImage from "./upload-image";
 import UploadImageFeaturedProduct from "./upload-image-featured-product";
-import {
-  createProduct,
-  updateProduct,
-} from "@/core/actions/products/product.actions";
 
 const ProductForm = ({
   type,

@@ -8,10 +8,8 @@ import PresentationDeals from "@/components/root/presentation-deals";
 import ProductCarousel from "@/components/shared/product/product-carousel";
 import ProductList from "@/components/shared/product/product-list";
 import SpecialOfferBrand from "@/components/special-offers-brand";
-import {
-  getLatestProducts,
-  getFeaturedProducts,
-} from "@/core/actions/products/product.actions";
+import { getFeaturedProducts } from "@/core/actions/products";
+import { getLatestProducts } from "@/core/actions/products/get-latest-product.actions";
 
 import { Product } from "@/types/_index";
 import Image from "next/image";

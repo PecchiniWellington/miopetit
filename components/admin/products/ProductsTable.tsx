@@ -1,7 +1,7 @@
 "use client";
 
 import DeleteDialog from "@/components/shared/delete-dialog";
-import { deleteProduct } from "@/core/actions/products/product.actions";
+import { deleteProduct } from "@/core/actions/products";
 import { formatId } from "@/lib/utils";
 import { Product } from "@/types/_index";
 import { motion } from "framer-motion";
