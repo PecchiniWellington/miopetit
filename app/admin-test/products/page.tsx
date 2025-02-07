@@ -6,7 +6,6 @@ import Pagination from "@/components/shared/pagination";
 import {
   Table,
   TableBody,
-  TableBody,
   TableCell,
   TableHead,
   TableHeader,
@@ -81,11 +80,11 @@ const ProductsPage = async (props: {
                 <TableCell>{formatId(product.id)}</TableCell>
                 <TableCell>{product.name}</TableCell>
                 <TableCell className="text-right">
-                  {formatCurrency(product.price)}
+                  {formatCurrency(product.price.toString())}
                 </TableCell>
                 <TableCell>{product.category.name}</TableCell>
                 <TableCell>{product.stock}</TableCell>
-                <TableCell>{product.rating}</TableCell>
+                <TableCell>{product.rating.toString()}</TableCell>
                 <TableCell className="flex gap-1">
                   <DynamicButton>
                     <Link href={`/admin/products/${product.id}`}>Edit</Link>

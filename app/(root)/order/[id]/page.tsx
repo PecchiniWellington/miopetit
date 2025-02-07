@@ -1,11 +1,11 @@
 import { auth } from "@/auth";
 import { getOrderById } from "@/core/actions/order/order.action";
+import { IShippingAddress } from "@/core/types";
 import ROLES from "@/lib/constants/roles";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Stripe from "stripe";
 import OrderDetailsTable from "./order-details-table";
-import { IShippingAddress } from "@/core/types";
 
 export const metadata: Metadata = {
   title: "Order Details",
@@ -39,6 +39,10 @@ const OrderDetailsPage = async (props: { params: Promise<{ id: string }> }) => {
         order={{
           ...order,
           shippingAddress: order.shippingAddress as IShippingAddress,
+          orderitems: order.orderitems.map((item) => ({
+            ...item,
+            name: item.name || "",
+          })),
         }}
         stripeClientSecret={client_secret}
         paypalClientId={process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || "sb"}

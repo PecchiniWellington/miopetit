@@ -1,6 +1,6 @@
-import ProductForm from "@/components/admin-1/product-form/product-form";
+import ProductForm from "@/components/admin/product-form/product-form";
 import { getAllCategories } from "@/core/actions/admin/admin.actions";
-import { getProductById } from "@/core/actions/products/product.actions";
+import { getProductById } from "@/core/actions/products";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 

@@ -1,8 +1,7 @@
+import { getUserById } from "@/core/actions/user";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import UpdateUserForm from "./update-user-form";
-import { getUserById } from "@/core/actions/user";
-import { IUser } from "@/core/types";
 
 export const metadata: Metadata = {
   title: "Admin User Detail",
@@ -14,7 +13,7 @@ const AdminUserDetailPage = async (props: {
 }) => {
   const { id } = await props.params;
 
-  const user: IUser = await getUserById(id);
+  const user = await getUserById(id);
 
   if (!user) notFound();
 

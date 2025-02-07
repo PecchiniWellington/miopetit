@@ -1,4 +1,3 @@
-import AdminSearch from "@/components/admin-1/admin-search";
 import Menu from "@/components/shared/header/menu";
 import LeftSidebar from "@/components/shared/sidebar/left-sidebar";
 import { APP_NAME } from "@/lib/constants";
@@ -6,6 +5,7 @@ import { ADMIN_ROUTES } from "@/lib/constants/routes";
 import Image from "next/image";
 import Link from "next/link";
 import MainNav from "./main-nav";
+import AdminSearch from "@/components/admin/admin-search";
 
 const links = [
   {

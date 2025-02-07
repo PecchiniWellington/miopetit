@@ -5,7 +5,7 @@ import SalesTrendChart from "@/components/admin/products/SalesTrendChart";
 import OrderDistribution from "@/components/admin/orders/OrderDistribution";
 import UserDemographicsChart from "@/components/admin/users/UserDemographicsChart";
 import ProductResumeCard from "./products-resume-card";
-import { getProductById } from "@/core/actions/products/product.actions";
+import { getProductById } from "@/core/actions/products";
 
 const ProductsOverviewPage = async (props: {
   searchParams: Promise<{

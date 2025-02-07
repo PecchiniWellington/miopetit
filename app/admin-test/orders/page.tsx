@@ -13,6 +13,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { deleteOrder, getAllOrders } from "@/core/actions/admin/admin.actions";
+import { IOrder } from "@/core/types";
 
 import ROLES from "@/lib/constants/roles";
 import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";

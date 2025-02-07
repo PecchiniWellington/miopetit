@@ -5,8 +5,8 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { CategorySection } from "./category-section";
 import { BrandSection } from "./brand-section";
+import { CategorySection } from "./category-section";
 
 interface IMenuItem {
   name: string;

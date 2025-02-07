@@ -2,10 +2,10 @@
 
 import { formatId } from "@/lib/utils";
 
+import { IOrder } from "@/core/types";
 import OrderCard from "./order-card";
 import PaymentCard from "./payment-card-component";
 import ResumeItemsTable from "./resume-items-table";
-import { IOrder } from "@/core/types";
 
 const OrderDetailsTable = ({
   order,
@@ -13,6 +13,7 @@ const OrderDetailsTable = ({
   paypalClientId,
   isAdmin,
 }: {
+  name?: string;
   order: /* IOrder */ Omit<IOrder, "paymentResult">;
   stripeClientSecret: string | null;
   paypalClientId: string;

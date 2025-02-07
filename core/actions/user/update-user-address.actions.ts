@@ -1,8 +1,8 @@
 import { auth } from "@/auth";
 import { prisma } from "@/core/prisma/prisma";
+import { IShippingAddress } from "@/core/types";
 import { shippingAddressSchema } from "@/core/validators";
 import { formatError } from "@/lib/utils";
-import { IShippingAddress } from "@/types";
 
 // Update the user's address
 export async function updateUserAddress(data: IShippingAddress) {
