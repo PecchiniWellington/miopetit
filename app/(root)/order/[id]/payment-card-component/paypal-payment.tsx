@@ -3,7 +3,7 @@ import {
   createPaypalOrder,
 } from "@/core/actions/order/paypal.action";
 import { toast } from "@/hooks/use-toast";
-import { IOrder } from "@/types";
+import { IOrder } from "@/types/_index";
 import {
   PayPalButtons,
   PayPalScriptProvider,

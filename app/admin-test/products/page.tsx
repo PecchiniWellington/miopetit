@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/table";
 import { deleteProduct, getAllProducts } from "@/core/actions/product.actions";
 import { formatCurrency, formatId } from "@/lib/utils";
-import { ICategory, Product } from "@/types";
+import { ICategory, Product } from "@/types/_index";
 import Link from "next/link";
 import DownloadCSV from "../categories/download-csv";
 

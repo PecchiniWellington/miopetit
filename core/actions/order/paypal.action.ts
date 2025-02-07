@@ -5,7 +5,7 @@
 import { prisma } from "@/core/prisma/prisma";
 import { paypal } from "@/lib/paypal";
 import { formatError } from "@/lib/utils";
-import { IPaymentResult } from "@/types";
+import { IPaymentResult } from "@/types/_index";
 import { revalidatePath } from "next/cache";
 import { updateOrderToPaid } from "./order.action";
 

@@ -7,7 +7,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { Product } from "@/types";
+import { Product } from "@/types/_index";
 import CustomProduct from "../shared/product/customProduct";
 
 const CarouselProducts = ({ data }: { data: Product[] }) => {

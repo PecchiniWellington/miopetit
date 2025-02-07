@@ -1,5 +1,5 @@
 "use client";
-import { ICategory, Product } from "@/types";
+import { ICategory, Product } from "@/types/_index";
 import { motion } from "framer-motion";
 import {
   Cell,

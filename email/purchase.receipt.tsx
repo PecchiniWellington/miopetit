@@ -1,6 +1,6 @@
-import sampleData from "@/core/db/sample-data";
+import sampleData from "@/core/db-static/sample-data";
 import { formatCurrency } from "@/lib/utils";
-import { IOrder } from "@/types";
+import { IOrder } from "@/types/_index";
 import {
   Body,
   Column,

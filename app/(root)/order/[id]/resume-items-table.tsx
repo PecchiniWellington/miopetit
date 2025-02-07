@@ -1,17 +1,15 @@
 import {
-  TableHeader,
-  TableRow,
-  TableHead,
+  Table,
   TableBody,
   TableCell,
-  Table,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
 import { formatCurrency } from "@/lib/utils";
-import { IOrderItem } from "@/types";
+import { IOrderItem } from "@/types/_index";
 import Image from "next/image";
 import Link from "next/link";
-
-import React from "react";
 
 const ResumeItemsTable = ({ orderitems }: { orderitems: IOrderItem[] }) => {
   return (

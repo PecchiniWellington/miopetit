@@ -1,7 +1,7 @@
-import { Resend } from "resend";
 import { APP_NAME, SENDER_EMAIL } from "@/lib/constants";
+import { IOrder } from "@/types/_index";
+import { Resend } from "resend";
 import PurchaseReceiptEmail from "./purchase.receipt";
-import { IOrder } from "@/types";
 
 require("dotenv").config();
 

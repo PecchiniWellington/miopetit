@@ -20,7 +20,7 @@ import { updateUser } from "@/core/actions/admin/admin.actions";
 import { updateUserSchema } from "@/core/validators/user.validator";
 import { useToast } from "@/hooks/use-toast";
 import { USER_ROLES } from "@/lib/constants/roles";
-import { IUser } from "@/types";
+import { IUser } from "@/types/_index";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useRouter } from "next/navigation";

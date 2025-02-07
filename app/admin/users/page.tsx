@@ -9,7 +9,7 @@ import CardWorking from "@/components/dev/card-working";
 import DynamicButton from "@/components/dynamic-button";
 import { getAllUsers } from "@/core/actions/admin/admin.actions";
 import { getOrderSummary } from "@/core/actions/order/order.action";
-import { IUser } from "@/types";
+import { IUser } from "@/types/_index";
 import Link from "next/link";
 import UsersCard from "./users-card";
 

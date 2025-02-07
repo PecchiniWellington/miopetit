@@ -1,7 +1,7 @@
 "use client";
 import { Badge } from "@/components/ui/badge";
 import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
-import { IOrder } from "@/types";
+import { IOrder } from "@/types/_index";
 import { motion } from "framer-motion";
 import { Check, CircleAlert, ClockAlert, Eye, Search } from "lucide-react";
 import { useState } from "react";

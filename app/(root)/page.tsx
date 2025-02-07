@@ -9,10 +9,11 @@ import ProductCarousel from "@/components/shared/product/product-carousel";
 import ProductList from "@/components/shared/product/product-list";
 import SpecialOfferBrand from "@/components/special-offers-brand";
 import {
-  getFeaturedProducts,
   getLatestProducts,
-} from "@/core/actions/product.actions";
-import { Product } from "@/types";
+  getFeaturedProducts,
+} from "@/core/actions/products/product.actions";
+
+import { Product } from "@/types/_index";
 import Image from "next/image";
 
 export default async function Home() {

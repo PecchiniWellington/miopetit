@@ -1,7 +1,7 @@
 "use client";
 
 import { formatId } from "@/lib/utils";
-import { IOrder } from "@/types";
+import { IOrder } from "@/types/_index";
 
 import OrderCard from "./order-card";
 import PaymentCard from "./payment-card-component";

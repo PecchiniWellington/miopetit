@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { PAYMENT_METHODS_TYPE } from "@/lib/constants/payment-methods";
-import { IOrder } from "@/types";
+import { IOrder } from "@/types/_index";
 import { MarkAsDeliveredButton } from "./mark-as-delivered";
 import { MarkAsPaidButton } from "./mark-as-paid";
 import PayPalPayment from "./paypal-payment";

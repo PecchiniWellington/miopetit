@@ -10,12 +10,12 @@ import {
   IPaymentResult,
   IShippingAddress,
   SalesDataType,
-} from "@/types";
+} from "@/types/_index";
 import { Prisma } from "@prisma/client";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 
 import { convertToPlainObject, formatError } from "@/lib/utils";
-import { getMyCart } from "../cart.actions";
+import { getMyCart } from "../cart/cart.actions";
 import { getUserById } from "../user/user.action";
 
 export async function createOrder() {

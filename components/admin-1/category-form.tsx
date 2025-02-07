@@ -13,7 +13,7 @@ import {
   categorySchema,
   updateCategorySchema,
 } from "@/core/validators/category.validator";
-import { ICategory } from "@/types";
+import { ICategory } from "@/types/_index";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";

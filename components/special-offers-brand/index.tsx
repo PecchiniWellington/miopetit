@@ -1,6 +1,5 @@
-import { Product } from "@/types/index";
+import { Product } from "@/types/_index";
 import Image from "next/image";
-import React from "react";
 import CarouselProducts from "../carousels/carousel-products";
 
 interface IProductListProps {

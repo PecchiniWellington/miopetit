@@ -1,6 +1,6 @@
 "use client";
 import DynamicButton from "@/components/dynamic-button";
-import { CartItem } from "@/types";
+import { CartItem } from "@/types/_index";
 import { Loader, Plus } from "lucide-react";
 
 const AddToCartButton = ({

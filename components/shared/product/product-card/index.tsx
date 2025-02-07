@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { Product } from "@/types";
+import { Product } from "@/types/_index";
 import ProductCardBrand from "./product-card-brand";
 import { ProductCardHeader } from "./product-card-header";
 import ProductCardName from "./product-card-name";

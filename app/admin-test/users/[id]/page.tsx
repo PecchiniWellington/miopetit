@@ -1,5 +1,5 @@
 import { getUserById } from "@/core/actions/user/user.action";
-import { IUser } from "@/types";
+import { IUser } from "@/types/_index";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import UpdateUserForm from "./update-user-form";

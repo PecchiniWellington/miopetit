@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { getOrderById } from "@/core/actions/order/order.action";
 import ROLES from "@/lib/constants/roles";
-import { IShippingAddress } from "@/types";
+import { IShippingAddress } from "@/types/_index";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Stripe from "stripe";

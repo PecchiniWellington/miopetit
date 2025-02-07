@@ -9,10 +9,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { addItemToCart, removeItemFromCart } from "@/core/actions/cart.actions";
+import {
+  addItemToCart,
+  removeItemFromCart,
+} from "@/core/actions/cart/cart.actions";
 import { useToast } from "@/hooks/use-toast";
 import { formatCurrency } from "@/lib/utils";
-import { Cart, CartItem } from "@/types";
+import { Cart, CartItem } from "@/types/_index";
 import { ToastAction } from "@radix-ui/react-toast";
 import { ArrowRight, Loader, Minus, Plus } from "lucide-react";
 import Image from "next/image";

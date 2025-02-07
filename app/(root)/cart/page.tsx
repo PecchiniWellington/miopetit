@@ -1,5 +1,5 @@
-import { getMyCart } from "@/core/actions/cart.actions";
-import { CartItem } from "@/types";
+import { getMyCart } from "@/core/actions/cart/cart.actions";
+import { CartItem } from "@/types/_index";
 import { Metadata } from "next";
 import { CartTable } from "./cart-table";
 

@@ -2,7 +2,7 @@
 import { auth } from "@/auth";
 import { prisma } from "@/core/prisma/prisma";
 
-import { IShippingAddress } from "@/types";
+import { IShippingAddress } from "@/types/_index";
 
 import { shippingAddressSchema } from "@/core/validators";
 import { formatError } from "@/lib/utils";

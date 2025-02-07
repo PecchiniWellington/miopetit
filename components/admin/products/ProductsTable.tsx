@@ -1,9 +1,9 @@
 "use client";
 
 import DeleteDialog from "@/components/shared/delete-dialog";
-import { deleteProduct } from "@/core/actions/product.actions";
+import { deleteProduct } from "@/core/actions/products/product.actions";
 import { formatId } from "@/lib/utils";
-import { Product } from "@/types";
+import { Product } from "@/types/_index";
 import { motion } from "framer-motion";
 import { Edit, Eye, Search } from "lucide-react";
 import Image from "next/image";

@@ -2,7 +2,7 @@
 import StatCard from "@/components/admin/common/StatCard";
 import CardWorking from "@/components/dev/card-working";
 import { formatCurrency, formatNumber } from "@/lib/utils";
-import { Product } from "@/types";
+import { Product } from "@/types/_index";
 import { motion } from "framer-motion";
 import { AlertTriangle, DollarSign, Package, TrendingUp } from "lucide-react";
 

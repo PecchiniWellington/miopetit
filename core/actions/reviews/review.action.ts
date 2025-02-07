@@ -2,12 +2,12 @@
 import { auth } from "@/auth";
 
 import { prisma } from "@/core/prisma/prisma";
-import { Review } from "@/types";
+import { Review } from "@/types/_index";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { insertReviewSchema } from "../validators/reviews.validator";
 import { formatError } from "@/lib/utils";
+import { insertReviewSchema } from "@/core/validators/reviews.validator";
 
 // Create & Update Reviews
 export async function createUpdateReview(

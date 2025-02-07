@@ -6,9 +6,9 @@ import { z } from "zod";
 
 import { LATEST_PRODUCTS_LIMIT, PAGE_SIZE } from "@/lib/constants";
 import { convertToPlainObject, formatError } from "@/lib/utils";
-import { insertProductSchema } from "../validators";
-import { updateProductSchema } from "../validators/product.validator";
-import { getAllCategories } from "./admin/admin.actions";
+import { insertProductSchema } from "@/core/validators";
+import { updateProductSchema } from "@/core/validators/product.validator";
+import { getAllCategories } from "../admin/admin.actions";
 
 // Get latest products
 export async function getLatestProducts({

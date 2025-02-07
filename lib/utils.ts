@@ -1,4 +1,4 @@
-import { ICategory, IUser } from "@/types";
+import { ICategory, IUser } from "@/types/_index";
 import { Product } from "@prisma/client";
 import { clsx, type ClassValue } from "clsx";
 import qs from "query-string";

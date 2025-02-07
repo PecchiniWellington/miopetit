@@ -1,8 +1,8 @@
 "use client";
 import SidebarMenu from "@/components/custom-sidebar";
-import menuCat from "@/core/db/mega-menu/menu-cats.json";
-import menuDog from "@/core/db/mega-menu/menu-dogs.json";
-import menuSmallAnimals from "@/core/db/mega-menu/menu-small-animals.json";
+import menuCat from "@/core/db-static/mega-menu/menu-cats.json";
+import menuDog from "@/core/db-static/mega-menu/menu-dogs.json";
+import menuSmallAnimals from "@/core/db-static/mega-menu/menu-small-animals.json";
 import { EllipsisVertical } from "lucide-react";
 import { useState } from "react";
 const categoriesData = [
