@@ -75,7 +75,7 @@ const UsersPage = async (props: {
   };
 
   // remove user logged in from the list
-  users.data = users.data.filter((user) => user.id !== session?.user?.id);
+  users.data = users.data?.filter((user) => user.id !== session?.user?.id);
 
   return (
     <div className="space-y-2">

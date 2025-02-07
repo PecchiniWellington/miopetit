@@ -1,13 +1,14 @@
 "use server";
-import { prisma } from "@/core/prisma/prisma";
+
 import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { LATEST_PRODUCTS_LIMIT, PAGE_SIZE } from "@/lib/constants";
-import { convertToPlainObject, formatError } from "@/lib/utils";
+import { prisma } from "@/core/prisma/prisma";
 import { insertProductSchema } from "@/core/validators";
 import { updateProductSchema } from "@/core/validators/product.validator";
+import { LATEST_PRODUCTS_LIMIT, PAGE_SIZE } from "@/lib/constants";
+import { convertToPlainObject, formatError } from "@/lib/utils";
 import { getAllCategories } from "../admin/admin.actions";
 
 // Get latest products

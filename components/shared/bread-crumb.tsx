@@ -11,7 +11,7 @@ export default function Breadcrumb({ separator = "-" }: BreadcrumbProps) {
   const pathname = usePathname();
 
   // Divide il path in segmenti (escludendo gli spazi vuoti)
-  const segments = pathname.split("/").filter(Boolean);
+  const segments = pathname.split("/")?.filter(Boolean);
 
   // Se siamo nella home, non mostrare nulla
   if (segments.length === 0) return null;

@@ -72,7 +72,7 @@ const OrdersTable = ({ orders }: { orders: { data: IOrder[] } }) => {
   const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const term = (e.target as HTMLInputElement).value.toLowerCase();
     setSearchTerm(term);
-    const filtered = orderData.filter(
+    const filtered = orderData?.filter(
       (order) =>
         order.id.toLowerCase().includes(term) ||
         order.customer.toLowerCase().includes(term)

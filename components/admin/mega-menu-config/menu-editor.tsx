@@ -186,7 +186,7 @@ const CategoryItem = ({
         <button
           onClick={() =>
             setMenu((prevMenu: Category[]) =>
-              prevMenu.filter((_, i) => i !== index)
+              prevMenu?.filter((_, i) => i !== index)
             )
           }
           className="ml-2 rounded bg-red-500 px-2 py-1 text-white"
@@ -243,7 +243,7 @@ const CategoryItem = ({
               onClick={() =>
                 setMenu((prevMenu: Category[]) => {
                   const updatedMenu = [...prevMenu];
-                  updatedMenu[index].items = updatedMenu[index].items.filter(
+                  updatedMenu[index].items = updatedMenu[index].items?.filter(
                     (_, i) => i !== itemIndex
                   );
                   return updatedMenu;

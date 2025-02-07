@@ -34,12 +34,12 @@ export default function CSVTable({ CSV_URL }: { CSV_URL: string }) {
   const headers = data[0];
 
   // Funzione per filtrare per nome
-  const filteredDataByName = data.slice(1).filter(
+  const filteredDataByName = data.slice(1)?.filter(
     (row) => row[0].toLowerCase().includes(searchName.toLowerCase()) // Modifica l'indice se il nome non è nella colonna 0
   );
 
   // Funzione per filtrare per ID
-  const filteredDataById = filteredDataByName.filter(
+  const filteredDataById = filteredDataByName?.filter(
     (row) => row[1].toLowerCase().includes(searchId.toLowerCase()) // Modifica l'indice se l'ID non è nella colonna 1
   );
 

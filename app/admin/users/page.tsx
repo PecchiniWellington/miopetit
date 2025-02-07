@@ -45,7 +45,7 @@ const UsersPage = async (props: {
   const summary = JSON.parse(JSON.stringify(summaryResponse));
 
   // remove user logged in from the list
-  users.data = users.data.filter(
+  users.data = users.data?.filter(
     (user: IUser) => user.id !== session?.user?.id
   );
 

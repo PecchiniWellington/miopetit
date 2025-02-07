@@ -44,7 +44,6 @@ const UserGrowthChart = ({ users }: { users?: { data: IUser[] } }) => {
     return acc;
   }, []);
 
-  console.log("CREA", createdAt);
   /*  const userGrowthData = users.reduce((acc, user) => {
     const date = new Date(user.createdAt);
     const monthIndex = date.getMonth(); 

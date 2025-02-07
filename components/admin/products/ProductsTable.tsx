@@ -60,7 +60,7 @@ const ProductsTable = ({ products }: { products: { data: Product[] } }) => {
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const term = (e.target as HTMLInputElement).value.toLowerCase();
     setSearchTerm(term);
-    const filtered = PRODUCT_DATA.filter(
+    const filtered = PRODUCT_DATA?.filter(
       (product) =>
         product.name.toLowerCase().includes(term) ||
         product.category.toLowerCase().includes(term)
