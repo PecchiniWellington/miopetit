@@ -134,14 +134,15 @@ const ProductsTable = ({ products }: { products: { data: Product[] } }) => {
                 <td className="flex items-center gap-2 whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-100">
                   <Image
                     src={
-                      `${product.images[0]}` || "/public/images/placeholder.jpg"
+                      product.images.length === 0
+                        ? "/images/placeholder.jpg"
+                        : `${product.images[0]}`
                     }
                     alt="Product img"
                     className="size-10 rounded-full"
                     height={40}
                     width={40}
                   />
-
                   {product.name}
                 </td>
 

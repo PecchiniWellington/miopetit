@@ -3,6 +3,7 @@ import { Product } from "@prisma/client";
 import { clsx, type ClassValue } from "clsx";
 import qs from "query-string";
 import { twMerge } from "tailwind-merge";
+import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 
 export function cn(...inputs: ClassValue[]) {
@@ -172,7 +173,15 @@ export function mapProductsForDatabase(products: Product[]) {
   return products.map((product) => ({
     name: product.name,
     slug: product.slug,
-    images: product.images, // Converte in array
+    images: Array.isArray(product.images)
+      ? product.images
+      : (() => {
+          try {
+            return JSON.parse(product.images);
+          } catch {
+            return [];
+          }
+        })(), // Converte in array
     brand: product.brand,
     description: product.description,
     stock: parseInt(product.stock.toString(), 10), // Converte in numero
@@ -181,7 +190,7 @@ export function mapProductsForDatabase(products: Product[]) {
     numReviews: parseInt(product.numReviews.toString(), 10), // Converte in numero intero
     isFeatured: Boolean(product.isFeatured.toString().toLowerCase()) === true, // Converte in booleano
     banner: product.banner || null, // Se vuoto, imposta `null`
-    categoryId: product.categoryId, // Deve essere un UUID valido
+    categoryId: product.categoryId || uuidv4(), // Deve essere un UUID valido, potrebbe essere null
   }));
 }
 

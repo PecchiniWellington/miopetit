@@ -1,4 +1,5 @@
 import { prisma } from "@/core/prisma/prisma";
+
 import { mapProductsForDatabase } from "@/lib/utils";
 import { NextResponse } from "next/server";
 

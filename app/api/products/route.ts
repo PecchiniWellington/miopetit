@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const accounts = await getAllProducts({ page: 10, query: "all" });
+    const accounts = await getAllProducts({ page: 1, query: "", category: "" });
 
     return NextResponse.json(
       { success: true, data: accounts },
