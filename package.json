@@ -14,7 +14,7 @@
     "email": "cp .env ./node_modules/react-email && email dev --dir email --port 3001"
   },
   "prisma": {
-    "schema": "core/prisma/schema"
+    "schema": "core/prisma/schema/main.prisma"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.7.4",
