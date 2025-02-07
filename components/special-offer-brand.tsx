@@ -1,6 +1,6 @@
-import Image from "next/image";
-import CarouselProducts from "../carousels/carousel-products";
 import { IProduct } from "@/core/types";
+import Image from "next/image";
+import CarouselProducts from "./carousels/carousel-products";
 
 interface IProductListProps {
   data: IProduct[];

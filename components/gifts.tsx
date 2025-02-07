@@ -1,11 +1,11 @@
-import AnimalAvatar from "../animal-avatar";
+import AnimalAvatar from "./animal-avatar";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "../ui/carousel";
+} from "./ui/carousel";
 
 const giftsData = [
   {

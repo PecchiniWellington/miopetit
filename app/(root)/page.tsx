@@ -2,14 +2,16 @@ import CarouselAnimalsCategory from "@/components/carousels/carousel-animals-cat
 import CarouselBrands from "@/components/carousels/carousel-brands";
 import CarouselProducts from "@/components/carousels/carousel-products";
 import DealCountdown from "@/components/deal-countdown";
+import Gifts from "@/components/gifts";
 import IconBoxes from "@/components/icons-boxes";
-import Gifts from "@/components/root/gifts";
-import PresentationDeals from "@/components/root/presentation-deals";
+import PresentationDeals from "@/components/presentation-deals";
 import ProductCarousel from "@/components/shared/product/product-carousel";
 import ProductList from "@/components/shared/product/product-list";
-import SpecialOfferBrand from "@/components/special-offers-brand";
-import { getFeaturedProducts } from "@/core/actions/products";
-import { getLatestProducts } from "@/core/actions/products/get-latest-product.actions";
+import SpecialOfferBrand from "@/components/special-offer-brand";
+import {
+  getFeaturedProducts,
+  getLatestProducts,
+} from "@/core/actions/products";
 import { IProduct } from "@/core/types";
 
 import Image from "next/image";
