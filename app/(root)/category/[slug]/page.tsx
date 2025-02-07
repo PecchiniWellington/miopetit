@@ -1,10 +1,7 @@
 import DynamicButton from "@/components/dynamic-button";
 import { BadgeStatus } from "@/components/shared/badge-status";
 import ProductCard from "@/components/shared/product/product-card";
-import {
-  getAllProducts,
-  getProductCategories,
-} from "@/core/actions/products/product.actions";
+import { getAllProducts, getProductCategories } from "@/core/actions/products";
 
 import { STATUS } from "@/lib/constants";
 import Link from "next/link";

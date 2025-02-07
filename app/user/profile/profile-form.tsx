@@ -8,7 +8,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { updateUserProfile } from "@/core/actions/user/user.action";
+import { updateUserProfile } from "@/core/actions/user";
 import { updateUserProfileSchema } from "@/core/validators/user.validator";
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";

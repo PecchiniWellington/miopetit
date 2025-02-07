@@ -1,4 +1,4 @@
-import CategoryForm from "@/components/admin-1/category-form";
+import CategoryForm from "@/components/admin/category-form";
 import { getCategoryById } from "@/core/actions/admin/admin.actions";
 
 import { Metadata } from "next";
