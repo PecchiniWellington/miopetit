@@ -4,7 +4,7 @@ import MenuEditor from "@/components/admin/mega-menu-config/menu-editor";
 import ConnectedAccounts from "@/components/admin/settings/ConnectedAccounts";
 import DangerZone from "@/components/admin/settings/DangerZone";
 import Notifications from "@/components/admin/settings/Notifications";
-import Profile from "@/components/admin/settings/Profile";
+import Profile from "@/components/admin/settings/profile";
 
 import Security from "@/components/admin/settings/Security";
 import { getUserById } from "@/core/actions/user";
@@ -17,8 +17,7 @@ const SettingsPage = async () => {
   }
   const user = await getUserById(session.user.id);
   if (!user) {
-    // Handle the case where user is null
-    throw new Error("User not found");
+    return;
   }
   return (
     <div className="relative z-10 flex-1 overflow-auto bg-gray-900">

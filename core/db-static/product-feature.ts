@@ -1,0 +1,27 @@
+const productFeatures = {
+  productFeatures: [
+    { name: "Allergie" },
+    { name: "Altro" },
+    { name: "Apparato digerente" },
+    { name: "Dermatologici" },
+    { name: "Gluten Free" },
+    { name: "Grain Free" },
+    { name: "Human Grade" },
+    { name: "Ipercalorici" },
+    { name: "Ipocalorico" },
+    { name: "Light" },
+    { name: "Low Grain" },
+    { name: "Monoproteici" },
+    { name: "Ossa e muscoli" },
+    { name: "Pelo" },
+    { name: "Senza prodotti chimici" },
+    { name: "Sistema immunitario" },
+    { name: "Sistema nervoso" },
+    { name: "Sistema urinario" },
+    { name: "Sterilizzati" },
+    { name: "Vegetariano" },
+    { name: "Vista" },
+  ],
+};
+
+export default productFeatures;

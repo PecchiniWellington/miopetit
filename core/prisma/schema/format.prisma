@@ -1,0 +1,6 @@
+// Relazione per Formati
+model Format {
+    id       String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    size     String    @unique
+    products Product[] @relation("ProductFormat")
+}

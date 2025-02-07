@@ -17,4 +17,13 @@ model Product {
     category    Category?   @relation(fields: [categoryId], references: [id], onDelete: Cascade)
     orderitems  OrderItem[]
     Review      Review[]
+
+    productBrand    ProductBrand[]    @relation("ProductBrand")
+    format          Format[]          @relation("ProductFormat")
+    animalAge       AnimalAge[]       @relation("AnimalAge")
+    productFeatures ProductFeatures[] @relation("ProductFeatures")
+    productProtein  ProductProtein[]  @relation("ProductProtein")
+    productPatology ProductPatology[] @relation("ProductPatology")
+
+    productBrandId String? @db.Uuid
 }

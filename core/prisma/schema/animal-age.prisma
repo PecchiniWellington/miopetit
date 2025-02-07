@@ -1,0 +1,5 @@
+model AnimalAge {
+    id       String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    stage    String    @unique
+    products Product[] @relation("AnimalAge")
+}
