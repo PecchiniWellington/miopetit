@@ -1,9 +1,9 @@
 "use server";
 
 import { auth } from "@/auth";
+import { prisma } from "@/core/prisma/prisma";
 import { cartItemSchema, insertCartSchema } from "@/core/validators";
-import { prisma } from "@/db/prisma";
-import { round2, formatError, convertToPlainObject } from "@/lib/utils";
+import { convertToPlainObject, formatError, round2 } from "@/lib/utils";
 import { Cart, CartItem, Product } from "@/types";
 import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";

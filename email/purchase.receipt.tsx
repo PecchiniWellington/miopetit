@@ -1,19 +1,19 @@
-import sampleData from "@/db/sample-data";
+import sampleData from "@/core/db/sample-data";
 import { formatCurrency } from "@/lib/utils";
 import { IOrder } from "@/types";
 import {
   Body,
-  Head,
-  Html,
-  Preview,
-  Tailwind,
-  Container,
-  Heading,
-  Section,
-  Row,
   Column,
-  Text,
+  Container,
+  Head,
+  Heading,
+  Html,
   Img,
+  Preview,
+  Row,
+  Section,
+  Tailwind,
+  Text,
 } from "@react-email/components";
 
 require("dotenv").config();

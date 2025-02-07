@@ -1,6 +1,6 @@
 "use server";
 import { auth } from "@/auth";
-import { prisma } from "@/db/prisma";
+import { prisma } from "@/core/prisma/prisma";
 
 import { IShippingAddress } from "@/types";
 

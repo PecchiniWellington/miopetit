@@ -1,12 +1,13 @@
 "use server";
 import { auth } from "@/auth";
 
-import { z } from "zod";
-import { insertReviewSchema } from "../validators/reviews.validator";
-import { prisma } from "@/db/prisma";
-import { formatError } from "../utils";
-import { revalidatePath } from "next/cache";
+import { prisma } from "@/core/prisma/prisma";
 import { Review } from "@/types";
+import { revalidatePath } from "next/cache";
+import { z } from "zod";
+
+import { insertReviewSchema } from "../validators/reviews.validator";
+import { formatError } from "@/lib/utils";
 
 // Create & Update Reviews
 export async function createUpdateReview(

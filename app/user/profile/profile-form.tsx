@@ -9,8 +9,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { updateUserProfile } from "@/core/actions/user/user.action";
+import { updateUserProfileSchema } from "@/core/validators/user.validator";
 import { useToast } from "@/hooks/use-toast";
-import { updateUserProfileSchema } from "@/lib/validators/user.validator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";

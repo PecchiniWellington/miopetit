@@ -1,8 +1,8 @@
 "use server";
 
 import { auth } from "@/auth";
+import { prisma } from "@/core/prisma/prisma";
 import { insertOrderSchema } from "@/core/validators";
-import { prisma } from "@/db/prisma";
 import { sendPurchaseReceipt } from "@/email";
 import { PAGE_SIZE } from "@/lib/constants";
 import {

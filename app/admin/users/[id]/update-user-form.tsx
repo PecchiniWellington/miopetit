@@ -4,10 +4,10 @@ import DynamicButton from "@/components/dynamic-button";
 import DynamicFormField from "@/components/shared/dynamic-form-field";
 
 import { updateUser } from "@/core/actions/admin/admin.actions";
+import { updateUserSchema } from "@/core/validators/user.validator";
 import { useToast } from "@/hooks/use-toast";
 import { USER_ROLES } from "@/lib/constants/roles";
 import { USER_STATUS } from "@/lib/constants/user-status";
-import { updateUserSchema } from "@/lib/validators/user.validator";
 import { IUser } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 

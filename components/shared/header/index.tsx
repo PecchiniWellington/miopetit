@@ -4,9 +4,9 @@ import Link from "next/link";
 
 import CtBanner from "@/components/ct-banner";
 import MegaMenu from "@/components/mega-menu/mega-menu";
-import menuCat from "@/db/mega-menu/menu-cats.json";
-import menuDog from "@/db/mega-menu/menu-dogs.json";
-import menuSmallAnimals from "@/db/mega-menu/menu-small-animals.json";
+import menuCat from "@/core/db/mega-menu/menu-cats.json";
+import menuDog from "@/core/db/mega-menu/menu-dogs.json";
+import menuSmallAnimals from "@/core/db/mega-menu/menu-small-animals.json";
 import { ShoppingCart } from "lucide-react";
 import Menu from "./menu";
 import Search from "./search";

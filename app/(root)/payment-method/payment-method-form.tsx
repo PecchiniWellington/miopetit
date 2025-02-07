@@ -12,12 +12,12 @@ import {
 } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { updateUserPaymentMethod } from "@/core/actions/user/user-payment-actions";
+import { paymentMethodSchema } from "@/core/validators";
 import { useToast } from "@/hooks/use-toast";
 import {
   DEFAULT_PAYMENT_METHOD,
   PAYMENT_METHODS,
 } from "@/lib/constants/payment-methods";
-import { paymentMethodSchema } from "@/lib/validators";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight, Loader } from "lucide-react";
 import { useRouter } from "next/navigation";

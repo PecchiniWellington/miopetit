@@ -17,9 +17,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { updateUser } from "@/core/actions/admin/admin.actions";
+import { updateUserSchema } from "@/core/validators/user.validator";
 import { useToast } from "@/hooks/use-toast";
 import { USER_ROLES } from "@/lib/constants/roles";
-import { updateUserSchema } from "@/lib/validators/user.validator";
 import { IUser } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 

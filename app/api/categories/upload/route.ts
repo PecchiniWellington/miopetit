@@ -1,4 +1,4 @@
-import { prisma } from "@/db/prisma";
+import { prisma } from "@/core/prisma/prisma";
 import { formatCategoriesData } from "@/lib/utils";
 import { NextResponse } from "next/server";
 

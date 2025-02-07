@@ -29,9 +29,9 @@ import {
   createUpdateReview,
   getReviewByProductId,
 } from "@/core/actions/review.action";
+import { insertReviewSchema } from "@/core/validators/reviews.validator";
 import { useToast } from "@/hooks/use-toast";
 import { REVIEW_FORM_DEFAULT_VALUES } from "@/lib/constants";
-import { insertReviewSchema } from "@/lib/validators/reviews.validator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { StarIcon } from "lucide-react";

@@ -18,11 +18,11 @@ import { Input } from "@/components/ui/input";
 import { updateUserAddress } from "@/core/actions/user/user.action";
 import { useToast } from "@/hooks/use-toast";
 import { SHIPPING_ADDRESS_DEFAULT_VALUES } from "@/lib/constants";
-import { shippingAddressSchema } from "@/lib/validators";
 import { IShippingAddress } from "@/types";
 import { ArrowRight, Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
+import { shippingAddressSchema } from "@/core/validators";
 
 const ShippingAddressForm = ({ address }: { address?: IShippingAddress }) => {
   const router = useRouter();

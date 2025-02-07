@@ -2,7 +2,7 @@
 
 // Get new paypal order
 
-import { prisma } from "@/db/prisma";
+import { prisma } from "@/core/prisma/prisma";
 import { paypal } from "@/lib/paypal";
 import { formatError } from "@/lib/utils";
 import { IPaymentResult } from "@/types";
