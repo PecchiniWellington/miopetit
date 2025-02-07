@@ -7,9 +7,9 @@ import {
   paymentMethodSchema,
   paymentResultSchema,
   shippingAddressSchema,
-} from "@/lib/validators";
-import { categorySchema } from "@/lib/validators/category.validator";
-import { insertReviewSchema } from "@/lib/validators/reviews.validator";
+} from "@/core/validators";
+import { categorySchema } from "@/core/validators/category.validator";
+import { insertReviewSchema } from "@/core/validators/reviews.validator";
 import { Order } from "@prisma/client";
 import { JsonValue } from "@prisma/client/runtime/library";
 import { Session } from "inspector";

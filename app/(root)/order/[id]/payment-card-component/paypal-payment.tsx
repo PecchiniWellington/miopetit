@@ -1,8 +1,8 @@
-import { toast } from "@/hooks/use-toast";
 import {
   approvePaypalOrder,
   createPaypalOrder,
-} from "@/lib/actions/order/paypal.action";
+} from "@/core/actions/order/paypal.action";
+import { toast } from "@/hooks/use-toast";
 import { IOrder } from "@/types";
 import {
   PayPalButtons,

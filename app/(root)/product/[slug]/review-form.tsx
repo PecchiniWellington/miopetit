@@ -25,11 +25,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
 import {
   createUpdateReview,
   getReviewByProductId,
-} from "@/lib/actions/review.action";
+} from "@/core/actions/review.action";
+import { useToast } from "@/hooks/use-toast";
 import { REVIEW_FORM_DEFAULT_VALUES } from "@/lib/constants";
 import { insertReviewSchema } from "@/lib/validators/reviews.validator";
 import { zodResolver } from "@hookform/resolvers/zod";

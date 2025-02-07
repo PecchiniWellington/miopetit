@@ -8,7 +8,7 @@ import SubmitButton from "./submit-button";
 import {
   signInWithCredentials,
   signUpUser,
-} from "@/lib/actions/auth/auth.actions";
+} from "@/core/actions/auth/auth.actions";
 import { useActionState } from "react";
 
 const SubmitForm = ({

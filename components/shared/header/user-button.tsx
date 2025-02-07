@@ -7,7 +7,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { getUserById } from "@/lib/actions/user/user.action";
+import { getUserById } from "@/core/actions/user/user.action";
 import ROLES from "@/lib/constants/roles";
 
 import { UserIcon } from "lucide-react";

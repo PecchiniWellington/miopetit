@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getMyOrders } from "@/lib/actions/order/order.action";
+import { getMyOrders } from "@/core/actions/order/order.action";
 import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
 import { Check, CircleAlert, ClockAlert } from "lucide-react";
 import { Metadata } from "next";

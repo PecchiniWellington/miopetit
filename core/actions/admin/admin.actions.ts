@@ -1,12 +1,12 @@
 "use server";
-import { prisma } from "@/db/prisma";
-import { PAGE_SIZE } from "@/lib/constants";
-import { formatError } from "@/lib/utils";
 import {
   categorySchema,
   updateCategorySchema,
-} from "@/lib/validators/category.validator";
-import { updateUserSchema } from "@/lib/validators/user.validator";
+} from "@/core/validators/category.validator";
+import { updateUserSchema } from "@/core/validators/user.validator";
+import { prisma } from "@/db/prisma";
+import { PAGE_SIZE } from "@/lib/constants";
+import { formatError } from "@/lib/utils";
 import { ICategory } from "@/types";
 import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";

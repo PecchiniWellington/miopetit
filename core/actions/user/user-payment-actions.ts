@@ -1,8 +1,8 @@
 "use server";
 import { auth } from "@/auth";
+import { paymentMethodSchema } from "@/core/validators";
 import { prisma } from "@/db/prisma";
 import { formatError } from "@/lib/utils";
-import { paymentMethodSchema } from "@/lib/validators";
 import { IPaymentMethod } from "@/types";
 
 //Update the user's payment method

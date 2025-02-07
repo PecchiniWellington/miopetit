@@ -13,7 +13,7 @@ import {
 import {
   deleteCategory,
   getAllCategories,
-} from "@/lib/actions/admin/admin.actions";
+} from "@/core/actions/admin/admin.actions";
 import { formatDateTime, formatId } from "@/lib/utils";
 import { ICategory } from "@/types";
 import Link from "next/link";

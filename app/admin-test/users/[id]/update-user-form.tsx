@@ -16,8 +16,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { updateUser } from "@/core/actions/admin/admin.actions";
 import { useToast } from "@/hooks/use-toast";
-import { updateUser } from "@/lib/actions/admin/admin.actions";
 import { USER_ROLES } from "@/lib/constants/roles";
 import { updateUserSchema } from "@/lib/validators/user.validator";
 import { IUser } from "@/types";

@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import LayoutTitle from "@/components/layout-title";
 import TinyBarChart from "@/components/shared/charts/tiny-bar-chart";
-import { getOrderSummary } from "@/lib/actions/order/order.action";
+import { getOrderSummary } from "@/core/actions/order/order.action";
 import ROLES from "@/lib/constants/roles";
 import { formatCurrency, formatNumber } from "@/lib/utils";
 import { BadgeDollarSign, Barcode, CreditCard, Users } from "lucide-react";

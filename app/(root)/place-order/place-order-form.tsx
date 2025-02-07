@@ -1,6 +1,6 @@
 "use client";
 import DynamicButton from "@/components/dynamic-button";
-import { createOrder } from "@/lib/actions/order/order.action";
+import { createOrder } from "@/core/actions/order/order.action";
 import { Check, Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";

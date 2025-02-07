@@ -3,7 +3,7 @@ import DailyOrders from "@/components/admin/orders/DailyOrders";
 import OrderDistribution from "@/components/admin/orders/OrderDistribution";
 import OrdersTable from "@/components/admin/orders/OrdersTable";
 import CardWorking from "@/components/dev/card-working";
-import { getAllOrders } from "@/lib/actions/admin/admin.actions";
+import { getAllOrders } from "@/core/actions/admin/admin.actions";
 import OrderCards from "./order-card";
 
 const orderStats = {

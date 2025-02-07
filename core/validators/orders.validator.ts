@@ -1,8 +1,8 @@
 import { z } from "zod";
 
-import { currency } from "../utils";
+import { PAYMENT_METHODS } from "@/lib/constants/payment-methods";
+import { currency } from "@/lib/utils";
 import { shippingAddressSchema } from "./shipping.validator";
-import { PAYMENT_METHODS } from "../constants/payment-methods";
 
 // Schema for insert the order
 export const insertOrderSchema = z.object({

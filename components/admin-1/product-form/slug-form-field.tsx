@@ -1,6 +1,6 @@
 import DynamicFormField from "@/components/shared/dynamic-form-field";
 import { Button } from "@/components/ui/button";
-import { insertProductSchema } from "@/lib/validators";
+import { insertProductSchema } from "@/core/validators";
 import slugify from "slugify";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

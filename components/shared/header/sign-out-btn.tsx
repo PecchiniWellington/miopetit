@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { signOutUser } from "@/lib/actions/auth/auth.actions";
+import { signOutUser } from "@/core/actions/auth/auth.actions";
 
 const SignOutBtn = () => {
   return (

@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { getOrderById } from "@/lib/actions/order/order.action";
+import { getOrderById } from "@/core/actions/order/order.action";
 import ROLES from "@/lib/constants/roles";
 import { IShippingAddress } from "@/types";
 import { Metadata } from "next";

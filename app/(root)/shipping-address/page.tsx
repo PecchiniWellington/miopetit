@@ -1,11 +1,10 @@
 import { auth } from "@/auth";
-import { getMyCart } from "@/lib/actions/cart.actions";
-import { getUserById } from "@/lib/actions/user/user.action";
+import { getMyCart } from "@/core/actions/cart.actions";
+import { getUserById } from "@/core/actions/user/user.action";
+import { IShippingAddress } from "@/types";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
-import React from "react";
 import ShippingAddressForm from "./shipping-address-form";
-import { IShippingAddress } from "@/types";
 
 export const metadata: Metadata = {
   title: "Shipping Address",

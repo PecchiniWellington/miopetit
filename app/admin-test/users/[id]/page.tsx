@@ -1,4 +1,4 @@
-import { getUserById } from "@/lib/actions/user/user.action";
+import { getUserById } from "@/core/actions/user/user.action";
 import { IUser } from "@/types";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";

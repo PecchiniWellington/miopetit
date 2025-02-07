@@ -8,11 +8,11 @@ import DynamicFormField from "@/components/shared/dynamic-form-field";
 import {
   createCategory,
   updataCategory,
-} from "@/lib/actions/admin/admin.actions";
+} from "@/core/actions/admin/admin.actions";
 import {
   categorySchema,
   updateCategorySchema,
-} from "@/lib/validators/category.validator";
+} from "@/core/validators/category.validator";
 import { ICategory } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";

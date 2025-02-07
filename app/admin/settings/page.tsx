@@ -6,7 +6,7 @@ import DangerZone from "@/components/admin/settings/DangerZone";
 import Notifications from "@/components/admin/settings/Notifications";
 import Profile from "@/components/admin/settings/Profile";
 import Security from "@/components/admin/settings/Security";
-import { getUserById } from "@/lib/actions/user/user.action";
+import { getUserById } from "@/core/actions/user/user.action";
 
 const SettingsPage = async () => {
   const session = await auth();

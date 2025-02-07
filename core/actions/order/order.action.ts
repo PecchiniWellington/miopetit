@@ -1,10 +1,10 @@
 "use server";
 
 import { auth } from "@/auth";
+import { insertOrderSchema } from "@/core/validators";
 import { prisma } from "@/db/prisma";
 import { sendPurchaseReceipt } from "@/email";
 import { PAGE_SIZE } from "@/lib/constants";
-import { insertOrderSchema } from "@/lib/validators";
 import {
   CartItem,
   IPaymentResult,
@@ -13,7 +13,8 @@ import {
 } from "@/types";
 import { Prisma } from "@prisma/client";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
-import { convertToPlainObject, formatError } from "../../utils";
+
+import { convertToPlainObject, formatError } from "@/lib/utils";
 import { getMyCart } from "../cart.actions";
 import { getUserById } from "../user/user.action";
 

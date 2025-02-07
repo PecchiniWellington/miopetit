@@ -3,11 +3,11 @@
 import DynamicButton from "@/components/dynamic-button";
 import DynamicFormField from "@/components/shared/dynamic-form-field";
 import SearchSelect from "@/components/shared/search-select";
+import { createProduct, updateProduct } from "@/core/actions/product.actions";
+import { insertProductSchema } from "@/core/validators";
+import { updateProductSchema } from "@/core/validators/product.validator";
 import { useToast } from "@/hooks/use-toast";
-import { createProduct, updateProduct } from "@/lib/actions/product.actions";
 import { PRODUCT_DEFAULT_VALUES } from "@/lib/constants";
-import { insertProductSchema } from "@/lib/validators";
-import { updateProductSchema } from "@/lib/validators/product.validator";
 import { ICategory, Product } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";

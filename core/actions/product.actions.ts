@@ -3,8 +3,9 @@ import { prisma } from "@/db/prisma";
 import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { LATEST_PRODUCTS_LIMIT, PAGE_SIZE } from "../constants";
-import { convertToPlainObject, formatError } from "../utils";
+
+import { LATEST_PRODUCTS_LIMIT, PAGE_SIZE } from "@/lib/constants";
+import { convertToPlainObject, formatError } from "@/lib/utils";
 import { insertProductSchema } from "../validators";
 import { updateProductSchema } from "../validators/product.validator";
 import { getAllCategories } from "./admin/admin.actions";

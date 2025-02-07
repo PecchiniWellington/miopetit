@@ -1,10 +1,11 @@
 "use server";
 import { auth } from "@/auth";
 import { prisma } from "@/db/prisma";
-import { formatError } from "../../utils";
+
 import { IShippingAddress } from "@/types";
 
-import { shippingAddressSchema } from "@/lib/validators";
+import { shippingAddressSchema } from "@/core/validators";
+import { formatError } from "@/lib/utils";
 
 // Get user by id
 export const getUserById = async (userId: string) => {

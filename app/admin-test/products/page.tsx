@@ -11,7 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { deleteProduct, getAllProducts } from "@/lib/actions/product.actions";
+import { deleteProduct, getAllProducts } from "@/core/actions/product.actions";
 import { formatCurrency, formatId } from "@/lib/utils";
 import { ICategory, Product } from "@/types";
 import Link from "next/link";

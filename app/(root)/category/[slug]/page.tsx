@@ -4,7 +4,7 @@ import ProductCard from "@/components/shared/product/product-card";
 import {
   getAllProducts,
   getProductCategories,
-} from "@/lib/actions/product.actions";
+} from "@/core/actions/product.actions";
 import { STATUS } from "@/lib/constants";
 import Link from "next/link";
 

@@ -12,7 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { deleteUser, getAllUsers } from "@/lib/actions/admin/admin.actions";
+import { deleteUser, getAllUsers } from "@/core/actions/admin/admin.actions";
 import ROLES from "@/lib/constants/roles";
 import { formatId } from "@/lib/utils";
 import { Edit2 } from "lucide-react";

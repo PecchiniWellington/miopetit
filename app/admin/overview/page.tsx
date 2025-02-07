@@ -2,7 +2,7 @@ import Header from "@/components/admin/common/Header";
 import CategoryDistributionChart from "@/components/admin/overview/CategoryDistributionChart";
 import SalesChannelChart from "@/components/admin/overview/SalesChannelChart";
 import SalesOverviewChart from "@/components/admin/overview/SalesOverviewChart";
-import { getAllCategories } from "@/lib/actions/admin/admin.actions";
+import { getAllCategories } from "@/core/actions/admin/admin.actions";
 import OverviewCard from "./overview-card";
 
 const OverviewPage = async () => {

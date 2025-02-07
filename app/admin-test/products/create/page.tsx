@@ -1,7 +1,6 @@
 import ProductForm from "@/components/admin-1/product-form/product-form";
-import { getAllCategories } from "@/lib/actions/admin/admin.actions";
+import { getAllCategories } from "@/core/actions/admin/admin.actions";
 import { Metadata } from "next";
-import React from "react";
 
 export const metadata: Metadata = {
   title: "Create Product",

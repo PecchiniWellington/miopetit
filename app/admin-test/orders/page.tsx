@@ -12,7 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { deleteOrder, getAllOrders } from "@/lib/actions/admin/admin.actions";
+import { deleteOrder, getAllOrders } from "@/core/actions/admin/admin.actions";
 
 import ROLES from "@/lib/constants/roles";
 import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";

@@ -1,8 +1,8 @@
 "use client";
 
 import { ToastAction } from "@/components/ui/toast";
+import { addItemToCart, removeItemFromCart } from "@/core/actions/cart.actions";
 import { useToast } from "@/hooks/use-toast";
-import { addItemToCart, removeItemFromCart } from "@/lib/actions/cart.actions";
 import { Cart, CartItem } from "@/types";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";

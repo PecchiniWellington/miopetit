@@ -1,5 +1,5 @@
 import CategoryForm from "@/components/admin-1/category-form";
-import { getCategoryById } from "@/lib/actions/admin/admin.actions";
+import { getCategoryById } from "@/core/actions/admin/admin.actions";
 
 import { Metadata } from "next";
 import { notFound } from "next/navigation";

@@ -11,8 +11,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { updateUserPaymentMethod } from "@/core/actions/user/user-payment-actions";
 import { useToast } from "@/hooks/use-toast";
-import { updateUserPaymentMethod } from "@/lib/actions/user/user-payment-actions";
 import {
   DEFAULT_PAYMENT_METHOD,
   PAYMENT_METHODS,

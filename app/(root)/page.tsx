@@ -11,7 +11,7 @@ import SpecialOfferBrand from "@/components/special-offers-brand";
 import {
   getFeaturedProducts,
   getLatestProducts,
-} from "@/lib/actions/product.actions";
+} from "@/core/actions/product.actions";
 import { Product } from "@/types";
 import Image from "next/image";
 

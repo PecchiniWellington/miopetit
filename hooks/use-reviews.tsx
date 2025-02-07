@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { getReviews } from "@/core/actions/review.action";
 import { Review } from "@/types";
-import { getReviews } from "@/lib/actions/review.action";
+import { useEffect, useState } from "react";
 
 const offensiveWords = ["cazzo", "badword2", "racistword", "misogynisticword"]; // Sostituisci con un elenco più completo
 

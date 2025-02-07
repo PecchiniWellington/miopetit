@@ -1,7 +1,7 @@
 "use client";
 import DeleteDialog from "@/components/shared/delete-dialog";
 import { Badge } from "@/components/ui/badge";
-import { deleteUser } from "@/lib/actions/admin/admin.actions";
+import { deleteUser } from "@/core/actions/admin/admin.actions";
 import ROLES from "@/lib/constants/roles";
 import { USER_STATUS_ACTIVATION } from "@/lib/constants/user-status";
 import { formatId } from "@/lib/utils";

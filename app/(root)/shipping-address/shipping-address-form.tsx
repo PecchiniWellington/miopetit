@@ -15,8 +15,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { updateUserAddress } from "@/core/actions/user/user.action";
 import { useToast } from "@/hooks/use-toast";
-import { updateUserAddress } from "@/lib/actions/user/user.action";
 import { SHIPPING_ADDRESS_DEFAULT_VALUES } from "@/lib/constants";
 import { shippingAddressSchema } from "@/lib/validators";
 import { IShippingAddress } from "@/types";

@@ -1,5 +1,5 @@
+import { currency } from "@/lib/utils";
 import { z } from "zod";
-import { currency } from "../utils";
 
 // Schema for inserting products
 export const insertProductSchema = z.object({

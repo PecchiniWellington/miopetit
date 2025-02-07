@@ -5,8 +5,8 @@ import ProductImages from "@/components/shared/product/product-image/product-ima
 import ProductPrice from "@/components/shared/product/product-price";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { getMyCart } from "@/lib/actions/cart.actions";
-import { getProductBySlug } from "@/lib/actions/product.actions";
+import { getMyCart } from "@/core/actions/cart.actions";
+import { getProductBySlug } from "@/core/actions/product.actions";
 import { CartItem } from "@/types";
 
 import ProductDetails from "@/components/shared/product/product-details";

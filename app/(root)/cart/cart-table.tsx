@@ -9,8 +9,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { addItemToCart, removeItemFromCart } from "@/core/actions/cart.actions";
 import { useToast } from "@/hooks/use-toast";
-import { addItemToCart, removeItemFromCart } from "@/lib/actions/cart.actions";
 import { formatCurrency } from "@/lib/utils";
 import { Cart, CartItem } from "@/types";
 import { ToastAction } from "@radix-ui/react-toast";

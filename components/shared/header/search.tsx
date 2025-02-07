@@ -3,11 +3,11 @@ import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
+  SelectItem,
   SelectTrigger,
   SelectValue,
-  SelectItem,
 } from "@/components/ui/select";
-import { getAllCategories } from "@/lib/actions/admin/admin.actions";
+import { getAllCategories } from "@/core/actions/admin/admin.actions";
 import { ICategory } from "@/types";
 import { SearchIcon } from "lucide-react";
 

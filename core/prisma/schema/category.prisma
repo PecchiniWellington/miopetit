@@ -1,0 +1,11 @@
+model Category {
+    id          String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    name        String
+    slug        String  @unique(map: "category_slug_idx")
+    description String?
+
+    createdAt DateTime @default(now()) @db.Timestamp(6)
+    updatedAt DateTime @updatedAt
+
+    Product Product[]
+}

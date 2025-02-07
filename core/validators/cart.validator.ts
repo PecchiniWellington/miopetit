@@ -1,5 +1,5 @@
+import { currency } from "@/lib/utils";
 import { z } from "zod";
-import { currency } from "../utils";
 
 export const cartItemSchema = z.object({
   productId: z.string().min(1, "Product is required"),

@@ -1,7 +1,7 @@
 import Header from "@/components/admin/common/Header";
 
 import SalesTrendChart from "@/components/admin/products/SalesTrendChart";
-import { getProductById } from "@/lib/actions/product.actions";
+import { getProductById } from "@/core/actions/product.actions";
 
 import OrderDistribution from "@/components/admin/orders/OrderDistribution";
 import UserDemographicsChart from "@/components/admin/users/UserDemographicsChart";

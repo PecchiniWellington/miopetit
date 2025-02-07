@@ -1,4 +1,4 @@
-import { getUserById } from "@/lib/actions/user/user.action";
+import { getUserById } from "@/core/actions/user/user.action";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import UpdateUserForm from "./update-user-form";

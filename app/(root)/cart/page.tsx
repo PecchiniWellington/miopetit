@@ -1,4 +1,4 @@
-import { getMyCart } from "@/lib/actions/cart.actions";
+import { getMyCart } from "@/core/actions/cart.actions";
 import { CartItem } from "@/types";
 import { Metadata } from "next";
 import { CartTable } from "./cart-table";
