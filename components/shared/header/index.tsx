@@ -7,8 +7,10 @@ import MegaMenu from "@/components/mega-menu/mega-menu";
 import menuCat from "@/db/mega-menu/menu-cats.json";
 import menuDog from "@/db/mega-menu/menu-dogs.json";
 import menuSmallAnimals from "@/db/mega-menu/menu-small-animals.json";
+import { ShoppingCart } from "lucide-react";
 import Menu from "./menu";
 import Search from "./search";
+import UserButton from "./user-button";
 
 const Header = () => {
   return (
@@ -32,11 +34,27 @@ const Header = () => {
           <div className="hidden md:block">
             <Search />
           </div>
-          <Menu />
+          <div className="md:hidden">
+            <Menu />
+          </div>
+
+          <nav className="hidden items-center gap-8 border-l border-red-800 md:flex">
+            {/*  <Theme /> */}
+
+            <Link href="/cart">
+              <ShoppingCart
+                height={30}
+                width={30}
+                className="ml-8 text-red-800"
+              />
+            </Link>
+
+            <UserButton />
+          </nav>
         </div>
       </div>
 
-      <nav className="wrapper relative z-50 flex gap-6">
+      <nav className="wrapper relative z-50  hidden gap-6 md:flex">
         <MegaMenu data={menuDog} brands={["Royal Canin", "Purina", "Hill’s"]} />
         <MegaMenu data={menuCat} brands={["Royal Canin", "Purina", "Hill’s"]} />
         <MegaMenu

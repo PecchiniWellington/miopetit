@@ -9,7 +9,7 @@ import { getMyCart } from "@/lib/actions/cart.actions";
 import { getProductBySlug } from "@/lib/actions/product.actions";
 import { CartItem } from "@/types";
 
-import Rating from "@/components/shared/product/rating";
+import ProductDetails from "@/components/shared/product/product-details";
 import ReviewList from "./review-list";
 
 const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
@@ -23,8 +23,11 @@ const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
 
   const cart = await getMyCart();
 
-  const { brand, /* category, */ name, description, price, stock, images } =
-    product;
+  const {
+    /* brand, */ /* category, */ /* name, description, */ price,
+    stock,
+    images,
+  } = product;
 
   const ProductPageLeftImages = () => (
     <div className="col-span-2">
@@ -32,12 +35,10 @@ const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
     </div>
   );
 
-  const ProductPageCenterBio = () => (
+  /* const ProductPageCenterBio = () => (
     <div className="col-span-2 p-5">
       <div className="flex flex-col gap-6">
-        <p>
-          {brand} {/* - {category} */}
-        </p>
+        <p>{brand}</p>
         <h1 className="h3-bold">{name}</h1>
         <Rating value={Number(product.rating)} />
         <p>{product.numReviews} reviews</p>
@@ -54,7 +55,7 @@ const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
         <p>{description}</p>
       </div>
     </div>
-  );
+  ); */
 
   const ProductPageRightCard = () => (
     <Card>
@@ -105,7 +106,8 @@ const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
       <section>
         <div className="grid grid-cols-1 md:grid-cols-5">
           <ProductPageLeftImages />
-          <ProductPageCenterBio />
+          {/* <ProductPageCenterBio /> */}
+          <ProductDetails />
           <div>
             <ProductPageRightCard />
           </div>

@@ -20,7 +20,6 @@ export default async function Home() {
     limit: 12,
   });
   let featuredProducts = await getFeaturedProducts();
-  console.log("featuredProducts", featuredProducts);
   featuredProducts = featuredProducts.map((product: Product) => ({
     ...product,
     categoryId: product.categoryId || null,
