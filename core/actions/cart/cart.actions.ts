@@ -2,9 +2,9 @@
 
 import { auth } from "@/auth";
 import { prisma } from "@/core/prisma/prisma";
+import { ICart, ICartItem, IProduct } from "@/core/types";
 import { cartItemSchema, insertCartSchema } from "@/core/validators";
 import { convertToPlainObject, formatError, round2 } from "@/lib/utils";
-import { Cart, CartItem, Product } from "@/types/_index";
 import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
@@ -12,7 +12,7 @@ import { cookies } from "next/headers";
 /* TODO: controllare cart che potrebbe causare problemi soprattuto epr l'id */
 
 // Calculate cart prices
-const calcPrice = (items: CartItem[]) => {
+const calcPrice = (items: ICartItem[]) => {
   const itemsPrice = items.reduce(
     (acc, item) => acc + Number(item.price) * item.qty,
     0
@@ -45,7 +45,7 @@ const getSessionAndUserId = async () => {
 };
 
 // Find product in database by item.productId
-const getProductByItemProductId = async (item: CartItem) => {
+const getProductByItemProductId = async (item: ICartItem) => {
   const product = await prisma.product.findFirst({
     where: { id: item.productId },
   });
@@ -63,9 +63,9 @@ const getProductByItemProductId = async (item: CartItem) => {
 // Add item to cart
 const createNewCart = async (
   userId: string | undefined,
-  item: CartItem,
+  item: ICartItem,
   sessionCartId: string,
-  product: Product
+  product: IProduct
 ) => {
   // Create new cart obj
   const newCart = insertCartSchema.parse({
@@ -88,12 +88,12 @@ const createNewCart = async (
 };
 
 const updateExistingCart = async (
-  cart: Cart & { id: string },
-  item: CartItem,
-  product: Product
+  cart: ICart & { id: string },
+  item: ICartItem,
+  product: IProduct
 ) => {
   // Update existing cart in database
-  const existingItem = (cart.items as CartItem[]).find(
+  const existingItem = (cart.items as ICartItem[]).find(
     (i) => i.productId === item.productId
   );
 
@@ -113,7 +113,7 @@ const updateExistingCart = async (
     where: { id: cart.id },
     data: {
       items: cart.items as Prisma.CartUpdateitemsInput[],
-      ...calcPrice(cart.items as CartItem[]),
+      ...calcPrice(cart.items as ICartItem[]),
     },
   });
 
@@ -127,7 +127,7 @@ const updateExistingCart = async (
 };
 
 /* EXPORTS ACTION CART */
-export async function addItemToCart(data: CartItem) {
+export async function addItemToCart(data: ICartItem) {
   try {
     const { sessionCartId } = await getSessionCartId();
     const { userId } = await getSessionAndUserId();
@@ -170,7 +170,7 @@ export async function getMyCart() {
   return convertToPlainObject({
     ...cart,
     id: cart.id,
-    items: cart.items as CartItem[],
+    items: cart.items as ICartItem[],
     itemsPrice: cart.itemsPrice.toString() as unknown as Prisma.Decimal,
     totalPrice: cart.totalPrice.toString() as unknown as Prisma.Decimal,
     shippingPrice: cart.shippingPrice.toString() as unknown as Prisma.Decimal,
@@ -191,14 +191,14 @@ export async function removeItemFromCart(productId: string) {
     if (!cart) throw new Error("Cart not found");
 
     // Check for item in cart
-    const exist = (cart.items as CartItem[]).find(
+    const exist = (cart.items as ICartItem[]).find(
       (i) => i.productId === productId
     );
 
     // Check if only one item in qty
     if (exist) {
       if (exist?.qty === 1) {
-        cart.items = (cart.items as CartItem[])?.filter(
+        cart.items = (cart.items as ICartItem[])?.filter(
           (i) => i.productId !== exist.productId
         );
       } else {
@@ -210,7 +210,7 @@ export async function removeItemFromCart(productId: string) {
       where: { id: cart.id },
       data: {
         items: cart.items as Prisma.CartUpdateitemsInput[],
-        ...calcPrice(cart.items as CartItem[]),
+        ...calcPrice(cart.items as ICartItem[]),
       },
     });
 

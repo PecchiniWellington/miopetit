@@ -1,9 +1,9 @@
 "use client";
-import { IUser } from "@/types/_index";
 import { User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import SettingSection from "./SettingSection";
+import { IUser } from "@/core/types";
 
 const Profile = ({ userLogged }: { userLogged: IUser }) => {
   return (

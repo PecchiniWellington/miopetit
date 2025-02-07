@@ -13,13 +13,13 @@ import {
   categorySchema,
   updateCategorySchema,
 } from "@/core/validators/category.validator";
-import { ICategory } from "@/types/_index";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Form } from "../ui/form";
 import SlugFormField from "./product-form/slug-form-field";
+import { ICategory } from "@/core/types";
 
 const CategoryForm = ({
   type,

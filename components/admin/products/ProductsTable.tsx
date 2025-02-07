@@ -2,8 +2,8 @@
 
 import DeleteDialog from "@/components/shared/delete-dialog";
 import { deleteProduct } from "@/core/actions/products";
+import { IProduct } from "@/core/types";
 import { formatId } from "@/lib/utils";
-import { Product } from "@/types/_index";
 import { motion } from "framer-motion";
 import { Edit, Eye, Search } from "lucide-react";
 import Image from "next/image";
@@ -53,7 +53,7 @@ const PRODUCT_DATA = [
   },
 ];
 
-const ProductsTable = ({ products }: { products: { data: Product[] } }) => {
+const ProductsTable = ({ products }: { products: { data: IProduct[] } }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [, setFilteredProducts] = useState(PRODUCT_DATA);
 
@@ -121,7 +121,7 @@ const ProductsTable = ({ products }: { products: { data: Product[] } }) => {
           </thead>
 
           <tbody className="divide-y divide-gray-700">
-            {products.data.map((product: Product) => (
+            {products.data.map((product: IProduct) => (
               <motion.tr
                 key={product.id}
                 initial={{ opacity: 0 }}

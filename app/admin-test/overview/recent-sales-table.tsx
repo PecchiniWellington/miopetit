@@ -6,8 +6,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { ILatestSales } from "@/core/types";
 import { formatCurrency, formatDateTime } from "@/lib/utils";
-import { ILatestSales } from "@/types/_index";
 import Link from "next/link";
 
 const RecentSalesTable = ({ summary }: { summary: ILatestSales[] }) => {

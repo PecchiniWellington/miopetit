@@ -5,15 +5,14 @@ import { prisma } from "@/core/prisma/prisma";
 import { insertOrderSchema } from "@/core/validators";
 import { sendPurchaseReceipt } from "@/email";
 import { PAGE_SIZE } from "@/lib/constants";
-import {
-  CartItem,
-  IPaymentResult,
-  IShippingAddress,
-  SalesDataType,
-} from "@/types/_index";
+
 import { Prisma } from "@prisma/client";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 
+import { ICartItem } from "@/core/types/cart.type";
+import { IPaymentResult } from "@/core/types/payment.type";
+import { ISalesDataType } from "@/core/types/sales.type";
+import { IShippingAddress } from "@/core/types/shipping-address.type";
 import { convertToPlainObject, formatError } from "@/lib/utils";
 import { getMyCart } from "../cart/cart.actions";
 import { getUserById } from "../user";
@@ -65,7 +64,7 @@ export async function createOrder() {
       const insertedOrder = await tx.order.create({ data: order });
 
       // Create order items from the cart items
-      for (const item of cart.items as CartItem[]) {
+      for (const item of cart.items as ICartItem[]) {
         const orderItem = {
           ...item,
           price: item.price,
@@ -167,7 +166,7 @@ export async function updateOrderToPaid({
   sendPurchaseReceipt({
     order: {
       ...updatedOrder,
-      orderitems: updatedOrder.orderitems as CartItem[],
+      orderitems: updatedOrder.orderitems as ICartItem[],
       shippingAddress: updatedOrder.shippingAddress as IShippingAddress,
       paymentResult: updatedOrder.paymentResult as IPaymentResult,
     },
@@ -223,7 +222,7 @@ export async function getOrderSummary() {
     GROUP BY to_char("created_at", 'MM/YY')
   `;
 
-  const salesData: SalesDataType = salesDataRaw.map((item) => ({
+  const salesData: ISalesDataType = salesDataRaw.map((item) => ({
     month: item.month,
     totalSales: Number(item.totalSales),
   }));

@@ -11,9 +11,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getMyCart } from "@/core/actions/cart/cart.actions";
-import { getUserById } from "@/core/actions/user/user.action";
+import { getUserById } from "@/core/actions/user";
+import { IShippingAddress } from "@/core/types";
 import { formatCurrency } from "@/lib/utils";
-import { IShippingAddress } from "@/types/_index";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -35,8 +35,8 @@ const PlaceOlderPage = async () => {
   } else {
     const user = await getUserById(userId);
     if (!cart || cart.items.length === 0) redirect("/cart");
-    if (!user.address) redirect("/shipping-address");
-    if (!user.paymentMethod) redirect("/payment-method");
+    if (!user || !user.address) redirect("/shipping-address");
+    if (!user || !user.paymentMethod) redirect("/payment-method");
 
     const userAddress = user.address as IShippingAddress;
 

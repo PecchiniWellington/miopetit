@@ -6,13 +6,19 @@ import {
   removeItemFromCart,
 } from "@/core/actions/cart/cart.actions";
 import { useToast } from "@/hooks/use-toast";
-import { Cart, CartItem } from "@/types/_index";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import AddToCartButton from "./add-to-cart-btn";
 import IncreaseDecreaseProduct from "./increase-decrease-product";
+import { ICart, ICartItem } from "@/core/types";
 
-export const AddToCart = ({ cart, item }: { cart?: Cart; item: CartItem }) => {
+export const AddToCart = ({
+  cart,
+  item,
+}: {
+  cart?: ICart;
+  item: ICartItem;
+}) => {
   const router = useRouter();
   const { toast } = useToast();
   const [isPending, setIsPending] = useTransition();

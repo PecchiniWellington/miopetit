@@ -1,11 +1,11 @@
 import { auth } from "@/auth";
 import { getOrderById } from "@/core/actions/order/order.action";
 import ROLES from "@/lib/constants/roles";
-import { IShippingAddress } from "@/types/_index";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Stripe from "stripe";
 import OrderDetailsTable from "./order-details-table";
+import { IShippingAddress } from "@/core/types";
 
 export const metadata: Metadata = {
   title: "Order Details",

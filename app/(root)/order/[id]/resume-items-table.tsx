@@ -6,8 +6,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { IOrderItem } from "@/core/types";
 import { formatCurrency } from "@/lib/utils";
-import { IOrderItem } from "@/types/_index";
 import Image from "next/image";
 import Link from "next/link";
 

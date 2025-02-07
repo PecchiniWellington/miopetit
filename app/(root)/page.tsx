@@ -10,8 +10,8 @@ import ProductList from "@/components/shared/product/product-list";
 import SpecialOfferBrand from "@/components/special-offers-brand";
 import { getFeaturedProducts } from "@/core/actions/products";
 import { getLatestProducts } from "@/core/actions/products/get-latest-product.actions";
+import { IProduct } from "@/core/types";
 
-import { Product } from "@/types/_index";
 import Image from "next/image";
 
 export default async function Home() {
@@ -19,7 +19,7 @@ export default async function Home() {
     limit: 12,
   });
   let featuredProducts = await getFeaturedProducts();
-  featuredProducts = featuredProducts.map((product: Product) => ({
+  featuredProducts = featuredProducts.map((product: IProduct) => ({
     ...product,
     categoryId: product.categoryId || null,
     createdAt: product.createdAt || new Date(),

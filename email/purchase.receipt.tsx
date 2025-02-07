@@ -1,6 +1,6 @@
 import sampleData from "@/core/db-static/sample-data";
+import { IOrder } from "@/core/types";
 import { formatCurrency } from "@/lib/utils";
-import { IOrder } from "@/types/_index";
 import {
   Body,
   Column,
@@ -16,6 +16,7 @@ import {
   Text,
 } from "@react-email/components";
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 require("dotenv").config();
 
 PurchaseReceiptEmail.PreviewProps = {
@@ -73,36 +74,36 @@ export default function PurchaseReceiptEmail({ order }: OrderInformationProps) {
       <Preview>View order receipt</Preview>
       <Tailwind>
         <Head />
-        <Body className="font-sans bg-white">
+        <Body className="bg-white font-sans">
           <Container className="max-w-xl">
             <Heading>Purchase Receipt</Heading>
             <Section>
               <Row>
                 <Column>
-                  <Text className="mb-0 mr-4 text-gray-500 whitespace-nowrap text-nowrap">
+                  <Text className="mb-0 mr-4 whitespace-nowrap text-nowrap text-gray-500">
                     Order ID
                   </Text>
-                  <Text className="mt-0 mr-4">{order.id.toString()}</Text>
+                  <Text className="mr-4 mt-0">{order.id.toString()}</Text>
                 </Column>
                 <Column>
-                  <Text className="mb-0 mr-4 text-gray-500 whitespace-nowrap text-nowrap">
+                  <Text className="mb-0 mr-4 whitespace-nowrap text-nowrap text-gray-500">
                     Purchase Date
                   </Text>
-                  <Text className="mt-0 mr-4">
+                  <Text className="mr-4 mt-0">
                     {dateFormatter.format(order.createdAt)}
                   </Text>
                 </Column>
                 <Column>
-                  <Text className="mb-0 mr-4 text-gray-500 whitespace-nowrap text-nowrap">
+                  <Text className="mb-0 mr-4 whitespace-nowrap text-nowrap text-gray-500">
                     Price Paid
                   </Text>
-                  <Text className="mt-0 mr-4">
+                  <Text className="mr-4 mt-0">
                     {formatCurrency(order.totalPrice)}
                   </Text>
                 </Column>
               </Row>
             </Section>
-            <Section className="border border-solid border-gray-500 rounded-lg p-4 md:p-6 my-4">
+            <Section className="my-4 rounded-lg border border-solid border-gray-500 p-4 md:p-6">
               <Heading>Shipping Address</Heading>
               {order.orderitems.map((item) => (
                 <Row key={item.productId} className="mt-8">

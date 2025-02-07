@@ -1,9 +1,9 @@
-import { Product } from "@/types/_index";
 import Image from "next/image";
 import CarouselProducts from "../carousels/carousel-products";
+import { IProduct } from "@/core/types";
 
 interface IProductListProps {
-  data: Product[];
+  data: IProduct[];
   title?: string;
   limit?: number;
 }

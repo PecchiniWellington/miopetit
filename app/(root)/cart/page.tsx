@@ -1,7 +1,7 @@
 import { getMyCart } from "@/core/actions/cart/cart.actions";
-import { CartItem } from "@/types/_index";
 import { Metadata } from "next";
 import { CartTable } from "./cart-table";
+import { ICartItem } from "@/core/types";
 
 export const metadata: Metadata = {
   title: "Shopping Cart",
@@ -15,7 +15,7 @@ const CartPage = async () => {
       <CartTable
         cart={{
           ...cart,
-          items: cart?.items as CartItem[],
+          items: cart?.items as ICartItem[],
           sessionCartId: cart?.id as string,
           itemsPrice: cart?.itemsPrice as unknown as string,
           totalPrice: cart?.totalPrice as unknown as string,

@@ -17,10 +17,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { updateUser } from "@/core/actions/admin/admin.actions";
+import { IUser } from "@/core/types";
 import { updateUserSchema } from "@/core/validators/user.validator";
 import { useToast } from "@/hooks/use-toast";
 import { USER_ROLES } from "@/lib/constants/roles";
-import { IUser } from "@/types/_index";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useRouter } from "next/navigation";

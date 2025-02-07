@@ -6,11 +6,11 @@ import ProductPrice from "@/components/shared/product/product-price";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { getMyCart } from "@/core/actions/cart/cart.actions";
-import { CartItem } from "@/types/_index";
 
 import ProductDetails from "@/components/shared/product/product-details";
+import { getProductBySlug } from "@/core/actions/products";
 import ReviewList from "./review-list";
-import { getProductBySlug } from "@/core/actions/products/product.actions";
+import { ICartItem } from "@/core/types";
 
 const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
   const { slug } = await props.params;
@@ -79,7 +79,7 @@ const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
             <AddToCart
               cart={{
                 ...cart,
-                items: cart?.items as CartItem[],
+                items: cart?.items as ICartItem[],
                 sessionCartId: cart?.id as string,
                 itemsPrice: cart?.itemsPrice as unknown as string,
                 totalPrice: cart?.totalPrice as unknown as string,

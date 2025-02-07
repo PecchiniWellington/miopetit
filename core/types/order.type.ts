@@ -1,6 +1,7 @@
-import { ILatestSales, IPaymentResult } from "@/types/_index";
 import { z } from "zod";
 import { insertOrderItemSchema, insertOrderSchema } from "../validators";
+import { IPaymentResult } from "./payment.type";
+import { ILatestSales } from "./sales.type";
 
 export type IOrderItem = z.infer<typeof insertOrderItemSchema>;
 export type IOrder = z.infer<typeof insertOrderSchema> & {

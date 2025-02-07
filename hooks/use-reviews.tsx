@@ -1,5 +1,6 @@
 import { getReviews } from "@/core/actions/reviews/review.action";
-import { Review } from "@/types/_index";
+import { IReview } from "@/core/types";
+import { Review } from "@prisma/client";
 import { useEffect, useState } from "react";
 
 const offensiveWords = ["cazzo", "badword2", "racistword", "misogynisticword"]; // Sostituisci con un elenco più completo
@@ -16,7 +17,7 @@ const filterReviews = (reviews: Review[]) => {
 };
 
 const useReview = (productId: string) => {
-  const [reviews, setReviews] = useState<Review[]>([]);
+  const [reviews, setReviews] = useState<IReview[]>([]);
 
   useEffect(() => {
     const loadReviews = async () => {

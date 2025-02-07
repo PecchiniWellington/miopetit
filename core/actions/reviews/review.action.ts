@@ -2,12 +2,12 @@
 import { auth } from "@/auth";
 
 import { prisma } from "@/core/prisma/prisma";
-import { Review } from "@/types/_index";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { formatError } from "@/lib/utils";
 import { insertReviewSchema } from "@/core/validators/reviews.validator";
+import { formatError } from "@/lib/utils";
+import { IReview } from "@/core/types/review.type";
 
 // Create & Update Reviews
 export async function createUpdateReview(
@@ -86,7 +86,7 @@ export async function createUpdateReview(
 // Get All Reviews
 export async function getReviews({ productId }: { productId: string }) {
   try {
-    const reviews: Review[] = await prisma.review.findMany({
+    const reviews: IReview[] = await prisma.review.findMany({
       where: { productId },
       include: { user: { select: { name: true } } },
       orderBy: { createdAt: "desc" },

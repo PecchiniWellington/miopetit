@@ -16,7 +16,6 @@ import { deleteOrder, getAllOrders } from "@/core/actions/admin/admin.actions";
 
 import ROLES from "@/lib/constants/roles";
 import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
-import { IOrder } from "@/types/_index";
 import { Check, CircleAlert, ClockAlert, Edit2 } from "lucide-react";
 
 import { Metadata } from "next";

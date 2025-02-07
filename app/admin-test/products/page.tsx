@@ -6,19 +6,18 @@ import Pagination from "@/components/shared/pagination";
 import {
   Table,
   TableBody,
+  TableBody,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { deleteProduct, getAllProducts } from "@/core/actions/products";
+import { ICategory } from "@/core/types";
 import { formatCurrency, formatId } from "@/lib/utils";
-import { ICategory, Product } from "@/types/_index";
+import { Product } from "@prisma/client";
 import Link from "next/link";
 import DownloadCSV from "../categories/download-csv";
-import {
-  getAllProducts,
-  deleteProduct,
-} from "@/core/actions/products/product.actions";
 
 const ProductsPage = async (props: {
   searchParams: Promise<{

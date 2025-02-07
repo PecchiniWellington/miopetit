@@ -1,6 +1,6 @@
 "use client";
 import DynamicButton from "@/components/dynamic-button";
-import { CartItem } from "@/types/_index";
+import { ICartItem } from "@/core/types";
 import { Loader, Plus } from "lucide-react";
 
 const AddToCartButton = ({
@@ -9,7 +9,7 @@ const AddToCartButton = ({
 }: {
   handleAddToCart: () => void;
   isPending: boolean;
-  item: CartItem;
+  item: ICartItem;
 }) => {
   return (
     <DynamicButton handleAction={handleAddToCart}>

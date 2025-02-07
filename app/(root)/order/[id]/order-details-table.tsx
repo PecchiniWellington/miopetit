@@ -1,11 +1,11 @@
 "use client";
 
 import { formatId } from "@/lib/utils";
-import { IOrder } from "@/types/_index";
 
 import OrderCard from "./order-card";
 import PaymentCard from "./payment-card-component";
 import ResumeItemsTable from "./resume-items-table";
+import { IOrder } from "@/core/types";
 
 const OrderDetailsTable = ({
   order,

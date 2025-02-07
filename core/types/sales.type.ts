@@ -5,7 +5,7 @@ export type ILatestSales = {
   totalPrice: string;
 };
 
-export type SalesDataType = {
+export type ISalesDataType = {
   month: string;
   totalSales: number;
 }[];

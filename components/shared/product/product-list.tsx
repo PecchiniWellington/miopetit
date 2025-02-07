@@ -1,8 +1,8 @@
-import { Product } from "@/types/_index";
+import { IProduct } from "@/core/types";
 import ProductCard from "./product-card";
 
 interface IProductListProps {
-  data: Product[];
+  data: IProduct[];
   title: string;
   limit?: number;
 }
@@ -16,7 +16,7 @@ const ProductList = ({ data, title, limit }: IProductListProps) => {
         {data.length > 0 ? (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {limitedData ? (
-              limitedData.map((product: Product) => (
+              limitedData.map((product: IProduct) => (
                 <ProductCard key={product.id} product={product} />
               ))
             ) : (

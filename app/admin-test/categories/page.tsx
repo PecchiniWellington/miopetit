@@ -15,9 +15,9 @@ import {
   getAllCategories,
 } from "@/core/actions/admin/admin.actions";
 import { formatDateTime, formatId } from "@/lib/utils";
-import { ICategory } from "@/types/_index";
 import Link from "next/link";
 import DownloadCSV from "./download-csv";
+import { ICategory } from "@/core/types";
 
 const AdminCategoriesPage: React.FC<{
   searchParams: Promise<{

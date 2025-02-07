@@ -13,9 +13,10 @@ import {
   addItemToCart,
   removeItemFromCart,
 } from "@/core/actions/cart/cart.actions";
+import { ICart, ICartItem } from "@/core/types";
 import { useToast } from "@/hooks/use-toast";
 import { formatCurrency } from "@/lib/utils";
-import { Cart, CartItem } from "@/types/_index";
+
 import { ToastAction } from "@radix-ui/react-toast";
 import { ArrowRight, Loader, Minus, Plus } from "lucide-react";
 import Image from "next/image";
@@ -24,7 +25,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { startTransition, useTransition } from "react";
 
-export const CartTable = ({ cart }: { cart?: Cart }) => {
+export const CartTable = ({ cart }: { cart?: ICart }) => {
   const router = useRouter();
   const { toast } = useToast();
   const [isPending, setIsPending] = useTransition();
@@ -47,7 +48,7 @@ export const CartTable = ({ cart }: { cart?: Cart }) => {
     // removeItemFromCart(item.productId);
   };
 
-  const handleAddToCart = async (item: CartItem) => {
+  const handleAddToCart = async (item: ICartItem) => {
     setIsPending(async () => {
       const res = await addItemToCart(item);
       if (!res?.success) {
@@ -97,7 +98,7 @@ export const CartTable = ({ cart }: { cart?: Cart }) => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {cart?.items?.map((item: CartItem) => (
+                {cart?.items?.map((item: ICartItem) => (
                   <TableRow key={item?.slug}>
                     <TableCell>
                       <Link

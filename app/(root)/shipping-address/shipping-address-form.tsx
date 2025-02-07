@@ -15,14 +15,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { updateUserAddress } from "@/core/actions/user/user.action";
 import { shippingAddressSchema } from "@/core/validators";
 import { useToast } from "@/hooks/use-toast";
 import { SHIPPING_ADDRESS_DEFAULT_VALUES } from "@/lib/constants";
-import { IShippingAddress } from "@/types/_index";
 import { ArrowRight, Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
+import { updateUserAddress } from "@/core/actions/user";
+import { IShippingAddress } from "@/core/types";
 
 const ShippingAddressForm = ({ address }: { address?: IShippingAddress }) => {
   const router = useRouter();

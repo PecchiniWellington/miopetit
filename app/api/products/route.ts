@@ -1,4 +1,4 @@
-import { getAllProducts } from "@/core/actions/products/product.actions";
+import { getAllProducts } from "@/core/actions/products";
 import handleError from "@/types/handlers/error";
 import { NextResponse } from "next/server";
 

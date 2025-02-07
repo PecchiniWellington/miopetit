@@ -2,8 +2,8 @@ import {
   approvePaypalOrder,
   createPaypalOrder,
 } from "@/core/actions/order/paypal.action";
+import { IOrder } from "@/core/types";
 import { toast } from "@/hooks/use-toast";
-import { IOrder } from "@/types/_index";
 import {
   PayPalButtons,
   PayPalScriptProvider,

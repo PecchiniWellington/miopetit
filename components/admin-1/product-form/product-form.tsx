@@ -4,11 +4,11 @@ import DynamicButton from "@/components/dynamic-button";
 import DynamicFormField from "@/components/shared/dynamic-form-field";
 import SearchSelect from "@/components/shared/search-select";
 import { createProduct, updateProduct } from "@/core/actions/products";
+import { ICategory, IProduct } from "@/core/types";
 import { insertProductSchema } from "@/core/validators";
 import { updateProductSchema } from "@/core/validators/product.validator";
 import { useToast } from "@/hooks/use-toast";
 import { PRODUCT_DEFAULT_VALUES } from "@/lib/constants";
-import { ICategory, Product } from "@/types/_index";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -25,7 +25,7 @@ const ProductForm = ({
   categories,
 }: {
   type: "Create" | "Update";
-  product?: Product;
+  product?: IProduct;
   productId?: string;
   categories?: ICategory[];
 }) => {

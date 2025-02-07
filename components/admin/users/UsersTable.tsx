@@ -2,10 +2,10 @@
 import DeleteDialog from "@/components/shared/delete-dialog";
 import { Badge } from "@/components/ui/badge";
 import { deleteUser } from "@/core/actions/admin/admin.actions";
+import { IUser } from "@/core/types";
 import ROLES from "@/lib/constants/roles";
 import { USER_STATUS_ACTIVATION } from "@/lib/constants/user-status";
 import { formatId } from "@/lib/utils";
-import { IUser } from "@/types/_index";
 import { motion } from "framer-motion";
 import { Edit, Search } from "lucide-react";
 import Image from "next/image";

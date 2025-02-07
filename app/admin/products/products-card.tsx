@@ -1,8 +1,8 @@
 "use client";
 import StatCard from "@/components/admin/common/StatCard";
 import CardWorking from "@/components/dev/card-working";
+import { IOrder } from "@/core/types";
 import { formatCurrency, formatNumber } from "@/lib/utils";
-import { IOrder } from "@/types/_index";
 import { motion } from "framer-motion";
 import { AlertTriangle, DollarSign, Package, TrendingUp } from "lucide-react";
 

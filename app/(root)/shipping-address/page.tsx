@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { getMyCart } from "@/core/actions/cart/cart.actions";
-import { getUserById } from "@/core/actions/user/user.action";
-import { IShippingAddress } from "@/types/_index";
+import { getUserById } from "@/core/actions/user";
+import { IShippingAddress } from "@/core/types";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 import ShippingAddressForm from "./shipping-address-form";
@@ -24,7 +24,11 @@ const ShippingAddress = async () => {
     redirect("/login");
   } else {
     const user = await getUserById(userId);
-    return <ShippingAddressForm address={user.address as IShippingAddress} />;
+    if (user) {
+      return <ShippingAddressForm address={user.address as IShippingAddress} />;
+    } else {
+      redirect("/login");
+    }
   }
 };
 

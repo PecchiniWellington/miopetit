@@ -7,11 +7,11 @@ import {
 import { updateUserSchema } from "@/core/validators/user.validator";
 import { PAGE_SIZE } from "@/lib/constants";
 import { formatError } from "@/lib/utils";
-import { ICategory } from "@/types/_index";
 import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { updateOrderToPaid } from "../order/order.action";
+import { ICategory } from "@/core/types";
 
 // Get all the users
 export async function getAllUsers({

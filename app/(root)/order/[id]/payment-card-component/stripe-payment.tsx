@@ -1,4 +1,4 @@
-import { IOrder } from "@/types/_index";
+import { IOrder } from "@/core/types";
 
 const StripePayment = (
   {

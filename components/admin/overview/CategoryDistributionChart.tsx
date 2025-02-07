@@ -1,5 +1,6 @@
 "use client";
-import { ICategory, Product } from "@/types/_index";
+import { ICategory } from "@/core/types";
+import { Product } from "@prisma/client";
 import { motion } from "framer-motion";
 import {
   Cell,
