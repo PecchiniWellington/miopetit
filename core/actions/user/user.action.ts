@@ -15,9 +15,9 @@ export const getUserById = async (userId: string) => {
     },
   });
 
-  if (!user) {
+  /*  if (!user) {
     throw new Error("User not found");
-  }
+  } */
 
   return user;
 };

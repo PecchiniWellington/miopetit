@@ -23,7 +23,7 @@ model OrderItem {
     productId String   @db.Uuid
     qty       Int
     price     Decimal  @db.Decimal(12, 2)
-    name      String
+    name      String?
     slug      String
     image     String
     createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(6)
