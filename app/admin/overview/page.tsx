@@ -2,8 +2,8 @@ import Header from "@/components/admin/common/Header";
 import CategoryDistributionChart from "@/components/admin/overview/CategoryDistributionChart";
 import SalesChannelChart from "@/components/admin/overview/SalesChannelChart";
 import SalesOverviewChart from "@/components/admin/overview/SalesOverviewChart";
-import { getAllCategories } from "@/core/actions/admin/admin.actions";
 import OverviewCard from "./overview-card";
+import { getAllCategories } from "@/core/actions/products/product-infos.ts/get-product-category.action";
 
 const OverviewPage = async () => {
   const categories = await getAllCategories();

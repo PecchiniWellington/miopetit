@@ -5,11 +5,11 @@ import CategoryDistributionChart from "@/components/admin/overview/CategoryDistr
 import ProductsTable from "@/components/admin/products/ProductsTable";
 import SalesTrendChart from "@/components/admin/products/SalesTrendChart";
 import DynamicButton from "@/components/dynamic-button";
-import { getAllCategories } from "@/core/actions/admin/admin.actions";
 import { getOrderSummary } from "@/core/actions/order/order.action";
 import { getAllProducts } from "@/core/actions/products";
 import Link from "next/link";
 import ProductCard from "./products-card";
+import { getAllCategories } from "@/core/actions/products/product-infos.ts/get-product-category.action";
 
 const ProductsPage = async (props: {
   searchParams: Promise<{

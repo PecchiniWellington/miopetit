@@ -1,5 +1,6 @@
+import Header from "@/components/admin/common/Header";
 import ProductForm from "@/components/admin/product-form/product-form";
-import { getAllCategories } from "@/core/actions/admin/admin.actions";
+import { getAllCategories } from "@/core/actions/products/product-infos.ts/get-product-category.action";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -8,13 +9,14 @@ export const metadata: Metadata = {
 
 const CreateProductPage = async () => {
   const { data } = await getAllCategories();
+  /* Call Brands, Category,  Formats, Age, Features, Proteins, Patology*/
   return (
-    <>
-      <h2 className="h2-bold">Create Product</h2>
-      <div className="my-8">
+    <div className="relative z-50  ">
+      <Header title="Product Create" />
+      <div className="mx-auto my-8 max-w-5xl  space-y-8">
         <ProductForm type="Create" categories={data} />
       </div>
-    </>
+    </div>
   );
 };
 

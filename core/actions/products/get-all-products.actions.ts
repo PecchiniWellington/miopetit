@@ -1,7 +1,7 @@
 import { prisma } from "@/core/prisma/prisma";
 import { PAGE_SIZE } from "@/lib/constants";
 import { Prisma } from "@prisma/client";
-import { getAllCategories } from "../admin/admin.actions";
+import { getAllCategories } from "./product-infos.ts/get-product-category.action";
 
 // Get All products
 export async function getAllProducts({

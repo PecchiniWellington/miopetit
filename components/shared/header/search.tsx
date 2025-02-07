@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { getAllCategories } from "@/core/actions/admin/admin.actions";
+import { getAllCategories } from "@/core/actions/products/product-infos.ts/get-product-category.action";
 import { ICategory } from "@/core/types";
 import { SearchIcon } from "lucide-react";
 

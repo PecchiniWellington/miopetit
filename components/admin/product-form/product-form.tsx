@@ -130,13 +130,13 @@ const ProductForm = ({
             )}
           />
           {/* Brand */}
-          <DynamicFormField
+          {/* <DynamicFormField
             control={form.control}
             name="brand"
             schema={insertProductSchema}
             title="Brand"
             placeholder="Enter brand"
-          />
+          /> */}
         </div>
         <div className="flex flex-col  gap-5 md:flex-row">
           {/* Price */}

@@ -1,5 +1,6 @@
 "use server";
 import { prisma } from "@/core/prisma/prisma";
+import { ICategory } from "@/core/types";
 import {
   categorySchema,
   updateCategorySchema,
@@ -11,7 +12,6 @@ import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { updateOrderToPaid } from "../order/order.action";
-import { ICategory } from "@/core/types";
 
 // Get all the users
 export async function getAllUsers({
@@ -239,29 +239,6 @@ export async function updateCategory(category: ICategory) {
   }
 }
 
-export async function getAllCategories() {
-  try {
-    const data = await prisma.category.findMany({
-      orderBy: { createdAt: "desc" },
-      include: {
-        Product: true,
-      },
-    });
-
-    const dataCount = await prisma.category.count();
-
-    return {
-      data,
-      totalPages: Math.ceil(dataCount / 4),
-      productCount: data.reduce(
-        (acc, category) => acc + category.Product.length,
-        0
-      ),
-    };
-  } catch (error) {
-    return { success: false, message: formatError(error) };
-  }
-}
 export async function deleteCategory(id: string) {
   try {
     const data = await prisma.category.findFirst({
@@ -295,20 +272,6 @@ export async function deleteCategory(id: string) {
   }
 }
 
-export async function getCategoryById(id: string) {
-  try {
-    const data = await prisma.category.findFirst({
-      where: {
-        id: id,
-      },
-    });
-    return {
-      data,
-    };
-  } catch (error) {
-    return { success: false, message: formatError(error) };
-  }
-}
 export async function updataCategory(
   data: z.infer<typeof updateCategorySchema>
 ) {

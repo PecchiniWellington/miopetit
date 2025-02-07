@@ -6,7 +6,6 @@ import { getFeaturedProducts } from "./get-featured-product.actions";
 import { getLatestProducts } from "./get-latest-product.actions";
 import { getProductById } from "./get-product-by-id.actions";
 import { getProductBySlug } from "./get-product-by-slug.actions";
-import { getProductCategories } from "./get-product-categories.actions";
 import { updateProduct } from "./update-product.actions";
 
 export {
@@ -17,6 +16,5 @@ export {
   getLatestProducts,
   getProductById,
   getProductBySlug,
-  getProductCategories,
   updateProduct,
 };
