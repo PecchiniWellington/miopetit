@@ -4,7 +4,7 @@ import MenuEditor from "@/components/admin/mega-menu-config/menu-editor";
 import ConnectedAccounts from "@/components/admin/settings/ConnectedAccounts";
 import DangerZone from "@/components/admin/settings/DangerZone";
 import Notifications from "@/components/admin/settings/Notifications";
-import Profile from "@/components/admin/settings/profile";
+import Profile from "@/components/admin/settings/Profile";
 
 import Security from "@/components/admin/settings/Security";
 import { getUserById } from "@/core/actions/user";
