@@ -229,17 +229,24 @@ export function generateSlug(input: string): string {
 }
 
 /* BE VALIDATION */
-export function formatValidationError(errorJson: string): any {
+export function formatValidationError(errorJson: string) {
   try {
     const errors = JSON.parse(errorJson);
 
-    return errors.map((err: any) => ({
-      field: err.path.join("."), // Nome del campo
-      message: err.message, // Messaggio di errore
-      expected: err.expected, // Tipo previsto
-      received: err.received, // Tipo ricevuto
-    }));
-  } catch (e) {
+    return errors.map(
+      (err: {
+        path: string[];
+        message: string;
+        expected: string;
+        received: string;
+      }) => ({
+        field: err.path.join("."), // Nome del campo
+        message: err.message, // Messaggio di errore
+        expected: err.expected, // Tipo previsto
+        received: err.received, // Tipo ricevuto
+      })
+    );
+  } catch {
     return { error: "Errore nel parsing del messaggio di errore." };
   }
 }
