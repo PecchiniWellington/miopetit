@@ -7,7 +7,7 @@ import MegaMenu from "@/components/mega-menu/mega-menu";
 import menuCat from "@/core/db-static/mega-menu/menu-cats.json";
 import menuDog from "@/core/db-static/mega-menu/menu-dogs.json";
 import menuSmallAnimals from "@/core/db-static/mega-menu/menu-small-animals.json";
-import { ShoppingCart } from "lucide-react";
+import { Heart, ShoppingCart } from "lucide-react";
 import Menu from "./menu";
 import Search from "./search";
 import UserButton from "./user-button";
@@ -47,6 +47,9 @@ const Header = () => {
                 width={30}
                 className="ml-8 text-red-800"
               />
+            </Link>
+            <Link href="/favourites">
+              <Heart height={30} width={30} className=" text-red-800" />
             </Link>
 
             <UserButton />
