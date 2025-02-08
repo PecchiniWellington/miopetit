@@ -1,8 +1,8 @@
 "use client";
 
-import DynamicButton from "@/components/dynamic-button";
 import DynamicFormField from "@/components/shared/dynamic-form-field";
 import SearchSelect from "@/components/shared/search-select";
+import { Button } from "@/components/ui/button";
 import { createProduct, updateProduct } from "@/core/actions/products";
 import { ICategory, IProduct } from "@/core/types";
 import { insertProductSchema } from "@/core/validators";
@@ -46,6 +46,7 @@ const ProductForm = ({
   const onSubmit: SubmitHandler<z.infer<typeof insertProductSchema>> = async (
     data
   ) => {
+    console.log("DATA", data);
     const handleResponse = (
       res: { success: boolean; error?: string; message?: string },
       successMessage: string
@@ -183,9 +184,9 @@ const ProductForm = ({
 
         <div>
           {/* Submit */}
-          <DynamicButton disabled={form.formState.isSubmitting}>
+          <Button disabled={form.formState.isSubmitting}>
             {form.formState.isSubmitting ? "Submitting..." : `${type} Product`}
-          </DynamicButton>
+          </Button>
         </div>
       </form>
     </Form>

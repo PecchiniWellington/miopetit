@@ -9,7 +9,6 @@ export const metadata: Metadata = {
 
 const CreateProductPage = async () => {
   const { data } = await getAllCategories();
-  /* Call Brands, Category,  Formats, Age, Features, Proteins, Patology*/
   return (
     <div className="relative z-50  ">
       <Header title="Product Create" />

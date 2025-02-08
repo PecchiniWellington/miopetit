@@ -9,8 +9,8 @@ import { getMyCart } from "@/core/actions/cart/cart.actions";
 
 import ProductDetails from "@/components/shared/product/product-details";
 import { getProductBySlug } from "@/core/actions/products";
-import ReviewList from "./review-list";
 import { ICartItem } from "@/core/types";
+import ReviewList from "./review-list";
 
 const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
   const { slug } = await props.params;

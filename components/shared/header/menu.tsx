@@ -3,7 +3,7 @@ import SidebarMenu from "@/components/custom-sidebar";
 import menuCat from "@/core/db-static/mega-menu/menu-cats.json";
 import menuDog from "@/core/db-static/mega-menu/menu-dogs.json";
 import menuSmallAnimals from "@/core/db-static/mega-menu/menu-small-animals.json";
-import { EllipsisVertical } from "lucide-react";
+import { MenuIcon } from "lucide-react";
 import { useState } from "react";
 const categoriesData = [
   ...(Array.isArray(menuDog) ? menuDog : [menuDog]),
@@ -18,9 +18,9 @@ export default function HomePage() {
     <div>
       <button
         onClick={() => setIsSidebarOpen(true)}
-        className="rounded bg-primary-600 px-2 py-1 text-white"
+        className="rounded  px-2 py-1 text-white"
       >
-        <EllipsisVertical />
+        <MenuIcon />
       </button>
 
       {isSidebarOpen && (

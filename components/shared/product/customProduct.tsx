@@ -1,9 +1,8 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { motion } from "framer-motion";
-import { Heart, ShoppingCart, X } from "lucide-react";
+import { Heart, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -32,52 +31,36 @@ export default function ProductCard({
   const [isWishlisted, setWishlisted] = useState(false);
 
   return (
-    <Card className="relative overflow-hidden rounded-lg border p-4 shadow-sm transition hover:shadow-md">
-      {/* Wishlist Icon */}
-      <button
-        onClick={() => setWishlisted(!isWishlisted)}
-        className={`absolute right-4 top-4 transition ${
-          isWishlisted ? "text-red-600" : "text-gray-500 hover:text-black"
-        }`}
-      >
-        <Heart className="size-6" />
-      </button>
+    <Card className="relative overflow-hidden rounded-xl border bg-white p-4 shadow-md transition hover:shadow-lg">
+      {/* Image with Hover Effect */}
+      <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+        <div className="relative flex items-center justify-center rounded-lg bg-gray-100 p-6">
+          {oldPrice && (
+            <span className="absolute left-3 top-3 rounded-full bg-red-500 px-3 py-1 text-xs font-semibold text-white shadow">
+              -{Math.round(((oldPrice - price) / oldPrice) * 100)}%
+            </span>
+          )}
+          <Image
+            src={image}
+            alt={name}
+            width={180}
+            height={180}
+            className="object-contain"
+            loading="lazy"
+          />
 
-      {/* Modale di anteprima */}
-      <Dialog>
-        <DialogTrigger asChild>
-          <div className="cursor-pointer">
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <div className="flex items-center justify-center bg-gray-50 p-4">
-                <Image
-                  src={image}
-                  alt={name}
-                  width={150}
-                  height={150}
-                  className="object-contain"
-                  loading="lazy"
-                />
-              </div>
-            </motion.div>
-          </div>
-        </DialogTrigger>
-        <DialogContent className="max-w-lg">
-          <button className="absolute right-4 top-4 text-gray-500 hover:text-black">
-            <X className="size-6" />
-          </button>
-          <div className="flex flex-col items-center space-y-4">
-            <Image
-              src={image}
-              alt={name}
-              width={300}
-              height={300}
-              className="object-contain"
-            />
-            <h3 className="text-lg font-bold text-gray-900">{name}</h3>
-            <p className="text-sm text-gray-500">{brand}</p>
-          </div>
-        </DialogContent>
-      </Dialog>
+          {/* Wishlist Button - Now in the top-right corner inside the image */}
+          <motion.button
+            onClick={() => setWishlisted(!isWishlisted)}
+            whileTap={{ scale: 0.9 }}
+            className={`absolute right-3 top-3 flex size-9 items-center justify-center rounded-full bg-white shadow-md transition ${
+              isWishlisted ? "text-red-600" : "text-gray-500 hover:text-black"
+            }`}
+          >
+            <Heart className="size-5" />
+          </motion.button>
+        </div>
+      </motion.div>
 
       {/* Product Details */}
       <div className="mt-4 space-y-2">
@@ -86,16 +69,20 @@ export default function ProductCard({
 
         {/* Ratings */}
         <div className="flex items-center space-x-1">
-          <span className="text-sm font-bold text-green-600">★★★★★</span>
+          <span className="text-sm font-bold text-yellow-500">★★★★★</span>
           <span className="text-xs font-semibold text-gray-700">
-            {reviews} recensioni
+            ({reviews} recensioni)
           </span>
         </div>
 
         {/* Availability */}
-        <p className="text-xs text-green-600">{availability}</p>
+        <p
+          className={`text-xs font-medium ${availability === "Disponibile" ? "text-green-600" : "text-red-500"}`}
+        >
+          {availability}
+        </p>
 
-        {/* Price */}
+        {/* Pricing */}
         <div className="flex items-center space-x-2">
           {oldPrice && (
             <span className="text-sm text-gray-400 line-through">
@@ -106,17 +93,16 @@ export default function ProductCard({
             €{price.toFixed(2)}
           </span>
         </div>
-        {pricePerKg && (
-          <p className="text-xs text-gray-500">({pricePerKg}/KG)</p>
-        )}
+
+        {pricePerKg && <p className="text-xs text-gray-500">({pricePerKg})</p>}
       </div>
 
       {/* Add to Cart Button */}
       <motion.button
         whileTap={{ scale: 0.9 }}
-        className="absolute bottom-4 right-4 flex size-10 items-center justify-center rounded-full bg-yellow-400 p-2 transition hover:bg-yellow-500"
+        className="absolute bottom-4 right-4 flex size-12 items-center justify-center rounded-full bg-black p-2 transition hover:bg-gray-800"
       >
-        <ShoppingCart className="size-5 text-black" />
+        <ShoppingCart className="size-6 text-white" />
       </motion.button>
     </Card>
   );

@@ -1,9 +1,9 @@
+import { Toaster } from "@/components/ui/toaster";
+import { APP_DESCRIPTION, APP_NAME, BASE_URL } from "@/lib/constants";
 import type { Metadata } from "next";
+import { ThemeProvider } from "next-themes";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { APP_NAME, APP_DESCRIPTION, BASE_URL } from "@/lib/constants";
-import { ThemeProvider } from "next-themes";
-import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,7 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className="mx-auto">
       <body className={`${inter.className}  antialiased`}>
         <ThemeProvider
           attribute="class"

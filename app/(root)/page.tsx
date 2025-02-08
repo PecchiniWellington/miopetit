@@ -13,7 +13,6 @@ import {
   getLatestProducts,
 } from "@/core/actions/products";
 import { IProduct } from "@/core/types";
-
 import Image from "next/image";
 
 export default async function Home() {
@@ -29,17 +28,20 @@ export default async function Home() {
   }));
 
   return (
-    <>
+    <div>
       {featuredProducts.length > 0 && (
         <ProductCarousel data={featuredProducts} />
       )}
+
       <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
         <PresentationDeals />
       </div>
+
       <div className="my-12">
         <h1>Per chi stai comprando?</h1>
         <CarouselAnimalsCategory />
       </div>
+
       <div className="my-12">
         <IconBoxes />
       </div>
@@ -60,7 +62,6 @@ export default async function Home() {
         <Gifts />
       </div>
       <DealCountdown />
-
       <div>
         <h1 className="h2-bold">CANE</h1>
         <div className="border-t-4 border-secondary-800 ">
@@ -95,7 +96,6 @@ export default async function Home() {
           </div>
         </div>
       </div>
-
       <div className="mt-12">
         <Image
           src="/images/Modo-semplice-per-spedire.png"
@@ -109,6 +109,6 @@ export default async function Home() {
 
       {/* <ProductList data={latestProducts} title="Newest Products" />
       <ViewAllProductButton /> */}
-    </>
+    </div>
   );
 }

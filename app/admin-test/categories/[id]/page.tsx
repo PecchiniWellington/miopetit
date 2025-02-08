@@ -1,5 +1,5 @@
 import CategoryForm from "@/components/admin/category-form";
-import { getCategoryById } from "@/core/actions/admin/admin.actions";
+import { getCategoryById } from "@/core/actions/products/product-infos.ts/get-product-category-by-id.action";
 
 import { Metadata } from "next";
 import { notFound } from "next/navigation";

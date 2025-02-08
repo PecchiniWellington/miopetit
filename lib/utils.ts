@@ -1,4 +1,4 @@
-import { IUser, ICategory } from "@/core/types";
+import { ICategory, IUser } from "@/core/types";
 import { Product } from "@prisma/client";
 import { clsx, type ClassValue } from "clsx";
 import qs from "query-string";
@@ -226,4 +226,20 @@ export function generateSlug(input: string): string {
     .replace(/[^a-z0-9\s-]/g, "") // Rimuove caratteri speciali
     .replace(/\s+/g, "-") // Sostituisce spazi con trattini
     .replace(/-+/g, "-"); // Evita doppi trattini
+}
+
+/* BE VALIDATION */
+export function formatValidationError(errorJson: string): any {
+  try {
+    const errors = JSON.parse(errorJson);
+
+    return errors.map((err: any) => ({
+      field: err.path.join("."), // Nome del campo
+      message: err.message, // Messaggio di errore
+      expected: err.expected, // Tipo previsto
+      received: err.received, // Tipo ricevuto
+    }));
+  } catch (e) {
+    return { error: "Errore nel parsing del messaggio di errore." };
+  }
 }

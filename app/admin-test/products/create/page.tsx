@@ -1,5 +1,5 @@
 import ProductForm from "@/components/admin/product-form/product-form";
-import { getAllCategories } from "@/core/actions/admin/admin.actions";
+import { getAllCategories } from "@/core/actions/products/product-infos.ts/get-product-category.action";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

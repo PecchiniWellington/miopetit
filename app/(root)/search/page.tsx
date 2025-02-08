@@ -1,8 +1,9 @@
 import DynamicButton from "@/components/dynamic-button";
 import { BadgeStatus } from "@/components/shared/badge-status";
-import ProductCard from "@/components/shared/product/product-card";
-import { getAllCategories } from "@/core/actions/admin/admin.actions";
+import CustomProduct from "@/components/shared/product/customProduct";
 import { getAllProducts } from "@/core/actions/products";
+import { getAllCategories } from "@/core/actions/products/product-infos.ts/get-product-category.action";
+import { ICategory } from "@/core/types";
 import { STATUS } from "@/lib/constants";
 import Link from "next/link";
 
@@ -125,7 +126,7 @@ const SearchPage = async (props: {
                 Any
               </Link>
             </li>
-            {categories.data?.map((x) => (
+            {categories.data?.map((x: ICategory) => (
               <li key={x.id}>
                 <Link
                   href={getFilterUrl({ c: x.name })}
@@ -225,7 +226,18 @@ const SearchPage = async (props: {
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           {products.data.length === 0 && <div>No Product Found</div>}
           {products.data.map((product) => (
-            <ProductCard key={product.id} product={product}></ProductCard>
+            <CustomProduct
+              key={product.id}
+              image="https://utfs.io/f/RnH9VIVP0zpxL8Sd59Kp86NzgPOkKSsma1BjXoZe9tA3HMCW"
+              name={product.name}
+              brand={product.brand}
+              rating={Number(product.rating)}
+              reviews={product.numReviews}
+              availability="Disponibile in 2 varianti (FAKE)"
+              price={Number(product.price)}
+              oldPrice={54.99}
+              pricePerKg="€4,16/KG (FAKE)"
+            />
           ))}
         </div>
       </div>

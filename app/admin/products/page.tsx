@@ -5,11 +5,11 @@ import CategoryDistributionChart from "@/components/admin/overview/CategoryDistr
 import ProductsTable from "@/components/admin/products/ProductsTable";
 import SalesTrendChart from "@/components/admin/products/SalesTrendChart";
 import DynamicButton from "@/components/dynamic-button";
+import CustomProduct from "@/components/shared/product/customProduct";
 import { getOrderSummary } from "@/core/actions/order/order.action";
 import { getAllProducts } from "@/core/actions/products";
-import Link from "next/link";
-import ProductCard from "./products-card";
 import { getAllCategories } from "@/core/actions/products/product-infos.ts/get-product-category.action";
+import Link from "next/link";
 
 const ProductsPage = async (props: {
   searchParams: Promise<{
@@ -49,7 +49,19 @@ const ProductsPage = async (props: {
           <DownloadCSV csvData={products.data} />
         </div>
         {/* STATS */}
-        <ProductCard overviewSummary={overviewSummary} />
+
+        <CustomProduct
+          key={overviewSummary.id}
+          image="https://utfs.io/f/RnH9VIVP0zpxL8Sd59Kp86NzgPOkKSsma1BjXoZe9tA3HMCW"
+          name={overviewSummary.name}
+          brand={overviewSummary.brand}
+          rating={Number(overviewSummary.rating)}
+          reviews={overviewSummary.numReviews}
+          availability="Disponibile in 2 varianti (FAKE)"
+          price={Number(overviewSummary.price)}
+          oldPrice={54.99}
+          pricePerKg="€4,16/KG (FAKE)"
+        />
         <ProductsTable products={products} />
 
         {/* CHARTS */}

@@ -1,5 +1,5 @@
 import { IProduct } from "@/core/types";
-import ProductCard from "./product-card";
+import CustomProduct from "./customProduct";
 
 interface IProductListProps {
   data: IProduct[];
@@ -17,7 +17,18 @@ const ProductList = ({ data, title, limit }: IProductListProps) => {
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {limitedData ? (
               limitedData.map((product: IProduct) => (
-                <ProductCard key={product.id} product={product} />
+                <CustomProduct
+                  key={product.id}
+                  image="https://utfs.io/f/RnH9VIVP0zpxL8Sd59Kp86NzgPOkKSsma1BjXoZe9tA3HMCW"
+                  name={product.name}
+                  brand={product.brand}
+                  rating={Number(product.rating)}
+                  reviews={product.numReviews}
+                  availability="Disponibile in 2 varianti (FAKE)"
+                  price={Number(product.price)}
+                  oldPrice={54.99}
+                  pricePerKg="€4,16/KG (FAKE)"
+                />
               ))
             ) : (
               <div>WORKING....</div>

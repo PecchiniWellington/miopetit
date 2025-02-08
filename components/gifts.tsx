@@ -38,7 +38,8 @@ const Gifts = () => {
           <AnimalAvatar key={name} name={name} image={image} />
         ))}
       </div>
-      <div className="block md:hidden">
+
+      <div className="relative mb-12 block w-full md:hidden">
         <Carousel
           className="mb-12 w-full"
           opts={{
@@ -56,8 +57,8 @@ const Gifts = () => {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
+          <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2" />
+          <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2" />
         </Carousel>
       </div>
     </>

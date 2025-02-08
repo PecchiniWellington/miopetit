@@ -44,33 +44,34 @@ const animals = [
 ];
 
 const CarouselAnimalsCategory = () => {
-  // FIXME: cambiare product type(sono simili tra prisma e types)
   return (
-    <Carousel
-      className="mb-12 w-full"
-      opts={{
-        loop: true,
-        startIndex: 0,
-        align: "start",
-      }}
-    >
-      <CarouselContent>
-        {animals.map(({ name, image }) => (
-          <CarouselItem
-            key={name}
-            className={`basis-1/2 md:basis-1/3 lg:basis-1/5`}
-          >
-            <Link href={`/category/${name}`}>
-              <div className="relative mx-auto h-full ">
-                <AnimalAvatar image={image} name={name} />
-              </div>
-            </Link>
-          </CarouselItem>
-        ))}
-      </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
-    </Carousel>
+    <div className="relative mb-12 w-full">
+      <Carousel
+        className="w-full"
+        opts={{
+          loop: true,
+          startIndex: 0,
+          align: "start",
+        }}
+      >
+        <CarouselContent>
+          {animals.map(({ name, image }) => (
+            <CarouselItem
+              key={name}
+              className={`basis-1/2 md:basis-1/3 lg:basis-1/5`}
+            >
+              <Link href={`/category/${name}`}>
+                <div className="relative mx-auto h-full ">
+                  <AnimalAvatar image={image} name={name} />
+                </div>
+              </Link>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2" />
+        <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2" />
+      </Carousel>
+    </div>
   );
 };
 

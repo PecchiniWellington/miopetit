@@ -1,6 +1,6 @@
 import { prisma } from "@/core/prisma/prisma";
 import { insertProductSchema } from "@/core/validators";
-import { formatError } from "@/lib/utils";
+import { formatValidationError } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
@@ -15,8 +15,18 @@ export async function createProduct(data: z.infer<typeof insertProductSchema>) {
 
     revalidatePath("/admin/products");
 
-    return { success: true, message: "Product created successfully" };
+    return {
+      success: true,
+      message: "Product created successfully",
+      data: product,
+    };
   } catch (error) {
-    return { success: false, error: formatError(error) };
+    return {
+      success: false,
+      error:
+        error instanceof Error
+          ? formatValidationError(error.message)
+          : "An unknown error occurred",
+    };
   }
 }

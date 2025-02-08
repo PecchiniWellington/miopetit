@@ -52,35 +52,39 @@ const brands = [
 const CarouselBrands = () => {
   // FIXME: cambiare product type(sono simili tra prisma e types)
   return (
-    <Carousel
-      className="w-full"
-      opts={{
-        loop: true,
-        startIndex: 0,
-        align: "start",
-      }}
-    >
-      <CarouselContent>
-        {brands.map(({ name, image }) => (
-          <CarouselItem key={name} className={`md:basis-1/2 lg:basis-1/4`}>
-            <Link href={`/category/${name}`}>
-              <div className="relative mx-auto h-full">
-                <Image
-                  src={`/images/${image}`}
-                  alt={name}
-                  height="0"
-                  width="0"
-                  sizes="100vw"
-                  className="size-full object-cover object-center"
-                />
-              </div>
-            </Link>
-          </CarouselItem>
-        ))}
-      </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
-    </Carousel>
+    <div className="relative mb-12 w-full">
+      <Carousel
+        className="w-full"
+        opts={{
+          loop: true,
+          startIndex: 0,
+          align: "start",
+        }}
+      >
+        <CarouselContent>
+          {brands.map(({ name, image }) => (
+            <CarouselItem
+              key={name} /* className={`md:basis-1/2 lg:basis-1/4`} */
+            >
+              <Link href={`/category/${name}`}>
+                <div className="relative mx-auto h-full">
+                  <Image
+                    src={`/images/${image}`}
+                    alt={name}
+                    height="0"
+                    width="0"
+                    sizes="100vw"
+                    className="size-full object-cover object-center"
+                  />
+                </div>
+              </Link>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2" />
+        <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2" />
+      </Carousel>
+    </div>
   );
 };
 
