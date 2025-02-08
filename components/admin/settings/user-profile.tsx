@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import SettingSection from "./SettingSection";
 
-const Profile = ({ userLogged }: { userLogged: IUser }) => {
+const UserProfile = ({ userLogged }: { userLogged: IUser }) => {
   return (
     <SettingSection icon={User} title={"Profile"}>
       <div className="mb-6 flex flex-col items-center sm:flex-row">
@@ -34,4 +34,4 @@ const Profile = ({ userLogged }: { userLogged: IUser }) => {
     </SettingSection>
   );
 };
-export default Profile;
+export default UserProfile;

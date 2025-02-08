@@ -5,9 +5,8 @@ import ConnectedAccounts from "@/components/admin/settings/ConnectedAccounts";
 import DangerZone from "@/components/admin/settings/DangerZone";
 import Notifications from "@/components/admin/settings/Notifications";
 
-import Profile from "@/components/admin/settings/profile";
-
 import Security from "@/components/admin/settings/Security";
+import UserProfile from "@/components/admin/settings/user-profile";
 import { getUserById } from "@/core/actions/user";
 
 const SettingsPage = async () => {
@@ -24,7 +23,7 @@ const SettingsPage = async () => {
     <div className="relative z-10 flex-1 overflow-auto bg-gray-900">
       <Header title="Settings" />
       <main className="mx-auto max-w-4xl px-4 py-6 lg:px-8">
-        <Profile userLogged={user} />
+        <UserProfile userLogged={user} />
         <Notifications />
         <Security />
         <ConnectedAccounts />
