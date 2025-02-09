@@ -6,8 +6,8 @@ import {
   cartItemSchema,
   ICart,
   ICartItem,
+  IInsertProduct,
   insertCartSchema,
-  IProduct,
 } from "@/core/validators";
 import { convertToPlainObject, formatError, round2 } from "@/lib/utils";
 import { Prisma } from "@prisma/client";
@@ -57,11 +57,7 @@ const getProductByItemProductId = async (item: ICartItem) => {
   if (!product) throw new Error("Product not found");
 
   return {
-    product: {
-      ...product,
-      price: product.price.toString(),
-      rating: product.rating,
-    },
+    product,
   };
 };
 
@@ -70,7 +66,7 @@ const createNewCart = async (
   userId: string | undefined,
   item: ICartItem,
   sessionCartId: string,
-  product: IProduct
+  product: IInsertProduct
 ) => {
   // Create new cart obj
   const newCart = insertCartSchema.parse({
@@ -95,7 +91,7 @@ const createNewCart = async (
 const updateExistingCart = async (
   cart: ICart & { id: string },
   item: ICartItem,
-  product: IProduct
+  product: IInsertProduct
 ) => {
   // Update existing cart in database
   const existingItem = (cart.items as ICartItem[]).find(

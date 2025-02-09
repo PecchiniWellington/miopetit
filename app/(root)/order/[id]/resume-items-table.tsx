@@ -6,12 +6,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { IOrderItem } from "@/core/validators";
+import { IOrderItemInsert } from "@/core/validators/orders.validator";
 import { formatCurrency } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 
-const ResumeItemsTable = ({ orderitems }: { orderitems: IOrderItem[] }) => {
+const ResumeItemsTable = ({
+  orderitems,
+}: {
+  orderitems: IOrderItemInsert[];
+}) => {
   return (
     <Table>
       <TableHeader>
@@ -22,7 +26,7 @@ const ResumeItemsTable = ({ orderitems }: { orderitems: IOrderItem[] }) => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {orderitems.map((item: IOrderItem) => (
+        {orderitems.map((item: IOrderItemInsert) => (
           <TableRow key={item.slug}>
             <TableCell>
               <Link

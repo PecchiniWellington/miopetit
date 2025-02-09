@@ -7,7 +7,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { getProductCategories } from "@/core/actions/products";
+import { getProductCategories } from "@/core/actions/products/product-infos.ts/get-product-category.action";
 import { MenuIcon } from "lucide-react";
 import Link from "next/link";
 

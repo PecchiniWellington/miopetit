@@ -6,8 +6,9 @@ import { Button } from "@/components/ui/button";
 import { createProduct, updateProduct } from "@/core/actions/products";
 import {
   ICategory,
+  ILatestProduct,
   insertProductSchema,
-  IProduct,
+  IUpdateProduct,
   updateProductSchema,
 } from "@/core/validators";
 import { useToast } from "@/hooks/use-toast";
@@ -28,7 +29,7 @@ const ProductForm = ({
   categories,
 }: {
   type: "Create" | "Update";
-  product: IProduct;
+  product?: ILatestProduct | IUpdateProduct;
   productId?: string;
   categories?: ICategory[];
 }) => {
