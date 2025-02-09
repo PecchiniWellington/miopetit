@@ -9,6 +9,7 @@ import {
   createCategory,
   updataCategory,
 } from "@/core/actions/admin/admin.actions";
+import { ICategory } from "@/core/validators";
 import {
   categorySchema,
   updateCategorySchema,
@@ -19,7 +20,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Form } from "../ui/form";
 import SlugFormField from "./product-form/slug-form-field";
-import { ICategory } from "@/core/types";
 
 const CategoryForm = ({
   type,

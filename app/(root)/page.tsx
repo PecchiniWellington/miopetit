@@ -12,20 +12,13 @@ import {
   getFeaturedProducts,
   getLatestProducts,
 } from "@/core/actions/products";
-import { IProduct } from "@/core/types";
 import Image from "next/image";
 
 export default async function Home() {
   const latestProducts = await getLatestProducts({
     limit: 12,
   });
-  let featuredProducts = await getFeaturedProducts();
-  featuredProducts = featuredProducts.map((product: IProduct) => ({
-    ...product,
-    categoryId: product.categoryId || null,
-    createdAt: product.createdAt || new Date(),
-    updatedAt: product.updatedAt || new Date(),
-  }));
+  const featuredProducts = await getFeaturedProducts();
 
   return (
     <div>

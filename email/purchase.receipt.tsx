@@ -1,5 +1,5 @@
 import sampleData from "@/core/db-static/sample-data";
-import { IOrder } from "@/core/types";
+import { IOrder } from "@/core/validators";
 import { formatCurrency } from "@/lib/utils";
 import {
   Body,

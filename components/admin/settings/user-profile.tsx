@@ -1,5 +1,5 @@
 "use client";
-import { IUser } from "@/core/types";
+import { IUser } from "@/core/validators";
 import { User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";

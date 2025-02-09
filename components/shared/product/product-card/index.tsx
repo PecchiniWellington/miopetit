@@ -1,10 +1,10 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { IProduct } from "@/core/validators";
 import ProductCardBrand from "./product-card-brand";
 import { ProductCardHeader } from "./product-card-header";
 import ProductCardName from "./product-card-name";
 import ProductCardStar from "./product-card-star";
 import { ProductStock } from "./product-card-stock";
-import { IProduct } from "@/core/types";
 
 const ProductCard = ({ product }: { product: IProduct }) => {
   const { images, name, slug, brand, price, rating, stock } = product;

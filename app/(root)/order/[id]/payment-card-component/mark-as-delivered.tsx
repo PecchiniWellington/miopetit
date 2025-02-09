@@ -1,6 +1,6 @@
 import DynamicButton from "@/components/dynamic-button";
 import { updateOrderToDeliveredCOD } from "@/core/actions/admin/admin.actions";
-import { IOrder } from "@/core/types";
+import { IOrder } from "@/core/validators";
 import { useToast } from "@/hooks/use-toast";
 
 import { useTransition } from "react";

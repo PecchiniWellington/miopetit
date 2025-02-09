@@ -10,3 +10,5 @@ export const shippingAddressSchema = z.object({
   lat: z.number().optional().nullable(),
   lng: z.number().optional().nullable(),
 });
+
+export type IShippingAddress = z.infer<typeof shippingAddressSchema>;

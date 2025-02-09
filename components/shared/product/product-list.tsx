@@ -1,4 +1,4 @@
-import { IProduct } from "@/core/types";
+import { IProduct } from "@/core/validators";
 import CustomProduct from "./customProduct";
 
 interface IProductListProps {

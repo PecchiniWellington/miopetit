@@ -8,7 +8,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { getAllCategories } from "@/core/actions/products/product-infos.ts/get-product-category.action";
-import { ICategory } from "@/core/types";
+import { ICategory } from "@/core/validators";
 import { SearchIcon } from "lucide-react";
 
 const Search = async () => {

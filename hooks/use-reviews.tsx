@@ -1,5 +1,5 @@
 import { getReviews } from "@/core/actions/reviews/review.action";
-import { IReview } from "@/core/types";
+import { IReview } from "@/core/validators";
 import { Review } from "@prisma/client";
 import { useEffect, useState } from "react";
 

@@ -1,6 +1,5 @@
 import { prisma } from "@/core/prisma/prisma";
 
-import { mapProductsForDatabase } from "@/lib/utils";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
@@ -8,7 +7,8 @@ export async function POST(req: Request) {
     const body = await req.json().catch(() => null);
     console.log("Received Data:", body); // DEBUG
 
-    const formattedProducts = mapProductsForDatabase(body);
+    /*  const formattedProducts = mapProductsForDatabase(body); */
+    const formattedProducts = body;
     console.log("formattedProducts", formattedProducts); // DEBUG
 
     if (body === null || !Array.isArray(body)) {

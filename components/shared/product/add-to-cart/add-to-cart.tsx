@@ -5,12 +5,12 @@ import {
   addItemToCart,
   removeItemFromCart,
 } from "@/core/actions/cart/cart.actions";
+import { ICart, ICartItem } from "@/core/validators";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import AddToCartButton from "./add-to-cart-btn";
 import IncreaseDecreaseProduct from "./increase-decrease-product";
-import { ICart, ICartItem } from "@/core/types";
 
 export const AddToCart = ({
   cart,

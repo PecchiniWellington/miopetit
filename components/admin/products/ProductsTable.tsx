@@ -2,7 +2,7 @@
 
 import DeleteDialog from "@/components/shared/delete-dialog";
 import { deleteProduct } from "@/core/actions/products";
-import { IProduct } from "@/core/types";
+import { IProduct } from "@/core/validators";
 import { formatId } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { Edit, Eye, Search } from "lucide-react";

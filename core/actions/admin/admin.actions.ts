@@ -1,6 +1,6 @@
 "use server";
 import { prisma } from "@/core/prisma/prisma";
-import { ICategory } from "@/core/types";
+import { ICategory } from "@/core/validators";
 import {
   categorySchema,
   updateCategorySchema,

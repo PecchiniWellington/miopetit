@@ -8,3 +8,6 @@ export const categorySchema = z.object({
 export const updateCategorySchema = categorySchema.extend({
   id: z.string().min(1, "Id is required"),
 });
+
+export type ICategory = z.infer<typeof categorySchema>;
+export type ICategoryUpdate = z.infer<typeof updateCategorySchema>;

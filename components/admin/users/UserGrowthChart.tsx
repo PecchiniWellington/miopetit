@@ -1,5 +1,5 @@
 "use client";
-import { IUser } from "@/core/types";
+import { IUser } from "@/core/validators";
 import { motion } from "framer-motion";
 import {
   CartesianGrid,

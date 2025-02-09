@@ -3,7 +3,7 @@ import { BadgeStatus } from "@/components/shared/badge-status";
 import CustomProduct from "@/components/shared/product/customProduct";
 import { getAllProducts } from "@/core/actions/products";
 import { getAllCategories } from "@/core/actions/products/product-infos.ts/get-product-category.action";
-import { ICategory } from "@/core/types";
+import { ICategory } from "@/core/validators";
 import { STATUS } from "@/lib/constants";
 import Link from "next/link";
 

@@ -12,7 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { deleteProduct, getAllProducts } from "@/core/actions/products";
-import { ICategory } from "@/core/types";
+import { ICategory } from "@/core/validators";
 import { formatCurrency, formatId } from "@/lib/utils";
 import { Product } from "@prisma/client";
 import Link from "next/link";

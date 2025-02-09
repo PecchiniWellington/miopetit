@@ -9,10 +9,10 @@ import { PAGE_SIZE } from "@/lib/constants";
 import { Prisma } from "@prisma/client";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 
-import { ICartItem } from "@/core/types/cart.type";
-import { IPaymentResult } from "@/core/types/payment.type";
-import { ISalesDataType } from "@/core/types/sales.type";
-import { IShippingAddress } from "@/core/types/shipping-address.type";
+import { ICartItem } from "@/core/validators/cart.type";
+import { IPaymentResult } from "@/core/validators/payment.type";
+import { ISalesDataType } from "@/core/validators/sales.type";
+import { IShippingAddress } from "@/core/validators/shipping-address.type";
 import { convertToPlainObject, formatError } from "@/lib/utils";
 import { getMyCart } from "../cart/cart.actions";
 import { getUserById } from "../user";

@@ -1,5 +1,5 @@
 "use client";
-import { ICategory } from "@/core/types";
+import { ICategory } from "@/core/validators";
 import { Product } from "@prisma/client";
 import { motion } from "framer-motion";
 import {

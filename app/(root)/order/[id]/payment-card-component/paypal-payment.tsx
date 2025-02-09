@@ -2,7 +2,7 @@ import {
   approvePaypalOrder,
   createPaypalOrder,
 } from "@/core/actions/order/paypal.action";
-import { IOrder } from "@/core/types";
+import { IOrder } from "@/core/validators";
 import { toast } from "@/hooks/use-toast";
 import {
   PayPalButtons,

@@ -5,9 +5,9 @@ import { prisma } from "@/core/prisma/prisma";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
+import { IReview } from "@/core/validators/review.type";
 import { insertReviewSchema } from "@/core/validators/reviews.validator";
 import { formatError } from "@/lib/utils";
-import { IReview } from "@/core/types/review.type";
 
 // Create & Update Reviews
 export async function createUpdateReview(

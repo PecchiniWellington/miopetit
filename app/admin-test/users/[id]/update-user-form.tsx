@@ -17,7 +17,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { updateUser } from "@/core/actions/admin/admin.actions";
-import { IUser } from "@/core/types";
+import { IUser } from "@/core/validators";
 import { updateUserSchema } from "@/core/validators/user.validator";
 import { useToast } from "@/hooks/use-toast";
 import { USER_ROLES } from "@/lib/constants/roles";

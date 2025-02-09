@@ -13,7 +13,7 @@ import {
   addItemToCart,
   removeItemFromCart,
 } from "@/core/actions/cart/cart.actions";
-import { ICart, ICartItem } from "@/core/types";
+import { ICart, ICartItem } from "@/core/validators";
 import { useToast } from "@/hooks/use-toast";
 import { formatCurrency } from "@/lib/utils";
 

@@ -25,3 +25,38 @@ export const insertOrderItemSchema = z.object({
   price: currency,
   qty: z.number(),
 });
+
+export const orderSchema = insertOrderSchema.extend({
+  id: z.string(),
+  createdAt: z.date(),
+  isPaid: z.boolean(),
+  paidAt: z.date().nullable(),
+  isDelivered: z.boolean(),
+  deliveredAt: z.date().nullable(),
+  orderitems: z.array(insertOrderItemSchema),
+  paymentResult: z.object({
+    id: z.string(),
+    status: z.string(),
+    update_time: z.string(),
+    email_address: z.string(),
+  }),
+  user: z
+    .object({
+      name: z.string(),
+      email: z.string(),
+    })
+    .nullable(),
+  latestSales: z
+    .array(
+      z.object({
+        saleId: z.string(),
+        amount: currency,
+        date: z.date(),
+      })
+    )
+    .optional(),
+});
+
+export type IOrderItem = z.infer<typeof insertOrderItemSchema>;
+export type IOrder = z.infer<typeof orderSchema>;
+export type IOrderInsert = z.infer<typeof insertOrderSchema>;

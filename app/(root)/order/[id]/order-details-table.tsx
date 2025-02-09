@@ -2,7 +2,7 @@
 
 import { formatId } from "@/lib/utils";
 
-import { IOrder } from "@/core/types";
+import { IOrder } from "@/core/validators";
 import OrderCard from "./order-card";
 import PaymentCard from "./payment-card-component";
 import ResumeItemsTable from "./resume-items-table";

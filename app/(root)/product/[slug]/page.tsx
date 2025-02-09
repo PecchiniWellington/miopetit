@@ -9,7 +9,7 @@ import { getMyCart } from "@/core/actions/cart/cart.actions";
 
 import ProductDetails from "@/components/shared/product/product-details";
 import { getProductBySlug } from "@/core/actions/products";
-import { ICartItem } from "@/core/types";
+import { ICartItem } from "@/core/validators";
 import ReviewList from "./review-list";
 
 const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {

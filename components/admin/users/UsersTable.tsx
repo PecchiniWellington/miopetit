@@ -2,7 +2,7 @@
 import DeleteDialog from "@/components/shared/delete-dialog";
 import { Badge } from "@/components/ui/badge";
 import { deleteUser } from "@/core/actions/admin/admin.actions";
-import { IUser } from "@/core/types";
+import { IUser } from "@/core/validators";
 import ROLES from "@/lib/constants/roles";
 import { USER_STATUS_ACTIVATION } from "@/lib/constants/user-status";
 import { formatId } from "@/lib/utils";

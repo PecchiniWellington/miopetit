@@ -1,7 +1,7 @@
 import { getMyCart } from "@/core/actions/cart/cart.actions";
+import { ICartItem } from "@/core/validators";
 import { Metadata } from "next";
 import { CartTable } from "./cart-table";
-import { ICartItem } from "@/core/types";
 
 export const metadata: Metadata = {
   title: "Shopping Cart",

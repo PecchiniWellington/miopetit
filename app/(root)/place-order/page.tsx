@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/table";
 import { getMyCart } from "@/core/actions/cart/cart.actions";
 import { getUserById } from "@/core/actions/user";
-import { IShippingAddress } from "@/core/types";
+import { IShippingAddress } from "@/core/validators";
 import { formatCurrency } from "@/lib/utils";
 import { Metadata } from "next";
 import Image from "next/image";

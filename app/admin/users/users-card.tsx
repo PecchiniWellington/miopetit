@@ -1,7 +1,7 @@
 "use client";
 import StatCard from "@/components/admin/common/StatCard";
 import CardWorking from "@/components/dev/card-working";
-import { IOrder, IUser } from "@/core/types";
+import { IOrder, IUser } from "@/core/validators";
 import { motion } from "framer-motion";
 import { UserCheck, UserPlus, UsersIcon, UserX } from "lucide-react";
 

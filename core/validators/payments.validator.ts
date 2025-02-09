@@ -17,3 +17,6 @@ export const paymentResultSchema = z.object({
   email_address: z.string(),
   pricePaid: z.string(),
 });
+
+export type IPaymentMethod = z.infer<typeof paymentMethodSchema>;
+export type IPaymentResult = z.infer<typeof paymentResultSchema>;

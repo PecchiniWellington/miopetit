@@ -1,7 +1,6 @@
 import { auth } from "@/auth";
 import { prisma } from "@/core/prisma/prisma";
-import { IShippingAddress } from "@/core/types";
-import { shippingAddressSchema } from "@/core/validators";
+import { IShippingAddress, shippingAddressSchema } from "@/core/validators";
 import { formatError } from "@/lib/utils";
 
 // Update the user's address

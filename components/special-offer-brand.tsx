@@ -1,4 +1,4 @@
-import { IProduct } from "@/core/types";
+import { IProduct } from "@/core/validators";
 import Image from "next/image";
 import CarouselProducts from "./carousels/carousel-products";
 

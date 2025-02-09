@@ -7,7 +7,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { IProduct } from "@/core/types";
+import { IProduct } from "@/core/validators";
 import AutoPlay from "embla-carousel-autoplay";
 import Image from "next/image";
 import Link from "next/link";

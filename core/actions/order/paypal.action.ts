@@ -3,11 +3,11 @@
 // Get new paypal order
 
 import { prisma } from "@/core/prisma/prisma";
+import { IPaymentResult } from "@/core/validators";
 import { paypal } from "@/lib/paypal";
 import { formatError } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
 import { updateOrderToPaid } from "./order.action";
-import { IPaymentResult } from "@/core/types";
 
 export async function createPaypalOrder(orderId: string) {
   try {

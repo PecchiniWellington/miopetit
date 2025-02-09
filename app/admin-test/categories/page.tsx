@@ -14,10 +14,10 @@ import {
   deleteCategory,
   getAllCategories,
 } from "@/core/actions/admin/admin.actions";
+import { ICategory } from "@/core/validators";
 import { formatDateTime, formatId } from "@/lib/utils";
 import Link from "next/link";
 import DownloadCSV from "./download-csv";
-import { ICategory } from "@/core/types";
 
 const AdminCategoriesPage: React.FC<{
   searchParams: Promise<{

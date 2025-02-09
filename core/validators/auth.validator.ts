@@ -16,3 +16,6 @@ export const signUpFormSchema = z
     message: "Passwords do not match",
     path: ["confirmPassword"],
   });
+
+export type ISignInForm = z.infer<typeof signInFormSchema>;
+export type ISignUpForm = z.infer<typeof signUpFormSchema>;

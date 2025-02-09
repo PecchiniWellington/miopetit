@@ -11,3 +11,13 @@ export const insertReviewSchema = z.object({
     .min(1, "Rating must be between 1 and 5")
     .max(5, "Rating must be between 1 and 5"),
 });
+
+export const updateReviewSchema = insertReviewSchema.extend({
+  id: z.string(),
+  createdAt: z.date(),
+  user: z.object({ name: z.string() }).optional(),
+  isVerifiedPurchase: z.boolean(),
+});
+
+export type IReviewUpdate = z.infer<typeof updateReviewSchema>;
+export type IReview = z.infer<typeof insertReviewSchema>;

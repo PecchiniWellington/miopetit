@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { getMyCart } from "@/core/actions/cart/cart.actions";
 import { getUserById } from "@/core/actions/user";
-import { IShippingAddress } from "@/core/types";
+import { IShippingAddress } from "@/core/validators";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 import ShippingAddressForm from "./shipping-address-form";

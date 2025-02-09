@@ -1,6 +1,6 @@
 import { APP_NAME, SENDER_EMAIL } from "@/lib/constants";
 
-import { IOrder } from "@/core/types";
+import { IOrder } from "@/core/validators";
 import { Resend } from "resend";
 import PurchaseReceiptEmail from "./purchase.receipt";
 

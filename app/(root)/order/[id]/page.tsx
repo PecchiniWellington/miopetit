@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { getOrderById } from "@/core/actions/order/order.action";
-import { IShippingAddress } from "@/core/types";
+import { IShippingAddress } from "@/core/validators";
 import ROLES from "@/lib/constants/roles";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";

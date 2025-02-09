@@ -6,7 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ILatestSales } from "@/core/types";
+import { ILatestSales } from "@/core/validators";
 import { formatCurrency, formatDateTime } from "@/lib/utils";
 import Link from "next/link";
 

@@ -2,8 +2,11 @@
 
 import { auth } from "@/auth";
 import { prisma } from "@/core/prisma/prisma";
-import { ICart, ICartItem, IProduct } from "@/core/types";
-import { cartItemSchema, insertCartSchema } from "@/core/validators";
+import { ICart, ICartItem, IProduct } from "@/core/validators";
+import {
+  insertCartSchema,
+  cartItemSchema,
+} from "@/core/validators/cart.validator";
 import { convertToPlainObject, formatError, round2 } from "@/lib/utils";
 import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
@@ -55,7 +58,7 @@ const getProductByItemProductId = async (item: ICartItem) => {
     product: {
       ...product,
       price: product.price.toString(),
-      rating: product.rating.toString(),
+      rating: product.rating,
     },
   };
 };
