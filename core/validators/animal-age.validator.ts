@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-export const insertAnimalAge = z.object({
+export const insertAnimalAgeSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters"),
 });
 
-export type IAnimalAge = z.infer<typeof insertAnimalAge>;
+export type IAnimalAge = z.infer<typeof insertAnimalAgeSchema>;

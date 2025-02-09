@@ -37,7 +37,7 @@ export const orderSchema = insertOrderSchema.extend({
   paymentResult: z.object({
     id: z.string(),
     status: z.string(),
-    update_time: z.string(),
+    pricePaid: z.string(),
     email_address: z.string(),
   }),
   user: z
@@ -57,6 +57,23 @@ export const orderSchema = insertOrderSchema.extend({
     .optional(),
 });
 
-export type IOrderItem = z.infer<typeof insertOrderItemSchema>;
+export const orderItemSchema = z.object({
+  orderId: z.string().uuid(),
+  productId: z.string().uuid(),
+  qty: z.number(),
+  price: currency,
+  name: z.string().nullable(),
+  slug: z.string(),
+  image: z.string(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+  order: orderSchema,
+  product: z.object({
+    id: z.string().uuid(),
+  }),
+});
+
+export type IOrderItem = z.infer<typeof orderItemSchema>;
+export type IOrderItemInsert = z.infer<typeof insertOrderItemSchema>;
 export type IOrder = z.infer<typeof orderSchema>;
 export type IOrderInsert = z.infer<typeof insertOrderSchema>;

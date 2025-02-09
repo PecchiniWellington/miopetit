@@ -13,6 +13,7 @@ const AdminProductUpdatePage = async (props: {
   params: Promise<{ id: string }>;
 }) => {
   const { id } = await props.params;
+
   const product = await getProductById(id);
   const { data } = await getAllCategories();
 

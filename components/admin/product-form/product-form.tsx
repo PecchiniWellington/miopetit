@@ -4,8 +4,12 @@ import DynamicFormField from "@/components/shared/dynamic-form-field";
 import SearchSelect from "@/components/shared/search-select";
 import { Button } from "@/components/ui/button";
 import { createProduct, updateProduct } from "@/core/actions/products";
-import { ICategory, insertProductSchema, IProduct } from "@/core/validators";
-import { updateProductSchema } from "@/core/validators/product.validator";
+import {
+  ICategory,
+  insertProductSchema,
+  IProduct,
+  updateProductSchema,
+} from "@/core/validators";
 import { useToast } from "@/hooks/use-toast";
 import { PRODUCT_DEFAULT_VALUES } from "@/lib/constants";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,7 +28,7 @@ const ProductForm = ({
   categories,
 }: {
   type: "Create" | "Update";
-  product?: IProduct;
+  product: IProduct;
   productId?: string;
   categories?: ICategory[];
 }) => {

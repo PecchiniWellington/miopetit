@@ -1,8 +1,8 @@
-import { IProduct } from "@/core/validators";
+import { ILatestProduct } from "@/core/validators";
 import CustomProduct from "./customProduct";
 
 interface IProductListProps {
-  data: IProduct[];
+  data: ILatestProduct[];
   title: string;
   limit?: number;
 }
@@ -16,7 +16,7 @@ const ProductList = ({ data, title, limit }: IProductListProps) => {
         {data.length > 0 ? (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {limitedData ? (
-              limitedData.map((product: IProduct) => (
+              limitedData.map((product: ILatestProduct) => (
                 <CustomProduct
                   key={product.id}
                   image="https://utfs.io/f/RnH9VIVP0zpxL8Sd59Kp86NzgPOkKSsma1BjXoZe9tA3HMCW"

@@ -1,9 +1,10 @@
 import { prisma } from "@/core/prisma/prisma";
+import { ICategory } from "@/core/validators";
 import { formatError } from "@/lib/utils";
 
 export async function getCategoryById(id: string) {
   try {
-    const data = await prisma.category.findFirst({
+    const data: ICategory | null = await prisma.category.findFirst({
       where: {
         id: id,
       },

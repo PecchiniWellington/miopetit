@@ -1,5 +1,4 @@
-import { ICategory } from "@/core/validators";
-import { IUser } from "@/core/validators/user.validator";
+import { ICategory, IUser } from "@/core/validators";
 import { Product } from "@prisma/client";
 import { clsx, type ClassValue } from "clsx";
 import qs from "query-string";

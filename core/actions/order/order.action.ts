@@ -2,17 +2,19 @@
 
 import { auth } from "@/auth";
 import { prisma } from "@/core/prisma/prisma";
-import { insertOrderSchema } from "@/core/validators";
 import { sendPurchaseReceipt } from "@/email";
 import { PAGE_SIZE } from "@/lib/constants";
 
 import { Prisma } from "@prisma/client";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 
-import { ICartItem } from "@/core/validators/cart.type";
-import { IPaymentResult } from "@/core/validators/payment.type";
-import { ISalesDataType } from "@/core/validators/sales.type";
-import { IShippingAddress } from "@/core/validators/shipping-address.type";
+import {
+  ICartItem,
+  IPaymentResult,
+  ISalesDataType,
+  IShippingAddress,
+  insertOrderSchema,
+} from "@/core/validators";
 import { convertToPlainObject, formatError } from "@/lib/utils";
 import { getMyCart } from "../cart/cart.actions";
 import { getUserById } from "../user";

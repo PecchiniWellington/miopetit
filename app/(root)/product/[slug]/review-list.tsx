@@ -8,12 +8,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { getReviews } from "@/core/actions/reviews/review.action";
 import useReview from "@/hooks/use-reviews";
 import { formatDateTime } from "@/lib/utils";
 import { Calendar, User } from "lucide-react";
 import Link from "next/link";
 import ReviewForm from "./review-form";
-import { getReviews } from "@/core/actions/reviews/review.action";
+import { IReview } from "@/core/validators";
 
 const ReviewList = ({
   userId,
@@ -28,7 +29,9 @@ const ReviewList = ({
 
   const reload = async () => {
     const res = await getReviews({ productId });
-    setReviews([...(res.data || [])]);
+    if (res.data) {
+      setReviews(res.data);
+    }
   };
 
   return (
@@ -57,7 +60,7 @@ const ReviewList = ({
         {/* REVIEWS HERE */}
 
         <div className="flex flex-col gap-3">
-          {reviews.map((review) => (
+          {reviews.map((review: IReview) => (
             <Card key={review.id}>
               <CardHeader>
                 <div className="flex-between">

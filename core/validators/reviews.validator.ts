@@ -19,5 +19,18 @@ export const updateReviewSchema = insertReviewSchema.extend({
   isVerifiedPurchase: z.boolean(),
 });
 
+export const reviewSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  description: z.string(),
+  productId: z.string(),
+  userId: z.string(),
+  rating: z.number(),
+  createdAt: z.date(),
+  user: z.object({ name: z.string() }).optional(),
+  isVerifiedPurchase: z.boolean(),
+});
+
 export type IReviewUpdate = z.infer<typeof updateReviewSchema>;
-export type IReview = z.infer<typeof insertReviewSchema>;
+export type IReviewInsert = z.infer<typeof insertReviewSchema>;
+export type IReview = z.infer<typeof reviewSchema>;

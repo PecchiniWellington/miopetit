@@ -5,8 +5,7 @@ import { prisma } from "@/core/prisma/prisma";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { IReview } from "@/core/validators/review.type";
-import { insertReviewSchema } from "@/core/validators/reviews.validator";
+import { insertReviewSchema, IReview } from "@/core/validators";
 import { formatError } from "@/lib/utils";
 
 // Create & Update Reviews

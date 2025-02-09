@@ -1,9 +1,9 @@
-import { IProduct } from "@/core/validators";
+import { ILatestProduct } from "@/core/validators";
 import Image from "next/image";
 import CarouselProducts from "./carousels/carousel-products";
 
 interface IProductListProps {
-  data: IProduct[];
+  data: ILatestProduct[];
   title?: string;
   limit?: number;
 }

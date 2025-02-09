@@ -9,15 +9,17 @@ import {
   createCategory,
   updataCategory,
 } from "@/core/actions/admin/admin.actions";
-import { ICategory } from "@/core/validators";
 import {
   categorySchema,
+  ICategory,
+  ICategoryInsert,
+  ICategoryUpdate,
+  insertCategorySchema,
   updateCategorySchema,
-} from "@/core/validators/category.validator";
+} from "@/core/validators";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { z } from "zod";
 import { Form } from "../ui/form";
 import SlugFormField from "./product-form/slug-form-field";
 
@@ -33,18 +35,16 @@ const CategoryForm = ({
   const router = useRouter();
   const { toast } = useToast();
 
-  const form = useForm<
-    z.infer<typeof categorySchema | typeof updateCategorySchema>
-  >({
+  const form = useForm<ICategoryInsert | ICategoryUpdate>({
     resolver:
       type === "Update"
         ? zodResolver(updateCategorySchema)
-        : zodResolver(categorySchema),
+        : zodResolver(insertCategorySchema),
     defaultValues:
       category && type === "Update" ? category : CATEGORIES_DEFAULT_VALUES,
   });
 
-  const onSubmit: SubmitHandler<z.infer<typeof categorySchema>> = async (
+  const onSubmit: SubmitHandler<ICategoryInsert | ICategoryUpdate> = async (
     data
   ) => {
     const handleResponse = (

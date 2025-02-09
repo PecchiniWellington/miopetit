@@ -1,11 +1,10 @@
 import { getReviews } from "@/core/actions/reviews/review.action";
 import { IReview } from "@/core/validators";
-import { Review } from "@prisma/client";
 import { useEffect, useState } from "react";
 
 const offensiveWords = ["cazzo", "badword2", "racistword", "misogynisticword"]; // Sostituisci con un elenco più completo
 
-const filterReviews = (reviews: Review[]) => {
+const filterReviews = (reviews: IReview[]) => {
   return reviews.map((review) => ({
     ...review,
     description: offensiveWords.some((word) =>

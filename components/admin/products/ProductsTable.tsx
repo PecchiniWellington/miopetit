@@ -151,7 +151,7 @@ const ProductsTable = ({ products }: { products: { data: IProduct[] } }) => {
                 </td>
 
                 <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-300">
-                  {product.category}
+                  {product.category.name}
                 </td>
                 <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-300">
                   {product.stock}

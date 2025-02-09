@@ -26,11 +26,11 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import {
-  getReviewByProductId,
   createUpdateReview,
+  getReviewByProductId,
 } from "@/core/actions/reviews/review.action";
 
-import { insertReviewSchema } from "@/core/validators/reviews.validator";
+import { insertReviewSchema } from "@/core/validators";
 import { useToast } from "@/hooks/use-toast";
 import { REVIEW_FORM_DEFAULT_VALUES } from "@/lib/constants";
 import { zodResolver } from "@hookform/resolvers/zod";

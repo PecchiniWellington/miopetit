@@ -1,5 +1,5 @@
 import { prisma } from "@/core/prisma/prisma";
-import { updateProductSchema } from "@/core/validators/product.validator";
+import { updateProductSchema } from "@/core/validators";
 import { formatError } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";

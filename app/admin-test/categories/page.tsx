@@ -10,14 +10,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  deleteCategory,
-  getAllCategories,
-} from "@/core/actions/admin/admin.actions";
+import { deleteCategory } from "@/core/actions/admin/admin.actions";
 import { ICategory } from "@/core/validators";
 import { formatDateTime, formatId } from "@/lib/utils";
 import Link from "next/link";
 import DownloadCSV from "./download-csv";
+import { getAllCategories } from "@/core/actions/products/product-infos.ts/get-product-category.action";
 
 const AdminCategoriesPage: React.FC<{
   searchParams: Promise<{

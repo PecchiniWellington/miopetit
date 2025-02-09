@@ -7,8 +7,7 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
-import { insertProductSchema } from "@/core/validators";
-import { updateProductSchema } from "@/core/validators/product.validator";
+import { insertProductSchema, updateProductSchema } from "@/core/validators";
 import { toast } from "@/hooks/use-toast";
 
 import { UploadButton } from "@uploadthing/react";

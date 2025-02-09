@@ -1,11 +1,11 @@
 "use server";
 import { prisma } from "@/core/prisma/prisma";
-import { ICategory } from "@/core/validators";
 import {
   categorySchema,
+  ICategory,
   updateCategorySchema,
-} from "@/core/validators/category.validator";
-import { updateUserSchema } from "@/core/validators/user.validator";
+  updateUserSchema,
+} from "@/core/validators";
 import { PAGE_SIZE } from "@/lib/constants";
 import { formatError } from "@/lib/utils";
 import { Prisma } from "@prisma/client";

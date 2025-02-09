@@ -7,12 +7,12 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { IProduct } from "@/core/validators";
+import { ILatestProduct } from "@/core/validators";
 import AutoPlay from "embla-carousel-autoplay";
 import Image from "next/image";
 import Link from "next/link";
 
-const ProductCarousel = ({ data }: { data: IProduct[] }) => {
+const ProductCarousel = ({ data }: { data: ILatestProduct[] }) => {
   // FIXME: cambiare product type(sono simili tra prisma e types)
   return (
     <Carousel
@@ -28,7 +28,7 @@ const ProductCarousel = ({ data }: { data: IProduct[] }) => {
       ]}
     >
       <CarouselContent>
-        {data.map((product: IProduct) => (
+        {data.map((product: ILatestProduct) => (
           <CarouselItem key={product.id}>
             <Link href={`/product/${product.slug}`}>
               <div className="relative mx-auto h-full max-h-[300px]">

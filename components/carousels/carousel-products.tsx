@@ -8,10 +8,10 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
-import { IProduct } from "@/core/validators";
+import { ILatestProduct } from "@/core/validators";
 import CustomProduct from "../shared/product/customProduct";
 
-const CarouselProducts = ({ data }: { data: IProduct[] }) => {
+const CarouselProducts = ({ data }: { data: ILatestProduct[] }) => {
   // FIXME: cambiare product type(sono simili tra prisma e types)
   return (
     <div className="relative mb-12 w-full">
@@ -24,7 +24,7 @@ const CarouselProducts = ({ data }: { data: IProduct[] }) => {
         }}
       >
         <CarouselContent>
-          {data.map((category: IProduct) => (
+          {data.map((category: ILatestProduct) => (
             <CarouselItem
               key={category.name}
               className={`md:basis-1/2 lg:basis-1/4`}

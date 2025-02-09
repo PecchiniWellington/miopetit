@@ -2,11 +2,13 @@
 
 import { auth } from "@/auth";
 import { prisma } from "@/core/prisma/prisma";
-import { ICart, ICartItem, IProduct } from "@/core/validators";
 import {
-  insertCartSchema,
   cartItemSchema,
-} from "@/core/validators/cart.validator";
+  ICart,
+  ICartItem,
+  insertCartSchema,
+  IProduct,
+} from "@/core/validators";
 import { convertToPlainObject, formatError, round2 } from "@/lib/utils";
 import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
