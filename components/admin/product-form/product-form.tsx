@@ -50,7 +50,6 @@ const ProductForm = ({
   const onSubmit: SubmitHandler<z.infer<typeof insertProductSchema>> = async (
     data
   ) => {
-    console.log("DATA", data);
     const handleResponse = (
       res: { success: boolean; error?: string; message?: string },
       successMessage: string
@@ -87,7 +86,7 @@ const ProductForm = ({
   };
 
   const images = form.watch("images");
-  const isFeatured = form.watch("isFeatured");
+  const isFeatured: boolean | null = form.watch("isFeatured");
   const banner = form.watch("banner");
 
   const formatCategoriesDataForSelect = categories?.map((category) => ({
