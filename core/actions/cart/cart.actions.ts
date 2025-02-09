@@ -137,7 +137,10 @@ export async function addItemToCart(data: ICartItem) {
     const { product } = await getProductByItemProductId(item);
 
     if (!cart) {
-      return await createNewCart(userId, item, sessionCartId, product);
+      return await createNewCart(userId, item, sessionCartId, {
+        ...product,
+        isFeatured: product.isFeatured ?? false,
+      });
     } else {
       return await updateExistingCart(
         {
@@ -148,7 +151,10 @@ export async function addItemToCart(data: ICartItem) {
           taxPrice: cart.taxPrice.toString(),
         },
         item,
-        product
+        {
+          ...product,
+          isFeatured: product.isFeatured ?? false,
+        }
       );
     }
   } catch (error) {
