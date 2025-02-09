@@ -17,7 +17,7 @@ import { Control, UseFormSetValue } from "react-hook-form";
 import { z } from "zod";
 
 interface UploadImageFeaturedProductProps {
-  isFeatured: boolean;
+  isFeatured: boolean | null;
   banner: string | null;
   form: {
     control: Control<
