@@ -44,7 +44,7 @@ export const insertProductSchema = z.object({
     .string()
     .min(3, "Category must be a at least 3 characters")
     .nullable(),
-  isFeatured: z.boolean(),
+  isFeatured: z.boolean().optional().default(false),
 });
 
 export const updateProductSchema = insertProductSchema.extend({
