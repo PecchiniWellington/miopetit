@@ -1,7 +1,6 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
-import { IBrand } from "@/types";
 import { motion } from "framer-motion";
 import { Heart, ShoppingCart } from "lucide-react";
 import Image from "next/image";
@@ -10,7 +9,7 @@ import { useState } from "react";
 interface ProductCardProps {
   image: string;
   name: string;
-  productBrand?: IBrand | null;
+  productBrand?: string | null;
   rating: number;
   reviews: number;
   availability: string;
@@ -66,7 +65,7 @@ export default function ProductCard({
       {/* Product Details */}
       <div className="mt-4 space-y-2">
         <h3 className="text-sm font-semibold text-gray-900">{name}</h3>
-        <p className="text-xs text-gray-500">{productBrand?.name}</p>
+        <p className="text-xs text-gray-500">{productBrand}</p>
 
         {/* Ratings */}
         <div className="flex items-center space-x-1">

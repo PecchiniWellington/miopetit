@@ -1,4 +1,4 @@
-import { IBrand } from "@/types";
+import { IBrand } from "@/types/index";
 
 const ProductCardBrand = ({
   productBrand,

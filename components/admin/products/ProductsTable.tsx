@@ -69,8 +69,6 @@ const ProductsTable = ({ products }: { products: { data: IProduct[] } }) => {
     setFilteredProducts(filtered);
   };
 
-  console.log(products.data);
-
   return (
     <motion.div
       className="mb-8 rounded-xl border border-gray-700 bg-gray-800 bg-opacity-50 p-6 shadow-lg backdrop-blur-md"

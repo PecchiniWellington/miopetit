@@ -101,13 +101,14 @@ const updateExistingCart = async (
   // check if item exists
   if (existingItem) {
     // check if there is enough stock
-    if (product.stock < existingItem.qty + 1) {
+    if (product.stock === null || product.stock < existingItem.qty + 1) {
       throw new Error("Not enough stock");
     }
     existingItem.qty = existingItem.qty + 1;
   } else {
     // add new item
-    if (product.stock < 1) throw new Error("Not enough stock");
+    if (product.stock === null || product.stock < 1)
+      throw new Error("Not enough stock");
     cart.items.push(item);
   }
   await prisma.cart.update({

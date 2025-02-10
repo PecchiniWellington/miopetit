@@ -18,10 +18,14 @@ export async function createProduct(data: unknown) {
       };
     }
 
-    const { productBrand, ...rest } = product.data;
+    const { productBrand, stock, ...rest } = product.data;
 
     await prisma.product.create({
-      data: productBrand ? product.data : rest,
+      data: {
+        ...rest,
+        stock: stock ?? undefined,
+        productBrandId: productBrand ? product.data.productBrandId : undefined,
+      },
     });
 
     revalidatePath("/admin/products");

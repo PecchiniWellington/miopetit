@@ -28,6 +28,8 @@ export async function getProductById(id: string) {
     ...product,
     totalSales,
     totalRevenue,
-    productBrand: brands?.find((brand) => brand.id === product.productBrandId),
+    productBrand: brands?.data.find(
+      (brand) => brand.id === product.productBrandId
+    ),
   });
 }

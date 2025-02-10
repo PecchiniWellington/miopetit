@@ -18,7 +18,18 @@ export async function updateProduct(data: z.infer<typeof updateProductSchema>) {
 
     await prisma.product.update({
       where: { id: product.id },
-      data: product,
+      data: {
+        price: product.price,
+        name: product.name,
+        slug: product.slug,
+        images: product.images,
+        description: product.description,
+        stock: product.stock ?? undefined,
+        isFeatured: product.isFeatured,
+        banner: product.banner,
+        categoryId: product.categoryId,
+        productBrandId: product.productBrandId,
+      },
     });
 
     revalidatePath("/admin/products");

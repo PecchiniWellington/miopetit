@@ -33,7 +33,7 @@ const CarouselProducts = ({ data }: { data: ILatestProduct[] }) => {
                 <CustomProduct
                   image="https://utfs.io/f/RnH9VIVP0zpxL8Sd59Kp86NzgPOkKSsma1BjXoZe9tA3HMCW"
                   name="Monge Natural Superpremium Adult"
-                  brand="MONGE"
+                  productBrand="MONGE"
                   rating={5}
                   reviews={962}
                   availability="Disponibile in 2 varianti"

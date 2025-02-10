@@ -16,7 +16,7 @@ import {
 } from "./get-product-patologies.action";
 import {
   getAllProtein,
-  getProteinBrandByProductId,
+  getProteinByProductId,
 } from "./get-product-proteins.action";
 
 export {
@@ -29,5 +29,5 @@ export {
   getProductBrandByProductId,
   getProductFormatByProductId,
   getProductPatologyByProductId,
-  getProteinBrandByProductId,
+  getProteinByProductId,
 };

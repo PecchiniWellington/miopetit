@@ -21,7 +21,7 @@ const ProductList = ({ data, title, limit }: IProductListProps) => {
                   key={product.id}
                   image="https://utfs.io/f/RnH9VIVP0zpxL8Sd59Kp86NzgPOkKSsma1BjXoZe9tA3HMCW"
                   name={product.name}
-                  productBrand={product.productBrand}
+                  productBrand={product.productBrand?.name}
                   rating={Number(product.rating)}
                   reviews={product.numReviews}
                   availability="Disponibile in 2 varianti (FAKE)"

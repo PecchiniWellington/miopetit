@@ -1,6 +1,7 @@
 import { prisma } from "@/core/prisma/prisma";
 import { PAGE_SIZE } from "@/lib/constants";
 import { Prisma } from "@prisma/client";
+import { getAllBrands } from "./product-infos.ts";
 import { getAllCategories } from "./product-infos.ts/get-product-category.action";
 
 // Get All products
@@ -92,12 +93,25 @@ export async function getAllProducts({
     {} as Record<string, [string, string]>
   );
 
+  // Fetch all brands
+  const brands = await getAllBrands();
+  const brandMap = brands?.data.reduce(
+    (acc, brand) => {
+      acc[brand.id] = [brand.name, brand.id];
+      return acc;
+    },
+    {} as Record<string, [string, string]>
+  );
+
   const updatedData = data.map((item) => {
     return {
       ...item,
       category: item.categoryId
         ? (categoryMap?.[item.categoryId][1] ?? "N/A")
         : "N/A",
+      productBrand: item.productBrandId
+        ? (brandMap?.[item.productBrandId][0] ?? null)
+        : null,
     };
   });
 
