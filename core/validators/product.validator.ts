@@ -19,11 +19,6 @@ export const productSchema = z.object({
   isFeatured: z.boolean().optional().default(false),
   createdAt: z.date().default(new Date()),
   updatedAt: z.date().default(new Date()),
-
-  productBrand: z
-    .object({ name: z.string(), id: z.string().uuid() })
-    .optional()
-    .nullable(),
   productBrandId: z.string().uuid().nullable(),
   formatId: z.string().uuid().nullable(),
   productFeaturesId: z.string().uuid().nullable(),
@@ -74,7 +69,9 @@ export const latestProductSchema = z.object({
   // Add other fields as necessary
 });
 
-export type IProduct = z.infer<typeof productSchema>;
+export type IProduct = z.infer<typeof productSchema> & {
+  productBrand?: { name: string; id: string };
+};
 export type IInsertProduct = z.infer<typeof insertProductSchema>;
 export type IUpdateProduct = z.infer<typeof updateProductSchema>;
 export type ILatestProduct = z.infer<typeof latestProductSchema>;

@@ -47,9 +47,9 @@ const ProductForm = ({
       product && type === "Update" ? product : PRODUCT_DEFAULT_VALUES,
   });
 
-  const onSubmit: SubmitHandler<z.infer<typeof insertProductSchema>> = async (
-    data
-  ) => {
+  const onSubmit: SubmitHandler<
+    z.infer<typeof insertProductSchema> | z.infer<typeof updateProductSchema>
+  > = async (data) => {
     const handleResponse = (
       res: { success: boolean; error?: string; message?: string },
       successMessage: string

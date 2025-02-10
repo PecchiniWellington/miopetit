@@ -18,13 +18,12 @@ export async function createProduct(data: unknown) {
       };
     }
 
-    const { productBrand, stock, ...rest } = product.data;
+    const { stock, ...rest } = product.data;
 
     await prisma.product.create({
       data: {
         ...rest,
         stock: stock ?? undefined,
-        productBrandId: productBrand ? product.data.productBrandId : undefined,
       },
     });
 
