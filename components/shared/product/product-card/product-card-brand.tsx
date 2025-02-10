@@ -1,7 +1,11 @@
-import React from "react";
+import { IBrand } from "@/types";
 
-const ProductCardBrand = ({ brand }: { brand: string }) => {
-  return <h2 className="text-base font-bold">{brand}</h2>;
+const ProductCardBrand = ({
+  productBrand,
+}: {
+  productBrand?: IBrand | null;
+}) => {
+  return <h2 className="text-base font-bold">{productBrand?.name}</h2>;
 };
 
 export default ProductCardBrand;

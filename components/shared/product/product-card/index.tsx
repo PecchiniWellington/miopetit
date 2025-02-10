@@ -7,13 +7,13 @@ import ProductCardStar from "./product-card-star";
 import { ProductStock } from "./product-card-stock";
 
 const ProductCard = ({ product }: { product: IProduct }) => {
-  const { images, name, slug, brand, price, rating, stock } = product;
+  const { images, name, slug, productBrand, price, rating, stock } = product;
 
   return (
     <Card className="w-full max-w-sm overflow-hidden bg-white">
       <ProductCardHeader images={images} name={name} slug={slug} />
       <CardContent className="grid gap-1 border-t-2 p-4">
-        <ProductCardBrand brand={brand} />
+        <ProductCardBrand productBrand={productBrand} />
         <ProductCardName name={name} slug={slug} />
         <div className="flex-between mt-2 flex-wrap gap-1">
           <ProductCardStar rating={rating} />

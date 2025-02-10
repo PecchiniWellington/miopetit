@@ -1,5 +1,5 @@
 import { prisma } from "@/core/prisma/prisma";
-import { formatError } from "@/lib/utils";
+import { formatValidationError } from "@/lib/utils";
 
 /* GET ALL CATEGORIES */
 export async function getAllCategories() {
@@ -22,7 +22,10 @@ export async function getAllCategories() {
       ),
     };
   } catch (error) {
-    return { success: false, message: formatError(error) };
+    return {
+      success: false,
+      error: formatValidationError((error as Error).message),
+    };
   }
 }
 

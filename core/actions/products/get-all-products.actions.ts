@@ -32,6 +32,7 @@ export async function getAllProducts({
       : {};
 
   const categories = await getAllCategories();
+
   const categoryFilter: Prisma.ProductWhereInput =
     category && category !== "all"
       ? {

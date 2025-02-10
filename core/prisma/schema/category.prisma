@@ -4,8 +4,8 @@ model Category {
     slug        String  @unique(map: "category_slug_idx")
     description String?
 
-    createdAt DateTime @default(now()) @db.Timestamp(6)
-    updatedAt DateTime @updatedAt
+    createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+    updatedAt DateTime @updatedAt @map("updated_at")
 
     Product Product[]
 }

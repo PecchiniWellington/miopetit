@@ -10,7 +10,7 @@ export const productSchema = z.object({
   slug: z.string().min(3, "Slug must be at least 3 characters"),
   images: z.array(z.string().min(1, "Product must have at least 1 image")),
   description: z.string().min(3, "Description must be at least 3 characters"),
-  stock: z.number(),
+  stock: z.number().nullable().default(0),
   price: currency,
   rating: z.string().nullable(),
   banner: z.string().nullable(),
@@ -19,6 +19,11 @@ export const productSchema = z.object({
   isFeatured: z.boolean().optional().default(false),
   createdAt: z.date().default(new Date()),
   updatedAt: z.date().default(new Date()),
+
+  productBrand: z
+    .object({ name: z.string(), id: z.string().uuid() })
+    .optional()
+    .nullable(),
   productBrandId: z.string().uuid().nullable(),
   formatId: z.string().uuid().nullable(),
   productFeaturesId: z.string().uuid().nullable(),
@@ -34,8 +39,13 @@ export const insertProductSchema = z.object({
   slug: z.string().min(3, "Slug must be a at least 3 characters"),
   images: z.array(z.string().min(1, "Product must have at least 1 image")),
   description: z.string().min(3, "Description must be a at least 3 characters"),
-  stock: z.coerce.number(),
+  stock: z.coerce.number().nullable().default(0),
   price: currency,
+  productBrandId: z.string().uuid().nullable(),
+  productBrand: z
+    .object({ name: z.string(), id: z.string().uuid() })
+    .optional()
+    .nullable(),
   banner: z.string().nullable(),
   categoryId: z
     .string()
@@ -54,8 +64,13 @@ export const latestProductSchema = z.object({
   price: z.string(),
   rating: z.string(),
   createdAt: z.date(),
+  productBrandId: z.string().uuid().nullable(),
+
+  productBrand: z
+    .object({ name: z.string(), id: z.string().uuid() })
+    .optional()
+    .nullable(),
   updatedAt: z.date(),
-  brand: z.string(),
   numReviews: z.number(),
   slug: z.string(),
   banner: z.string().nullable(),

@@ -44,7 +44,15 @@ const ProductForm = ({
         ? zodResolver(updateProductSchema)
         : zodResolver(insertProductSchema),
     defaultValues:
-      product && type === "Update" ? product : PRODUCT_DEFAULT_VALUES,
+      product && type === "Update"
+        ? {
+            ...product,
+            productBrand: {
+              name: product.productBrand?.name || undefined,
+              id: product.productBrand?.id || undefined,
+            },
+          }
+        : PRODUCT_DEFAULT_VALUES,
   });
 
   const onSubmit: SubmitHandler<z.infer<typeof insertProductSchema>> = async (

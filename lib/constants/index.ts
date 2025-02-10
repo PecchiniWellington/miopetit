@@ -42,7 +42,7 @@ export const PRODUCT_DEFAULT_VALUES = {
   category: {},
   categoryId: "",
   images: [],
-  brand: "",
+  brand: { name: undefined, id: undefined },
   description: "",
   price: "0",
   stock: 0,

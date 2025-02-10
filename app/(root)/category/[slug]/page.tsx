@@ -233,7 +233,6 @@ const CategoryType = async (props: {
               key={product.id}
               image="https://utfs.io/f/RnH9VIVP0zpxL8Sd59Kp86NzgPOkKSsma1BjXoZe9tA3HMCW"
               name={product.name}
-              brand={product.brand}
               rating={Number(product.rating)}
               reviews={product.numReviews}
               availability="Disponibile in 2 varianti (FAKE)"
