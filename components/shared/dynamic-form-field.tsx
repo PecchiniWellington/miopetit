@@ -53,7 +53,9 @@ const DynamicFormField = ({
               />
             ) : type === "select" ? (
               <SearchSelect
-                value={field.value}
+                value={
+                  options?.find((option) => option.value === field.value)?.value
+                }
                 options={options! || []}
                 onSelect={(value) => field.onChange(value)}
                 placeholder="Choose an option"

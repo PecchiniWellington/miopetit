@@ -1,5 +1,6 @@
 import ProductForm from "@/components/admin/product-form/product-form";
 import { getProductById } from "@/core/actions/products";
+import { getAllBrands } from "@/core/actions/products/product-infos.ts";
 import { getAllCategories } from "@/core/actions/products/product-infos.ts/get-product-category.action";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -14,8 +15,10 @@ const AdminProductUpdatePage = async (props: {
 }) => {
   const { id } = await props.params;
   const product = await getProductById(id);
-  const { data } = await getAllCategories();
-  const categoriesDistribution = JSON.parse(JSON.stringify(data));
+  const categories = await getAllCategories();
+  const brands = await getAllBrands();
+  const categoriesDistribution = JSON.parse(JSON.stringify(categories.data));
+  const brandsDistribution = JSON.parse(JSON.stringify(brands?.data));
 
   if (!product) return notFound();
 
@@ -27,6 +30,7 @@ const AdminProductUpdatePage = async (props: {
         product={product}
         productId={product.id}
         categories={categoriesDistribution}
+        brands={brandsDistribution}
       />
     </div>
   );

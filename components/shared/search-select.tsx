@@ -39,7 +39,7 @@ export default function SearchSelect({
   };
 
   return (
-    <div className="relative w-full min-w-[400px] max-w-sm">
+    <div className="relative w-full  max-w-sm">
       <div
         className="flex cursor-pointer items-center justify-between rounded-md border border-slate-700 bg-transparent p-2"
         onClick={() => setIsOpen(!isOpen)}

@@ -8,6 +8,7 @@ export async function getProductById(id: string) {
     where: { id },
     include: {
       orderitems: true, // Include tutti gli ordini di questo prodotto
+      category: true, // ✅ Include la categoria se categoryId esiste
     },
   });
 

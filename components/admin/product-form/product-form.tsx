@@ -1,7 +1,6 @@
 "use client";
 
 import DynamicFormField from "@/components/shared/dynamic-form-field";
-import SearchSelect from "@/components/shared/search-select";
 import { Button } from "@/components/ui/button";
 import { createProduct, updateProduct } from "@/core/actions/products";
 import {
@@ -13,11 +12,13 @@ import {
 } from "@/core/validators";
 import { useToast } from "@/hooks/use-toast";
 import { PRODUCT_DEFAULT_VALUES } from "@/lib/constants";
+import { IBrand } from "@/types/index";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
-import { Form, FormField, FormItem, FormLabel } from "../../ui/form";
+import { Form } from "../../ui/form";
 import SlugFormField from "./slug-form-field";
 import UploadImage from "./upload-image";
 import UploadImageFeaturedProduct from "./upload-image-featured-product";
@@ -27,11 +28,13 @@ const ProductForm = ({
   product,
   productId,
   categories,
+  brands,
 }: {
   type: "Create" | "Update";
   product?: ILatestProduct | IUpdateProduct;
   productId?: string;
   categories?: ICategory[];
+  brands?: IBrand[];
 }) => {
   const router = useRouter();
   const { toast } = useToast();
@@ -50,6 +53,14 @@ const ProductForm = ({
   const onSubmit: SubmitHandler<
     z.infer<typeof insertProductSchema> | z.infer<typeof updateProductSchema>
   > = async (data) => {
+    const schema =
+      type === "Update" ? updateProductSchema : insertProductSchema;
+    const parsed = schema.safeParse(data);
+
+    if (!parsed.success) {
+      console.log("🔴 ERRORI DI VALIDAZIONE:", parsed.error.format()); // Mostra tutti gli errori
+      return;
+    }
     const handleResponse = (
       res: { success: boolean; error?: string; message?: string },
       successMessage: string
@@ -80,6 +91,8 @@ const ProductForm = ({
         router.push("/admin/products");
         return;
       }
+
+      console.log("data", data);
       const res = await updateProduct({ ...data, id: productId });
       handleResponse(res, "Product updated");
     }
@@ -89,17 +102,33 @@ const ProductForm = ({
   const isFeatured: boolean | null = form.watch("isFeatured");
   const banner = form.watch("banner");
 
-  const formatCategoriesDataForSelect = categories?.map((category) => ({
-    value: category.id,
-    label: category.name,
-  }));
+  const formatterForSelect = (data: ICategory[] | IBrand[]) =>
+    data?.map((d: IBrand | ICategory) => ({
+      value: d.id,
+      label: d.name,
+    }));
 
+  useEffect(() => {
+    console.log("FORM", form);
+  });
+  /*  onSubmit={form.handleSubmit(
+    (data) => console.log("✅ Dati inviati:", data),
+    (errors) => console.log("❌ Errori nel form:", errors)
+  )} */
   return (
     <Form {...form}>
       <form
         className="space-y-8"
         method="POST"
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={form.handleSubmit(
+          (data) => {
+            console.log("✅ Dati inviati:", data);
+            onSubmit(data); // Esegui la tua logica di submit
+          },
+          (errors) => {
+            console.log("❌ Errori nel form:", errors);
+          }
+        )}
       >
         <div className="flex flex-col  gap-5 md:flex-row">
           {/* Name */}
@@ -116,31 +145,28 @@ const ProductForm = ({
         <div className="flex flex-col  gap-5 md:flex-row">
           {/* Category */}
 
-          <FormField
+          <DynamicFormField
+            type="select"
+            options={categories ? formatterForSelect(categories) : []}
             control={form.control}
             name="categoryId"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Category</FormLabel>
-
-                <SearchSelect
-                  options={formatCategoriesDataForSelect!}
-                  onSelect={(value) => {
-                    field.onChange(value);
-                  }}
-                  placeholder="Choose an animal"
-                />
-              </FormItem>
-            )}
+            schema={insertProductSchema}
+            title="Category"
+            placeholder="Enter category"
           />
+
+          {/* Category */}
+
           {/* Brand */}
-          {/* <DynamicFormField
+          <DynamicFormField
+            type="select"
+            options={brands ? formatterForSelect(brands) : []}
             control={form.control}
-            name="brand"
+            name="productBrandId"
             schema={insertProductSchema}
             title="Brand"
             placeholder="Enter brand"
-          /> */}
+          />
         </div>
         <div className="flex flex-col  gap-5 md:flex-row">
           {/* Price */}

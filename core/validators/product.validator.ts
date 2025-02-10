@@ -71,6 +71,7 @@ export const latestProductSchema = z.object({
 
 export type IProduct = z.infer<typeof productSchema> & {
   productBrand?: { name: string; id: string };
+  category?: { name: string; id: string };
 };
 export type IInsertProduct = z.infer<typeof insertProductSchema>;
 export type IUpdateProduct = z.infer<typeof updateProductSchema>;

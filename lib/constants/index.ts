@@ -50,6 +50,7 @@ export const PRODUCT_DEFAULT_VALUES = {
   numReviews: "0",
   isFeatured: false,
   banner: null,
+  productBrandId: null,
 };
 
 export const REVIEW_FORM_DEFAULT_VALUES = {
