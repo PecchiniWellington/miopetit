@@ -1,7 +1,5 @@
 import { currency } from "@/lib/utils";
 import { z } from "zod";
-import { categorySchema } from "./category.validator";
-import { orderSchema } from "./orders.validator";
 
 // Schema for Product model
 export const productSchema = z.object({
@@ -22,10 +20,10 @@ export const productSchema = z.object({
   productBrandId: z.string().uuid().nullable(),
   formatId: z.string().uuid().nullable(),
   productFeaturesId: z.string().uuid().nullable(),
-  productProteinId: z.string().uuid().nullable(),
+  productProteinId: z.array(z.string().uuid()).nullable(),
   productPatologyId: z.string().uuid().nullable(),
-  category: categorySchema,
-  orderitems: z.array(orderSchema),
+  category: z.string().uuid().nullable(),
+  orderitems: z.array(z.string().uuid().nullable()),
 });
 
 // Schema for inserting products
@@ -37,7 +35,9 @@ export const insertProductSchema = z.object({
   stock: z.coerce.number().nullable().default(0),
   price: currency,
   productBrandId: z.string().uuid().nullable(),
+  productPatologyId: z.string().uuid().nullable(),
   banner: z.string().nullable(),
+  productProteinId: z.array(z.string().uuid()).nullable(),
   categoryId: z
     .string()
     .min(3, "Category must be a at least 3 characters")
@@ -56,11 +56,7 @@ export const latestProductSchema = z.object({
   rating: z.string(),
   createdAt: z.date(),
   productBrandId: z.string().uuid().nullable(),
-
-  productBrand: z
-    .object({ name: z.string(), id: z.string().uuid() })
-    .optional()
-    .nullable(),
+  productProteinId: z.array(z.string().uuid()).nullable(),
   updatedAt: z.date(),
   numReviews: z.number(),
   slug: z.string(),

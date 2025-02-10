@@ -4,7 +4,7 @@ import { convertToPlainObject, formatValidationError } from "@/lib/utils";
 export async function getAllProtein() {
   try {
     const proteine = await prisma.productProtein.findMany();
-    return convertToPlainObject(proteine);
+    return convertToPlainObject({ data: proteine });
   } catch (error) {
     if (error instanceof Error) {
       formatValidationError(error.message);

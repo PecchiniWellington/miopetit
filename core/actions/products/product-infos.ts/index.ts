@@ -11,7 +11,7 @@ import {
   getProductFormatByProductId,
 } from "./get-product-formats.action";
 import {
-  getAllPatologies,
+  getAllPathologies,
   getProductPatologyByProductId,
 } from "./get-product-patologies.action";
 import {
@@ -23,7 +23,7 @@ export {
   getAllBrands,
   getAllFeatures,
   getAllFormats,
-  getAllPatologies,
+  getAllPathologies,
   getAllProtein,
   getFeaturesBrandByProductId,
   getProductBrandByProductId,

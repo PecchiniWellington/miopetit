@@ -12,10 +12,9 @@ import {
 } from "@/core/validators";
 import { useToast } from "@/hooks/use-toast";
 import { PRODUCT_DEFAULT_VALUES } from "@/lib/constants";
-import { IBrand } from "@/types/index";
+import { IBrand, IPatology, IProtein } from "@/types/index";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Form } from "../../ui/form";
@@ -29,12 +28,16 @@ const ProductForm = ({
   productId,
   categories,
   brands,
+  patologies,
+  proteins,
 }: {
   type: "Create" | "Update";
   product?: ILatestProduct | IUpdateProduct;
   productId?: string;
   categories?: ICategory[];
   brands?: IBrand[];
+  patologies?: IPatology[];
+  proteins?: IProtein[];
 }) => {
   const router = useRouter();
   const { toast } = useToast();
@@ -92,7 +95,6 @@ const ProductForm = ({
         return;
       }
 
-      console.log("data", data);
       const res = await updateProduct({ ...data, id: productId });
       handleResponse(res, "Product updated");
     }
@@ -102,19 +104,14 @@ const ProductForm = ({
   const isFeatured: boolean | null = form.watch("isFeatured");
   const banner = form.watch("banner");
 
-  const formatterForSelect = (data: ICategory[] | IBrand[]) =>
-    data?.map((d: IBrand | ICategory) => ({
+  const formatterForSelect = (
+    data: ICategory[] | IBrand[] | IPatology[] | IProtein[]
+  ) =>
+    data?.map((d: IBrand | ICategory | IPatology | IProtein) => ({
       value: d.id,
       label: d.name,
     }));
 
-  useEffect(() => {
-    console.log("FORM", form);
-  });
-  /*  onSubmit={form.handleSubmit(
-    (data) => console.log("✅ Dati inviati:", data),
-    (errors) => console.log("❌ Errori nel form:", errors)
-  )} */
   return (
     <Form {...form}>
       <form
@@ -154,6 +151,15 @@ const ProductForm = ({
             title="Category"
             placeholder="Enter category"
           />
+          <DynamicFormField
+            type="select"
+            options={patologies ? formatterForSelect(patologies) : []}
+            control={form.control}
+            name="productPatologyId"
+            schema={insertProductSchema}
+            title="Patologies"
+            placeholder="Enter category"
+          />
 
           {/* Category */}
 
@@ -166,6 +172,17 @@ const ProductForm = ({
             schema={insertProductSchema}
             title="Brand"
             placeholder="Enter brand"
+          />
+
+          {/* Proteins */}
+          <DynamicFormField
+            type="multiple-select"
+            options={proteins ? formatterForSelect(proteins) : []}
+            control={form.control}
+            name="productProteinId"
+            schema={insertProductSchema}
+            title="Proteins"
+            placeholder="Enter proteins"
           />
         </div>
         <div className="flex flex-col  gap-5 md:flex-row">

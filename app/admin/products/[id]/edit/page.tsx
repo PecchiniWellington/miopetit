@@ -1,6 +1,10 @@
 import ProductForm from "@/components/admin/product-form/product-form";
 import { getProductById } from "@/core/actions/products";
-import { getAllBrands } from "@/core/actions/products/product-infos.ts";
+import {
+  getAllBrands,
+  getAllPathologies,
+  getAllProtein,
+} from "@/core/actions/products/product-infos.ts";
 import { getAllCategories } from "@/core/actions/products/product-infos.ts/get-product-category.action";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -17,8 +21,12 @@ const AdminProductUpdatePage = async (props: {
   const product = await getProductById(id);
   const categories = await getAllCategories();
   const brands = await getAllBrands();
+  const pathologies = await getAllPathologies();
+  const proteins = await getAllProtein();
   const categoriesDistribution = JSON.parse(JSON.stringify(categories.data));
   const brandsDistribution = JSON.parse(JSON.stringify(brands?.data));
+  const pathologiesDistribution = JSON.parse(JSON.stringify(pathologies?.data));
+  const proteinsDistribution = JSON.parse(JSON.stringify(proteins?.data));
 
   if (!product) return notFound();
 
@@ -31,6 +39,8 @@ const AdminProductUpdatePage = async (props: {
         productId={product.id}
         categories={categoriesDistribution}
         brands={brandsDistribution}
+        patologies={pathologiesDistribution}
+        proteins={proteinsDistribution}
       />
     </div>
   );

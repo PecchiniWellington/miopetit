@@ -3,6 +3,7 @@
 import { Control, Controller } from "react-hook-form";
 
 import { z } from "zod";
+import CustomMultipleSelect from "../custom-multiple-select";
 import { FormControl, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
@@ -21,7 +22,7 @@ interface DynamicFormFieldProps {
   schema: z.ZodType<unknown>;
   title: string;
   placeholder?: string;
-  type?: "input" | "textarea" | "select";
+  type?: "input" | "textarea" | "select" | "multiple-select";
   className?: string;
   options?: Option[];
 }
@@ -59,6 +60,13 @@ const DynamicFormField = ({
                 options={options! || []}
                 onSelect={(value) => field.onChange(value)}
                 placeholder="Choose an option"
+              />
+            ) : type === "multiple-select" ? (
+              <CustomMultipleSelect
+                value={field.value || []}
+                options={options! || []}
+                onSelect={(value) => field.onChange(value)}
+                placeholder="Seleziona una o più proteine"
               />
             ) : (
               <Input

@@ -1,10 +1,12 @@
 import { prisma } from "@/core/prisma/prisma";
 import { convertToPlainObject, formatValidationError } from "@/lib/utils";
 
-export async function getAllPatologies() {
+export async function getAllPathologies() {
   try {
     const patologies = await prisma.productPatology.findMany();
-    return convertToPlainObject(patologies);
+    return {
+      data: patologies,
+    };
   } catch (error) {
     if (error instanceof Error) {
       formatValidationError(error.message);

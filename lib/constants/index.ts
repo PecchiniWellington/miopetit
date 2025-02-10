@@ -51,6 +51,8 @@ export const PRODUCT_DEFAULT_VALUES = {
   isFeatured: false,
   banner: null,
   productBrandId: null,
+  productPatologies: null,
+  productProteins: null,
 };
 
 export const REVIEW_FORM_DEFAULT_VALUES = {

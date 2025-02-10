@@ -1,6 +1,5 @@
 import { prisma } from "@/core/prisma/prisma";
 import { convertToPlainObject } from "@/lib/utils";
-import { getAllBrands } from "./product-infos.ts";
 
 // Get product by id with sales data
 export async function getProductById(id: string) {
@@ -9,11 +8,13 @@ export async function getProductById(id: string) {
     include: {
       orderitems: true, // Include tutti gli ordini di questo prodotto
       category: true, // ✅ Include la categoria se categoryId esiste
+      productBrand: true, // ✅ Include il brand se productBrandId esiste
+      productPatology: true, // ✅ Include la patologia se productPatologyId esiste
+      productProtein: true, // ✅ Include le proteine se productProteinId esiste
     },
   });
 
   if (!product) return null;
-  const brands = await getAllBrands();
 
   // Calcola il totale delle unità vendute e il guadagno totale
   const totalSales = product.orderitems.reduce(
@@ -29,8 +30,5 @@ export async function getProductById(id: string) {
     ...product,
     totalSales,
     totalRevenue,
-    productBrand: brands?.data.find(
-      (brand) => brand.id === product.productBrandId
-    ),
   });
 }

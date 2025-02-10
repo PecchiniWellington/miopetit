@@ -20,25 +20,20 @@ model Product {
     updatedAt   DateTime   @updatedAt
     animalAge   AnimalAge?
 
-    /**
-     * IdRelations
-     */
-    categoryId        String? @db.Uuid
-    productBrandId    String? @db.Uuid
-    formatId          String? @db.Uuid
-    productFeaturesId String? @db.Uuid
-    productProteinId  String? @db.Uuid
-    productPatologyId String? @db.Uuid
+    categoryId        String?  @db.Uuid
+    productBrandId    String[] @db.Uuid
+    formatId          String?  @db.Uuid
+    productFeaturesId String?  @db.Uuid
 
-    /**
-     * Relations
-     */
-    category        Category?        @relation(fields: [categoryId], references: [id], onDelete: SetNull)
-    orderitems      OrderItem[]
-    Review          Review[]
-    productBrand    ProductBrand?    @relation("ProductBrand", fields: [productBrandId], references: [id], onDelete: SetNull)
-    format          ProductFormat?   @relation("ProductFormat", fields: [formatId], references: [id], onDelete: SetNull)
-    productFeatures ProductFeatures? @relation("ProductFeatures", fields: [productFeaturesId], references: [id], onDelete: SetNull)
-    productProtein  ProductProtein?  @relation("ProductProtein", fields: [productProteinId], references: [id], onDelete: SetNull)
-    productPatology ProductPatology? @relation("ProductPatology", fields: [productPatologyId], references: [id], onDelete: SetNull)
+    category          Category?        @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+    orderitems        OrderItem[]
+    Review            Review[]
+    productPatologyId String?          @db.Uuid
+    productBrand      ProductBrand?    @relation("ProductBrand", fields: [productBrandId], references: [id], onDelete: SetNull)
+    format            ProductFormat?   @relation("ProductFormat", fields: [formatId], references: [id], onDelete: SetNull)
+    productFeatures   ProductFeatures? @relation("ProductFeatures", fields: [productFeaturesId], references: [id], onDelete: SetNull)
+
+    productProteinId String?          @db.Uuid
+    ProductProtein   ProductProtein?  @relation(fields: [productProteinId], references: [id])
+    ProductPatology  ProductPatology? @relation(fields: [productPatologyId], references: [id])
 }
