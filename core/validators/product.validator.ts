@@ -42,10 +42,6 @@ export const insertProductSchema = z.object({
   stock: z.coerce.number().nullable().default(0),
   price: currency,
   productBrandId: z.string().uuid().nullable(),
-  productBrand: z
-    .object({ name: z.string(), id: z.string().uuid() })
-    .optional()
-    .nullable(),
   banner: z.string().nullable(),
   categoryId: z
     .string()

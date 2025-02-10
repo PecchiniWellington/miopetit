@@ -7,6 +7,7 @@ import { z } from "zod";
 export async function updateProduct(data: z.infer<typeof updateProductSchema>) {
   try {
     const product = updateProductSchema.parse(data);
+    console.log("product", product);
 
     const productExist = await prisma.product.findFirst({
       where: { id: product.id },

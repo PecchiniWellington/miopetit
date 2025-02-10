@@ -5,8 +5,6 @@ import CategoryDistributionChart from "@/components/admin/overview/CategoryDistr
 import ProductsTable from "@/components/admin/products/ProductsTable";
 import SalesTrendChart from "@/components/admin/products/SalesTrendChart";
 import DynamicButton from "@/components/dynamic-button";
-import CustomProduct from "@/components/shared/product/customProduct";
-import { getOrderSummary } from "@/core/actions/order/order.action";
 import { getAllProducts } from "@/core/actions/products";
 import { getAllCategories } from "@/core/actions/products/product-infos.ts/get-product-category.action";
 import Link from "next/link";
@@ -30,11 +28,9 @@ const ProductsPage = async (props: {
     category,
     limit: 100,
   });
-  const summary = await getOrderSummary();
   const categories = await getAllCategories();
 
   const products = JSON.parse(JSON.stringify(productsResponse));
-  const overviewSummary = JSON.parse(JSON.stringify(summary));
   const categoriesDistribution = JSON.parse(JSON.stringify(categories));
 
   return (
@@ -50,18 +46,6 @@ const ProductsPage = async (props: {
         </div>
         {/* STATS */}
 
-        <CustomProduct
-          key={overviewSummary.id}
-          image="https://utfs.io/f/RnH9VIVP0zpxL8Sd59Kp86NzgPOkKSsma1BjXoZe9tA3HMCW"
-          name={overviewSummary.name}
-          productBrand={overviewSummary.productBrand}
-          rating={Number(overviewSummary.rating)}
-          reviews={overviewSummary.numReviews}
-          availability="Disponibile in 2 varianti (FAKE)"
-          price={Number(overviewSummary.price)}
-          oldPrice={54.99}
-          pricePerKg="€4,16/KG (FAKE)"
-        />
         <ProductsTable products={products} />
 
         {/* CHARTS */}
