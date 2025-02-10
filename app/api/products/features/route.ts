@@ -1,4 +1,4 @@
-import { getProductBrandByProductId } from "@/core/actions/products/product-infos.ts/get-product-brand.action";
+import { getFeaturesBrandByProductId } from "@/core/actions/products/product-infos.ts/get-product-features.action";
 import handleError from "@/types/handlers/error";
 import { NotFoundError } from "@/types/http-errors";
 import { NextResponse } from "next/server";
@@ -10,7 +10,7 @@ export async function GET(
   const { id } = await params;
 
   try {
-    const account = await getProductBrandByProductId(id);
+    const account = await getFeaturesBrandByProductId(id);
     if (!account) throw new NotFoundError("Account");
 
     return NextResponse.json({ success: true, data: account }, { status: 200 });

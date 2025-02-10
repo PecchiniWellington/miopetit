@@ -3,8 +3,8 @@ import { convertToPlainObject, formatValidationError } from "@/lib/utils";
 
 export async function getAllBrands() {
   try {
-    const product = await prisma.productBrand.findMany();
-    return convertToPlainObject(product);
+    const brands = await prisma.productBrand.findMany();
+    return convertToPlainObject(brands);
   } catch (error) {
     if (error instanceof Error) {
       formatValidationError(error.message);
@@ -16,12 +16,12 @@ export async function getAllBrands() {
 
 export async function getProductBrandByProductId(productId: string) {
   try {
-    const product = await prisma.productBrand.findFirst({
+    const brand = await prisma.productBrand.findFirst({
       where: {
         id: productId,
       },
     });
-    return convertToPlainObject(product);
+    return convertToPlainObject(brand);
   } catch (error) {
     if (error instanceof Error) {
       formatValidationError(error.message);

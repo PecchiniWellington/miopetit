@@ -1,7 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 /* import sampleData from "./sample-data";
  */
-import animalAges from "./animal-ages";
 import productBrand from "./product-brand";
 import productFeature from "./product-feature";
 import productFormats from "./product-formats";
@@ -15,10 +14,9 @@ async function main() {
   /* Delete first */
   await prisma.product.deleteMany();
   /*   await prisma.category.deleteMany(); */
-  await prisma.animalAge.deleteMany();
   await prisma.productProtein.deleteMany();
   await prisma.productFeatures.deleteMany();
-  await prisma.format.deleteMany();
+  await prisma.productFormat.deleteMany();
   await prisma.productPatology.deleteMany();
   await prisma.productBrand.deleteMany();
   await prisma.user.deleteMany();
@@ -29,14 +27,13 @@ async function main() {
   /* Create */
   /*  await prisma.category.createMany({ data: categoryData.categoryData }); */
   await prisma.user.createMany({ data: usersData.users });
-  await prisma.animalAge.createMany({ data: animalAges.animalAges });
   await prisma.productProtein.createMany({
     data: productProteins.productProteins,
   });
   await prisma.productFeatures.createMany({
     data: productFeature.productFeatures,
   });
-  await prisma.format.createMany({
+  await prisma.productFormat.createMany({
     data: productFormats.productFormats,
   });
   await prisma.productPatology.createMany({

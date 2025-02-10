@@ -11,7 +11,8 @@
     "open-prisma": "prisma studio",
     "test": "jest",
     "test:watch": "jest --watch",
-    "email": "cp .env ./node_modules/react-email && email dev --dir email --port 3001"
+    "email": "cp .env ./node_modules/react-email && email dev --dir email --port 3001",
+    "fake-data": "npx tsx ./core/db-static/seed.ts"
   },
   "prisma": {
     "schema": "core/prisma/schema"
