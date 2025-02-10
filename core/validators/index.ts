@@ -1,4 +1,3 @@
-import { IAnimalAge, insertAnimalAgeSchema } from "./animal-age.validator";
 import {
   ISignInForm,
   ISignUpForm,
@@ -70,7 +69,6 @@ import {
 } from "./user.validator";
 
 export type {
-  IAnimalAge,
   ICart,
   ICartItem,
   ICartUpdate,
@@ -104,7 +102,6 @@ export {
   SalesDataTypeSchema,
   cartItemSchema,
   categorySchema,
-  insertAnimalAgeSchema,
   insertCartSchema,
   insertCategorySchema,
   insertOrderItemSchema,
