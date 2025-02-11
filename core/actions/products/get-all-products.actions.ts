@@ -107,7 +107,7 @@ export async function getAllProducts({
     return {
       ...item,
       category: item.categoryId
-        ? (categoryMap?.[item.categoryId][1] ?? "N/A")
+        ? (categoryMap?.[item.categoryId][0] ?? "N/A")
         : "N/A",
       productBrand: item.productBrandId
         ? (brandMap?.[item.productBrandId][0] ?? null)

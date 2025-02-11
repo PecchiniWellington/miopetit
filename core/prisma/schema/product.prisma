@@ -29,11 +29,13 @@ model Product {
     formatId          String? @db.Uuid
     productFeaturesId String? @db.Uuid
     productBrandId    String? @db.Uuid
+    unitOfMeasureId   String? @db.Uuid
 
     productFormat    ProductFormat?    @relation(fields: [formatId], references: [id], onDelete: SetNull)
     productFeatures  ProductFeatures?  @relation(fields: [productFeaturesId], references: [id], onDelete: SetNull)
     productBrand     ProductBrand?     @relation(fields: [productBrandId], references: [id], onDelete: SetNull)
     ProductPathology ProductPathology? @relation(fields: [productPatologyId], references: [id])
+    unitOfMeasure    UnitOfMeasure?    @relation(fields: [unitOfMeasureId], references: [id], onDelete: SetNull)
 
     /**
      * MANY-TO-MANY WITH PROTEIN

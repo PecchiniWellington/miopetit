@@ -66,7 +66,7 @@ export const latestProductSchema = z.object({
 
 export type IProduct = z.infer<typeof productSchema> & {
   productBrand?: { name: string; id: string };
-  category?: { name: string; id: string };
+  category?: string;
   productProteins?: Array<{
     productId: string;
     productProteinId: string;

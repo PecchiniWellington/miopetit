@@ -32,6 +32,7 @@ export async function getProductById(id: string) {
 
   return convertToPlainObject({
     ...product,
+    category: product.category ? product.category.name : null,
     totalSales,
     totalRevenue,
   });

@@ -102,7 +102,6 @@ const ProductForm = ({
         return;
       }
 
-      console.log("sono qui dentro");
       const res = await updateProduct({ ...data, id: productId });
       handleResponse(res, "Product updated");
     }
