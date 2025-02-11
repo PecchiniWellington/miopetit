@@ -1,5 +1,6 @@
 model ProductProtein {
-    id      String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    name    String    @unique
-    Product Product[]
+    id   String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    name String @unique
+
+    products ProductProteinOnProduct[]
 }

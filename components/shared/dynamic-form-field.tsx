@@ -25,6 +25,7 @@ interface DynamicFormFieldProps {
   type?: "input" | "textarea" | "select" | "multiple-select";
   className?: string;
   options?: Option[];
+  defaultValue?: string | string[];
 }
 
 const DynamicFormField = ({
@@ -36,6 +37,7 @@ const DynamicFormField = ({
   type = "input",
   className,
   options,
+  defaultValue,
 }: DynamicFormFieldProps) => {
   return (
     <Controller
@@ -63,6 +65,7 @@ const DynamicFormField = ({
               />
             ) : type === "multiple-select" ? (
               <CustomMultipleSelect
+                defaultValue={defaultValue as string[]}
                 value={field.value || []}
                 options={options! || []}
                 onSelect={(value) => field.onChange(value)}

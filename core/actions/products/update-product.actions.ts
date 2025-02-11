@@ -17,7 +17,6 @@ export async function updateProduct(data: z.infer<typeof updateProductSchema>) {
       return { success: false, error: "Product not found" };
     }
 
-    console.log("PRO", product.productProteinId);
     await prisma.product.update({
       where: { id: product.id },
       data: {
@@ -32,7 +31,12 @@ export async function updateProduct(data: z.infer<typeof updateProductSchema>) {
         categoryId: product.categoryId,
         productBrandId: product.productBrandId,
         productPatologyId: product.productPatologyId,
-        // ✅ Correggi qui: Gestisci la Many-to-Many correttamente
+        productProteins: {
+          deleteMany: {},
+          create: product.productProteins?.map((proteinId) => ({
+            productProtein: { connect: { id: proteinId } },
+          })),
+        },
       },
     });
 

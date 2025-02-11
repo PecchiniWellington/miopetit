@@ -224,8 +224,8 @@ const SearchPage = async (props: {
           </div>
         </div>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-          {products.data.length === 0 && <div>No Product Found</div>}
-          {products.data.map((product) => (
+          {products.length === 0 && <div>No Product Found</div>}
+          {products.map((product) => (
             <CustomProduct
               key={product.id}
               image="https://utfs.io/f/RnH9VIVP0zpxL8Sd59Kp86NzgPOkKSsma1BjXoZe9tA3HMCW"

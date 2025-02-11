@@ -1,0 +1,10 @@
+// 🔹 MODELLO DI COLLEGAMENTO MANY-TO-MANY
+model ProductProteinOnProduct {
+    productId        String @db.Uuid
+    productProteinId String @db.Uuid
+
+    product        Product        @relation(fields: [productId], references: [id], onDelete: Cascade)
+    productProtein ProductProtein @relation(fields: [productProteinId], references: [id], onDelete: Cascade)
+
+    @@id([productId, productProteinId]) // Chiave primaria combinata
+}

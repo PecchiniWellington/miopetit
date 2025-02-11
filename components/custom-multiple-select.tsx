@@ -12,6 +12,7 @@ interface CustomMultipleSelectProps {
   options: OptionType[];
   onSelect: (value: string[]) => void;
   placeholder?: string;
+  defaultValue?: string[]; // Changed to string[] to match product IDs
 }
 
 export default function CustomMultipleSelect({
@@ -19,6 +20,7 @@ export default function CustomMultipleSelect({
   options,
   onSelect,
   placeholder = "Choose an option",
+  defaultValue = [], // Default to an empty array if not provided
 }: CustomMultipleSelectProps) {
   // Convertiamo `value` in formato compatibile con react-select
   const selectedOptions = options.filter((option) =>
@@ -30,11 +32,11 @@ export default function CustomMultipleSelect({
     onSelect(selectedValues);
   };
 
-  /* const removeBadge = (valueToRemove: string) => {
-    const updatedValues = value.filter((val) => val !== valueToRemove);
-    onSelect(updatedValues);
-  };
- */
+  // Convertiamo `defaultValue` in formato compatibile con react-select
+  const defaultSelectedOptions = options.filter((option) =>
+    defaultValue.includes(option.value)
+  );
+
   return (
     <div className="w-full">
       <Select
@@ -42,7 +44,7 @@ export default function CustomMultipleSelect({
           control: (provided) => ({
             ...provided,
             backgroundColor: `#1F2937`,
-            border: "1px solid #1F2937",
+            border: "1px solid #1F2937`",
           }),
           menu: (provided) => ({
             ...provided,
@@ -84,22 +86,8 @@ export default function CustomMultipleSelect({
         onChange={handleChange}
         isMulti
         placeholder={placeholder}
+        defaultValue={defaultSelectedOptions}
       />
-
-      {/* Badges per i valori selezionati */}
-      {/* <div className="mt-2 flex flex-wrap gap-2">
-        {selectedOptions.map((option) => (
-          <div
-            key={option.value}
-            className="flex items-center gap-2 rounded-lg bg-gray-700 px-3 py-1 text-white"
-          >
-            {option.label}
-            <button onClick={() => removeBadge(option.value)}>
-              <X className="size-4 cursor-pointer text-white hover:text-red-400" />
-            </button>
-          </div>
-        ))}
-      </div> */}
     </div>
   );
 }

@@ -5,9 +5,8 @@ import { Button } from "@/components/ui/button";
 import { createProduct, updateProduct } from "@/core/actions/products";
 import {
   ICategory,
-  ILatestProduct,
   insertProductSchema,
-  IUpdateProduct,
+  IProduct,
   updateProductSchema,
 } from "@/core/validators";
 import { useToast } from "@/hooks/use-toast";
@@ -32,7 +31,7 @@ const ProductForm = ({
   proteins,
 }: {
   type: "Create" | "Update";
-  product?: ILatestProduct | IUpdateProduct;
+  product?: IProduct;
   productId?: string;
   categories?: ICategory[];
   brands?: IBrand[];
@@ -50,7 +49,15 @@ const ProductForm = ({
         ? zodResolver(updateProductSchema)
         : zodResolver(insertProductSchema),
     defaultValues:
-      product && type === "Update" ? product : PRODUCT_DEFAULT_VALUES,
+      product && type === "Update"
+        ? {
+            ...product,
+            productProteins:
+              product.productProteins?.map(
+                (protein) => protein.productProtein.id
+              ) || [],
+          }
+        : PRODUCT_DEFAULT_VALUES,
   });
 
   const onSubmit: SubmitHandler<
@@ -61,7 +68,7 @@ const ProductForm = ({
     const parsed = schema.safeParse(data);
 
     if (!parsed.success) {
-      console.log("🔴 ERRORI DI VALIDAZIONE:", parsed.error.format()); // Mostra tutti gli errori
+      console.log("🔴 ERRORI DI VALIDAZIONE:", parsed.error.format());
       return;
     }
     const handleResponse = (
@@ -95,6 +102,7 @@ const ProductForm = ({
         return;
       }
 
+      console.log("sono qui dentro");
       const res = await updateProduct({ ...data, id: productId });
       handleResponse(res, "Product updated");
     }
@@ -104,6 +112,9 @@ const ProductForm = ({
   const isFeatured: boolean | null = form.watch("isFeatured");
   const banner = form.watch("banner");
 
+  const getOnlyProteinId = product?.productProteins?.map(
+    (protein) => protein.productProtein.id
+  );
   const formatterForSelect = (
     data: ICategory[] | IBrand[] | IPatology[] | IProtein[]
   ) =>
@@ -151,17 +162,17 @@ const ProductForm = ({
             title="Category"
             placeholder="Enter category"
           />
+
+          {/* Pathologies */}
           <DynamicFormField
             type="select"
             options={patologies ? formatterForSelect(patologies) : []}
             control={form.control}
             name="productPatologyId"
             schema={insertProductSchema}
-            title="Patologies"
+            title="Pathologies"
             placeholder="Enter category"
           />
-
-          {/* Category */}
 
           {/* Brand */}
           <DynamicFormField
@@ -173,16 +184,16 @@ const ProductForm = ({
             title="Brand"
             placeholder="Enter brand"
           />
-
           {/* Proteins */}
           <DynamicFormField
             type="multiple-select"
             options={proteins ? formatterForSelect(proteins) : []}
             control={form.control}
-            name="productProteinId"
+            name="productProteins"
             schema={insertProductSchema}
             title="Proteins"
             placeholder="Enter proteins"
+            defaultValue={getOnlyProteinId}
           />
         </div>
         <div className="flex flex-col  gap-5 md:flex-row">

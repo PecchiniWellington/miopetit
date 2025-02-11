@@ -1,5 +1,6 @@
 import { currency } from "@/lib/utils";
 import { z } from "zod";
+import { orderItemSchema } from "./orders.validator";
 
 // Schema for Product model
 export const productSchema = z.object({
@@ -20,10 +21,8 @@ export const productSchema = z.object({
   productBrandId: z.string().uuid().nullable(),
   formatId: z.string().uuid().nullable(),
   productFeaturesId: z.string().uuid().nullable(),
-  productProteinId: z.array(z.string().uuid()).nullable(),
   productPatologyId: z.string().uuid().nullable(),
-  category: z.string().uuid().nullable(),
-  orderitems: z.array(z.string().uuid().nullable()),
+  orderitems: z.array(orderItemSchema),
 });
 
 // Schema for inserting products
@@ -37,7 +36,7 @@ export const insertProductSchema = z.object({
   productBrandId: z.string().uuid().nullable(),
   productPatologyId: z.string().uuid().nullable(),
   banner: z.string().nullable(),
-  productProteinId: z.array(z.string().uuid()).nullable(),
+  productProteins: z.array(z.string().uuid()).nullable(),
   categoryId: z
     .string()
     .min(3, "Category must be a at least 3 characters")
@@ -56,11 +55,11 @@ export const latestProductSchema = z.object({
   rating: z.string(),
   createdAt: z.date(),
   productBrandId: z.string().uuid().nullable(),
-  productProteinId: z.array(z.string().uuid()).nullable(),
   updatedAt: z.date(),
   numReviews: z.number(),
   slug: z.string(),
   banner: z.string().nullable(),
+  isFeatured: z.boolean().optional().default(false),
 
   // Add other fields as necessary
 });
@@ -68,6 +67,14 @@ export const latestProductSchema = z.object({
 export type IProduct = z.infer<typeof productSchema> & {
   productBrand?: { name: string; id: string };
   category?: { name: string; id: string };
+  productProteins?: Array<{
+    productId: string;
+    productProteinId: string;
+    productProtein: {
+      id: string;
+      name: string;
+    };
+  }>;
 };
 export type IInsertProduct = z.infer<typeof insertProductSchema>;
 export type IUpdateProduct = z.infer<typeof updateProductSchema>;

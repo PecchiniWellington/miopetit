@@ -6,11 +6,15 @@ export async function getProductById(id: string) {
   const product = await prisma.product.findFirst({
     where: { id },
     include: {
-      orderitems: true, // Include tutti gli ordini di questo prodotto
-      category: true, // ✅ Include la categoria se categoryId esiste
-      productBrand: true, // ✅ Include il brand se productBrandId esiste
-      productPatology: true, // ✅ Include la patologia se productPatologyId esiste
-      productProtein: true, // ✅ Include le proteine se productProteinId esiste
+      orderitems: true,
+      category: true,
+      productBrand: true,
+      ProductPathology: true,
+      productProteins: {
+        include: {
+          productProtein: true,
+        },
+      },
     },
   });
 

@@ -18,7 +18,12 @@ const AdminProductUpdatePage = async (props: {
   params: Promise<{ id: string }>;
 }) => {
   const { id } = await props.params;
-  const product = await getProductById(id);
+  let product = await getProductById(id);
+  if (product) {
+    product = {
+      ...product,
+    };
+  }
   const categories = await getAllCategories();
   const brands = await getAllBrands();
   const pathologies = await getAllPathologies();
@@ -35,7 +40,13 @@ const AdminProductUpdatePage = async (props: {
       <h1 className="h2-bold">Update Product</h1>
       <ProductForm
         type="Update"
-        product={product}
+        product={{
+          ...product,
+          isFeatured: !!product.isFeatured,
+          rating: product.rating,
+          productBrand: product.productBrand ?? undefined,
+          category: product.category ?? undefined,
+        }}
         productId={product.id}
         categories={categoriesDistribution}
         brands={brandsDistribution}

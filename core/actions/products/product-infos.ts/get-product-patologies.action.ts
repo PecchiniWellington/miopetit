@@ -3,9 +3,9 @@ import { convertToPlainObject, formatValidationError } from "@/lib/utils";
 
 export async function getAllPathologies() {
   try {
-    const patologies = await prisma.productPatology.findMany();
+    const pathologies = await prisma.productPathology.findMany();
     return {
-      data: patologies,
+      data: pathologies,
     };
   } catch (error) {
     if (error instanceof Error) {
@@ -18,7 +18,7 @@ export async function getAllPathologies() {
 
 export async function getProductPatologyByProductId(productId: string) {
   try {
-    const patology = await prisma.productPatology.findFirst({
+    const patology = await prisma.productPathology.findFirst({
       where: {
         id: productId,
       },

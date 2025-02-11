@@ -63,7 +63,7 @@ async function main() {
   await prisma.productProtein.deleteMany();
   await prisma.productFeatures.deleteMany();
   await prisma.productFormat.deleteMany();
-  await prisma.productPatology.deleteMany();
+  await prisma.productPathology.deleteMany();
   await prisma.productBrand.deleteMany();
   await prisma.user.deleteMany();
   await prisma.account.deleteMany();
@@ -93,7 +93,7 @@ async function main() {
   await prisma.productFormat.createMany({
     data: productFormats.productFormats,
   });
-  await prisma.productPatology.createMany({
+  await prisma.productPathology.createMany({
     data: productPatology.productPatologies,
   });
   await prisma.productBrand.createMany({ data: productBrand.productBrands });
