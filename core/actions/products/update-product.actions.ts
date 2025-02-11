@@ -31,6 +31,11 @@ export async function updateProduct(data: z.infer<typeof updateProductSchema>) {
         categoryId: product.categoryId,
         productBrandId: product.productBrandId,
         productPatologyId: product.productPatologyId,
+        productUnitValues: {
+          create: product.productUnitValues?.map((productUnitValueId) => ({
+            unitValue: { connect: { id: productUnitValueId } },
+          })),
+        },
         productProteins: {
           deleteMany: {},
           create: product.productProteins?.map((proteinId) => ({

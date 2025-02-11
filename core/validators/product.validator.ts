@@ -37,6 +37,8 @@ export const insertProductSchema = z.object({
   productPatologyId: z.string().uuid().nullable(),
   banner: z.string().nullable(),
   productProteins: z.array(z.string().uuid()).nullable(),
+  productUnitValues: z.array(z.string().uuid()).nullable(),
+  productFormat: z.array(z.string().uuid()).nullable(),
   categoryId: z
     .string()
     .min(3, "Category must be a at least 3 characters")

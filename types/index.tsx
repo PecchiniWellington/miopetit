@@ -3,7 +3,7 @@ export interface IBrand {
   name: string;
 }
 
-export interface IPatology {
+export interface IPathology {
   id: string;
   name: string;
 }

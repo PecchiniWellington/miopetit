@@ -5,40 +5,45 @@ enum AnimalAge {
 }
 
 model Product {
-    id          String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    id          String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     name        String
-    slug        String      @unique(map: "product_slug_idx")
+    slug        String     @unique(map: "product_slug_idx")
     images      String[]
     description String
-    stock       Int         @default(0)
-    price       Decimal     @default(0) @db.Decimal(12, 2)
-    rating      Decimal     @default(0) @db.Decimal(3, 2)
-    numReviews  Int         @default(0)
-    isFeatured  Boolean?    @default(false)
+    stock       Int        @default(0)
+    price       Decimal    @default(0) @db.Decimal(12, 2)
+    rating      Decimal    @default(0) @db.Decimal(3, 2)
+    numReviews  Int        @default(0)
+    isFeatured  Boolean?   @default(false)
     banner      String?
-    createdAt   DateTime    @default(now()) @db.Timestamp(6)
-    updatedAt   DateTime    @updatedAt
+    createdAt   DateTime   @default(now()) @db.Timestamp(6)
+    updatedAt   DateTime   @updatedAt
     animalAge   AnimalAge?
-    category    Category?   @relation(fields: [categoryId], references: [id], onDelete: SetNull)
-    orderitems  OrderItem[]
-    Review      Review[]
 
-    productPatologyId String? @db.Uuid
-
-    categoryId        String? @db.Uuid
+    /**
+     * FOREIGN KEYS
+     */
     formatId          String? @db.Uuid
+    categoryId        String? @db.Uuid
+    productPatologyId String? @db.Uuid
     productFeaturesId String? @db.Uuid
     productBrandId    String? @db.Uuid
     unitOfMeasureId   String? @db.Uuid
 
-    productFormat    ProductFormat?    @relation(fields: [formatId], references: [id], onDelete: SetNull)
+    /**
+     * 1-TO-MANY RELATIONSHIP
+     */
+
+    category         Category?         @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+    ProductPathology ProductPathology? @relation(fields: [productPatologyId], references: [id])
     productFeatures  ProductFeatures?  @relation(fields: [productFeaturesId], references: [id], onDelete: SetNull)
     productBrand     ProductBrand?     @relation(fields: [productBrandId], references: [id], onDelete: SetNull)
-    ProductPathology ProductPathology? @relation(fields: [productPatologyId], references: [id])
-    unitOfMeasure    UnitOfMeasure?    @relation(fields: [unitOfMeasureId], references: [id], onDelete: SetNull)
 
     /**
-     * MANY-TO-MANY WITH PROTEIN
+     * MANY-TO-MANY RELATIONSHIP
      */
-    productProteins ProductProteinOnProduct[]
+    orderitems        OrderItem[]
+    Review            Review[]
+    productUnitValues ProductUnitValue[]
+    productProteins   ProductProteinOnProduct[]
 }

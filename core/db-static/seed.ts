@@ -3,7 +3,6 @@ import categoryData from "./category";
 import productsData from "./product";
 import productBrand from "./product-brand";
 import productFeature from "./product-feature";
-import productFormats from "./product-formats";
 import productPathology from "./product-patology";
 import productProteins from "./product-proteins";
 import unitOfMeasure from "./unitOfMeasure";
@@ -14,12 +13,12 @@ const prisma = new PrismaClient();
 
 async function main() {
   /* DELETE ALL RECORDS */
+  console.log(`✅ Start deleting all previews tables...`);
   await prisma.productProteinOnProduct.deleteMany(); // Many-to-Many
   await prisma.product.deleteMany();
   await prisma.category.deleteMany();
   await prisma.productProtein.deleteMany();
   await prisma.productFeatures.deleteMany();
-  await prisma.productFormat.deleteMany();
   await prisma.productPathology.deleteMany();
   await prisma.productBrand.deleteMany();
   await prisma.user.deleteMany();
@@ -28,6 +27,7 @@ async function main() {
   await prisma.verificationToken.deleteMany();
   await prisma.unitOfMeasure.deleteMany();
   await prisma.unitValue.deleteMany();
+  console.log(`✅ Deleted All Previews tables`);
 
   /* CREA ALTRI DATI */
   await prisma.category.createMany({ data: categoryData });
@@ -38,15 +38,27 @@ async function main() {
   console.log(`✅ ProductProtein created`);
   await prisma.productFeatures.createMany({ data: productFeature });
   console.log(`✅ ProductFeatures created`);
-  await prisma.productFormat.createMany({ data: productFormats });
-  console.log(`✅ ProductFormat created`);
   await prisma.productPathology.createMany({ data: productPathology });
   console.log(`✅ ProductPathology created`);
   await prisma.productBrand.createMany({ data: productBrand });
   console.log(`✅ ProductBrand created`);
+
   await prisma.unitValue.createMany({ data: unitValue });
   console.log(`✅ UnitValues created`);
-  await prisma.unitOfMeasure.createMany({ data: unitOfMeasure });
+
+  console.log(`✅ Reaching UnitValue...`);
+  const unitValueData = await prisma.unitValue.findMany({
+    select: { id: true },
+  });
+
+  console.log(`✅ Connecting UnitValue into UnitOfMeasure...`);
+  const unitValueIds = unitValueData.map((uv) => uv.id);
+  const unitOfMeasureWithUnitValue = unitOfMeasure.map((uom) => ({
+    ...uom,
+    unitValueId: unitValueIds[Math.floor(Math.random() * unitValueIds.length)],
+  }));
+
+  await prisma.unitOfMeasure.createMany({ data: unitOfMeasureWithUnitValue });
   console.log(`✅ UnitOfMeasure created`);
 
   // 📌 Recupera gli ID
@@ -84,6 +96,17 @@ async function main() {
           create: selectedProteins.map((protein) => ({
             productProtein: { connect: { id: protein.id } },
           })),
+        },
+        productUnitValues: {
+          create: {
+            unitValue: {
+              connect: {
+                id: unitValueIds[
+                  Math.floor(Math.random() * unitValueIds.length)
+                ],
+              },
+            },
+          },
         },
       },
     });

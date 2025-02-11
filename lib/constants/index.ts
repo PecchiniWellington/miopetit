@@ -53,6 +53,7 @@ export const PRODUCT_DEFAULT_VALUES = {
   productBrandId: null,
   productPatologies: null,
   productProteins: null,
+  productFormats: null,
 };
 
 export const REVIEW_FORM_DEFAULT_VALUES = {

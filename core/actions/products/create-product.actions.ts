@@ -15,12 +15,26 @@ export async function createProduct(data: unknown) {
       };
     }
 
-    const { stock, ...rest } = product.data;
+    const rest = product.data;
 
     await prisma.product.create({
       data: {
-        ...rest,
-        stock: stock ?? undefined,
+        price: rest.price,
+        name: rest.name,
+        slug: rest.slug,
+        images: rest.images,
+        description: rest.description,
+        stock: rest.stock ?? undefined,
+        isFeatured: rest.isFeatured,
+        banner: rest.banner,
+        categoryId: rest.categoryId,
+        productBrandId: rest.productBrandId,
+        productPatologyId: rest.productPatologyId,
+        productProteins: {
+          create: rest.productProteins?.map((proteinId) => ({
+            productProtein: { connect: { id: proteinId } },
+          })),
+        },
       },
     });
 

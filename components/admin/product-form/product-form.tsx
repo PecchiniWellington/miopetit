@@ -11,7 +11,7 @@ import {
 } from "@/core/validators";
 import { useToast } from "@/hooks/use-toast";
 import { PRODUCT_DEFAULT_VALUES } from "@/lib/constants";
-import { IBrand, IPatology, IProtein } from "@/types/index";
+import { IBrand, IPathology, IProtein } from "@/types/index";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -35,7 +35,7 @@ const ProductForm = ({
   productId?: string;
   categories?: ICategory[];
   brands?: IBrand[];
-  patologies?: IPatology[];
+  patologies?: IPathology[];
   proteins?: IProtein[];
 }) => {
   const router = useRouter();
@@ -115,9 +115,9 @@ const ProductForm = ({
     (protein) => protein.productProtein.id
   );
   const formatterForSelect = (
-    data: ICategory[] | IBrand[] | IPatology[] | IProtein[]
+    data: ICategory[] | IBrand[] | IPathology[] | IProtein[]
   ) =>
-    data?.map((d: IBrand | ICategory | IPatology | IProtein) => ({
+    data?.map((d: IBrand | ICategory | IPathology | IProtein) => ({
       value: d.id,
       label: d.name,
     }));
@@ -130,7 +130,7 @@ const ProductForm = ({
         onSubmit={form.handleSubmit(
           (data) => {
             console.log("✅ Dati inviati:", data);
-            onSubmit(data); // Esegui la tua logica di submit
+            onSubmit(data);
           },
           (errors) => {
             console.log("❌ Errori nel form:", errors);
@@ -172,7 +172,8 @@ const ProductForm = ({
             title="Pathologies"
             placeholder="Enter category"
           />
-
+        </div>
+        <div className="flex flex-col  gap-5 md:flex-row">
           {/* Brand */}
           <DynamicFormField
             type="select"
@@ -194,6 +195,41 @@ const ProductForm = ({
             placeholder="Enter proteins"
             defaultValue={getOnlyProteinId}
           />
+        </div>
+        <div className="flex flex-col  gap-5 md:flex-row">
+          {/* Brand */}
+          <div className="flex w-full">
+            <DynamicFormField
+              type="select"
+              options={brands ? formatterForSelect(brands) : []}
+              control={form.control}
+              name="productBrandId"
+              schema={insertProductSchema}
+              title="Unit value"
+              placeholder="Enter brand"
+            />
+            {/* Proteins */}
+
+            <DynamicFormField
+              type="select"
+              options={brands ? formatterForSelect(brands) : []}
+              control={form.control}
+              name="productBrandId"
+              schema={insertProductSchema}
+              title="Unit of measure"
+              placeholder="Enter brand"
+            />
+          </div>
+          <DynamicFormField
+            type="select"
+            options={brands ? formatterForSelect(brands) : []}
+            control={form.control}
+            name="productBrandId"
+            schema={insertProductSchema}
+            title="Unit value"
+            placeholder="Enter brand"
+          />
+          {/* Proteins */}
         </div>
         <div className="flex flex-col  gap-5 md:flex-row">
           {/* Price */}

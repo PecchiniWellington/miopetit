@@ -10,6 +10,7 @@ export async function getProductById(id: string) {
       category: true,
       productBrand: true,
       ProductPathology: true,
+      productUnitValues: true,
       productProteins: {
         include: {
           productProtein: true,
@@ -20,7 +21,6 @@ export async function getProductById(id: string) {
 
   if (!product) return null;
 
-  // Calcola il totale delle unità vendute e il guadagno totale
   const totalSales = product.orderitems.reduce(
     (acc, item) => acc + item.qty,
     0
