@@ -23,27 +23,66 @@ model Product {
     /**
      * FOREIGN KEYS
      */
-    formatId          String? @db.Uuid
-    categoryId        String? @db.Uuid
-    productPatologyId String? @db.Uuid
-    productFeaturesId String? @db.Uuid
-    productBrandId    String? @db.Uuid
-    unitOfMeasureId   String? @db.Uuid
+    formatId            String? @db.Uuid
+    categoryId          String? @db.Uuid
+    productPatologyId   String? @db.Uuid
+    productFeaturesId   String? @db.Uuid
+    productBrandId      String? @db.Uuid
+    unitOfMeasureId     String? @db.Uuid
+    productUnitFormatId String? @db.Uuid
+    productPathologyId  String? @db.Uuid
 
     /**
-     * 1-TO-MANY RELATIONSHIP
+     * RELAZIONE 1-TO-MANY con ProductUnitValue
      */
-
-    category         Category?         @relation(fields: [categoryId], references: [id], onDelete: SetNull)
-    ProductPathology ProductPathology? @relation(fields: [productPatologyId], references: [id])
-    productFeatures  ProductFeatures?  @relation(fields: [productFeaturesId], references: [id], onDelete: SetNull)
-    productBrand     ProductBrand?     @relation(fields: [productBrandId], references: [id], onDelete: SetNull)
-
-    /**
-     * MANY-TO-MANY RELATIONSHIP
-     */
-    orderitems        OrderItem[]
-    Review            Review[]
-    productUnitValues ProductUnitValue[]
-    productProteins   ProductProteinOnProduct[]
+    productUnitFormat       ProductUnitFormat?        @relation(fields: [productUnitFormatId], references: [id], onDelete: SetNull)
+    // 🔗 1-to-Many
+    category                Category?                 @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+    productBrand            ProductBrand?             @relation(fields: [productBrandId], references: [id])
+    productFeatures         ProductFeatures?          @relation(fields: [productFeaturesId], references: [id])
+    productPathology        ProductPathology?         @relation(fields: [productPathologyId], references: [id])
+    productProteinOnProduct ProductProteinOnProduct[]
+    review                  Review[]
+    orderitems              OrderItem[]
 }
+
+model ProductUnitFormat {
+    id            String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    unitValueId   String @db.Uuid
+    unitMeasureId String @db.Uuid
+
+    unitValue     UnitValue     @relation(fields: [unitValueId], references: [id], onDelete: Cascade)
+    unitOfMeasure UnitOfMeasure @relation(fields: [unitMeasureId], references: [id], onDelete: Cascade)
+
+    products Product[]
+
+    @@unique([unitValueId, unitMeasureId])
+}
+
+/**
+ * [
+ * {
+ * "id": "a1234567-89ab-cdef-0123-456789abcdef",
+ * "unitValue": { "id": "val-001", "value": 15 },
+ * "unitOfMeasure": { "id": "unit-kg", "abbreviation": "kg" },
+ * "products": [
+ * { "id": "prod-001", "name": "Crocchette per Cani 15kg" },
+ * { "id": "prod-002", "name": "Cibo per Gatti 15kg" }
+ * ]
+ * },
+ * {
+ * "id": "b2345678-89ab-cdef-0123-456789abcdef",
+ * "unitValue": { "id": "val-002", "value": 5 },
+ * "unitOfMeasure": { "id": "unit-kg", "abbreviation": "kg" },
+ * "products": [
+ * { "id": "prod-003", "name": "Alimento Secco per Cuccioli 5kg" }
+ * ]
+ * },
+ * {
+ * "id": "c3456789-89ab-cdef-0123-456789abcdef",
+ * "unitValue": { "id": "val-003", "value": 2 },
+ * "unitOfMeasure": { "id": "unit-l", "abbreviation": "L" },
+ * "products": []
+ * }
+ * ]
+ */

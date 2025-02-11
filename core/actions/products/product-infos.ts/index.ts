@@ -1,3 +1,4 @@
+"use server";
 import {
   getAllBrands,
   getProductBrandByProductId,
@@ -6,10 +7,7 @@ import {
   getAllFeatures,
   getFeaturesBrandByProductId,
 } from "./get-product-features.action";
-import {
-  getAllFormats,
-  getProductFormatByProductId,
-} from "./get-product-formats.action";
+import { getAllFormats } from "./get-product-formats.action";
 import {
   getAllPathologies,
   getProductPatologyByProductId,
@@ -27,7 +25,6 @@ export {
   getAllProtein,
   getFeaturesBrandByProductId,
   getProductBrandByProductId,
-  getProductFormatByProductId,
   getProductPatologyByProductId,
   getProteinByProductId,
 };

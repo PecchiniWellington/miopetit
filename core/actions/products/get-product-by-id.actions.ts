@@ -9,9 +9,14 @@ export async function getProductById(id: string) {
       orderitems: true,
       category: true,
       productBrand: true,
-      ProductPathology: true,
-      productUnitValues: true,
-      productProteins: {
+      productPathology: true,
+      productUnitFormat: {
+        include: {
+          unitValue: true,
+          unitOfMeasure: true,
+        },
+      },
+      productProteinOnProduct: {
         include: {
           productProtein: true,
         },

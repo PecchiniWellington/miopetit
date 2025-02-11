@@ -1,9 +1,0 @@
-model ProductUnitValue {
-    productId   String @db.Uuid
-    unitValueId String @db.Uuid
-
-    product   Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
-    unitValue UnitValue @relation(fields: [unitValueId], references: [id], onDelete: Cascade)
-
-    @@id([productId, unitValueId]) // Chiave primaria composta
-}

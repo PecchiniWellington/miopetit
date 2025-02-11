@@ -31,11 +31,9 @@ export async function updateProduct(data: z.infer<typeof updateProductSchema>) {
         categoryId: product.categoryId,
         productBrandId: product.productBrandId,
         productPatologyId: product.productPatologyId,
-        productUnitValues: {
-          create: product.productUnitValues?.map((productUnitValueId) => ({
-            unitValue: { connect: { id: productUnitValueId } },
-          })),
-        },
+        unitOfMeasureId: data.unitOfMeasureId
+          ? data.unitOfMeasureId
+          : undefined,
         productProteins: {
           deleteMany: {},
           create: product.productProteins?.map((proteinId) => ({
@@ -45,6 +43,26 @@ export async function updateProduct(data: z.infer<typeof updateProductSchema>) {
       },
     });
 
+    if (data.unitValueId) {
+      await prisma.productUnitValue.upsert({
+        where: {
+          productId: product.id, // 🔥 Assumiamo che esista un solo `ProductUnitValue` per prodotto
+        },
+        update: {
+          unitValue: {
+            connect: { id: data.unitValueId },
+          },
+        },
+        create: {
+          product: {
+            connect: { id: product.id },
+          },
+          unitValue: {
+            connect: { id: data.unitValueId },
+          },
+        },
+      });
+    }
     revalidatePath("/admin/products");
 
     return { success: true, message: "Product created successfully" };

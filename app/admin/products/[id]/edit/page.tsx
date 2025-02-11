@@ -2,6 +2,7 @@ import ProductForm from "@/components/admin/product-form/product-form";
 import { getProductById } from "@/core/actions/products";
 import {
   getAllBrands,
+  getAllFormats,
   getAllPathologies,
   getAllProtein,
 } from "@/core/actions/products/product-infos.ts";
@@ -28,6 +29,7 @@ const AdminProductUpdatePage = async (props: {
   const brands = await getAllBrands();
   const pathologies = await getAllPathologies();
   const proteins = await getAllProtein();
+  const unitFormats = await getAllFormats();
   const categoriesDistribution = JSON.parse(JSON.stringify(categories.data));
   const brandsDistribution = JSON.parse(JSON.stringify(brands?.data));
   const pathologiesDistribution = JSON.parse(JSON.stringify(pathologies?.data));
@@ -52,6 +54,7 @@ const AdminProductUpdatePage = async (props: {
         brands={brandsDistribution}
         patologies={pathologiesDistribution}
         proteins={proteinsDistribution}
+        unitFormats={unitFormats}
       />
     </div>
   );

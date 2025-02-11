@@ -3,10 +3,10 @@ import categoryData from "./category";
 import productsData from "./product";
 import productBrand from "./product-brand";
 import productFeature from "./product-feature";
-import productPathology from "./product-patology";
+import productPathology from "./product-pathology";
 import productProteins from "./product-proteins";
-import unitOfMeasure from "./unitOfMeasure";
-import unitValue from "./unitValue";
+import unitOfMeasureData from "./unit-of-measure";
+import unitValuesData from "./unit-value";
 import usersData from "./users";
 
 const prisma = new PrismaClient();
@@ -29,7 +29,7 @@ async function main() {
   await prisma.unitValue.deleteMany();
   console.log(`✅ Deleted All Previews tables`);
 
-  /* CREA ALTRI DATI */
+  /* CREATE OTHER DATA */
   await prisma.category.createMany({ data: categoryData });
   console.log(`✅ Categories created`);
   await prisma.user.createMany({ data: usersData });
@@ -42,26 +42,47 @@ async function main() {
   console.log(`✅ ProductPathology created`);
   await prisma.productBrand.createMany({ data: productBrand });
   console.log(`✅ ProductBrand created`);
+  await prisma.unitValue.createMany({ data: unitValuesData });
+  console.log(`✅ unitValue created`);
+  await prisma.unitOfMeasure.createMany({ data: unitOfMeasureData });
+  console.log(`✅ unitOfMeasure created`);
 
-  await prisma.unitValue.createMany({ data: unitValue });
-  console.log(`✅ UnitValues created`);
+  // 🔹 Step 3: Retrieve all values of UnitValue and UnitOfMeasure
+  const unitValues = await prisma.unitValue.findMany();
+  const unitMeasures = await prisma.unitOfMeasure.findMany();
 
-  console.log(`✅ Reaching UnitValue...`);
-  const unitValueData = await prisma.unitValue.findMany({
+  // 🔹 Step 4: Dynamically generate combinations (UnitValue x UnitOfMeasure)
+  const productUnitFormatsToInsert = [];
+
+  for (const value of unitValues) {
+    for (const measure of unitMeasures) {
+      productUnitFormatsToInsert.push({
+        unitValueId: value.id,
+        unitMeasureId: measure.id,
+      });
+    }
+  }
+
+  // 🔹 Step 5: Insert only unique combinations
+  for (const format of productUnitFormatsToInsert) {
+    await prisma.productUnitFormat.upsert({
+      where: {
+        unitValueId_unitMeasureId: {
+          unitValueId: format.unitValueId,
+          unitMeasureId: format.unitMeasureId,
+        },
+      },
+      update: {}, // No update if it already exists
+      create: format, // Create the combination if it does not exist
+    });
+  }
+
+  console.log("✅ ProductUnitFormat generated dynamically");
+  const productUnitFormats = await prisma.productUnitFormat.findMany({
     select: { id: true },
   });
 
-  console.log(`✅ Connecting UnitValue into UnitOfMeasure...`);
-  const unitValueIds = unitValueData.map((uv) => uv.id);
-  const unitOfMeasureWithUnitValue = unitOfMeasure.map((uom) => ({
-    ...uom,
-    unitValueId: unitValueIds[Math.floor(Math.random() * unitValueIds.length)],
-  }));
-
-  await prisma.unitOfMeasure.createMany({ data: unitOfMeasureWithUnitValue });
-  console.log(`✅ UnitOfMeasure created`);
-
-  // 📌 Recupera gli ID
+  // 📌 Retrieve the IDs
   const categories = await prisma.category.findMany({ select: { id: true } });
 
   const brandData = await prisma.productBrand.findMany({
@@ -76,37 +97,38 @@ async function main() {
   }
 
   console.log(`⏳ Start creating products...`);
-  /* CREA I PRODOTTI ASSEGNANDO UN CATEGORY ID RANDOMICO */
   for (const product of productsData) {
-    const numProteins = Math.floor(Math.random() * 3) + 1; // Da 1 a 3 proteine
+    const numProteins = Math.floor(Math.random() * 3) + 1;
     const selectedProteins = productProteinsData
-      .sort(() => 0.5 - Math.random()) // Mischia l'array
-      .slice(0, numProteins); // Prende solo le prime `numProteins`
+      .sort(() => 0.5 - Math.random())
+      .slice(0, numProteins);
+
+    const randomProductUnitFormat =
+      productUnitFormats[Math.floor(Math.random() * productUnitFormats.length)];
 
     const createdProduct = await prisma.product.create({
       data: {
         ...product,
-        categoryId:
-          categories[Math.floor(Math.random() * categories.length)].id,
-        productBrandId:
-          brandData[Math.floor(Math.random() * brandData.length)].id,
 
-        // Associa proteine random al prodotto
-        productProteins: {
+        category: {
+          connect: {
+            id: categories[Math.floor(Math.random() * categories.length)].id,
+          },
+        },
+
+        productBrand: {
+          connect: {
+            id: brandData[Math.floor(Math.random() * brandData.length)].id,
+          },
+        },
+
+        productProteinOnProduct: {
           create: selectedProteins.map((protein) => ({
             productProtein: { connect: { id: protein.id } },
           })),
         },
-        productUnitValues: {
-          create: {
-            unitValue: {
-              connect: {
-                id: unitValueIds[
-                  Math.floor(Math.random() * unitValueIds.length)
-                ],
-              },
-            },
-          },
+        productUnitFormat: {
+          connect: { id: randomProductUnitFormat.id },
         },
       },
     });
@@ -121,8 +143,11 @@ async function main() {
   await prisma.$disconnect();
 }
 
-main().catch(async (e) => {
-  console.error("Seeding failed:", e);
-  await prisma.$disconnect();
-  process.exit(1);
-});
+main()
+  .catch((error) => {
+    console.error("❌ Errore durante il popolamento:", error);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });

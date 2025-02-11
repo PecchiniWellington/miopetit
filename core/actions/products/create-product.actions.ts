@@ -17,6 +17,42 @@ export async function createProduct(data: unknown) {
 
     const rest = product.data;
 
+    let unitValue = await prisma.unitValue.findUnique({
+      where: { id: rest.unitValueId },
+    });
+
+    if (!unitValue) {
+      unitValue = await prisma.unitValue.create({
+        data: {
+          id: rest.unitValueId,
+          value: parseInt(rest.unitValueId ?? "0"),
+        },
+      });
+    }
+
+    let unitMeasure = await prisma.unitOfMeasure.findUnique({
+      where: { id: rest.unitOfMeasureId },
+    });
+
+    if (!unitMeasure) {
+      unitMeasure = await prisma.unitOfMeasure.create({
+        data: {
+          id: rest.unitOfMeasureId,
+          abbreviation: rest.unitOfMeasureId ?? "",
+        },
+      });
+    }
+
+    // 🔹 Trova o crea ProductUnitFormat
+    const productUnitFormat = await prisma.productUnitFormat.findUnique({
+      where: {
+        unitValueId_unitMeasureId: {
+          unitValueId: unitValue.id,
+          unitMeasureId: unitMeasure.id,
+        },
+      },
+    });
+
     await prisma.product.create({
       data: {
         price: rest.price,
@@ -30,6 +66,9 @@ export async function createProduct(data: unknown) {
         categoryId: rest.categoryId,
         productBrandId: rest.productBrandId,
         productPatologyId: rest.productPatologyId,
+        ...(productUnitFormat && {
+          productUnitFormat: { connect: { id: productUnitFormat.id } },
+        }),
         productProteins: {
           create: rest.productProteins?.map((proteinId) => ({
             productProtein: { connect: { id: proteinId } },

@@ -6,6 +6,8 @@ export async function GET() {
   try {
     const accounts = await getAllFormats();
 
+    /* console.log("API: ALL FORMATS", accounts); */
+
     return NextResponse.json(
       { success: true, data: accounts },
       { status: 200 }

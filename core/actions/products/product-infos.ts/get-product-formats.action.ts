@@ -1,27 +1,22 @@
+"use server";
 import { prisma } from "@/core/prisma/prisma";
-import { convertToPlainObject, formatValidationError } from "@/lib/utils";
+import { formatValidationError } from "@/lib/utils";
 
 export async function getAllFormats() {
   try {
-    const formats = await prisma.productFormat.findMany();
-    return convertToPlainObject(formats);
-  } catch (error) {
-    if (error instanceof Error) {
-      formatValidationError(error.message);
-    } else {
-      throw error;
-    }
-  }
-}
-
-export async function getProductFormatByProductId(productId: string) {
-  try {
-    const format = await prisma.productFormat.findFirst({
-      where: {
-        id: productId,
+    const unitOfMeasure = await prisma.productUnitFormat.findMany({
+      include: {
+        unitValue: true,
+        unitOfMeasure: true,
+        products: {
+          select: { id: true, name: true },
+        },
       },
     });
-    return convertToPlainObject(format);
+
+    return {
+      unitOfMeasure,
+    };
   } catch (error) {
     if (error instanceof Error) {
       formatValidationError(error.message);

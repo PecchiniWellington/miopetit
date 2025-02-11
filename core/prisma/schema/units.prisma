@@ -1,16 +1,14 @@
-model UnitOfMeasure {
-    id           String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    name         String @unique
-    abbreviation String @unique
-
-    unitValueId String?    @db.Uuid
-    unitValue   UnitValue? @relation(fields: [unitValueId], references: [id], onDelete: Cascade) // 1-to-Many
-}
-
 model UnitValue {
     id    String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     value Int
 
-    unitOfMeasures   UnitOfMeasure[] // 🔥 Un valore può essere usato da più unità di misura
-    ProductUnitValue ProductUnitValue[]
+    productUnitFormats ProductUnitFormat[]
+}
+
+model UnitOfMeasure {
+    id           String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    abbreviation String @unique // Es. "kg", "g", "ml"
+    name         String @unique // Es. "kg", "g", "ml"
+
+    productUnitFormats ProductUnitFormat[]
 }
