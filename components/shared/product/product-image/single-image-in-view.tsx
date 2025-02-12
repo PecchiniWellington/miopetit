@@ -1,6 +1,10 @@
 import Image from "next/image";
 
-const SingleImageInView = ({ image }: { image: string }) => {
+const SingleImageInView = ({
+  image = "/images/royal-canin-4.jpg",
+}: {
+  image: string;
+}) => {
   return (
     <Image
       src={image || "/images/placeholder.jpg"}

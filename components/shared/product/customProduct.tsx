@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { Heart, ShoppingCart } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
 interface ProductCardProps {
@@ -15,6 +16,7 @@ interface ProductCardProps {
   availability: string;
   price: number;
   oldPrice?: number;
+  slug?: string;
   pricePerKg?: string;
 }
 
@@ -40,14 +42,16 @@ export default function ProductCard({
               -{Math.round(((oldPrice - price) / oldPrice) * 100)}%
             </span>
           )}
-          <Image
-            src={image}
-            alt={name}
-            width={180}
-            height={180}
-            className="object-contain"
-            loading="lazy"
-          />
+          <Link href={`/product/cibo-secco`}>
+            <Image
+              src={image}
+              alt={name}
+              width={180}
+              height={180}
+              className="object-contain"
+              loading="lazy"
+            />
+          </Link>
 
           {/* Wishlist Button - Now in the top-right corner inside the image */}
           <motion.button

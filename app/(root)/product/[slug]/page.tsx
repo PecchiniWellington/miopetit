@@ -26,12 +26,12 @@ const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
   const {
     /* brand, */ /* category, */ /* name, description, */ price,
     stock,
-    images,
+    /* images, */
   } = product;
 
   const ProductPageLeftImages = () => (
     <div className="col-span-2">
-      <ProductImages images={images} />
+      <ProductImages /* images={images} */ />
     </div>
   );
 
@@ -106,7 +106,6 @@ const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
       <section>
         <div className="grid grid-cols-1 md:grid-cols-5">
           <ProductPageLeftImages />
-          {/* <ProductPageCenterBio /> */}
           <ProductDetails />
           <div>
             <ProductPageRightCard />

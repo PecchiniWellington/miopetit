@@ -28,6 +28,7 @@ const ProductList = ({ data, title, limit }: IProductListProps) => {
                   price={Number(product.price)}
                   oldPrice={54.99}
                   pricePerKg="€4,16/KG (FAKE)"
+                  slug={product.slug}
                 />
               ))
             ) : (

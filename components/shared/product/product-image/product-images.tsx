@@ -5,7 +5,15 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 
-const ProductCarousel = ({ images }: { images: string[] }) => {
+const ProductCarousel = ({
+  images = [
+    "/images/royal-canin-4.jpg",
+    "/images/brand-2.avif",
+    "/images/coccola-cani.png",
+  ],
+}: {
+  images?: string[];
+}) => {
   const [current, setCurrent] = useState(0);
 
   const nextImage = () => {
@@ -30,6 +38,7 @@ const ProductCarousel = ({ images }: { images: string[] }) => {
             className="absolute size-full"
           >
             <Image
+              /*  src={images[current] || "/images/placeholder.jpg"} */
               src={images[current] || "/images/placeholder.jpg"}
               alt={`Product image ${current + 1}`}
               layout="fill"
