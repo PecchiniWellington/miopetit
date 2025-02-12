@@ -1,10 +1,10 @@
 import { prisma } from "@/core/prisma/prisma";
-import { formatValidationError } from "@/lib/utils";
+import { convertToPlainObject, formatValidationError } from "@/lib/utils";
 
 /* GET ALL CATEGORIES */
 export async function getAllCategories() {
   try {
-    const data = await prisma.category.findMany({
+    const categories = await prisma.category.findMany({
       orderBy: { createdAt: "desc" },
       include: {
         Product: true,
@@ -14,9 +14,9 @@ export async function getAllCategories() {
     const dataCount = await prisma.category.count();
 
     return {
-      data,
+      data: convertToPlainObject(categories),
       totalPages: Math.ceil(dataCount / 4),
-      productCount: data.reduce(
+      productCount: categories.reduce(
         (acc, category) => acc + category.Product.length,
         0
       ),

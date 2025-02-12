@@ -10,6 +10,8 @@ import unitOfMeasureData from "./unit-of-measure";
 import unitValuesData from "./unit-value";
 import usersData from "./users";
 
+type AnimalAge = "PUPPY" | "ADULT" | "SENIOR";
+
 const prisma = new PrismaClient();
 
 async function main() {
@@ -97,9 +99,14 @@ async function main() {
     const randomProductUnitFormat =
       productUnitFormats[Math.floor(Math.random() * productUnitFormats.length)];
 
+    const animalAges = ["PUPPY", "ADULT", "SENIOR"];
+    const randomAnimalAge =
+      animalAges[Math.floor(Math.random() * animalAges.length)];
+
     const createdProduct = await prisma.product.create({
       data: {
         ...product,
+        animalAge: randomAnimalAge as AnimalAge,
         category: {
           connect: {
             id: categories[Math.floor(Math.random() * categories.length)].id,

@@ -12,20 +12,19 @@ export const productSchema = z.object({
   images: z.array(z.string().min(1, "Product must have at least 1 image")),
   description: z.string().min(3, "Description must be at least 3 characters"),
   stock: z.number().nullable().default(0),
-  price: z.number().positive("Price must be a positive number"),
+  price: z.string(),
   rating: z.number().nullable().optional(),
   banner: z.string().nullable(),
   categoryId: z.string().uuid().nullable(),
   numReviews: z.number().default(0),
-  isFeatured: z.boolean().optional().default(false),
+  isFeatured: z.boolean().nullable().optional().default(false),
   createdAt: z.date().default(new Date()),
   updatedAt: z.date().default(new Date()),
   productBrandId: z.string().uuid().nullable(),
-  //productFeaturesId: z.string().uuid().nullable(),
   productPathologyId: z.string().uuid().nullable(),
-  productProteinsId: z.array(z.string().uuid()).nullable(),
+  productProteinsId: z.array(z.string().uuid()).nullable().optional(),
   orderitems: z.array(orderItemSchema),
-  animalAge: z.enum(["PUPPY", "ADULT", "SENIOR"]),
+  animalAge: z.enum(["PUPPY", "ADULT", "SENIOR"]).nullable(),
   unitValueId: z.string().uuid().optional(),
   unitOfMeasureId: z.string().uuid().optional(),
   productUnitFormat: productUnitFormatSchema.optional(),
@@ -42,14 +41,14 @@ export const insertProductSchema = z.object({
   banner: z.string().nullable(),
   isFeatured: z.boolean().optional().default(false),
   rating: z.number().nullable().optional(),
-  animalAge: z.enum(["PUPPY", "ADULT", "SENIOR"]),
+  animalAge: z.enum(["PUPPY", "ADULT", "SENIOR"]).nullable(),
   productBrandId: z.string().uuid().nullable().optional(),
   productPathologyId: z.string().uuid().nullable().optional(),
   productProteinOnProduct: z.array(z.string().uuid()).nullable().optional(),
   categoryId: z.string().uuid().nullable(),
   unitValueId: z.string().uuid().nullable().optional(),
   unitOfMeasureId: z.string().uuid().nullable().optional(),
-  productFeatureOnProduct: z.array(z.string().uuid().nullable().optional()),
+  productFeatureOnProduct: z.array(z.string().uuid()).nullable(),
 });
 
 export const updateProductSchema = insertProductSchema.extend({
@@ -60,7 +59,7 @@ export const latestProductSchema = z.object({
   id: z.string(),
   name: z.string(),
   price: z.string(),
-  rating: z.string(),
+  rating: z.number(),
   createdAt: z.date(),
   productBrandId: z.string().uuid().nullable(),
   updatedAt: z.date(),
@@ -75,8 +74,6 @@ export const latestProductSchema = z.object({
 });
 
 export type IProduct = z.infer<typeof productSchema> & {
-  productBrand?: { name: string; id: string };
-  category?: string;
   productProteinOnProduct: {
     productId: string;
     productProteinId: string;
@@ -85,7 +82,11 @@ export type IProduct = z.infer<typeof productSchema> & {
   productsFeatureOnProduct: {
     productId: string;
     productFeatureId: string;
-    productFeature: { id: string; name: string };
+    productFeature: {
+      id: string;
+      name: string;
+      description: string | null;
+    };
   }[];
 };
 export type IInsertProduct = z.infer<typeof insertProductSchema>;

@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const unitValueSchema = z.object({
   id: z.string().uuid(),
-  value: z.number().min(0).max(99999999.99), // Simulazione di Decimal(10,2)
+  value: z.number().min(0).max(99999999.99).nullable(), // Simulazione di Decimal(10,2)
 });
 
 export const unitOfMeasureSchema = z.object({

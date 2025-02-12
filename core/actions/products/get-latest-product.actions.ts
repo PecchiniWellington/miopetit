@@ -19,7 +19,7 @@ export async function getLatestProducts({
     const parsedProduct = latestProductSchema.parse({
       ...product,
       price: product.price.toString(),
-      rating: product.rating.toString(),
+      rating: product.rating,
     });
     return parsedProduct;
   });

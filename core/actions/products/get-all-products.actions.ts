@@ -95,7 +95,7 @@ export async function getAllProducts({
 
   // Fetch all brands
   const brands = await getAllBrands();
-  const brandMap = brands?.data.reduce(
+  const brandMap = brands?.reduce(
     (acc, brand) => {
       acc[brand.id] = [brand.name, brand.id];
       return acc;

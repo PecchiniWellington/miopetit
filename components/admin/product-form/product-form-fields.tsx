@@ -1,6 +1,6 @@
 import DynamicFormField from "@/components/shared/dynamic-form-field";
 import { AnimalAge } from "@/core/actions/types";
-import { ICategory } from "@/core/validators";
+import { ICategory, IProduct } from "@/core/validators";
 import { IProductFeatureOnProduct } from "@/core/validators/product-feature.validator";
 import {
   IUnitOfMeasure,
@@ -21,7 +21,18 @@ export function ProductFormFields({
   unitOfMeasure,
   allFeatures,
   product,
-}: any) {
+}: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  form: any;
+  categories?: ICategory[];
+  brands?: IBrand[];
+  pathologies?: IPathology[];
+  proteins?: IProtein[];
+  unitValues: IUnitValue[];
+  unitOfMeasure: IUnitOfMeasure[];
+  allFeatures?: IProductFeatureOnProduct[];
+  product?: IProduct;
+}) {
   const getOnlyProteinId =
     product?.productProteinOnProduct?.map(
       (protein) => protein.productProteinId
@@ -31,8 +42,6 @@ export function ProductFormFields({
     product?.productsFeatureOnProduct?.map(
       (feature) => feature.productFeatureId
     ) || [];
-
-  console.log("getOnlyFeatureId", getOnlyFeatureId);
 
   const formatterForSelect = (
     data: ICategory[] | IBrand[] | IPathology[] | IProtein[]
@@ -44,7 +53,7 @@ export function ProductFormFields({
 
   const formatterForUnitValue = unitValues?.map((d: IUnitValue) => ({
     value: d.id,
-    label: d.value.toString(),
+    label: d.value,
   }));
   const formatterForUnitOfMeasure = unitOfMeasure?.map((d: IUnitOfMeasure) => ({
     value: d.id,
@@ -56,8 +65,6 @@ export function ProductFormFields({
       label: productFeature.name,
     })
   );
-
-  console.log("format", formatterForFeature);
 
   const animalAge = Object.keys(AnimalAge).map((key: string) => ({
     value: key,

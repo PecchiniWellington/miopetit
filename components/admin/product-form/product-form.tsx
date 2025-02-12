@@ -1,5 +1,12 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { ICategory, IProduct } from "@/core/validators";
+import { IProductFeatureOnProduct } from "@/core/validators/product-feature.validator";
+import {
+  IUnitOfMeasure,
+  IUnitValue,
+} from "@/core/validators/unitsFormat.validator";
+import { IBrand, IPathology, IProtein } from "@/types/index";
 import { Form } from "../../ui/form";
 import { ProductFormFields } from "./product-form-fields";
 import { useProductForm } from "./useForm";
@@ -15,7 +22,18 @@ const ProductForm = ({
   unitValues,
   unitOfMeasure,
   allFeatures,
-}: any) => {
+}: {
+  type: "Create" | "Update";
+  product?: IProduct;
+  productId?: string;
+  categories?: ICategory[];
+  brands?: IBrand[];
+  pathologies?: IPathology[];
+  proteins?: IProtein[];
+  unitValues: IUnitValue[];
+  unitOfMeasure: IUnitOfMeasure[];
+  allFeatures?: IProductFeatureOnProduct[];
+}) => {
   const { form, onSubmit } = useProductForm({ type, product, productId });
 
   return (

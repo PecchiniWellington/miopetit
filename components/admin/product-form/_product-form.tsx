@@ -162,7 +162,7 @@ const ProductForm = ({
     value: d.id,
     label: d.code,
   }));
-  const formatterForFeature = allFeatures?.map(
+  const formatterForFeature = allFeatures.map(
     ({ productFeature }: IProductFeatureOnProduct) => ({
       value: productFeature.id,
       label: productFeature.name,

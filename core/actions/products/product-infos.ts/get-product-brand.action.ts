@@ -4,9 +4,7 @@ import { convertToPlainObject, formatValidationError } from "@/lib/utils";
 export async function getAllBrands() {
   try {
     const brands = await prisma.productBrand.findMany();
-    return {
-      data: brands,
-    };
+    return convertToPlainObject(brands);
   } catch (error) {
     if (error instanceof Error) {
       formatValidationError(error.message);

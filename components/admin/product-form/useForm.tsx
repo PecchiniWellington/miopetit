@@ -33,10 +33,6 @@ export function useProductForm({
             ...product,
             price: product.price.toString(),
             rating: product?.rating ? Number(product.rating) : undefined,
-            isFeatured: product.isFeatured || false,
-            banner: product.banner || null,
-            categoryId: product.categoryId || null,
-            productBrandId: product.productBrandId || null,
             productProteinOnProduct:
               product?.productProteinOnProduct?.map(
                 (protein) => protein.productProteinId
@@ -49,7 +45,6 @@ export function useProductForm({
             unitValueId: product.productUnitFormat?.unitValueId || undefined,
             unitOfMeasureId:
               product.productUnitFormat?.unitMeasureId || undefined,
-            animalAge: product.animalAge || undefined,
           }
         : PRODUCT_DEFAULT_VALUES,
   });

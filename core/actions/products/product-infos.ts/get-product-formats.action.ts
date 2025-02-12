@@ -1,6 +1,6 @@
 "use server";
 import { prisma } from "@/core/prisma/prisma";
-import { formatValidationError } from "@/lib/utils";
+import { convertToPlainObject, formatValidationError } from "@/lib/utils";
 
 export async function getAllFormats() {
   try {
@@ -11,7 +11,7 @@ export async function getAllFormats() {
       },
     });
 
-    return unitOfMeasure;
+    return convertToPlainObject(unitOfMeasure);
   } catch (error) {
     if (error instanceof Error) {
       formatValidationError(error.message);
@@ -24,7 +24,7 @@ export async function getUnitValue() {
   try {
     const unitValue = await prisma.unitValue.findMany({});
 
-    return unitValue;
+    return convertToPlainObject(unitValue);
   } catch (error) {
     if (error instanceof Error) {
       formatValidationError(error.message);
@@ -37,7 +37,7 @@ export async function getUnitOfMeasure() {
   try {
     const unitOfMeasure = await prisma.unitOfMeasure.findMany({});
 
-    return unitOfMeasure;
+    return convertToPlainObject(unitOfMeasure);
   } catch (error) {
     if (error instanceof Error) {
       formatValidationError(error.message);

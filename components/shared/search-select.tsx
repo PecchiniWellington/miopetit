@@ -12,7 +12,7 @@ interface SearchSelectProps {
 
 export default function SearchSelect({
   options,
-  onSelect,
+  /* onSelect, */
   placeholder,
   value,
 }: SearchSelectProps) {
@@ -28,15 +28,15 @@ export default function SearchSelect({
     }
   }, [value]);
 
-  const filteredOptions = options?.filter((option) =>
-    option.label.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  /* const filteredOptions = options?.filter((option) =>
+    option?.label?.toLowerCase().includes(searchTerm.toLowerCase())
+  ); */
 
-  const handleSelect = (selectedValue: string) => {
+  /* const handleSelect = (selectedValue: string) => {
     setSelectedOption(selectedValue);
     setIsOpen(false);
     onSelect(selectedValue);
-  };
+  }; */
 
   return (
     <div className="relative w-full">
@@ -63,7 +63,7 @@ export default function SearchSelect({
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           <ul className="max-h-60 overflow-y-auto border-t border-slate-700">
-            {filteredOptions.length > 0 ? (
+            {/* {filteredOptions.length > 0 ? (
               filteredOptions.map((option) => (
                 <li
                   key={option.value}
@@ -77,7 +77,7 @@ export default function SearchSelect({
               <li className="p-2 text-center text-gray-500">
                 No results found
               </li>
-            )}
+            )} */}
           </ul>
         </div>
       )}
