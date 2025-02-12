@@ -3,10 +3,7 @@ import {
   getAllBrands,
   getProductBrandByProductId,
 } from "./get-product-brand.action";
-import {
-  getAllFeatures,
-  getFeaturesBrandByProductId,
-} from "./get-product-features.action";
+import { getAllFeatures } from "./get-product-features.action";
 import { getAllFormats } from "./get-product-formats.action";
 import {
   getAllPathologies,
@@ -23,7 +20,6 @@ export {
   getAllFormats,
   getAllPathologies,
   getAllProtein,
-  getFeaturesBrandByProductId,
   getProductBrandByProductId,
   getProductPathologyByProductId,
   getProteinByProductId,

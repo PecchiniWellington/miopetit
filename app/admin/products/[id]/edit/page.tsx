@@ -2,6 +2,7 @@ import ProductForm from "@/components/admin/product-form/product-form";
 import { getProductById } from "@/core/actions/products";
 import {
   getAllBrands,
+  getAllFeatures,
   getAllPathologies,
   getAllProtein,
 } from "@/core/actions/products/product-infos.ts";
@@ -34,6 +35,7 @@ const AdminProductUpdatePage = async (props: {
   const proteins = await getAllProtein();
   const unitValues = await getUnitValue();
   const unitOfMeasure = await getUnitOfMeasure();
+  const allFeatures = await getAllFeatures();
 
   const categoriesDistribution = JSON.parse(JSON.stringify(categories.data));
   const brandsDistribution = JSON.parse(JSON.stringify(brands?.data));
@@ -41,6 +43,7 @@ const AdminProductUpdatePage = async (props: {
   const proteinsDistribution = JSON.parse(JSON.stringify(proteins?.data));
   const unitValuesDistribution = JSON.parse(JSON.stringify(unitValues));
   const unitOfMeasureDistribution = JSON.parse(JSON.stringify(unitOfMeasure));
+  const allFeaturesDistribution = JSON.parse(JSON.stringify(allFeatures));
 
   if (!product) return notFound();
 
@@ -55,7 +58,16 @@ const AdminProductUpdatePage = async (props: {
           isFeatured: !!product.isFeatured,
           productBrand: product.productBrand ?? undefined,
           category: product.category ?? undefined,
-          productUnitFormat: product.productUnitFormat ?? undefined,
+          productUnitFormat: product.productUnitFormat
+            ? {
+                ...product.productUnitFormat,
+                unitValue: {
+                  ...product.productUnitFormat.unitValue,
+                  value: Number(product.productUnitFormat.unitValue.value),
+                },
+              }
+            : undefined,
+
           productProteinsId: product.productProteinOnProduct.map(
             (item: {
               productId: string;
@@ -68,10 +80,11 @@ const AdminProductUpdatePage = async (props: {
         productId={product.id}
         categories={categoriesDistribution}
         brands={brandsDistribution}
-        patologies={pathologiesDistribution}
+        pathologies={pathologiesDistribution}
         proteins={proteinsDistribution}
         unitValues={unitValuesDistribution}
         unitOfMeasure={unitOfMeasureDistribution}
+        allFeatures={allFeaturesDistribution}
       />
     </div>
   );

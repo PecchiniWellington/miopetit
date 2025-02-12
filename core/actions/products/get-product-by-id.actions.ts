@@ -9,7 +9,11 @@ export async function getProductById(id: string) {
       orderitems: true,
       category: true,
       productBrand: true,
-      /*  productPathology: true, */
+      productsFeatureOnProduct: {
+        include: {
+          productFeature: true,
+        },
+      },
       productUnitFormat: {
         include: {
           unitOfMeasure: true,

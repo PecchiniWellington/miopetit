@@ -24,22 +24,23 @@ model Product {
      * FOREIGN KEYS
      */
     categoryId          String? @db.Uuid
-    productFeaturesId   String? @db.Uuid
     productBrandId      String? @db.Uuid
     productPathologyId  String? @db.Uuid
     productUnitFormatId String? @db.Uuid
 
     /**
-     * RELAZIONE 1-TO-MANY con ProductUnitValue
+     * RELAZIONE 1-TO-MANY
      */
-    // 🔗 1-to-Many
     category          Category?          @relation(fields: [categoryId], references: [id], onDelete: SetNull)
     productBrand      ProductBrand?      @relation(fields: [productBrandId], references: [id])
-    productFeatures   ProductFeatures?   @relation(fields: [productFeaturesId], references: [id])
     productPathology  ProductPathology?  @relation(fields: [productPathologyId], references: [id])
     productUnitFormat ProductUnitFormat? @relation(fields: [productUnitFormatId], references: [id], onDelete: SetNull)
 
-    productProteinOnProduct ProductProteinOnProduct[]
-    review                  Review[]
-    orderitems              OrderItem[]
+    /**
+     * RELAZIONE MANY-TO-MANY
+     */
+    productProteinOnProduct  ProductProteinOnProduct[]
+    productsFeatureOnProduct ProductFeatureOnProduct[]
+    review                   Review[]
+    orderitems               OrderItem[]
 }

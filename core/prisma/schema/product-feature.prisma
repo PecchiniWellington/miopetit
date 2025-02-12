@@ -1,5 +1,7 @@
 model ProductFeatures {
-    id       String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    name     String    @unique
-    products Product[]
+    id          String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    name        String  @unique
+    description String?
+
+    productsFeatureOnProduct ProductFeatureOnProduct[]
 }

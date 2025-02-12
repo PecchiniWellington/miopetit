@@ -3,7 +3,7 @@ import console from "console";
 import categoryData from "./category";
 import productsData from "./product";
 import productBrand from "./product-brand";
-import productFeature from "./product-feature";
+import productFeaturesData from "./product-feature";
 import productPathology from "./product-pathology";
 import productProteins from "./product-proteins";
 import unitOfMeasureData from "./unit-of-measure";
@@ -22,6 +22,7 @@ async function main() {
   await prisma.productFeatures.deleteMany();
   await prisma.productPathology.deleteMany();
   await prisma.productBrand.deleteMany();
+  await prisma.productFeatures.deleteMany();
   await prisma.user.deleteMany();
   await prisma.account.deleteMany();
   await prisma.session.deleteMany();
@@ -41,8 +42,8 @@ async function main() {
   console.log(`✅ Users created`);
   await prisma.productProtein.createMany({ data: productProteins });
   console.log(`✅ ProductProtein created`);
-  await prisma.productFeatures.createMany({ data: productFeature });
-  console.log(`✅ ProductFeatures created`);
+  await prisma.productFeatures.createMany({ data: productFeaturesData });
+  console.log(`✅ productFeatures created`);
   await prisma.productPathology.createMany({ data: productPathology });
   console.log(`✅ ProductPathology created`);
   await prisma.productBrand.createMany({ data: productBrand });
@@ -50,6 +51,9 @@ async function main() {
 
   // 📌 Retrieve the IDs
   const categories = await prisma.category.findMany({ select: { id: true } });
+  const productFeatures = await prisma.productFeatures.findMany({
+    select: { id: true },
+  });
   const brandData = await prisma.productBrand.findMany({
     select: { id: true },
   });
@@ -80,10 +84,15 @@ async function main() {
 
   console.log(`⏳ Start creating products...`);
   for (const product of productsData) {
-    const numProteins = Math.floor(Math.random() * 3) + 1;
+    const numRandom = Math.floor(Math.random() * 3) + 1;
+
     const selectedProteins = productProteinsData
       .sort(() => 0.5 - Math.random())
-      .slice(0, numProteins);
+      .slice(0, numRandom);
+
+    const selectedFeature = productFeatures
+      .sort(() => 0.5 - Math.random())
+      .slice(0, numRandom);
 
     const randomProductUnitFormat =
       productUnitFormats[Math.floor(Math.random() * productUnitFormats.length)];
@@ -101,6 +110,11 @@ async function main() {
             id: brandData[Math.floor(Math.random() * brandData.length)].id,
           },
         },
+        productsFeatureOnProduct: {
+          create: selectedFeature.map((feature) => ({
+            productFeature: { connect: { id: feature.id } },
+          })),
+        },
         productUnitFormat: {
           connect: {
             id: randomProductUnitFormat.id,
@@ -115,7 +129,7 @@ async function main() {
     });
 
     console.log(
-      `→   ✅ Created product: ${createdProduct.name} with ${selectedProteins.length} proteins and unit value ${randomProductUnitFormat.unitValueId}`
+      `→   ✅ Created product: ${createdProduct.name} with ${selectedProteins.length} proteins and unit value }`
     );
   }
 

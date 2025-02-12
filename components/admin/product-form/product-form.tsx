@@ -3,12 +3,14 @@
 import DynamicFormField from "@/components/shared/dynamic-form-field";
 import { Button } from "@/components/ui/button";
 import { createProduct, updateProduct } from "@/core/actions/products";
+import { AnimalAge } from "@/core/actions/types";
 import {
   ICategory,
   insertProductSchema,
   IProduct,
   updateProductSchema,
 } from "@/core/validators";
+import { IProductFeatureOnProduct } from "@/core/validators/product-feature.validator";
 import {
   IUnitOfMeasure,
   IUnitValue,
@@ -31,20 +33,22 @@ const ProductForm = ({
   productId,
   categories,
   brands,
-  patologies,
+  pathologies,
   proteins,
   unitValues,
   unitOfMeasure,
+  allFeatures,
 }: {
   type: "Create" | "Update";
   product?: IProduct;
   productId?: string;
   categories?: ICategory[];
   brands?: IBrand[];
-  patologies?: IPathology[];
+  pathologies?: IPathology[];
   proteins?: IProtein[];
   unitValues: IUnitValue[];
   unitOfMeasure: IUnitOfMeasure[];
+  allFeatures: IProductFeatureOnProduct[];
 }) => {
   const router = useRouter();
   const { toast } = useToast();
@@ -70,10 +74,15 @@ const ProductForm = ({
               product?.productProteinOnProduct?.map(
                 (protein) => protein.productProteinId
               ) || [],
+            productFeatureOnProduct:
+              product?.productsFeatureOnProduct?.map(
+                (feature) => feature.productFeatureId
+              ) || [],
 
             unitValueId: product.productUnitFormat?.unitValueId || undefined,
             unitOfMeasureId:
               product.productUnitFormat?.unitMeasureId || undefined,
+            animalAge: product.animalAge || undefined,
           }
         : PRODUCT_DEFAULT_VALUES,
   });
@@ -86,9 +95,10 @@ const ProductForm = ({
     const parsed = schema.safeParse(data);
 
     if (!parsed.success) {
-      console.log("🔴 ERRORI DI VALIDAZIONE:", parsed.error.format());
+      console.log("🔴 Validation Errors:", parsed.error.format());
       return;
     }
+
     const handleResponse = (
       res: { success: boolean; error?: string; message?: string },
       successMessage: string
@@ -109,20 +119,15 @@ const ProductForm = ({
       }
     };
 
-    if (type === "Create") {
-      const res = await createProduct(data);
-      handleResponse(res, "Product created");
-    }
+    const res =
+      type === "Create"
+        ? await createProduct(data)
+        : await updateProduct({ ...data, id: productId as string });
 
-    if (type === "Update") {
-      if (!productId) {
-        router.push("/admin/products");
-        return;
-      }
-
-      const res = await updateProduct({ ...data, id: productId });
-      handleResponse(res, "Product updated");
-    }
+    handleResponse(
+      res,
+      type === "Create" ? "Product created" : "Product updated"
+    );
   };
 
   const images = form.watch("images");
@@ -134,6 +139,13 @@ const ProductForm = ({
       (protein) => protein.productProteinId
     ) || [];
 
+  const getOnlyFeatureId =
+    product?.productsFeatureOnProduct?.map(
+      (feature) => feature.productFeatureId
+    ) || [];
+
+  console.log("getOnlyFeatureId", getOnlyFeatureId);
+
   const formatterForSelect = (
     data: ICategory[] | IBrand[] | IPathology[] | IProtein[]
   ) =>
@@ -141,16 +153,28 @@ const ProductForm = ({
       value: d.id,
       label: d.name,
     }));
-  const formatterForUnitValue = (data: IUnitValue[]) =>
-    data?.map((d: IUnitValue) => ({
-      value: d.id,
-      label: d.value.toString(),
-    }));
-  const formatterForUnitOfMeasure = (data: IUnitOfMeasure[]) =>
-    data?.map((d: IUnitOfMeasure) => ({
-      value: d.id,
-      label: d.code,
-    }));
+
+  const formatterForUnitValue = unitValues?.map((d: IUnitValue) => ({
+    value: d.id,
+    label: d.value.toString(),
+  }));
+  const formatterForUnitOfMeasure = unitOfMeasure?.map((d: IUnitOfMeasure) => ({
+    value: d.id,
+    label: d.code,
+  }));
+  const formatterForFeature = allFeatures?.map(
+    ({ productFeature }: IProductFeatureOnProduct) => ({
+      value: productFeature.id,
+      label: productFeature.name,
+    })
+  );
+
+  console.log("format", formatterForFeature);
+
+  const animalAge = Object.keys(AnimalAge).map((key: string) => ({
+    value: key,
+    label: key,
+  }));
 
   return (
     <Form {...form}>
@@ -195,7 +219,7 @@ const ProductForm = ({
           {/* Pathologies */}
           <DynamicFormField
             type="select"
-            options={patologies ? formatterForSelect(patologies) : []}
+            options={pathologies ? formatterForSelect(pathologies) : []}
             control={form.control}
             name="productPathologyId"
             schema={insertProductSchema}
@@ -225,13 +249,24 @@ const ProductForm = ({
             placeholder="Enter proteins"
             defaultValue={getOnlyProteinId}
           />
+          {/* Features */}
+          <DynamicFormField
+            type="multiple-select"
+            options={allFeatures ? formatterForFeature : []}
+            control={form.control}
+            name="productFeatureOnProduct"
+            schema={insertProductSchema}
+            title="Features"
+            placeholder="Enter features"
+            defaultValue={getOnlyFeatureId}
+          />
         </div>
         <div className="flex flex-col  gap-5 md:flex-row">
           {/* Unit Value */}
           <div className="flex w-full">
             <DynamicFormField
               type="select"
-              options={formatterForUnitValue(unitValues) || []}
+              options={unitValues ? formatterForUnitValue : []}
               control={form.control}
               name="unitValueId"
               schema={insertProductSchema}
@@ -243,9 +278,7 @@ const ProductForm = ({
 
             <DynamicFormField
               type="select"
-              options={
-                unitOfMeasure ? formatterForUnitOfMeasure(unitOfMeasure) : []
-              }
+              options={unitOfMeasure ? formatterForUnitOfMeasure : []}
               control={form.control}
               name="unitOfMeasureId"
               schema={insertProductSchema}
@@ -256,12 +289,12 @@ const ProductForm = ({
           </div>
           <DynamicFormField
             type="select"
-            options={brands ? formatterForSelect(brands) : []}
+            options={animalAge}
             control={form.control}
-            name="productBrandId"
+            name="animalAge"
             schema={insertProductSchema}
-            title="Unit value"
-            placeholder="Enter brand"
+            title="Animal Age"
+            placeholder="Enter animal age"
           />
           {/* Proteins */}
         </div>

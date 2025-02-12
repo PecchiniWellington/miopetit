@@ -12,7 +12,7 @@ export const productSchema = z.object({
   images: z.array(z.string().min(1, "Product must have at least 1 image")),
   description: z.string().min(3, "Description must be at least 3 characters"),
   stock: z.number().nullable().default(0),
-  price: z.number().positive("Price must be a positive number"), // 🛠 Assicura che il prezzo sia positivo
+  price: z.number().positive("Price must be a positive number"),
   rating: z.number().nullable().optional(),
   banner: z.string().nullable(),
   categoryId: z.string().uuid().nullable(),
@@ -21,23 +21,11 @@ export const productSchema = z.object({
   createdAt: z.date().default(new Date()),
   updatedAt: z.date().default(new Date()),
   productBrandId: z.string().uuid().nullable(),
-  productFeaturesId: z.string().uuid().nullable(),
+  //productFeaturesId: z.string().uuid().nullable(),
   productPathologyId: z.string().uuid().nullable(),
   productProteinsId: z.array(z.string().uuid()).nullable(),
   orderitems: z.array(orderItemSchema),
-  /*  productProteinOnProduct: z
-    .array(
-      z.object({
-        productId: z.string().uuid(),
-        productProteinId: z.string().uuid(),
-        productProtein: z.object({
-          id: z.string().uuid(),
-          name: z.string(),
-        }),
-      })
-    )
-    .nullable(), */
-
+  animalAge: z.enum(["PUPPY", "ADULT", "SENIOR"]),
   unitValueId: z.string().uuid().optional(),
   unitOfMeasureId: z.string().uuid().optional(),
   productUnitFormat: productUnitFormatSchema.optional(),
@@ -45,22 +33,23 @@ export const productSchema = z.object({
 
 // Schema for inserting products
 export const insertProductSchema = z.object({
-  name: z.string().min(3, "Name must be a at least 3 characters"),
-  slug: z.string().min(3, "Slug must be a at least 3 characters"),
+  name: z.string().min(3, "Name must be at least 3 characters"),
+  slug: z.string().min(3, "Slug must be at least 3 characters"),
   images: z.array(z.string().min(1, "Product must have at least 1 image")),
-  description: z.string().min(3, "Description must be a at least 3 characters"),
+  description: z.string().min(3, "Description must be at least 3 characters"),
   stock: z.coerce.number().nullable().default(0),
   price: currency,
   banner: z.string().nullable(),
   isFeatured: z.boolean().optional().default(false),
   rating: z.number().nullable().optional(),
-
+  animalAge: z.enum(["PUPPY", "ADULT", "SENIOR"]),
   productBrandId: z.string().uuid().nullable().optional(),
   productPathologyId: z.string().uuid().nullable().optional(),
   productProteinOnProduct: z.array(z.string().uuid()).nullable().optional(),
   categoryId: z.string().uuid().nullable(),
   unitValueId: z.string().uuid().nullable().optional(),
   unitOfMeasureId: z.string().uuid().nullable().optional(),
+  productFeatureOnProduct: z.array(z.string().uuid().nullable().optional()),
 });
 
 export const updateProductSchema = insertProductSchema.extend({
@@ -92,6 +81,11 @@ export type IProduct = z.infer<typeof productSchema> & {
     productId: string;
     productProteinId: string;
     productProtein: { id: string; name: string };
+  }[];
+  productsFeatureOnProduct: {
+    productId: string;
+    productFeatureId: string;
+    productFeature: { id: string; name: string };
   }[];
 };
 export type IInsertProduct = z.infer<typeof insertProductSchema>;

@@ -46,7 +46,7 @@ export async function updateProduct(data: z.infer<typeof updateProductSchema>) {
         stock: product.stock ?? undefined,
         isFeatured: product.isFeatured,
         banner: product.banner,
-
+        animalAge: product.animalAge,
         productPathologyId: product.productPathologyId,
         productBrandId: product.productBrandId,
         categoryId: product.categoryId,
@@ -56,6 +56,14 @@ export async function updateProduct(data: z.infer<typeof updateProductSchema>) {
           create: product.productProteinOnProduct?.map((proteinId) => ({
             productProtein: { connect: { id: proteinId } },
           })),
+        },
+        productsFeatureOnProduct: {
+          deleteMany: {},
+          create: product.productFeatureOnProduct
+            ?.filter((productFeatureId) => productFeatureId != null)
+            .map((productFeatureId) => ({
+              productFeature: { connect: { id: productFeatureId! } },
+            })),
         },
         productUnitFormatId: productUnitFormat.id,
       },

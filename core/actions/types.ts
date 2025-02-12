@@ -1,5 +1,5 @@
 export enum AnimalAge {
-  CUCCIOLO,
-  ADULTO,
-  ANZIANO,
+  PUPPY = "PUPPY",
+  ADULT = "ADULT",
+  SENIOR = "SENIOR",
 }
