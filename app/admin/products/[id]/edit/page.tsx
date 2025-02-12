@@ -42,7 +42,9 @@ const AdminProductUpdatePage = async (props: {
         type="Update"
         product={{
           ...product,
+          category: product.category ?? undefined,
           productUnitFormat: product.productUnitFormat ?? undefined,
+          productBrand: product.productBrand ?? undefined,
         }}
         productId={product.id}
         categories={categories.data ?? []}

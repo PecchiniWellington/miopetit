@@ -1,16 +1,11 @@
-import { getFeaturesBrandByProductId } from "@/core/actions/products/product-infos.ts/get-product-features.action";
+import { getFeaturedProducts } from "@/core/actions/products";
 import handleError from "@/types/handlers/error";
 import { NotFoundError } from "@/types/http-errors";
 import { NextResponse } from "next/server";
 
-export async function GET(
-  _: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  const { id } = await params;
-
+export async function GET() {
   try {
-    const account = await getFeaturesBrandByProductId(id);
+    const account = await getFeaturedProducts();
     if (!account) throw new NotFoundError("Account");
 
     return NextResponse.json({ success: true, data: account }, { status: 200 });

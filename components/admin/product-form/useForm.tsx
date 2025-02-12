@@ -31,17 +31,17 @@ export function useProductForm({
       product && type === "Update"
         ? {
             ...product,
-            price: product.price.toString(),
-            rating: product?.rating ? Number(product.rating) : undefined,
+
             productProteinOnProduct:
               product?.productProteinOnProduct?.map(
                 (protein) => protein.productProteinId
               ) || [],
-            productFeatureOnProduct:
+            productsFeatureOnProduct:
               product?.productsFeatureOnProduct?.map(
                 (feature) => feature.productFeatureId
               ) || [],
 
+            isFeatured: product.isFeatured ?? undefined,
             unitValueId: product.productUnitFormat?.unitValueId || undefined,
             unitOfMeasureId:
               product.productUnitFormat?.unitMeasureId || undefined,
@@ -59,7 +59,11 @@ export function useProductForm({
     const res =
       type === "Create"
         ? await createProduct(data)
-        : await updateProduct({ ...data, id: productId as string });
+        : await updateProduct({
+            ...data,
+            id: productId as string,
+            productsFeatureOnProduct: data.productsFeatureOnProduct ?? [],
+          });
 
     if (!res.success) {
       toast({

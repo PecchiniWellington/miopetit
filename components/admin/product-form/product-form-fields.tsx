@@ -28,8 +28,8 @@ export function ProductFormFields({
   brands?: IBrand[];
   pathologies?: IPathology[];
   proteins?: IProtein[];
-  unitValues: IUnitValue[];
-  unitOfMeasure: IUnitOfMeasure[];
+  unitValues?: IUnitValue[];
+  unitOfMeasure?: IUnitOfMeasure[];
   allFeatures?: IProductFeatureOnProduct[];
   product?: IProduct;
 }) {
@@ -53,7 +53,7 @@ export function ProductFormFields({
 
   const formatterForUnitValue = unitValues?.map((d: IUnitValue) => ({
     value: d.id,
-    label: d.value,
+    label: d.value?.toString() || "",
   }));
   const formatterForUnitOfMeasure = unitOfMeasure?.map((d: IUnitOfMeasure) => ({
     value: d.id,
@@ -135,7 +135,7 @@ export function ProductFormFields({
           type="multiple-select"
           options={allFeatures ? formatterForFeature : []}
           control={form.control}
-          name="productFeatureOnProduct"
+          name="productsFeatureOnProduct"
           title="Features"
           placeholder="Enter features"
           defaultValue={getOnlyFeatureId}

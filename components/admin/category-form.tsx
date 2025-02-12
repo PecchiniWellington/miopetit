@@ -10,7 +10,6 @@ import {
   updataCategory,
 } from "@/core/actions/admin/admin.actions";
 import {
-  categorySchema,
   ICategory,
   ICategoryInsert,
   ICategoryUpdate,
@@ -94,7 +93,6 @@ const CategoryForm = ({
           <DynamicFormField
             control={form.control}
             name="name"
-            schema={categorySchema}
             title="Name"
             placeholder="Enter name"
           />
@@ -107,7 +105,6 @@ const CategoryForm = ({
           <DynamicFormField
             control={form.control}
             name="description"
-            schema={categorySchema}
             title="Description"
             placeholder="Enter description"
             type="textarea"

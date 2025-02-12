@@ -103,7 +103,6 @@ const UpdateUserForm = ({ user }: { user: IUser }) => {
           disabled
           control={form.control}
           name="email"
-          schema={updateUserSchema}
           title="Email"
           placeholder="Enter email"
         />
@@ -112,7 +111,6 @@ const UpdateUserForm = ({ user }: { user: IUser }) => {
         <DynamicFormField
           control={form.control}
           name="name"
-          schema={updateUserSchema}
           title="Name"
           placeholder="Enter name"
         />
@@ -124,7 +122,6 @@ const UpdateUserForm = ({ user }: { user: IUser }) => {
             options={roles}
             control={form.control}
             name="role"
-            schema={updateUserSchema}
             title="Role"
             placeholder="Enter role"
           />
@@ -135,7 +132,6 @@ const UpdateUserForm = ({ user }: { user: IUser }) => {
             options={status}
             control={form.control}
             name="status"
-            schema={updateUserSchema}
             title="Status"
             placeholder="Enter status"
           />

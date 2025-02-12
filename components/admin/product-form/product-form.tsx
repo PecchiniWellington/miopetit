@@ -30,8 +30,8 @@ const ProductForm = ({
   brands?: IBrand[];
   pathologies?: IPathology[];
   proteins?: IProtein[];
-  unitValues: IUnitValue[];
-  unitOfMeasure: IUnitOfMeasure[];
+  unitValues?: IUnitValue[];
+  unitOfMeasure?: IUnitOfMeasure[];
   allFeatures?: IProductFeatureOnProduct[];
 }) => {
   const { form, onSubmit } = useProductForm({ type, product, productId });
@@ -41,7 +41,15 @@ const ProductForm = ({
       <form
         className="space-y-8"
         method="POST"
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={form.handleSubmit(
+          (data) => {
+            console.log("✅ Dati inviati:", data);
+            onSubmit(data);
+          },
+          (errors) => {
+            console.log("❌ Errori nel form:", errors);
+          }
+        )}
       >
         <ProductFormFields
           form={form}
@@ -52,6 +60,7 @@ const ProductForm = ({
           unitValues={unitValues}
           unitOfMeasure={unitOfMeasure}
           allFeatures={allFeatures}
+          product={product}
         />
 
         <Button disabled={form.formState.isSubmitting}>

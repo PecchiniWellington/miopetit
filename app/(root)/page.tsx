@@ -18,7 +18,11 @@ export default async function Home() {
   const latestProducts = await getLatestProducts({
     limit: 12,
   });
-  const featuredProducts = await getFeaturedProducts();
+  const featuredProducts = (await getFeaturedProducts()).map((product) => ({
+    ...product,
+    isFeatured: product.isFeatured ?? false,
+    rating: product.rating ?? 0,
+  }));
 
   return (
     <div>

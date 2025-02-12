@@ -18,27 +18,27 @@ export async function createProduct(data: unknown) {
     const rest = product.data;
 
     let unitValue = await prisma.unitValue.findUnique({
-      where: { id: rest.unitValueId },
+      where: { id: rest.unitValueId ?? undefined },
     });
 
     if (!unitValue) {
       unitValue = await prisma.unitValue.create({
         data: {
-          id: rest.unitValueId,
+          id: rest.unitValueId ?? undefined,
           value: parseInt(rest.unitValueId ?? "0"),
         },
       });
     }
 
     let unitMeasure = await prisma.unitOfMeasure.findUnique({
-      where: { id: rest.unitOfMeasureId },
+      where: { id: rest.unitOfMeasureId ?? undefined },
     });
 
     if (!unitMeasure) {
       unitMeasure = await prisma.unitOfMeasure.create({
         data: {
-          id: rest.unitOfMeasureId,
-          abbreviation: rest.unitOfMeasureId ?? "",
+          id: rest.unitOfMeasureId ?? undefined,
+          code: rest.unitOfMeasureId ?? "",
         },
       });
     }

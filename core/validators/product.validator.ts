@@ -1,5 +1,7 @@
 import { currency } from "@/lib/utils";
+import { IBrand } from "@/types/index";
 import { z } from "zod";
+import { ICategory } from "./category.validator";
 import { orderItemSchema } from "./orders.validator";
 import { productUnitFormatSchema } from "./unitsFormat.validator";
 
@@ -45,14 +47,15 @@ export const insertProductSchema = z.object({
   productBrandId: z.string().uuid().nullable().optional(),
   productPathologyId: z.string().uuid().nullable().optional(),
   productProteinOnProduct: z.array(z.string().uuid()).nullable().optional(),
+  productsFeatureOnProduct: z.array(z.string().uuid()).nullable().optional(),
   categoryId: z.string().uuid().nullable(),
   unitValueId: z.string().uuid().nullable().optional(),
   unitOfMeasureId: z.string().uuid().nullable().optional(),
-  productFeatureOnProduct: z.array(z.string().uuid()).nullable(),
 });
 
 export const updateProductSchema = insertProductSchema.extend({
   id: z.string().min(1, "Id is required"),
+  productsFeatureOnProduct: z.array(z.string().uuid().nullable().optional()),
 });
 
 export const latestProductSchema = z.object({
@@ -88,7 +91,11 @@ export type IProduct = z.infer<typeof productSchema> & {
       description: string | null;
     };
   }[];
+  category?: ICategory;
+  productBrand?: IBrand;
 };
-export type IInsertProduct = z.infer<typeof insertProductSchema>;
+export type IInsertProduct = z.infer<typeof insertProductSchema> & {};
 export type IUpdateProduct = z.infer<typeof updateProductSchema>;
-export type ILatestProduct = z.infer<typeof latestProductSchema>;
+export type ILatestProduct = z.infer<typeof latestProductSchema> & {
+  productBrand?: IBrand;
+};
