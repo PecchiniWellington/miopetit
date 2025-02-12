@@ -2,7 +2,6 @@
 
 import { Control, Controller } from "react-hook-form";
 
-import { z } from "zod";
 import CustomMultipleSelect from "../custom-multiple-select";
 import { FormControl, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
@@ -19,7 +18,6 @@ interface DynamicFormFieldProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<any>;
   name: string;
-  schema: z.ZodType<unknown>;
   title: string;
   placeholder?: string;
   type?: "input" | "textarea" | "select" | "multiple-select";
