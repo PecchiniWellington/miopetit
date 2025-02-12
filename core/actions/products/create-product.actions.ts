@@ -53,6 +53,10 @@ export async function createProduct(data: unknown) {
       },
     });
 
+    const productUnitFormatId = productUnitFormat
+      ? productUnitFormat.id
+      : undefined;
+
     await prisma.product.create({
       data: {
         price: rest.price,
@@ -63,17 +67,28 @@ export async function createProduct(data: unknown) {
         stock: rest.stock ?? undefined,
         isFeatured: rest.isFeatured,
         banner: rest.banner,
-        categoryId: rest.categoryId,
-        productBrandId: rest.productBrandId,
+        animalAge: rest.animalAge ?? "PUPPY",
         productPathologyId: rest.productPathologyId,
-        ...(productUnitFormat && {
-          productUnitFormat: { connect: { id: productUnitFormat.id } },
-        }),
-        productProteins: {
-          create: rest.productProteins?.map((proteinId) => ({
+        productBrandId: rest.productBrandId,
+        categoryId: rest.categoryId,
+
+        productProteinOnProduct: {
+          create: rest.productProteinOnProduct?.map((proteinId) => ({
             productProtein: { connect: { id: proteinId } },
           })),
         },
+        productsFeatureOnProduct: rest.productsFeatureOnProduct
+          ? {
+              create: rest.productsFeatureOnProduct
+                .filter(
+                  (proteinId) => proteinId !== null && proteinId !== undefined
+                )
+                .map((proteinId) => ({
+                  productFeature: { connect: { id: proteinId! } },
+                })),
+            }
+          : undefined,
+        productUnitFormatId: productUnitFormatId,
       },
     });
 
