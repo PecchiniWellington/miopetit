@@ -25,7 +25,6 @@ model Product {
      */
     formatId            String? @db.Uuid
     categoryId          String? @db.Uuid
-    productPatologyId   String? @db.Uuid
     productFeaturesId   String? @db.Uuid
     productBrandId      String? @db.Uuid
     unitOfMeasureId     String? @db.Uuid
@@ -58,31 +57,3 @@ model ProductUnitFormat {
 
     @@unique([unitValueId, unitMeasureId])
 }
-
-/**
- * [
- * {
- * "id": "a1234567-89ab-cdef-0123-456789abcdef",
- * "unitValue": { "id": "val-001", "value": 15 },
- * "unitOfMeasure": { "id": "unit-kg", "abbreviation": "kg" },
- * "products": [
- * { "id": "prod-001", "name": "Crocchette per Cani 15kg" },
- * { "id": "prod-002", "name": "Cibo per Gatti 15kg" }
- * ]
- * },
- * {
- * "id": "b2345678-89ab-cdef-0123-456789abcdef",
- * "unitValue": { "id": "val-002", "value": 5 },
- * "unitOfMeasure": { "id": "unit-kg", "abbreviation": "kg" },
- * "products": [
- * { "id": "prod-003", "name": "Alimento Secco per Cuccioli 5kg" }
- * ]
- * },
- * {
- * "id": "c3456789-89ab-cdef-0123-456789abcdef",
- * "unitValue": { "id": "val-003", "value": 2 },
- * "unitOfMeasure": { "id": "unit-l", "abbreviation": "L" },
- * "products": []
- * }
- * ]
- */

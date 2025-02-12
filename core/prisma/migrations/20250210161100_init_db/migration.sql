@@ -139,7 +139,7 @@ CREATE TABLE "Product" (
     "createdAt" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "animalAge" "AnimalAge",
-    "productPatologyId" UUID,
+    "productPathologyId" UUID,
     "productProteinId" UUID,
     "categoryId" UUID,
     "formatId" UUID,
@@ -257,7 +257,7 @@ ALTER TABLE "Product" ADD CONSTRAINT "Product_productProteinId_fkey" FOREIGN KEY
 ALTER TABLE "Product" ADD CONSTRAINT "Product_productBrandId_fkey" FOREIGN KEY ("productBrandId") REFERENCES "ProductBrand"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Product" ADD CONSTRAINT "Product_productPatologyId_fkey" FOREIGN KEY ("productPatologyId") REFERENCES "ProductPathology"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Product" ADD CONSTRAINT "Product_productPathologyId_fkey" FOREIGN KEY ("productPathologyId") REFERENCES "ProductPathology"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Review" ADD CONSTRAINT "Review_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;

@@ -107,6 +107,7 @@ const ProductForm = ({
 
     if (type === "Create") {
       const res = await createProduct(data);
+
       handleResponse(res, "Product created");
     }
 
@@ -117,6 +118,7 @@ const ProductForm = ({
       }
 
       const res = await updateProduct({ ...data, id: productId });
+      console.log("🚀 productId", res);
       handleResponse(res, "Product updated");
     }
   };
@@ -137,20 +139,17 @@ const ProductForm = ({
       label: d.name,
     }));
 
-  const formatterForSelectUnitValue = unitFormats?.unitValue?.map(
-    (d: { id: string; value: number }) => ({
-      value: d.id,
-      label: d.value.toString(),
-    })
-  );
-  const formatterForSelectUnitOfMeasure = unitFormats?.unitOfMeasure?.map(
-    (d: { id: string; abbreviation: string }) => ({
-      value: d.id,
-      label: d.abbreviation.toString(),
-    })
-  );
+  // 🔹 Mappa UnitOfMeasure per la select
+  const unitMeasureOptions = unitFormats.unitOfMeasure.map((format) => ({
+    value: format.value,
+    label: format.label,
+  }));
 
-  console.log("🔴 unitFormats", unitFormats);
+  // 🔹 Mappa UnitValue per la select
+  const unitValueOptions = unitFormats.unitValue.map((format) => ({
+    value: format.value,
+    label: format.label.toString(), // Converti il numero in stringa per la select
+  }));
 
   return (
     <Form {...form}>
@@ -197,7 +196,7 @@ const ProductForm = ({
             type="select"
             options={patologies ? formatterForSelect(patologies) : []}
             control={form.control}
-            name="productPatologyId"
+            name="productPathologyId"
             schema={insertProductSchema}
             title="Pathologies"
             placeholder="Enter category"
@@ -231,9 +230,7 @@ const ProductForm = ({
           <div className="flex w-full">
             <DynamicFormField
               type="select"
-              options={
-                formatterForSelectUnitValue ? formatterForSelectUnitValue : []
-              }
+              options={unitValueOptions ? unitValueOptions : []}
               control={form.control}
               name="unitValueId"
               schema={insertProductSchema}
@@ -245,11 +242,7 @@ const ProductForm = ({
 
             <DynamicFormField
               type="select"
-              options={
-                formatterForSelectUnitOfMeasure
-                  ? formatterForSelectUnitOfMeasure
-                  : []
-              }
+              options={unitMeasureOptions ? unitMeasureOptions : []}
               control={form.control}
               name="unitOfMeasureId"
               schema={insertProductSchema}

@@ -65,7 +65,7 @@ export async function createProduct(data: unknown) {
         banner: rest.banner,
         categoryId: rest.categoryId,
         productBrandId: rest.productBrandId,
-        productPatologyId: rest.productPatologyId,
+        productPathologyId: rest.productPathologyId,
         ...(productUnitFormat && {
           productUnitFormat: { connect: { id: productUnitFormat.id } },
         }),

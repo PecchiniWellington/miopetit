@@ -23,11 +23,11 @@ export const productSchema = z.object({
   productBrandId: z.string().uuid().nullable(),
   formatId: z.string().uuid().nullable(),
   productFeaturesId: z.string().uuid().nullable(),
-  productPatologyId: z.string().uuid().nullable(),
+  productPathologyId: z.string().uuid().nullable(),
   orderitems: z.array(orderItemSchema),
 
-  unitValueId: z.string().uuid().optional(), // 🛠 ID del valore unitario
-  unitOfMeasureId: z.string().uuid().optional(), // 🛠 ID dell'unità di misura
+  unitValueId: z.string().uuid().optional(),
+  unitOfMeasureId: z.string().uuid().optional(),
   productUnitFormat: productUnitFormatSchema,
 });
 
@@ -39,16 +39,14 @@ export const insertProductSchema = z.object({
   description: z.string().min(3, "Description must be a at least 3 characters"),
   stock: z.coerce.number().nullable().default(0),
   price: currency,
-  productBrandId: z.string().uuid().nullable(),
-  productPatologyId: z.string().uuid().nullable(),
   banner: z.string().nullable(),
   productProteins: z.array(z.string().uuid()).nullable(),
-  categoryId: z
-    .string()
-    .min(3, "Category must be a at least 3 characters")
-    .nullable(),
   isFeatured: z.boolean().optional().default(false),
-  productUnitFormatId: z.string().uuid().optional(), // Se esiste già, lo colleghiamo
+
+  productBrandId: z.string().uuid().nullable(),
+  productPathologyId: z.string().uuid().nullable(),
+  categoryId: z.string().uuid().nullable(),
+  productUnitFormatId: z.string().uuid().optional(),
   unitValueId: z.string().uuid().optional().nullable(),
   unitOfMeasureId: z.string().uuid().optional().nullable(),
 });

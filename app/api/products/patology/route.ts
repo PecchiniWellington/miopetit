@@ -1,4 +1,4 @@
-import { getProductPatologyByProductId } from "@/core/actions/products/product-infos.ts";
+import { getProductPathologyByProductId } from "@/core/actions/products/product-infos.ts";
 import handleError from "@/types/handlers/error";
 import { NotFoundError } from "@/types/http-errors";
 import { NextResponse } from "next/server";
@@ -10,7 +10,7 @@ export async function GET(
   const { id } = await params;
 
   try {
-    const account = await getProductPatologyByProductId(id);
+    const account = await getProductPathologyByProductId(id);
     if (!account) throw new NotFoundError("Account");
 
     return NextResponse.json({ success: true, data: account }, { status: 200 });

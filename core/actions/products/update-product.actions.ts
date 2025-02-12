@@ -17,6 +17,23 @@ export async function updateProduct(data: z.infer<typeof updateProductSchema>) {
       return { success: false, error: "Product not found" };
     }
 
+    let productUnitFormat = await prisma.productUnitFormat.findFirst({
+      where: {
+        unitValueId: data.unitValueId ?? undefined,
+        unitMeasureId: data.unitOfMeasureId ?? undefined,
+      },
+    });
+
+    // 🔹 Se non esiste, lo creiamo con gli ID diretti
+    if (!productUnitFormat && product.unitOfMeasureId && product.unitValueId) {
+      productUnitFormat = await prisma.productUnitFormat.create({
+        data: {
+          unitValueId: data.unitValueId!, // Usa direttamente l'ID, non `connect`
+          unitMeasureId: data.unitOfMeasureId!, // Usa direttamente l'ID, non `connect`
+        },
+      });
+    }
+
     await prisma.product.update({
       where: { id: product.id },
       data: {
@@ -28,14 +45,24 @@ export async function updateProduct(data: z.infer<typeof updateProductSchema>) {
         stock: product.stock ?? undefined,
         isFeatured: product.isFeatured,
         banner: product.banner,
-        categoryId: product.categoryId,
-        productBrandId: product.productBrandId,
-        productPatologyId: product.productPatologyId,
-        unitOfMeasureId: data.unitOfMeasureId
-          ? data.unitOfMeasureId
+
+        productPathologyId: product.productPathologyId,
+
+        // ✅ Usa `connect` per collegare la categoria
+        category: product.categoryId
+          ? { connect: { id: product.categoryId } }
           : undefined,
-        productProteins: {
-          deleteMany: {},
+
+        // ✅ Stessa cosa per il brand e la patologia
+        productBrand: product.productBrandId
+          ? { connect: { id: product.productBrandId } }
+          : undefined,
+        productPathology: product.productPathologyId
+          ? { connect: { id: product.productPathologyId } }
+          : undefined,
+        unitOfMeasureId: product.unitOfMeasureId ?? undefined,
+        productProteinOnProduct: {
+          deleteMany: {}, // ✅ Rimuove i collegamenti esistenti
           create: product.productProteins?.map((proteinId) => ({
             productProtein: { connect: { id: proteinId } },
           })),
@@ -43,30 +70,13 @@ export async function updateProduct(data: z.infer<typeof updateProductSchema>) {
       },
     });
 
-    if (data.unitValueId) {
-      await prisma.productUnitValue.upsert({
-        where: {
-          productId: product.id, // 🔥 Assumiamo che esista un solo `ProductUnitValue` per prodotto
-        },
-        update: {
-          unitValue: {
-            connect: { id: data.unitValueId },
-          },
-        },
-        create: {
-          product: {
-            connect: { id: product.id },
-          },
-          unitValue: {
-            connect: { id: data.unitValueId },
-          },
-        },
-      });
-    }
     revalidatePath("/admin/products");
 
     return { success: true, message: "Product created successfully" };
   } catch (error) {
-    return { success: false, error: formatError(error) };
+    return {
+      success: false,
+      error: error instanceof z.ZodError ? formatError(error) : error.message,
+    };
   }
 }

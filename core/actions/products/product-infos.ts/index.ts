@@ -10,7 +10,7 @@ import {
 import { getAllFormats } from "./get-product-formats.action";
 import {
   getAllPathologies,
-  getProductPatologyByProductId,
+  getProductPathologyByProductId,
 } from "./get-product-patologies.action";
 import {
   getAllProtein,
@@ -25,6 +25,6 @@ export {
   getAllProtein,
   getFeaturesBrandByProductId,
   getProductBrandByProductId,
-  getProductPatologyByProductId,
+  getProductPathologyByProductId,
   getProteinByProductId,
 };

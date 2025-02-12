@@ -1,6 +1,6 @@
 model UnitValue {
-    id    String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    value Int
+    id    String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    value Decimal @default(0.0) @db.Decimal(10, 2)
 
     productUnitFormats ProductUnitFormat[]
 }

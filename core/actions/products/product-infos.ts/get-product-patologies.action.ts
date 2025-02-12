@@ -16,14 +16,14 @@ export async function getAllPathologies() {
   }
 }
 
-export async function getProductPatologyByProductId(productId: string) {
+export async function getProductPathologyByProductId(productId: string) {
   try {
-    const patology = await prisma.productPathology.findFirst({
+    const pathology = await prisma.productPathology.findFirst({
       where: {
         id: productId,
       },
     });
-    return convertToPlainObject(patology);
+    return convertToPlainObject(pathology);
   } catch (error) {
     if (error instanceof Error) {
       formatValidationError(error.message);

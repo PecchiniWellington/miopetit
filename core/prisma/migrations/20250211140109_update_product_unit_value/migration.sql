@@ -7,7 +7,7 @@
 
 */
 -- DropForeignKey
-ALTER TABLE "Product" DROP CONSTRAINT "Product_productPatologyId_fkey";
+ALTER TABLE "Product" DROP CONSTRAINT "Product_productPathologyId_fkey";
 
 -- DropForeignKey
 ALTER TABLE "ProductUnitValue" DROP CONSTRAINT "ProductUnitValue_productId_fkey";
