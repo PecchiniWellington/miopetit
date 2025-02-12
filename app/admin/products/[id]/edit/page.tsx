@@ -2,11 +2,14 @@ import ProductForm from "@/components/admin/product-form/product-form";
 import { getProductById } from "@/core/actions/products";
 import {
   getAllBrands,
-  getAllFormats,
   getAllPathologies,
   getAllProtein,
 } from "@/core/actions/products/product-infos.ts";
 import { getAllCategories } from "@/core/actions/products/product-infos.ts/get-product-category.action";
+import {
+  getUnitOfMeasure,
+  getUnitValue,
+} from "@/core/actions/products/product-infos.ts/get-product-formats.action";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -29,11 +32,15 @@ const AdminProductUpdatePage = async (props: {
   const brands = await getAllBrands();
   const pathologies = await getAllPathologies();
   const proteins = await getAllProtein();
-  const unitFormats = await getAllFormats();
+  const unitValues = await getUnitValue();
+  const unitOfMeasure = await getUnitOfMeasure();
+
   const categoriesDistribution = JSON.parse(JSON.stringify(categories.data));
   const brandsDistribution = JSON.parse(JSON.stringify(brands?.data));
   const pathologiesDistribution = JSON.parse(JSON.stringify(pathologies?.data));
   const proteinsDistribution = JSON.parse(JSON.stringify(proteins?.data));
+  const unitValuesDistribution = JSON.parse(JSON.stringify(unitValues));
+  const unitOfMeasureDistribution = JSON.parse(JSON.stringify(unitOfMeasure));
 
   if (!product) return notFound();
 
@@ -44,17 +51,27 @@ const AdminProductUpdatePage = async (props: {
         type="Update"
         product={{
           ...product,
+          price: Number(product.price),
           isFeatured: !!product.isFeatured,
-          rating: product.rating,
           productBrand: product.productBrand ?? undefined,
           category: product.category ?? undefined,
+          productUnitFormat: product.productUnitFormat ?? undefined,
+          productProteinsId: product.productProteinOnProduct.map(
+            (item: {
+              productId: string;
+              productProteinId: string;
+              productProtein: { id: string; name: string };
+            }) => item.productProteinId
+          ),
+          rating: Number(product.rating),
         }}
         productId={product.id}
         categories={categoriesDistribution}
         brands={brandsDistribution}
         patologies={pathologiesDistribution}
         proteins={proteinsDistribution}
-        unitFormats={unitFormats}
+        unitValues={unitValuesDistribution}
+        unitOfMeasure={unitOfMeasureDistribution}
       />
     </div>
   );

@@ -1,7 +1,7 @@
 import { currency } from "@/lib/utils";
 import { z } from "zod";
 import { orderItemSchema } from "./orders.validator";
-import { productUnitFormatSchema } from "./units.validator";
+import { productUnitFormatSchema } from "./unitsFormat.validator";
 
 // Schema for Product model
 
@@ -13,7 +13,7 @@ export const productSchema = z.object({
   description: z.string().min(3, "Description must be at least 3 characters"),
   stock: z.number().nullable().default(0),
   price: z.number().positive("Price must be a positive number"), // 🛠 Assicura che il prezzo sia positivo
-  rating: z.number().nullable(),
+  rating: z.number().nullable().optional(),
   banner: z.string().nullable(),
   categoryId: z.string().uuid().nullable(),
   numReviews: z.number().default(0),
@@ -21,12 +21,11 @@ export const productSchema = z.object({
   createdAt: z.date().default(new Date()),
   updatedAt: z.date().default(new Date()),
   productBrandId: z.string().uuid().nullable(),
-  formatId: z.string().uuid().nullable(),
   productFeaturesId: z.string().uuid().nullable(),
   productPathologyId: z.string().uuid().nullable(),
   productProteinsId: z.array(z.string().uuid()).nullable(),
   orderitems: z.array(orderItemSchema),
-  productProteinOnProduct: z
+  /*  productProteinOnProduct: z
     .array(
       z.object({
         productId: z.string().uuid(),
@@ -37,11 +36,11 @@ export const productSchema = z.object({
         }),
       })
     )
-    .nullable(),
+    .nullable(), */
 
   unitValueId: z.string().uuid().optional(),
   unitOfMeasureId: z.string().uuid().optional(),
-  productUnitFormat: productUnitFormatSchema,
+  productUnitFormat: productUnitFormatSchema.optional(),
 });
 
 // Schema for inserting products
@@ -54,14 +53,14 @@ export const insertProductSchema = z.object({
   price: currency,
   banner: z.string().nullable(),
   isFeatured: z.boolean().optional().default(false),
+  rating: z.number().nullable().optional(),
 
-  productBrandId: z.string().uuid().nullable(),
-  productPathologyId: z.string().uuid().nullable(),
-  productProteinOnProduct: z.array(z.string().uuid()).nullable(),
+  productBrandId: z.string().uuid().nullable().optional(),
+  productPathologyId: z.string().uuid().nullable().optional(),
+  productProteinOnProduct: z.array(z.string().uuid()).nullable().optional(),
   categoryId: z.string().uuid().nullable(),
-  productUnitFormatId: z.string().uuid().optional(),
-  unitValueId: z.string().uuid().optional().nullable(),
-  unitOfMeasureId: z.string().uuid().optional().nullable(),
+  unitValueId: z.string().uuid().nullable().optional(),
+  unitOfMeasureId: z.string().uuid().nullable().optional(),
 });
 
 export const updateProductSchema = insertProductSchema.extend({
@@ -89,14 +88,11 @@ export const latestProductSchema = z.object({
 export type IProduct = z.infer<typeof productSchema> & {
   productBrand?: { name: string; id: string };
   category?: string;
-  productProteins?: Array<{
+  productProteinOnProduct: {
     productId: string;
     productProteinId: string;
-    productProtein: {
-      id: string;
-      name: string;
-    };
-  }>;
+    productProtein: { id: string; name: string };
+  }[];
 };
 export type IInsertProduct = z.infer<typeof insertProductSchema>;
 export type IUpdateProduct = z.infer<typeof updateProductSchema>;

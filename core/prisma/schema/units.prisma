@@ -6,9 +6,9 @@ model UnitValue {
 }
 
 model UnitOfMeasure {
-    id           String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    abbreviation String @unique // Es. "kg", "g", "ml"
-    name         String @unique // Es. "kg", "g", "ml"
+    id   String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    name String @unique @default("Kilogram")
+    code String @unique @default("Kg")
 
     productUnitFormats ProductUnitFormat[]
 }

@@ -9,6 +9,10 @@ import {
   IProduct,
   updateProductSchema,
 } from "@/core/validators";
+import {
+  IUnitOfMeasure,
+  IUnitValue,
+} from "@/core/validators/unitsFormat.validator";
 import { useToast } from "@/hooks/use-toast";
 import { PRODUCT_DEFAULT_VALUES } from "@/lib/constants";
 import { IBrand, IPathology, IProtein } from "@/types/index";
@@ -29,7 +33,8 @@ const ProductForm = ({
   brands,
   patologies,
   proteins,
-  unitFormats,
+  unitValues,
+  unitOfMeasure,
 }: {
   type: "Create" | "Update";
   product?: IProduct;
@@ -38,7 +43,8 @@ const ProductForm = ({
   brands?: IBrand[];
   patologies?: IPathology[];
   proteins?: IProtein[];
-  unitFormats?: any;
+  unitValues: IUnitValue[];
+  unitOfMeasure: IUnitOfMeasure[];
 }) => {
   const router = useRouter();
   const { toast } = useToast();
@@ -55,6 +61,7 @@ const ProductForm = ({
         ? {
             ...product,
             price: product.price.toString(),
+            rating: product?.rating ? Number(product.rating) : undefined,
             isFeatured: product.isFeatured || false,
             banner: product.banner || null,
             categoryId: product.categoryId || null,
@@ -63,7 +70,10 @@ const ProductForm = ({
               product?.productProteinOnProduct?.map(
                 (protein) => protein.productProteinId
               ) || [],
-            /*   productUnitFormatId: product.productUnitFormatId || undefined, */
+
+            unitValueId: product.productUnitFormat?.unitValueId || undefined,
+            unitOfMeasureId:
+              product.productUnitFormat?.unitMeasureId || undefined,
           }
         : PRODUCT_DEFAULT_VALUES,
   });
@@ -74,17 +84,6 @@ const ProductForm = ({
     const schema =
       type === "Update" ? updateProductSchema : insertProductSchema;
     const parsed = schema.safeParse(data);
-
-    const { unitValueId } = data;
-
-    if (!unitValueId) {
-      toast({
-        className: "bg-red-100 text-red-700 px-5 py-2",
-        title: "Error",
-        description: "Unit value ID is required",
-      });
-      return;
-    }
 
     if (!parsed.success) {
       console.log("🔴 ERRORI DI VALIDAZIONE:", parsed.error.format());
@@ -98,7 +97,7 @@ const ProductForm = ({
         toast({
           className: "bg-red-100 text-red-700 px-5 py-2",
           title: "Error",
-          description: res.error || res.message,
+          description: res.message,
         });
       } else {
         toast({
@@ -106,24 +105,22 @@ const ProductForm = ({
           title: successMessage,
           description: `Product ${data.name} has been ${successMessage.toLowerCase()} successfully`,
         });
-        //router.push("/admin/products");
+        router.push("/admin/products");
       }
     };
 
     if (type === "Create") {
       const res = await createProduct(data);
-
       handleResponse(res, "Product created");
     }
 
     if (type === "Update") {
       if (!productId) {
-        //router.push("/admin/products");
+        router.push("/admin/products");
         return;
       }
 
       const res = await updateProduct({ ...data, id: productId });
-      console.log("🚀 productId", res);
       handleResponse(res, "Product updated");
     }
   };
@@ -144,25 +141,16 @@ const ProductForm = ({
       value: d.id,
       label: d.name,
     }));
-
-  // 🔹 Mappa UnitOfMeasure per la select
-  const unitMeasureOptions = unitFormats.unitOfMeasure.map((format) => ({
-    value: format.value,
-    label: format.label,
-  }));
-
-  // 🔹 Mappa UnitValue per la select
-  const unitValueOptions = unitFormats.unitValue.map((format) => ({
-    value: format.value,
-    label: format.label.toString(), // Converti il numero in stringa per la select
-  }));
-
-  console.log(
-    "PROTEINES",
-    getOnlyProteinId,
-    product?.productProteinOnProduct,
-    proteins ? formatterForSelect(proteins) : []
-  );
+  const formatterForUnitValue = (data: IUnitValue[]) =>
+    data?.map((d: IUnitValue) => ({
+      value: d.id,
+      label: d.value.toString(),
+    }));
+  const formatterForUnitOfMeasure = (data: IUnitOfMeasure[]) =>
+    data?.map((d: IUnitOfMeasure) => ({
+      value: d.id,
+      label: d.code,
+    }));
 
   return (
     <Form {...form}>
@@ -243,7 +231,7 @@ const ProductForm = ({
           <div className="flex w-full">
             <DynamicFormField
               type="select"
-              options={unitValueOptions ? unitValueOptions : []}
+              options={formatterForUnitValue(unitValues) || []}
               control={form.control}
               name="unitValueId"
               schema={insertProductSchema}
@@ -255,7 +243,9 @@ const ProductForm = ({
 
             <DynamicFormField
               type="select"
-              options={unitMeasureOptions ? unitMeasureOptions : []}
+              options={
+                unitOfMeasure ? formatterForUnitOfMeasure(unitOfMeasure) : []
+              }
               control={form.control}
               name="unitOfMeasureId"
               schema={insertProductSchema}

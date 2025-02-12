@@ -23,37 +23,23 @@ model Product {
     /**
      * FOREIGN KEYS
      */
-    formatId            String? @db.Uuid
     categoryId          String? @db.Uuid
     productFeaturesId   String? @db.Uuid
     productBrandId      String? @db.Uuid
-    unitOfMeasureId     String? @db.Uuid
-    productUnitFormatId String? @db.Uuid
     productPathologyId  String? @db.Uuid
+    productUnitFormatId String? @db.Uuid
 
     /**
      * RELAZIONE 1-TO-MANY con ProductUnitValue
      */
-    productUnitFormat       ProductUnitFormat?        @relation(fields: [productUnitFormatId], references: [id], onDelete: SetNull)
     // 🔗 1-to-Many
-    category                Category?                 @relation(fields: [categoryId], references: [id], onDelete: SetNull)
-    productBrand            ProductBrand?             @relation(fields: [productBrandId], references: [id])
-    productFeatures         ProductFeatures?          @relation(fields: [productFeaturesId], references: [id])
-    productPathology        ProductPathology?         @relation(fields: [productPathologyId], references: [id])
+    category          Category?          @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+    productBrand      ProductBrand?      @relation(fields: [productBrandId], references: [id])
+    productFeatures   ProductFeatures?   @relation(fields: [productFeaturesId], references: [id])
+    productPathology  ProductPathology?  @relation(fields: [productPathologyId], references: [id])
+    productUnitFormat ProductUnitFormat? @relation(fields: [productUnitFormatId], references: [id], onDelete: SetNull)
+
     productProteinOnProduct ProductProteinOnProduct[]
     review                  Review[]
     orderitems              OrderItem[]
-}
-
-model ProductUnitFormat {
-    id            String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    unitValueId   String @db.Uuid
-    unitMeasureId String @db.Uuid
-
-    unitValue     UnitValue     @relation(fields: [unitValueId], references: [id], onDelete: Cascade)
-    unitOfMeasure UnitOfMeasure @relation(fields: [unitMeasureId], references: [id], onDelete: Cascade)
-
-    products Product[]
-
-    @@unique([unitValueId, unitMeasureId])
 }

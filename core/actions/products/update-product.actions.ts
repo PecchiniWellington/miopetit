@@ -24,8 +24,9 @@ export async function updateProduct(data: z.infer<typeof updateProductSchema>) {
       },
     });
 
+    console.log("productUnitFormat", data.unitOfMeasureId, data.unitValueId);
     // 🔹 Se non esiste, lo creiamo con gli ID diretti
-    if (!productUnitFormat && product.unitOfMeasureId && product.unitValueId) {
+    if (!productUnitFormat) {
       productUnitFormat = await prisma.productUnitFormat.create({
         data: {
           unitValueId: data.unitValueId!, // Usa direttamente l'ID, non `connect`
@@ -56,24 +57,7 @@ export async function updateProduct(data: z.infer<typeof updateProductSchema>) {
             productProtein: { connect: { id: proteinId } },
           })),
         },
-
-        /*  category: product.categoryId
-          ? { connect: { id: product.categoryId } }
-          : undefined,
-
-        productBrand: product.productBrandId
-          ? { connect: { id: product.productBrandId } }
-          : undefined,
-        productPathology: product.productPathologyId
-          ? { connect: { id: product.productPathologyId } }
-          : undefined,
-        unitOfMeasureId: product.unitOfMeasureId ?? undefined,
-        productProteinOnProduct: {
-          deleteMany: {},
-          create: product.productProteins?.map((proteinId) => ({
-            productProtein: { connect: { id: proteinId } },
-          })),
-        }, */
+        productUnitFormatId: productUnitFormat.id,
       },
     });
 
@@ -83,7 +67,10 @@ export async function updateProduct(data: z.infer<typeof updateProductSchema>) {
   } catch (error) {
     return {
       success: false,
-      error: error instanceof z.ZodError ? formatError(error) : error.message,
+      error:
+        error instanceof z.ZodError
+          ? formatError(error)
+          : (error as Error).message,
     };
   }
 }

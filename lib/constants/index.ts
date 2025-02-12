@@ -46,7 +46,7 @@ export const PRODUCT_DEFAULT_VALUES = {
   description: "",
   price: "0",
   stock: 0,
-  rating: "0",
+  rating: 0,
   numReviews: "0",
   isFeatured: false,
   banner: null,
@@ -54,6 +54,8 @@ export const PRODUCT_DEFAULT_VALUES = {
   productPatologies: null,
   productProteinOnProduct: [],
   productFormats: null,
+  unitOfMeasure: null,
+  unitValue: null,
 };
 
 export const REVIEW_FORM_DEFAULT_VALUES = {

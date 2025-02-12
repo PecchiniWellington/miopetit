@@ -6,47 +6,38 @@ export async function getAllFormats() {
   try {
     const unitOfMeasure = await prisma.productUnitFormat.findMany({
       include: {
-        unitValue: true,
         unitOfMeasure: true,
-        products: {
-          select: { id: true, name: true },
-        },
+        unitValue: true,
       },
     });
 
-    // 🔹 Mappa UnitOfMeasure univoche
-    const uniqueUnitMeasures = [
-      ...new Map(
-        unitOfMeasure.map((format) => [
-          format.unitOfMeasure.id,
-          {
-            value: format.unitOfMeasure.id,
-            label: format.unitOfMeasure.name,
-          },
-        ])
-      ).values(),
-    ];
+    return unitOfMeasure;
+  } catch (error) {
+    if (error instanceof Error) {
+      formatValidationError(error.message);
+    } else {
+      throw error;
+    }
+  }
+}
+export async function getUnitValue() {
+  try {
+    const unitValue = await prisma.unitValue.findMany({});
 
-    // 🔹 Mappa UnitValue univoci
-    const uniqueUnitValues = [
-      ...new Map(
-        unitOfMeasure.map((format) => [
-          format.unitValue.id,
-          {
-            value: format.unitValue.id,
-            label: format.unitValue.value.toString(),
-          },
-        ])
-      ).values(),
-    ];
+    return unitValue;
+  } catch (error) {
+    if (error instanceof Error) {
+      formatValidationError(error.message);
+    } else {
+      throw error;
+    }
+  }
+}
+export async function getUnitOfMeasure() {
+  try {
+    const unitOfMeasure = await prisma.unitOfMeasure.findMany({});
 
-    console.log("✅ Unique Unit Measures:", uniqueUnitMeasures);
-    console.log("✅ Unique Unit Values:", uniqueUnitValues);
-
-    return {
-      unitOfMeasure: uniqueUnitMeasures,
-      unitValue: uniqueUnitValues,
-    };
+    return unitOfMeasure;
   } catch (error) {
     if (error instanceof Error) {
       formatValidationError(error.message);

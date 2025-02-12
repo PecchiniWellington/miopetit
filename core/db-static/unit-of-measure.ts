@@ -1,6 +1,6 @@
 const unitOfMeasure = [
-  { name: "Chilogrammo", abbreviation: "kg" },
-  { name: "Grammo", abbreviation: "g" },
+  { name: "Chilogrammo", code: "kg" },
+  { name: "Grammo", code: "g" },
 ];
 
 export default unitOfMeasure;

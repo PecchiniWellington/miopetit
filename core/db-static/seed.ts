@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import console from "console";
 import categoryData from "./category";
 import productsData from "./product";
 import productBrand from "./product-brand";
@@ -13,8 +14,8 @@ const prisma = new PrismaClient();
 
 async function main() {
   /* DELETE ALL RECORDS */
-  console.log(`✅ Start deleting all previews tables...`);
-  await prisma.productProteinOnProduct.deleteMany(); // Many-to-Many
+  console.log(`✅ Start deleting all previous tables...`);
+  await prisma.productProteinOnProduct.deleteMany();
   await prisma.product.deleteMany();
   await prisma.category.deleteMany();
   await prisma.productProtein.deleteMany();
@@ -25,11 +26,15 @@ async function main() {
   await prisma.account.deleteMany();
   await prisma.session.deleteMany();
   await prisma.verificationToken.deleteMany();
-  await prisma.unitOfMeasure.deleteMany();
   await prisma.unitValue.deleteMany();
-  console.log(`✅ Deleted All Previews tables`);
+  await prisma.unitOfMeasure.deleteMany();
+  console.log(`✅ Deleted all previous tables`);
 
   /* CREATE OTHER DATA */
+  await prisma.unitValue.createMany({ data: unitValuesData });
+  console.log(`✅ UnitValue created`);
+  await prisma.unitOfMeasure.createMany({ data: unitOfMeasureData });
+  console.log(`✅ unitOfMeasure created`);
   await prisma.category.createMany({ data: categoryData });
   console.log(`✅ Categories created`);
   await prisma.user.createMany({ data: usersData });
@@ -42,59 +47,36 @@ async function main() {
   console.log(`✅ ProductPathology created`);
   await prisma.productBrand.createMany({ data: productBrand });
   console.log(`✅ ProductBrand created`);
-  await prisma.unitValue.createMany({ data: unitValuesData });
-  console.log(`✅ unitValue created`);
-  await prisma.unitOfMeasure.createMany({ data: unitOfMeasureData });
-  console.log(`✅ unitOfMeasure created`);
-
-  // 🔹 Step 3: Retrieve all values of UnitValue and UnitOfMeasure
-  const unitValues = await prisma.unitValue.findMany();
-  const unitMeasures = await prisma.unitOfMeasure.findMany();
-
-  // 🔹 Step 4: Dynamically generate combinations (UnitValue x UnitOfMeasure)
-  const productUnitFormatsToInsert = [];
-
-  for (const value of unitValues) {
-    for (const measure of unitMeasures) {
-      productUnitFormatsToInsert.push({
-        unitValueId: value.id,
-        unitMeasureId: measure.id,
-      });
-    }
-  }
-
-  // 🔹 Step 5: Insert only unique combinations
-  for (const format of productUnitFormatsToInsert) {
-    await prisma.productUnitFormat.upsert({
-      where: {
-        unitValueId_unitMeasureId: {
-          unitValueId: format.unitValueId,
-          unitMeasureId: format.unitMeasureId,
-        },
-      },
-      update: {}, // No update if it already exists
-      create: format, // Create the combination if it does not exist
-    });
-  }
-
-  console.log("✅ ProductUnitFormat generated dynamically");
-  const productUnitFormats = await prisma.productUnitFormat.findMany({
-    select: { id: true },
-  });
 
   // 📌 Retrieve the IDs
   const categories = await prisma.category.findMany({ select: { id: true } });
-
   const brandData = await prisma.productBrand.findMany({
     select: { id: true },
   });
   const productProteinsData = await prisma.productProtein.findMany({
     select: { id: true },
   });
+  const unitValues = await prisma.unitValue.findMany({
+    select: { id: true, value: true },
+  });
+  const unitMeasures = await prisma.unitOfMeasure.findMany({
+    select: { id: true },
+  });
 
-  if (categories.length === 0) {
-    throw new Error("No categories found. Seeding failed.");
-  }
+  console.log(`⏳ Start creating productUnitFormats...`);
+  const productUnitFormats = await Promise.all(
+    unitValues.map(async (unitValue) => {
+      const randomUnitMeasure =
+        unitMeasures[Math.floor(Math.random() * unitMeasures.length)];
+      return await prisma.productUnitFormat.create({
+        data: {
+          unitValueId: unitValue.id,
+          unitMeasureId: randomUnitMeasure.id,
+        },
+      });
+    })
+  );
+  console.log(`✅ ProductUnitFormats created`);
 
   console.log(`⏳ Start creating products...`);
   for (const product of productsData) {
@@ -109,32 +91,31 @@ async function main() {
     const createdProduct = await prisma.product.create({
       data: {
         ...product,
-
         category: {
           connect: {
             id: categories[Math.floor(Math.random() * categories.length)].id,
           },
         },
-
         productBrand: {
           connect: {
             id: brandData[Math.floor(Math.random() * brandData.length)].id,
           },
         },
-
+        productUnitFormat: {
+          connect: {
+            id: randomProductUnitFormat.id,
+          },
+        },
         productProteinOnProduct: {
           create: selectedProteins.map((protein) => ({
             productProtein: { connect: { id: protein.id } },
           })),
         },
-        productUnitFormat: {
-          connect: { id: randomProductUnitFormat.id },
-        },
       },
     });
 
     console.log(
-      `→   ✅ Created product: ${createdProduct.name} with ${selectedProteins.length} proteins`
+      `→   ✅ Created product: ${createdProduct.name} with ${selectedProteins.length} proteins and unit value ${randomProductUnitFormat.unitValueId}`
     );
   }
 

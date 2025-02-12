@@ -12,8 +12,8 @@ export async function getProductById(id: string) {
       /*  productPathology: true, */
       productUnitFormat: {
         include: {
-          unitValue: true,
           unitOfMeasure: true,
+          unitValue: true,
         },
       },
       productProteinOnProduct: {
