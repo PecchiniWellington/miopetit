@@ -11,6 +11,7 @@ import { Heart, ShoppingCart } from "lucide-react";
 import Menu from "./menu";
 import Search from "./search";
 import UserButton from "./user-button";
+import { SessionProvider } from "next-auth/react";
 
 const Header = () => {
   return (
@@ -51,8 +52,9 @@ const Header = () => {
             <Link href="/favourites">
               <Heart height={30} width={30} className=" text-red-800" />
             </Link>
-
-            <UserButton />
+            <SessionProvider>
+              <UserButton />
+            </SessionProvider>
           </nav>
         </div>
       </div>

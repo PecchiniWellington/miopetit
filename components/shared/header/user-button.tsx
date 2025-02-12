@@ -1,4 +1,5 @@
-import { auth } from "@/auth";
+"use client";
+
 import DynamicButton from "@/components/dynamic-button";
 import {
   DropdownMenu,
@@ -8,29 +9,28 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import ROLES from "@/lib/constants/roles";
-
 import { UserIcon } from "lucide-react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import SignOutBtn from "./sign-out-btn";
-import { getUserById } from "@/core/actions/user";
 
-const UserButton = async () => {
-  const session = await auth();
+const UserButton = () => {
+  const { data: session, status } = useSession();
+
+  if (status === "loading") {
+    return <p>Loading...</p>; // Mostra un loader mentre verifica la sessione
+  }
 
   if (!session) {
     return (
-      <DynamicButton className="btn-ghost">
-        <Link href="/sign-in">
-          <UserIcon />
-        </Link>
+      <DynamicButton className="btn-ghost" handleAction={() => signIn()}>
+        <UserIcon />
       </DynamicButton>
     );
   }
 
-  const firstInitial = session.user?.name?.charAt(0).toUpperCase() ?? "";
-  const userId = session.user?.id;
-  const user = userId ? await getUserById(userId) : undefined;
+  const user = session.user;
+  const firstInitial = user?.name?.charAt(0).toUpperCase() ?? "";
 
   return (
     <div className="flex items-center gap-2">
@@ -59,11 +59,9 @@ const UserButton = async () => {
         >
           <DropdownMenuLabel className="font-normal">
             <div className="flex flex-col space-y-1">
-              <div className="text-sm font-bold  leading-none ">
-                {session.user?.name}
-              </div>
+              <div className="text-sm font-bold leading-none">{user.name}</div>
               <div className="text-sm leading-none text-slate-400">
-                {session.user?.email}
+                {user.email}
               </div>
             </div>
           </DropdownMenuLabel>
@@ -74,7 +72,7 @@ const UserButton = async () => {
             </Link>
           </DropdownMenuItem>
 
-          {session.user?.role === ROLES.ADMIN && (
+          {user.role === ROLES.ADMIN && (
             <DropdownMenuItem>
               <Link href="/admin/overview" className="w-full">
                 <span className="block px-4 py-2">Admin Dashboard</span>
@@ -82,7 +80,9 @@ const UserButton = async () => {
             </DropdownMenuItem>
           )}
 
-          <SignOutBtn />
+          <DropdownMenuItem onClick={() => signOut()}>
+            <span className="block px-4 py-2 text-red-500">Sign Out</span>
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

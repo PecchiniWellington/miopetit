@@ -5,7 +5,8 @@ import { ArrowLeft, ChevronRight, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import DynamicButton from "./dynamic-button";
+import UserButton from "./shared/header/user-button";
+import { SessionProvider } from "next-auth/react";
 
 interface IMenuItem {
   name: string;
@@ -183,9 +184,11 @@ export default function SidebarMenu({
             )}
           </AnimatePresence>
         </div>
-        <div className="mt-auto">
-          <DynamicButton className="w-full">Login</DynamicButton>
-        </div>
+        <SessionProvider>
+          <div className="mt-auto">
+            <UserButton />
+          </div>
+        </SessionProvider>
       </motion.div>
     </div>
   );
