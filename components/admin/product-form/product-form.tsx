@@ -55,10 +55,15 @@ const ProductForm = ({
         ? {
             ...product,
             price: product.price.toString(),
-            productProteins:
-              product.productProteins?.map(
-                (protein) => protein.productProtein.id
+            isFeatured: product.isFeatured || false,
+            banner: product.banner || null,
+            categoryId: product.categoryId || null,
+            productBrandId: product.productBrandId || null,
+            productProteinOnProduct:
+              product?.productProteinOnProduct?.map(
+                (protein) => protein.productProteinId
               ) || [],
+            /*   productUnitFormatId: product.productUnitFormatId || undefined, */
           }
         : PRODUCT_DEFAULT_VALUES,
   });
@@ -127,9 +132,10 @@ const ProductForm = ({
   const isFeatured: boolean | null = form.watch("isFeatured");
   const banner = form.watch("banner");
 
-  const getOnlyProteinId = product?.productProteins?.map(
-    (protein) => protein.productProtein.id
-  );
+  const getOnlyProteinId =
+    product?.productProteinOnProduct?.map(
+      (protein) => protein.productProteinId
+    ) || [];
 
   const formatterForSelect = (
     data: ICategory[] | IBrand[] | IPathology[] | IProtein[]
@@ -150,6 +156,13 @@ const ProductForm = ({
     value: format.value,
     label: format.label.toString(), // Converti il numero in stringa per la select
   }));
+
+  console.log(
+    "PROTEINES",
+    getOnlyProteinId,
+    product?.productProteinOnProduct,
+    proteins ? formatterForSelect(proteins) : []
+  );
 
   return (
     <Form {...form}>
@@ -218,7 +231,7 @@ const ProductForm = ({
             type="multiple-select"
             options={proteins ? formatterForSelect(proteins) : []}
             control={form.control}
-            name="productProteins"
+            name="productProteinOnProduct"
             schema={insertProductSchema}
             title="Proteins"
             placeholder="Enter proteins"

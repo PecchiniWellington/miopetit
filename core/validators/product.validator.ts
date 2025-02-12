@@ -24,7 +24,20 @@ export const productSchema = z.object({
   formatId: z.string().uuid().nullable(),
   productFeaturesId: z.string().uuid().nullable(),
   productPathologyId: z.string().uuid().nullable(),
+  productProteinsId: z.array(z.string().uuid()).nullable(),
   orderitems: z.array(orderItemSchema),
+  productProteinOnProduct: z
+    .array(
+      z.object({
+        productId: z.string().uuid(),
+        productProteinId: z.string().uuid(),
+        productProtein: z.object({
+          id: z.string().uuid(),
+          name: z.string(),
+        }),
+      })
+    )
+    .nullable(),
 
   unitValueId: z.string().uuid().optional(),
   unitOfMeasureId: z.string().uuid().optional(),
@@ -40,11 +53,11 @@ export const insertProductSchema = z.object({
   stock: z.coerce.number().nullable().default(0),
   price: currency,
   banner: z.string().nullable(),
-  productProteins: z.array(z.string().uuid()).nullable(),
   isFeatured: z.boolean().optional().default(false),
 
   productBrandId: z.string().uuid().nullable(),
   productPathologyId: z.string().uuid().nullable(),
+  productProteinOnProduct: z.array(z.string().uuid()).nullable(),
   categoryId: z.string().uuid().nullable(),
   productUnitFormatId: z.string().uuid().optional(),
   unitValueId: z.string().uuid().optional().nullable(),

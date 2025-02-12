@@ -9,7 +9,7 @@ export async function getProductById(id: string) {
       orderitems: true,
       category: true,
       productBrand: true,
-      productPathology: true,
+      /*  productPathology: true, */
       productUnitFormat: {
         include: {
           unitValue: true,

@@ -69,7 +69,7 @@ const DynamicFormField = ({
                 value={field.value || []}
                 options={options! || []}
                 onSelect={(value) => field.onChange(value)}
-                placeholder="Seleziona una o più proteine"
+                placeholder={"custom placheholder"}
               />
             ) : (
               <Input

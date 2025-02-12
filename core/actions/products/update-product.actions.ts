@@ -47,13 +47,20 @@ export async function updateProduct(data: z.infer<typeof updateProductSchema>) {
         banner: product.banner,
 
         productPathologyId: product.productPathologyId,
+        productBrandId: product.productBrandId,
+        categoryId: product.categoryId,
 
-        // ✅ Usa `connect` per collegare la categoria
-        category: product.categoryId
+        productProteinOnProduct: {
+          deleteMany: {},
+          create: product.productProteinOnProduct?.map((proteinId) => ({
+            productProtein: { connect: { id: proteinId } },
+          })),
+        },
+
+        /*  category: product.categoryId
           ? { connect: { id: product.categoryId } }
           : undefined,
 
-        // ✅ Stessa cosa per il brand e la patologia
         productBrand: product.productBrandId
           ? { connect: { id: product.productBrandId } }
           : undefined,
@@ -62,11 +69,11 @@ export async function updateProduct(data: z.infer<typeof updateProductSchema>) {
           : undefined,
         unitOfMeasureId: product.unitOfMeasureId ?? undefined,
         productProteinOnProduct: {
-          deleteMany: {}, // ✅ Rimuove i collegamenti esistenti
+          deleteMany: {},
           create: product.productProteins?.map((proteinId) => ({
             productProtein: { connect: { id: proteinId } },
           })),
-        },
+        }, */
       },
     });
 

@@ -52,7 +52,7 @@ export const PRODUCT_DEFAULT_VALUES = {
   banner: null,
   productBrandId: null,
   productPatologies: null,
-  productProteins: null,
+  productProteinOnProduct: [],
   productFormats: null,
 };
 

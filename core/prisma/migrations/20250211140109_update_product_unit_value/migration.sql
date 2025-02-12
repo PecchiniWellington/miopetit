@@ -7,14 +7,12 @@
 
 */
 -- DropForeignKey
-ALTER TABLE "Product" DROP CONSTRAINT "Product_productPathologyId_fkey";
 
 -- DropForeignKey
 ALTER TABLE "ProductUnitValue" DROP CONSTRAINT "ProductUnitValue_productId_fkey";
 
 -- AlterTable
 ALTER TABLE "Product" DROP COLUMN "animalAge",
-ADD COLUMN     "productPathologyId" UUID,
 ADD COLUMN     "productUnitValueId" UUID;
 
 -- AlterTable
@@ -27,4 +25,3 @@ ADD CONSTRAINT "ProductUnitValue_pkey" PRIMARY KEY ("id");
 ALTER TABLE "Product" ADD CONSTRAINT "Product_productUnitValueId_fkey" FOREIGN KEY ("productUnitValueId") REFERENCES "ProductUnitValue"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Product" ADD CONSTRAINT "Product_productPathologyId_fkey" FOREIGN KEY ("productPathologyId") REFERENCES "ProductPathology"("id") ON DELETE SET NULL ON UPDATE CASCADE;
