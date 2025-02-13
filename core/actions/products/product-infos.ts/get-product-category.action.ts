@@ -54,5 +54,5 @@ export async function getProductCategories() {
     },
   }));
 
-  return result;
+  return convertToPlainObject(result);
 }

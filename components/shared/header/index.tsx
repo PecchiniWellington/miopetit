@@ -73,23 +73,25 @@ const Header = () => {
       </div>
 
       {/* Mega Menu */}
-      <nav className="wrapper relative z-50 hidden gap-6 bg-white py-3 shadow-md md:flex">
-        <MegaMenu
-          data={menuDog}
-          mainCategory="dog"
-          brands={["Royal Canin", "Purina", "Hill’s"]}
-        />
-        <MegaMenu
-          data={menuCat}
-          mainCategory="cat"
-          brands={["Royal Canin", "Purina", "Hill’s"]}
-        />
-        <MegaMenu
-          data={menuSmallAnimals}
-          brands={["Royal Canin", "Purina", "Hill’s"]}
-          mainCategory="small-animals"
-        />
-      </nav>
+      <div className=" relative z-50  gap-6 bg-white  shadow-md">
+        <nav className="wrapper relative z-50 hidden gap-6 bg-white   md:flex">
+          <MegaMenu
+            data={menuDog}
+            mainCategory="dog"
+            brands={["Royal Canin", "Purina", "Hill’s"]}
+          />
+          <MegaMenu
+            data={menuCat}
+            mainCategory="cat"
+            brands={["Royal Canin", "Purina", "Hill’s"]}
+          />
+          <MegaMenu
+            data={menuSmallAnimals}
+            brands={["Royal Canin", "Purina", "Hill’s"]}
+            mainCategory="small-animals"
+          />
+        </nav>
+      </div>
 
       {/* Call to Action Banner */}
       <div>

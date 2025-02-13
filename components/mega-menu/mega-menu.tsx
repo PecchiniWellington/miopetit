@@ -39,9 +39,10 @@ export default function MegaMenu({
     <>
       {/* Main Title (Cani, Gatti, ecc.) */}
       <div
-        className="cursor-pointer py-4 hover:text-gray-700"
+        className="cursor-pointer p-4 text-lg font-semibold text-gray-700 transition-all duration-300 hover:text-indigo-600 dark:text-gray-200 dark:hover:text-indigo-400"
         onMouseEnter={() => setIsOpen(true)}
         onMouseLeave={() => setIsOpen(false)}
+        onClick={() => setIsOpen(!isOpen)}
       >
         <Link href={`/${mainCategory}`}>{data.mainTitle}</Link>
       </div>
@@ -52,6 +53,7 @@ export default function MegaMenu({
             className="col-span-4 grid w-full grid-cols-4 gap-6 p-6 sm:px-6 md:px-10 lg:mx-auto"
             onMouseEnter={() => setIsOpen(true)}
             onMouseLeave={() => setIsOpen(false)}
+            onClick={() => setIsOpen(!isOpen)}
           >
             {/* Categorie */}
             <CategorySection menu={data.menu} mainCategory={mainCategory} />
@@ -63,7 +65,7 @@ export default function MegaMenu({
 
           {/* Immagine principale del menu */}
           <motion.div
-            className="align-center col-span-1 flex justify-center bg-primary-500"
+            className="align-center col-span-1 flex justify-center bg-primary-500 bg-gradient-to-r from-indigo-500 to-purple-600 "
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1 }}

@@ -46,6 +46,9 @@ const animals = [
 const CarouselAnimalsCategory = () => {
   return (
     <div className="relative mb-12 w-full">
+      <h2 className="mb-6 text-center text-3xl font-bold text-gray-900 dark:text-white">
+        Per chi stai comprando? 🐾
+      </h2>
       <Carousel
         className="w-full"
         opts={{

@@ -1,5 +1,7 @@
 import { prisma } from "@/core/prisma/prisma";
 import { PAGE_SIZE } from "@/lib/constants";
+
+import { convertToPlainObject } from "@/lib/utils";
 import { Prisma } from "@prisma/client";
 import { getAllBrands } from "./product-infos.ts";
 import { getAllCategories } from "./product-infos.ts/get-product-category.action";
@@ -116,7 +118,7 @@ export async function getAllProducts({
   });
 
   return {
-    data: updatedData,
+    data: convertToPlainObject(updatedData),
     totalPages: Math.ceil(productCount / limit),
     totalProducts: productCount,
   };

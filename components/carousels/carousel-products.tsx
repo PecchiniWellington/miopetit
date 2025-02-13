@@ -14,7 +14,7 @@ import CustomProduct from "../shared/product/customProduct";
 const CarouselProducts = ({ data }: { data: ILatestProduct[] }) => {
   // FIXME: cambiare product type(sono simili tra prisma e types)
   return (
-    <div className="relative mb-12 w-full">
+    <div className="relative mb-12 w-full ">
       <Carousel
         className="mb-12 w-full"
         opts={{
@@ -27,9 +27,9 @@ const CarouselProducts = ({ data }: { data: ILatestProduct[] }) => {
           {data.map((category: ILatestProduct) => (
             <CarouselItem
               key={category.name}
-              className={`md:basis-1/2 lg:basis-1/4`}
+              className={` md:basis-1/2 lg:basis-1/4`}
             >
-              <div className="relative mx-auto h-full">
+              <div className="relative mx-auto h-full  md:py-4">
                 <CustomProduct
                   image="https://utfs.io/f/RnH9VIVP0zpxL8Sd59Kp86NzgPOkKSsma1BjXoZe9tA3HMCW"
                   name="Monge Natural Superpremium Adult"

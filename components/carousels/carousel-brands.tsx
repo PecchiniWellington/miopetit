@@ -57,22 +57,22 @@ const CarouselBrands = () => {
         className="w-full"
         opts={{
           loop: true,
-          startIndex: 0,
-          align: "start",
+          startIndex: 1,
+          align: "center",
         }}
       >
         <CarouselContent>
           {brands.map(({ name, image }) => (
-            <CarouselItem key={name} className={`md:basis-1/2 lg:basis-1/4`}>
+            <CarouselItem key={name} className={`md:basis-1/2 lg:basis-1/5`}>
               <Link href={`/category/${name}`}>
-                <div className="relative mx-auto h-full">
+                <div className="relative mx-auto flex size-full justify-center align-middle">
                   <Image
                     src={`/images/${image}`}
                     alt={name}
                     height="0"
                     width="0"
                     sizes="100vw"
-                    className="size-full object-cover object-center"
+                    className="size-48 object-cover object-center"
                   />
                 </div>
               </Link>

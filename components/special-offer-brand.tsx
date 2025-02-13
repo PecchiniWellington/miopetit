@@ -1,39 +1,64 @@
+"use client";
 import { ILatestProduct } from "@/core/validators";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import CarouselProducts from "./carousels/carousel-products";
 
 interface IProductListProps {
   data: ILatestProduct[];
   title?: string;
-  limit?: number;
 }
 
 const SpecialOfferBrand = ({ data, title }: IProductListProps) => {
   return (
-    <div className="my-12 grid  bg-slate-200 p-12 md:grid-cols-4 md:gap-10">
-      <div className="flex flex-col gap-2 md:col-span-1">
-        {title && <h1 className="h1-bold">{title}</h1>}
-        <Image
-          src="/images/royalCanin-deal.webp"
-          alt="product"
-          height="0"
-          width="0"
-          sizes="80vw"
-          className="size-full object-cover object-center"
-        />
+    <motion.div
+      className="relative grid grid-cols-1 gap-10 rounded-xl bg-gray-100 p-6 shadow-lg md:my-12 md:grid-cols-4 md:p-12"
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      {/* Sezione Informativa */}
+      <motion.div
+        className="col-span-3 flex w-full flex-col gap-5 md:col-span-1 md:p-6"
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.4, delay: 0.2 }}
+      >
+        {title && (
+          <h1 className="text-2xl font-extrabold text-gray-900">{title}</h1>
+        )}
+
+        <div className="relative w-full overflow-hidden rounded-lg shadow-md">
+          <Image
+            src="/images/royalCanin-deal.webp"
+            alt="product"
+            width={400}
+            height={300}
+            className="size-full object-cover transition-transform duration-300 hover:scale-105"
+          />
+        </div>
+
         <div>
-          <div className="h2-bold">Promozione esclusiva per il tuo cane!</div>
-          <p className="mt-2 text-gray-500">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quaerat ut
-            laborum voluptatum. Error modi explicabo minus deleniti id.
+          <h2 className="text-xl font-bold text-gray-900">
+            Promozione esclusiva per il tuo cane!
+          </h2>
+          <p className="mt-2 text-gray-600">
+            Scopri le migliori offerte su Royal Canin! Approfitta delle
+            promozioni esclusive per il tuo amico a quattro zampe.
           </p>
         </div>
-      </div>
+      </motion.div>
 
-      <div className="overflow-x-auto md:col-span-3">
+      {/* Sezione Prodotti in Offerta */}
+      <motion.div
+        className="relative col-span-3 overflow-hidden"
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.4, delay: 0.3 }}
+      >
         <CarouselProducts data={data} />
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 

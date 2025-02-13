@@ -44,7 +44,7 @@ export default function ProductCard({
           )}
           <Link href={`/product/cibo-secco`}>
             <Image
-              src={image}
+              src={image || "/images/placeholder.jpg"}
               alt={name}
               width={180}
               height={180}
@@ -90,12 +90,10 @@ export default function ProductCard({
         <div className="flex items-center space-x-2">
           {oldPrice && (
             <span className="text-sm text-gray-400 line-through">
-              €{oldPrice.toFixed(2)}
+              €{oldPrice}
             </span>
           )}
-          <span className="text-lg font-bold text-red-600">
-            €{price.toFixed(2)}
-          </span>
+          <span className="text-lg font-bold text-red-600">€{price}</span>
         </div>
 
         {pricePerKg && <p className="text-xs text-gray-500">({pricePerKg})</p>}
