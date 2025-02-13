@@ -10,7 +10,13 @@ interface IMenuItem {
   slug: string;
 }
 
-export const CategorySection = ({ menu }: { menu: ICategory[] }) => {
+export const CategorySection = ({
+  menu,
+  mainCategory,
+}: {
+  menu: ICategory[];
+  mainCategory: string;
+}) => {
   return (
     <div className="col-span-3 grid grid-cols-3 gap-6">
       {menu.map((category, index) => (
@@ -25,7 +31,9 @@ export const CategorySection = ({ menu }: { menu: ICategory[] }) => {
                   key={idx}
                   className="mb-1 cursor-pointer text-gray-600 hover:text-black"
                 >
-                  <Link href={`/category/${item.slug}`}>{item.name}</Link>
+                  <Link href={`/${mainCategory}/${item.slug}`}>
+                    {item.name}
+                  </Link>
                 </li>
               ))}
             </ul>

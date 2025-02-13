@@ -1,6 +1,5 @@
 "use client";
 
-import { generateSlug } from "@/lib/utils";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -25,11 +24,16 @@ interface MegaMenuProps {
     menu: ICategory[];
   };
   brands?: string[];
+  mainCategory: string;
 }
 
-export default function MegaMenu({ data, brands = [] }: MegaMenuProps) {
+export default function MegaMenu({
+  data,
+  brands = [],
+  mainCategory,
+}: MegaMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const sectionSlug = generateSlug(data.mainTitle);
+  /* const sectionSlug = generateSlug(data.mainTitle); */
 
   return (
     <>
@@ -39,7 +43,7 @@ export default function MegaMenu({ data, brands = [] }: MegaMenuProps) {
         onMouseEnter={() => setIsOpen(true)}
         onMouseLeave={() => setIsOpen(false)}
       >
-        <Link href={`/category/${sectionSlug}`}>{data.mainTitle}</Link>
+        <Link href={`/${mainCategory}`}>{data.mainTitle}</Link>
       </div>
 
       {isOpen && (
@@ -50,7 +54,7 @@ export default function MegaMenu({ data, brands = [] }: MegaMenuProps) {
             onMouseLeave={() => setIsOpen(false)}
           >
             {/* Categorie */}
-            <CategorySection menu={data.menu} />
+            <CategorySection menu={data.menu} mainCategory={mainCategory} />
             {/* Sezione Brand */}
             {brands.length > 0 && (
               <BrandSection brands={brands} mainTitle={data.mainTitle} />
