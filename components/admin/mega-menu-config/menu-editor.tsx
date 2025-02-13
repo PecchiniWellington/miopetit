@@ -4,7 +4,7 @@ import { Trash2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import CustomSelect from "../../custom-select";
+import CustomSelect from "../../shared/selects/custom-select";
 
 const ItemType = {
   CATEGORY: "CATEGORY",

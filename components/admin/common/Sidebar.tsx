@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const SIDEBAR_ITEMS = [
   {
@@ -57,8 +57,21 @@ const SIDEBAR_ITEMS = [
 ];
 
 const Sidebar = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const pathname = usePathname();
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean | null>(null);
+
+  // Determina se la sidebar deve essere aperta o chiusa in base alla larghezza dello schermo
+  useEffect(() => {
+    if (window.innerWidth < 768) {
+      setIsSidebarOpen(false); // Chiusa per i dispositivi mobili
+    } else {
+      setIsSidebarOpen(true); // Aperta per i desktop
+    }
+  }, []);
+
+  // Se lo stato è null (ancora in fase di inizializzazione), non renderizza nulla
+  if (isSidebarOpen === null) return null;
+
   return (
     <motion.div
       className={`relative z-10 shrink-0 transition-all duration-300 ease-in-out ${
@@ -67,6 +80,7 @@ const Sidebar = () => {
       animate={{ width: isSidebarOpen ? 256 : 80 }}
     >
       <div className="flex h-full flex-col border-r border-gray-700 bg-gray-800/50 p-4 backdrop-blur-md">
+        {/* Bottone per aprire/chiudere la sidebar */}
         <motion.button
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
@@ -76,6 +90,7 @@ const Sidebar = () => {
           <Menu size={24} />
         </motion.button>
 
+        {/* Menu di navigazione */}
         <nav className="mt-8 grow">
           {SIDEBAR_ITEMS.map((item) => {
             const isActive =
@@ -113,4 +128,5 @@ const Sidebar = () => {
     </motion.div>
   );
 };
+
 export default Sidebar;

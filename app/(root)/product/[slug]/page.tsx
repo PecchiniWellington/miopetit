@@ -35,28 +35,6 @@ const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
     </div>
   );
 
-  /* const ProductPageCenterBio = () => (
-    <div className="col-span-2 p-5">
-      <div className="flex flex-col gap-6">
-        <p>{brand}</p>
-        <h1 className="h3-bold">{name}</h1>
-        <Rating value={Number(product.rating)} />
-        <p>{product.numReviews} reviews</p>
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-          <ProductPrice
-            value={Number(product.price)}
-            className="w-24 rounded-full bg-green-100 px-5 py-2 text-green-700"
-          />
-        </div>
-      </div>
-
-      <div className="mt-10">
-        <p className="font-semibold">Description</p>
-        <p>{description}</p>
-      </div>
-    </div>
-  ); */
-
   const ProductPageRightCard = () => (
     <Card>
       <CardContent className="p-4">

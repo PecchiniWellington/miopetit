@@ -1,11 +1,11 @@
 import CarouselAnimalsCategory from "@/components/carousels/carousel-animals-catergory";
 import CarouselBrands from "@/components/carousels/carousel-brands";
 import CarouselProducts from "@/components/carousels/carousel-products";
+import ProductCarousel from "@/components/carousels/featured-product-carousel";
 import DealCountdown from "@/components/deal-countdown";
 import Gifts from "@/components/gifts";
 import IconBoxes from "@/components/icons-boxes";
 import PresentationDeals from "@/components/presentation-deals";
-import ProductCarousel from "@/components/shared/product/product-carousel";
 import ProductList from "@/components/shared/product/product-list";
 import SpecialOfferBrand from "@/components/special-offer-brand";
 import {
@@ -103,9 +103,6 @@ export default async function Home() {
           className="size-full object-cover object-center"
         />
       </div>
-
-      {/* <ProductList data={latestProducts} title="Newest Products" />
-      <ViewAllProductButton /> */}
     </div>
   );
 }

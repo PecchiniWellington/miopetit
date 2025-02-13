@@ -1,5 +1,6 @@
 "use client";
 
+import SearchSelect from "@/components/shared/selects/search-select";
 import { Alert } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,9 +17,9 @@ export default function UploadFiles() {
   const [urlPath, setUrlPath] = useState("categories");
 
   // Gestisce il cambio del path in base alla selezione
-  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedValue = event.target.value;
-    setUrlPath(selectedValue);
+  const handleSelectChange = (value: string) => {
+    console.log("Selected value:", value);
+    setUrlPath(value);
   };
 
   // Caricamento del file CSV
@@ -165,21 +166,21 @@ export default function UploadFiles() {
 
   return (
     <>
-      <h1 className="mb-6 text-3xl font-semibold">Upload Your Files</h1>
-
       <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700">
+        <div className="block text-sm font-medium text-gray-700">
           Select Data Type
-        </label>
-        <select
-          onChange={handleSelectChange}
-          className="w-full rounded-lg border bg-white p-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          <option value="categories">Categories</option>
-          <option value="products">Products</option>
-          <option value="users">Users</option>
-          <option value="orders">Orders</option>
-        </select>
+        </div>
+        <SearchSelect
+          value={"categories"}
+          options={[
+            { label: "Category", value: "categories" },
+            { label: "Products", value: "products" },
+            { label: "Users", value: "users" },
+            { label: "Orders", value: "orders" },
+          ]}
+          onSelect={(e) => handleSelectChange(e)}
+          placeholder="Choose an option"
+        />
       </div>
 
       <div className="mb-4">
@@ -188,8 +189,9 @@ export default function UploadFiles() {
           accept=".csv"
           ref={inputFileRef}
           onChange={handleFileUpload}
-          className="w-full rounded-lg border bg-white p-3 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className={` w-full rounded-lg border border-slate-700 bg-transparent  p-3 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500`}
         />
+
         <Button
           onClick={uploadOnDb}
           disabled={!csvFile || loading}

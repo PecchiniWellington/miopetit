@@ -7,6 +7,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import UploadFiles from "./upload-files";
+import UploadImage from "./upload-images";
 
 const SettingsPage = async () => {
   const session = await auth();
@@ -26,17 +28,15 @@ const SettingsPage = async () => {
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-2">
-            <AccordionTrigger>Upload files</AccordionTrigger>
-            <AccordionContent>
-              Yes. It comes with default styles that matches the other
-              components&apos; aesthetic.
+            <AccordionTrigger>Carica file</AccordionTrigger>
+            <AccordionContent className="h-96">
+              <UploadFiles />
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-3">
-            <AccordionTrigger>Upload Tables?</AccordionTrigger>
+            <AccordionTrigger>Carica Immagine</AccordionTrigger>
             <AccordionContent>
-              Yes. Its animated by default, but you can disable it if you
-              prefer.
+              <UploadImage />
             </AccordionContent>
           </AccordionItem>
         </Accordion>

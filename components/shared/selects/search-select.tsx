@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Input } from "../ui/input";
+import { Input } from "../../ui/input";
 
 interface SearchSelectProps {
   options: { value: string; label: string }[];

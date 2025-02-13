@@ -1,6 +1,5 @@
 import { auth } from "@/auth";
 import Header from "@/components/admin/common/Header";
-import MenuEditor from "@/components/admin/mega-menu-config/menu-editor";
 import ConnectedAccounts from "@/components/admin/settings/ConnectedAccounts";
 import DangerZone from "@/components/admin/settings/DangerZone";
 import Notifications from "@/components/admin/settings/Notifications";
@@ -16,7 +15,9 @@ const SettingsPage = async () => {
     throw new Error("User session is not valid");
   }
   const user = await getUserById(session.user.id);
+  console.log("User", user);
   if (!user) {
+    console.log("User not found");
     return;
   }
   return (
@@ -28,7 +29,6 @@ const SettingsPage = async () => {
         <Security />
         <ConnectedAccounts />
         <DangerZone />
-        <MenuEditor />
       </main>
     </div>
   );

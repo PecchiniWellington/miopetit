@@ -2,11 +2,11 @@
 
 import { Control, Controller } from "react-hook-form";
 
-import CustomMultipleSelect from "../custom-multiple-select";
 import { FormControl, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
-import SearchSelect from "./search-select";
+import CustomMultipleSelect from "./selects/custom-multiple-select";
+import SearchSelect from "./selects/search-select";
 
 interface Option {
   label: string;

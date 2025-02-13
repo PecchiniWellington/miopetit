@@ -1,5 +1,5 @@
 "use client";
-import UploadAvatar from "@/app/admin-test/upload/upload-avatar";
+import UploadAvatar from "@/app/admin/configurations/upload-avatar";
 import DynamicButton from "@/components/dynamic-button";
 import DynamicFormField from "@/components/shared/dynamic-form-field";
 

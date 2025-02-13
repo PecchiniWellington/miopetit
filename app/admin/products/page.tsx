@@ -1,9 +1,9 @@
 import Header from "@/components/admin/common/Header";
 
-import DownloadCSV from "@/app/admin-test/categories/download-csv";
 import CategoryDistributionChart from "@/components/admin/overview/CategoryDistributionChart";
 import ProductsTable from "@/components/admin/products/ProductsTable";
 import SalesTrendChart from "@/components/admin/products/SalesTrendChart";
+import DownloadCSV from "@/components/download-csv";
 import DynamicButton from "@/components/dynamic-button";
 import { getAllProducts } from "@/core/actions/products";
 import { getAllCategories } from "@/core/actions/products/product-infos.ts/get-product-category.action";
