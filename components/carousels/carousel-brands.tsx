@@ -64,7 +64,7 @@ const CarouselBrands = () => {
         <CarouselContent>
           {brands.map(({ name, image }) => (
             <CarouselItem key={name} className={`md:basis-1/2 lg:basis-1/5`}>
-              <Link href={`/category/${name}`}>
+              <Link href={`/${name}`}>
                 <div className="relative mx-auto flex size-full justify-center align-middle">
                   <Image
                     src={`/images/${image}`}

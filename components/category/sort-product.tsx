@@ -21,7 +21,7 @@ const SortProduct = ({
     const params = { sort };
     if (s) params.sort = s;
 
-    return `/category/${slug}?${new URLSearchParams(params).toString()}`;
+    return `/${slug}?${new URLSearchParams(params).toString()}`;
   };
 
   return (
@@ -41,6 +41,7 @@ const SortProduct = ({
           {sortOrders.map((sortOrder) => (
             <li key={sortOrder} className="border-b last:border-none">
               <Link
+                scroll={false}
                 onClick={() => setIsSortOpen(false)}
                 href={getFilterUrl({ s: sortOrder })}
                 className={`block px-4 py-2 text-sm hover:bg-gray-100 ${

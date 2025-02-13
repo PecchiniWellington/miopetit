@@ -4,6 +4,7 @@ export const productFeaturesSchema = z.object({
   id: z.string().uuid(),
   name: z.string(),
   description: z.string().nullable(),
+  image: z.string().nullable(),
 });
 
 export const productFeatureOnProductSchema = z.object({

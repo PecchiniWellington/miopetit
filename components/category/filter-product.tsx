@@ -49,7 +49,7 @@ const FilterProduct = ({
   sort: string;
   page: string;
   slug: string;
-  className: string;
+  className?: string;
 }) => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
@@ -73,7 +73,7 @@ const FilterProduct = ({
     if (r) params.rating = r;
     if (pg) params.page = pg;
 
-    return `/category/${slug}?${new URLSearchParams(params).toString()}`;
+    return `/${slug}?${new URLSearchParams(params).toString()}`;
   };
 
   return (
@@ -109,6 +109,7 @@ const FilterProduct = ({
                 <ul>
                   <li>
                     <Link
+                      scroll={false}
                       href={getFilterUrl({ c: "all" })}
                       className="block rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100"
                     >
@@ -122,17 +123,18 @@ const FilterProduct = ({
                     </Link>
                   </li>
                   {categories.map((x) => (
-                    <li key={x.category.id}>
+                    <li key={x.id}>
                       <Link
-                        href={getFilterUrl({ c: x.category.slug })}
+                        scroll={false}
+                        href={getFilterUrl({ c: x.slug })}
                         className="block rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100"
                       >
-                        {category === x.category.slug ? (
+                        {category === x.slug ? (
                           <BadgeStatus status={STATUS.PRIMARY_ACTIVE}>
-                            {x.category.name}
+                            {x.name}
                           </BadgeStatus>
                         ) : (
-                          x.category.name
+                          x.name
                         )}
                       </Link>
                     </li>
@@ -152,6 +154,7 @@ const FilterProduct = ({
                 <ul className="space-y-2">
                   <li>
                     <Link
+                      scroll={false}
                       href={getFilterUrl({ p: "all" })}
                       className="block rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100"
                     >
@@ -167,6 +170,7 @@ const FilterProduct = ({
                   {prices.map((x) => (
                     <li key={x.value}>
                       <Link
+                        scroll={false}
                         href={getFilterUrl({ p: x.value })}
                         className="block rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100"
                       >
@@ -195,6 +199,7 @@ const FilterProduct = ({
                 <ul className="space-y-2">
                   <li>
                     <Link
+                      scroll={false}
                       href={getFilterUrl({ r: "all" })}
                       className="block rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100"
                     >
@@ -210,6 +215,7 @@ const FilterProduct = ({
                   {ratings.map((r) => (
                     <li key={r}>
                       <Link
+                        scroll={false}
                         href={getFilterUrl({ r: `${r}` })}
                         className="block rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100"
                       >
