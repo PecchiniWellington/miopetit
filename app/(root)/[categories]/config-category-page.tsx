@@ -27,9 +27,9 @@ const ConfigCategoryPage = ({
           />
         </section>
         <section className="mb-6">
-          <CarouselShared title="Offerte del giorno">
+          {/*   <CarouselShared title="Offerte del giorno">
             <SmallProductCard />
-          </CarouselShared>
+          </CarouselShared> */}
         </section>
         <section className="mb-6">
           <CarouselShared title="Scelti per te">
