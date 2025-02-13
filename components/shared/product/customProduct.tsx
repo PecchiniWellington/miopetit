@@ -8,7 +8,7 @@ import Link from "next/link";
 import { useState } from "react";
 
 interface ProductCardProps {
-  image: string;
+  image: any;
   name: string;
   productBrand?: string | null;
   rating: number;
@@ -31,6 +31,7 @@ export default function ProductCard({
   pricePerKg,
 }: ProductCardProps) {
   const [isWishlisted, setWishlisted] = useState(false);
+  console.log("image", image);
 
   return (
     <Card className="relative overflow-hidden rounded-xl border bg-white p-4 shadow-md transition hover:shadow-lg">

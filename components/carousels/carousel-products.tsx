@@ -24,7 +24,7 @@ const CarouselProducts = ({ data }: { data: ILatestProduct[] }) => {
         }}
       >
         <CarouselContent>
-          {data.map((category: ILatestProduct) => (
+          {data?.map((category: ILatestProduct) => (
             <CarouselItem
               key={category.name}
               className={` md:basis-1/2 lg:basis-1/4`}

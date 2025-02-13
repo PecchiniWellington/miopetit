@@ -63,7 +63,7 @@ const CarouselAnimalsCategory = () => {
               key={name}
               className={`basis-1/2 md:basis-1/3 lg:basis-1/5`}
             >
-              <Link href={`/category/${name}`}>
+              <Link href={`/${name}`}>
                 <div className="relative mx-auto h-full ">
                   <AnimalAvatar image={image} name={name} />
                 </div>

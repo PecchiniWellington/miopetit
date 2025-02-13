@@ -10,10 +10,20 @@ import {
   getFeaturedProducts,
   getLatestProducts,
 } from "@/core/actions/products";
+import { convertToPlainObject } from "@/lib/utils";
 import Image from "next/image";
 
 export default async function Home() {
-  const latestProducts = await getLatestProducts({
+  const images = await fetch(
+    "https://api.unsplash.com/photos?client_id=Qy3OtdsgRCtZBUVrvqXYutjDPWN835qsZIJr0Wyd1pM"
+  ).then((response) => {
+    if (!response.ok) {
+      throw new Error("Failed to fetch images");
+    }
+    return response.json();
+  });
+
+  const p = await getLatestProducts({
     limit: 8,
   });
   const featuredProducts = (await getFeaturedProducts()).map((product) => ({
@@ -21,6 +31,13 @@ export default async function Home() {
     isFeatured: product.isFeatured ?? false,
     rating: product.rating ?? 0,
   }));
+
+  const data = p.map((product) => ({
+    ...product,
+    image: "/images/royal-canin-4.jpg",
+  }));
+  const latestProducts = convertToPlainObject(data);
+  console.log("latestProducts", images);
 
   return (
     <div>

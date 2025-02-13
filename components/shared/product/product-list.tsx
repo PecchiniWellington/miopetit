@@ -17,7 +17,7 @@ const ProductList = ({ data, limit }: IProductListProps) => {
               limitedData.map((product: ILatestProduct) => (
                 <CustomProduct
                   key={product.id}
-                  image="https://utfs.io/f/RnH9VIVP0zpxL8Sd59Kp86NzgPOkKSsma1BjXoZe9tA3HMCW"
+                  image={product.image}
                   name={product.name}
                   productBrand={product?.productBrand?.name}
                   rating={Number(product.rating)}
