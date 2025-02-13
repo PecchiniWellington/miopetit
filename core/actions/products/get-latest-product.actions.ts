@@ -16,7 +16,6 @@ export async function getLatestProducts({
   });
 
   const productsData = products.map((product) => {
-    console.log("PUTTANA", product);
     const parsedProduct = latestProductSchema.parse({
       ...product,
       price: product.price.toString(),

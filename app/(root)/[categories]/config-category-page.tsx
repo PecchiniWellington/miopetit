@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import CarouselIndispensable from "@/components/carousels/carousel-indispensable";
 import CarouselShared from "@/components/carousels/carousel-shared";
 import CategoryType from "@/components/category/category-component";
@@ -38,12 +39,7 @@ const ConfigCategoryPage = ({
       </div>
       <section className="relative mb-6 flex w-full items-center gap-4 ">
         <CategoryType
-          categories={categoriesData.map((cat) => ({
-            id: cat.category.id,
-            name: cat.category.name,
-            slug: cat.category.slug,
-            description: null,
-          }))}
+          categories={categoriesData}
           q={q}
           products={products.data}
           price={price}

@@ -8,6 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import Image from "next/image";
 import Papa from "papaparse";
 import { useEffect, useState } from "react";
 
@@ -109,7 +110,13 @@ export default function CSVTable({ CSV_URL }: { CSV_URL: string }) {
                   const fullImageUrl = getImageUrl(baseName); // Usa il nome base per ottenere l'URL
                   return (
                     <TableCell key={cellIndex}>
-                      <img src={fullImageUrl} alt="image" className="size-16" />
+                      <Image
+                        height={50}
+                        width={50}
+                        src={fullImageUrl}
+                        alt="image"
+                        className="size-16"
+                      />
                     </TableCell>
                   );
                 }

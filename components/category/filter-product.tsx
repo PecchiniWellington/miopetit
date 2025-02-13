@@ -123,18 +123,18 @@ const FilterProduct = ({
                     </Link>
                   </li>
                   {categories.map((x) => (
-                    <li key={x.id}>
+                    <li key={x.category.id}>
                       <Link
                         scroll={false}
-                        href={getFilterUrl({ c: x.slug })}
+                        href={getFilterUrl({ c: x.category.slug })}
                         className="block rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100"
                       >
-                        {category === x.slug ? (
+                        {category === x.category.slug ? (
                           <BadgeStatus status={STATUS.PRIMARY_ACTIVE}>
-                            {x.name}
+                            {x.category.name}
                           </BadgeStatus>
                         ) : (
-                          x.name
+                          x.category.name
                         )}
                       </Link>
                     </li>

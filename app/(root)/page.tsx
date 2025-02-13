@@ -21,12 +21,12 @@ export default async function Home() {
     ...product,
     isFeatured: product.isFeatured ?? false,
     rating: product.rating ?? 0,
-    image: product.images[0] ?? "/images/default-image.jpg",
+    image: [product.images[0] ?? "/images/default-image.jpg"],
   }));
 
   const data = p.map((product) => ({
     ...product,
-    image: "/images/royal-canin-4.jpg",
+    image: ["/images/royal-canin-4.jpg"],
   }));
   const latestProducts = convertToPlainObject(data);
 

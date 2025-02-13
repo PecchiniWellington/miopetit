@@ -8,7 +8,7 @@ import Link from "next/link";
 import { useState } from "react";
 
 interface ProductCardProps {
-  image: any;
+  image: string;
   name: string;
   productBrand?: string | null;
   rating: number;

@@ -1,6 +1,7 @@
 import DynamicButton from "@/components/dynamic-button";
 import { BadgeStatus } from "@/components/shared/badge-status";
 import CustomProduct from "@/components/shared/product/customProduct";
+import { IProduct } from "@/core/validators";
 import { STATUS } from "@/lib/constants";
 import Link from "next/link";
 import FilterProduct from "./filter-product";
@@ -18,9 +19,26 @@ const CategoryType = async ({
   page,
   category,
   categories,
-}: any) => {
-  /*  const [isSortOpen, setIsSortOpen] = useState(false); */
+}: {
+  q: string;
+  slug: string;
+  products: IProduct[];
+  price: string;
+  rating: string;
+  sort: string;
+  page: string;
+  category: string;
 
+  categories: {
+    _count: number;
+    categoryId: string;
+    category: {
+      id: string;
+      name: string;
+      slug: string;
+    };
+  }[];
+}) => {
   return (
     <div className="relative grid grid-cols-1 items-start gap-6 md:grid-cols-5">
       {/* Sidebar */}
@@ -81,12 +99,16 @@ const CategoryType = async ({
               Nessun prodotto trovato
             </div>
           ) : (
-            products.map((product: any) => (
+            products.map((product: IProduct) => (
               <CustomProduct
                 key={product.id}
                 image={product.images[0]}
                 reviews={product.numReviews}
-                availability={product.stock > 0 ? "In Stock" : "Out of Stock"}
+                availability={
+                  product.stock && product.stock > 0
+                    ? "In Stock"
+                    : "Out of Stock"
+                }
                 name={product.name}
                 rating={product.rating as number}
                 price={Number(product.price)}

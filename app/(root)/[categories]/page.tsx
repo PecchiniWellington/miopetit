@@ -1,4 +1,4 @@
-import { getAllProducts, getLatestProducts } from "@/core/actions/products";
+import { getAllProducts } from "@/core/actions/products";
 import { getProductCategories } from "@/core/actions/products/product-infos.ts/get-product-category.action";
 import { indispensableCat } from "@/core/db-static/indispensable/indispensable-cat";
 import { indispensableDog } from "@/core/db-static/indispensable/indispensable-dog";
@@ -35,14 +35,6 @@ const MainCategory = async (props: {
   });
 
   const categoriesData = await getProductCategories();
-
-  const p = await getLatestProducts({
-    limit: 8,
-  });
-  const data = p.map((product) => ({
-    ...product,
-    image: "/images/royal-canin-4.jpg",
-  }));
 
   if (categories === "dog")
     return (

@@ -53,7 +53,13 @@ const AdminProductUpdatePage = async (props: {
         proteins={proteins}
         unitValues={unitValues ?? []}
         unitOfMeasure={unitOfMeasure ?? []}
-        allFeatures={allFeatures}
+        allFeatures={allFeatures?.map((feature) => ({
+          ...feature,
+          productFeature: {
+            ...feature.productFeature,
+            image: feature.productFeature.image ?? null,
+          },
+        }))}
       />
     </div>
   );
