@@ -18,8 +18,6 @@ export async function getAllCategoriesForMegaMenu(mainCategorySlug: string) {
       include: { children: true }, // Carica i figli di questa categoria
     });
 
-    console.log("🔍 Children for", category.name, children);
-
     return {
       name: category.name,
       slug: category.slug,

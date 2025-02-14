@@ -31,15 +31,15 @@ model Product {
      * RELAZIONE 1-TO-MANY
      */
     productBrand      ProductBrand?      @relation(fields: [productBrandId], references: [id])
-    productPathology  ProductPathology?  @relation(fields: [productPathologyId], references: [id])
     productUnitFormat ProductUnitFormat? @relation(fields: [productUnitFormatId], references: [id], onDelete: SetNull)
 
     /**
      * RELAZIONE MANY-TO-MANY
      */
-    productProteinOnProduct  ProductProteinOnProduct[]
-    productsFeatureOnProduct ProductFeatureOnProduct[]
-    review                   Review[]
-    orderitems               OrderItem[]
-    productCategory          ProductCategory[]
+    review                    Review[]
+    orderitems                OrderItem[]
+    productCategory           ProductCategory[]
+    productProteinOnProduct   ProductProteinOnProduct[]
+    productsFeatureOnProduct  ProductFeatureOnProduct[]
+    productPathologyOnProduct ProductPathologyOnProduct[]
 }

@@ -36,7 +36,7 @@ const CategoryDistributionChart = ({
   const colors = generateColors(categoryData.length);
 
   const newValue = categoriesDistribution?.data
-    ?.filter((item) => item.Product.length > 0)
+    ?.filter((item) => item?.Product?.length > 0)
     .slice(0, 5)
     .map((item: ICategory & { Product: Product[] }) => {
       return {

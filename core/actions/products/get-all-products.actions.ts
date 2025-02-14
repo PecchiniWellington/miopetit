@@ -84,6 +84,7 @@ export async function getAllProducts({
           category: true, // ✅ Include gli oggetti completi delle categorie
         },
       },
+      productUnitFormat: true,
     },
 
     orderBy:

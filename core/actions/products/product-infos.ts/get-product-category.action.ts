@@ -112,3 +112,130 @@ export async function getProductCategories() {
     };
   }
 }
+export async function getCategoryProductIds(categorySlug: string) {
+  // Trova la categoria principale
+  const mainCategory = await prisma.category.findFirst({
+    where: { slug: categorySlug },
+    select: { id: true },
+  });
+
+  if (!mainCategory) return [];
+
+  // 🔍 Funzione ricorsiva per ottenere tutte le sottocategorie
+  async function getAllSubCategoryIds(parentId: string) {
+    const subCategories = await prisma.category.findMany({
+      where: { parentId: parentId },
+      select: { id: true },
+    });
+
+    if (subCategories.length === 0) return []; // Se non ci sono figli, ritorna array vuoto
+
+    // 🔄 Prendi i figli dei figli in modo ricorsivo
+    const subCategoryIds = subCategories.map((c) => c.id);
+    const deepSubCategoryIds: string[] = await Promise.all(
+      subCategoryIds.map((id) => getAllSubCategoryIds(id))
+    ).then((results) => results.flat());
+
+    return subCategoryIds.concat(deepSubCategoryIds.flat()); // 🔗 Unisce tutte le categorie
+  }
+
+  // 🔥 Trova tutte le sottocategorie
+  const allCategoryIds = [
+    mainCategory.id,
+    ...(await getAllSubCategoryIds(mainCategory.id)),
+  ];
+
+  // 🏷️ Trova tutti i prodotti associati a queste categorie
+  const productCategories = await prisma.productCategory.findMany({
+    where: { categoryId: { in: allCategoryIds } },
+    select: { productId: true },
+  });
+
+  return productCategories.map((pc) => pc.productId);
+}
+
+export async function getFiltersForCategory(categorySlug: string) {
+  const productIds = await getCategoryProductIds(categorySlug);
+
+  if (productIds.length === 0) return {}; // Se non ci sono prodotti, nessun filtro
+
+  const filters = await prisma.product.groupBy({
+    by: [
+      "animalAge",
+      "productBrandId",
+      "productUnitFormatId",
+      "productPathologyId",
+    ] as const,
+    where: { id: { in: productIds } },
+    _min: { price: true },
+    _max: { price: true },
+  });
+
+  return convertToPlainObject({
+    age: Array.from(new Set(filters.map((f) => f.animalAge))),
+    unit: (
+      await prisma.productUnitFormat.findMany({
+        where: {
+          id: {
+            in: Array.from(
+              new Set(
+                filters
+                  .map((f) => f.productUnitFormatId)
+                  .filter((id): id is string => id !== null)
+              )
+            ),
+          },
+        },
+        select: {
+          id: true,
+          unitValue: { select: { value: true } },
+          unitOfMeasure: { select: { code: true } },
+        },
+      })
+    ).map((unit) => ({
+      id: unit.id,
+      unitValue: unit.unitValue?.value ?? null,
+      unitOfMeasure: unit.unitOfMeasure?.code ?? null,
+    })),
+    brand: await prisma.productBrand.findMany({
+      where: {
+        id: {
+          in: Array.from(
+            new Set(
+              filters
+                .map((f) => f.productBrandId)
+                .filter((id): id is string => id !== null)
+            )
+          ),
+        },
+      },
+      select: { id: true, name: true },
+    }),
+    pathologies: Array.from(
+      new Map(
+        (
+          await prisma.productPathologyOnProduct.findMany({
+            where: {
+              productId: { in: productIds },
+            },
+            select: {
+              pathologyId: true,
+              pathology: { select: { name: true } },
+            },
+          })
+        ).map((r) => [
+          r.pathologyId,
+          { id: r.pathologyId, name: r.pathology.name },
+        ])
+      ).values()
+    ),
+    price: {
+      min: Math.min(
+        ...filters.map((f) => parseFloat(f._min?.price?.toString() ?? "0"))
+      ),
+      max: Math.max(
+        ...filters.map((f) => parseFloat(f._max?.price?.toString() ?? "0"))
+      ),
+    },
+  });
+}

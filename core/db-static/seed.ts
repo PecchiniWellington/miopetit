@@ -154,6 +154,9 @@ async function main() {
     const selectedProteins = productProteinsData
       .sort(() => 0.5 - Math.random())
       .slice(0, numRandom);
+    const selectedPathologies = await prisma.productPathology.findMany({
+      select: { id: true, name: true },
+    });
     const selectedFeature = productFeatures
       .sort(() => 0.5 - Math.random())
       .slice(0, numRandom);
@@ -205,6 +208,12 @@ async function main() {
         productProteinOnProduct: {
           create: selectedProteins.map((protein) => ({
             productProtein: { connect: { id: protein.id } },
+          })),
+        },
+
+        productPathologyOnProduct: {
+          create: selectedPathologies.map((pathology) => ({
+            pathology: { connect: { id: pathology.id } },
           })),
         },
       },

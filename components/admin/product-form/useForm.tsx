@@ -36,6 +36,10 @@ export function useProductForm({
               product?.productProteinOnProduct?.map(
                 (protein) => protein.productProteinId
               ) || [],
+            productPathologyOnProduct:
+              product?.productPathologyOnProduct?.map(
+                (protein) => protein.pathologyId
+              ) || [],
             productsFeatureOnProduct:
               product?.productsFeatureOnProduct?.map(
                 (feature) => feature.productFeatureId

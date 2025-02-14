@@ -60,13 +60,13 @@ export const insertProductSchema = z.object({
   productPathologyId: z.string().uuid().nullable().optional(),
   productProteinOnProduct: z.array(z.string().uuid()).nullable().optional(),
   productsFeatureOnProduct: z.array(z.string().uuid()).nullable().optional(),
+  productPathologyOnProduct: z.array(z.string().uuid()).nullable().optional(),
   unitValueId: z.string().uuid().nullable().optional(),
   unitOfMeasureId: z.string().uuid().nullable().optional(),
 });
 
 export const updateProductSchema = insertProductSchema.extend({
   id: z.string().min(1, "Id is required"),
-  productsFeatureOnProduct: z.array(z.string().uuid().nullable().optional()),
 });
 
 export const latestProductSchema = z.object({
@@ -102,6 +102,11 @@ export type IProduct = z.infer<typeof productSchema> & {
       name: string;
       description: string | null;
     };
+  }[];
+  productPathologyOnProduct: {
+    productId: string;
+    pathologyId: string;
+    pathology: { id: string; name: string };
   }[];
   category?: ICategory;
   productBrand?: IBrand;

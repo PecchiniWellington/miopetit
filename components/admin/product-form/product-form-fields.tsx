@@ -43,6 +43,12 @@ export function ProductFormFields({
       (feature) => feature.productFeatureId
     ) || [];
 
+  const getOnlyPathologiesId =
+    product?.productPathologyOnProduct?.map((feature) => feature.pathologyId) ||
+    [];
+
+  console.log("getOnlyPathologiesId", getOnlyPathologiesId);
+
   const formatterForSelect = (
     data: ICategory[] | IBrand[] | IPathology[] | IProtein[]
   ) =>
@@ -55,10 +61,12 @@ export function ProductFormFields({
     value: d.id,
     label: d.value?.toString() || "",
   }));
+
   const formatterForUnitOfMeasure = unitOfMeasure?.map((d: IUnitOfMeasure) => ({
     value: d.id,
     label: d.code,
   }));
+
   const formatterForFeature = allFeatures?.map(
     ({ productFeature }: IProductFeatureOnProduct) => ({
       value: productFeature.id,
@@ -101,13 +109,15 @@ export function ProductFormFields({
         />
 
         {/* Pathologies */}
+
         <DynamicFormField
-          type="select"
+          type="multiple-select"
           options={pathologies ? formatterForSelect(pathologies) : []}
           control={form.control}
-          name="productPathologyId"
+          name="productPathologyOnProduct"
           title="Pathologies"
-          placeholder="Enter category"
+          placeholder="Enter Pathologies"
+          defaultValue={getOnlyPathologiesId}
         />
       </div>
       <div className="flex flex-col  gap-5 md:flex-row">

@@ -1,0 +1,9 @@
+model ProductPathologyOnProduct {
+    productId   String @db.Uuid
+    pathologyId String @db.Uuid
+
+    product   Product          @relation(fields: [productId], references: [id], onDelete: Cascade)
+    pathology ProductPathology @relation(fields: [pathologyId], references: [id], onDelete: Cascade)
+
+    @@id([productId, pathologyId])
+}

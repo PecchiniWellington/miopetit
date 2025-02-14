@@ -7,12 +7,15 @@ export async function getProductById(id: string) {
     where: { id },
     include: {
       orderitems: true,
-      category: true,
+      productCategory: {
+        include: { category: true },
+      },
       productBrand: true,
+      productPathologyOnProduct: {
+        include: { pathology: true },
+      },
       productsFeatureOnProduct: {
-        include: {
-          productFeature: true,
-        },
+        include: { productFeature: true },
       },
       productUnitFormat: {
         include: {
@@ -21,28 +24,70 @@ export async function getProductById(id: string) {
         },
       },
       productProteinOnProduct: {
-        include: {
-          productProtein: true,
-        },
+        include: { productProtein: true },
       },
     },
   });
 
   if (!product) return null;
 
-  const totalSales = product.orderitems.reduce(
-    (acc, item) => acc + item.qty,
-    0
-  );
-  const totalRevenue = product.orderitems.reduce(
-    (acc, item) => acc + item.qty * Number(item.price),
-    0
-  );
+  const formattedProduct = {
+    id: product.id,
+    name: product.name,
+    slug: product.slug,
+    description: product.description,
+    stock: product.stock,
+    price: product.price,
+    rating: product.rating,
+    numReviews: product.numReviews,
+    isFeatured: product.isFeatured,
+    banner: product.banner,
+    createdAt: product.createdAt,
+    updatedAt: product.updatedAt,
+    animalAge: product.animalAge,
+    totalSales: product.orderitems.reduce((acc, item) => acc + item.qty, 0),
+    totalRevenue: product.orderitems.reduce(
+      (acc, item) => acc + item.qty * Number(item.price),
+      0
+    ),
 
-  return convertToPlainObject({
-    ...product,
-    category: product.category ? product.category : null,
-    totalSales,
-    totalRevenue,
-  });
+    productCategory: product.productCategory.map((f) => ({
+      id: f.category.id,
+      name: f.category.name,
+      slug: f.category.slug,
+      parentId: f.category.parentId,
+    })),
+
+    productBrand: product.productBrand
+      ? {
+          id: product.productBrand.id,
+          name: product.productBrand.name,
+        }
+      : null,
+
+    productPathologies: product.productPathologyOnProduct.map((p) => ({
+      id: p.pathology.id,
+      name: p.pathology.name,
+    })),
+
+    productFeatures: product.productsFeatureOnProduct.map((f) => ({
+      id: f.productFeature.id,
+      name: f.productFeature.name,
+    })),
+
+    productProteins: product.productProteinOnProduct.map((p) => ({
+      id: p.productProtein.id,
+      name: p.productProtein.name,
+    })),
+
+    productUnitFormat: product.productUnitFormat
+      ? {
+          id: product.productUnitFormat.id,
+          unitValue: product.productUnitFormat.unitValue.value,
+          unitOfMeasure: product.productUnitFormat.unitOfMeasure.code,
+        }
+      : null,
+  };
+
+  return convertToPlainObject(formattedProduct);
 }
