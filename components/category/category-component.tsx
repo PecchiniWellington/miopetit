@@ -1,10 +1,7 @@
-import DynamicButton from "@/components/dynamic-button";
-import { BadgeStatus } from "@/components/shared/badge-status";
 import CustomProduct from "@/components/shared/product/customProduct";
 import { IProduct } from "@/core/validators";
-import { STATUS } from "@/lib/constants";
-import Link from "next/link";
-import FilterProduct from "./filter-product";
+import ActiveFilters from "./active-filters";
+import Filter from "./filter";
 import SortProduct from "./sort-product";
 
 /* const sortOrders = ["newest", "lowest", "highest", "rating"]; */
@@ -43,9 +40,9 @@ const CategoryType = async ({
     <div className="relative grid grid-cols-1 items-start gap-6 md:grid-cols-5">
       {/* Sidebar */}
       <aside className="sticky top-2 flex w-full gap-4">
-        <FilterProduct
+        <Filter
           categories={categories}
-          q={q}
+          q={"all"}
           slug={slug}
           price={price}
           rating={rating}
@@ -61,33 +58,7 @@ const CategoryType = async ({
       <main className="space-y-6 md:col-span-4">
         {/* Filtri attivi e ordinamento */}
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          {/* Filtri attivi */}
-          <div className="flex flex-wrap items-center gap-2 text-sm text-gray-600">
-            {q !== "all" && (
-              <BadgeStatus status={STATUS.PRIMARY}>{q}</BadgeStatus>
-            )}
-            {category !== "all" && (
-              <BadgeStatus status={STATUS.SUCCESS}>{category}</BadgeStatus>
-            )}
-            {price !== "all" && (
-              <BadgeStatus status={STATUS.WARNING}>{price}</BadgeStatus>
-            )}
-            {rating !== "all" && (
-              <BadgeStatus
-                status={STATUS.DEFAULT}
-              >{`${rating} ⭐ & più`}</BadgeStatus>
-            )}
-            {(q !== "all" ||
-              category !== "all" ||
-              price !== "all" ||
-              rating !== "all") && (
-              <DynamicButton>
-                <Link scroll={false} href={`/${slug}`}>
-                  Reset Filtri
-                </Link>
-              </DynamicButton>
-            )}
-          </div>
+          <ActiveFilters slug={slug} />
 
           <SortProduct sort={sort} slug={slug} className="hidden md:block" />
         </div>

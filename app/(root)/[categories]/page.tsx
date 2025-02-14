@@ -1,5 +1,6 @@
 import { getAllProducts } from "@/core/actions/products";
-import { getProductCategories } from "@/core/actions/products/product-infos.ts/get-product-category.action";
+import { getAllProductsBySlug } from "@/core/actions/products/get-all-product-by-slug";
+import { getFiltersForCategory } from "@/core/actions/products/product-infos.ts/get-product-category.action";
 import { indispensableCat } from "@/core/db-static/indispensable/indispensable-cat";
 import { indispensableDog } from "@/core/db-static/indispensable/indispensable-dog";
 import ConfigCategoryPage from "./config-category-page";
@@ -34,7 +35,18 @@ const MainCategory = async (props: {
     sort,
   });
 
-  const categoriesData = await getProductCategories();
+  const productFilters = await getFiltersForCategory(categories);
+  const productBySlug = await getAllProductsBySlug({
+    slug: categories,
+    query: q,
+    page: Number(page),
+    /*  category, */
+    price,
+    rating,
+    sort,
+  });
+
+  console.log("productFilters", productFilters);
 
   if (categories === "cani")
     return (
@@ -42,8 +54,8 @@ const MainCategory = async (props: {
         <ConfigCategoryPage
           indispensable={indispensableDog}
           categories={categories}
-          categoriesData={categoriesData}
-          products={products}
+          categoriesData={productFilters}
+          products={productBySlug}
           price={price}
           rating={rating}
           sort={sort}
@@ -59,8 +71,8 @@ const MainCategory = async (props: {
         <ConfigCategoryPage
           indispensable={indispensableCat}
           categories={categories}
-          categoriesData={categoriesData}
-          products={products}
+          categoriesData={productFilters}
+          products={productBySlug}
           price={price}
           rating={rating}
           sort={sort}
