@@ -31,7 +31,6 @@ export default function ProductCard({
   pricePerKg,
 }: ProductCardProps) {
   const [isWishlisted, setWishlisted] = useState(false);
-  console.log("image", image);
 
   return (
     <Card className="relative overflow-hidden rounded-xl border bg-white p-4 shadow-md transition hover:shadow-lg">

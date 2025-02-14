@@ -49,7 +49,7 @@ export async function updateProduct(data: z.infer<typeof updateProductSchema>) {
         animalAge: product.animalAge || undefined,
         productPathologyId: product.productPathologyId,
         productBrandId: product.productBrandId,
-        categoryId: product.categoryId,
+        /* categoryId: product.categoryId, */
 
         productProteinOnProduct: {
           deleteMany: {},

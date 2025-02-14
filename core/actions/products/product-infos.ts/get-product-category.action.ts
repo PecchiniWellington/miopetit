@@ -1,23 +1,30 @@
 import { prisma } from "@/core/prisma/prisma";
 import { convertToPlainObject, formatValidationError } from "@/lib/utils";
 
-/* GET ALL CATEGORIES */
+/* GET ALL CATEGORIES CON GERARCHIA */
 export async function getAllCategories() {
   try {
     const categories = await prisma.category.findMany({
-      orderBy: { createdAt: "desc" },
       include: {
-        Product: true,
+        children: true, // Recupera le sottocategorie
+        productCategory: {
+          include: {
+            product: true,
+          },
+        },
       },
     });
 
-    const dataCount = await prisma.category.count();
+    // Conta i prodotti unici per ogni categoria usando Set()
+    const categoriesWithCount = categories.map((cat) => ({
+      ...cat,
+      productCount: new Set(cat.productCategory.map((pc) => pc.productId)).size,
+    }));
 
     return {
-      data: convertToPlainObject(categories),
-      totalPages: Math.ceil(dataCount / 4),
-      productCount: categories.reduce(
-        (acc, category) => acc + category.Product.length,
+      data: convertToPlainObject(categoriesWithCount),
+      totalProductCount: categoriesWithCount.reduce(
+        (acc, cat) => acc + cat.productCount,
         0
       ),
     };
@@ -29,30 +36,79 @@ export async function getAllCategories() {
   }
 }
 
-/* GET PRODUCTCATEGORY */
+/* GET CATEGORY CON I PRODOTTI */
+export async function getCategoryWithProducts(categorySlug: string) {
+  try {
+    // Trova la categoria specifica con le sue sottocategorie e prodotti
+    const category = await prisma.category.findUnique({
+      where: { slug: categorySlug },
+      include: {
+        children: true,
+        productCategory: {
+          include: {
+            product: true,
+          },
+        },
+      },
+    });
+
+    if (!category) {
+      return {
+        success: false,
+        error: "Categoria non trovata",
+      };
+    }
+
+    return {
+      data: convertToPlainObject(category),
+      totalProductCount: new Set(
+        category.productCategory.map((pc) => pc.productId)
+      ).size,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error: formatValidationError((error as Error).message),
+    };
+  }
+}
+
+/* GET PRODUCTCATEGORY CON COUNT */
 export async function getProductCategories() {
-  const data = await prisma.product.groupBy({
-    by: ["categoryId"],
-    _count: true,
-  });
+  try {
+    // ✅ Raggruppiamo i prodotti per categoria usando `groupBy`
+    const data = await prisma.productCategory.groupBy({
+      by: ["categoryId"],
+      _count: {
+        productId: true,
+      },
+    });
 
-  const categories = await getAllCategories();
-  const categoryMap = categories?.data?.reduce(
-    (acc, cat) => {
-      acc[cat.id] = { id: cat.id, name: cat.name, slug: cat.slug };
-      return acc;
-    },
-    {} as Record<string, { id: string; name: string; slug: string }>
-  );
+    // ✅ Otteniamo tutte le categorie disponibili
+    const categories = await getAllCategories();
+    const categoryMap = categories?.data?.reduce(
+      (acc, cat) => {
+        acc[cat.id] = { id: cat.id, name: cat.name, slug: cat.slug };
+        return acc;
+      },
+      {} as Record<string, { id: string; name: string; slug: string }>
+    );
 
-  const result = data.map((item) => ({
-    ...item,
-    category: categoryMap?.[item.categoryId!] ?? {
-      id: "N/A",
-      name: "N/A",
-      slug: "N/A",
-    },
-  }));
+    // ✅ Creiamo il risultato finale con i dati completi delle categorie
+    const result = data.map((item) => ({
+      category: categoryMap?.[item.categoryId] ?? {
+        id: "N/A",
+        name: "N/A",
+        slug: "N/A",
+      },
+      productCount: item._count.productId, // Numero di prodotti per questa categoria
+    }));
 
-  return convertToPlainObject(result);
+    return convertToPlainObject(result);
+  } catch (error) {
+    return {
+      success: false,
+      error: formatValidationError((error as Error).message),
+    };
+  }
 }

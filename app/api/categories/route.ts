@@ -4,14 +4,9 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const accounts = await getAllCategories();
+    const categories = await getAllCategories();
 
-    console.log("Accounts", accounts);
-
-    return NextResponse.json(
-      { success: true, data: accounts },
-      { status: 200 }
-    );
+    return NextResponse.json({ success: true, ...categories }, { status: 200 });
   } catch (error) {
     return handleError(error, "api") as APIErrorResponse;
   }

@@ -4,7 +4,7 @@ import { indispensableCat } from "@/core/db-static/indispensable/indispensable-c
 import { indispensableDog } from "@/core/db-static/indispensable/indispensable-dog";
 import ConfigCategoryPage from "../config-category-page";
 
-const SubCategory = async (props: {
+const SubCategories = async (props: {
   searchParams: Promise<{
     q?: string;
     category?: string;
@@ -13,7 +13,10 @@ const SubCategory = async (props: {
     sort: string;
     page: string;
   }>;
-  params: Promise<{ categories: string; slug: string }>;
+  params: Promise<{
+    categories: string;
+    subCategories: string;
+  }>;
 }) => {
   const {
     q = "all",
@@ -23,7 +26,7 @@ const SubCategory = async (props: {
     sort = "newest",
     page = "1",
   } = await props.searchParams;
-  const { categories } = await props.params;
+  const { categories, subCategories } = await props.params;
 
   const products = await getAllProducts({
     query: q,
@@ -36,9 +39,10 @@ const SubCategory = async (props: {
 
   const categoriesData = await getProductCategories();
 
-  if (categories === "dog")
+  if (categories === "cani")
     return (
       <>
+        <h3>{categories + "-" + subCategories}</h3>
         <ConfigCategoryPage
           indispensable={indispensableDog}
           categories={categories}
@@ -53,7 +57,7 @@ const SubCategory = async (props: {
         />
       </>
     );
-  else if (categories === "cat")
+  else if (categories === "gatti")
     return (
       <>
         <ConfigCategoryPage
@@ -73,4 +77,4 @@ const SubCategory = async (props: {
   else return <div>Category not found</div>;
 };
 
-export default SubCategory;
+export default SubCategories;

@@ -1,39 +1,33 @@
 import Link from "next/link";
 
 interface ICategory {
-  title: string;
-  items: IMenuItem[];
-}
-
-interface IMenuItem {
   name: string;
   slug: string;
+  children?: ICategory[];
 }
 
 export const CategorySection = ({
-  menu,
+  categories,
   mainCategory,
 }: {
-  menu: ICategory[];
+  categories: ICategory[];
   mainCategory: string;
 }) => {
   return (
     <div className="col-span-3 grid grid-cols-3 gap-6">
-      {menu.map((category, index) => (
+      {categories.map((category, index) => (
         <div key={index}>
           <h3 className="mb-2 text-lg font-semibold text-black">
-            {category.title}
+            {category.name}
           </h3>
-          {category.items.length > 0 ? (
+          {category.children && category.children.length > 0 ? (
             <ul>
-              {category.items.map((item, idx) => (
+              {category.children.map((child, idx) => (
                 <li
                   key={idx}
                   className="mb-1 cursor-pointer text-gray-600 hover:text-black"
                 >
-                  <Link href={`/${mainCategory}/${item.slug}`}>
-                    {item.name}
-                  </Link>
+                  <Link href={`/${child.slug}`}>{child.name}</Link>
                 </li>
               ))}
             </ul>

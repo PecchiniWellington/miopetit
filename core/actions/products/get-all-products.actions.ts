@@ -39,10 +39,16 @@ export async function getAllProducts({
   const categoryFilter: Prisma.ProductWhereInput =
     category && category !== "all"
       ? {
-          categoryId: {
-            in: categories?.data
-              ?.filter((cat) => cat.slug === category)
-              .map((cat) => cat.id),
+          productCategory: {
+            some: {
+              category: {
+                id: {
+                  in: categories?.data
+                    ?.filter((cat) => cat.slug === category)
+                    .map((cat) => cat.id),
+                },
+              },
+            },
           },
         }
       : {};
@@ -71,6 +77,13 @@ export async function getAllProducts({
       ...categoryFilter,
       ...priceFilter,
       ...ratingFilter,
+    },
+    include: {
+      productCategory: {
+        include: {
+          category: true, // ✅ Include gli oggetti completi delle categorie
+        },
+      },
     },
 
     orderBy:
@@ -108,15 +121,16 @@ export async function getAllProducts({
   const updatedData = data.map((item) => {
     return {
       ...item,
-      category: item.categoryId
-        ? (categoryMap?.[item.categoryId][0] ?? "N/A")
+      category: item.productCategory?.length
+        ? item.productCategory
+            .map((pc) => categoryMap?.[pc.categoryId][0] ?? "N/A")
+            .join(", ")
         : "N/A",
       productBrand: item.productBrandId
         ? (brandMap?.[item.productBrandId][0] ?? null)
         : null,
     };
   });
-
   return {
     data: convertToPlainObject(updatedData),
     totalPages: Math.ceil(productCount / limit),

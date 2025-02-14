@@ -1,0 +1,229 @@
+{
+  "data": [
+    {
+      "name": "Cani",
+      "slug": "cani",
+      "parentId": null,
+      "children": [
+        {
+          "name": "Cibo",
+          "slug": "cani/cibo",
+          "children": [
+            { "name": "Cibo Secco", "slug": "cani/cibo/cibo-secco" },
+            { "name": "Cibo Umido", "slug": "cani/cibo/cibo-umido" },
+            { "name": "Snack", "slug": "cani/cibo/snack" },
+            {
+              "name": "Diete Cibo Secco",
+              "slug": "cani/cibo/diete-cibo-secco"
+            },
+            { "name": "Diete Cibo Umido", "slug": "cani/cibo/diete-cibo-umido" }
+          ]
+        },
+        {
+          "name": "Accessori",
+          "slug": "cani/accessori",
+          "children": [
+            { "name": "Abbigliamento", "slug": "cani/accessori/abbigliamento" },
+            {
+              "name": "Addestramento",
+              "slug": "cani/accessori/addestramento",
+              "children": [
+                {
+                  "name": "Collari",
+                  "slug": "cani/accessori/addestramento/collari"
+                },
+                {
+                  "name": "Guinzagli",
+                  "slug": "cani/accessori/addestramento/guinzagli"
+                }
+              ]
+            },
+            {
+              "name": "Contenitori Cibo",
+              "slug": "cani/accessori/contenitori-cibo"
+            },
+            { "name": "Toelettatura", "slug": "cani/accessori/toelettatura" }
+          ]
+        },
+        { "name": "Giochi", "slug": "cani/giochi" },
+        {
+          "name": "Igiene",
+          "slug": "cani/igiene",
+          "children": [
+            {
+              "name": "Igiene Manto e Cute",
+              "slug": "cani/igiene/igiene-manto-cute"
+            },
+            { "name": "Igiene Orale", "slug": "cani/igiene/igiene-orale" },
+            { "name": "Pannolini", "slug": "cani/igiene/pannolini" },
+            {
+              "name": "Sacchetti Igienici",
+              "slug": "cani/igiene/sacchetti-igienici"
+            },
+            {
+              "name": "Traversine Igieniche",
+              "slug": "cani/igiene/traversine-igieniche"
+            },
+            { "name": "Salviette", "slug": "cani/igiene/salviette" }
+          ]
+        },
+        {
+          "name": "Antiparassitari e Curativi",
+          "slug": "cani/antiparassitari",
+          "children": [
+            {
+              "name": "Antiparassitari",
+              "slug": "cani/antiparassitari/antiparassitari"
+            },
+            {
+              "name": "Insettorepellenti",
+              "slug": "cani/antiparassitari/insettorepellenti"
+            },
+            {
+              "name": "Alimenti Complementari",
+              "slug": "cani/antiparassitari/alimenti-complementari"
+            },
+            {
+              "name": "Parafarmacia",
+              "slug": "cani/antiparassitari/parafarmacia"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Gatti",
+      "slug": "gatti",
+      "parentId": null,
+      "children": [
+        {
+          "name": "Cibo",
+          "slug": "gatti/cibo",
+          "children": [
+            { "name": "Cibo Secco", "slug": "gatti/cibo/cibo-secco" },
+            { "name": "Cibo Umido", "slug": "gatti/cibo/cibo-umido" },
+            { "name": "Snack", "slug": "gatti/cibo/snack" }
+          ]
+        },
+        {
+          "name": "Accessori",
+          "slug": "gatti/accessori",
+          "children": [
+            {
+              "name": "Abbigliamento",
+              "slug": "gatti/accessori/abbigliamento"
+            },
+            { "name": "Lettiera", "slug": "gatti/accessori/lettiera" },
+            { "name": "Toelettatura", "slug": "gatti/accessori/toelettatura" }
+          ]
+        },
+        { "name": "Giochi", "slug": "gatti/giochi" },
+        {
+          "name": "Igiene",
+          "slug": "gatti/igiene",
+          "children": [
+            {
+              "name": "Igiene Manto e Cute",
+              "slug": "gatti/igiene/igiene-manto-cute"
+            },
+            { "name": "Igiene Orale", "slug": "gatti/igiene/igiene-orale" }
+          ]
+        },
+        {
+          "name": "Antiparassitari e Curativi",
+          "slug": "gatti/antiparassitari",
+          "children": [
+            {
+              "name": "Antiparassitari",
+              "slug": "gatti/antiparassitari/antiparassitari"
+            },
+            {
+              "name": "Insettorepellenti",
+              "slug": "gatti/antiparassitari/insettorepellenti"
+            },
+            {
+              "name": "Parafarmacia",
+              "slug": "gatti/antiparassitari/parafarmacia"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Piccoli Animali",
+      "slug": "piccoli-animali",
+      "parentId": null,
+      "children": [
+        {
+          "name": "Cibo",
+          "slug": "piccoli-animali/cibo",
+          "children": [
+            { "name": "Cibo Secco", "slug": "piccoli-animali/cibo/cibo-secco" },
+            { "name": "Cibo Umido", "slug": "piccoli-animali/cibo/cibo-umido" },
+            { "name": "Snack", "slug": "piccoli-animali/cibo/snack" },
+            {
+              "name": "Diete Cibo Secco",
+              "slug": "piccoli-animali/cibo/diete-cibo-secco"
+            },
+            {
+              "name": "Diete Cibo Umido",
+              "slug": "piccoli-animali/cibo/diete-cibo-umido"
+            }
+          ]
+        },
+        {
+          "name": "Accessori",
+          "slug": "piccoli-animali/accessori",
+          "children": [
+            {
+              "name": "Abbigliamento",
+              "slug": "piccoli-animali/accessori/abbigliamento"
+            },
+            {
+              "name": "Addestramento",
+              "slug": "piccoli-animali/accessori/addestramento"
+            },
+            {
+              "name": "Contenitori Cibo",
+              "slug": "piccoli-animali/accessori/contenitori-cibo"
+            },
+            {
+              "name": "Toelettatura",
+              "slug": "piccoli-animali/accessori/toelettatura"
+            }
+          ]
+        },
+        { "name": "Giochi", "slug": "piccoli-animali/giochi" },
+        { "name": "Guinzaglieria", "slug": "piccoli-animali/guinzaglieria" },
+        {
+          "name": "Trasportini e Viaggio",
+          "slug": "piccoli-animali/trasportini-e-viaggio"
+        },
+        {
+          "name": "Cucce e Lettini",
+          "slug": "piccoli-animali/cucce-e-lettini"
+        },
+        {
+          "name": "Igiene",
+          "slug": "piccoli-animali/igiene",
+          "children": [
+            {
+              "name": "Igiene Manto e Cute",
+              "slug": "piccoli-animali/igiene/igiene-manto-cute"
+            },
+            {
+              "name": "Igiene Orale",
+              "slug": "piccoli-animali/igiene/igiene-orale"
+            },
+            { "name": "Pannolini", "slug": "piccoli-animali/igiene/pannolini" },
+            {
+              "name": "Sacchetti Igienici",
+              "slug": "piccoli-animali/igiene/sacchetti-igienici"
+            },
+            { "name": "Salviette", "slug": "piccoli-animali/igiene/salviette" }
+          ]
+        }
+      ]
+    }
+  ]
+}

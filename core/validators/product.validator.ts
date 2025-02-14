@@ -17,7 +17,6 @@ export const productSchema = z.object({
   price: z.string(),
   rating: z.number().nullable().optional(),
   banner: z.string().nullable(),
-  categoryId: z.string().uuid().nullable(),
   numReviews: z.number().default(0),
   isFeatured: z.boolean().nullable().optional().default(false),
   createdAt: z.date().default(new Date()),
@@ -30,6 +29,19 @@ export const productSchema = z.object({
   unitValueId: z.string().uuid().optional(),
   unitOfMeasureId: z.string().uuid().optional(),
   productUnitFormat: productUnitFormatSchema.optional(),
+
+  productCategory: z
+    .array(
+      z.object({
+        productId: z.string().uuid(),
+        categoryId: z.string().uuid(),
+        category: z.object({
+          id: z.string().uuid(),
+          name: z.string().min(1, "Category name is required"),
+        }),
+      })
+    )
+    .optional(),
 });
 
 // Schema for inserting products
@@ -48,7 +60,6 @@ export const insertProductSchema = z.object({
   productPathologyId: z.string().uuid().nullable().optional(),
   productProteinOnProduct: z.array(z.string().uuid()).nullable().optional(),
   productsFeatureOnProduct: z.array(z.string().uuid()).nullable().optional(),
-  categoryId: z.string().uuid().nullable(),
   unitValueId: z.string().uuid().nullable().optional(),
   unitOfMeasureId: z.string().uuid().nullable().optional(),
 });

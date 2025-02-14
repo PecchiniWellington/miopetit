@@ -1,11 +1,9 @@
 model Category {
-    id          String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    name        String
-    slug        String  @unique(map: "category_slug_idx")
-    description String?
-
-    createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(6)
-    updatedAt DateTime @updatedAt @map("updated_at")
-
-    Product Product[]
+    id              String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid // ID univoco
+    name            String
+    slug            String            @unique // URL-friendly slug
+    parentId        String?           @db.Uuid
+    parent          Category?         @relation("CategoryParent", fields: [parentId], references: [id], onDelete: Cascade)
+    children        Category[]        @relation("CategoryParent")
+    productCategory ProductCategory[]
 }

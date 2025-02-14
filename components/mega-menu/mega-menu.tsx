@@ -13,27 +13,23 @@ interface IMenuItem {
 }
 
 interface ICategory {
-  title: string;
-  items: IMenuItem[];
+  name: string;
+  slug: string;
+  children?: IMenuItem[];
 }
 
 interface MegaMenuProps {
   data: {
-    mainTitle: string;
-    img: string;
-    menu: ICategory[];
+    name: string;
+    slug: string;
+    children: ICategory[];
   };
   brands?: string[];
-  mainCategory: string;
+  imgSrc: string;
 }
 
-export default function MegaMenu({
-  data,
-  brands = [],
-  mainCategory,
-}: MegaMenuProps) {
+export default function MegaMenu({ data, brands = [], imgSrc }: MegaMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
-  /* const sectionSlug = generateSlug(data.mainTitle); */
 
   return (
     <>
@@ -44,40 +40,53 @@ export default function MegaMenu({
         onMouseLeave={() => setIsOpen(false)}
         onClick={() => setIsOpen(!isOpen)}
       >
-        <Link href={`/${mainCategory}`}>{data.mainTitle}</Link>
+        <Link href={`/${data?.slug}`}>{data?.name}</Link>
       </div>
 
       {isOpen && (
-        <div className="max-w-8xl absolute inset-x-0 top-full grid w-full grid-cols-5 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-lg">
+        <div className="absolute inset-x-0 top-full grid w-full grid-cols-5 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-lg">
           <div
             className="col-span-4 grid w-full grid-cols-4 gap-6 p-6 sm:px-6 md:px-10 lg:mx-auto"
             onMouseEnter={() => setIsOpen(true)}
             onMouseLeave={() => setIsOpen(false)}
             onClick={() => setIsOpen(!isOpen)}
           >
-            {/* Categorie */}
-            <CategorySection menu={data.menu} mainCategory={mainCategory} />
+            {/* Sezione Categorie */}
+            <CategorySection
+              categories={data.children}
+              mainCategory={data.slug}
+            />
+
             {/* Sezione Brand */}
             {brands.length > 0 && (
-              <BrandSection brands={brands} mainTitle={data.mainTitle} />
+              <BrandSection brands={brands} mainTitle={data.name} />
             )}
           </div>
 
-          {/* Immagine principale del menu */}
           <motion.div
-            className="align-center col-span-1 flex justify-center bg-primary-500 bg-gradient-to-r from-indigo-500 to-purple-600 "
+            className="col-span-1 flex justify-center bg-primary-500 bg-gradient-to-r from-indigo-500 to-purple-600 align-bottom"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1 }}
+            transition={{ duration: 0.3 }}
           >
-            <Image
-              height={0}
-              width={0}
-              sizes="100vw"
-              className="mt-auto size-max object-cover object-center"
-              src={data.img}
-              alt={data.mainTitle}
-            />
+            {/* Immagine Principale */}
+            <div className="col-span-1 flex justify-center bg-primary-500 bg-gradient-to-r from-indigo-500 to-purple-600 align-bottom">
+              <motion.div
+                className="mt-auto"
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                <Image
+                  height={0}
+                  width={0}
+                  sizes="100vw"
+                  className="mt-auto size-max object-cover object-center"
+                  src={imgSrc || "/images/placeholder.jpg"}
+                  alt={data.name}
+                />
+              </motion.div>
+            </div>
           </motion.div>
         </div>
       )}

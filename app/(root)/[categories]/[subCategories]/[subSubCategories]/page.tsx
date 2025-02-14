@@ -2,9 +2,9 @@ import { getAllProducts } from "@/core/actions/products";
 import { getProductCategories } from "@/core/actions/products/product-infos.ts/get-product-category.action";
 import { indispensableCat } from "@/core/db-static/indispensable/indispensable-cat";
 import { indispensableDog } from "@/core/db-static/indispensable/indispensable-dog";
-import ConfigCategoryPage from "./config-category-page";
+import ConfigCategoryPage from "../../config-category-page";
 
-const MainCategory = async (props: {
+const SubSubCategories = async (props: {
   searchParams: Promise<{
     q?: string;
     category?: string;
@@ -13,7 +13,12 @@ const MainCategory = async (props: {
     sort: string;
     page: string;
   }>;
-  params: Promise<{ categories: string }>;
+  params: Promise<{
+    categories: string;
+    slug: string;
+    subCategories: string;
+    subSubCategories: string;
+  }>;
 }) => {
   const {
     q = "all",
@@ -23,7 +28,7 @@ const MainCategory = async (props: {
     sort = "newest",
     page = "1",
   } = await props.searchParams;
-  const { categories } = await props.params;
+  const { categories, subCategories, subSubCategories } = await props.params;
 
   const products = await getAllProducts({
     query: q,
@@ -39,6 +44,8 @@ const MainCategory = async (props: {
   if (categories === "cani")
     return (
       <>
+        <h3>{categories + "-" + subCategories + "-" + subSubCategories}</h3>
+
         <ConfigCategoryPage
           indispensable={indispensableDog}
           categories={categories}
@@ -73,4 +80,4 @@ const MainCategory = async (props: {
   else return <div>Category not found</div>;
 };
 
-export default MainCategory;
+export default SubSubCategories;

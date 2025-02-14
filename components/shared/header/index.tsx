@@ -1,8 +1,6 @@
 import CtBanner from "@/components/ct-banner";
 import MegaMenu from "@/components/mega-menu/mega-menu";
-import menuCat from "@/core/db-static/mega-menu/menu-cats.json";
-import menuDog from "@/core/db-static/mega-menu/menu-dogs.json";
-import menuSmallAnimals from "@/core/db-static/mega-menu/menu-small-animals.json";
+import { getAllCategoriesForMegaMenu } from "@/core/actions/products/mega-menu.action";
 import { APP_NAME } from "@/lib/constants";
 import { Heart, ShoppingCart } from "lucide-react";
 import { SessionProvider } from "next-auth/react";
@@ -12,7 +10,12 @@ import Menu from "./menu";
 import Search from "./search";
 import UserButton from "./user-button";
 
-const Header = () => {
+const Header = async () => {
+  const megaMenuCat = await getAllCategoriesForMegaMenu("gatti");
+  const megaMenuDog = await getAllCategoriesForMegaMenu("cani");
+  const megaMenuSmallAnimal =
+    await getAllCategoriesForMegaMenu("piccoli-animali");
+
   return (
     <header className="w-full border-b shadow-md">
       {/* Top Navbar */}
@@ -76,19 +79,22 @@ const Header = () => {
       <div className=" relative z-50  gap-6 bg-white  shadow-md">
         <nav className="wrapper relative z-50 hidden gap-6 bg-white   md:flex">
           <MegaMenu
-            data={menuDog}
-            mainCategory="dog"
+            data={megaMenuDog}
+            imgSrc="/images/dog.png"
+            mainCategory="cane"
             brands={["Royal Canin", "Purina", "Hill’s"]}
           />
           <MegaMenu
-            data={menuCat}
-            mainCategory="cat"
+            data={megaMenuCat}
+            imgSrc="/images/cat.png"
+            mainCategory="gatto"
             brands={["Royal Canin", "Purina", "Hill’s"]}
           />
           <MegaMenu
-            data={menuSmallAnimals}
+            data={megaMenuSmallAnimal}
+            imgSrc="/images/bird.png"
             brands={["Royal Canin", "Purina", "Hill’s"]}
-            mainCategory="small-animals"
+            mainCategory="piccoli animali"
           />
         </nav>
       </div>
