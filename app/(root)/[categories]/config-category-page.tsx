@@ -26,11 +26,7 @@ const ConfigCategoryPage = ({
             animalCategory={categories}
           />
         </section>
-        <section className="mb-6">
-          {/*   <CarouselShared title="Offerte del giorno">
-            <SmallProductCard />
-          </CarouselShared> */}
-        </section>
+        <section className="mb-6"></section>
         <section className="mb-6">
           <CarouselShared title="Scelti per te">
             <SmallProductCard />

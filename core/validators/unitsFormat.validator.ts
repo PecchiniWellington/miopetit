@@ -17,6 +17,7 @@ export const productUnitFormatSchema = z.object({
   unitOfMeasure: unitOfMeasureSchema,
   unitValueId: z.string().uuid(),
   unitMeasureId: z.string().uuid(),
+  slug: z.string(),
 });
 
 export type IUnitValue = z.infer<typeof unitValueSchema>;

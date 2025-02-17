@@ -59,9 +59,6 @@ async function main() {
   console.log(`⏳ Creating categories...`);
 
   async function createCategories(categories, parentId: string | null = null) {
-    console.log("DEBUG categories:", categories); // 🔍 Debug
-    console.log("Type:", typeof categories);
-
     if (!Array.isArray(categories)) {
       throw new Error("❌ categories non è un array!");
     }
@@ -85,9 +82,7 @@ async function main() {
     }
   }
 
-  // Eseguire la creazione delle categorie dalla root
   await createCategories(megaMenuData.data);
-
   console.log(`✅ Categories created successfully!`);
 
   /** GET ALL DATA FOR PRODUCT CREATION **/
@@ -95,7 +90,6 @@ async function main() {
     select: { id: true, slug: true },
   });
 
-  // Verifica che ci siano categorie disponibili
   if (categories.length === 0) {
     console.error(
       "❌ Nessuna categoria trovata! Assicurati che il seed delle categorie sia stato eseguito correttamente."
@@ -120,6 +114,9 @@ async function main() {
     select: { id: true, value: true },
   });
   const unitMeasures = await prisma.unitOfMeasure.findMany({
+    select: { id: true, code: true },
+  });
+  const productPathologies = await prisma.productPathology.findMany({
     select: { id: true },
   });
 
@@ -129,10 +126,14 @@ async function main() {
     unitValues.map(async (unitValue) => {
       const randomUnitMeasure =
         unitMeasures[Math.floor(Math.random() * unitMeasures.length)];
+
+      const slug = `${unitValue.value}-${randomUnitMeasure.code}`.toLowerCase();
+
       return await prisma.productUnitFormat.create({
         data: {
           unitValueId: unitValue.id,
           unitMeasureId: randomUnitMeasure.id,
+          slug: slug,
         },
       });
     })
@@ -154,12 +155,11 @@ async function main() {
     const selectedProteins = productProteinsData
       .sort(() => 0.5 - Math.random())
       .slice(0, numRandom);
-    const selectedPathologies = await prisma.productPathology.findMany({
-      select: { id: true, name: true },
-    });
+
     const selectedFeature = productFeatures
       .sort(() => 0.5 - Math.random())
       .slice(0, numRandom);
+
     const randomProductUnitFormat =
       productUnitFormats[Math.floor(Math.random() * productUnitFormats.length)];
 
@@ -167,7 +167,6 @@ async function main() {
     const randomAnimalAge =
       animalAges[Math.floor(Math.random() * animalAges.length)];
 
-    // Selezioniamo una categoria valida in modo sicuro
     const randomCategory = categories.length
       ? categories[Math.floor(Math.random() * categories.length)]
       : null;
@@ -177,6 +176,18 @@ async function main() {
         `❌ Errore: nessuna categoria valida per il prodotto ${product.name}`
       );
       continue;
+    }
+
+    // ✅ Seleziona 1-3 patologie casuali
+    let randomPathologies = [];
+    if (productPathologies.length > 0) {
+      const numPathologies = Math.min(
+        Math.floor(Math.random() * 3) + 1,
+        productPathologies.length
+      );
+      randomPathologies = productPathologies
+        .sort(() => 0.5 - Math.random())
+        .slice(0, numPathologies);
     }
 
     const createdProduct = await prisma.product.create({
@@ -210,12 +221,14 @@ async function main() {
             productProtein: { connect: { id: protein.id } },
           })),
         },
-
         productPathologyOnProduct: {
-          create: selectedPathologies.map((pathology) => ({
+          create: randomPathologies.map((pathology) => ({
             pathology: { connect: { id: pathology.id } },
           })),
         },
+        // ✅ Inseriamo anche productPathologyId nel modello prodotto!
+        productPathologyId:
+          randomPathologies.length > 0 ? randomPathologies[0].id : null,
       },
     });
 

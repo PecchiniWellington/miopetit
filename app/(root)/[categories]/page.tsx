@@ -21,13 +21,13 @@ const MainCategory = async ({
   );
 
   const productFilters = await getFiltersForCategory(categories);
+
   const productBySlug = await getAllProductsBySlug({
     slug: categories,
     query: queries,
   });
 
-  console.log("QUERIES", queries);
-
+  console.log("PRODUCT SLUG:", productBySlug);
   return (
     <>
       <ConfigCategoryPage

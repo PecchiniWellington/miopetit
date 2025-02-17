@@ -2,6 +2,7 @@ model ProductUnitFormat {
     id            String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     unitValueId   String @db.Uuid
     unitMeasureId String @db.Uuid
+    slug          String @unique
 
     unitValue     UnitValue     @relation(fields: [unitValueId], references: [id], onDelete: Cascade)
     unitOfMeasure UnitOfMeasure @relation(fields: [unitMeasureId], references: [id], onDelete: Cascade)

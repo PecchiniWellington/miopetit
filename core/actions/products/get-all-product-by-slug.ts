@@ -1,6 +1,5 @@
 import { prisma } from "@/core/prisma/prisma";
 import { convertToPlainObject } from "@/lib/utils";
-import console from "console";
 
 // Tipizzazione dei query params
 export type IQueryParams = {
@@ -33,11 +32,6 @@ export async function getAllProductsBySlug({
   slug: string;
 }) {
   try {
-    console.log(
-      `🔍 Ricerca prodotti per categoria: ${slug}, con query:`,
-      query
-    );
-
     // Trova la categoria principale tramite slug
     const mainCategory = await prisma.category.findFirst({
       where: { slug },
@@ -49,13 +43,9 @@ export async function getAllProductsBySlug({
       return { data: [], totalPages: 0, totalProducts: 0 };
     }
 
-    console.log(`✅ Categoria principale trovata: ${mainCategory.id}`);
-
     // Trova tutte le sottocategorie ricorsivamente
     const subCategoryIds = await getAllSubCategoryIds(mainCategory.id);
     const categoryIds = [mainCategory.id, ...subCategoryIds];
-
-    console.log(`✅ Trovate ${categoryIds.length} categorie associate.`);
 
     // Costruisce dinamicamente il filtro WHERE in base ai parametri ricevuti
     const where: any = {
@@ -71,28 +61,75 @@ export async function getAllProductsBySlug({
       where.animalAge = query.animalAge; // Filtra per età dell'animale
     }
 
-    if (query.brand) {
-      where.productBrand = {
-        some: {
-          id: query.brand,
-        },
-      };
+    if (query.productBrand) {
+      const productBrand = await prisma.productBrand.findFirst({
+        where: { slug: query.productBrand },
+        select: { id: true },
+      });
+
+      if (productBrand) {
+        where.productBrandId = productBrand.id;
+      } else {
+        console.warn(
+          `⚠️ Nessun brand trovato per slug: ${query.productFormats}`
+        );
+      }
     }
 
-    if (query.unit) {
-      where.productUnitFormat = {
-        some: {
-          unitValue: { equals: parseFloat(query.unit) },
+    if (query.productFormats) {
+      // Trova l'UUID del formato unitario a partire dallo slug
+      const productFormat = await prisma.productUnitFormat.findFirst({
+        where: {
+          slug: query.productFormats, // Cerca lo slug nel DB
         },
-      };
+        select: { id: true },
+      });
+
+      if (productFormat) {
+        where.productUnitFormatId = productFormat.id;
+      } else {
+        console.warn(
+          `⚠️ Nessun formato trovato per slug: ${query.productFormats}`
+        );
+      }
     }
 
-    if (query.pathologies) {
-      where.productPathologies = {
-        some: {
-          id: query.pathologies,
-        },
-      };
+    if (query.productPathologies) {
+      // Trova l'UUID della patologia usando lo slug
+      const productPathology = await prisma.productPathology.findUnique({
+        where: { slug: query.productPathologies },
+        select: { id: true },
+      });
+
+      if (productPathology?.id) {
+        where.productPathologyOnProduct = {
+          some: {
+            pathologyId: productPathology.id,
+          },
+        };
+      } else {
+        console.warn(
+          `⚠️ Nessuna patologia trovata per slug: ${query.productPathologies}`
+        );
+      }
+    }
+    if (query.productProteins) {
+      const productProteins = await prisma.productProtein.findUnique({
+        where: { slug: query.productProteins },
+        select: { id: true },
+      });
+
+      if (productProteins?.id) {
+        where.productProteinOnProduct = {
+          some: {
+            productProteinId: productProteins.id,
+          },
+        };
+      } else {
+        console.warn(
+          `⚠️ Nessuna patologia trovata per slug: ${query.productProteins}`
+        );
+      }
     }
 
     if (query.price) {
@@ -102,8 +139,6 @@ export async function getAllProductsBySlug({
         lte: max || Number.MAX_SAFE_INTEGER,
       };
     }
-
-    console.log("🔎 Filtro applicato:", where);
 
     // Trova i prodotti filtrati
     const data = await prisma.product.findMany({
@@ -136,6 +171,7 @@ export async function getAllProductsBySlug({
             id: item.productUnitFormat.id,
             unitValue: item.productUnitFormat.unitValue.value,
             unitOfMeasure: item.productUnitFormat.unitOfMeasure.code,
+            slug: item.productUnitFormat.slug,
           }
         : null,
     }));

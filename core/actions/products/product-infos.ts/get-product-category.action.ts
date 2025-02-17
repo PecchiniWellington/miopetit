@@ -188,27 +188,35 @@ export async function getFiltersForCategory(categorySlug: string) {
           id: true,
           unitValue: { select: { value: true } },
           unitOfMeasure: { select: { code: true } },
+          slug: true,
         },
       })
     ).map((unit) => ({
       id: unit.id,
       unitValue: unit.unitValue?.value ?? null,
       unitOfMeasure: unit.unitOfMeasure?.code ?? null,
+      slug: unit.slug,
     })),
-    productBrand: await prisma.productBrand.findMany({
-      where: {
-        id: {
-          in: Array.from(
-            new Set(
-              filters
-                .map((f) => f.productBrandId)
-                .filter((id): id is string => id !== null)
-            )
-          ),
+    productBrand: (
+      await prisma.productBrand.findMany({
+        where: {
+          id: {
+            in: Array.from(
+              new Set(
+                filters
+                  .map((f) => f.productBrandId)
+                  .filter((id): id is string => id !== null)
+              )
+            ),
+          },
         },
-      },
-      select: { id: true, name: true },
-    }),
+        select: { id: true, name: true, slug: true },
+      })
+    ).map((brand) => ({
+      id: brand.id,
+      name: brand.name,
+      slug: brand.slug,
+    })),
     productPathologies: Array.from(
       new Map(
         (
@@ -218,12 +226,34 @@ export async function getFiltersForCategory(categorySlug: string) {
             },
             select: {
               pathologyId: true,
-              pathology: { select: { name: true } },
+              pathology: { select: { name: true, slug: true } },
             },
           })
         ).map((r) => [
           r.pathologyId,
-          { id: r.pathologyId, name: r.pathology.name },
+          { id: r.pathologyId, name: r.pathology.name, slug: r.pathology.slug },
+        ])
+      ).values()
+    ),
+    productProteins: Array.from(
+      new Map(
+        (
+          await prisma.productProteinOnProduct.findMany({
+            where: {
+              productId: { in: productIds },
+            },
+            select: {
+              productProteinId: true,
+              productProtein: { select: { name: true, slug: true } },
+            },
+          })
+        ).map((r) => [
+          r.productProteinId,
+          {
+            id: r.productProteinId,
+            name: r.productProtein.name,
+            slug: r.productProtein.slug,
+          },
         ])
       ).values()
     ),
