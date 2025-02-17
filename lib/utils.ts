@@ -1,4 +1,3 @@
-import { ICategory, IUser } from "@/core/validators";
 import { clsx, type ClassValue } from "clsx";
 import qs from "query-string";
 import { twMerge } from "tailwind-merge";
@@ -167,29 +166,6 @@ export const currency = z
     "Price must have exactly two decimal places"
   );
 
-export function mapUsersForDatabase(users: IUser[]) {
-  return users.map((user) => ({
-    name: user.name || "NO_NAME", // Default se manca il nome
-    email: user.email,
-    emailVerified: user.emailVerified ? new Date(user.emailVerified) : null, // Converte in Date o `null`
-    image: user.image || null, // Converte stringhe vuote in `null`
-    password: user.password, // Mantiene la password così com'è
-    role: user.role?.toUpperCase() === "ADMIN" ? "ADMIN" : "USER", // Assicura che il ruolo sia valido
-    address: user.address ? JSON.parse(user.address.toString()) : null, // Se è una stringa JSON, la converte
-    paymentMethod: user.paymentMethod || null, // Converte stringhe vuote in `null`
-  }));
-}
-
-export function formatCategoriesData(data: ICategory[]) {
-  return data.map((item) => ({
-    name: item.name?.trim() || "Unnamed Category", // ✅ Assicura che il nome sia presente
-    slug: item.slug?.trim().toLowerCase() || "default-slug", // ✅ Normalizza lo slug
-    description: item.description || null,
-    createdAt: new Date(), // ✅ Prisma accetta il formato `Date`
-    updatedAt: new Date(),
-  }));
-}
-
 export function generateSlug(input: string): string {
   return input
     .toLowerCase() // Converti tutto in minuscolo
@@ -222,4 +198,9 @@ export function formatValidationError(errorJson: string) {
   } catch {
     return { error: "Errore nel parsing del messaggio di errore." };
   }
+}
+export function transformKey(key: string): string {
+  return key
+    .replace(/^Product/, "") // Rimuove "Product" se presente
+    .replace(/([a-z])([A-Z])/g, "$1 $2"); // Separa camelCase con spazio
 }

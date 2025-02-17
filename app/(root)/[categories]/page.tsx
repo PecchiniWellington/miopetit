@@ -1,88 +1,49 @@
-import { getAllProducts } from "@/core/actions/products";
 import { getAllProductsBySlug } from "@/core/actions/products/get-all-product-by-slug";
 import { getFiltersForCategory } from "@/core/actions/products/product-infos.ts/get-product-category.action";
-import { indispensableCat } from "@/core/db-static/indispensable/indispensable-cat";
+import { IQueryParams } from "@/core/actions/types";
 import { indispensableDog } from "@/core/db-static/indispensable/indispensable-dog";
 import ConfigCategoryPage from "./config-category-page";
 
-const MainCategory = async (props: {
-  searchParams: Promise<{
-    q?: string;
-    category?: string;
-    price?: string;
-    rating?: string;
-    sort: string;
-    page: string;
-  }>;
-  params: Promise<{ categories: string }>;
+const MainCategory = async ({
+  searchParams,
+  params,
+}: {
+  searchParams: { [key: string]: string | string[] };
+  params: { categories: string };
 }) => {
-  const {
-    q = "all",
-    category = "all",
-    price = "all",
-    rating = "all",
-    sort = "newest",
-    page = "1",
-  } = await props.searchParams;
-  const { categories } = await props.params;
+  const { categories } = params;
 
-  const products = await getAllProducts({
-    query: q,
-    page: Number(page),
-    category,
-    price,
-    rating,
-    sort,
-  });
+  const queries: IQueryParams = Object.fromEntries(
+    Object.entries(searchParams).map(([key, value]) => [
+      key,
+      Array.isArray(value) ? value.join(",") : value.toString(),
+    ])
+  );
 
   const productFilters = await getFiltersForCategory(categories);
   const productBySlug = await getAllProductsBySlug({
     slug: categories,
-    query: q,
-    page: Number(page),
-    /*  category, */
-    price,
-    rating,
-    sort,
+    query: queries,
   });
 
-  console.log("productFilters", productFilters);
+  console.log("QUERIES", queries);
 
-  if (categories === "cani")
-    return (
-      <>
-        <ConfigCategoryPage
-          indispensable={indispensableDog}
-          categories={categories}
-          categoriesData={productFilters}
-          products={productBySlug}
-          price={price}
-          rating={rating}
-          sort={sort}
-          page={page}
-          category={category}
-          q={q}
-        />
-      </>
-    );
-  else if (categories === "gatti")
-    return (
-      <>
-        <ConfigCategoryPage
-          indispensable={indispensableCat}
-          categories={categories}
-          categoriesData={productFilters}
-          products={productBySlug}
-          price={price}
-          rating={rating}
-          sort={sort}
-          page={page}
-          category={category}
-          q={q}
-        />
-      </>
-    );
-  else return <div>Category not found</div>;
+  return (
+    <>
+      <ConfigCategoryPage
+        indispensable={indispensableDog}
+        categories={"cani"}
+        categoriesData={productFilters}
+        products={productBySlug}
+        price={1}
+        rating={1}
+        sort={1}
+        page={1}
+        category={"cani"}
+        q={"all"}
+      />
+    </>
+  );
 };
 
 export default MainCategory;

@@ -8,45 +8,53 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { STATUS } from "@/lib/constants";
+import { transformKey } from "@/lib/utils";
 import { FilterIcon, X } from "lucide-react";
-import Link from "next/link";
-import { useState } from "react";
-
-const ratings = [4, 3, 2, 1];
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const Filter = ({
   categories,
   slug,
   className,
 }: {
-  categories: any;
+  categories: unknown[];
   filters?: { [key: string]: string };
   slug: string;
   className?: string;
 }) => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [selectedFilters, setSelectedFilters] = useState<{
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [key: string]: any;
+  }>({});
 
-  // Assicura che filters abbia almeno i valori di default per evitare errori
-  const activeFilters = {
-    price: categories.price || "all",
-    rating: categories.rating || "all",
-    ...categories,
-  };
+  console.log("Categorie:", categories);
+  const router = useRouter();
 
-  // Funzione per mantenere i filtri esistenti senza sovrascriverli
-  const getFilterUrl = (param: string, value: string) => {
-    const searchParams =
-      typeof window !== "undefined"
-        ? new URLSearchParams(window.location.search)
-        : new URLSearchParams();
+  useEffect(() => {
+    // Aggiorna l'URL ogni volta che selectedFilters cambia
+    const params = new URLSearchParams();
 
-    if (value === "all") {
-      searchParams.delete(param); // Rimuove il filtro se è "all"
-    } else {
-      searchParams.set(param, value); // Aggiunge o aggiorna il filtro
-    }
+    Object.entries(selectedFilters).forEach(([key, value]) => {
+      if (value !== "all") {
+        params.set(key, value);
+      }
+    });
 
-    return `/${slug}?${searchParams.toString()}`;
+    router.push(`/${slug}?${params.toString()}`, { scroll: false });
+  }, [selectedFilters, router, slug]);
+
+  const updateFilters = (key: string, value: string) => {
+    setSelectedFilters((prevFilters) => {
+      const updatedFilters = {
+        ...prevFilters,
+        [key]: value, // Sovrascrive il valore se la chiave esiste, altrimenti la aggiunge
+      };
+
+      console.log("Filtri aggiornati:", updatedFilters);
+      return updatedFilters;
+    });
   };
 
   return (
@@ -74,23 +82,28 @@ const Filter = ({
 
         <div>
           {/* Filtri Generali */}
-
-          {Object.entries(activeFilters).map(([key, values]) =>
+          {Object.entries(categories).map(([key, values]) =>
             key !== "category" ? (
               <Accordion key={key} type="single" collapsible className="w-full">
                 <AccordionItem value={key}>
                   <AccordionTrigger className="text-lg font-semibold">
-                    {key.charAt(0).toUpperCase() + key.slice(1)}
+                    {transformKey(key.charAt(0).toUpperCase() + key.slice(1))}
                   </AccordionTrigger>
                   <AccordionContent>
                     <ul>
-                      {Array.isArray(values) ? (
+                      {Array.isArray(values) &&
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         values.map((value: any) => (
                           <li key={value.id || value}>
-                            <Link
-                              scroll={false}
-                              href={getFilterUrl(key, value.id || value)}
-                              className="block rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100"
+                            <button
+                              onClick={() =>
+                                updateFilters(key, value.id || value)
+                              }
+                              className={`block w-full rounded-lg px-3 py-2 text-left text-gray-700 hover:bg-gray-100 ${
+                                selectedFilters[key] === (value.id || value)
+                                  ? "bg-gray-200"
+                                  : ""
+                              }`}
                             >
                               <BadgeStatus status={STATUS.PRIMARY_ACTIVE}>
                                 {typeof value === "object"
@@ -98,76 +111,15 @@ const Filter = ({
                                     `${value.unitValue} ${value.unitOfMeasure}`
                                   : value}
                               </BadgeStatus>
-                            </Link>
+                            </button>
                           </li>
-                        ))
-                      ) : key === "price" && values !== "all" ? (
-                        <li>
-                          <Link
-                            scroll={false}
-                            href={getFilterUrl(
-                              key,
-                              `${values.min}-${values.max}`
-                            )}
-                            className="block rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100"
-                          >
-                            <BadgeStatus
-                              status={STATUS.PRIMARY_ACTIVE}
-                            >{`€${values.min} - €${values.max}`}</BadgeStatus>
-                          </Link>
-                        </li>
-                      ) : null}
+                        ))}
                     </ul>
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
             ) : null
           )}
-
-          {/* Valutazioni */}
-          <Accordion type="single" collapsible className="w-full">
-            <AccordionItem value="ratings">
-              <AccordionTrigger className="text-lg font-semibold">
-                Recensioni
-              </AccordionTrigger>
-              <AccordionContent>
-                <ul className="space-y-2">
-                  <li>
-                    <Link
-                      scroll={false}
-                      href={getFilterUrl("rating", "all")}
-                      className="block rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100"
-                    >
-                      {activeFilters.rating === "all" ? (
-                        <BadgeStatus status={STATUS.PRIMARY_ACTIVE}>
-                          Tutte
-                        </BadgeStatus>
-                      ) : (
-                        "Tutte"
-                      )}
-                    </Link>
-                  </li>
-                  {ratings.map((r) => (
-                    <li key={r}>
-                      <Link
-                        scroll={false}
-                        href={getFilterUrl("rating", `${r}`)}
-                        className="block rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100"
-                      >
-                        {activeFilters.rating === r.toString() ? (
-                          <BadgeStatus
-                            status={STATUS.PRIMARY_ACTIVE}
-                          >{`${r} Stelle & più`}</BadgeStatus>
-                        ) : (
-                          `${r} Stelle & più`
-                        )}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
         </div>
       </aside>
     </div>

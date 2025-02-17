@@ -136,16 +136,14 @@ export async function getCategoryProductIds(categorySlug: string) {
       subCategoryIds.map((id) => getAllSubCategoryIds(id))
     ).then((results) => results.flat());
 
-    return subCategoryIds.concat(deepSubCategoryIds.flat()); // 🔗 Unisce tutte le categorie
+    return subCategoryIds.concat(deepSubCategoryIds.flat());
   }
 
-  // 🔥 Trova tutte le sottocategorie
   const allCategoryIds = [
     mainCategory.id,
     ...(await getAllSubCategoryIds(mainCategory.id)),
   ];
 
-  // 🏷️ Trova tutti i prodotti associati a queste categorie
   const productCategories = await prisma.productCategory.findMany({
     where: { categoryId: { in: allCategoryIds } },
     select: { productId: true },
@@ -157,7 +155,7 @@ export async function getCategoryProductIds(categorySlug: string) {
 export async function getFiltersForCategory(categorySlug: string) {
   const productIds = await getCategoryProductIds(categorySlug);
 
-  if (productIds.length === 0) return {}; // Se non ci sono prodotti, nessun filtro
+  if (productIds.length === 0) return {};
 
   const filters = await prisma.product.groupBy({
     by: [
@@ -172,8 +170,8 @@ export async function getFiltersForCategory(categorySlug: string) {
   });
 
   return convertToPlainObject({
-    age: Array.from(new Set(filters.map((f) => f.animalAge))),
-    unit: (
+    animalAge: Array.from(new Set(filters.map((f) => f.animalAge))),
+    productFormats: (
       await prisma.productUnitFormat.findMany({
         where: {
           id: {
@@ -197,7 +195,7 @@ export async function getFiltersForCategory(categorySlug: string) {
       unitValue: unit.unitValue?.value ?? null,
       unitOfMeasure: unit.unitOfMeasure?.code ?? null,
     })),
-    brand: await prisma.productBrand.findMany({
+    productBrand: await prisma.productBrand.findMany({
       where: {
         id: {
           in: Array.from(
@@ -211,7 +209,7 @@ export async function getFiltersForCategory(categorySlug: string) {
       },
       select: { id: true, name: true },
     }),
-    pathologies: Array.from(
+    productPathologies: Array.from(
       new Map(
         (
           await prisma.productPathologyOnProduct.findMany({

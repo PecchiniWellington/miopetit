@@ -1,7 +1,11 @@
 import { prisma } from "@/core/prisma/prisma";
-import { PAGE_SIZE } from "@/lib/constants";
 import { convertToPlainObject } from "@/lib/utils";
-import { Prisma } from "@prisma/client";
+import console from "console";
+
+// Tipizzazione dei query params
+export type IQueryParams = {
+  [key: string]: string;
+};
 
 // Funzione ricorsiva per ottenere tutte le sottocategorie di una categoria
 async function getAllSubCategoryIds(parentId: string): Promise<string[]> {
@@ -20,25 +24,20 @@ async function getAllSubCategoryIds(parentId: string): Promise<string[]> {
   return subCategoryIds.concat(deepSubCategoryIds.flat());
 }
 
-// Ottieni tutti i prodotti per categoria e sottocategorie
+// Ottieni tutti i prodotti per categoria e sottocategorie, con filtri dinamici
 export async function getAllProductsBySlug({
   query,
   slug,
-  limit = PAGE_SIZE,
-  page,
-  price,
-  rating,
-  sort,
 }: {
-  query: string;
+  query: IQueryParams;
   slug: string;
-  limit?: number;
-  page: number;
-  price?: string;
-  rating?: string;
-  sort?: string;
 }) {
   try {
+    console.log(
+      `🔍 Ricerca prodotti per categoria: ${slug}, con query:`,
+      query
+    );
+
     // Trova la categoria principale tramite slug
     const mainCategory = await prisma.category.findFirst({
       where: { slug },
@@ -58,56 +57,61 @@ export async function getAllProductsBySlug({
 
     console.log(`✅ Trovate ${categoryIds.length} categorie associate.`);
 
-    // Filtri
-    const queryFilter: Prisma.ProductWhereInput =
-      query && query !== "all"
-        ? {
-            name: {
-              contains: query,
-              mode: "insensitive",
-            } as Prisma.StringFilter,
-          }
-        : {};
-
-    const categoryFilter: Prisma.ProductWhereInput = {
+    // Costruisce dinamicamente il filtro WHERE in base ai parametri ricevuti
+    const where: any = {
       productCategory: {
         some: {
-          categoryId: { in: categoryIds },
+          categoryId: { in: categoryIds }, // Filtra per categoria
         },
       },
     };
 
-    const priceFilter: Prisma.ProductWhereInput =
-      price && price.includes("-")
-        ? {
-            price: {
-              gte: parseFloat(price.split("-")[0]) || 0,
-              lte: parseFloat(price.split("-")[1]) || Infinity,
-            },
-          }
-        : {};
+    // Applica filtri dinamici
+    if (query.animalAge) {
+      where.animalAge = query.animalAge; // Filtra per età dell'animale
+    }
 
-    const ratingFilter: Prisma.ProductWhereInput =
-      rating && !isNaN(Number(rating))
-        ? {
-            rating: {
-              gte: parseFloat(rating),
-            },
-          }
-        : {};
+    if (query.brand) {
+      where.productBrand = {
+        some: {
+          id: query.brand,
+        },
+      };
+    }
+
+    if (query.unit) {
+      where.productUnitFormat = {
+        some: {
+          unitValue: { equals: parseFloat(query.unit) },
+        },
+      };
+    }
+
+    if (query.pathologies) {
+      where.productPathologies = {
+        some: {
+          id: query.pathologies,
+        },
+      };
+    }
+
+    if (query.price) {
+      const [min, max] = query.price.split("-").map(Number);
+      where.price = {
+        gte: min || 0,
+        lte: max || Number.MAX_SAFE_INTEGER,
+      };
+    }
+
+    console.log("🔎 Filtro applicato:", where);
 
     // Trova i prodotti filtrati
     const data = await prisma.product.findMany({
-      where: {
-        ...queryFilter,
-        ...categoryFilter,
-        ...priceFilter,
-        ...ratingFilter,
-      },
+      where,
       include: {
         productCategory: {
           include: {
-            category: true, // Include le categorie associate ai prodotti
+            category: true,
           },
         },
         productUnitFormat: {
@@ -118,21 +122,6 @@ export async function getAllProductsBySlug({
         },
         productBrand: true,
       },
-      orderBy:
-        sort === "lowest"
-          ? { price: "asc" }
-          : sort === "highest"
-            ? { price: "desc" }
-            : sort === "rating"
-              ? { rating: "desc" }
-              : { createdAt: "desc" },
-      skip: (page - 1) * limit,
-      take: limit,
-    });
-
-    // Conta il numero totale di prodotti
-    const productCount = await prisma.product.count({
-      where: categoryFilter,
     });
 
     // Formatta i dati
@@ -153,8 +142,6 @@ export async function getAllProductsBySlug({
 
     return {
       data: convertToPlainObject(updatedData),
-      totalPages: Math.ceil(productCount / limit),
-      totalProducts: productCount,
     };
   } catch (error) {
     console.error("❌ Errore durante il fetch dei prodotti:", error);
