@@ -9,9 +9,9 @@ const MainCategory = async ({
   params,
 }: {
   searchParams: { [key: string]: string | string[] };
-  params: { categories: string };
+  params: { categories: string; sort: string };
 }) => {
-  const { categories } = params;
+  const { categories } = await params;
 
   const queries: IQueryParams = Object.fromEntries(
     Object.entries(searchParams).map(([key, value]) => [
@@ -27,22 +27,13 @@ const MainCategory = async ({
     query: queries,
   });
 
-  console.log("PRODUCT SLUG:", productBySlug);
   return (
-    <>
-      <ConfigCategoryPage
-        indispensable={indispensableDog}
-        categories={"cani"}
-        categoriesData={productFilters}
-        products={productBySlug}
-        price={1}
-        rating={1}
-        sort={1}
-        page={1}
-        category={"cani"}
-        q={"all"}
-      />
-    </>
+    <ConfigCategoryPage
+      indispensable={indispensableDog}
+      mainCategory={categories}
+      categoriesData={productFilters}
+      products={productBySlug}
+    />
   );
 };
 

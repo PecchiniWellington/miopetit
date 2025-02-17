@@ -12,39 +12,19 @@ import { useFilterContext } from "@/context/filter-context";
 import { STATUS } from "@/lib/constants";
 import { transformKey } from "@/lib/utils";
 import { FilterIcon, X } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 
 const Filter = ({
-  categories,
-  slug,
+  categoriesData,
   className,
-  onFilterChange,
 }: {
-  categories: unknown[];
-  slug: string;
+  categoriesData: unknown[];
+
   className?: string;
-  onFilterChange: (filters: { [key: string]: any }) => void;
 }) => {
-  const { filters, updateFilters, isAccordionOpen, setIsAccordionOpen } =
+  const { updateFilters, isAccordionOpen, setIsAccordionOpen } =
     useFilterContext();
-  const router = useRouter();
   const searchParams = useSearchParams();
-
-  // ✅ Evitiamo loop infiniti aggiornando solo se `filters` cambia
-  useEffect(() => {
-    const params = new URLSearchParams();
-    Object.entries(filters).forEach(([key, value]) => {
-      if (value !== "all") {
-        params.set(key, value);
-      }
-    });
-
-    router.push(`/${slug}?${params.toString()}`, { scroll: false });
-
-    onFilterChange(filters);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filters, router, slug]);
 
   return (
     <div className={`w-full ${className}`}>
@@ -68,19 +48,27 @@ const Filter = ({
         </Button>
 
         <div>
-          {Object.entries(categories).map(([key, values]) =>
-            key !== "category" ? (
-              <Accordion key={key} type="single" collapsible className="w-full">
-                <AccordionItem value={key}>
-                  <AccordionTrigger className="text-lg font-semibold">
-                    {transformKey(key.charAt(0).toUpperCase() + key.slice(1))}
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <ul>
-                      {Array.isArray(values) &&
-                        values.map((value: any) => {
-                          // ✅ Usa lo slug se disponibile, altrimenti usa l'ID
-                          const filterValue = value.slug || value.id || value;
+          {Object.entries(categoriesData).map(([key, values]) => (
+            <Accordion key={key} type="single" collapsible className="w-full">
+              <AccordionItem value={key}>
+                <AccordionTrigger className="text-lg font-semibold">
+                  {transformKey(key.charAt(0).toUpperCase() + key.slice(1))}
+                </AccordionTrigger>
+                <AccordionContent>
+                  <ul>
+                    {Array.isArray(values) &&
+                      values.map(
+                        (value: {
+                          slug: string;
+                          id: string;
+                          name: string;
+                          unitValue: string;
+                          unitOfMeasure: string;
+                        }) => {
+                          const filterValue =
+                            value.slug ||
+                            value.id ||
+                            (typeof value === "string" ? value : "");
                           const isActive =
                             searchParams.get(key) === filterValue;
 
@@ -107,13 +95,13 @@ const Filter = ({
                               </Button>
                             </li>
                           );
-                        })}
-                    </ul>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            ) : null
-          )}
+                        }
+                      )}
+                  </ul>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          ))}
         </div>
       </aside>
     </div>

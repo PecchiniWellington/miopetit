@@ -8,19 +8,12 @@ import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { Button } from "../ui/button";
 
-const ActiveFilters = ({}: {
-  slug: string;
-  selectedFilters: { [key: string]: any };
-}) => {
+const ActiveFilters = () => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
 
   const { filters, resetFilters, setIsAccordionOpen } = useFilterContext();
 
-  // Estrai i filtri dall'URL
-  /* const filters = Object.fromEntries(searchParams.entries()); */
-
-  // Mappa degli stati per i filtri
   const filterStatusMap: { [key: string]: string } = {
     q: STATUS.PRIMARY,
     category: STATUS.SUCCESS,
@@ -28,7 +21,6 @@ const ActiveFilters = ({}: {
     rating: STATUS.DEFAULT,
   };
 
-  // Funzione per rimuovere un filtro specifico mantenendo gli altri
   const getUpdatedFilterUrl = (paramToRemove: string) => {
     const params = new URLSearchParams(searchParams.toString());
     params.delete(paramToRemove);

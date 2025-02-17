@@ -1,81 +1,44 @@
 "use client";
 
 import CustomProduct from "@/components/shared/product/customProduct";
+import { FilterProvider } from "@/context/filter-context";
 import { IProduct } from "@/core/validators";
-import { useState } from "react";
 import ActiveFilters from "./active-filters";
 import Filter from "./filter";
 import SortProduct from "./sort-product";
-import { FilterProvider } from "@/context/filter-context";
 
 const CategoryType = ({
-  q,
-  slug,
   products,
-  price,
-  rating,
-  sort,
-  page,
-  category,
-  categories,
+  categoriesData,
+  mainCategory,
 }: {
-  q: string;
-  slug: string;
+  mainCategory: string;
   products: IProduct[];
-  price: string;
-  rating: string;
-  sort: string;
-  page: string;
-  category: string;
-
-  categories: {
+  categoriesData: {
     _count: number;
     categoryId: string;
-    category: {
-      id: string;
-      name: string;
-      slug: string;
-    };
   }[];
 }) => {
-  const [selectedFilters, setSelectedFilters] = useState<{
-    [key: string]: any;
-  }>({});
-
-  // Funzione per aggiornare i filtri selezionati
-  const handleFilterChange = (filters: { [key: string]: any }) => {
-    setSelectedFilters(filters);
-  };
-
   return (
     <div className="relative grid grid-cols-1 items-start gap-6 md:grid-cols-5">
-      {/* Sidebar */}
       <FilterProvider>
         <aside className="sticky top-2 flex w-full gap-4">
-          <Filter
-            categories={categories}
-            q={"all"}
-            slug={slug}
-            price={price}
-            rating={rating}
-            sort={sort}
-            page={page}
-            category={category}
-            className="w-full flex-1"
-            onFilterChange={handleFilterChange} // ✅ Passiamo la funzione di aggiornamento
+          <Filter categoriesData={categoriesData} className="w-full flex-1" />
+          <SortProduct
+            mainCategory={mainCategory}
+            className="flex-1 md:hidden"
           />
-          <SortProduct sort={sort} slug={slug} className="flex-1 md:hidden" />
         </aside>
 
-        {/* Contenuto principale */}
         <main className="space-y-6 md:col-span-4">
-          {/* Filtri attivi e ordinamento */}
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-            <ActiveFilters slug={slug} selectedFilters={selectedFilters} />
-            <SortProduct sort={sort} slug={slug} className="hidden md:block" />
+            <ActiveFilters />
+            <SortProduct
+              mainCategory={mainCategory}
+              className="hidden md:block"
+            />
           </div>
 
-          {/* Griglia prodotti */}
           <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
             {products.length === 0 ? (
               <div className="col-span-full text-center text-gray-500">

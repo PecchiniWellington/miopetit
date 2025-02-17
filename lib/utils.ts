@@ -204,3 +204,22 @@ export function transformKey(key: string): string {
     .replace(/^Product/, "") // Rimuove "Product" se presente
     .replace(/([a-z])([A-Z])/g, "$1 $2"); // Separa camelCase con spazio
 }
+
+export const generatePriceRanges = (
+  min: number,
+  max: number,
+  step: number = 10
+) => {
+  const ranges = [];
+  const start = Math.floor(min / step) * step;
+  const end = Math.ceil(max / step) * step;
+
+  for (let i = start; i < end; i += step) {
+    ranges.push({
+      label: `${i}-${i + step} €`,
+      value: `${i}-${i + step}`,
+    });
+  }
+
+  return ranges;
+};

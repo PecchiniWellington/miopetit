@@ -2,26 +2,30 @@
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 const sortOrders = ["newest", "lowest", "highest", "rating"];
 
 const SortProduct = ({
-  sort,
-  slug,
+  mainCategory,
   className,
 }: {
-  sort: string;
-  slug: string;
+  mainCategory?: string;
   className: string;
 }) => {
   const [isSortOpen, setIsSortOpen] = useState(false);
+  const searchParams = useSearchParams();
+  const currentSort = searchParams.get("sort") || "newest"; // ✅ Prende il valore dall'URL
 
   const getFilterUrl = ({ s }: { s?: string }) => {
-    const params = { sort };
-    if (s) params.sort = s;
-
-    return `/${slug}?${new URLSearchParams(params).toString()}`;
+    const params = new URLSearchParams(searchParams.toString());
+    if (s) {
+      params.set("sort", s);
+    } else {
+      params.delete("sort");
+    }
+    return `/${mainCategory || ""}?${params.toString()}`;
   };
 
   return (
@@ -30,9 +34,7 @@ const SortProduct = ({
         onClick={() => setIsSortOpen(!isSortOpen)}
         className="flex w-full items-center gap-2 rounded-lg border px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm hover:bg-gray-100"
       >
-        <span className="font-bold text-primary-500">
-          {sort || "Ordina per:"}
-        </span>{" "}
+        <span className="font-bold text-primary-500">{currentSort}</span>{" "}
         <ChevronDown size={16} />
       </Button>
 
@@ -45,7 +47,7 @@ const SortProduct = ({
                 onClick={() => setIsSortOpen(false)}
                 href={getFilterUrl({ s: sortOrder })}
                 className={`block px-4 py-2 text-sm hover:bg-gray-100 ${
-                  sort === sortOrder && "font-bold text-primary-500"
+                  currentSort === sortOrder ? "font-bold text-primary-500" : ""
                 }`}
               >
                 {sortOrder}

@@ -33,7 +33,7 @@ export default function ProductCard({
   const [isWishlisted, setWishlisted] = useState(false);
 
   return (
-    <Card className="relative overflow-hidden rounded-xl border bg-white p-4 shadow-md transition hover:shadow-lg">
+    <Card className="relative z-10 overflow-hidden rounded-xl border bg-white p-4 shadow-md transition hover:shadow-lg">
       {/* Image with Hover Effect */}
       <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
         <div className="relative flex items-center justify-center rounded-lg bg-gray-100 p-6">

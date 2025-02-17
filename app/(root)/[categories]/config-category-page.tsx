@@ -6,24 +6,17 @@ import SmallProductCard from "@/components/shared/product/small-product-card";
 
 const ConfigCategoryPage = ({
   indispensable,
-  categories,
+  mainCategory,
   categoriesData,
   products,
-  price,
-  sort,
-  rating,
-  page,
-  category,
-  q,
 }: any) => {
   return (
     <>
-      {" "}
       <div className="mb-12 flex flex-col rounded-2xl bg-slate-100 p-6">
         <section className="mb-6">
           <CarouselIndispensable
             indispensables={indispensable}
-            animalCategory={categories}
+            animalCategory={mainCategory}
           />
         </section>
         <section className="mb-6"></section>
@@ -35,15 +28,9 @@ const ConfigCategoryPage = ({
       </div>
       <section className="relative mb-6 flex w-full items-center gap-4 ">
         <CategoryType
-          categories={categoriesData}
-          q={q}
+          mainCategory={mainCategory}
+          categoriesData={categoriesData}
           products={products.data}
-          price={price}
-          rating={rating}
-          sort={sort}
-          page={page}
-          category={category}
-          slug={categories}
         />
       </section>
     </>

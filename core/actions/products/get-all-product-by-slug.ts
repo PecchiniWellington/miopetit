@@ -157,6 +157,14 @@ export async function getAllProductsBySlug({
         },
         productBrand: true,
       },
+      orderBy:
+        query.sort === "lowest"
+          ? { price: "asc" }
+          : query.sort === "highest"
+            ? { price: "desc" }
+            : query.sort === "rating"
+              ? { rating: "desc" }
+              : { createdAt: "desc" },
     });
 
     // Formatta i dati
