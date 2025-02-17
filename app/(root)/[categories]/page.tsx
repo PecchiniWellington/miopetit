@@ -22,7 +22,7 @@ const MainCategory = async ({
 
   const productFilters = await getFiltersForCategory(categories);
 
-  const productBySlug = await getAllProductsBySlug({
+  const products = await getAllProductsBySlug({
     slug: categories,
     query: queries,
   });
@@ -31,8 +31,8 @@ const MainCategory = async ({
     <ConfigCategoryPage
       indispensable={indispensableDog}
       mainCategory={categories}
-      categoriesData={productFilters}
-      products={productBySlug}
+      productFilters={productFilters}
+      products={products}
     />
   );
 };

@@ -15,10 +15,10 @@ import { FilterIcon, X } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 
 const Filter = ({
-  categoriesData,
+  productFilters,
   className,
 }: {
-  categoriesData: unknown[];
+  productFilters: unknown[];
 
   className?: string;
 }) => {
@@ -48,7 +48,7 @@ const Filter = ({
         </Button>
 
         <div>
-          {Object.entries(categoriesData).map(([key, values]) => (
+          {Object.entries(productFilters).map(([key, values]) => (
             <Accordion key={key} type="single" collapsible className="w-full">
               <AccordionItem value={key}>
                 <AccordionTrigger className="text-lg font-semibold">

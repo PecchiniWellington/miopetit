@@ -12,16 +12,16 @@ import AnimalAvatar from "../animal-avatar";
 
 const CarouselIndispensable = ({
   indispensables,
-  animalCategory,
+  mainCategory,
 }: {
   indispensables: { image: string; href: string; label: string }[];
-  animalCategory: string;
+  mainCategory: string;
 }) => {
   return (
     <div className="relative  w-full">
       <h2 className="mb-6 text-center text-3xl font-bold text-gray-900 dark:text-white">
         Indispensabile per il tuo{" "}
-        {animalCategory.charAt(0).toUpperCase() + animalCategory.slice(1)} 🐾
+        {mainCategory.charAt(0).toUpperCase() + mainCategory.slice(1)} 🐾
       </h2>
       <Carousel
         className="w-full"
