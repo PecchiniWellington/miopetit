@@ -1,40 +1,61 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
+import { useIndexedDB } from "@/hooks/use-indexDB";
 import { motion } from "framer-motion";
 import { Heart, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-interface ProductCardProps {
+interface Product {
+  id: string;
   image: string;
   name: string;
+  brand?: string;
+  price: number;
+  oldPrice?: number;
   productBrand?: string | null;
   rating: number;
   reviews: number;
   availability: string;
-  price: number;
-  oldPrice?: number;
-  slug?: string;
   pricePerKg?: string;
 }
 
 export default function ProductCard({
+  id,
   image,
   name,
+  brand,
   productBrand,
   reviews,
   availability,
   price,
   oldPrice,
   pricePerKg,
-}: ProductCardProps) {
+}: Product) {
+  const { favorites, addFavorite, removeFavorite } = useIndexedDB();
   const [isWishlisted, setWishlisted] = useState(false);
+
+  // Controlla se il prodotto è nei favoriti
+  useEffect(() => {
+    setWishlisted(favorites.some((fav) => fav.id.toString() === id));
+  }, [favorites, id]);
+
+  // Aggiungi o rimuovi dai favoriti
+  const toggleFavorite = () => {
+    const product = { id, image, name, brand, price, oldPrice };
+
+    if (isWishlisted) {
+      removeFavorite(id);
+    } else {
+      addFavorite(product);
+    }
+    setWishlisted(!isWishlisted);
+  };
 
   return (
     <Card className="relative z-10 overflow-hidden rounded-xl border bg-white p-4 shadow-md transition hover:shadow-lg">
-      {/* Image with Hover Effect */}
       <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
         <div className="relative flex items-center justify-center rounded-lg bg-gray-100 p-6">
           {oldPrice && (
@@ -42,7 +63,7 @@ export default function ProductCard({
               -{Math.round(((oldPrice - price) / oldPrice) * 100)}%
             </span>
           )}
-          <Link href={`/product/cibo-secco`}>
+          <Link href={`/product/${id}`}>
             <Image
               src={image || "/images/placeholder.jpg"}
               alt={name}
@@ -53,19 +74,17 @@ export default function ProductCard({
             />
           </Link>
 
-          {/* Wishlist Button - Now in the top-right corner inside the image */}
           <motion.button
-            onClick={() => setWishlisted(!isWishlisted)}
+            onClick={toggleFavorite}
             whileTap={{ scale: 0.9 }}
             className={`absolute right-3 top-3 flex size-9 items-center justify-center rounded-full bg-white shadow-md transition ${
               isWishlisted ? "text-red-600" : "text-gray-500 hover:text-black"
             }`}
           >
-            <Heart className="size-5" />
+            <Heart className="size-5" fill={isWishlisted ? "red" : "none"} />
           </motion.button>
         </div>
       </motion.div>
-
       {/* Product Details */}
       <div className="mt-4 space-y-2">
         <h3 className="text-sm font-semibold text-gray-900">{name}</h3>

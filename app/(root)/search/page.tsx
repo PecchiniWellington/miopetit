@@ -3,7 +3,6 @@ import { BadgeStatus } from "@/components/shared/badge-status";
 import CustomProduct from "@/components/shared/product/customProduct";
 import { getAllProducts } from "@/core/actions/products";
 import { getAllCategories } from "@/core/actions/products/product-infos.ts/get-product-category.action";
-import { ICategory } from "@/core/validators";
 import { STATUS } from "@/lib/constants";
 import Link from "next/link";
 
@@ -126,7 +125,7 @@ const SearchPage = async (props: {
                 Any
               </Link>
             </li>
-            {categories.data?.map((x: ICategory) => (
+            {categories.data?.map((x: { id: string; name: string }) => (
               <li key={x.id}>
                 <Link
                   href={getFilterUrl({ c: x.name })}
@@ -228,6 +227,7 @@ const SearchPage = async (props: {
           {products.data.map((product) => (
             <CustomProduct
               key={product.id}
+              id={Number(product.id)}
               image="https://utfs.io/f/RnH9VIVP0zpxL8Sd59Kp86NzgPOkKSsma1BjXoZe9tA3HMCW"
               name={product.name}
               productBrand={product.productBrand}

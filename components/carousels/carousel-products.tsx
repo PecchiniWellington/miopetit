@@ -31,6 +31,7 @@ const CarouselProducts = ({ data }: { data: ILatestProduct[] }) => {
             >
               <div className="relative mx-auto h-full  md:py-4">
                 <CustomProduct
+                  id={category.id}
                   image="https://utfs.io/f/RnH9VIVP0zpxL8Sd59Kp86NzgPOkKSsma1BjXoZe9tA3HMCW"
                   name="Monge Natural Superpremium Adult"
                   productBrand="MONGE"

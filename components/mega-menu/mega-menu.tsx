@@ -23,7 +23,7 @@ interface MegaMenuProps {
     name: string;
     slug: string;
     children: ICategory[];
-  };
+  } | null;
   brands?: string[];
   imgSrc: string;
 }
@@ -53,12 +53,12 @@ export default function MegaMenu({ data, brands = [], imgSrc }: MegaMenuProps) {
           >
             {/* Sezione Categorie */}
             <CategorySection
-              categories={data.children}
-              mainCategory={data.slug}
+              categories={data?.children}
+              mainCategory={data?.slug || ""}
             />
 
             {/* Sezione Brand */}
-            {brands.length > 0 && (
+            {brands.length > 0 && data && (
               <BrandSection brands={brands} mainTitle={data.name} />
             )}
           </div>
@@ -83,7 +83,7 @@ export default function MegaMenu({ data, brands = [], imgSrc }: MegaMenuProps) {
                   sizes="100vw"
                   className="mt-auto size-max object-cover object-center"
                   src={imgSrc || "/images/placeholder.jpg"}
-                  alt={data.name}
+                  alt={data?.name || "placeholder"}
                 />
               </motion.div>
             </div>

@@ -54,6 +54,8 @@ const ConfigCategoryPage = ({
       products.data.map((product: IProduct) => (
         <CustomProduct
           key={product.id}
+          id={product.id}
+          brand={product.productBrand?.name}
           image={product.images[0]}
           reviews={product.numReviews}
           availability={

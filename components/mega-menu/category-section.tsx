@@ -8,14 +8,13 @@ interface ICategory {
 
 export const CategorySection = ({
   categories,
-  mainCategory,
 }: {
-  categories: ICategory[];
+  categories?: ICategory[];
   mainCategory: string;
 }) => {
   return (
     <div className="col-span-3 grid grid-cols-3 gap-6">
-      {categories.map((category, index) => (
+      {categories?.map((category, index) => (
         <div key={index}>
           <h3 className="mb-2 text-lg font-semibold text-black">
             {category.name}

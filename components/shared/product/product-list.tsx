@@ -8,6 +8,7 @@ interface IProductListProps {
 
 const ProductList = ({ data, limit }: IProductListProps) => {
   const limitedData = limit ? data.slice(0, limit) : data;
+  console.log(data);
   return (
     <div className="my-10">
       <div>
@@ -17,6 +18,7 @@ const ProductList = ({ data, limit }: IProductListProps) => {
               limitedData.map((product: ILatestProduct) => (
                 <CustomProduct
                   key={product.id}
+                  id={product.id}
                   image={product.image[0]}
                   name={product.name}
                   productBrand={product?.productBrand?.name}

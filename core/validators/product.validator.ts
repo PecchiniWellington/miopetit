@@ -1,7 +1,7 @@
 import { currency } from "@/lib/utils";
 import { IBrand } from "@/types/index";
 import { z } from "zod";
-import { ICategory } from "./category.validator";
+import { categorySchema, ICategory } from "./category.validator";
 import { orderItemSchema } from "./orders.validator";
 import { productUnitFormatSchema } from "./unitsFormat.validator";
 
@@ -35,10 +35,7 @@ export const productSchema = z.object({
       z.object({
         productId: z.string().uuid(),
         categoryId: z.string().uuid(),
-        category: z.object({
-          id: z.string().uuid(),
-          name: z.string().min(1, "Category name is required"),
-        }),
+        category: categorySchema,
       })
     )
     .optional(),

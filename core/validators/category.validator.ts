@@ -6,7 +6,7 @@ export const categorySchema = z.object({
   slug: z.string(),
   createdAt: z.date().optional(),
   updatedAt: z.date().optional(),
-  description: z.string().nullable(),
+  description: z.string().optional(),
 });
 
 export const insertCategorySchema = z.object({
