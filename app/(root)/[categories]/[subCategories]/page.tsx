@@ -8,8 +8,8 @@ const MainCategory = async ({
   searchParams,
   params,
 }: {
-  searchParams: { [key: string]: string | string[] };
-  params: { categories: string; sort: string };
+  searchParams: Promise<{ [key: string]: string | string[] }>;
+  params: Promise<{ categories: string; sort: string }>;
 }) => {
   const { categories } = await params;
 

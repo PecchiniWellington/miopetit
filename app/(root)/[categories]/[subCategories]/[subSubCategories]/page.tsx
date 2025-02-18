@@ -8,8 +8,8 @@ const MainCategory = async ({
   searchParams,
   params,
 }: {
-  searchParams: { [key: string]: string | string[] };
-  params: { categories: string; sort: string };
+  searchParams: Promise<{ [key: string]: string | string[] }>;
+  params: Promise<{ categories?: string; sort?: string }>;
 }) => {
   const { categories } = await params;
 
@@ -20,10 +20,12 @@ const MainCategory = async ({
     ])
   );
 
-  const productFilters = await getFiltersForCategory(categories);
+  const productFilters = categories
+    ? await getFiltersForCategory(categories)
+    : {};
 
   const products = await getAllProductsBySlug({
-    slug: categories,
+    slug: categories || "",
     query: queries,
   });
 

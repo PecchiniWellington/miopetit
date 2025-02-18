@@ -22,7 +22,7 @@ export async function getAllCategories() {
     }));
 
     return {
-      data: convertToPlainObject(categoriesWithCount),
+      data: convertToPlainObject(categories),
       totalProductCount: categoriesWithCount.reduce(
         (acc, cat) => acc + cat.productCount,
         0
@@ -122,7 +122,7 @@ export async function getCategoryProductIds(categorySlug: string) {
   if (!mainCategory) return [];
 
   // 🔍 Funzione ricorsiva per ottenere tutte le sottocategorie
-  async function getAllSubCategoryIds(parentId: string) {
+  async function getAllSubCategoryIds(parentId?: string | null) {
     const subCategories = await prisma.category.findMany({
       where: { parentId: parentId },
       select: { id: true },

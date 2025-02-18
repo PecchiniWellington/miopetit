@@ -13,7 +13,7 @@ export async function getAllProducts({
   sort,
 }: {
   queries?: { [key: string]: string };
-  query: string;
+  query?: string;
   limit?: number;
   page: number;
   sort?: string;

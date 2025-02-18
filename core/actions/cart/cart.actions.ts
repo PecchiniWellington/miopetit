@@ -141,6 +141,7 @@ export async function addItemToCart(data: ICartItem) {
       return await createNewCart(userId, item, sessionCartId, {
         ...product,
         isFeatured: product.isFeatured ?? false,
+        orderitems: [], // Add the missing orderitems property
       });
     } else {
       return await updateExistingCart(
@@ -155,6 +156,7 @@ export async function addItemToCart(data: ICartItem) {
         {
           ...product,
           isFeatured: product.isFeatured ?? false,
+          orderitems: [], // Add the missing orderitems property
         }
       );
     }

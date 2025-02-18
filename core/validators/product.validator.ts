@@ -1,18 +1,20 @@
-import { currency } from "@/lib/utils";
 import { IBrand } from "@/types/index";
 import { z } from "zod";
-import { categorySchema, ICategory } from "./category.validator";
+import { categorySchema } from "./category.validator";
 import { orderItemSchema } from "./orders.validator";
 import { productUnitFormatSchema } from "./unitsFormat.validator";
 
-// Schema for Product model
-
+// Schema per il modello Product
 export const productSchema = z.object({
   id: z.string().uuid(),
-  name: z.string().min(3, "Name must be at least 3 characters"),
-  slug: z.string().min(3, "Slug must be at least 3 characters"),
-  images: z.array(z.string().min(1, "Product must have at least 1 image")),
-  description: z.string().min(3, "Description must be at least 3 characters"),
+  name: z.string().min(3, "Il nome deve avere almeno 3 caratteri"),
+  slug: z.string().min(3, "Lo slug deve avere almeno 3 caratteri"),
+  images: z.array(
+    z.string().min(1, "Il prodotto deve avere almeno 1 immagine")
+  ),
+  description: z
+    .string()
+    .min(3, "La descrizione deve avere almeno 3 caratteri"),
   stock: z.number().nullable().default(0),
   price: z.string(),
   rating: z.number().nullable().optional(),
@@ -29,7 +31,6 @@ export const productSchema = z.object({
   unitValueId: z.string().uuid().optional(),
   unitOfMeasureId: z.string().uuid().optional(),
   productUnitFormat: productUnitFormatSchema.optional(),
-
   productCategory: z
     .array(
       z.object({
@@ -41,31 +42,19 @@ export const productSchema = z.object({
     .optional(),
 });
 
-// Schema for inserting products
-export const insertProductSchema = z.object({
-  name: z.string().min(3, "Name must be at least 3 characters"),
-  slug: z.string().min(3, "Slug must be at least 3 characters"),
-  images: z.array(z.string().min(1, "Product must have at least 1 image")),
-  description: z.string().min(3, "Description must be at least 3 characters"),
-  stock: z.coerce.number().nullable().default(0),
-  price: currency,
-  banner: z.string().nullable(),
-  isFeatured: z.boolean().optional().default(false),
-  rating: z.number().nullable().optional(),
-  animalAge: z.enum(["PUPPY", "ADULT", "SENIOR"]).nullable(),
-  productBrandId: z.string().uuid().nullable().optional(),
-  productPathologyId: z.string().uuid().nullable().optional(),
-  productProteinOnProduct: z.array(z.string().uuid()).nullable().optional(),
-  productsFeatureOnProduct: z.array(z.string().uuid()).nullable().optional(),
-  productPathologyOnProduct: z.array(z.string().uuid()).nullable().optional(),
-  unitValueId: z.string().uuid().nullable().optional(),
-  unitOfMeasureId: z.string().uuid().nullable().optional(),
+// Schema per l'inserimento di prodotti
+export const insertProductSchema = productSchema.omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
 });
 
+// Schema per l'aggiornamento dei prodotti
 export const updateProductSchema = insertProductSchema.extend({
-  id: z.string().min(1, "Id is required"),
+  id: z.string().uuid().min(1, "L'ID è obbligatorio"),
 });
 
+// Schema per i prodotti più recenti
 export const latestProductSchema = z.object({
   id: z.string(),
   name: z.string(),
@@ -81,16 +70,16 @@ export const latestProductSchema = z.object({
   unitValueId: z.string().uuid().optional().nullable(),
   unitOfMeasureId: z.string().uuid().optional().nullable(),
   image: z.array(z.string()),
-
-  // Add other fields as necessary
 });
 
+// Definizione dei tipi
 export type IProduct = z.infer<typeof productSchema> & {
   productProteinOnProduct: {
     productId: string;
     productProteinId: string;
     productProtein: { id: string; name: string };
   }[];
+  productUnitFormat?: z.infer<typeof productUnitFormatSchema> | null;
   productsFeatureOnProduct: {
     productId: string;
     productFeatureId: string;
@@ -105,10 +94,87 @@ export type IProduct = z.infer<typeof productSchema> & {
     pathologyId: string;
     pathology: { id: string; name: string };
   }[];
-  category?: ICategory;
+  category?: {
+    id: string;
+    name: string;
+    slug: string;
+    parentId?: string | null;
+  }[];
+
   productBrand?: IBrand;
 };
-export type IInsertProduct = z.infer<typeof insertProductSchema> & {};
+
+// Schema per la formattazione dei prodotti
+export const formattedProductSchema = z.object({
+  totalSales: z.number(),
+  totalRevenue: z.number(),
+  productCategory: z.array(
+    z.object({
+      id: z.string().uuid(),
+      name: z.string(),
+      slug: z.string(),
+      parentId: z.string().uuid().nullable().optional(),
+    })
+  ),
+  productBrand: z
+    .object({
+      id: z.string().uuid(),
+      name: z.string(),
+    })
+    .nullable(),
+  productPathologies: z.array(
+    z.object({
+      id: z.string().uuid(),
+      name: z.string(),
+    })
+  ),
+  productFeatures: z.array(
+    z.object({
+      id: z.string().uuid(),
+      name: z.string(),
+    })
+  ),
+  productProteins: z.array(
+    z.object({
+      id: z.string().uuid(),
+      name: z.string(),
+    })
+  ),
+  productProteinOnProduct: z
+    .array(
+      z.object({
+        productId: z.string().uuid(),
+        productProteinId: z.string().uuid(),
+        productProtein: z.array(
+          z.object({
+            id: z.string().uuid(),
+            name: z.string(),
+          })
+        ),
+      })
+    )
+    .optional(),
+
+  productPathologyOnProduct: z
+    .array(
+      z.object({
+        productId: z.string().uuid(),
+        pathologyId: z.string().uuid(),
+        pathology: z.object({
+          id: z.string().uuid(),
+          name: z.string(),
+        }),
+      })
+    )
+    .optional(),
+});
+
+export type IFormattedProduct = IProduct & {
+  totalSales: number;
+  totalRevenue: number;
+  productBrand?: IBrand | null;
+};
+export type IInsertProduct = z.infer<typeof insertProductSchema>;
 export type IUpdateProduct = z.infer<typeof updateProductSchema>;
 export type ILatestProduct = z.infer<typeof latestProductSchema> & {
   productBrand?: IBrand;

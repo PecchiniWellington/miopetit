@@ -47,7 +47,7 @@ export async function getAllProductsBySlug({
     const subCategoryIds = await getAllSubCategoryIds(mainCategory.id);
     const categoryIds = [mainCategory.id, ...subCategoryIds];
 
-    // Costruisce dinamicamente il filtro WHERE in base ai parametri ricevuti
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const where: any = {
       productCategory: {
         some: {

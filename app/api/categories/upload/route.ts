@@ -1,5 +1,4 @@
 import { prisma } from "@/core/prisma/prisma";
-import { formatCategoriesData } from "@/lib/utils";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
@@ -7,7 +6,7 @@ export async function POST(req: Request) {
     const body = await req.json();
 
     await prisma.category.createMany({
-      data: formatCategoriesData(body.data),
+      data: body.data,
       skipDuplicates: true,
     });
 

@@ -58,7 +58,16 @@ async function main() {
   /** CREATE CATEGORIES RECURSIVELY **/
   console.log(`⏳ Creating categories...`);
 
-  async function createCategories(categories, parentId: string | null = null) {
+  async function createCategories(
+    categories: {
+      name: string;
+      slug: string;
+      parentId: string | null;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      children: any[];
+    }[],
+    parentId: string | null = null
+  ) {
     if (!Array.isArray(categories)) {
       throw new Error("❌ categories non è un array!");
     }
@@ -179,7 +188,7 @@ async function main() {
     }
 
     // ✅ Seleziona 1-3 patologie casuali
-    let randomPathologies = [];
+    let randomPathologies: { id: string }[] = [];
     if (productPathologies.length > 0) {
       const numPathologies = Math.min(
         Math.floor(Math.random() * 3) + 1,

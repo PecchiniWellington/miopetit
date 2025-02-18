@@ -40,14 +40,9 @@ const AdminProductUpdatePage = async (props: {
       <h1 className="h2-bold">Update Product</h1>
       <ProductForm
         type="Update"
-        product={{
-          ...product,
-          category: product.category ?? undefined,
-          productUnitFormat: product.productUnitFormat ?? undefined,
-          productBrand: product.productBrand ?? undefined,
-        }}
+        product={product}
         productId={product.id}
-        categories={categories.data ?? []}
+        categories={Array.isArray(categories.data) ? categories.data : []}
         brands={brands}
         pathologies={pathologies}
         proteins={proteins}

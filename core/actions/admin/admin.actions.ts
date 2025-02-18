@@ -291,7 +291,6 @@ export async function updataCategory(
       data: {
         name: data.name,
         slug: data.slug,
-        description: data.description,
       },
     });
     revalidatePath("/admin/categories");

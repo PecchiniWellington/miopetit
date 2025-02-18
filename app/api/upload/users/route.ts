@@ -1,5 +1,4 @@
 import { prisma } from "@/core/prisma/prisma";
-import { mapUsersForDatabase } from "@/lib/utils";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
@@ -24,7 +23,7 @@ export async function POST(req: Request) {
     }
 
     await prisma.user.createMany({
-      data: mapUsersForDatabase(body),
+      data: body,
       skipDuplicates: true,
     });
 

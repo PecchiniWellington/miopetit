@@ -1,11 +1,7 @@
 import { createProduct, updateProduct } from "@/core/actions/products";
-import {
-  insertProductSchema,
-  IProduct,
-  updateProductSchema,
-} from "@/core/validators";
+import { insertProductSchema, updateProductSchema } from "@/core/validators";
+import { IFormattedProduct } from "@/core/validators/product.validator";
 import { useToast } from "@/hooks/use-toast";
-import { PRODUCT_DEFAULT_VALUES } from "@/lib/constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -17,7 +13,7 @@ export function useProductForm({
   productId,
 }: {
   type: "Create" | "Update";
-  product?: IProduct;
+  product?: IFormattedProduct;
   productId?: string;
 }) {
   const router = useRouter();
@@ -27,30 +23,7 @@ export function useProductForm({
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
-    defaultValues:
-      product && type === "Update"
-        ? {
-            ...product,
-
-            productProteinOnProduct:
-              product?.productProteinOnProduct?.map(
-                (protein) => protein.productProteinId
-              ) || [],
-            productPathologyOnProduct:
-              product?.productPathologyOnProduct?.map(
-                (protein) => protein.pathologyId
-              ) || [],
-            productsFeatureOnProduct:
-              product?.productsFeatureOnProduct?.map(
-                (feature) => feature.productFeatureId
-              ) || [],
-
-            isFeatured: product.isFeatured ?? undefined,
-            unitValueId: product.productUnitFormat?.unitValueId || undefined,
-            unitOfMeasureId:
-              product.productUnitFormat?.unitMeasureId || undefined,
-          }
-        : PRODUCT_DEFAULT_VALUES,
+    defaultValues: product || {},
   });
 
   const onSubmit = async (data: z.infer<typeof schema>) => {
@@ -66,7 +39,6 @@ export function useProductForm({
         : await updateProduct({
             ...data,
             id: productId as string,
-            productsFeatureOnProduct: data.productsFeatureOnProduct ?? [],
           });
 
     if (!res.success) {

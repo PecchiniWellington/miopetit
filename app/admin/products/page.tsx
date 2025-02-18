@@ -20,12 +20,10 @@ const ProductsPage = async (props: {
 
   const page = Number(searchParams.page) || 1;
   const searchQuery = searchParams.query || "";
-  const category = searchParams.category || "";
 
   const productsResponse = await getAllProducts({
     query: searchQuery,
     page,
-    category,
     limit: 100,
   });
   const categories = await getAllCategories();

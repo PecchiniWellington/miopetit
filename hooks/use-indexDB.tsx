@@ -18,7 +18,7 @@ const isIndexedDBAvailable = () =>
 
 export function useIndexedDB() {
   const [favorites, setFavorites] = useState<Product[]>([]);
-  const [dbError, setDbError] = useState(false); // Gestiamo gli errori nel DB
+  const [dbError, setDbError] = useState(false);
 
   const openDatabase = async () => {
     if (!isIndexedDBAvailable()) {
@@ -77,7 +77,6 @@ export function useIndexedDB() {
       const store = transaction.objectStore(STORE_NAME);
       store.put(product);
 
-      // **Aggiorniamo lo stato e forziamo il re-render**
       setFavorites((prev) => {
         const updatedFavorites = [...prev, product];
         setTimeout(() => {
@@ -128,7 +127,7 @@ export function useIndexedDB() {
     };
 
     window.addEventListener("favoritesUpdated", updateFavorites);
-    updateFavorites(); // Carichiamo subito i preferiti
+    updateFavorites();
 
     return () => {
       window.removeEventListener("favoritesUpdated", updateFavorites);

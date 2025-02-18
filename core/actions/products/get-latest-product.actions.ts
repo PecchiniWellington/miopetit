@@ -1,5 +1,5 @@
 import { prisma } from "@/core/prisma/prisma";
-import { latestProductSchema } from "@/core/validators/product.validator";
+import { latestProductSchema } from "@/core/validators";
 import { LATEST_PRODUCTS_LIMIT } from "@/lib/constants";
 import { convertToPlainObject } from "@/lib/utils";
 

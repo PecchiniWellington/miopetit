@@ -1,7 +1,8 @@
 import DynamicFormField from "@/components/shared/dynamic-form-field";
 import { AnimalAge } from "@/core/actions/types";
-import { ICategory, IProduct } from "@/core/validators";
+import { ICategory } from "@/core/validators";
 import { IProductFeatureOnProduct } from "@/core/validators/product-feature.validator";
+import { IFormattedProduct } from "@/core/validators/product.validator";
 import {
   IUnitOfMeasure,
   IUnitValue,
@@ -13,13 +14,13 @@ import UploadImageFeaturedProduct from "./upload-image-featured-product";
 
 export function ProductFormFields({
   form,
-  categories,
-  brands,
-  pathologies,
-  proteins,
-  unitValues,
-  unitOfMeasure,
-  allFeatures,
+  categories = [],
+  brands = [],
+  pathologies = [],
+  proteins = [],
+  unitValues = [],
+  unitOfMeasure = [],
+  allFeatures = [],
   product,
 }: {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -31,7 +32,7 @@ export function ProductFormFields({
   unitValues?: IUnitValue[];
   unitOfMeasure?: IUnitOfMeasure[];
   allFeatures?: IProductFeatureOnProduct[];
-  product?: IProduct;
+  product?: IFormattedProduct;
 }) {
   const getOnlyProteinId =
     product?.productProteinOnProduct?.map(
@@ -50,29 +51,35 @@ export function ProductFormFields({
   console.log("getOnlyPathologiesId", getOnlyPathologiesId);
 
   const formatterForSelect = (
-    data: ICategory[] | IBrand[] | IPathology[] | IProtein[]
+    data: Array<ICategory | IBrand | IPathology | IProtein> = []
   ) =>
-    data?.map((d: IBrand | ICategory | IPathology | IProtein) => ({
-      value: d.id,
-      label: d.name,
-    }));
+    Array.isArray(data)
+      ? data.map((d) => ({
+          value: d.id,
+          label: d.name,
+        }))
+      : [];
 
-  const formatterForUnitValue = unitValues?.map((d: IUnitValue) => ({
-    value: d.id,
-    label: d.value?.toString() || "",
-  }));
+  const formatterForUnitValue = Array.isArray(unitValues)
+    ? unitValues.map((d) => ({
+        value: d.id || "",
+        label: d.value?.toString() || "",
+      }))
+    : [];
 
-  const formatterForUnitOfMeasure = unitOfMeasure?.map((d: IUnitOfMeasure) => ({
-    value: d.id,
-    label: d.code,
-  }));
+  const formatterForUnitOfMeasure = Array.isArray(unitOfMeasure)
+    ? unitOfMeasure.map((d) => ({
+        value: d.id || "",
+        label: d.code,
+      }))
+    : [];
 
-  const formatterForFeature = allFeatures?.map(
-    ({ productFeature }: IProductFeatureOnProduct) => ({
-      value: productFeature.id,
-      label: productFeature.name,
-    })
-  );
+  const formatterForFeature = Array.isArray(allFeatures)
+    ? allFeatures.map(({ productFeature }: IProductFeatureOnProduct) => ({
+        value: productFeature.id,
+        label: productFeature.name,
+      }))
+    : [];
 
   const animalAge = Object.keys(AnimalAge).map((key: string) => ({
     value: key,
@@ -85,7 +92,7 @@ export function ProductFormFields({
 
   return (
     <>
-      <div className="flex flex-col  gap-5 md:flex-row">
+      <div className="flex flex-col gap-5 md:flex-row">
         {/* Name */}
         <DynamicFormField
           control={form.control}
@@ -96,12 +103,12 @@ export function ProductFormFields({
         {/* Slug */}
         <SlugFormField form={form} />
       </div>
-      <div className="flex flex-col  gap-5 md:flex-row">
+      <div className="flex flex-col gap-5 md:flex-row">
         {/* Category */}
 
         <DynamicFormField
           type="select"
-          options={categories ? formatterForSelect(categories) : []}
+          options={formatterForSelect(categories)}
           control={form.control}
           name="categoryId"
           title="Category"
@@ -112,7 +119,7 @@ export function ProductFormFields({
 
         <DynamicFormField
           type="multiple-select"
-          options={pathologies ? formatterForSelect(pathologies) : []}
+          options={formatterForSelect(pathologies)}
           control={form.control}
           name="productPathologyOnProduct"
           title="Pathologies"
@@ -120,11 +127,11 @@ export function ProductFormFields({
           defaultValue={getOnlyPathologiesId}
         />
       </div>
-      <div className="flex flex-col  gap-5 md:flex-row">
+      <div className="flex flex-col gap-5 md:flex-row">
         {/* Brand */}
         <DynamicFormField
           type="select"
-          options={brands ? formatterForSelect(brands) : []}
+          options={formatterForSelect(brands)}
           control={form.control}
           name="productBrandId"
           title="Brand"
@@ -133,7 +140,7 @@ export function ProductFormFields({
         {/* Proteins */}
         <DynamicFormField
           type="multiple-select"
-          options={proteins ? formatterForSelect(proteins) : []}
+          options={formatterForSelect(proteins)}
           control={form.control}
           name="productProteinOnProduct"
           title="Proteins"
@@ -143,7 +150,7 @@ export function ProductFormFields({
         {/* Features */}
         <DynamicFormField
           type="multiple-select"
-          options={allFeatures ? formatterForFeature : []}
+          options={formatterForFeature}
           control={form.control}
           name="productsFeatureOnProduct"
           title="Features"
@@ -151,12 +158,12 @@ export function ProductFormFields({
           defaultValue={getOnlyFeatureId}
         />
       </div>
-      <div className="flex flex-col  gap-5 md:flex-row">
+      <div className="flex flex-col gap-5 md:flex-row">
         {/* Unit Value */}
         <div className="flex w-full">
           <DynamicFormField
             type="select"
-            options={unitValues ? formatterForUnitValue : []}
+            options={formatterForUnitValue}
             control={form.control}
             name="unitValueId"
             title="Unit value"
@@ -167,7 +174,7 @@ export function ProductFormFields({
 
           <DynamicFormField
             type="select"
-            options={unitOfMeasure ? formatterForUnitOfMeasure : []}
+            options={formatterForUnitOfMeasure}
             control={form.control}
             name="unitOfMeasureId"
             title="Unit of measure"
@@ -185,7 +192,7 @@ export function ProductFormFields({
         />
         {/* Proteins */}
       </div>
-      <div className="flex flex-col  gap-5 md:flex-row">
+      <div className="flex flex-col gap-5 md:flex-row">
         {/* Price */}
         <DynamicFormField
           control={form.control}
@@ -201,7 +208,7 @@ export function ProductFormFields({
           placeholder="Enter stock"
         />
       </div>
-      <div className="upload-field flex flex-col  gap-5 md:flex-row">
+      <div className="upload-field flex flex-col gap-5 md:flex-row">
         {/* Images */}
         <UploadImage form={form} images={images || []} />
       </div>

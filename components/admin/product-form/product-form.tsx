@@ -1,7 +1,8 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { ICategory, IProduct } from "@/core/validators";
+import { ICategory } from "@/core/validators";
 import { IProductFeatureOnProduct } from "@/core/validators/product-feature.validator";
+import { IFormattedProduct } from "@/core/validators/product.validator";
 import {
   IUnitOfMeasure,
   IUnitValue,
@@ -24,7 +25,7 @@ const ProductForm = ({
   allFeatures,
 }: {
   type: "Create" | "Update";
-  product?: IProduct;
+  product?: IFormattedProduct;
   productId?: string;
   categories?: ICategory[];
   brands?: IBrand[];

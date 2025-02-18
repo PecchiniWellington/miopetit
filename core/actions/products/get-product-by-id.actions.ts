@@ -1,8 +1,10 @@
 import { prisma } from "@/core/prisma/prisma";
+import { IFormattedProduct } from "@/core/validators/product.validator";
 import { convertToPlainObject } from "@/lib/utils";
 
-// Get product by id with sales data
-export async function getProductById(id: string) {
+export async function getProductById(
+  id: string
+): Promise<IFormattedProduct | null> {
   const product = await prisma.product.findFirst({
     where: { id },
     include: {
@@ -31,63 +33,57 @@ export async function getProductById(id: string) {
 
   if (!product) return null;
 
-  const formattedProduct = {
-    id: product.id,
-    name: product.name,
-    slug: product.slug,
-    description: product.description,
-    stock: product.stock,
-    price: product.price,
-    rating: product.rating,
-    numReviews: product.numReviews,
-    isFeatured: product.isFeatured,
-    banner: product.banner,
-    createdAt: product.createdAt,
-    updatedAt: product.updatedAt,
-    animalAge: product.animalAge,
+  return convertToPlainObject({
+    ...product,
     totalSales: product.orderitems.reduce((acc, item) => acc + item.qty, 0),
     totalRevenue: product.orderitems.reduce(
       (acc, item) => acc + item.qty * Number(item.price),
       0
     ),
-
     productCategory: product.productCategory.map((f) => ({
-      id: f.category.id,
-      name: f.category.name,
-      slug: f.category.slug,
-      parentId: f.category.parentId,
+      category: {
+        id: f.category.id,
+        name: f.category.name,
+        slug: f.category.slug,
+        parentId: f.category.parentId ?? null,
+      },
+      productId: f.productId,
+      categoryId: f.categoryId,
     })),
-
     productBrand: product.productBrand
       ? {
           id: product.productBrand.id,
           name: product.productBrand.name,
         }
-      : null,
-
+      : undefined,
     productPathologies: product.productPathologyOnProduct.map((p) => ({
       id: p.pathology.id,
       name: p.pathology.name,
     })),
-
     productFeatures: product.productsFeatureOnProduct.map((f) => ({
       id: f.productFeature.id,
       name: f.productFeature.name,
     })),
-
     productProteins: product.productProteinOnProduct.map((p) => ({
       id: p.productProtein.id,
       name: p.productProtein.name,
     })),
-
     productUnitFormat: product.productUnitFormat
       ? {
           id: product.productUnitFormat.id,
-          unitValue: product.productUnitFormat.unitValue.value,
-          unitOfMeasure: product.productUnitFormat.unitOfMeasure.code,
+          slug: product.productUnitFormat.slug,
+          unitValueId: product.productUnitFormat.unitValueId,
+          unitMeasureId: product.productUnitFormat.unitMeasureId,
+          unitValue: {
+            value: product.productUnitFormat.unitValue.value,
+            id: product.productUnitFormat.unitValue.id,
+          },
+          unitOfMeasure: {
+            name: product.productUnitFormat.unitOfMeasure.name,
+            code: product.productUnitFormat.unitOfMeasure.code,
+            id: product.productUnitFormat.unitOfMeasure.id,
+          },
         }
-      : null,
-  };
-
-  return convertToPlainObject(formattedProduct);
+      : undefined,
+  });
 }

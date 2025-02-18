@@ -4,7 +4,6 @@ import SearchSelect from "@/components/shared/selects/search-select";
 import { Alert } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { formatCategoriesData } from "@/lib/utils";
 import Papa from "papaparse";
 import { useRef, useState } from "react";
 
@@ -56,7 +55,6 @@ export default function UploadFiles() {
       switch (urlPath) {
         case "categories":
           try {
-            formatCategoriesData(formattedData);
             const responseCategory = await fetch(`/api/upload/categories`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },

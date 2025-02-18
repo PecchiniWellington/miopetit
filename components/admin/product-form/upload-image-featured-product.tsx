@@ -42,7 +42,7 @@ export const UploadImageFeaturedProduct: React.FC<
             <FormItem className="flex  items-center space-x-2">
               <FormControl>
                 <Checkbox
-                  checked={field.value}
+                  checked={!!field.value}
                   onCheckedChange={field.onChange}
                 />
               </FormControl>

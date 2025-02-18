@@ -16,7 +16,7 @@ export async function getAllCategoriesForMegaMenu(mainCategorySlug: string) {
     id: string;
     name: string;
     slug: string;
-    parentId: string | null;
+    parentId?: string | null;
   }): Promise<{
     id: string;
     name: string;
