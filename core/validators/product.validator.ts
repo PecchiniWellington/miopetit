@@ -31,6 +31,7 @@ export const productSchema = z.object({
   unitValueId: z.string().uuid().optional(),
   unitOfMeasureId: z.string().uuid().optional(),
   productUnitFormat: productUnitFormatSchema.optional(),
+  categoryType: z.string(),
   productCategory: z
     .array(
       z.object({

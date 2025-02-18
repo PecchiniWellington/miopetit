@@ -63,6 +63,7 @@ async function main() {
       name: string;
       slug: string;
       parentId: string | null;
+
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       children: any[];
     }[],
@@ -203,6 +204,7 @@ async function main() {
       data: {
         ...product,
         animalAge: randomAnimalAge as AnimalAge,
+        categoryType: randomCategory.slug,
         productCategory: {
           create: {
             category: {
@@ -235,7 +237,6 @@ async function main() {
             pathology: { connect: { id: pathology.id } },
           })),
         },
-        // ✅ Inseriamo anche productPathologyId nel modello prodotto!
         productPathologyId:
           randomPathologies.length > 0 ? randomPathologies[0].id : null,
       },

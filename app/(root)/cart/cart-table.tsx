@@ -14,6 +14,7 @@ import {
   removeItemFromCart,
 } from "@/core/actions/cart/cart.actions";
 import { ICart, ICartItem } from "@/core/validators";
+import { useIndexedDBCart } from "@/hooks/use-indexCart";
 import { useToast } from "@/hooks/use-toast";
 import { formatCurrency } from "@/lib/utils";
 
@@ -29,6 +30,8 @@ export const CartTable = ({ cart }: { cart?: ICart }) => {
   const router = useRouter();
   const { toast } = useToast();
   const [isPending, setIsPending] = useTransition();
+  const { cartProduct, addToCartProduct, removeFromCartProduct } =
+    useIndexedDBCart();
 
   const handleRemoveFromCart = async (productId: string) => {
     setIsPending(async () => {
@@ -82,7 +85,7 @@ export const CartTable = ({ cart }: { cart?: ICart }) => {
     <>
       <h1 className="h2-bold py-4">Sopping Cart</h1>
 
-      {!cart?.items || cart?.items?.length === 0 ? (
+      {!cartProduct || cartProduct?.length === 0 ? (
         <div>
           Cart is empty. <Link href="/">Go Shopping</Link>
         </div>
@@ -98,8 +101,8 @@ export const CartTable = ({ cart }: { cart?: ICart }) => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {cart?.items?.map((item: ICartItem) => (
-                  <TableRow key={item?.slug}>
+                {cartProduct?.map((item: any, index: number) => (
+                  <TableRow key={index}>
                     <TableCell>
                       <Link
                         href={`/product/${item?.slug}`}

@@ -1,6 +1,8 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
+import { IProduct } from "@/core/validators";
+import { useIndexedDBCart } from "@/hooks/use-indexCart";
 import { useIndexedDB } from "@/hooks/use-indexDB";
 import { motion } from "framer-motion";
 import { Heart, ShoppingCart } from "lucide-react";
@@ -20,6 +22,7 @@ interface Product {
   reviews: number;
   availability: string;
   pricePerKg?: string;
+  product: IProduct;
 }
 
 export default function ProductCard({
@@ -33,8 +36,10 @@ export default function ProductCard({
   price,
   oldPrice,
   pricePerKg,
+  product,
 }: Product) {
   const { favorites, addFavorite, removeFavorite } = useIndexedDB();
+  const { addToCartProduct } = useIndexedDBCart();
   const [isWishlisted, setWishlisted] = useState(false);
 
   // Controlla se il prodotto è nei favoriti
@@ -120,6 +125,7 @@ export default function ProductCard({
 
       {/* Add to Cart Button */}
       <motion.button
+        onClick={() => addToCartProduct(product)}
         whileTap={{ scale: 0.9 }}
         className="absolute bottom-4 right-4 flex size-12 items-center justify-center rounded-full bg-black p-2 transition hover:bg-gray-800"
       >

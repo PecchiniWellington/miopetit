@@ -122,6 +122,7 @@ const categoryData = [
     parentId: null,
   },
 
+  /* GATTI */
   { name: "Gatti", slug: "gatti", parentId: null },
   { name: "Cibo", slug: "gatti/cibo", parentId: null },
   { name: "Accessori", slug: "gatti/accessori", parentId: null },

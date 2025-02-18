@@ -1,24 +1,15 @@
 import { IProduct } from "@/core/validators";
 import { useEffect, useState } from "react";
 
-const DB_NAME = "FavoritesDB";
-const STORE_NAME = "favorites";
+const DB_NAME = "CartProductDB";
+const STORE_NAME = "cartProduct";
 const DB_VERSION = 2;
-
-interface Product {
-  id: string;
-  image: string;
-  name: string;
-  brand?: string;
-  price: number;
-  oldPrice?: number;
-}
 
 const isIndexedDBAvailable = () =>
   typeof window !== "undefined" && "indexedDB" in window;
 
-export function useIndexedDB() {
-  const [favorites, setFavorites] = useState<IProduct[]>([]);
+export function useIndexedDBCart() {
+  const [cartProduct, setCartProduct] = useState<IProduct[]>([]);
   const [dbError, setDbError] = useState(false);
 
   const openDatabase = async () => {
@@ -47,7 +38,7 @@ export function useIndexedDB() {
     });
   };
 
-  const getFavorites = async () => {
+  const getCartProduct = async () => {
     const db = await openDatabase();
     if (!db) return [];
 
@@ -55,11 +46,11 @@ export function useIndexedDB() {
       const transaction = db.transaction(STORE_NAME, "readonly");
       const store = transaction.objectStore(STORE_NAME);
 
-      return new Promise<Product[]>((resolve) => {
+      return new Promise<IProduct[]>((resolve) => {
         const request = store.getAll();
-        request.onsuccess = () => resolve(request.result as Product[]);
+        request.onsuccess = () => resolve(request.result as IProduct[]);
         request.onerror = () => {
-          console.error("Errore nel recupero dei preferiti");
+          console.error("Errore nel recupero del carrello");
           resolve([]);
         };
       });
@@ -69,32 +60,49 @@ export function useIndexedDB() {
     }
   };
 
-  const addFavorite = async (product: Product) => {
+  const addToCartProduct = async (product: IProduct, qty: number) => {
     const db = await openDatabase();
     if (!db) return;
 
     try {
       const transaction = db.transaction(STORE_NAME, "readwrite");
       const store = transaction.objectStore(STORE_NAME);
-      store.put(product);
 
-      setFavorites((prev) => {
-        const updatedFavorites = [...prev, product];
+      // Controlla se il prodotto è già nel carrello
+      const existingProduct = cartProduct.find(
+        (item) => item.id === product?.id
+      );
+      if (existingProduct) {
+        // Se già presente, aggiorna la quantità
+        existingProduct.qty += qty;
+        store.put(existingProduct);
+      } else {
+        const newProduct = { ...product, qty };
+        store.put(newProduct);
+      }
+
+      setCartProduct((prev: IProduct[]) => {
+        const updatedCartProduct = existingProduct
+          ? prev.map((item) =>
+              item.id === existingProduct.id ? existingProduct : item
+            )
+          : [...prev, { ...product, qty }];
+
         setTimeout(() => {
           window.dispatchEvent(
-            new CustomEvent("favoritesUpdated", {
-              detail: updatedFavorites.length,
+            new CustomEvent("cartProductUpdated", {
+              detail: updatedCartProduct.length,
             })
           );
         }, 0);
-        return updatedFavorites;
+        return updatedCartProduct;
       });
     } catch (error) {
-      console.error("Errore nell'aggiunta ai preferiti", error);
+      console.error("Errore nell'aggiunta al carrello", error);
     }
   };
 
-  const removeFavorite = async (productId: string) => {
+  const removeFromCartProduct = async (productId: string) => {
     const db = await openDatabase();
     if (!db) return;
 
@@ -103,37 +111,37 @@ export function useIndexedDB() {
       const store = transaction.objectStore(STORE_NAME);
       store.delete(productId);
 
-      setFavorites((prev) => {
-        const updatedFavorites = prev.filter(
+      setCartProduct((prev) => {
+        const updatedCartProduct = prev.filter(
           (product) => product.id !== productId
         );
         setTimeout(() => {
           window.dispatchEvent(
-            new CustomEvent("favoritesUpdated", {
-              detail: updatedFavorites.length,
+            new CustomEvent("cartProductUpdated", {
+              detail: updatedCartProduct.length,
             })
           );
         }, 0);
-        return updatedFavorites;
+        return updatedCartProduct;
       });
     } catch (error) {
-      console.error("Errore nella rimozione dai preferiti", error);
+      console.error("Errore nella rimozione dal carrello", error);
     }
   };
 
   useEffect(() => {
-    const updateFavorites = async () => {
-      const updatedFavorites = await getFavorites();
-      setFavorites(updatedFavorites);
+    const updateCartProduct = async () => {
+      const updatedCartProduct = await getCartProduct();
+      setCartProduct(updatedCartProduct);
     };
 
-    window.addEventListener("favoritesUpdated", updateFavorites);
-    updateFavorites();
+    window.addEventListener("cartProductUpdated", updateCartProduct);
+    updateCartProduct();
 
     return () => {
-      window.removeEventListener("favoritesUpdated", updateFavorites);
+      window.removeEventListener("cartProductUpdated", updateCartProduct);
     };
   }, []);
 
-  return { favorites, addFavorite, removeFavorite, dbError };
+  return { cartProduct, addToCartProduct, removeFromCartProduct, dbError };
 }

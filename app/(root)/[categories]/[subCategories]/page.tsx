@@ -9,9 +9,9 @@ const MainCategory = async ({
   params,
 }: {
   searchParams: Promise<{ [key: string]: string | string[] }>;
-  params: Promise<{ categories: string; sort: string }>;
+  params: Promise<{ categories: string; subCategories: string; sort: string }>;
 }) => {
-  const { categories } = await params;
+  const { categories, subCategories } = await params;
 
   const queries: IQueryParams = Object.fromEntries(
     Object.entries(searchParams).map(([key, value]) => [
@@ -20,17 +20,19 @@ const MainCategory = async ({
     ])
   );
 
-  const productFilters = await getFiltersForCategory(categories);
+  const cat = `${categories}/${subCategories}`;
+
+  const productFilters = await getFiltersForCategory(cat);
 
   const products = await getAllProductsBySlug({
-    slug: categories,
+    slug: cat,
     query: queries,
   });
 
   return (
     <ConfigCategoryPage
       indispensable={indispensableDog}
-      mainCategory={categories}
+      mainCategory={cat}
       productFilters={productFilters}
       products={products}
     />

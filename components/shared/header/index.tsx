@@ -2,7 +2,6 @@ import CtBanner from "@/components/ct-banner";
 import MegaMenu from "@/components/mega-menu/mega-menu";
 import { getAllCategoriesForMegaMenu } from "@/core/actions/products/mega-menu.action";
 import { APP_NAME } from "@/lib/constants";
-import { ShoppingCart } from "lucide-react";
 import { SessionProvider } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,6 +9,7 @@ import FavoritesCounter from "./favourites-counter";
 import Menu from "./menu";
 import Search from "./search";
 import UserButton from "./user-button";
+import CartCounter from "./cart-counter";
 
 const Header = async () => {
   const megaMenuCat = await getAllCategoriesForMegaMenu("gatti");
@@ -49,16 +49,7 @@ const Header = async () => {
 
           {/* User Actions */}
           <nav className="hidden items-center gap-6 md:flex">
-            <Link href="/cart" className="relative">
-              <ShoppingCart
-                height={28}
-                width={28}
-                className="text-white transition-all duration-300 hover:scale-110"
-              />
-              <span className="absolute -right-2 -top-2 flex size-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
-                3
-              </span>
-            </Link>
+            <CartCounter />
             <FavoritesCounter />
             <SessionProvider>
               <UserButton />

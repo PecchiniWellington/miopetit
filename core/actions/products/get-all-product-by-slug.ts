@@ -23,7 +23,24 @@ async function getAllSubCategoryIds(parentId: string): Promise<string[]> {
   return subCategoryIds.concat(deepSubCategoryIds.flat());
 }
 
-// Ottieni tutti i prodotti per categoria e sottocategorie, con filtri dinamici
+// Trova la categoria principale associata a categoryType
+async function getMainCategory(categorySlug: string) {
+  const category = await prisma.category.findFirst({
+    where: {
+      slug: categorySlug,
+    },
+    select: { id: true, parentId: true },
+  });
+
+  console.log(
+    `🔍 Categoria principale trovata per slug "${categorySlug}":`,
+    category
+  );
+
+  return category;
+}
+
+// Ottieni tutti i prodotti per categoryType e sottocategorie
 export async function getAllProductsBySlug({
   query,
   slug,
@@ -32,33 +49,42 @@ export async function getAllProductsBySlug({
   slug: string;
 }) {
   try {
-    // Trova la categoria principale tramite slug
-    const mainCategory = await prisma.category.findFirst({
-      where: { slug },
-      select: { id: true },
-    });
+    console.log(`🔎 Ricerca prodotti per categoryType: ${slug}`);
+
+    // Trova la categoria principale associata al categoryType
+    const mainCategory = await getMainCategory(slug);
 
     if (!mainCategory) {
       console.warn(`⚠️ Nessuna categoria trovata per slug: ${slug}`);
       return { data: [], totalPages: 0, totalProducts: 0 };
     }
 
-    // Trova tutte le sottocategorie ricorsivamente
+    // Recupera tutte le sottocategorie della categoria principale
     const subCategoryIds = await getAllSubCategoryIds(mainCategory.id);
     const categoryIds = [mainCategory.id, ...subCategoryIds];
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    console.log(`✅ Categoria principale ID: ${mainCategory.id}`);
+    console.log(`✅ Sottocategorie trovate:`, subCategoryIds);
+
+    // Costruzione della query
     const where: any = {
-      productCategory: {
-        some: {
-          categoryId: { in: categoryIds }, // Filtra per categoria
+      OR: [
+        { categoryType: slug }, // Filtra i prodotti che hanno esattamente questa categoriaType
+        {
+          productCategory: {
+            some: {
+              categoryId: { in: categoryIds }, // Include i prodotti delle sottocategorie
+            },
+          },
         },
-      },
+      ],
     };
+
+    console.log(`🛠 Filtri applicati alla query Prisma:`, where);
 
     // Applica filtri dinamici
     if (query.animalAge) {
-      where.animalAge = query.animalAge; // Filtra per età dell'animale
+      where.animalAge = query.animalAge;
     }
 
     if (query.productBrand) {
@@ -70,18 +96,13 @@ export async function getAllProductsBySlug({
       if (productBrand) {
         where.productBrandId = productBrand.id;
       } else {
-        console.warn(
-          `⚠️ Nessun brand trovato per slug: ${query.productFormats}`
-        );
+        console.warn(`⚠️ Nessun brand trovato per slug: ${query.productBrand}`);
       }
     }
 
     if (query.productFormats) {
-      // Trova l'UUID del formato unitario a partire dallo slug
       const productFormat = await prisma.productUnitFormat.findFirst({
-        where: {
-          slug: query.productFormats, // Cerca lo slug nel DB
-        },
+        where: { slug: query.productFormats },
         select: { id: true },
       });
 
@@ -95,7 +116,6 @@ export async function getAllProductsBySlug({
     }
 
     if (query.productPathologies) {
-      // Trova l'UUID della patologia usando lo slug
       const productPathology = await prisma.productPathology.findUnique({
         where: { slug: query.productPathologies },
         select: { id: true },
@@ -113,6 +133,7 @@ export async function getAllProductsBySlug({
         );
       }
     }
+
     if (query.productProteins) {
       const productProteins = await prisma.productProtein.findUnique({
         where: { slug: query.productProteins },
@@ -127,7 +148,7 @@ export async function getAllProductsBySlug({
         };
       } else {
         console.warn(
-          `⚠️ Nessuna patologia trovata per slug: ${query.productProteins}`
+          `⚠️ Nessuna proteina trovata per slug: ${query.productProteins}`
         );
       }
     }
@@ -166,6 +187,8 @@ export async function getAllProductsBySlug({
               ? { rating: "desc" }
               : { createdAt: "desc" },
     });
+
+    console.log(`✅ Trovati ${data.length} prodotti.`);
 
     // Formatta i dati
     const updatedData = data.map((item) => ({
