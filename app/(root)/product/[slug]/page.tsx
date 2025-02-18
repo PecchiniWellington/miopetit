@@ -24,7 +24,7 @@ const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
   const cart = await getMyCart();
 
   const {
-    /* brand, */ /* category, */ /* name, description, */ price,
+    /* category, */ /* name, description, */ price,
     stock,
     /* images, */
   } = product;
@@ -84,7 +84,7 @@ const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
       <section>
         <div className="grid grid-cols-1 md:grid-cols-5">
           <ProductPageLeftImages />
-          <ProductDetails />
+          <ProductDetails product={product} />
           <div>
             <ProductPageRightCard />
           </div>

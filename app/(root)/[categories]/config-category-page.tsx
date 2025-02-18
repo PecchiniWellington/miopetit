@@ -53,6 +53,7 @@ const ConfigCategoryPage = ({
     ) : (
       products.data.map((product: IProduct) => (
         <CustomProduct
+          slug={product.slug}
           key={product.id}
           id={product.id}
           brand={product.productBrand?.name}

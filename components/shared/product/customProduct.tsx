@@ -23,6 +23,7 @@ interface Product {
   availability: string;
   pricePerKg?: string;
   product: IProduct;
+  slug: string;
 }
 
 export default function ProductCard({
@@ -37,6 +38,7 @@ export default function ProductCard({
   oldPrice,
   pricePerKg,
   product,
+  slug,
 }: Product) {
   const { favorites, addFavorite, removeFavorite } = useIndexedDB();
   const { addToCartProduct } = useIndexedDBCart();
@@ -68,7 +70,7 @@ export default function ProductCard({
               -{Math.round(((oldPrice - price) / oldPrice) * 100)}%
             </span>
           )}
-          <Link href={`/product/${id}`}>
+          <Link href={`/product/${slug}`}>
             <Image
               src={image || "/images/placeholder.jpg"}
               alt={name}

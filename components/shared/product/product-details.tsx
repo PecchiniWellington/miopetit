@@ -2,9 +2,21 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { IProduct } from "@/core/validators";
 import { BadgeCheck, Star } from "lucide-react";
 
-export default function ProductDetails() {
+export default function ProductDetails({ product }: { product: IProduct }) {
+  function truncateText(text: string, maxLength: number): string {
+    if (text.length <= maxLength) {
+      return text;
+    }
+    const truncated = text.slice(0, maxLength);
+    const lastSpaceIndex = truncated.lastIndexOf(" ");
+    if (lastSpaceIndex === -1) {
+      return truncated + "...";
+    }
+    return truncated.slice(0, lastSpaceIndex) + "...";
+  }
   return (
     <div className="col-span-2 px-6">
       {/* Punti fedeltà */}
@@ -16,12 +28,13 @@ export default function ProductDetails() {
       </div>
 
       {/* Brand */}
-      <h3 className="mt-4 text-sm uppercase text-gray-500">HILLS</h3>
+      <h3 className="mt-4 text-sm uppercase text-gray-500">
+        {product.productBrand?.name}
+      </h3>
 
       {/* Titolo del prodotto */}
       <h1 className="mt-1 text-2xl font-bold text-black">
-        Hill&apos;s Science Plan Hypoallergenic Adult Small&Mini alimento secco
-        per cani al Salmone
+        {truncateText(product.description, 100)}
       </h1>
 
       {/* Recensioni */}
@@ -40,10 +53,24 @@ export default function ProductDetails() {
       <div className="mt-4 border-t pt-4">
         <p className="text-lg font-medium text-gray-600">Ordine singolo:</p>
         <div className="flex items-baseline gap-2">
-          <span className="text-2xl font-bold text-black">€52,19</span>
-          <span className="text-gray-500 line-through">€57,99</span>
+          <span className="text-2xl font-bold text-black">{product.price}</span>
+          <span className="text-gray-500 line-through">
+            {(
+              Number(product.price) -
+              Number(product.price) * (Number(product.percentageDiscount) / 100)
+            ).toFixed(2)}
+          </span>
+          <span
+            className={`${product.percentageDiscount ? "block" : "hidden"} font-bold text-red-400`}
+          >
+            - {Number(product.percentageDiscount)}% SCONTO
+          </span>
+          {/* CREARE SCONTO in db */}
         </div>
-        <p className="text-xs text-gray-500">(€8,70/KG)</p>
+        {/*  <p className="text-xs text-gray-500">
+          (€{product.productUnitFormat?.unitValue?.toString() || ""}/
+          {product.productUnitFormat?.unitOfMeasure.toString() || ""})
+        </p> */}
       </div>
 
       {/* Specifiche prodotto */}

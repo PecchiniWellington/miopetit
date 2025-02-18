@@ -63,9 +63,6 @@ export async function getAllProductsBySlug({
     const subCategoryIds = await getAllSubCategoryIds(mainCategory.id);
     const categoryIds = [mainCategory.id, ...subCategoryIds];
 
-    console.log(`✅ Categoria principale ID: ${mainCategory.id}`);
-    console.log(`✅ Sottocategorie trovate:`, subCategoryIds);
-
     // Costruzione della query
     const where: any = {
       OR: [

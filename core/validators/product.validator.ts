@@ -32,6 +32,7 @@ export const productSchema = z.object({
   unitOfMeasureId: z.string().uuid().optional(),
   productUnitFormat: productUnitFormatSchema.optional(),
   categoryType: z.string(),
+  percentageDiscount: z.number().nullable().optional(),
   productCategory: z
     .array(
       z.object({

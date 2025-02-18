@@ -12,6 +12,7 @@ const product = [
     stock: Math.floor(Math.random() * 100) + 1,
     createdAt: "2025-02-10T09:26:23.964Z",
     updatedAt: "2025-02-10T09:26:23.964Z",
+    percentageDiscount: Math.floor(Math.random() * 11) + 5,
   },
   {
     id: "1711cdd0-d117-45dc-b875-2ccc57babc4e",
@@ -26,6 +27,7 @@ const product = [
 
     createdAt: "2025-02-10T09:26:23.964Z",
     updatedAt: "2025-02-10T09:26:23.964Z",
+    percentageDiscount: Math.floor(Math.random() * 11) + 5,
   },
   {
     id: "68e6987a-0708-4194-86fc-f0b0801b979d",
@@ -41,6 +43,7 @@ const product = [
 
     createdAt: "2025-02-10T09:26:23.964Z",
     updatedAt: "2025-02-10T09:26:23.964Z",
+    percentageDiscount: Math.floor(Math.random() * 11) + 5,
   },
   {
     id: "066f0fec-5d0c-4a8b-b9c6-c3049eb3d0d7",
@@ -56,6 +59,7 @@ const product = [
 
     createdAt: "2025-02-10T09:26:23.964Z",
     updatedAt: "2025-02-10T09:26:23.964Z",
+    percentageDiscount: Math.floor(Math.random() * 11) + 5,
   },
   {
     id: "7f26b557-9beb-44e9-8785-d08f67356bbb",
@@ -70,6 +74,7 @@ const product = [
 
     createdAt: "2025-02-10T09:26:23.964Z",
     updatedAt: "2025-02-10T09:26:23.964Z",
+    percentageDiscount: Math.floor(Math.random() * 11) + 5,
   },
   {
     id: "a888acf9-6b47-4228-a7a3-565cb9646e08",
@@ -84,6 +89,7 @@ const product = [
 
     createdAt: "2025-02-10T09:26:23.964Z",
     updatedAt: "2025-02-10T09:26:23.964Z",
+    percentageDiscount: Math.floor(Math.random() * 11) + 5,
   },
   {
     id: "d9d97d2a-4379-404d-951f-22d55c52787b",
@@ -98,6 +104,7 @@ const product = [
 
     createdAt: "2025-02-10T09:26:23.964Z",
     updatedAt: "2025-02-10T09:26:23.964Z",
+    percentageDiscount: Math.floor(Math.random() * 11) + 5,
   },
   {
     id: "c2c6a6a8-8925-457c-8213-09e3393ce031",
@@ -112,6 +119,7 @@ const product = [
 
     createdAt: "2025-02-10T09:26:23.964Z",
     updatedAt: "2025-02-10T09:26:23.964Z",
+    percentageDiscount: Math.floor(Math.random() * 11) + 5,
   },
   {
     id: "f82f65a0-f996-41d5-b3a2-5f26f6bdc657",
@@ -126,6 +134,7 @@ const product = [
 
     createdAt: "2025-02-10T09:26:23.964Z",
     updatedAt: "2025-02-10T09:26:23.964Z",
+    percentageDiscount: Math.floor(Math.random() * 11) + 5,
   },
   {
     id: "671d7425-894d-4dd1-b643-d5ecefdee982",
@@ -140,6 +149,7 @@ const product = [
 
     createdAt: "2025-02-10T09:26:23.964Z",
     updatedAt: "2025-02-10T09:26:23.964Z",
+    percentageDiscount: Math.floor(Math.random() * 11) + 5,
   },
   {
     id: "d118e5df-5484-4592-bb33-1adf5b225134",
@@ -155,6 +165,7 @@ const product = [
 
     createdAt: "2025-02-10T09:26:23.964Z",
     updatedAt: "2025-02-10T09:26:23.964Z",
+    percentageDiscount: Math.floor(Math.random() * 11) + 5,
   },
   {
     id: "d1d4558d-dbe7-4846-9829-1d051e1d2972",
@@ -169,6 +180,7 @@ const product = [
 
     createdAt: "2025-02-10T09:26:23.964Z",
     updatedAt: "2025-02-10T09:26:23.964Z",
+    percentageDiscount: Math.floor(Math.random() * 11) + 5,
   },
   {
     id: "4958065d-f9e9-4ffa-b4f1-2b5d1cc73319",
@@ -183,6 +195,7 @@ const product = [
 
     createdAt: "2025-02-10T09:26:23.964Z",
     updatedAt: "2025-02-10T09:26:23.964Z",
+    percentageDiscount: Math.floor(Math.random() * 11) + 5,
   },
   {
     id: "452ab482-c50c-47ab-b681-f629a6de5db7",
@@ -197,6 +210,7 @@ const product = [
 
     createdAt: "2025-02-10T09:26:23.964Z",
     updatedAt: "2025-02-10T09:26:23.964Z",
+    percentageDiscount: Math.floor(Math.random() * 11) + 5,
   },
   {
     id: "09605964-e198-4ed3-85e8-8fd00dc85bc9",
@@ -211,6 +225,7 @@ const product = [
 
     createdAt: "2025-02-10T09:26:23.964Z",
     updatedAt: "2025-02-10T09:26:23.964Z",
+    percentageDiscount: Math.floor(Math.random() * 11) + 5,
   },
   {
     id: "16deab7d-6f54-4da3-a12f-ddef1e646788",
@@ -225,6 +240,7 @@ const product = [
 
     createdAt: "2025-02-10T09:26:23.964Z",
     updatedAt: "2025-02-10T09:26:23.964Z",
+    percentageDiscount: Math.floor(Math.random() * 11) + 5,
   },
   {
     id: "bc5b9ca8-b585-46be-9834-fcce52437745",
@@ -240,6 +256,7 @@ const product = [
 
     createdAt: "2025-02-10T09:26:23.964Z",
     updatedAt: "2025-02-10T09:26:23.964Z",
+    percentageDiscount: Math.floor(Math.random() * 11) + 5,
   },
   {
     id: "b72a0bfe-e212-4aa8-bb72-df758bdd1068",
@@ -255,6 +272,7 @@ const product = [
 
     createdAt: "2025-02-10T09:26:23.964Z",
     updatedAt: "2025-02-10T09:26:23.964Z",
+    percentageDiscount: Math.floor(Math.random() * 11) + 5,
   },
   {
     id: "78efdafe-cbe4-494c-9ab1-a567af6fbcb7",
@@ -270,6 +288,7 @@ const product = [
 
     createdAt: "2025-02-10T09:26:23.964Z",
     updatedAt: "2025-02-10T09:26:23.964Z",
+    percentageDiscount: Math.floor(Math.random() * 11) + 5,
   },
   {
     id: "edc6e27d-9bf4-4b89-83d1-b2cd9a55bf55",
@@ -284,6 +303,7 @@ const product = [
 
     createdAt: "2025-02-10T09:26:23.964Z",
     updatedAt: "2025-02-10T09:26:23.964Z",
+    percentageDiscount: Math.floor(Math.random() * 11) + 5,
   },
   {
     id: "a8007da8-8424-4e33-883a-92cb67b0b17a",
@@ -299,6 +319,7 @@ const product = [
 
     createdAt: "2025-02-10T09:26:23.964Z",
     updatedAt: "2025-02-10T09:26:23.964Z",
+    percentageDiscount: Math.floor(Math.random() * 11) + 5,
   },
   {
     id: "d937b5bf-6c97-458f-94fc-8c4177d66b4d",
@@ -313,6 +334,7 @@ const product = [
 
     createdAt: "2025-02-10T09:26:23.964Z",
     updatedAt: "2025-02-10T09:26:23.964Z",
+    percentageDiscount: Math.floor(Math.random() * 11) + 5,
   },
   {
     id: "376b4c13-68d4-49f0-843a-a8d2f0f5334e",
@@ -327,6 +349,7 @@ const product = [
 
     createdAt: "2025-02-10T09:26:23.964Z",
     updatedAt: "2025-02-10T09:26:23.964Z",
+    percentageDiscount: Math.floor(Math.random() * 11) + 5,
   },
   {
     id: "a41ec06c-bfba-4451-99ca-33da8b04c62e",
@@ -341,6 +364,7 @@ const product = [
 
     createdAt: "2025-02-10T09:26:23.964Z",
     updatedAt: "2025-02-10T09:26:23.964Z",
+    percentageDiscount: Math.floor(Math.random() * 11) + 5,
   },
   {
     id: "3654fbd2-ec62-4081-b15d-ffc5a361278f",
@@ -356,6 +380,7 @@ const product = [
 
     createdAt: "2025-02-10T09:26:23.964Z",
     updatedAt: "2025-02-10T09:26:23.964Z",
+    percentageDiscount: Math.floor(Math.random() * 11) + 5,
   },
   {
     id: "944b7192-a04b-4543-b982-072e730a272f",
@@ -370,6 +395,7 @@ const product = [
 
     createdAt: "2025-02-10T09:26:23.964Z",
     updatedAt: "2025-02-10T09:26:23.964Z",
+    percentageDiscount: Math.floor(Math.random() * 11) + 5,
   },
 ];
 
