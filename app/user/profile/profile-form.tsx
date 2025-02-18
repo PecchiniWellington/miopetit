@@ -1,4 +1,5 @@
 "use client";
+
 import DynamicButton from "@/components/dynamic-button";
 import {
   Form,
@@ -12,18 +13,17 @@ import { updateUserProfile } from "@/core/actions/user";
 import { updateUserProfileSchema } from "@/core/validators";
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const ProfileForm = () => {
-  const { data: session, update } = useSession();
+  /* const { data: session, update } = useSession(); */
 
   const form = useForm<z.infer<typeof updateUserProfileSchema>>({
     resolver: zodResolver(updateUserProfileSchema),
     defaultValues: {
-      name: session?.user?.name ?? "",
-      email: session?.user?.email ?? "",
+      name: /* session?.user?.name ?? */ "",
+      email: /*  session?.user?.email ?? */ "",
     },
   });
 
@@ -40,9 +40,9 @@ const ProfileForm = () => {
     }
 
     const newSession = {
-      ...session,
+      /*  ...session, */
       user: {
-        ...session?.user,
+        /*  ...session?.user, */
         name: values.name,
       },
     };
@@ -69,7 +69,7 @@ const ProfileForm = () => {
                 <FormControl>
                   <Input
                     disabled
-                    placeholder="email"
+                    placeholder="Email"
                     className="input-field"
                     {...field}
                   />
@@ -85,7 +85,7 @@ const ProfileForm = () => {
               <FormItem className="w-full">
                 <FormControl>
                   <Input
-                    placeholder="name"
+                    placeholder="Nome"
                     className="input-field"
                     {...field}
                   />
@@ -96,7 +96,7 @@ const ProfileForm = () => {
           />
         </div>
         <DynamicButton isPending={form.formState.isSubmitting}>
-          {form.formState.isSubmitting ? "Saving..." : "Save"}
+          {form.formState.isSubmitting ? "Salvando..." : "Salva"}
         </DynamicButton>
       </form>
     </Form>

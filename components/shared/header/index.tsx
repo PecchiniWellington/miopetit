@@ -1,27 +1,28 @@
-import CtBanner from "@/components/ct-banner";
 import MegaMenu from "@/components/mega-menu/mega-menu";
 import { getAllCategoriesForMegaMenu } from "@/core/actions/products/mega-menu.action";
+import { getAllCategories } from "@/core/actions/products/product-infos.ts/get-product-category.action";
 import { APP_NAME } from "@/lib/constants";
 import { SessionProvider } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
+import CartCounter from "./cart-counter";
 import FavoritesCounter from "./favourites-counter";
 import Menu from "./menu";
-import Search from "./search";
+import Search from "./search/search";
 import UserButton from "./user-button";
-import CartCounter from "./cart-counter";
 
 const Header = async () => {
   const megaMenuCat = await getAllCategoriesForMegaMenu("gatti");
   const megaMenuDog = await getAllCategoriesForMegaMenu("cani");
   const megaMenuSmallAnimal =
     await getAllCategoriesForMegaMenu("piccoli-animali");
+  const categories = await getAllCategories();
 
   return (
-    <header className="w-full border-b shadow-md">
+    <header className=" w-full  border-b shadow-md">
       {/* Top Navbar */}
-      <div className="bg-gradient-to-r from-indigo-500 to-purple-600">
-        <div className="wrapper flex items-center justify-between px-6 py-4 md:px-12">
+      <div className=" bg-gradient-to-r from-indigo-500 to-purple-600">
+        <div className="wrapper flex  items-center justify-between px-6 py-4 md:px-12">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3">
             <Image
@@ -38,8 +39,8 @@ const Header = async () => {
           </Link>
 
           {/* Search Bar */}
-          <div className="hidden w-full max-w-lg md:block">
-            <Search />
+          <div className=" flex w-full max-w-lg justify-center">
+            <Search categories={categories} />
           </div>
 
           {/* Menu Mobile */}
@@ -59,8 +60,8 @@ const Header = async () => {
       </div>
 
       {/* Mega Menu */}
-      <div className=" relative z-50  gap-6 bg-white  shadow-md">
-        <nav className="wrapper relative z-50 hidden gap-6 bg-white   md:flex">
+      <div className=" relative z-20  gap-6 bg-white  shadow-md">
+        <nav className="wrapper relative z-20 hidden gap-6 bg-white   md:flex">
           <MegaMenu
             data={megaMenuDog}
             imgSrc="/images/dog.png"
@@ -80,9 +81,9 @@ const Header = async () => {
       </div>
 
       {/* Call to Action Banner */}
-      <div>
+      {/* <div>
         <CtBanner />
-      </div>
+      </div> */}
     </header>
   );
 };
