@@ -65,6 +65,7 @@ const ConfigCategoryPage = ({
           name={product.name}
           rating={product.rating as number}
           price={Number(product.price)}
+          product={product}
         />
       ))
     );

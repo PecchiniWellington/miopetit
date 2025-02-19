@@ -232,6 +232,7 @@ const SearchPage = async (props: {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             [].map((product: any) => (
               <CustomProduct
+                product={product}
                 key={product.id}
                 id={product.id}
                 image="https://utfs.io/f/RnH9VIVP0zpxL8Sd59Kp86NzgPOkKSsma1BjXoZe9tA3HMCW"

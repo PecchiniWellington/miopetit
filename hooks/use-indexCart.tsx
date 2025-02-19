@@ -72,31 +72,43 @@ export function useIndexedDBCart() {
       const existingProduct = cartProduct.find(
         (item) => item.id === product?.id
       );
+
       if (existingProduct) {
         // Se già presente, aggiorna la quantità
         existingProduct.qty += qty;
+
+        // ✅ Assicurati che l'id esista
+        if (!existingProduct.id) {
+          console.warn("Prodotto esistente senza ID, ne verrà generato uno.");
+          existingProduct.id = crypto.randomUUID(); // Genera un UUID
+        }
+
         store.put(existingProduct);
       } else {
-        const newProduct = { ...product, qty };
+        console.log("PRODUCT", product);
+        // ✅ Assicurati che l'id esista
+        const newProduct = {
+          ...product,
+          qty,
+          id: product.id || crypto.randomUUID(),
+        };
+
+        console.log("Nuovo prodotto aggiunto:", newProduct);
+
         store.put(newProduct);
       }
 
-      setCartProduct((prev: IProduct[]) => {
-        const updatedCartProduct = existingProduct
-          ? prev.map((item) =>
-              item.id === existingProduct.id ? existingProduct : item
-            )
-          : [...prev, { ...product, qty }];
+      // 🔄 Riapri il database per ottenere l'aggiornamento
+      const updatedCartProduct = await getCartProduct();
+      setCartProduct(updatedCartProduct);
 
-        setTimeout(() => {
-          window.dispatchEvent(
-            new CustomEvent("cartProductUpdated", {
-              detail: updatedCartProduct.length,
-            })
-          );
-        }, 0);
-        return updatedCartProduct;
-      });
+      setTimeout(() => {
+        window.dispatchEvent(
+          new CustomEvent("cartProductUpdated", {
+            detail: updatedCartProduct.length,
+          })
+        );
+      }, 0);
     } catch (error) {
       console.error("Errore nell'aggiunta al carrello", error);
     }
@@ -132,6 +144,7 @@ export function useIndexedDBCart() {
   useEffect(() => {
     const updateCartProduct = async () => {
       const updatedCartProduct = await getCartProduct();
+      console.log("🔄 Carrello aggiornato:", updatedCartProduct);
       setCartProduct(updatedCartProduct);
     };
 

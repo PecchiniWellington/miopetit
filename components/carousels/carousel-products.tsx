@@ -41,6 +41,7 @@ const CarouselProducts = ({ data }: { data: ILatestProduct[] }) => {
                   price={49.99}
                   oldPrice={54.99}
                   pricePerKg="€4,16/KG"
+                  product={category}
                 />
               </div>
             </CarouselItem>

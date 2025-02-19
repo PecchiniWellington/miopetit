@@ -11,19 +11,17 @@ const CartPage = async () => {
   const cart = await getMyCart();
 
   return (
-    <>
-      <CartTable
-        cart={{
-          ...cart,
-          items: cart?.items as ICartItem[],
-          sessionCartId: cart?.id as string,
-          itemsPrice: cart?.itemsPrice as unknown as string,
-          totalPrice: cart?.totalPrice as unknown as string,
-          shippingPrice: cart?.totalPrice as unknown as string,
-          taxPrice: cart?.taxPrice as unknown as string,
-        }}
-      />
-    </>
+    <CartTable
+      cart={{
+        ...cart,
+        items: cart?.items as ICartItem[],
+        sessionCartId: cart?.id as string,
+        itemsPrice: cart?.itemsPrice as unknown as string,
+        totalPrice: cart?.totalPrice as unknown as string,
+        shippingPrice: cart?.totalPrice as unknown as string,
+        taxPrice: cart?.taxPrice as unknown as string,
+      }}
+    />
   );
 };
 

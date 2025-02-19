@@ -1,6 +1,7 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
+import { addItemToCart } from "@/core/actions/cart/cart.actions";
 import { IProduct } from "@/core/validators";
 import { useIndexedDBCart } from "@/hooks/use-indexCart";
 import { useIndexedDB } from "@/hooks/use-indexDB";
@@ -26,7 +27,7 @@ interface Product {
   slug: string;
 }
 
-export default function ProductCard({
+export default function CustomProduct({
   id,
   image,
   name,
@@ -44,6 +45,8 @@ export default function ProductCard({
   const { addToCartProduct } = useIndexedDBCart();
   const [isWishlisted, setWishlisted] = useState(false);
 
+  console.log("PRODUCT", product);
+
   // Controlla se il prodotto è nei favoriti
   useEffect(() => {
     setWishlisted(favorites.some((fav) => fav.id.toString() === id));
@@ -59,6 +62,19 @@ export default function ProductCard({
       addFavorite(product);
     }
     setWishlisted(!isWishlisted);
+  };
+
+  const addToCart = async (product: IProduct) => {
+    console.log("Product", product);
+    await addToCartProduct(product, 1);
+    await addItemToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price.toString(),
+      qty: 1,
+      image: product.image[0],
+      slug: product.slug,
+    });
   };
 
   return (
@@ -127,7 +143,7 @@ export default function ProductCard({
 
       {/* Add to Cart Button */}
       <motion.button
-        onClick={() => addToCartProduct(product)}
+        onClick={() => addToCart(product)}
         whileTap={{ scale: 0.9 }}
         className="absolute bottom-4 right-4 flex size-12 items-center justify-center rounded-full bg-black p-2 transition hover:bg-gray-800"
       >

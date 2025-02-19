@@ -9,9 +9,7 @@ export const productSchema = z.object({
   id: z.string().uuid(),
   name: z.string().min(3, "Il nome deve avere almeno 3 caratteri"),
   slug: z.string().min(3, "Lo slug deve avere almeno 3 caratteri"),
-  images: z.array(
-    z.string().min(1, "Il prodotto deve avere almeno 1 immagine")
-  ),
+  image: z.array(z.string().min(1, "Il prodotto deve avere almeno 1 immagine")),
   description: z
     .string()
     .min(3, "La descrizione deve avere almeno 3 caratteri"),
