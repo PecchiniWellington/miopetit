@@ -60,7 +60,7 @@ const Header = async () => {
             <CartCounter />
             <FavoritesCounter />
             <SessionProvider>
-              {userLogged && <UserButton userLogged={userLogged} />}
+              <UserButton userLogged={userLogged} />
             </SessionProvider>
           </nav>
         </div>

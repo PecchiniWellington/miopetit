@@ -2,55 +2,134 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { updateUserAddress } from "@/core/actions/user";
+import { createUserAddress } from "@/core/actions/user/create-user-address.action";
+import { deleteUserAddress } from "@/core/actions/user/delete-user-address.action";
+import { getUserAddress } from "@/core/actions/user/get-user-address.action";
+import { setDefaultAddress } from "@/core/actions/user/set-user-default-address.action";
+import {
+  IAddress,
+  addressSchema,
+} from "@/core/validators/user-address.validator";
+
+import { useToast } from "@/hooks/use-toast";
 import { CheckCircle, Pencil, Plus, Trash, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export const AddressesTab = () => {
-  const [addresses, setAddresses] = useState([
-    { id: 1, street: "Via Roma, 10", city: "Milano", isDefault: true },
-    { id: 2, street: "Viale Italia, 22", city: "Torino", isDefault: false },
-  ]);
+export const AddressesTab = ({ user }: { user: any }) => {
+  const { toast } = useToast();
+  const [addresses, setAddresses] = useState<IAddress[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newAddress, setNewAddress] = useState({ street: "", city: "" });
-  const [editingAddress, setEditingAddress] = useState<number | null>(null);
+  const [newAddress, setNewAddress] = useState<IAddress>({
+    id: "",
+    street: "",
+    city: "",
+    isDefault: false,
+  });
+  const [editingAddress, setEditingAddress] = useState<string | null>(null);
 
-  const handleSaveAddress = () => {
-    if (newAddress.street && newAddress.city) {
-      if (editingAddress !== null) {
-        // Modifica un indirizzo esistente
-        setAddresses((prev) =>
-          prev.map((addr) =>
-            addr.id === editingAddress
-              ? { ...addr, street: newAddress.street, city: newAddress.city }
-              : addr
-          )
-        );
-      } else {
-        // Aggiunge un nuovo indirizzo
-        setAddresses([
-          ...addresses,
-          {
-            id: Date.now(),
-            street: newAddress.street,
-            city: newAddress.city,
-            isDefault: false,
-          },
-        ]);
-      }
-      setNewAddress({ street: "", city: "" });
-      setEditingAddress(null);
-      setIsModalOpen(false);
+  const fetchAddresses = async () => {
+    try {
+      const r = await getUserAddress(user.id);
+      setAddresses(r.data);
+    } catch (error) {
+      console.error("Error fetching addresses:", error);
     }
   };
 
-  const handleDeleteAddress = (id: number) => {
-    setAddresses(addresses.filter((addr) => addr.id !== id));
+  // 📌 Recupera gli indirizzi quando il componente viene montato
+  useEffect(() => {
+    fetchAddresses();
+  }, [toast, user]);
+
+  // 📌 Salvataggio o Modifica dell'indirizzo
+  const handleSaveAddress = async () => {
+    try {
+      addressSchema.parse(newAddress);
+
+      const res = newAddress.id
+        ? await updateUserAddress(newAddress)
+        : await createUserAddress(newAddress);
+
+      if (res.success) {
+        toast({
+          description: res.message,
+          icon: <CheckCircle className="size-4 text-green-500" />,
+        });
+        setIsModalOpen(false);
+        setEditingAddress(null);
+        setNewAddress({ id: "", street: "", city: "", isDefault: false });
+        setAddresses(res.data); // Aggiorna la lista degli indirizzi
+        fetchAddresses();
+      } else {
+        toast({
+          variant: "destructive",
+          description: res.message,
+        });
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        description: "Dati non validi. Controlla i campi inseriti.",
+      });
+    }
   };
 
-  const handleSetDefault = (id: number) => {
-    setAddresses(
-      addresses.map((addr) => ({ ...addr, isDefault: addr.id === id }))
-    );
+  // 📌 Eliminazione dell'indirizzo
+  const handleDeleteAddress = async (addressId: string, userId: string) => {
+    const res = await deleteUserAddress(addressId, userId);
+
+    if (res.success) {
+      toast({
+        description: res.message,
+        icon: <CheckCircle className="size-4 text-green-500" />,
+      });
+
+      // 📌 Aggiorna la lista degli indirizzi rimuovendo l'indirizzo eliminato
+      setAddresses((prevAddresses) =>
+        prevAddresses.filter((addr) => addr.id !== addressId)
+      );
+      fetchAddresses();
+    } else {
+      toast({
+        variant: "destructive",
+        description: res.message,
+      });
+    }
+  };
+
+  // 📌 Imposta l'indirizzo come predefinito
+  const handleSetDefault = async (id: string, userId: string) => {
+    try {
+      // Effettua una chiamata al backend per impostare l'indirizzo come default
+      const res = await setDefaultAddress(id, userId);
+
+      if (res.success) {
+        toast({
+          description: res.message,
+          icon: <CheckCircle className="size-4 text-green-500" />,
+        });
+
+        // 📌 Aggiorna lo stato locale impostando isDefault solo per l'indirizzo selezionato
+        setAddresses((prevAddresses) =>
+          prevAddresses.map((addr) => ({
+            ...addr,
+            isDefault: addr.id === id,
+          }))
+        );
+      } else {
+        toast({
+          variant: "destructive",
+          description: res.message,
+        });
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        description:
+          "Errore durante l'aggiornamento dell'indirizzo predefinito.",
+      });
+    }
   };
 
   return (
@@ -64,7 +143,7 @@ export const AddressesTab = () => {
 
       {/* Lista Indirizzi */}
       <div className="mt-4 space-y-4">
-        {addresses.map((address) => (
+        {addresses?.map((address) => (
           <div
             key={address.id}
             className={`flex items-center justify-between rounded-md border p-4 transition ${
@@ -88,7 +167,12 @@ export const AddressesTab = () => {
                 variant="outline"
                 size="icon"
                 onClick={() => {
-                  setNewAddress({ street: address.street, city: address.city });
+                  setNewAddress({
+                    id: address.id,
+                    street: address.street,
+                    city: address.city,
+                    isDefault: address.isDefault,
+                  });
                   setEditingAddress(address.id);
                   setIsModalOpen(true);
                 }}
@@ -98,7 +182,9 @@ export const AddressesTab = () => {
               <Button
                 variant="outline"
                 size="icon"
-                onClick={() => handleDeleteAddress(address.id)}
+                onClick={() =>
+                  handleDeleteAddress(address.id || "", user.id || "")
+                }
               >
                 <Trash className="size-4 text-red-500" />
               </Button>
@@ -106,7 +192,7 @@ export const AddressesTab = () => {
                 <Button
                   variant="outline"
                   size="icon"
-                  onClick={() => handleSetDefault(address.id)}
+                  onClick={() => handleSetDefault(address.id, user.id)}
                 >
                   <CheckCircle className="size-4 text-green-500" />
                 </Button>
@@ -120,7 +206,7 @@ export const AddressesTab = () => {
       <Button
         className="mt-4 flex items-center gap-2"
         onClick={() => {
-          setNewAddress({ street: "", city: "" });
+          setNewAddress({ id: "", street: "", city: "", isDefault: false });
           setEditingAddress(null);
           setIsModalOpen(true);
         }}

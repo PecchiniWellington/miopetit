@@ -31,7 +31,7 @@ const ResetPasswordPage = () => {
           </CardHeader>
           <CardTitle className="text-center"> 🔑 Reset Password</CardTitle>
           <CardDescription className="text-center">
-            Inserisci la tua email e la nuova password
+            Inserisci la tua email per resettare la password
           </CardDescription>
 
           <Separator className="my-6 bg-slate-100" />

@@ -16,6 +16,10 @@ interface Tab {
 const ProfileTabsConfig = ({ tabs, user }: { tabs: Tab[]; user: any }) => {
   const [activeTab, setActiveTab] = useState("profile");
 
+  const [, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
   console.log("TABS", tabs);
 
   return (
@@ -25,7 +29,7 @@ const ProfileTabsConfig = ({ tabs, user }: { tabs: Tab[]; user: any }) => {
         initial={{ x: -30, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 0.3, ease: "easeOut" }}
-        className="sticky z-40 flex h-fit w-full flex-col rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800 md:top-20 md:w-3/12"
+        className="sticky z-10 flex h-fit w-full flex-col rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800 md:top-20 md:w-3/12"
       >
         <h2 className="text-lg font-semibold text-gray-800 dark:text-white">
           🎯 Navigazione Profilo
@@ -93,6 +97,7 @@ const ProfileTabsConfig = ({ tabs, user }: { tabs: Tab[]; user: any }) => {
       </motion.aside>
 
       {/* 📌 Contenuti */}
+
       <motion.section
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -103,8 +108,24 @@ const ProfileTabsConfig = ({ tabs, user }: { tabs: Tab[]; user: any }) => {
         {activeTab === "profile" && <ProfileTab user={user} />}
         {activeTab === "orders" && <OrdersTab />}
         {activeTab === "favorites" && <FavoritesTab />}
-        {activeTab === "addresses" && <AddressesTab />}
-        {activeTab === "security" && <SecurityTab />}
+        {activeTab === "addresses" && <AddressesTab user={user} />}
+        {activeTab === "security" && (
+          <SecurityTab
+            email={user.email}
+            setIsLoading={setIsLoading}
+            setErrorMessage={setErrorMessage}
+            setSuccessMessage={setSuccessMessage}
+          />
+        )}
+        {/* Messaggio di errore */}
+        {errorMessage && (
+          <p className="mt-8 text-sm text-red-600">{errorMessage}</p>
+        )}
+
+        {/* Messaggio di successo */}
+        {successMessage && (
+          <p className="mt-8 text-sm text-green-600">{successMessage}</p>
+        )}
       </motion.section>
     </div>
   );

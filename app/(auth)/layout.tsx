@@ -1,7 +1,18 @@
+import Footer from "@/components/footer";
+import Breadcrumb from "@/components/shared/bread-crumb";
+import Header from "@/components/shared/header";
+
 export default function AuthLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <div className="flex-center min-h-screen w-full">{children}</div>;
+  return (
+    <div className="flex-center flex min-h-screen w-full flex-col">
+      <Header />
+      <Breadcrumb separator=">" />
+      <main className="wrapper my-10 flex-1">{children}</main>
+      <Footer />
+    </div>
+  );
 }

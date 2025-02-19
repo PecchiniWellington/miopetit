@@ -73,7 +73,7 @@ const ResetPasswordForm = () => {
         description: data.message,
       });
 
-      router.push("/login");
+      router.push("/sign-in");
     } catch (error) {
       console.error("Errore nel reset della password:", error);
       toast({

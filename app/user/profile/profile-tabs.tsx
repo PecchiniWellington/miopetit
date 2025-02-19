@@ -14,14 +14,19 @@ import { updateUserProfileSchema } from "@/core/validators";
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Camera, CheckCircle } from "lucide-react";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { undefined, z } from "zod";
 
 export const ProfileTab = ({ user }: { user: any }) => {
-  const [profileImage, setProfileImage] = useState("/images/user-avatar.png");
+  const { data: session } = useSession();
+  const [profileImage, setProfileImage] = useState(
+    session?.user?.image || "/images/user-avatar.png"
+  );
 
+  const firstInitial = user?.name?.charAt(0).toUpperCase() ?? "";
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -35,13 +40,19 @@ export const ProfileTab = ({ user }: { user: any }) => {
       {/* Sezione Avatar */}
       <div className="flex flex-col items-center space-y-3">
         <div className="relative">
-          <Image
-            src={user.image || profileImage}
-            alt="User Avatar"
-            width={100}
-            height={100}
-            className="rounded-full border-4 border-indigo-500 shadow-md"
-          />
+          {user.image ? (
+            <Image
+              src={user.image || "/images/user-avatar.png"}
+              alt="User Avatar"
+              width={100}
+              height={100}
+              className="rounded-full border-4 border-indigo-500 shadow-md"
+            />
+          ) : (
+            <div className="flex size-10 items-center justify-center overflow-hidden rounded-full border-2 border-gray-500 bg-gray-300 text-lg font-bold text-gray-700 shadow-md dark:border-gray-300 dark:bg-gray-700 dark:text-white">
+              {firstInitial}
+            </div>
+          )}
           <label
             htmlFor="profile-upload"
             className="absolute bottom-1 right-1 flex size-8 cursor-pointer items-center justify-center rounded-full bg-indigo-600 text-white shadow-md hover:bg-indigo-700"
@@ -57,7 +68,7 @@ export const ProfileTab = ({ user }: { user: any }) => {
           />
         </div>
         <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-          Il tuo profilo
+          {session?.user?.name || "Il tuo profilo"}
         </h2>
         <p className="text-sm text-gray-500 dark:text-gray-400">
           Aggiorna le tue informazioni personali
@@ -72,6 +83,8 @@ export const ProfileTab = ({ user }: { user: any }) => {
 
 /** 📌 Form Profili */
 const ProfileForm = () => {
+  const { data: session, update } = useSession();
+
   const form = useForm<z.infer<typeof updateUserProfileSchema>>({
     resolver: zodResolver(updateUserProfileSchema),
     defaultValues: {
@@ -82,6 +95,16 @@ const ProfileForm = () => {
 
   const { toast } = useToast();
 
+  // ✅ Effettua il reset del form quando la sessione viene popolata
+  useEffect(() => {
+    if (session?.user) {
+      form.reset({
+        name: session.user.name ?? undefined,
+        email: session.user.email ?? undefined,
+      });
+    }
+  }, [session, form]);
+
   const onSubmit = async (values: z.infer<typeof updateUserProfileSchema>) => {
     const res = await updateUserProfile(values);
 
@@ -91,6 +114,15 @@ const ProfileForm = () => {
         description: res.message,
       });
     }
+
+    // ✅ Aggiorna la sessione per il nome in tempo reale
+    await update({
+      ...session,
+      user: {
+        ...session?.user,
+        name: values.name,
+      },
+    });
 
     toast({
       description: res.message,

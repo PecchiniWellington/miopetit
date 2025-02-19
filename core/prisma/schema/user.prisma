@@ -6,13 +6,13 @@ model User {
     image            String?
     password         String?
     role             String    @default("USER")
-    address          Json?     @db.Json
     paymentMethod    String?
     status           String    @default("ACTIVE")
     createdAt        DateTime  @default(now()) @map("created_at") @db.Timestamp(6)
     updatedAt        DateTime  @updatedAt @map("updated_at")
-    resetToken       String? // Token per il reset della password
-    resetTokenExpiry DateTime? // Scadenza del token
+    resetToken       String?
+    resetTokenExpiry DateTime?
+    address          Address[]
     accounts         Account[]
     sessions         Session[]
     Cart             Cart[]
