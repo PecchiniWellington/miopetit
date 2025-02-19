@@ -1,5 +1,4 @@
 import NotFound from "@/app/not-found";
-import { auth } from "@/auth";
 import { AddToCart } from "@/components/shared/product/add-to-cart/add-to-cart";
 import ProductImages from "@/components/shared/product/product-image/product-images";
 import ProductPrice from "@/components/shared/product/product-price";
@@ -10,14 +9,15 @@ import { getMyCart } from "@/core/actions/cart/cart.actions";
 import ProductDetails from "@/components/shared/product/product-details";
 import { getProductBySlug } from "@/core/actions/products";
 import { ICartItem } from "@/core/validators";
-import ReviewList from "./review-list";
+import { CheckCircle, XCircle } from "lucide-react";
+import ProductTabs from "./product-tab";
 
 const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
   const { slug } = await props.params;
 
-  const session = await auth();
+  /*  const session = await auth();
   const userId = session?.user.id;
-
+ */
   const product = await getProductBySlug(slug);
   if (!product) return NotFound();
 
@@ -36,24 +36,33 @@ const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
   );
 
   const ProductPageRightCard = () => (
-    <Card>
-      <CardContent className="p-4">
-        <div className="mb-2 flex justify-between">
-          <div>Price</div>
-          <div>
-            <ProductPrice value={Number(price)}></ProductPrice>
-          </div>
+    <Card className="w-full max-w-sm rounded-lg border bg-white shadow-lg dark:bg-gray-800 md:max-w-md lg:max-w-lg">
+      <CardContent className="flex flex-col space-y-6 p-6">
+        {/* Prezzo */}
+        <div className="flex items-center justify-between text-lg font-semibold text-gray-800 dark:text-gray-300">
+          <span>💰 Prezzo</span>
+          <span className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
+            <ProductPrice value={Number(price)} />
+          </span>
         </div>
-        <div className="mb-2 flex justify-between">
-          <div>Status</div>
+
+        {/* Disponibilità */}
+        <div className="flex items-center justify-between text-lg font-semibold text-gray-800 dark:text-gray-300">
+          {/*  <span>📦 Disponibilità</span> */}
           {stock > 0 ? (
-            <Badge variant="outline">In Stock</Badge>
+            <Badge className="flex items-center gap-1 bg-green-100 px-3 py-1 text-green-700 dark:bg-green-800 dark:text-green-300">
+              <CheckCircle className="size-4" /> Disponibile
+            </Badge>
           ) : (
-            <Badge variant="destructive">Out of Stock</Badge>
+            <Badge className="flex items-center gap-1 bg-red-100 px-3 py-1 text-red-700 dark:bg-red-800 dark:text-red-300">
+              <XCircle className="size-4" /> Esaurito
+            </Badge>
           )}
         </div>
+
+        {/* Pulsante Aggiungi al carrello */}
         {stock > 0 && (
-          <div className="flex-center mt-10">
+          <div className="mt-4 flex justify-center">
             <AddToCart
               cart={{
                 ...cart,
@@ -91,12 +100,16 @@ const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
         </div>
       </section>
       <section className="mt-10">
-        <h2 className="h2-bold">Customer Reviews</h2>
+        <ProductTabs
+          productId={product.id}
+          description="Laboris consequat aliquip excepteur occaecat culpa. Nulla amet aliqua non est mollit commodo do cillum. Deserunt in velit laborum adipisicing. Aute duis minim anim id. Enim eiusmod in officia mollit nostrud."
+        />
+        {/*  <h2 className="h2-bold">Customer Reviews</h2>
         <ReviewList
           userId={userId || ""}
           productId={product.id.toString()}
           productSlug={product.slug}
-        />
+        /> */}
       </section>
     </>
   );

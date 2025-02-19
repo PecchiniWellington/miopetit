@@ -3,7 +3,8 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { IProduct } from "@/core/validators";
-import { BadgeCheck, Star } from "lucide-react";
+import { BadgeCheck } from "lucide-react";
+import Rating from "./rating";
 
 export default function ProductDetails({ product }: { product: IProduct }) {
   function truncateText(text: string, maxLength: number): string {
@@ -17,6 +18,25 @@ export default function ProductDetails({ product }: { product: IProduct }) {
     }
     return truncated.slice(0, lastSpaceIndex) + "...";
   }
+
+  const extractProductData = [
+    {
+      key: "Funzione alimentare",
+      value: product.productsFeatureOnProduct
+        .map((f) => f.productFeature.name)
+        .join(", "),
+    },
+    {
+      key: "Patologie supportate",
+      value: product.productPathologies.map((p) => p.name).join(", "),
+    },
+    {
+      key: "Proteine principali",
+      value: product.productProteins.map((p) => p.name).join(", "),
+    },
+    { key: "Età animale", value: product.animalAge },
+  ];
+
   return (
     <div className="col-span-2 px-6">
       {/* Punti fedeltà */}
@@ -40,26 +60,24 @@ export default function ProductDetails({ product }: { product: IProduct }) {
       {/* Recensioni */}
       <div className="mt-2 flex items-center gap-2">
         <div className="flex">
-          {Array(5)
-            .fill(0)
-            .map((_, index) => (
-              <Star key={index} className="size-5 text-green-500" />
-            ))}
+          <Rating value={Number(product.rating)} />
         </div>
-        <span className="text-sm text-gray-600">8 recensioni ▼</span>
+        <span className="text-sm text-gray-600">
+          {product.numReviews} recensioni{" "}
+        </span>
       </div>
 
       {/* Prezzo */}
       <div className="mt-4 border-t pt-4">
         <p className="text-lg font-medium text-gray-600">Ordine singolo:</p>
         <div className="flex items-baseline gap-2">
-          <span className="text-2xl font-bold text-black">{product.price}</span>
-          <span className="text-gray-500 line-through">
+          <span className="text-2xl font-bold text-black">
             {(
               Number(product.price) -
               Number(product.price) * (Number(product.percentageDiscount) / 100)
             ).toFixed(2)}
           </span>
+          <span className="text-gray-500 line-through">{product.price}</span>
           <span
             className={`${product.percentageDiscount ? "block" : "hidden"} font-bold text-red-400`}
           >
@@ -67,12 +85,11 @@ export default function ProductDetails({ product }: { product: IProduct }) {
           </span>
           {/* CREARE SCONTO in db */}
         </div>
-        {/*  <p className="text-xs text-gray-500">
-          (€{product.productUnitFormat?.unitValue?.toString() || ""}/
-          {product.productUnitFormat?.unitOfMeasure.toString() || ""})
-        </p> */}
       </div>
 
+      {/* Punti fedeltà */}
+
+      {console.log(product)}
       {/* Specifiche prodotto */}
       <div className="mt-6">
         <h2 className="text-lg font-semibold">Specifiche prodotto</h2>
@@ -80,19 +97,12 @@ export default function ProductDetails({ product }: { product: IProduct }) {
           <CardContent className="p-0">
             <table className="w-full border-collapse text-sm">
               <tbody>
-                {[
-                  ["Funzione alimentare", "Sensibilità"],
-                  ["Caratteristica nutrizionale", "Grain free"],
-                  ["Gusto", "Salmone"],
-                  ["Lifestage", "Adulto"],
-                  ["Razza", "Tutte le razze"],
-                  ["Taglia", "Piccola"],
-                ].map(([label, value], index) => (
-                  <tr key={index} className="border-t last:border-b">
+                {extractProductData.map((p) => (
+                  <tr key={p.key} className="border-t last:border-b">
                     <td className="bg-gray-100 px-4 py-2 text-gray-700">
-                      {label}
+                      {p.key}
                     </td>
-                    <td className="px-4 py-2 text-black">{value}</td>
+                    <td className="px-4 py-2 text-black">{p.value}</td>
                   </tr>
                 ))}
               </tbody>

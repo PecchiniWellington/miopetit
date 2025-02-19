@@ -1,6 +1,8 @@
+import { auth } from "@/auth";
 import MegaMenu from "@/components/mega-menu/mega-menu";
 import { getAllCategoriesForMegaMenu } from "@/core/actions/products/mega-menu.action";
 import { getAllCategories } from "@/core/actions/products/product-infos.ts/get-product-category.action";
+import { getUserById } from "@/core/actions/user";
 import { APP_NAME } from "@/lib/constants";
 import { SessionProvider } from "next-auth/react";
 import Image from "next/image";
@@ -18,6 +20,11 @@ const Header = async () => {
     await getAllCategoriesForMegaMenu("piccoli-animali");
   const categories = await getAllCategories();
 
+  const session = await auth();
+  let userLogged = null;
+  if (session && session.user && typeof session.user.id === "string") {
+    userLogged = await getUserById(session.user.id);
+  }
   return (
     <header className=" w-full  border-b shadow-md">
       {/* Top Navbar */}
@@ -53,7 +60,7 @@ const Header = async () => {
             <CartCounter />
             <FavoritesCounter />
             <SessionProvider>
-              <UserButton />
+              {userLogged && <UserButton userLogged={userLogged} />}
             </SessionProvider>
           </nav>
         </div>

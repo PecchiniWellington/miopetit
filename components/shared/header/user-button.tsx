@@ -13,7 +13,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 
-const UserButton = () => {
+const UserButton = ({ userLogged }: { userLogged: any }) => {
   const { data: session, status } = useSession();
 
   if (status === "loading") {
@@ -37,14 +37,16 @@ const UserButton = () => {
   const user = session.user;
   const firstInitial = user?.name?.charAt(0).toUpperCase() ?? "";
 
+  console.log("userLogged", userLogged);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button className="flex items-center gap-2 rounded-full border border-gray-300 bg-white p-1 shadow-sm transition-all duration-300 hover:shadow-lg dark:border-gray-600 dark:bg-gray-800">
-          {user?.image ? (
+          {userLogged.image ? (
             <Image
               alt="User Avatar"
-              src={user.image}
+              src={userLogged.image}
               height={42}
               width={42}
               className="rounded-full border-2 border-transparent bg-gradient-to-r from-indigo-500 to-purple-600 p-[2px] transition-all duration-300 hover:scale-105 hover:border-indigo-400 dark:border-gray-500"

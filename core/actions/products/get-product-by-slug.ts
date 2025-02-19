@@ -15,6 +15,16 @@ export async function getProductBySlug(slug: string) {
         },
       },
       productBrand: true,
+      productPathologyOnProduct: {
+        include: { pathology: true },
+      },
+      productsFeatureOnProduct: {
+        include: { productFeature: true },
+      },
+
+      productProteinOnProduct: {
+        include: { productProtein: true },
+      },
     },
   });
 
@@ -40,5 +50,17 @@ export async function getProductBySlug(slug: string) {
           name: product.productBrand.name,
         }
       : null,
+    productPathologies: product.productPathologyOnProduct.map((p) => ({
+      id: p.pathology.id,
+      name: p.pathology.name,
+    })),
+    productFeatures: product.productsFeatureOnProduct.map((f) => ({
+      id: f.productFeature.id,
+      name: f.productFeature.name,
+    })),
+    productProteins: product.productProteinOnProduct.map((p) => ({
+      id: p.productProtein.id,
+      name: p.productProtein.name,
+    })),
   });
 }

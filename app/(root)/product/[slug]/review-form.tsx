@@ -1,13 +1,6 @@
 "use client";
 
-import DynamicButton from "@/components/dynamic-button";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -25,31 +18,25 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  createUpdateReview,
-  getReviewByProductId,
-} from "@/core/actions/reviews/review.action";
+import { createUpdateReview } from "@/core/actions/reviews/review.action";
 
 import { insertReviewSchema } from "@/core/validators";
 import { useToast } from "@/hooks/use-toast";
 import { REVIEW_FORM_DEFAULT_VALUES } from "@/lib/constants";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DialogDescription } from "@radix-ui/react-dialog";
-import { StarIcon } from "lucide-react";
-import { useState } from "react";
+import { Loader, Send, StarIcon } from "lucide-react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
 const ReviewForm = ({
-  userId,
+  /*  userId, */
   productId,
   onReviewSubmitted,
 }: {
-  userId: string;
+  /*  userId: string; */
   productId: string;
   onReviewSubmitted: () => void;
 }) => {
-  const [open, setOpen] = useState(false);
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof insertReviewSchema>>({
@@ -58,7 +45,7 @@ const ReviewForm = ({
   });
 
   /* Open Form Handler */
-  const handleOpenForm = async () => {
+  /* const handleOpenForm = async () => {
     form.setValue("userId", userId);
     form.setValue("productId", productId);
 
@@ -69,8 +56,8 @@ const ReviewForm = ({
       form.setValue("rating", review.rating);
     }
 
-    setOpen(true);
-  };
+   
+  }; */
 
   /* Submit Form Handler */
   const onSubmit: SubmitHandler<z.infer<typeof insertReviewSchema>> = async (
@@ -89,7 +76,6 @@ const ReviewForm = ({
         description: res.message,
       });
     }
-    setOpen(false);
 
     onReviewSubmitted();
 
@@ -101,84 +87,77 @@ const ReviewForm = ({
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DynamicButton handleAction={handleOpenForm}>
-        Write a review
-      </DynamicButton>
-      <DialogContent className="bg-slate-100 dark:bg-slate-800 dark:text-white sm:max-w-[425px]">
-        <Form {...form}>
-          <form method="post" onSubmit={form.handleSubmit(onSubmit)}>
-            <DialogHeader>
-              <DialogTitle>Write a review</DialogTitle>
-              <DialogDescription>
-                Share your thoughts with other customers
-              </DialogDescription>
-            </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <FormField
-                control={form.control}
-                name="title"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Title</FormLabel>
-                    <FormControl>
-                      <Input {...field} placeholder="Enter Title" />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Description</FormLabel>
-                    <FormControl>
-                      <Textarea {...field} placeholder="Enter Description" />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="rating"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Rating</FormLabel>
-                    <Select
-                      onValueChange={(value) => field.onChange(Number(value))}
-                      value={field.value.toString()}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select Slug" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent className="bg-slate-100 dark:bg-slate-800 dark:text-white">
-                        {Array.from({ length: 5 }).map((_, index) => (
-                          <SelectItem
-                            key={index}
-                            value={(index + 1).toString()}
-                          >
-                            {index + 1} <StarIcon className="inline size-4" />
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <DialogFooter>
-              <DynamicButton isPending={form.formState.isSubmitting}>
-                {form.formState.isSubmitting ? "Submitting..." : "Submit"}
-              </DynamicButton>
-            </DialogFooter>
-          </form>
-        </Form>
-      </DialogContent>
-    </Dialog>
+    <Form {...form}>
+      <form method="post" onSubmit={form.handleSubmit(onSubmit)}>
+        <span className="mt-2 text-gray-500 dark:text-gray-400">
+          Your email address will not be published. Required fields are marked *
+        </span>
+        <div className="grid gap-4 py-4">
+          <FormField
+            control={form.control}
+            name="title"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Title</FormLabel>
+                <FormControl>
+                  <Input {...field} placeholder="Enter Title" />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Description</FormLabel>
+                <FormControl>
+                  <Textarea {...field} placeholder="Enter Description" />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="rating"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Rating</FormLabel>
+                <Select
+                  onValueChange={(value) => field.onChange(Number(value))}
+                  value={field.value.toString()}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select Slug" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent className="bg-slate-100 dark:bg-slate-800 dark:text-white">
+                    {Array.from({ length: 5 }).map((_, index) => (
+                      <SelectItem key={index} value={(index + 1).toString()}>
+                        {index + 1} <StarIcon className="inline size-4" />
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <Button
+          type="submit"
+          className="flex w-full items-center justify-center gap-2 rounded-lg bg-indigo-600 px-6 py-3 text-lg font-medium text-white transition-all duration-300 hover:bg-indigo-700 active:scale-95 dark:bg-indigo-500 dark:hover:bg-indigo-400"
+        >
+          {false ? (
+            <Loader className="size-4 animate-spin" />
+          ) : (
+            <Send className="size-6" />
+          )}
+          <span>Invia</span>
+        </Button>
+      </form>
+    </Form>
   );
 };
 

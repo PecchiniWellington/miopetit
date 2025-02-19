@@ -13,13 +13,13 @@ import { updateUserProfile } from "@/core/actions/user";
 import { updateUserProfileSchema } from "@/core/validators";
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Camera } from "lucide-react";
+import { Camera, CheckCircle } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-export const ProfileTab = () => {
+export const ProfileTab = ({ user }: { user: any }) => {
   const [profileImage, setProfileImage] = useState("/images/user-avatar.png");
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,7 +36,7 @@ export const ProfileTab = () => {
       <div className="flex flex-col items-center space-y-3">
         <div className="relative">
           <Image
-            src={profileImage}
+            src={user.image || profileImage}
             alt="User Avatar"
             width={100}
             height={100}
@@ -94,6 +94,7 @@ const ProfileForm = () => {
 
     toast({
       description: res.message,
+      icon: <CheckCircle className="size-4 text-green-500" />,
     });
   };
 

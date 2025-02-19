@@ -174,6 +174,18 @@ export async function getAllProductsBySlug({
           },
         },
         productBrand: true,
+        orderitems: true,
+
+        productPathologyOnProduct: {
+          include: { pathology: true },
+        },
+        productsFeatureOnProduct: {
+          include: { productFeature: true },
+        },
+
+        productProteinOnProduct: {
+          include: { productProtein: true },
+        },
       },
       orderBy:
         query.sort === "lowest"
@@ -202,6 +214,18 @@ export async function getAllProductsBySlug({
             slug: item.productUnitFormat.slug,
           }
         : null,
+      productPathologies: item.productPathologyOnProduct.map((p) => ({
+        id: p.pathology.id,
+        name: p.pathology.name,
+      })),
+      productFeatures: item.productsFeatureOnProduct.map((f) => ({
+        id: f.productFeature.id,
+        name: f.productFeature.name,
+      })),
+      productProteins: item.productProteinOnProduct.map((p) => ({
+        id: p.productProtein.id,
+        name: p.productProtein.name,
+      })),
     }));
 
     return {

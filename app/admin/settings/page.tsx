@@ -15,7 +15,6 @@ const SettingsPage = async () => {
     throw new Error("User session is not valid");
   }
   const user = await getUserById(session.user.id);
-  console.log("User", user);
   if (!user) {
     console.log("User not found");
     return;
