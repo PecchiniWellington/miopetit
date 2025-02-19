@@ -49,7 +49,7 @@ const PlaceOlderPage = async () => {
             <Card>
               <CardContent className="gap-4 p-4">
                 <h2 className="pb-4 text-xl">Shipping Address</h2>
-                <p>{userAddress.fullname}</p>
+                <p>{userAddress.fullName}</p>
                 <p>
                   {userAddress.streetAddress}, {userAddress.city}{" "}
                   {userAddress.postalCode}, {userAddress.country}{" "}

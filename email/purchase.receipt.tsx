@@ -29,8 +29,8 @@ PurchaseReceiptEmail.PreviewProps = {
     },
     paymentMethod: "PayPal",
     shippingAddress: {
-      fullname: "Wellington",
-      streetAddress: "123 Main St",
+      fullName: "Wellington",
+      street: "123 Main St",
       city: "New York",
       postalCode: "10001",
       country: "USA",

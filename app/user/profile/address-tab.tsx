@@ -1,55 +1,100 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { updateUserAddress } from "@/core/actions/user";
 import { createUserAddress } from "@/core/actions/user/create-user-address.action";
 import { deleteUserAddress } from "@/core/actions/user/delete-user-address.action";
 import { getUserAddress } from "@/core/actions/user/get-user-address.action";
 import { setDefaultAddress } from "@/core/actions/user/set-user-default-address.action";
+import { shippingAddressSchema } from "@/core/validators";
 import {
-  IAddress,
   addressSchema,
+  IAddress,
 } from "@/core/validators/user-address.validator";
 
 import { useToast } from "@/hooks/use-toast";
-import { CheckCircle, Pencil, Plus, Trash, X } from "lucide-react";
+import { SHIPPING_ADDRESS_DEFAULT_VALUES } from "@/lib/constants";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  ArrowRight,
+  CheckCircle,
+  CircleX,
+  Pencil,
+  Plus,
+  Trash,
+} from "lucide-react";
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 export const AddressesTab = ({ user }: { user: any }) => {
   const { toast } = useToast();
   const [addresses, setAddresses] = useState<IAddress[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newAddress, setNewAddress] = useState<IAddress>({
-    id: "",
-    street: "",
-    city: "",
-    isDefault: false,
-  });
   const [editingAddress, setEditingAddress] = useState<string | null>(null);
+
+  const form = useForm<z.infer<typeof shippingAddressSchema>>({
+    resolver: zodResolver(shippingAddressSchema),
+    defaultValues: SHIPPING_ADDRESS_DEFAULT_VALUES,
+  });
 
   const fetchAddresses = async () => {
     try {
       const r = await getUserAddress(user.id);
+      console.log("📦 Indirizzi utente:", r.data);
       setAddresses(r.data);
     } catch (error) {
       console.error("Error fetching addresses:", error);
     }
   };
 
-  // 📌 Recupera gli indirizzi quando il componente viene montato
   useEffect(() => {
     fetchAddresses();
   }, [toast, user]);
 
-  // 📌 Salvataggio o Modifica dell'indirizzo
-  const handleSaveAddress = async () => {
-    try {
-      addressSchema.parse(newAddress);
+  // 📌 Gestisce l'apertura del form per l'editing di un indirizzo
+  const handleEditAddress = (address: IAddress) => {
+    setEditingAddress(address.id);
 
-      const res = newAddress.id
-        ? await updateUserAddress(newAddress)
-        : await createUserAddress(newAddress);
+    // 🔥 Reset dei valori del form con i dati dell'indirizzo selezionato
+    form.reset({
+      street: address.street,
+      city: address.city,
+      postalCode: address.postalCode || "",
+      country: address.country || "",
+      fullName: address.fullName || "",
+    });
+
+    setIsModalOpen(true);
+  };
+
+  // 📌 Salvataggio o Modifica dell'indirizzo
+  const handleSaveAddress = async (data: z.infer<typeof addressSchema>) => {
+    try {
+      // 🔥 Aggiungi isDefault se manca
+      const addressData = {
+        ...data,
+        isDefault:
+          editingAddress !== null
+            ? (addresses.find((addr) => addr.id === editingAddress)
+                ?.isDefault ?? false)
+            : false,
+      };
+
+      console.log("addressData con isDefault:", addressData, editingAddress);
+
+      const res = editingAddress
+        ? await updateUserAddress({ id: editingAddress, ...addressData })
+        : await createUserAddress(addressData);
 
       if (res.success) {
         toast({
@@ -58,9 +103,7 @@ export const AddressesTab = ({ user }: { user: any }) => {
         });
         setIsModalOpen(false);
         setEditingAddress(null);
-        setNewAddress({ id: "", street: "", city: "", isDefault: false });
-        setAddresses(res.data); // Aggiorna la lista degli indirizzi
-        fetchAddresses();
+        fetchAddresses(); // Aggiorna la lista degli indirizzi
       } else {
         toast({
           variant: "destructive",
@@ -75,30 +118,6 @@ export const AddressesTab = ({ user }: { user: any }) => {
     }
   };
 
-  // 📌 Eliminazione dell'indirizzo
-  const handleDeleteAddress = async (addressId: string, userId: string) => {
-    const res = await deleteUserAddress(addressId, userId);
-
-    if (res.success) {
-      toast({
-        description: res.message,
-        icon: <CheckCircle className="size-4 text-green-500" />,
-      });
-
-      // 📌 Aggiorna la lista degli indirizzi rimuovendo l'indirizzo eliminato
-      setAddresses((prevAddresses) =>
-        prevAddresses.filter((addr) => addr.id !== addressId)
-      );
-      fetchAddresses();
-    } else {
-      toast({
-        variant: "destructive",
-        description: res.message,
-      });
-    }
-  };
-
-  // 📌 Imposta l'indirizzo come predefinito
   const handleSetDefault = async (id: string, userId: string) => {
     try {
       // Effettua una chiamata al backend per impostare l'indirizzo come default
@@ -143,71 +162,65 @@ export const AddressesTab = ({ user }: { user: any }) => {
 
       {/* Lista Indirizzi */}
       <div className="mt-4 space-y-4">
-        {addresses?.map((address) => (
-          <div
-            key={address.id}
-            className={`flex items-center justify-between rounded-md border p-4 transition ${
-              address.isDefault
-                ? "border-indigo-500 shadow-md"
-                : "border-gray-300"
-            }`}
-          >
-            <div>
-              <p className="text-gray-800 dark:text-white">
-                {address.street}, {address.city}
-              </p>
-              {address.isDefault && (
-                <span className="text-xs font-semibold text-indigo-600 dark:text-indigo-400">
-                  ✅ Indirizzo Predefinito
-                </span>
-              )}
-            </div>
-            <div className="flex gap-2">
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() => {
-                  setNewAddress({
-                    id: address.id,
-                    street: address.street,
-                    city: address.city,
-                    isDefault: address.isDefault,
-                  });
-                  setEditingAddress(address.id);
-                  setIsModalOpen(true);
-                }}
-              >
-                <Pencil className="size-4 text-gray-500" />
-              </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() =>
-                  handleDeleteAddress(address.id || "", user.id || "")
-                }
-              >
-                <Trash className="size-4 text-red-500" />
-              </Button>
-              {!address.isDefault && (
+        {addresses
+          ?.sort((a, b) => (a.isDefault ? -1 : b.isDefault ? 1 : 0))
+          .map((address) => (
+            <div
+              key={address.id}
+              className={`flex items-center justify-between rounded-md border p-4 transition ${
+                address.isDefault
+                  ? "border-indigo-500 shadow-md"
+                  : "border-gray-300"
+              }`}
+            >
+              <div>
+                <p className="text-gray-800 dark:text-white">
+                  {address.street}, {address.city}
+                </p>
+                {address.isDefault && (
+                  <span className="text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+                    ✅ Indirizzo Predefinito
+                  </span>
+                )}
+              </div>
+              <div className="flex gap-2">
+                {!address.isDefault && (
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => handleSetDefault(address.id, user.id)}
+                  >
+                    <CheckCircle className="size-4 text-green-500" />
+                  </Button>
+                )}
                 <Button
                   variant="outline"
                   size="icon"
-                  onClick={() => handleSetDefault(address.id, user.id)}
+                  onClick={() => handleEditAddress(address)}
                 >
-                  <CheckCircle className="size-4 text-green-500" />
+                  <Pencil className="size-4 text-gray-500" />
                 </Button>
-              )}
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => {
+                    deleteUserAddress(address.id, user.id);
+                    fetchAddresses();
+                  }}
+                >
+                  <Trash className="size-4 text-red-500" />
+                </Button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
 
       {/* Bottone Aggiungi Indirizzo */}
       <Button
         className="mt-4 flex items-center gap-2"
         onClick={() => {
-          setNewAddress({ id: "", street: "", city: "", isDefault: false });
           setEditingAddress(null);
+          form.reset(SHIPPING_ADDRESS_DEFAULT_VALUES);
           setIsModalOpen(true);
         }}
       >
@@ -219,46 +232,68 @@ export const AddressesTab = ({ user }: { user: any }) => {
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="w-[90%] max-w-md rounded-lg bg-white p-6 shadow-lg">
-            <h3 className="text-lg font-semibold text-gray-900">
-              {editingAddress !== null
-                ? "Modifica Indirizzo"
-                : "Aggiungi Nuovo Indirizzo"}
-            </h3>
+            <span className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold text-gray-900">
+                {editingAddress
+                  ? "Modifica Indirizzo"
+                  : "Aggiungi Nuovo Indirizzo"}
+              </h3>
 
-            <div className="mt-4 space-y-3">
-              <Input
-                placeholder="Via, numero civico"
-                value={newAddress.street}
-                onChange={(e) =>
-                  setNewAddress({ ...newAddress, street: e.target.value })
-                }
-                className="w-full"
-              />
-              <Input
-                placeholder="Città"
-                value={newAddress.city}
-                onChange={(e) =>
-                  setNewAddress({ ...newAddress, city: e.target.value })
-                }
-                className="w-full"
-              />
-            </div>
-
-            <div className="mt-5 flex justify-end gap-2">
-              <Button
-                variant="outline"
+              <CircleX
+                className="cursor-pointer text-red-500"
                 onClick={() => setIsModalOpen(false)}
-                className="flex items-center gap-2"
+              />
+            </span>
+
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(
+                  (data) => {
+                    console.log("✅ Dati inviati:", data);
+                    handleSaveAddress(data);
+                  },
+                  (errors) => {
+                    console.log("❌ Errori nel form:", errors);
+                  }
+                )}
+                method="post"
+                className="mt-4 space-y-4"
               >
-                <X className="size-4" /> Annulla
-              </Button>
-              <Button
-                className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700"
-                onClick={handleSaveAddress}
-              >
-                {editingAddress !== null ? "Salva Modifiche" : "Aggiungi"}
-              </Button>
-            </div>
+                {["fullName", "street", "city", "postalCode", "country"].map(
+                  (field) => (
+                    <div key={field} className={field}>
+                      <FormField
+                        control={form.control}
+                        name={
+                          field as keyof z.infer<typeof shippingAddressSchema>
+                        }
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>{field.name}</FormLabel>
+                            <FormControl>
+                              <Input
+                                {...field}
+                                value={field.value ?? ""}
+                                placeholder={`Inserisci ${field.name}`}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  )
+                )}
+
+                <Button
+                  type="submit"
+                  className="w-full bg-indigo-600 text-white hover:bg-indigo-700"
+                >
+                  <ArrowRight className="size-5" />
+                  {editingAddress ? "Salva Modifiche" : "Aggiungi"}
+                </Button>
+              </form>
+            </Form>
           </div>
         </div>
       )}

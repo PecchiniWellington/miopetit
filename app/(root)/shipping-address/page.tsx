@@ -25,7 +25,12 @@ const ShippingAddress = async () => {
   } else {
     const user = await getUserById(userId);
     if (user) {
-      return <ShippingAddressForm address={user.address as IShippingAddress} />;
+      return (
+        <ShippingAddressForm
+          address={user.address as IShippingAddress}
+          user={user}
+        />
+      );
     } else {
       redirect("/login");
     }

@@ -48,7 +48,7 @@ const OrderDetailsTable = ({
 
           <OrderCard
             isPaid={isDelivered}
-            subtitle={shippingAddress.fullname}
+            subtitle={shippingAddress.fullName}
             paidAt={deliveredAt}
             title="Shipping Address"
             type="Delivered"
