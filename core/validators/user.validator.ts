@@ -33,6 +33,31 @@ export const userSchema = z.object({
   Review: z.array(z.unknown()).optional(), // TODO: Define Review schema
 });
 
+// Schema per la richiesta di reset
+export const requestPasswordResetSchema = z.object({
+  email: z.string().email("Email non valida"),
+});
+
+// Schema per il reset effettivo della password
+export const resetPasswordSchema = z
+  .object({
+    token: z.string().min(1, "Token mancante"),
+    newPassword: z.string().min(6, "La password deve avere almeno 6 caratteri"),
+    confirmPassword: z
+      .string()
+      .min(6, "La password deve avere almeno 6 caratteri"),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Le password non corrispondono",
+    path: ["confirmPassword"],
+  });
+
+export const forgotPasswordSchema = z.object({
+  email: z.string().email("Inserisci un'email valida"),
+});
+
+export type IRequestPasswordReset = z.infer<typeof requestPasswordResetSchema>;
+export type IResetPassword = z.infer<typeof resetPasswordSchema>;
 export type IUpdateUser = z.infer<typeof updateUserSchema>;
 export type IUpdateUserProfile = z.infer<typeof updateUserProfileSchema>;
 export type IUser = z.infer<typeof userSchema>;

@@ -1,21 +1,23 @@
 model User {
-    id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    name          String    @default("NO_NAME")
-    email         String    @unique(map: "user_email_idx")
-    emailVerified DateTime? @map("email_verified")
-    image         String?
-    password      String?
-    role          String    @default("USER")
-    address       Json?     @db.Json
-    paymentMethod String?
-    status        String    @default("ACTIVE")
-    createdAt     DateTime  @default(now()) @map("created_at") @db.Timestamp(6)
-    updatedAt     DateTime  @updatedAt @map("updated_at")
-    accounts      Account[]
-    sessions      Session[]
-    Cart          Cart[]
-    Order         Order[]
-    Review        Review[]
+    id               String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    name             String    @default("NO_NAME")
+    email            String    @unique(map: "user_email_idx")
+    emailVerified    DateTime? @map("email_verified")
+    image            String?
+    password         String?
+    role             String    @default("USER")
+    address          Json?     @db.Json
+    paymentMethod    String?
+    status           String    @default("ACTIVE")
+    createdAt        DateTime  @default(now()) @map("created_at") @db.Timestamp(6)
+    updatedAt        DateTime  @updatedAt @map("updated_at")
+    resetToken       String? // Token per il reset della password
+    resetTokenExpiry DateTime? // Scadenza del token
+    accounts         Account[]
+    sessions         Session[]
+    Cart             Cart[]
+    Order            Order[]
+    Review           Review[]
 
     @@map("users")
 }
