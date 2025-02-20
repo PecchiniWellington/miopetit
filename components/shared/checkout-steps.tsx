@@ -2,14 +2,15 @@
 
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
+import { CreditCard, MapPin, PackageCheck, User } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const steps = [
-  "User Login",
-  "Shipping Address",
-  "Payment Method",
-  "Place Order",
+  { label: "Login", icon: <User className="size-5" /> },
+  { label: "Address", icon: <MapPin className="size-5" /> },
+  { label: "Payment", icon: <CreditCard className="size-5" /> },
+  { label: "Order", icon: <PackageCheck className="size-5" /> },
 ];
 
 const CheckoutSteps = ({ current = 0 }) => {
@@ -44,22 +45,44 @@ const CheckoutSteps = ({ current = 0 }) => {
   }, [current]);
 
   return (
-    <div className="flex-between mx-auto my-8 w-full flex-col space-y-4 md:flex-row md:items-center  md:space-y-0">
-      {/* md:space-x-8 */}
+    <div className="mx-auto my-8 flex w-full max-w-4xl  items-center md:flex-row md:items-center md:space-x-6 md:space-y-0">
       {steps.map((step, index) => {
-        const stepUrl = `/${step.toLowerCase().replace(/\s+/g, "-")}`;
+        const stepUrl = `/${step.label.toLowerCase().replace(/\s+/g, "-")}`;
         const isActive = index === current;
         const isCompleted = index < current || completedSteps.includes(index);
         const isClickable = isCompleted || index === current;
 
         return (
-          <div key={index} className="flex w-full items-center">
+          /* 🔗 Barra di collegamento tra gli step */
+          <div
+            key={index}
+            className="relative flex w-full items-center justify-center"
+          >
+            {index < steps.length - 1 && (
+              <motion.div
+                initial={{ width: 0 }}
+                animate={{ width: "100%" }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className={cn(
+                  `absolute hidden md:flex left-0 top-1/2 h-1 transform -translate-y-1/2 transition-all duration-300 md:left-40 md:-translate-x-1/2 ${
+                    isCompleted
+                      ? "bg-gradient-to-r from-green-400 to-green-600"
+                      : isActive
+                        ? "bg-gradient-to-r from-indigo-500 to-purple-600"
+                        : "bg-gray-300"
+                  }`
+                )}
+                style={{ width: "100%", zIndex: -1 }}
+              />
+            )}
+
+            {/* 🟢 Step */}
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.3, delay: index * 0.1 }}
               className={cn(
-                `relative flex items-center justify-center rounded-full px-4 py-2 text-sm font-semibold shadow-lg transition-all duration-300 w-full ${
+                `relative z-10 flex  max-w-xs flex-col items-center justify-center rounded-full p-1 md:px-4 md:py-3 text-sm font-semibold shadow-lg transition-all duration-300 md:w-48 w-16 ${
                   isActive
                     ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-xl"
                     : isCompleted
@@ -68,14 +91,16 @@ const CheckoutSteps = ({ current = 0 }) => {
                 }`
               )}
             >
-              {/* Link se è attivo o già confermato */}
-              {isClickable ? (
-                <Link href={stepUrl} className="w-full text-center">
-                  {step}
-                </Link>
-              ) : (
-                <span className="w-full text-center">{step}</span>
-              )}
+              {/* 📱 Mostra icona e testo in linea su mobile */}
+              <Link
+                href={stepUrl}
+                className="flex w-full flex-col items-center justify-center gap-0 md:flex-row md:gap-2"
+              >
+                <span>{step.icon}</span>
+                <span className="text-center text-[10px] md:block md:text-base">
+                  {step.label}
+                </span>
+              </Link>
 
               {/* ✅ Checkmark sugli step completati */}
               {isCompleted && (
@@ -100,24 +125,6 @@ const CheckoutSteps = ({ current = 0 }) => {
                 </motion.span>
               )}
             </motion.div>
-
-            {/* 🔗 Barra di collegamento tra gli step */}
-            {step !== "Place Order" && (
-              <motion.hr
-                initial={{ width: 0 }}
-                animate={{ width: "100%" }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className={cn(
-                  `h-1 rounded-full transition-all duration-300 w-full   ${
-                    isCompleted
-                      ? "bg-gradient-to-r from-green-400 to-green-600"
-                      : isActive
-                        ? "bg-gradient-to-r from-indigo-500 to-purple-600"
-                        : "bg-gray-300"
-                  }`
-                )}
-              />
-            )}
           </div>
         );
       })}

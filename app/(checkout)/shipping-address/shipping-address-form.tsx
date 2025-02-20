@@ -114,7 +114,7 @@ const ShippingAddressForm = ({
 
       <div className="flex flex-col lg:flex-row lg:space-x-8">
         {/* Colonna Sinistra - Lista Indirizzi */}
-        <div className="lg:w-10/12 ">
+        <div className="flex-col items-center justify-center lg:w-10/12">
           <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
             📍 I tuoi Indirizzi di Spedizione
           </h2>
@@ -164,15 +164,18 @@ const ShippingAddressForm = ({
           </div>
           <Button
             variant="outline"
-            className="mt-10 flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-5 py-2 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none"
+            className="mt-10 flex w-full items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-5 py-2 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none md:w-fit"
             onClick={() => router.push("/payment-method")}
           >
             Continua al Metodo di Pagamento
           </Button>
         </div>
 
-        <div className="my-auto lg:w-1/12">
+        <div className="my-auto hidden md:block lg:w-1/12">
           <Separator className="h-96 w-[2px]  bg-slate-100 " />
+        </div>
+        <div className="my-auto  md:hidden lg:w-1/12">
+          <Separator className="mt-6 h-px  w-96 bg-slate-100" />
         </div>
 
         {/* Colonna Destra - Form Aggiunta Indirizzo */}
@@ -250,7 +253,7 @@ const ShippingAddressForm = ({
               ))}
 
               <DynamicButton
-                className="mt-10 flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-5 py-2 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none"
+                className="mt-10 flex w-full items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-5 py-2 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none md:w-fit"
                 isPending={isPending}
               >
                 {isPending ? (

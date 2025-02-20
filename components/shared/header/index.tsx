@@ -9,9 +9,10 @@ import Image from "next/image";
 import Link from "next/link";
 import CartCounter from "./cart-counter";
 import FavoritesCounter from "./favourites-counter";
+import GlobalSearch from "./global-search";
 import Menu from "./menu";
-import Search from "./search/search";
 import UserButton from "./user-button";
+import { SearchProvider } from "./global-search/global-search-context";
 
 const Header = async () => {
   const megaMenuCat = await getAllCategoriesForMegaMenu("gatti");
@@ -47,7 +48,9 @@ const Header = async () => {
 
           {/* Search Bar */}
           <div className=" flex w-full max-w-lg justify-center">
-            <Search categories={categories} />
+            <SearchProvider>
+              <GlobalSearch categories={categories} />
+            </SearchProvider>
           </div>
 
           {/* Menu Mobile */}
