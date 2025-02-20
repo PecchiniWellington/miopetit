@@ -21,8 +21,6 @@ const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
   const product = await getProductBySlug(slug);
   if (!product) return NotFound();
 
-  console.log("📦 [ProductPage] - Product:", product.images[0]);
-
   const cart = await getMyCart();
 
   const ProductPageLeftImages = () => (
@@ -73,7 +71,7 @@ const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
                 slug: product.slug,
                 price: product.price.toString(),
                 qty: 1,
-                image: product.images![0] ?? "",
+                image: Array.isArray(product.images) ? product.images[0] : "",
               }}
             />
           </div>

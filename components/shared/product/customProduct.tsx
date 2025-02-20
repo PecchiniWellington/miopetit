@@ -52,7 +52,7 @@ export default function CustomProduct({
 
   // Aggiungi o rimuovi dai favoriti
   const toggleFavorite = () => {
-    const product = { id, image, name, brand, price, oldPrice };
+    const product = { id, image, name, brand, price, oldPrice, slug };
 
     if (isWishlisted) {
       removeFavorite(id);
@@ -64,19 +64,16 @@ export default function CustomProduct({
 
   const addToCart = useCallback(
     async (product: IProduct) => {
-      console.log("🛒 Aggiunta al carrello:", product.name);
+      console.log("🛒 Aggiunta al carrello:", product);
       await addToCartProduct(product, 1);
       await addItemToCart({
         id: product.id,
         name: product.name,
         price: product.price.toString(),
         qty: 1,
-        image: product.image[0],
+        image: Array.isArray(product.image) ? product.image[0] : product.image,
         slug: product.slug,
       });
-
-      // ✅ Dispatcha l'evento solo una volta
-      window.dispatchEvent(new CustomEvent("cartProductUpdated"));
     },
     [addToCartProduct]
   );
@@ -90,7 +87,7 @@ export default function CustomProduct({
               -{Math.round(((oldPrice - price) / oldPrice) * 100)}%
             </span>
           )}
-          <Link href={`/product/${slug}`}>
+          <Link href={`/product/${product.slug}`}>
             <Image
               src={image || "/images/placeholder.jpg"}
               alt={name}

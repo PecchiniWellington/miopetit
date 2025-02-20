@@ -115,6 +115,7 @@ export function useIndexedDBCart() {
     if (
       JSON.stringify(prevCartRef.current) !== JSON.stringify(updatedCartProduct)
     ) {
+      console.log("🔄 Cart updated:", updatedCartProduct);
       setCartProduct(updatedCartProduct);
       prevCartRef.current = updatedCartProduct;
     }

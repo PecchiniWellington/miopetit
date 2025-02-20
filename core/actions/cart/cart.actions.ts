@@ -133,29 +133,20 @@ export async function addItemToCart(data: ICartItem) {
   try {
     console.log("📥 [addItemToCart] - Data ricevuta:", data);
 
-    // ✅ Controlla il cookie del carrello
     const sessionCartId = (await cookies()).get("sessionCartId")?.value;
-    console.log("🍪 [Cookie] - sessionCartId:", sessionCartId);
 
     if (!sessionCartId) throw new Error("Cart session not found");
 
-    // ✅ Ottieni sessione utente
     const session = await auth();
     const userId = session?.user?.id ? (session.user.id as string) : undefined;
-    console.log("🔑 [Session] - userId:", userId);
 
-    // ✅ Ottieni carrello corrente
     const cart = await getMyCart();
-    console.log("🛒 [Carrello] - Stato iniziale del carrello:", cart);
 
-    // ✅ Valida l'oggetto item
     const item = cartItemSchema.parse({
       ...data,
-      image: data.image,
-    }); /* TODO:ATTENZIONE AL IMMAGINE */
-    console.log("✅ [Validazione] - Item valido:", item);
+      image: Array.isArray(data.image) ? data.image[0] : data.image,
+    });
 
-    // ✅ Trova il prodotto nel database
     const product = await prisma.product.findFirst({
       where: { id: item.id }, // Usa `productId` invece di `id`
     });
@@ -190,33 +181,22 @@ export async function addItemToCart(data: ICartItem) {
         message: `${product.name} added to cart`,
       };
     } else {
-      // ✅ Assicurati che cart.items sia un array
       if (!cart.items) cart.items = [];
       console.log("📦 [Carrello] - Carrello esistente trovato:", cart);
 
       // ✅ Controlla se l'oggetto è già nel carrello
       const existItem = cart.items.find((x) => x.id === item.id);
-      console.log(
-        "🔍 [Esistenza] - Prodotto esiste nel carrello?",
-        existItem ? "✅ Sì" : "❌ No"
-      );
 
       if (existItem) {
-        console.log("🔄 [Update] - Aumento la quantità per l'item:", existItem);
-
-        // Controlla disponibilità stock
         if (product.stock < existItem.qty + 1) {
           console.error("❌ [Stock] - Not enough stock");
           throw new Error("Not enough stock");
         }
 
-        // ✅ Rigenera l'array per forzare l'aggiornamento
         cart.items = cart.items.map((x) =>
           x.id === item.id ? { ...x, qty: x.qty + 1 } : x
         );
       } else {
-        console.log("➕ [Aggiunta] - Aggiungo un nuovo item al carrello");
-
         if (product.stock < 1) {
           console.error("❌ [Stock] - Not enough stock");
           throw new Error("Not enough stock");
@@ -225,12 +205,14 @@ export async function addItemToCart(data: ICartItem) {
         cart.items = [...cart.items, item];
       }
 
-      console.log(
-        "💾 [Prima del Salvataggio] - Stato finale del carrello:",
-        cart.items
-      );
+      // Ensure item images are strings
+      cart.items = cart.items.map((item) => {
+        if (Array.isArray(item.image)) {
+          item.image = item.image[0];
+        }
+        return item;
+      });
 
-      // ✅ Aggiorna carrello nel database
       await prisma.cart.update({
         where: { id: cart.id },
         data: {
@@ -325,6 +307,37 @@ export async function removeItemFromCart(productId: string) {
       data: JSON.parse(JSON.stringify(cartRemoved)),
     };
   } catch (error) {
+    return { success: false, message: formatError(error) };
+  }
+}
+export async function cancelItemFromCart(productId: string) {
+  try {
+    const cart = await getMyCart();
+    if (!cart) throw new Error("Carrello non trovato");
+
+    const exist = cart.items.find((i) => i.id === productId);
+    if (!exist) throw new Error("Prodotto non presente nel carrello");
+
+    cart.items = cart.items.filter((i) => i.id !== productId);
+
+    const cartUpdated = await prisma.cart.update({
+      where: { id: cart.id },
+      data: {
+        items: cart.items as Prisma.CartUpdateitemsInput[],
+        ...calcPrice(cart.items),
+      },
+    });
+
+    revalidatePath(`/cart`);
+    revalidatePath(`/product/${exist.slug}`);
+
+    return {
+      success: true,
+      message: `Rimosso completamente ${exist.name} dal carrello`,
+      data: JSON.parse(JSON.stringify(cartUpdated)),
+    };
+  } catch (error) {
+    console.error("❌ Errore in cancelItemFromCart:", error);
     return { success: false, message: formatError(error) };
   }
 }

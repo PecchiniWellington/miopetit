@@ -1,5 +1,6 @@
 "use client";
 import DynamicButton from "@/components/dynamic-button";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Table,
@@ -11,12 +12,13 @@ import {
 } from "@/components/ui/table";
 import {
   addItemToCart,
+  cancelItemFromCart,
   removeItemFromCart,
 } from "@/core/actions/cart/cart.actions";
 import { ICart, ICartItem } from "@/core/validators";
 import { useIndexedDBCart } from "@/hooks/use-indexCart";
 import { formatCurrency } from "@/lib/utils";
-import { ArrowRight, Loader, Minus, Plus } from "lucide-react";
+import { ArrowRight, Loader, Minus, Plus, Trash } from "lucide-react";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -58,6 +60,15 @@ export const CartTable = ({ cart }: { cart?: ICart }) => {
       await addToCartProduct(item, 1);
     });
   };
+
+  const cancelProduct = async (item: ICartItem) => {
+    setIsPending(async () => {
+      await cancelItemFromCart(item.id);
+      await removeFromCartProduct(item.id);
+    });
+  };
+
+  console.log("🛒 [CartTable] - Cart:", cleanedCartProduct);
   return (
     <>
       <h1 className="h2-bold py-4">Shopping Cart</h1>
@@ -75,6 +86,7 @@ export const CartTable = ({ cart }: { cart?: ICart }) => {
                   <TableHead>Product</TableHead>
                   <TableHead className="text-center">Price</TableHead>
                   <TableHead className="text-center">Quantity</TableHead>
+                  <TableHead className="text-center" />
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -86,7 +98,11 @@ export const CartTable = ({ cart }: { cart?: ICart }) => {
                         className="flex items-center"
                       >
                         <Image
-                          src={item?.image[0] || "/images/placeholder.jpg"}
+                          src={
+                            Array.isArray(item?.image)
+                              ? item?.image[0]
+                              : item?.image || "/images/placeholder.jpg"
+                          }
                           alt={item?.name}
                           width={50}
                           height={50}
@@ -122,6 +138,14 @@ export const CartTable = ({ cart }: { cart?: ICart }) => {
                           {!isPending && <Plus className="size-5" />}
                         </DynamicButton>
                       </div>
+                    </TableCell>
+                    <TableCell className="w-12 text-center">
+                      <Button
+                        onClick={() => cancelProduct(item)}
+                        className="flex size-10 items-center justify-center rounded-full bg-white text-red-600 shadow transition-all duration-300 hover:border-red-400 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-red-300 active:scale-95"
+                      >
+                        {!isPending && <Trash className="size-5" />}
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}

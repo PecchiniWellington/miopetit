@@ -56,10 +56,9 @@ export const AddToCart = ({
   };
 
   const handleAddToCart = async () => {
-    console.log("Adding to cart", item);
-
     setIsPending(async () => {
-      const res = await addItemToCart(item);
+      const res = await addItemToCart({ ...item, image: item.image || "" });
+      console.log("🛒 Aggiunta al carrello:", item, res);
       await addToCartProduct(item, 1);
 
       if (!res?.success) {

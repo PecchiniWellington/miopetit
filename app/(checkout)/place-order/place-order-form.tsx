@@ -23,7 +23,7 @@ const PlaceOrderForm = () => {
           <Loader className="size-4 animate-spin" />
         ) : (
           <Check className="size-4 " />
-        )}{" "}
+        )}
         Place Order
       </DynamicButton>
     );

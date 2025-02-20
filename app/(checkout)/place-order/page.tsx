@@ -16,6 +16,7 @@ import { formatCurrency } from "@/lib/utils";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import PlaceOrderForm from "./place-order-form";
 
 export const metadata: Metadata = {
@@ -38,6 +39,10 @@ const PlaceOrderPage = async () => {
   const user = await getUserById(userId);
   const userAddress = await getUserAddress(userId);
   const defaultAddress = userAddress.data?.find((address) => address.isDefault);
+
+  if (!cart || cart.items.length === 0) redirect("/cart");
+  if (!user?.defaultAddress) redirect("/shipping-address");
+  if (!user.paymentMethod) redirect("/payment-method");
 
   if (!defaultAddress) {
     return (
