@@ -1,35 +1,67 @@
 import Image from "next/image";
-
 import Link from "next/link";
 import { useSearch } from "./global-search-context";
 
 const BestProduct = () => {
-  const { searchResults, setIsDropdownVisible } = useSearch();
+  const { searchResults, searchBrands, setIsDropdownVisible, searchTerm } =
+    useSearch();
+
   return (
-    <div className="mb-2">
-      <h3 className="border-b pb-2 text-sm font-bold text-gray-700">
-        🔥 PRODOTTI PIÙ VENDUTI
-      </h3>
-      {searchResults.slice(0, 5).map((product) => (
-        <Link
-          href={`/product/${product.slug}`}
-          key={product.id}
-          className="flex items-center gap-3 p-2 transition hover:bg-gray-100"
-          onClick={() => setIsDropdownVisible(false)}
-        >
-          <Image
-            src={product.image[0] || "/images/placeholder.jpg"}
-            alt={product.name}
-            width={40}
-            height={40}
-            className="rounded-md"
-          />
-          <div>
-            <p className="text-sm text-gray-800">{product.name}</p>
-            <p className="text-sm font-bold text-gray-600">{product.price}</p>
-          </div>
-        </Link>
-      ))}
+    <div className="flex gap-8">
+      {/* 🛒 Colonna sinistra - Prodotti */}
+      <div className="flex-3 max-h-[300px] overflow-y-auto pr-4">
+        <h3 className="mb-4 text-lg font-bold text-gray-900">
+          I migliori risultati per{" "}
+          <span className="text-indigo-600">“{searchTerm}”</span>
+        </h3>
+        <div className="flex flex-col gap-3">
+          {searchResults?.slice(0, 6).map((product) => (
+            <Link
+              href={`/product/${product.slug}`}
+              key={product.id}
+              className="flex items-center gap-3 rounded-lg p-3 transition hover:bg-gray-100"
+              onClick={() => setIsDropdownVisible(false)}
+            >
+              <Image
+                src={product.image?.[0] || "/images/placeholder.jpg"}
+                alt={product.name}
+                width={50}
+                height={50}
+                className="rounded-md object-cover"
+              />
+              <div className="flex flex-col">
+                <p className="text-sm font-semibold text-gray-800">
+                  {product.name}
+                </p>
+                <p className="text-md font-bold text-indigo-600">
+                  {product.price}€
+                </p>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      {/* 💡 Colonna destra - Brand */}
+      <div className="">
+        <h3 className="text-md mb-4 font-bold text-gray-900">Categoria</h3>
+        <div className="mt-2 flex flex-col gap-2">
+          {searchBrands?.length > 0 ? (
+            searchBrands?.map((brand, index) => (
+              <Link
+                key={index}
+                href={`/brand/${brand.slug}`}
+                onClick={() => setIsDropdownVisible(false)}
+                className="text-sm font-medium text-indigo-600 hover:underline"
+              >
+                {brand.slug}
+              </Link>
+            ))
+          ) : (
+            <p className="text-sm text-gray-500">Nessuna categoria trovata</p>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

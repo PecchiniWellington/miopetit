@@ -119,7 +119,6 @@ const PlaceOrderPage = async () => {
                           href={`/product/${item.slug}`}
                           className="flex items-center gap-4"
                         >
-                          {console.log("SUCA", item)}
                           <Image
                             src={item.image}
                             alt={item.name}

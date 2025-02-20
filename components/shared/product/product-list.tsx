@@ -8,7 +8,6 @@ interface IProductListProps {
 
 const ProductList = ({ data, limit }: IProductListProps) => {
   const limitedData = limit ? data.slice(0, limit) : data;
-  console.log(data);
   return (
     <div className="my-10">
       <div>

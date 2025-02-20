@@ -37,8 +37,6 @@ const UserButton = ({ userLogged }: { userLogged: any }) => {
   const user = session.user;
   const firstInitial = user?.name?.charAt(0).toUpperCase() ?? "";
 
-  console.log("userLogged", userLogged);
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

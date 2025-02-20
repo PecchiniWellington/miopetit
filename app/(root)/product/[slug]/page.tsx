@@ -21,13 +21,9 @@ const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
   const product = await getProductBySlug(slug);
   if (!product) return NotFound();
 
-  const cart = await getMyCart();
+  console.log("📦 [ProductPage] - Product:", product.images[0]);
 
-  const {
-    /* category, */ /* name, description, */ price,
-    stock,
-    /* images, */
-  } = product;
+  const cart = await getMyCart();
 
   const ProductPageLeftImages = () => (
     <div className="col-span-2">
@@ -42,14 +38,13 @@ const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
         <div className="flex items-center justify-between text-lg font-semibold text-gray-800 dark:text-gray-300">
           <span>💰 Prezzo</span>
           <span className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
-            <ProductPrice value={Number(price)} />
+            <ProductPrice value={Number(product.price)} />
           </span>
         </div>
-
         {/* Disponibilità */}
         <div className="flex items-center justify-between text-lg font-semibold text-gray-800 dark:text-gray-300">
           {/*  <span>📦 Disponibilità</span> */}
-          {stock > 0 ? (
+          {product.stock > 0 ? (
             <Badge className="flex items-center gap-1 bg-green-100 px-3 py-1 text-green-700 dark:bg-green-800 dark:text-green-300">
               <CheckCircle className="size-4" /> Disponibile
             </Badge>
@@ -59,10 +54,9 @@ const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
             </Badge>
           )}
         </div>
-
-        {/* Pulsante Aggiungi al carrello */}
-        {stock > 0 && (
+        {product.stock > 0 && (
           <div className="mt-4 flex justify-center">
+            {/* Pulsante Aggiungi al carrello */}
             <AddToCart
               cart={{
                 ...cart,
@@ -74,12 +68,12 @@ const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
                 taxPrice: cart?.taxPrice as unknown as string,
               }}
               item={{
-                productId: product.id.toString(),
+                id: product.id.toString(),
                 name: product.name,
                 slug: product.slug,
                 price: product.price.toString(),
                 qty: 1,
-                image: product.images![0],
+                image: product.images![0] ?? "",
               }}
             />
           </div>

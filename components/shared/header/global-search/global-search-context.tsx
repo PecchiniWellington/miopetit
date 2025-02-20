@@ -1,7 +1,7 @@
 "use client";
 
 import { debounce } from "@/lib/utils";
-import { createContext, useContext, useRef, useState } from "react";
+import { createContext, useContext, useMemo, useRef, useState } from "react";
 
 interface SearchContextType {
   searchTerm: string;
@@ -13,6 +13,11 @@ interface SearchContextType {
     price: string;
     image: string;
   }[];
+  searchBrands: {
+    id: string;
+    name: string;
+    slug: string;
+  }[];
   setSearchResults: (
     results: {
       id: string;
@@ -22,60 +27,99 @@ interface SearchContextType {
       image: string;
     }[]
   ) => void;
+  setSearchBrands: (
+    brands: {
+      id: string;
+      name: string;
+      slug: string;
+    }[]
+  ) => void;
   isDropdownVisible: boolean;
   setIsDropdownVisible: (visible: boolean) => void;
   fetchSearchResults: (query: string) => void;
-  selectCategory: string;
-  setSelectedCategory: (category: string) => void;
+  fetchSearchCategories: () => void;
+
+  searchCategories: any[];
+
   searchRef: React.RefObject<HTMLDivElement | null>;
+  isLoading: boolean;
 }
 
 const SearchContext = createContext<SearchContextType | undefined>(undefined);
 
 export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectCategory, setSelectedCategory] = useState("all");
   const [searchResults, setSearchResults] = useState<
     { id: string; slug: string; name: string; price: string; image: string }[]
   >([]);
+  const [searchBrands, setSearchBrands] = useState<
+    { id: string; name: string; slug: string }[]
+  >([]);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [searchCategories, setSearchCategories] = useState<any[]>([]);
 
-  // Simulazione ricerca con debounce
-  const fetchSearchResults = debounce((query: string) => {
-    if (!query) {
-      setSearchResults([]);
-      setIsDropdownVisible(false);
-      return;
+  const cache = useRef<{ [key: string]: any }>({});
+
+  /**
+   * ✅ Recupera prodotti e brand, controllando prima la cache
+   */
+
+  const fetchSearchCategories = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch("/api/categories");
+      if (!response.ok) {
+        throw new Error("Errore nel recupero delle categorie");
+      }
+      const { data } = await response.json();
+      setSearchCategories(data);
+    } catch (error) {
+      console.error("❌ Errore nel recupero delle categorie:", error);
+    } finally {
+      setIsLoading(false);
     }
+  };
+  const fetchSearchResults = useMemo(() => {
+    return debounce(async (query: string) => {
+      if (!query) {
+        setSearchResults([]);
+        setSearchBrands([]);
+        setIsDropdownVisible(false);
+        return;
+      }
 
-    setTimeout(() => {
-      setSearchResults([
-        {
-          id: "1",
-          slug: "kit-risparmio-felix",
-          name: "Kit Risparmio Felix",
-          price: "€54.90",
-          image: "/images/product1.png",
-        },
-        {
-          id: "2",
-          slug: "felix-ghiottonerie",
-          name: "Felix Le Ghiottonerie Multipack",
-          price: "€33.99",
-          image: "/images/product2.png",
-        },
-        {
-          id: "3",
-          slug: "next-natural-cat",
-          name: "Next Natural Cat Multipack",
-          price: "€7.96",
-          image: "/images/product3.png",
-        },
-      ]);
-      setIsDropdownVisible(true);
+      if (cache.current[query]) {
+        setSearchResults(cache.current[query].products);
+        setSearchBrands(cache.current[query].brands);
+        setIsDropdownVisible(true);
+        return;
+      }
+
+      setIsLoading(true);
+      try {
+        const response = await fetch(`/api/products/search?query=${query}`);
+        const { products, brands } = await response.json();
+
+        console.log("🔍 Risultati ricerca per", query, ":", {
+          products,
+          brands,
+        });
+
+        cache.current[query] = { products, brands };
+        setSearchResults(products);
+        setSearchBrands(brands);
+        setIsDropdownVisible(true);
+      } catch (error) {
+        console.error("Errore durante la ricerca:", error);
+        setSearchResults([]);
+        setSearchBrands([]);
+      } finally {
+        setIsLoading(false);
+      }
     }, 300);
-  }, 300);
+  }, []);
 
   return (
     <SearchContext.Provider
@@ -83,13 +127,16 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
         searchTerm,
         setSearchTerm,
         searchResults,
+        searchBrands,
         setSearchResults,
+        setSearchBrands,
         isDropdownVisible,
         setIsDropdownVisible,
         fetchSearchResults,
-        setSelectedCategory,
-        selectCategory,
-        searchRef, // 🔥 Passiamo il `searchRef` al context
+        searchCategories,
+        fetchSearchCategories,
+        searchRef,
+        isLoading,
       }}
     >
       {children}

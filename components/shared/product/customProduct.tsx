@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
 import { Heart, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 interface Product {
   id: string;
@@ -45,8 +45,6 @@ export default function CustomProduct({
   const { addToCartProduct } = useIndexedDBCart();
   const [isWishlisted, setWishlisted] = useState(false);
 
-  console.log("PRODUCT", product);
-
   // Controlla se il prodotto è nei favoriti
   useEffect(() => {
     setWishlisted(favorites.some((fav) => fav.id.toString() === id));
@@ -64,18 +62,24 @@ export default function CustomProduct({
     setWishlisted(!isWishlisted);
   };
 
-  const addToCart = async (product: IProduct) => {
-    console.log("Product", product);
-    await addToCartProduct(product, 1);
-    await addItemToCart({
-      id: product.id,
-      name: product.name,
-      price: product.price.toString(),
-      qty: 1,
-      image: product.image[0],
-      slug: product.slug,
-    });
-  };
+  const addToCart = useCallback(
+    async (product: IProduct) => {
+      console.log("🛒 Aggiunta al carrello:", product.name);
+      await addToCartProduct(product, 1);
+      await addItemToCart({
+        id: product.id,
+        name: product.name,
+        price: product.price.toString(),
+        qty: 1,
+        image: product.image[0],
+        slug: product.slug,
+      });
+
+      // ✅ Dispatcha l'evento solo una volta
+      window.dispatchEvent(new CustomEvent("cartProductUpdated"));
+    },
+    [addToCartProduct]
+  );
 
   return (
     <Card className="relative z-10 overflow-hidden rounded-xl border bg-white p-4 shadow-md transition hover:shadow-lg">

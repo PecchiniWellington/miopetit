@@ -40,8 +40,6 @@ export const CartTable = ({ cart }: { cart?: ICart }) => {
     slug: item.slug,
   }));
 
-  console.log("CartProduct serializzato:", cleanedCartProduct);
-
   const handleRemoveFromCart = async (item: any) => {
     if (item.qty === 1) {
       await removeItemFromCart(item.id);

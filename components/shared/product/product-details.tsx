@@ -89,7 +89,6 @@ export default function ProductDetails({ product }: { product: IProduct }) {
 
       {/* Punti fedeltà */}
 
-      {console.log(product)}
       {/* Specifiche prodotto */}
       <div className="mt-6">
         <h2 className="text-lg font-semibold">Specifiche prodotto</h2>

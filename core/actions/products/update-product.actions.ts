@@ -39,7 +39,6 @@ export async function updateProduct(data: z.infer<typeof updateProductSchema>) {
       },
     });
 
-    console.log("productUnitFormat", data.unitOfMeasureId, data.unitValueId);
     // 🔹 Se non esiste, lo creiamo con gli ID diretti
     if (!productUnitFormat) {
       productUnitFormat = await prisma.productUnitFormat.create({

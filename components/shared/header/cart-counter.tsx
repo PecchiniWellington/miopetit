@@ -3,29 +3,9 @@
 import { useIndexedDBCart } from "@/hooks/use-indexCart";
 import { Heart, ShoppingCart } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 export default function CartCounter() {
   const { cartProduct, dbError } = useIndexedDBCart();
-  const [favoriteCount, setFavoriteCount] = useState(0);
-  useEffect(() => {
-    const loadCartProduct = async () => {
-      setFavoriteCount(cartProduct.length);
-    };
-
-    loadCartProduct();
-
-    const updateCount = (event: Event) => {
-      const newCount = (event as CustomEvent).detail;
-      setFavoriteCount(newCount);
-    };
-
-    window.addEventListener("cartProductUpdated", updateCount);
-
-    return () => {
-      window.removeEventListener("cartProductUpdated", updateCount);
-    };
-  }, [cartProduct]);
 
   if (dbError) {
     return (
@@ -43,7 +23,7 @@ export default function CartCounter() {
         className="text-white transition-all duration-300 hover:scale-110"
       />
       <span className="absolute -right-2 -top-2 flex size-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
-        {favoriteCount}
+        {cartProduct.length}
       </span>
     </Link>
   );

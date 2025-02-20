@@ -1,19 +1,10 @@
+import loader from "@/public/assets/loader-2.gif";
 import Image from "next/image";
-import React from "react";
-import loader from "@/public/assets/loader.gif";
 
 const Loading = () => {
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-        width: "100vw",
-      }}
-    >
-      <Image src={loader} height={150} width={150} alt="Loading..." />
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/50 backdrop-blur-sm">
+      <Image src={loader} height={350} width={350} alt="Loading..." />
     </div>
   );
 };

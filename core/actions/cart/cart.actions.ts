@@ -149,7 +149,10 @@ export async function addItemToCart(data: ICartItem) {
     console.log("🛒 [Carrello] - Stato iniziale del carrello:", cart);
 
     // ✅ Valida l'oggetto item
-    const item = cartItemSchema.parse({ ...data, image: data.image[0] });
+    const item = cartItemSchema.parse({
+      ...data,
+      image: data.image,
+    }); /* TODO:ATTENZIONE AL IMMAGINE */
     console.log("✅ [Validazione] - Item valido:", item);
 
     // ✅ Trova il prodotto nel database
@@ -266,8 +269,6 @@ export async function getMyCart() {
   });
 
   if (!cart) return undefined;
-
-  console.log("CART", cart);
 
   // Convert decimals and return
   return convertToPlainObject({

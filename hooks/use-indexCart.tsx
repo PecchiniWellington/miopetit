@@ -1,5 +1,5 @@
 import { IProduct } from "@/core/validators";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const DB_NAME = "CartProductDB";
 const STORE_NAME = "cartProduct";
@@ -11,6 +11,8 @@ const isIndexedDBAvailable = () =>
 export function useIndexedDBCart() {
   const [cartProduct, setCartProduct] = useState<IProduct[]>([]);
   const [dbError, setDbError] = useState(false);
+  const isUpdatingRef = useRef(false);
+  const prevCartRef = useRef<IProduct[]>([]);
 
   const openDatabase = async () => {
     if (!isIndexedDBAvailable()) {
@@ -38,27 +40,27 @@ export function useIndexedDBCart() {
     });
   };
 
-  const getCartProduct = async () => {
+  const getCartProduct = useCallback(async () => {
     const db = await openDatabase();
     if (!db) return [];
 
-    try {
-      const transaction = db.transaction(STORE_NAME, "readonly");
-      const store = transaction.objectStore(STORE_NAME);
-
-      return new Promise<IProduct[]>((resolve) => {
+    return new Promise<IProduct[]>((resolve) => {
+      try {
+        const transaction = db.transaction(STORE_NAME, "readonly");
+        const store = transaction.objectStore(STORE_NAME);
         const request = store.getAll();
+
         request.onsuccess = () => resolve(request.result as IProduct[]);
         request.onerror = () => {
           console.error("Errore nel recupero del carrello");
           resolve([]);
         };
-      });
-    } catch (error) {
-      console.error("Errore durante l'accesso a IndexedDB", error);
-      return [];
-    }
-  };
+      } catch (error) {
+        console.error("Errore durante l'accesso a IndexedDB", error);
+        resolve([]);
+      }
+    });
+  }, []);
 
   const addToCartProduct = async (product: IProduct, qty: number) => {
     const db = await openDatabase();
@@ -67,48 +69,19 @@ export function useIndexedDBCart() {
     try {
       const transaction = db.transaction(STORE_NAME, "readwrite");
       const store = transaction.objectStore(STORE_NAME);
-
-      // Controlla se il prodotto è già nel carrello
       const existingProduct = cartProduct.find(
         (item) => item.id === product?.id
       );
 
       if (existingProduct) {
-        // Se già presente, aggiorna la quantità
         existingProduct.qty += qty;
-
-        // ✅ Assicurati che l'id esista
-        if (!existingProduct.id) {
-          console.warn("Prodotto esistente senza ID, ne verrà generato uno.");
-          existingProduct.id = crypto.randomUUID(); // Genera un UUID
-        }
-
         store.put(existingProduct);
       } else {
-        console.log("PRODUCT", product);
-        // ✅ Assicurati che l'id esista
-        const newProduct = {
-          ...product,
-          qty,
-          id: product.id || crypto.randomUUID(),
-        };
-
-        console.log("Nuovo prodotto aggiunto:", newProduct);
-
-        store.put(newProduct);
+        store.put({ ...product, qty, id: product.id || crypto.randomUUID() });
       }
 
-      // 🔄 Riapri il database per ottenere l'aggiornamento
-      const updatedCartProduct = await getCartProduct();
-      setCartProduct(updatedCartProduct);
-
-      setTimeout(() => {
-        window.dispatchEvent(
-          new CustomEvent("cartProductUpdated", {
-            detail: updatedCartProduct.length,
-          })
-        );
-      }, 0);
+      // 🔥 Dispatcha l'evento solo una volta
+      window.dispatchEvent(new CustomEvent("cartProductUpdated"));
     } catch (error) {
       console.error("Errore nell'aggiunta al carrello", error);
     }
@@ -123,36 +96,41 @@ export function useIndexedDBCart() {
       const store = transaction.objectStore(STORE_NAME);
       store.delete(productId);
 
-      setCartProduct((prev) => {
-        const updatedCartProduct = prev.filter(
-          (product) => product.id !== productId
-        );
-        setTimeout(() => {
-          window.dispatchEvent(
-            new CustomEvent("cartProductUpdated", {
-              detail: updatedCartProduct.length,
-            })
-          );
-        }, 0);
-        return updatedCartProduct;
-      });
+      setCartProduct((prev) =>
+        prev.filter((product) => product.id !== productId)
+      );
+      window.dispatchEvent(new CustomEvent("cartProductUpdated"));
     } catch (error) {
       console.error("Errore nella rimozione dal carrello", error);
     }
   };
 
-  useEffect(() => {
-    const updateCartProduct = async () => {
-      const updatedCartProduct = await getCartProduct();
-      console.log("🔄 Carrello aggiornato:", updatedCartProduct);
-      setCartProduct(updatedCartProduct);
-    };
+  const updateCartProduct = useCallback(async () => {
+    if (isUpdatingRef.current) return;
+    isUpdatingRef.current = true;
 
-    window.addEventListener("cartProductUpdated", updateCartProduct);
-    updateCartProduct();
+    const updatedCartProduct = await getCartProduct();
+
+    // ✅ Evita aggiornamenti inutili
+    if (
+      JSON.stringify(prevCartRef.current) !== JSON.stringify(updatedCartProduct)
+    ) {
+      setCartProduct(updatedCartProduct);
+      prevCartRef.current = updatedCartProduct;
+    }
+
+    isUpdatingRef.current = false;
+  }, [getCartProduct]);
+
+  useEffect(() => {
+    const handleCartUpdate = () => updateCartProduct();
+
+    window.addEventListener("cartProductUpdated", handleCartUpdate);
+
+    updateCartProduct(); // ✅ Inizializza solo al primo render
 
     return () => {
-      window.removeEventListener("cartProductUpdated", updateCartProduct);
+      window.removeEventListener("cartProductUpdated", handleCartUpdate);
     };
   }, []);
 
