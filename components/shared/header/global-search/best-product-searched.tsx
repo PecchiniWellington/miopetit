@@ -1,7 +1,12 @@
+import { ICategory } from "@/core/validators";
 import Link from "next/link";
 import { useSearch } from "./global-search-context";
 
-const BestProductSearched = () => {
+const BestProductSearched = ({
+  categories,
+}: {
+  categories: { data: ICategory[] };
+}) => {
   const { setIsDropdownVisible } = useSearch();
   return (
     <>
@@ -9,21 +14,14 @@ const BestProductSearched = () => {
         📌 PIÙ CERCATI ORA
       </h3>
       <div className="mt-2 grid grid-cols-2 gap-2">
-        {[
-          "Cibo Per Gatti",
-          "Crocchette Per Cani",
-          "Monge",
-          "Royal Canin",
-          "Seresto Collare",
-          "Trasportino",
-        ].map((term, index) => (
+        {categories.data.map((term, index) => (
           <Link
-            href={`/search?query=${term.toLowerCase()}`}
+            href={`/${term.slug}`}
             key={index}
             className="block rounded-md bg-gray-100 p-2 text-sm text-gray-800 transition hover:bg-gray-200"
             onClick={() => setIsDropdownVisible(false)}
           >
-            {term}
+            {term.name}
           </Link>
         ))}
       </div>

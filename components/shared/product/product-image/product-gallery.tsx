@@ -4,7 +4,7 @@ import Image from "next/image";
 const ProductGallery = ({
   images = [
     "/images/royal-canin-4.jpg",
-    "/images/brand-2.avif",
+    "/images/brands/brand-2.avif",
     "/images/coccola-cani.png",
   ],
   current,

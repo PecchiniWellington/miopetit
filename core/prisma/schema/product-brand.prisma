@@ -2,5 +2,6 @@ model ProductBrand {
     id       String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     name     String    @unique
     slug     String    @unique
+    image    String?
     products Product[]
 }

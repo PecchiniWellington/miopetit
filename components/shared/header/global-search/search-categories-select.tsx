@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Select,
   SelectContent,
@@ -6,6 +8,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ICategory } from "@/core/validators";
+import { useRouter } from "next/navigation";
 import { useSearch } from "./global-search-context";
 
 const SearchCategorySelect = ({
@@ -14,10 +17,15 @@ const SearchCategorySelect = ({
   categories: { data: ICategory[] };
 }) => {
   const { setSelectedCategory } = useSearch();
+  const router = useRouter();
+
   return (
     <Select
       name="category"
-      onValueChange={(value) => setSelectedCategory(value)}
+      onValueChange={(value) => {
+        setSelectedCategory(value);
+        router.push(`/${value}`);
+      }}
     >
       <SelectTrigger className="w-40 rounded-full bg-gray-200 dark:bg-slate-800 dark:text-white">
         <SelectValue placeholder="All" />

@@ -14,7 +14,6 @@ import SuggestedBrand from "./suggested-brand";
 const Search = ({ categories }: { categories: { data: ICategory[] } }) => {
   const { isDropdownVisible, setIsDropdownVisible, searchRef } = useSearch();
 
-  // ✅ Chiudi il dropdown quando clicchi fuori
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -68,7 +67,9 @@ const Search = ({ categories }: { categories: { data: ICategory[] } }) => {
             >
               <BestProduct />
               <div className="mt-4">
-                <BestProductSearched />
+                <BestProductSearched
+                  categories={{ data: categories.data.slice(0, 6) }}
+                />
               </div>
               <div className="mt-4">
                 <SuggestedBrand />
