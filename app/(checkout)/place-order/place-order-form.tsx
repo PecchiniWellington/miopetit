@@ -18,7 +18,7 @@ const PlaceOrderForm = () => {
   const PlaceOrderButton = () => {
     const { pending } = useFormStatus();
     return (
-      <DynamicButton isPending={pending}>
+      <DynamicButton className="mt-10 flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-5 py-2 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none">
         {pending ? (
           <Loader className="size-4 animate-spin" />
         ) : (

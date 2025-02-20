@@ -17,6 +17,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
 import { createUserAddress } from "@/core/actions/user/create-user-address.action";
 import { getUserAddress } from "@/core/actions/user/get-user-address.action";
 import { setDefaultAddress } from "@/core/actions/user/set-user-default-address.action";
@@ -113,7 +114,7 @@ const ShippingAddressForm = ({
 
       <div className="flex flex-col lg:flex-row lg:space-x-8">
         {/* Colonna Sinistra - Lista Indirizzi */}
-        <div className="lg:w-1/2">
+        <div className="lg:w-10/12 ">
           <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
             📍 I tuoi Indirizzi di Spedizione
           </h2>
@@ -161,11 +162,22 @@ const ShippingAddressForm = ({
                 </motion.div>
               ))}
           </div>
+          <Button
+            variant="outline"
+            className="mt-10 flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-5 py-2 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none"
+            onClick={() => router.push("/payment-method")}
+          >
+            Continua al Metodo di Pagamento
+          </Button>
+        </div>
+
+        <div className="my-auto lg:w-1/12">
+          <Separator className="h-96 w-[2px]  bg-slate-100 " />
         </div>
 
         {/* Colonna Destra - Form Aggiunta Indirizzo */}
         <motion.div
-          className="mt-8 w-full space-y-6 rounded-xl bg-white p-6 shadow-lg ring-1 ring-gray-200 dark:bg-gray-800 dark:ring-gray-700 lg:mt-0 lg:w-1/2"
+          className="mt-8 w-full space-y-6 rounded-xl bg-white p-6 shadow-lg ring-1 ring-gray-200 dark:bg-gray-800 dark:ring-gray-700 lg:mt-0 lg:w-10/12"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -238,7 +250,7 @@ const ShippingAddressForm = ({
               ))}
 
               <DynamicButton
-                className="w-full rounded-lg bg-blue-600 px-6 py-3 text-lg font-semibold text-white transition hover:bg-blue-700 focus:outline-none"
+                className="mt-10 flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-5 py-2 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none"
                 isPending={isPending}
               >
                 {isPending ? (

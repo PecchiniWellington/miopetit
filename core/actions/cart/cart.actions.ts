@@ -267,6 +267,8 @@ export async function getMyCart() {
 
   if (!cart) return undefined;
 
+  console.log("CART", cart);
+
   // Convert decimals and return
   return convertToPlainObject({
     ...cart,
