@@ -13,6 +13,7 @@ import {
   IPaymentResult,
   ISalesDataType,
   IShippingAddress,
+  insertOrderItemSchema,
   insertOrderSchema,
 } from "@/core/validators";
 import { convertToPlainObject, formatError } from "@/lib/utils";
@@ -27,6 +28,8 @@ export async function createOrder() {
     const cart = await getMyCart();
     const userId = session?.user?.id;
 
+    console.log("CAAAART", cart);
+
     if (!userId) throw new Error("User not found");
 
     const user = await getUserById(userId);
@@ -34,7 +37,7 @@ export async function createOrder() {
     if (!cart || cart.items.length === 0) {
       return { success: false, message: "Cart is empty", redirectTo: "/cart" };
     }
-    if (!user || !user.address) {
+    if (!user || !user.defaultAddress) {
       return {
         success: false,
         message: "No shipping address",
@@ -52,7 +55,7 @@ export async function createOrder() {
     // Create order object
     const order = insertOrderSchema.parse({
       userId: user.id,
-      shippingAddress: user.address,
+      shippingAddress: user.defaultAddress,
       paymentMethod: user.paymentMethod,
       itemsPrice: cart.itemsPrice,
       shippingPrice: cart.shippingPrice,
@@ -65,15 +68,29 @@ export async function createOrder() {
       // Create order
       const insertedOrder = await tx.order.create({ data: order });
 
+      console.log("insertedOrder", insertedOrder);
       // Create order items from the cart items
       for (const item of cart.items as ICartItem[]) {
+        console.log("item", item);
         const orderItem = {
           ...item,
           price: item.price,
+          productId: item.productId,
+          slug: item.slug ?? "",
+          image: item.image ?? "",
           orderId: insertedOrder.id,
         };
 
-        await tx.orderItem.create({ data: orderItem });
+        const orderItemSchema = insertOrderItemSchema.parse(orderItem);
+        console.log("orderItemSchema", orderItemSchema);
+
+        try {
+          await tx.orderItem.create({
+            data: orderItem,
+          });
+        } catch (error) {
+          return { success: false, message: formatError(error) };
+        }
       }
       // Clear the cart
       await tx.cart.update({

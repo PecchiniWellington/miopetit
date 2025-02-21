@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/table";
 import { getMyCart } from "@/core/actions/cart/cart.actions";
 import { getUserById } from "@/core/actions/user";
-import { getUserAddress } from "@/core/actions/user/get-user-address.action";
 import { formatCurrency } from "@/lib/utils";
 import { Metadata } from "next";
 import Image from "next/image";
@@ -37,12 +36,18 @@ const PlaceOrderPage = async () => {
   }
 
   const user = await getUserById(userId);
-  const userAddress = await getUserAddress(userId);
-  const defaultAddress = userAddress.data?.find((address) => address.isDefault);
+  const defaultAddress = user?.defaultAddress as {
+    fullName: string;
+    street: string;
+    city: string;
+    postalCode: string;
+    country: string;
+  };
 
+  console.log("user", !user?.defaultAddress);
   if (!cart || cart.items.length === 0) redirect("/cart");
   if (!user?.defaultAddress) redirect("/shipping-address");
-  if (!user.paymentMethod) redirect("/payment-method");
+  if (!user?.paymentMethod) redirect("/payment-method");
 
   if (!defaultAddress) {
     return (

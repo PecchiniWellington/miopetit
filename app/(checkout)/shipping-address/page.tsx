@@ -3,6 +3,7 @@ import { getMyCart } from "@/core/actions/cart/cart.actions";
 import { getUserById } from "@/core/actions/user";
 import { IShippingAddress } from "@/core/validators";
 import { Metadata } from "next";
+import { SessionProvider } from "next-auth/react";
 import { redirect } from "next/navigation";
 import ShippingAddressForm from "./shipping-address-form";
 
@@ -26,10 +27,12 @@ const ShippingAddress = async () => {
     const user = await getUserById(userId);
     if (user) {
       return (
-        <ShippingAddressForm
-          address={user.address as IShippingAddress}
-          user={user}
-        />
+        <SessionProvider>
+          <ShippingAddressForm
+            address={user.defaultAddress as IShippingAddress}
+            user={user}
+          />
+        </SessionProvider>
       );
     } else {
       redirect("/login");

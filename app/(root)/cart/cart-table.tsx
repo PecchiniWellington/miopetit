@@ -13,6 +13,7 @@ import {
 import {
   addItemToCart,
   cancelItemFromCart,
+  getMyCart,
   removeItemFromCart,
 } from "@/core/actions/cart/cart.actions";
 import { ICart, ICartItem } from "@/core/validators";
@@ -34,13 +35,15 @@ export const CartTable = ({ cart }: { cart?: ICart }) => {
 
   // 🔄 Serializzazione e pulizia dell'oggetto cartProduct
   const cleanedCartProduct = cartProduct.map((item) => ({
-    id: item.id,
+    productId: item.id,
     image: item.image,
     name: item.name,
     price: item.price,
     qty: item.qty,
     slug: item.slug,
   }));
+
+  console.log("🛒 [CartTable] - Cart:", cartProduct);
 
   const handleRemoveFromCart = async (item: any) => {
     if (item.qty === 1) {
@@ -49,6 +52,7 @@ export const CartTable = ({ cart }: { cart?: ICart }) => {
     } else {
       setIsPending(async () => {
         await removeItemFromCart(item.id);
+
         await addToCartProduct(item, -1);
       });
     }
@@ -56,15 +60,21 @@ export const CartTable = ({ cart }: { cart?: ICart }) => {
 
   const handleAddToCart = async (item: ICartItem) => {
     setIsPending(async () => {
-      await addItemToCart(item);
+      //const existingProduct = await getProductById(item.productId);
+      const existingProduct = await getMyCart();
+      /*   const existingProduct = cartProduct.find(
+        (product) => product.id === item.productId
+      ); */
+      console.log("Existing Product", existingProduct, item.productId);
       await addToCartProduct(item, 1);
+      await addItemToCart(item);
     });
   };
 
   const cancelProduct = async (item: ICartItem) => {
     setIsPending(async () => {
-      await cancelItemFromCart(item.id);
-      await removeFromCartProduct(item.id);
+      await cancelItemFromCart(item.productId);
+      await removeFromCartProduct(item.productId);
     });
   };
 

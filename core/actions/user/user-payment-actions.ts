@@ -18,12 +18,16 @@ export async function updateUserPaymentMethod(data: IPaymentMethod) {
 
     const paymentMethod = paymentMethodSchema.parse(data);
 
-    await prisma.user.update({
+    const userUpdated = await prisma.user.update({
       where: { id: currentUser.id },
       data: { paymentMethod: paymentMethod.type },
     });
 
-    return { success: true, message: "Payment method updated successfully" };
+    return {
+      success: true,
+      message: "Payment method updated successfully",
+      data: userUpdated,
+    };
   } catch (error) {
     return { success: false, message: formatError(error) };
   }

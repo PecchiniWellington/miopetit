@@ -11,6 +11,7 @@ export const addressSchema = z.object({
     .string()
     .min(5, "Il codice postale deve avere almeno 5 caratteri"),
   country: z.string().min(2, "Il paese deve avere almeno 2 caratteri"),
+  userId: z.string().optional(),
 });
 
 export const createAddressSchema = addressSchema.omit({ id: true });

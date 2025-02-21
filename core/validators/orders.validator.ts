@@ -67,10 +67,10 @@ export const orderItemSchema = z.object({
   image: z.string(),
   createdAt: z.date(),
   updatedAt: z.date(),
-  /* order: orderSchema,
+  order: orderSchema,
   product: z.object({
     id: z.string().uuid(),
-  }), */
+  }),
 });
 
 export type IOrderItem = z.infer<typeof orderItemSchema>;

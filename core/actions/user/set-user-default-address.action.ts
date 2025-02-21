@@ -27,7 +27,7 @@ export async function setDefaultAddress(id: string, userId: string) {
     });
 
     // 📌 Imposta l'indirizzo selezionato come predefinito
-    await prisma.address.update({
+    const data = await prisma.address.update({
       where: {
         id: id,
       },
@@ -39,6 +39,7 @@ export async function setDefaultAddress(id: string, userId: string) {
     return {
       success: true,
       message: "Indirizzo predefinito aggiornato con successo",
+      data,
     };
   } catch (error) {
     return {

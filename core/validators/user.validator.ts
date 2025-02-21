@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { addressSchema } from "./user-address.validator";
 
 // Schema for updating user profile
 export const updateUserProfileSchema = z.object({
@@ -21,6 +22,7 @@ export const userSchema = z.object({
   image: z.string().nullable().optional(),
   password: z.string().nullable().optional(),
   role: z.string(),
+  defaultAddress: addressSchema,
   address: z.unknown().nullable().optional(), // TODO: Change to IAddress schema
   paymentMethod: z.string().nullable().optional(),
   status: z.string(),

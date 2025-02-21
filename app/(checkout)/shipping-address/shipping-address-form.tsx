@@ -18,16 +18,19 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { updateUserAddress } from "@/core/actions/user";
 import { createUserAddress } from "@/core/actions/user/create-user-address.action";
 import { getUserAddress } from "@/core/actions/user/get-user-address.action";
 import { setDefaultAddress } from "@/core/actions/user/set-user-default-address.action";
 import { IShippingAddress, shippingAddressSchema } from "@/core/validators";
 import { IAddress } from "@/core/validators/user-address.validator";
+import { useIndexedDBCart } from "@/hooks/use-indexCart";
 import { useToast } from "@/hooks/use-toast";
 import { SHIPPING_ADDRESS_DEFAULT_VALUES } from "@/lib/constants";
 import { ArrowRight, CheckCircle, Loader, MapPin } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState, useTransition } from "react";
+import { startTransition, useEffect, useState, useTransition } from "react";
 
 const ShippingAddressForm = ({
   address,
@@ -40,6 +43,9 @@ const ShippingAddressForm = ({
   const { toast } = useToast();
   const [isPending, setIsPending] = useTransition();
   const [addresses, setAddresses] = useState<IAddress[]>([]);
+  const { data: session } = useSession();
+
+  const { saveUserAddress } = useIndexedDBCart(); // ✅ Salva l'indirizzo in IndexedDB se non loggato
 
   const form = useForm<z.infer<typeof shippingAddressSchema>>({
     resolver: zodResolver(shippingAddressSchema),
@@ -50,6 +56,7 @@ const ShippingAddressForm = ({
     try {
       const r = await getUserAddress(user.id);
       setAddresses(r.data);
+      console.log("r.data", r.data);
     } catch (error) {
       console.error("Error fetching addresses:", error);
     }
@@ -62,15 +69,30 @@ const ShippingAddressForm = ({
   const onSubmit: SubmitHandler<z.infer<typeof shippingAddressSchema>> = async (
     values
   ) => {
-    setIsPending(async () => {
-      const res = await createUserAddress(values);
+    startTransition(async () => {
+      const addressUser = addresses.find(
+        (address) => address.isDefault === true
+      );
 
-      if (!res.success) {
-        toast({
-          title: "Error",
-          description: res.message,
+      if (session?.user) {
+        // ✅ Utente loggato -> salva nel database
+        const res = await createUserAddress({
+          ...values,
+          isDefault: true,
         });
-        return;
+        if (!res.success) {
+          toast({
+            variant: "destructive",
+            description: res.message,
+          });
+          return;
+        }
+      } else {
+        // ❌ Utente non loggato -> salva nel IndexedDB
+        await saveUserAddress({ ...addressUser, isDefault: true });
+        toast({
+          description: "Indirizzo salvato localmente",
+        });
       }
 
       router.push("/payment-method");
@@ -84,7 +106,6 @@ const ShippingAddressForm = ({
       if (res.success) {
         toast({
           description: res.message,
-          icon: <CheckCircle className="size-4 text-green-500" />,
         });
 
         setAddresses((prevAddresses) =>
@@ -108,68 +129,99 @@ const ShippingAddressForm = ({
     }
   };
 
+  const updateAddress = async () => {
+    startTransition(async () => {
+      const addressUser = addresses.find(
+        (address) => address.isDefault === true
+      );
+
+      if (session?.user) {
+        const res = await setDefaultAddress(addressUser?.id, user.id);
+        await updateUserAddress(res.data);
+
+        if (!res.success) {
+          toast({
+            variant: "destructive",
+            description: res.message,
+          });
+          return;
+        }
+      } else {
+        await saveUserAddress({ ...addressUser, isDefault: true });
+        toast({
+          description: "Indirizzo salvato localmente",
+        });
+      }
+
+      router.push("/payment-method");
+    });
+  };
+
   return (
     <>
       <CheckoutSteps current={1} />
 
       <div className="flex flex-col lg:flex-row lg:space-x-8">
         {/* Colonna Sinistra - Lista Indirizzi */}
-        <div className="flex-col items-center justify-center lg:w-10/12">
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
-            📍 I tuoi Indirizzi di Spedizione
-          </h2>
-          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-            Gestisci e seleziona l'indirizzo per una consegna più rapida.
-          </p>
+        {addresses.length > 0 && (
+          <div className="flex-col items-center justify-center lg:w-10/12">
+            <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
+              📍 I tuoi Indirizzi di Spedizione
+            </h2>
+            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+              Gestisci e seleziona l'indirizzo per una consegna più rapida.
+            </p>
 
-          <div className="mt-4 space-y-4">
-            {addresses
-              ?.sort((a, b) =>
-                a.isDefault === b.isDefault ? 0 : a.isDefault ? -1 : 1
-              )
-              .map((address) => (
-                <motion.div
-                  key={address.id}
-                  className={`flex items-start justify-between rounded-lg border p-4 transition-shadow hover:shadow-lg ${
-                    address.isDefault
-                      ? "border-blue-500 bg-blue-50 dark:bg-blue-900"
-                      : "border-gray-300 dark:border-gray-600"
-                  }`}
-                  whileHover={{ scale: 1.02 }}
-                >
-                  <div>
-                    <p className="text-gray-800 dark:text-white">
-                      <MapPin className="mr-2 inline-block text-gray-600 dark:text-gray-400" />
-                      {address.street}, {address.city}
-                    </p>
-                    {address.isDefault && (
-                      <span className="text-xs font-semibold text-blue-600 dark:text-blue-400">
-                        ✅ Indirizzo Predefinito
-                      </span>
-                    )}
-                  </div>
-                  <div className="flex gap-2">
-                    {!address.isDefault && (
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        onClick={() => handleSetDefault(address.id, user.id)}
-                      >
-                        <CheckCircle className="size-4 text-gray-500 hover:text-blue-500" />
-                      </Button>
-                    )}
-                  </div>
-                </motion.div>
-              ))}
+            <div className="mt-4 space-y-4">
+              {addresses
+                ?.sort((a, b) =>
+                  a.isDefault === b.isDefault ? 0 : a.isDefault ? -1 : 1
+                )
+                .map((address) => (
+                  <motion.div
+                    key={address.id}
+                    className={`flex items-start justify-between rounded-lg border p-4 transition-shadow hover:shadow-lg ${
+                      address.isDefault
+                        ? "border-blue-500 bg-blue-50 dark:bg-blue-900"
+                        : "border-gray-300 dark:border-gray-600"
+                    }`}
+                    whileHover={{ scale: 1.02 }}
+                  >
+                    <div>
+                      <p className="text-gray-800 dark:text-white">
+                        <MapPin className="mr-2 inline-block text-gray-600 dark:text-gray-400" />
+                        {address.street}, {address.city}
+                      </p>
+                      {address.isDefault && (
+                        <span className="text-xs font-semibold text-blue-600 dark:text-blue-400">
+                          ✅ Indirizzo Predefinito
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex gap-2">
+                      {!address.isDefault && (
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          onClick={() => handleSetDefault(address.id, user.id)}
+                        >
+                          <CheckCircle className="size-4 text-gray-500 hover:text-blue-500" />
+                        </Button>
+                      )}
+                    </div>
+                  </motion.div>
+                ))}
+            </div>
+
+            <Button
+              variant="outline"
+              className="mt-10 flex w-full items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-5 py-2 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none md:w-fit"
+              onClick={updateAddress}
+            >
+              Continua al Metodo di Pagamento
+            </Button>
           </div>
-          <Button
-            variant="outline"
-            className="mt-10 flex w-full items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-5 py-2 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none md:w-fit"
-            onClick={() => router.push("/payment-method")}
-          >
-            Continua al Metodo di Pagamento
-          </Button>
-        </div>
+        )}
 
         <div className="my-auto hidden md:block lg:w-1/12">
           <Separator className="h-96 w-[2px]  bg-slate-100 " />
@@ -253,6 +305,7 @@ const ShippingAddressForm = ({
               ))}
 
               <DynamicButton
+                /* handleAction={addNewAddress} */
                 className="mt-10 flex w-full items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-5 py-2 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none md:w-fit"
                 isPending={isPending}
               >

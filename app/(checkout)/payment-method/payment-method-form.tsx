@@ -94,6 +94,7 @@ const PaymentMethodForm = ({
         return;
       }
 
+      console.log("RES", res.data);
       router.push("/place-order");
     });
   };

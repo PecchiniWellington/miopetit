@@ -7,10 +7,22 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const steps = [
-  { label: "Login", icon: <User className="size-5" /> },
-  { label: "Address", icon: <MapPin className="size-5" /> },
-  { label: "Payment", icon: <CreditCard className="size-5" /> },
-  { label: "Order", icon: <PackageCheck className="size-5" /> },
+  { label: "Login", href: "sign-in", icon: <User className="size-5" /> },
+  {
+    label: "Address",
+    href: "shipping-address",
+    icon: <MapPin className="size-5" />,
+  },
+  {
+    label: "Payment",
+    href: "payment-method",
+    icon: <CreditCard className="size-5" />,
+  },
+  {
+    label: "Order",
+    href: "place-order",
+    icon: <PackageCheck className="size-5" />,
+  },
 ];
 
 const CheckoutSteps = ({ current = 0 }) => {
@@ -47,7 +59,6 @@ const CheckoutSteps = ({ current = 0 }) => {
   return (
     <div className="mx-auto my-8 flex w-full max-w-4xl  items-center md:flex-row md:items-center md:space-x-6 md:space-y-0">
       {steps.map((step, index) => {
-        const stepUrl = `/${step.label.toLowerCase().replace(/\s+/g, "-")}`;
         const isActive = index === current;
         const isCompleted = index < current || completedSteps.includes(index);
         const isClickable = isCompleted || index === current;
@@ -93,7 +104,7 @@ const CheckoutSteps = ({ current = 0 }) => {
             >
               {/* 📱 Mostra icona e testo in linea su mobile */}
               <Link
-                href={stepUrl}
+                href={step.href}
                 className="flex w-full flex-col items-center justify-center gap-0 md:flex-row md:gap-2"
               >
                 <span>{step.icon}</span>

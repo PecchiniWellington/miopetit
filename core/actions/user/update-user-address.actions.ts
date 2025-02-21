@@ -39,6 +39,34 @@ export async function updateUserAddress(data: IShippingAddress) {
       isDefault: address.isDefault ?? false,
     },
   });
+  const currentDefaultAddress = await prisma.address.findFirst({
+    where: {
+      userId: updatedAddress.userId,
+      isDefault: true,
+    },
+  });
+
+  if (currentDefaultAddress && updatedAddress.isDefault) {
+    await prisma.address.update({
+      where: {
+        id: currentDefaultAddress.id,
+      },
+      data: {
+        isDefault: false,
+      },
+    });
+  }
+
+  if (address.isDefault) {
+    await prisma.user.update({
+      where: {
+        id: updatedAddress.userId,
+      },
+      data: {
+        defaultAddress: updatedAddress,
+      },
+    });
+  }
 
   // Log dopo l'update
   console.log(
@@ -46,5 +74,9 @@ export async function updateUserAddress(data: IShippingAddress) {
     updatedAddress
   );
 
-  return { success: true, message: "Address Updated successfully" };
+  return {
+    success: true,
+    message: "Address Updated successfully",
+    data: updatedAddress,
+  };
 }

@@ -146,9 +146,12 @@ export async function addItemToCart(data: ICartItem) {
       ...data,
       image: Array.isArray(data.image) ? data.image[0] : data.image,
     });
+    console.log("🔍 [addItemToCart] - Item:", item);
+    const products = await prisma.product.findMany();
+    console.log("🔍 [ALLPRODUCTS] - All products:", products);
 
     const product = await prisma.product.findFirst({
-      where: { id: item.id }, // Usa `productId` invece di `id`
+      where: { id: item.productId }, // Usa `productId` invece di `id`
     });
     console.log("🔎 [DB] - Prodotto trovato:", product);
 
@@ -185,7 +188,7 @@ export async function addItemToCart(data: ICartItem) {
       console.log("📦 [Carrello] - Carrello esistente trovato:", cart);
 
       // ✅ Controlla se l'oggetto è già nel carrello
-      const existItem = cart.items.find((x) => x.id === item.id);
+      const existItem = cart.items.find((x) => x.productId === item.productId);
 
       if (existItem) {
         if (product.stock < existItem.qty + 1) {
@@ -194,7 +197,7 @@ export async function addItemToCart(data: ICartItem) {
         }
 
         cart.items = cart.items.map((x) =>
-          x.id === item.id ? { ...x, qty: x.qty + 1 } : x
+          x.productId === item.productId ? { ...x, qty: x.qty + 1 } : x
         );
       } else {
         if (product.stock < 1) {
@@ -212,15 +215,19 @@ export async function addItemToCart(data: ICartItem) {
         }
         return item;
       });
+      console.log("🔍 [Controllo] -", cart.items, item.productId);
 
-      await prisma.cart.update({
+      const updateCart = await prisma.cart.update({
         where: { id: cart.id },
         data: {
           items: cart.items as Prisma.CartUpdateitemsInput[],
           ...calcPrice(cart.items as ICartItem[]),
         },
       });
-      console.log("✅ [Aggiornamento] - Carrello aggiornato nel database");
+      console.log(
+        "✅ [Aggiornamento] - Carrello aggiornato nel database",
+        updateCart
+      );
 
       revalidatePath(`/cart`);
       console.log("🔄 [Revalidate] - Revalidate del carrello avviato");
@@ -277,13 +284,15 @@ export async function removeItemFromCart(productId: string) {
     if (!cart) throw new Error("Cart not found");
 
     // Check for item in cart
-    const exist = (cart.items as ICartItem[]).find((i) => i.id === productId);
+    const exist = (cart.items as ICartItem[]).find(
+      (i) => i.productId === productId
+    );
 
     // Check if only one item in qty
     if (exist) {
       if (exist?.qty === 1) {
         cart.items = (cart.items as ICartItem[])?.filter(
-          (i) => i.id !== exist.id
+          (i) => i.productId !== exist.productId
         );
       } else {
         // Update item qty
@@ -315,10 +324,10 @@ export async function cancelItemFromCart(productId: string) {
     const cart = await getMyCart();
     if (!cart) throw new Error("Carrello non trovato");
 
-    const exist = cart.items.find((i) => i.id === productId);
+    const exist = cart.items.find((i) => i.productId === productId);
     if (!exist) throw new Error("Prodotto non presente nel carrello");
 
-    cart.items = cart.items.filter((i) => i.id !== productId);
+    cart.items = cart.items.filter((i) => i.productId !== productId);
 
     const cartUpdated = await prisma.cart.update({
       where: { id: cart.id },

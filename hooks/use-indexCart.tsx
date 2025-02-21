@@ -1,8 +1,9 @@
-import { IProduct } from "@/core/validators";
+import { IOrderItem, IProduct } from "@/core/validators";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 const DB_NAME = "CartProductDB";
 const STORE_NAME = "cartProduct";
+const ADDRESS_STORE = "userAddress";
 const DB_VERSION = 2;
 
 const isIndexedDBAvailable = () =>
@@ -62,7 +63,7 @@ export function useIndexedDBCart() {
     });
   }, []);
 
-  const addToCartProduct = async (product: IProduct, qty: number) => {
+  const addToCartProduct = async (product: IOrderItem, qty: number) => {
     const db = await openDatabase();
     if (!db) return;
 
@@ -70,14 +71,20 @@ export function useIndexedDBCart() {
       const transaction = db.transaction(STORE_NAME, "readwrite");
       const store = transaction.objectStore(STORE_NAME);
       const existingProduct = cartProduct.find(
-        (item) => item.id === product?.id
+        (item) => item.id === product?.productId
       );
+
+      console.log("Existing Product", existingProduct, product);
 
       if (existingProduct) {
         existingProduct.qty += qty;
         store.put(existingProduct);
       } else {
-        store.put({ ...product, qty, id: product.id || crypto.randomUUID() });
+        store.put({
+          ...product,
+          qty,
+          productId: product.productId,
+        });
       }
 
       // 🔥 Dispatcha l'evento solo una volta
@@ -123,6 +130,42 @@ export function useIndexedDBCart() {
     isUpdatingRef.current = false;
   }, [getCartProduct]);
 
+  const saveUserAddress = async (address) => {
+    const db = await openDatabase();
+    if (!db) return;
+
+    try {
+      const transaction = db.transaction(ADDRESS_STORE, "readwrite");
+      const store = transaction.objectStore(ADDRESS_STORE);
+      store.put({ id: "user-address", ...address });
+    } catch (error) {
+      console.error("Errore nel salvataggio dell'indirizzo", error);
+    }
+  };
+
+  // ✅ Recupera l'indirizzo dal IndexedDB
+  const getUserAddress = async () => {
+    const db = await openDatabase();
+    if (!db) return null;
+
+    return new Promise((resolve) => {
+      try {
+        const transaction = db.transaction(ADDRESS_STORE, "readonly");
+        const store = transaction.objectStore(ADDRESS_STORE);
+        const request = store.get("user-address");
+
+        request.onsuccess = () => resolve(request.result || null);
+        request.onerror = () => {
+          console.error("Errore nel recupero dell'indirizzo");
+          resolve(null);
+        };
+      } catch (error) {
+        console.error("Errore durante l'accesso a IndexedDB", error);
+        resolve(null);
+      }
+    });
+  };
+
   useEffect(() => {
     const handleCartUpdate = () => updateCartProduct();
 
@@ -135,5 +178,12 @@ export function useIndexedDBCart() {
     };
   }, []);
 
-  return { cartProduct, addToCartProduct, removeFromCartProduct, dbError };
+  return {
+    cartProduct,
+    addToCartProduct,
+    removeFromCartProduct,
+    saveUserAddress, // 🆕 Salva indirizzo
+    getUserAddress, // 🆕 Recupera indirizzo
+    dbError,
+  };
 }

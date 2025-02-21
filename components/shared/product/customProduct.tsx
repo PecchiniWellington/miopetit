@@ -65,9 +65,9 @@ export default function CustomProduct({
   const addToCart = useCallback(
     async (product: IProduct) => {
       console.log("🛒 Aggiunta al carrello:", product);
-      await addToCartProduct(product, 1);
+      await addToCartProduct({ ...product, productId: product.id }, 1);
       await addItemToCart({
-        id: product.id,
+        productId: product.id,
         name: product.name,
         price: product.price.toString(),
         qty: 1,

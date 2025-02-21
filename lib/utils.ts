@@ -49,10 +49,29 @@ export const capitalizeFirstLetter = (text: string) => {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const formatError = (error: any) => {
   if (error.name === "ZodError") {
-    const fieldErrors = Object.keys(error.errors).map((field) => {
-      return error.errors[field].message;
+    console.log("⚠️ [Zod Validation Error] - Dettagli:", error.errors);
+
+    const fieldErrors = error.errors.map((err) => {
+      const fieldPath = err.path.join("."); // Se il path è annidato, lo rende più leggibile
+
+      let message = `🔍 Campo: "${fieldPath}"\n`;
+
+      if (err.code === "invalid_type") {
+        message += `   ❌ Tipo errato\n`;
+        message += `   ➡️  Atteso: "${err.expected}"\n`;
+        message += `   ❌ Ricevuto: "${err.received}"\n`;
+      } else if (err.code === "required") {
+        message += `   🚨 Campo obbligatorio mancante\n`;
+      } else {
+        message += `   📌 Dettaglio: ${err.message}\n`;
+      }
+
+      return message;
     });
-    return fieldErrors.join(",\n");
+
+    return fieldErrors.join("\n");
+  } else if (error.name === "TypeError") {
+    return error.message;
   } else if (
     error.name === "PrismaClientKnownRequestError" &&
     error.code === "P2002"
