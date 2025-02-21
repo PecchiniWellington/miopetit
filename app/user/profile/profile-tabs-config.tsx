@@ -4,6 +4,11 @@ import { JSX, useState } from "react";
 import { AddressesTab } from "./address-tab";
 import { FavoritesTab } from "./favorite-tab";
 import { OrdersTab } from "./orders-tab";
+import HistoryTab from "./profile-history";
+import ProfileNotificationsTab from "./profile-notifications";
+import SettingsTab from "./profile-settings";
+import SubscriptionTab from "./profile-subscriptions";
+import SupportTab from "./profile-support";
 import { ProfileTab } from "./profile-tabs";
 import { SecurityTab } from "./security-tab";
 
@@ -107,6 +112,13 @@ const ProfileTabsConfig = ({ tabs, user }: { tabs: Tab[]; user: any }) => {
         {activeTab === "orders" && <OrdersTab />}
         {activeTab === "favorites" && <FavoritesTab />}
         {activeTab === "addresses" && <AddressesTab user={user} />}
+        {activeTab === "support" && <SupportTab />}
+        {activeTab === "history" && <HistoryTab />}
+        {activeTab === "settings" && <SettingsTab />}
+        {activeTab === "notifications" && (
+          <ProfileNotificationsTab /* user={user} */ />
+        )}
+        {activeTab === "subscriptions" && <SubscriptionTab /* user={user} */ />}
         {activeTab === "security" && (
           <SecurityTab
             email={user.email}

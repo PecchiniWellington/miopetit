@@ -1,6 +1,17 @@
 import { auth } from "@/auth";
 import { getUserById } from "@/core/actions/user";
-import { Heart, Lock, MapPin, ShoppingBag, User } from "lucide-react";
+import {
+  Bell,
+  Clock,
+  CreditCard,
+  Heart,
+  HelpCircle,
+  Lock,
+  MapPin,
+  Settings,
+  ShoppingBag,
+  User,
+} from "lucide-react";
 import { SessionProvider } from "next-auth/react";
 import ProfileTabsConfig from "./profile-tabs-config";
 
@@ -10,6 +21,23 @@ const tabs = [
   { id: "favorites", label: "Preferiti", icon: <Heart className="size-5" /> },
   { id: "addresses", label: "Indirizzi", icon: <MapPin className="size-5" /> },
   { id: "security", label: "Sicurezza", icon: <Lock className="size-5" /> },
+  {
+    id: "notifications",
+    label: "Notifiche",
+    icon: <Bell className="size-5" />,
+  },
+  {
+    id: "subscriptions",
+    label: "Abbonamenti",
+    icon: <CreditCard className="size-5" />,
+  },
+  { id: "support", label: "Supporto", icon: <HelpCircle className="size-5" /> },
+  { id: "history", label: "Cronologia", icon: <Clock className="size-5" /> },
+  {
+    id: "settings",
+    label: "Impostazioni",
+    icon: <Settings className="size-5" />,
+  },
 ];
 
 const ProfilePage = async () => {
