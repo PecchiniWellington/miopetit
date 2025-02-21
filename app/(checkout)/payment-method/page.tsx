@@ -1,7 +1,6 @@
 import { auth } from "@/auth";
 import { getUserById } from "@/core/actions/user";
 import { Metadata } from "next";
-import { redirect } from "next/navigation";
 import PaymentMethodForm from "./payment-method-form";
 
 export const metadata: Metadata = {
@@ -14,14 +13,11 @@ const PaymentMethod = async () => {
   const userId = session?.user?.id;
   if (!userId) {
     /* TODO: inserire le agevolazioni se ti autentichi */
-    redirect("/login");
+    /* redirect("/sign-in"); */
+    return <PaymentMethodForm />;
   } else {
     const user = await getUserById(userId);
-    return (
-      <>
-        <PaymentMethodForm preferredPaymentMethod={user?.paymentMethod} />
-      </>
-    );
+    return <PaymentMethodForm preferredPaymentMethod={user?.paymentMethod} />;
   }
 };
 

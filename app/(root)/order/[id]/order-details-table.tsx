@@ -1,8 +1,7 @@
 "use client";
 
-import { formatId } from "@/lib/utils";
-
 import { IOrder } from "@/core/validators";
+import { formatId } from "@/lib/utils";
 import OrderCard from "./order-card";
 import PaymentCard from "./payment-card-component";
 import ResumeItemsTable from "./resume-items-table";
@@ -34,36 +33,46 @@ const OrderDetailsTable = ({
   } = order;
 
   return (
-    <>
-      <h1 className="py-4 text-2xl">Order {formatId(order.id)}</h1>
-      <div className="grid md:grid-cols-3 md:gap-5">
-        <div className="col-span-2 flex flex-col gap-2 space-y-4 overflow-x-auto">
+    <div className="mx-auto w-full space-y-6 px-4">
+      {/* 🏷️ Titolo dell'ordine */}
+      <h1 className="text-3xl font-semibold text-gray-900 dark:text-white">
+        Ordine <span className="text-indigo-600">#{formatId(order.id)}</span>
+      </h1>
+
+      <div className="grid md:grid-cols-3 md:gap-6">
+        {/* 📦 **Dettagli dell'ordine** */}
+        <div className="col-span-2 space-y-6">
+          {/* 💳 **Metodo di Pagamento** */}
           <OrderCard
             isPaid={isPaid}
             subtitle={paymentMethod}
             paidAt={paidAt}
-            title="Payment Method"
-            type="Paid"
+            title="Metodo di Pagamento"
+            type="Pagato"
           />
 
+          {/* 📍 **Indirizzo di Spedizione** */}
           <OrderCard
             isPaid={isDelivered}
             subtitle={shippingAddress.fullName}
             paidAt={deliveredAt}
-            title="Shipping Address"
-            type="Delivered"
+            title="Indirizzo di Spedizione"
+            type="Consegnato"
           >
-            <p className="mb-2">
-              {shippingAddress.streetAddress}, {shippingAddress.city}
+            <p className="text-gray-700 dark:text-gray-300">
+              {shippingAddress.street}, {shippingAddress.city},{" "}
               {shippingAddress.postalCode}, {shippingAddress.country}
             </p>
           </OrderCard>
 
-          <OrderCard title="Order Items">
+          {/* 🛍️ **Riepilogo degli Articoli** */}
+          <OrderCard title="Articoli dell'Ordine">
             <ResumeItemsTable orderitems={orderitems} />
           </OrderCard>
         </div>
-        <div className="col-span-2 mt-2 flex flex-col gap-4 md:col-span-1 md:mt-0">
+
+        {/* 💰 **Riepilogo del pagamento** */}
+        <div className="col-span-2 md:col-span-1">
           <PaymentCard
             itemsPrice={itemsPrice}
             taxPrice={taxPrice}
@@ -78,7 +87,7 @@ const OrderDetailsTable = ({
           />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

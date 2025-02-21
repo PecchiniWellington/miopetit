@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { useFormStatus } from "react-dom";
 
-const PlaceOrderForm = () => {
+const SubmitButtonOrder = () => {
   const router = useRouter();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -36,4 +36,4 @@ const PlaceOrderForm = () => {
   );
 };
 
-export default PlaceOrderForm;
+export default SubmitButtonOrder;

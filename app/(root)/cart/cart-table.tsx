@@ -33,7 +33,6 @@ export const CartTable = ({ cart }: { cart?: ICart }) => {
   const { cartProduct, addToCartProduct, removeFromCartProduct } =
     useIndexedDBCart();
 
-  // 🔄 Serializzazione e pulizia dell'oggetto cartProduct
   const cleanedCartProduct = cartProduct.map((item) => ({
     productId: item.id,
     image: item.image,

@@ -2,6 +2,7 @@ import { BadgeStatus } from "@/components/shared/badge-status";
 import { Card, CardContent } from "@/components/ui/card";
 import { STATUS } from "@/lib/constants";
 import { formatDateTime } from "@/lib/utils";
+import { Calendar, CheckCircle, XCircle } from "lucide-react";
 
 const OrderCard = ({
   children,
@@ -19,19 +20,51 @@ const OrderCard = ({
   type?: string;
 }) => {
   return (
-    <Card>
-      <CardContent className="gap-4 p-4">
-        <h2 className="pb-4 text-xl">{title}</h2>
-        <p className="mb-2">{subtitle}</p>
-        <div>{children}</div>
-        {isPaid && type ? (
-          <BadgeStatus status="success">
-            {type} at{" "}
-            {paidAt ? formatDateTime(paidAt.toString()).dateTime : "N/A"}
-          </BadgeStatus>
-        ) : (
-          type && <BadgeStatus status={STATUS.DANGER}>No {type}</BadgeStatus>
+    <Card className="relative overflow-hidden rounded-2xl border border-gray-300 bg-white p-6 shadow-lg transition-all duration-300 hover:shadow-xl dark:border-gray-700 dark:bg-gray-900">
+      <CardContent className="space-y-5">
+        {/* Intestazione con titolo e badge */}
+        <div className="flex items-center justify-between">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+            {title}
+          </h2>
+          {type && (
+            <BadgeStatus
+              status={isPaid ? "success" : STATUS.DANGER}
+              className="flex items-center gap-1 px-3 py-1 text-sm font-medium"
+            >
+              {isPaid ? (
+                <>
+                  <CheckCircle className="size-4 text-green-500" />
+                  {type} effettuato
+                </>
+              ) : (
+                <>
+                  <XCircle className="size-4 text-red-500" />
+                  {type} mancante
+                </>
+              )}
+            </BadgeStatus>
+          )}
+        </div>
+
+        {/* Divider elegante */}
+        <div className="border-t border-gray-200 dark:border-gray-700"></div>
+
+        {/* Dettagli pagamento */}
+        {isPaid && paidAt && (
+          <div className="flex items-center gap-3 text-sm text-gray-700 dark:text-gray-400">
+            <Calendar className="size-5 text-indigo-500" />
+            <span>Pagato il {formatDateTime(paidAt.toString()).dateTime}</span>
+          </div>
         )}
+
+        {/* Sottotitolo */}
+        {subtitle && (
+          <p className="text-sm text-gray-600 dark:text-gray-400">{subtitle}</p>
+        )}
+
+        {/* Contenuto Extra (Children) */}
+        {children && <div className="mt-2">{children}</div>}
       </CardContent>
     </Card>
   );

@@ -20,8 +20,9 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight, Banknote, Loader, Wallet } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { JSX, useTransition } from "react";
+import { JSX, useEffect, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -68,12 +69,69 @@ const paymentIcons: Record<string, JSX.Element> = {
 
 const PaymentMethodForm = ({
   preferredPaymentMethod,
+  user,
 }: {
   preferredPaymentMethod?: string | null;
+  user?: any;
 }) => {
   const router = useRouter();
   const { toast } = useToast();
   const [isPending, setIsPending] = useTransition();
+
+  useEffect(() => {
+    if (!user) {
+      toast({
+        className:
+          "bg-gradient-to-r from-yellow-500 to-orange-600 text-white px-8 py-6 rounded-lg shadow-xl border border-yellow-400 text-lg",
+        description: (
+          <div>
+            <div className="flex items-center gap-3">
+              <svg
+                className="size-8 animate-bounce"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path d="M12 2a10 10 0 1 1-7.07 17.07l-4.2 1.12a1 1 0 0 1-1.22-1.22l1.12-4.2A10 10 0 1 1 12 2zM12 4a8 8 0 1 0 5.66 13.66A8 8 0 0 0 12 4z"></path>
+                <path d="M10 8a2 2 0 1 1 4 0v4a2 2 0 1 1-4 0V8z"></path>
+                <path d="M10 16h4v2h-4z"></path>
+              </svg>
+              <span className="text-xl font-bold">
+                Indirizzo Salvato Temporaneamente 🕒
+              </span>
+            </div>
+
+            <div className="flex flex-col items-center">
+              <p className="text-md mt-2 font-medium">
+                Il tuo indirizzo verrà salvato per un massimo di <br />
+                <span className="font-bold">15 giorni</span> e poi sarà
+                cancellato automaticamente.
+              </p>
+
+              {/* Bottone principale per salvare l'indirizzo */}
+              <Link
+                href="/sign-up"
+                className="mt-4 inline-block w-full rounded-full bg-white px-5 py-3 text-center text-lg font-semibold text-yellow-700 shadow-md transition-all duration-300 hover:scale-105 hover:bg-yellow-100"
+              >
+                🔒 Salva il tuo Indirizzo Permanentemente!
+              </Link>
+
+              {/* Link secondario per più informazioni */}
+              <Link
+                href="/more-info"
+                className="mt-2 text-sm text-yellow-200 underline transition-all duration-200 hover:text-yellow-100"
+              >
+                Scopri di più su come gestiamo i tuoi dati
+              </Link>
+            </div>
+          </div>
+        ),
+        duration: 10000, // Mostra il toast per 6 secondi
+      });
+
+      return;
+    }
+  }, [toast, user]);
 
   const form = useForm<z.infer<typeof paymentMethodSchema>>({
     resolver: zodResolver(paymentMethodSchema),
