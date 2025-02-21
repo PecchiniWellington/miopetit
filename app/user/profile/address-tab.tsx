@@ -50,7 +50,6 @@ export const AddressesTab = ({ user }: { user: any }) => {
   const fetchAddresses = async () => {
     try {
       const r = await getUserAddress(user.id);
-      console.log("📦 Indirizzi utente:", r.data);
       setAddresses(r.data);
     } catch (error) {
       console.error("Error fetching addresses:", error);

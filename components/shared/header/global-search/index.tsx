@@ -30,13 +30,10 @@ const Search = () => {
   return (
     <>
       {isDropdownVisible && (
-        <div className="fixed inset-0 z-40 bg-black bg-opacity-65 transition-opacity"></div>
+        <div className="fixed inset-0 z-20 bg-black bg-opacity-65 transition-opacity"></div>
       )}
 
-      <div
-        ref={searchRef}
-        className="relative z-50 w-[200px] md:w-full md:max-w-lg"
-      >
+      <div ref={searchRef} className="relative z-30  md:w-full md:max-w-lg">
         <form
           action="/search"
           method="GET"

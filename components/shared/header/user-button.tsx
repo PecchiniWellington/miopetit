@@ -26,10 +26,11 @@ const UserButton = ({ userLogged }: { userLogged: any }) => {
     return (
       <button
         onClick={() => signIn()}
-        className="flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-5 py-2 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none"
+        /* className="flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-5 py-2 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none" */
+        className="flex items-center gap-2 rounded-full border border-gray-300  bg-gradient-to-r from-indigo-500 to-purple-600 p-1 text-white shadow-sm transition-all duration-300 hover:shadow-2xl dark:border-gray-600 dark:bg-gray-800"
       >
         <UserIcon className="size-6" />
-        <span className="font-medium">Sign In</span>
+        <span className="hidden font-medium md:flex">Sign In</span>
       </button>
     );
   }

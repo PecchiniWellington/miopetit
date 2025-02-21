@@ -12,21 +12,27 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { updateUserPaymentMethod } from "@/core/actions/user/user-payment-actions";
 import { paymentMethodSchema } from "@/core/validators";
-import { useToast } from "@/hooks/use-toast";
 import {
   DEFAULT_PAYMENT_METHOD,
   PAYMENT_METHODS,
 } from "@/lib/constants/payment-methods";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowRight, Banknote, Loader, Wallet } from "lucide-react";
+import {
+  ArrowRight,
+  Banknote,
+  Info,
+  Loader,
+  Wallet,
+  XCircle,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { JSX, useEffect, useTransition } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-// Mappa delle icone/metodi di pagamento con immagini migliorate
+// Mappa delle icone/metodi di pagamento
 const paymentIcons: Record<string, JSX.Element> = {
   Stripe: (
     <div className="flex items-center gap-3">
@@ -75,63 +81,8 @@ const PaymentMethodForm = ({
   user?: any;
 }) => {
   const router = useRouter();
-  const { toast } = useToast();
-  const [isPending, setIsPending] = useTransition();
-
-  useEffect(() => {
-    if (!user) {
-      toast({
-        className:
-          "bg-gradient-to-r from-yellow-500 to-orange-600 text-white px-8 py-6 rounded-lg shadow-xl border border-yellow-400 text-lg",
-        description: (
-          <div>
-            <div className="flex items-center gap-3">
-              <svg
-                className="size-8 animate-bounce"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <path d="M12 2a10 10 0 1 1-7.07 17.07l-4.2 1.12a1 1 0 0 1-1.22-1.22l1.12-4.2A10 10 0 1 1 12 2zM12 4a8 8 0 1 0 5.66 13.66A8 8 0 0 0 12 4z"></path>
-                <path d="M10 8a2 2 0 1 1 4 0v4a2 2 0 1 1-4 0V8z"></path>
-                <path d="M10 16h4v2h-4z"></path>
-              </svg>
-              <span className="text-xl font-bold">
-                Indirizzo Salvato Temporaneamente 🕒
-              </span>
-            </div>
-
-            <div className="flex flex-col items-center">
-              <p className="text-md mt-2 font-medium">
-                Il tuo indirizzo verrà salvato per un massimo di <br />
-                <span className="font-bold">15 giorni</span> e poi sarà
-                cancellato automaticamente.
-              </p>
-
-              {/* Bottone principale per salvare l'indirizzo */}
-              <Link
-                href="/sign-up"
-                className="mt-4 inline-block w-full rounded-full bg-white px-5 py-3 text-center text-lg font-semibold text-yellow-700 shadow-md transition-all duration-300 hover:scale-105 hover:bg-yellow-100"
-              >
-                🔒 Salva il tuo Indirizzo Permanentemente!
-              </Link>
-
-              {/* Link secondario per più informazioni */}
-              <Link
-                href="/more-info"
-                className="mt-2 text-sm text-yellow-200 underline transition-all duration-200 hover:text-yellow-100"
-              >
-                Scopri di più su come gestiamo i tuoi dati
-              </Link>
-            </div>
-          </div>
-        ),
-        duration: 10000, // Mostra il toast per 6 secondi
-      });
-
-      return;
-    }
-  }, [toast, user]);
+  const [isPending, setIsPending] = useState(false);
+  const [showBanner, setShowBanner] = useState(!user);
 
   const form = useForm<z.infer<typeof paymentMethodSchema>>({
     resolver: zodResolver(paymentMethodSchema),
@@ -141,26 +92,62 @@ const PaymentMethodForm = ({
   });
 
   const onSubmit = async (value: z.infer<typeof paymentMethodSchema>) => {
-    setIsPending(async () => {
-      const res = await updateUserPaymentMethod(value);
-      if (!res.success) {
-        toast({
-          title: "Errore",
-          description: res.message,
-          variant: "destructive",
-        });
-        return;
-      }
+    setIsPending(true);
+    const res = await updateUserPaymentMethod(value);
+    setIsPending(false);
 
-      console.log("RES", res.data);
-      router.push("/place-order");
-    });
+    if (!res.success) {
+      alert("Errore: " + res.message);
+      return;
+    }
+
+    router.push("/place-order");
   };
 
   return (
     <>
       <CheckoutSteps current={2} />
-      <div className="mx-auto max-w-lg space-y-6">
+
+      {/* 🔔 Banner per utenti non loggati */}
+      {showBanner && !preferredPaymentMethod && (
+        <div className="relative mx-auto max-w-2xl rounded-lg border border-yellow-400 bg-gradient-to-r from-yellow-500 to-orange-600 p-5 shadow-lg">
+          <div className="flex items-center gap-3 text-white">
+            <Info className="size-8 animate-bounce" />
+            <div>
+              <p className="text-lg font-semibold">
+                Indirizzo Salvato Temporaneamente 🕒
+              </p>
+              <p className="text-md mt-1">
+                Il tuo indirizzo verrà salvato per un massimo di{" "}
+                <span className="font-bold">15 giorni</span> e poi sarà
+                cancellato automaticamente.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-4 flex flex-col items-center">
+            {/* Bottone principale per salvare l'indirizzo */}
+            <Link
+              href="/sign-up"
+              className="w-full rounded-full bg-white px-3 py-2 text-center text-sm font-semibold text-yellow-700 shadow-md transition-all duration-300 hover:scale-105 hover:bg-yellow-100 sm:px-5 sm:py-3 sm:text-lg"
+            >
+              🔒 Salva il tuo Indirizzo Permanentemente!
+            </Link>
+
+            {/* Link secondario per più informazioni */}
+          </div>
+
+          {/* Pulsante per chiudere il banner */}
+          <button
+            onClick={() => setShowBanner(false)}
+            className="absolute right-3 top-3 text-white hover:text-gray-200"
+          >
+            <XCircle className="size-6" />
+          </button>
+        </div>
+      )}
+
+      <div className="mx-auto mt-10 max-w-lg space-y-6 md:mt-0">
         <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
           🏦 Seleziona un metodo di pagamento
         </h1>
@@ -209,9 +196,7 @@ const PaymentMethodForm = ({
                             </FormLabel>
                           </div>
                           {field.value === paymentMethod && (
-                            <div className="absolute right-2 top-2">
-                              <span className="inline-block size-4 rounded-full bg-blue-500"></span>
-                            </div>
+                            <span className="absolute right-2 top-2 size-4 rounded-full bg-blue-500"></span>
                           )}
                         </FormItem>
                       ))}

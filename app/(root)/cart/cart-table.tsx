@@ -161,7 +161,7 @@ export const CartTable = ({ cart }: { cart?: ICart }) => {
               </TableBody>
             </Table>
           </div>
-          <Card className="rounded-lg border shadow-md">
+          <Card className="mt-10 rounded-lg border shadow-md md:mt-0">
             <CardContent className="gap-4 p-4">
               {/* Titolo */}
               <h2 className="text-2xl font-semibold text-gray-800">

@@ -4,37 +4,6 @@ import { motion } from "framer-motion";
 import { ShoppingCart, Trash2 } from "lucide-react";
 import Image from "next/image";
 
-const mockFavorites = [
-  {
-    id: "1",
-    name: "Cibo Secco Monge",
-    price: "€19.99",
-    image: "/images/product1.png",
-    slug: "cibo-secco-monge",
-  },
-  {
-    id: "2",
-    name: "Croccantini Royal Canin",
-    price: "€24.50",
-    image: "/images/product2.png",
-    slug: "croccantini-royal-canin",
-  },
-  {
-    id: "3",
-    name: "Snack Naturali per Cani",
-    price: "€9.99",
-    image: "/images/product3.png",
-    slug: "snack-naturali-cani",
-  },
-  {
-    id: "4",
-    name: "Umido Schesir per Gatti",
-    price: "€15.90",
-    image: "/images/product4.png",
-    slug: "umido-schesir-gatti",
-  },
-];
-
 export const FavoritesTab = () => {
   const { favorites, removeFavorite } = useIndexedDB();
 
@@ -69,15 +38,26 @@ export const FavoritesTab = () => {
                     <Trash2 className="size-5" />
                   </button>
 
-                  {product.image && (
+                  {Array.isArray(product.image) ? (
                     <Image
-                      src={product.image}
+                      src={product.image[0]}
                       alt={product.name || "Prodotto"}
                       width={120}
                       height={120}
                       className="object-contain"
                       loading="lazy"
                     />
+                  ) : (
+                    product.image && (
+                      <Image
+                        src={product.image}
+                        alt={product.name || "Prodotto"}
+                        width={120}
+                        height={120}
+                        className="object-contain"
+                        loading="lazy"
+                      />
+                    )
                   )}
 
                   <h3 className="mt-3 text-sm font-semibold text-gray-900">

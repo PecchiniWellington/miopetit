@@ -11,11 +11,11 @@ const categoriesData = [
   ...(Array.isArray(menuSmallAnimals) ? menuSmallAnimals : [menuSmallAnimals]),
 ];
 
-export default function HomePage() {
+export default function HomePage({ className }: { className: string }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div>
+    <div className={className}>
       <button
         onClick={() => setIsSidebarOpen(true)}
         className="rounded  px-2 py-1 text-white"

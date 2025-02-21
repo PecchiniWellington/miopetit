@@ -27,48 +27,54 @@ const Header = async () => {
     userLogged = await getUserById(session.user.id);
   }
   return (
-    <header className=" w-full  border-b shadow-md">
+    <header className=" w-full shadow-md">
+      {/* 🔔 Banner Promozionale */}
+
+      {/* 📌 Header Principale */}
       {/* Top Navbar */}
-      <div className=" bg-gradient-to-r from-indigo-500 to-purple-600">
-        <div className="wrapper flex  items-center justify-between px-6 py-4 md:px-12">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-3">
+      <div className=" bg-gradient-to-r from-indigo-500 to-purple-600 ">
+        <div className="md:wrapper flex items-center justify-between   px-4 py-3 ">
+          {/* 🍔 Menu Mobile */}
+          <Menu className="flex items-center px-4 py-3 md:hidden" />
+
+          {/* 🏠 Logo */}
+          <Link href="/" className="flex items-center">
             <Image
               src="/images/petitLogo.png"
               alt={APP_NAME}
-              height={48}
-              width={48}
+              height={40}
+              width={40}
               priority
               className="transition-transform duration-300 hover:scale-105"
             />
-            <span className="hidden text-2xl font-bold text-white lg:block">
-              {APP_NAME}
-            </span>
           </Link>
-
-          {/* Search Bar */}
-          <div className=" flex w-full max-w-lg justify-center">
+          <div className="hidden items-center px-4 py-3 md:flex">
             <SearchProvider>
               <GlobalSearch />
             </SearchProvider>
           </div>
 
-          {/* Menu Mobile */}
-          <div className="md:hidden">
-            <Menu />
-          </div>
-
-          {/* User Actions */}
-          <nav className="hidden items-center gap-6 md:flex">
+          {/* 🛒 Carrello + Utente */}
+          <div className="flex items-center gap-4">
             <CartCounter />
-            <FavoritesCounter />
+            {userLogged && (
+              <span className="hidden md:flex">
+                <FavoritesCounter />
+              </span>
+            )}
             <SessionProvider>
               <UserButton userLogged={userLogged} />
             </SessionProvider>
-          </nav>
+          </div>
         </div>
       </div>
 
+      {/* 🔍 Barra di Ricerca */}
+      <div className="flex items-center px-4 py-3 md:hidden">
+        <SearchProvider>
+          <GlobalSearch />
+        </SearchProvider>
+      </div>
       {/* Mega Menu */}
       <div className=" relative z-20  gap-6 bg-white  shadow-md">
         <nav className="wrapper relative z-20 hidden gap-6 bg-white   md:flex">
@@ -89,11 +95,6 @@ const Header = async () => {
           />
         </nav>
       </div>
-
-      {/* Call to Action Banner */}
-      {/* <div>
-        <CtBanner />
-      </div> */}
     </header>
   );
 };

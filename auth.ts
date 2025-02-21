@@ -131,6 +131,7 @@ export const config = {
         /* /\/shipping-address/,
         /\/payment-method/,
         /\/place-order/, */
+        /\/favorites/,
         /\/profile/,
         /\/user\/(.*)/,
         /\/order\/(.*)/,

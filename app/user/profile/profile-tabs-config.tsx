@@ -20,8 +20,6 @@ const ProfileTabsConfig = ({ tabs, user }: { tabs: Tab[]; user: any }) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
-  console.log("TABS", tabs);
-
   return (
     <div className="flex w-full flex-col gap-6 md:flex-row">
       {/* 📌 Navigazione */}

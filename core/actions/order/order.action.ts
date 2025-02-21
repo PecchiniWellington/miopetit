@@ -28,8 +28,6 @@ export async function createOrder() {
     const cart = await getMyCart();
     const userId = session?.user?.id;
 
-    console.log("CAAAART", cart);
-
     if (!userId) throw new Error("User not found");
 
     const user = await getUserById(userId);
@@ -215,10 +213,10 @@ export async function getMyOrders({
     where: { userId: session?.user?.id },
   });
 
-  return {
+  return convertToPlainObject({
     data,
-    totalPages: Math.ceil(dataCount / limit), // TODO: perchè Math.ceil?
-  };
+    totalPages: Math.ceil(dataCount / limit),
+  });
 }
 
 // Get sales data and order summary
