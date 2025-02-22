@@ -3,13 +3,12 @@
 import { Button } from "@/components/ui/button";
 import { updateUserAddress } from "@/core/actions/user";
 import { setDefaultAddress } from "@/core/actions/user/set-user-default-address.action";
-import { useIndexedDBCart } from "@/hooks/use-indexCart";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
 import { CheckCircle, Loader2, MapPin } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { startTransition, useState } from "react";
+import { useState } from "react";
 
 const DefaultAddressLoggedUser = ({
   addresses,
@@ -23,7 +22,6 @@ const DefaultAddressLoggedUser = ({
   const { data: session } = useSession();
   const router = useRouter();
   const { toast } = useToast();
-  const { saveUserAddress } = useIndexedDBCart();
   const [isUpdating, setIsUpdating] = useState(false);
 
   // ✅ Imposta un indirizzo come predefinito
@@ -56,50 +54,42 @@ const DefaultAddressLoggedUser = ({
 
   // ✅ Aggiorna l'indirizzo e procede al pagamento
   const updateAddress = async () => {
-    startTransition(async () => {
+    try {
+      setIsUpdating(true);
       const addressUser = addresses.find(
         (address) => address.isDefault === true
       );
-      if (!addressUser)
-        return toast({
-          variant: "destructive",
-          description: "Seleziona un indirizzo predefinito.",
-        });
 
-      try {
-        setIsUpdating(true);
-        if (session?.user) {
-          const res = await setDefaultAddress(addressUser?.id, user.id);
-          if (res.data) {
-            await updateUserAddress({
-              ...res.data,
-              fullName: res.data.fullName || "",
-              street: res.data.street,
-              city: res.data.city,
-              postalCode: res.data.postalCode || "",
-              country: res.data.country || "",
-            });
-          }
-
-          if (!res.success) {
-            toast({ variant: "destructive", description: res.message });
-            return;
-          }
-        } else {
-          await saveUserAddress({ ...addressUser, isDefault: true });
-          toast({ description: "Indirizzo salvato localmente" });
+      if (session?.user) {
+        const res = await setDefaultAddress(addressUser?.id, user.id);
+        if (res.data) {
+          await updateUserAddress({
+            ...res.data,
+            fullName: res.data.fullName || "",
+            street: res.data.street,
+            city: res.data.city,
+            postalCode: res.data.postalCode || "",
+            country: res.data.country || "",
+          });
         }
 
-        router.push("/payment-method");
-      } catch (error) {
-        toast({
-          variant: "destructive",
-          description: "Errore nell'aggiornamento dell'indirizzo.",
-        });
-      } finally {
-        setIsUpdating(false);
+        if (!res.success) {
+          toast({ variant: "destructive", description: res.message });
+          return;
+        }
+      } else {
+        toast({ description: "Indirizzo salvato localmente" });
       }
-    });
+
+      router.push("/payment-method");
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        description: "Errore nell'aggiornamento dell'indirizzo.",
+      });
+    } finally {
+      setIsUpdating(false);
+    }
   };
 
   return (

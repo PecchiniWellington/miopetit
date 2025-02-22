@@ -6,7 +6,6 @@ import {
   removeItemFromCart,
 } from "@/core/actions/cart/cart.actions";
 import { ICart, ICartItem } from "@/core/validators";
-import { useIndexedDBCart } from "@/hooks/use-indexCart";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
@@ -23,20 +22,18 @@ export const AddToCart = ({
   const router = useRouter();
   const { toast } = useToast();
   const [isPending, setIsPending] = useTransition();
-  const { addToCartProduct, removeFromCartProduct } = useIndexedDBCart();
 
   //Check if the item is already in the cart
-  const existItem = cart && cart?.items?.find((i) => i.id === item.id);
+  const existItem =
+    cart && cart?.items?.find((i) => i.productId === item.productId);
 
   const handleRemoveFromCart = async () => {
     setIsPending(async () => {
       if (item.qty === 1) {
-        await removeItemFromCart(item.id);
-        await removeFromCartProduct(item.id);
+        await removeItemFromCart(item.productId);
       } else {
         setIsPending(async () => {
-          await removeItemFromCart(item.id);
-          await addToCartProduct(item, -1);
+          await removeItemFromCart(item.productId);
         });
       }
 
@@ -52,14 +49,11 @@ export const AddToCart = ({
 
       return;
     });
-    // removeItemFromCart(item.productId);
   };
 
   const handleAddToCart = async () => {
     setIsPending(async () => {
       const res = await addItemToCart({ ...item, image: item.image || "" });
-      console.log("🛒 Aggiunta al carrello:", item, res);
-      await addToCartProduct(item, 1);
 
       if (!res?.success) {
         toast({

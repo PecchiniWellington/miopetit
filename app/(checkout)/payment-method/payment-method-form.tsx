@@ -12,6 +12,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { updateUserPaymentMethod } from "@/core/actions/user/user-payment-actions";
 import { paymentMethodSchema } from "@/core/validators";
+import useLocalStorage from "@/hooks/use-local-storage";
 import {
   DEFAULT_PAYMENT_METHOD,
   PAYMENT_METHODS,
@@ -28,7 +29,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { JSX, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -83,6 +84,10 @@ const PaymentMethodForm = ({
   const router = useRouter();
   const [isPending, setIsPending] = useState(false);
   const [showBanner, setShowBanner] = useState(!user);
+  const [, setValue] = useLocalStorage(
+    "preferredPaymentMethod",
+    preferredPaymentMethod
+  );
 
   const form = useForm<z.infer<typeof paymentMethodSchema>>({
     resolver: zodResolver(paymentMethodSchema),
@@ -92,16 +97,27 @@ const PaymentMethodForm = ({
   });
 
   const onSubmit = async (value: z.infer<typeof paymentMethodSchema>) => {
-    setIsPending(true);
-    const res = await updateUserPaymentMethod(value);
-    setIsPending(false);
+    try {
+      setIsPending(true);
 
-    if (!res.success) {
-      alert("Errore: " + res.message);
-      return;
+      if (user) {
+        const res = await updateUserPaymentMethod(value);
+        setIsPending(false);
+
+        if (!res.success) {
+          alert("Errore: " + res.message);
+          return;
+        }
+      } else {
+        setIsPending(false);
+      }
+      setValue(value);
+      setIsPending(false);
+      router.push("/place-order");
+    } catch (error) {
+      setIsPending(false);
+      console.log("Errore nell'aggiornamento del metodo di pagamento", error);
     }
-
-    router.push("/place-order");
   };
 
   return (

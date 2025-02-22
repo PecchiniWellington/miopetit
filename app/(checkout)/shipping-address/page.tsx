@@ -12,7 +12,6 @@ export const metadata: Metadata = {
 };
 
 const ShippingAddress = async () => {
-  console.log("CI ENTRO?");
   const cart = await getMyCart();
   if (!cart || cart.items.length === 0) redirect("/cart");
 

@@ -18,7 +18,7 @@ import { cookies } from "next/headers";
 
 // Calculate cart prices
 const calcPrice = (items: ICartItem[]) => {
-  const itemsPrice = items.reduce(
+  const itemsPrice = items?.reduce(
     (acc, item) => acc + Number(item.price) * item.qty,
     0
   );

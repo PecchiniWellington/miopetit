@@ -13,67 +13,61 @@ import {
 import {
   addItemToCart,
   cancelItemFromCart,
-  getMyCart,
   removeItemFromCart,
 } from "@/core/actions/cart/cart.actions";
 import { ICart, ICartItem } from "@/core/validators";
-import { useIndexedDBCart } from "@/hooks/use-indexCart";
+import useLocalStorageItem from "@/hooks/use-local-storage-item";
 import { formatCurrency } from "@/lib/utils";
 import { ArrowRight, Loader, Minus, Plus, Trash } from "lucide-react";
-
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
 import { startTransition, useTransition } from "react";
 
 export const CartTable = ({ cart }: { cart?: ICart }) => {
   const [isPending, setIsPending] = useTransition();
   const router = useRouter();
-  const { cartProduct, addToCartProduct, removeFromCartProduct } =
-    useIndexedDBCart();
+  const [storedValue, addItem, removeItem, decreaseItem] = useLocalStorageItem(
+    "cart",
+    cart
+  );
 
-  const cleanedCartProduct = cartProduct.map((item) => ({
-    productId: item.id,
-    image: item.image,
-    name: item.name,
-    price: item.price,
-    qty: item.qty,
-    slug: item.slug,
-  }));
+  console.log("🛒 [CartTable] - Cart:", storedValue);
 
-  console.log("🛒 [CartTable] - Cart:", cartProduct);
+  const cleanedCartProduct = Array.isArray(storedValue)
+    ? storedValue.map((item) => ({
+        productId: item.productId,
+        image: item.image,
+        name: item.name,
+        price: item.price,
+        qty: item.qty,
+        slug: item.slug,
+      }))
+    : [];
 
   const handleRemoveFromCart = async (item: any) => {
     if (item.qty === 1) {
-      await removeItemFromCart(item.id);
-      await removeFromCartProduct(item.id);
+      await removeItemFromCart(item.productId);
+      removeItem(item.productId);
     } else {
       setIsPending(async () => {
-        await removeItemFromCart(item.id);
-
-        await addToCartProduct(item, -1);
+        await removeItemFromCart(item.productId);
+        decreaseItem(item.productId);
       });
     }
   };
 
   const handleAddToCart = async (item: ICartItem) => {
     setIsPending(async () => {
-      //const existingProduct = await getProductById(item.productId);
-      const existingProduct = await getMyCart();
-      /*   const existingProduct = cartProduct.find(
-        (product) => product.id === item.productId
-      ); */
-      console.log("Existing Product", existingProduct, item.productId);
-      await addToCartProduct(item, 1);
       await addItemToCart(item);
+      addItem(item);
     });
   };
 
   const cancelProduct = async (item: ICartItem) => {
     setIsPending(async () => {
       await cancelItemFromCart(item.productId);
-      await removeFromCartProduct(item.productId);
+      removeItem(item.productId);
     });
   };
 

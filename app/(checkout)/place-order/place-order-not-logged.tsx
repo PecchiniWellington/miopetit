@@ -9,71 +9,58 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { formatCurrency } from "@/lib/utils";
+import { ICartItem } from "@/core/validators";
+import useLocalStorage from "@/hooks/use-local-storage";
+import { formatCurrency, round2 } from "@/lib/utils";
 import { Info } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import SubmitButtonOrder from "./submit-button-order";
 
-// 📌 Mock dei dati per utenti non loggati
-const mockCart = {
-  items: [
-    {
-      id: "1",
-      name: "Cibo per cani",
-      slug: "cibo-per-cani",
-      qty: 2,
-      image: "/images/royal-canin-4.jpg",
-      price: "14.99",
-    },
-    {
-      id: "2",
-      name: "Tiragraffi per gatti",
-      slug: "tiragraffi",
-      qty: 1,
-      image: "/images/tiragraffi.jpg",
-      price: "29.99",
-    },
-  ],
-  itemsPrice: "59.97",
-  taxPrice: "8.99",
-  shippingPrice: "5.00",
-  totalPrice: "73.96",
-};
+// 📌 Calcola prezzi
+const calcPrice = (items: ICartItem[]) => {
+  const itemsPrice = items?.reduce(
+    (acc, item) => acc + Number(item.price) * item.qty,
+    0
+  );
 
-const mockUser = {
-  defaultAddress: {
-    fullName: "Mario Rossi",
-    street: "Via Roma 10",
-    city: "Milano",
-    postalCode: "20121",
-    country: "Italia",
-  },
-  paymentMethod: "Carta di Credito",
+  const shippingPrice = round2(itemsPrice > 100 ? 0 : 10);
+  const taxPrice = round2(0.15 * itemsPrice);
+  const totalPrice = round2(itemsPrice + shippingPrice + taxPrice);
+
+  return {
+    itemsPrice: itemsPrice?.toFixed(2),
+    shippingPrice: shippingPrice?.toFixed(2),
+    taxPrice: taxPrice?.toFixed(2),
+    totalPrice: totalPrice?.toFixed(2),
+  };
 };
 
 const PlaceOrderPageGuest = () => {
+  const [storedAddresses] = useLocalStorage("addresses", []);
+  const [storedCart] = useLocalStorage("cart", []);
+  const [preferredPaymentMethod] = useLocalStorage(
+    "preferredPaymentMethod",
+    {}
+  );
+
   return (
     <>
-      {/* 📢 Banner Informativo */}
       <BannerInfo />
 
-      <div className="mx-auto w-full space-y-8 py-10">
-        <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white">
+      <div
+        className="mx-auto w-full space-y-8 
+       py-10 sm:px-6 lg:px-8"
+      >
+        <h1 className="text-center text-2xl font-extrabold text-gray-900 dark:text-white sm:text-3xl">
           🛒 Conferma il tuo ordine
         </h1>
 
-        <div className="grid gap-6 md:grid-cols-3">
-          {/* 🏠 Indirizzo di Spedizione */}
-          <ShippingAddressCard address={mockUser.defaultAddress} />
-
-          {/* 💳 Metodo di Pagamento */}
-          <PaymentMethodCard paymentMethod={mockUser.paymentMethod} />
-
-          {/* 🛍️ Articoli dell'ordine */}
-          <OrderItemsTable items={mockCart.items} />
-
-          {/* 📊 Riepilogo Ordine */}
-          <OrderSummaryCard cart={mockCart} />
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+          <ShippingAddressCard address={storedAddresses[0]} />
+          <PaymentMethodCard paymentMethod={preferredPaymentMethod.type} />
+          <OrderItemsTable items={storedCart} />
+          <OrderSummaryCard items={storedCart} />
         </div>
       </div>
     </>
@@ -91,27 +78,11 @@ const BannerInfo = () => (
         I tuoi dati verranno salvati temporaneamente! ⏳
       </p>
     </div>
-
     <p className="text-md text-yellow-700 dark:text-yellow-200">
-      Per offrirti un'esperienza di acquisto sicura e senza intoppi, i dettagli
-      del tuo ordine verranno conservati per un massimo di{" "}
-      <span className="font-bold">15 giorni</span> e poi eliminati
-      automaticamente.
+      Per offrirti un'esperienza di acquisto sicura, i dettagli del tuo ordine
+      verranno conservati per <span className="font-bold">15 giorni</span> e poi
+      eliminati automaticamente.
     </p>
-
-    <p className="text-sm text-yellow-800 dark:text-yellow-300">
-      Lo facciamo per garantire che la tua spedizione avvenga senza problemi e
-      per proteggere i tuoi dati con la massima trasparenza.
-    </p>
-
-    {/* <div className="flex items-center justify-between">
-      <Link
-        href="/more-info"
-        className="rounded-lg bg-yellow-500 px-5 py-2 text-sm font-semibold text-white shadow-md transition hover:bg-yellow-600 dark:bg-yellow-400 dark:hover:bg-yellow-500"
-      >
-        Scopri di più
-      </Link>
-    </div> */}
   </div>
 );
 
@@ -119,15 +90,13 @@ const BannerInfo = () => (
 const ShippingAddressCard = ({ address }: { address: any }) => (
   <Card className="shadow-lg transition-all hover:shadow-xl md:col-span-2">
     <CardContent className="space-y-5 p-6">
-      <h2 className="text-xl font-bold text-gray-800 dark:text-white">
+      <h2 className="text-lg font-bold text-gray-800 dark:text-white sm:text-xl">
         📍 Indirizzo di Spedizione
       </h2>
-      <p className="text-lg text-gray-700 dark:text-gray-300">
-        {address.fullName}
-      </p>
+      <p className="text-gray-700 dark:text-gray-300">{address?.fullName}</p>
       <p className="text-gray-600 dark:text-gray-400">
-        {address.street}, {address.city}, {address.postalCode},{" "}
-        {address.country}
+        {address?.street}, {address?.city}, {address?.postalCode},{" "}
+        {address?.country}
       </p>
     </CardContent>
   </Card>
@@ -136,13 +105,11 @@ const ShippingAddressCard = ({ address }: { address: any }) => (
 // 💳 **Metodo di Pagamento**
 const PaymentMethodCard = ({ paymentMethod }: { paymentMethod: string }) => (
   <Card className="shadow-lg transition-all hover:shadow-xl">
-    <CardContent className="flex flex-col items-stretch space-y-5 p-6">
-      <h2 className="text-xl font-bold text-gray-800 dark:text-white">
+    <CardContent className="space-y-5 p-6">
+      <h2 className="text-lg font-bold text-gray-800 dark:text-white sm:text-xl">
         💳 Metodo di Pagamento
       </h2>
-      <p className="text-lg text-gray-700 dark:text-gray-300">
-        {paymentMethod}
-      </p>
+      <p className="text-gray-700 dark:text-gray-300">{paymentMethod}</p>
     </CardContent>
   </Card>
 );
@@ -150,11 +117,11 @@ const PaymentMethodCard = ({ paymentMethod }: { paymentMethod: string }) => (
 // 🛍️ **Tabella degli Articoli**
 const OrderItemsTable = ({ items }: { items: any[] }) => (
   <Card className="shadow-lg transition-all hover:shadow-xl md:col-span-2">
-    <CardContent className="space-y-5 p-6">
-      <h2 className="text-xl font-bold text-gray-800 dark:text-white">
+    <CardContent className="space-y-5 overflow-x-auto p-6">
+      <h2 className="text-lg font-bold text-gray-800 dark:text-white sm:text-xl">
         🛍️ Articoli nel tuo ordine
       </h2>
-      <Table>
+      <Table className="min-w-full">
         <TableHeader>
           <TableRow className="bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-white">
             <TableHead>Prodotto</TableHead>
@@ -163,7 +130,7 @@ const OrderItemsTable = ({ items }: { items: any[] }) => (
           </TableRow>
         </TableHeader>
         <TableBody>
-          {items.map((item) => (
+          {items?.map((item) => (
             <TableRow
               key={item.slug}
               className="transition hover:bg-gray-50 dark:hover:bg-gray-900"
@@ -176,15 +143,19 @@ const OrderItemsTable = ({ items }: { items: any[] }) => (
                   <Image
                     src={item.image}
                     alt={item.name}
-                    width={60}
-                    height={60}
+                    width={50}
+                    height={50}
                     className="rounded-lg border shadow-sm"
                   />
-                  <span className="font-medium">{item.name}</span>
+                  <span className="text-sm font-medium sm:text-base">
+                    {item.name}
+                  </span>
                 </Link>
               </TableCell>
-              <TableCell className="text-center text-lg">{item.qty}</TableCell>
-              <TableCell className="text-center text-lg">
+              <TableCell className="text-center text-sm sm:text-lg">
+                {item.qty}
+              </TableCell>
+              <TableCell className="text-center text-sm sm:text-lg">
                 {formatCurrency(item.price)}
               </TableCell>
             </TableRow>
@@ -196,26 +167,23 @@ const OrderItemsTable = ({ items }: { items: any[] }) => (
 );
 
 // 📊 **Riepilogo dell'Ordine**
-const OrderSummaryCard = ({ cart }: { cart: any }) => (
-  <Card className="shadow-lg transition-all hover:shadow-xl">
-    <CardContent className="space-y-6 p-6">
-      <h2 className="text-xl font-bold text-gray-800 dark:text-white">
-        📊 Riepilogo Ordine
-      </h2>
-      <SummaryRow label="Subtotale" value={cart.itemsPrice} />
-      <SummaryRow label="IVA" value={cart.taxPrice} />
-      <SummaryRow label="Spedizione" value={cart.shippingPrice} />
-      <SummaryRow label="Totale" value={cart.totalPrice} isTotal />
-
-      {/* Bottone per il login o registrazione */}
-      <Link href="/sign-up">
-        <button className="mt-6 w-full rounded-full bg-yellow-500 px-5 py-3 text-lg font-bold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:bg-yellow-600">
-          🔐 Accedi per Confermare l&apos;Ordine
-        </button>
-      </Link>
-    </CardContent>
-  </Card>
-);
+const OrderSummaryCard = ({ items }: { items: any[] }) => {
+  const cart = calcPrice(items);
+  return (
+    <Card className="shadow-lg transition-all hover:shadow-xl">
+      <CardContent className="space-y-6 p-6">
+        <h2 className="text-lg font-bold text-gray-800 dark:text-white sm:text-xl">
+          📊 Riepilogo Ordine
+        </h2>
+        <SummaryRow label="Subtotale" value={cart.itemsPrice} />
+        <SummaryRow label="IVA" value={cart.taxPrice} />
+        <SummaryRow label="Spedizione" value={cart.shippingPrice} />
+        <SummaryRow label="Totale" value={cart.totalPrice} isTotal />
+        <SubmitButtonOrder />
+      </CardContent>
+    </Card>
+  );
+};
 
 // 🧾 **Riga del Riepilogo**
 const SummaryRow = ({

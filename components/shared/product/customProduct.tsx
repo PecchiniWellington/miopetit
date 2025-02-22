@@ -3,8 +3,8 @@
 import { Card } from "@/components/ui/card";
 import { addItemToCart } from "@/core/actions/cart/cart.actions";
 import { IProduct } from "@/core/validators";
-import { useIndexedDBCart } from "@/hooks/use-indexCart";
 import { useIndexedDB } from "@/hooks/use-indexDB";
+import useLocalStorage from "@/hooks/use-local-storage";
 import { motion } from "framer-motion";
 import { Heart, ShoppingCart } from "lucide-react";
 import Image from "next/image";
@@ -40,17 +40,17 @@ export default function CustomProduct({
   pricePerKg,
   product,
   slug,
-}: Product) {
+}: Product & { currentUser?: { id: string } }) {
   const { favorites, addFavorite, removeFavorite } = useIndexedDB();
-  const { addToCartProduct } = useIndexedDBCart();
   const [isWishlisted, setWishlisted] = useState(false);
+  const [storedValue, setValue] = useLocalStorage("cart", []);
 
-  // Controlla se il prodotto è nei favoriti
+  // Hook useStorage per gestire il carrello nel localStorage
+
   useEffect(() => {
     setWishlisted(favorites.some((fav) => fav.id.toString() === id));
   }, [favorites, id]);
 
-  // Aggiungi o rimuovi dai favoriti
   const toggleFavorite = () => {
     const product = { id, image, name, brand, price, oldPrice, slug };
 
@@ -64,18 +64,34 @@ export default function CustomProduct({
 
   const addToCart = useCallback(
     async (product: IProduct) => {
-      console.log("🛒 Aggiunta al carrello:", product);
-      await addToCartProduct({ ...product, productId: product.id }, 1);
-      await addItemToCart({
+      const newItem = {
         productId: product.id,
         name: product.name,
         price: product.price.toString(),
         qty: 1,
         image: Array.isArray(product.image) ? product.image[0] : product.image,
         slug: product.slug,
-      });
+      };
+
+      const cart = Array.isArray(storedValue) ? [...storedValue] : [];
+
+      const existingItemIndex = cart.findIndex(
+        (i: { productId: string }) => i.productId === newItem.productId
+      );
+
+      if (existingItemIndex !== -1) {
+        cart[existingItemIndex] = {
+          ...cart[existingItemIndex],
+          qty: cart[existingItemIndex].qty + 1,
+        };
+      } else {
+        cart.push(newItem);
+      }
+
+      setValue(cart);
+      await addItemToCart(newItem);
     },
-    [addToCartProduct]
+    [setValue, storedValue]
   );
 
   return (
@@ -124,7 +140,9 @@ export default function CustomProduct({
 
         {/* Availability */}
         <p
-          className={`text-xs font-medium ${availability === "Disponibile" ? "text-green-600" : "text-red-500"}`}
+          className={`text-xs font-medium ${
+            availability === "Disponibile" ? "text-green-600" : "text-red-500"
+          }`}
         >
           {availability}
         </p>
@@ -149,6 +167,17 @@ export default function CustomProduct({
         className="absolute bottom-4 right-4 flex size-12 items-center justify-center rounded-full bg-black p-2 transition hover:bg-gray-800"
       >
         <ShoppingCart className="size-6 text-white" />
+        {storedValue.some(
+          (item: { productId: string }) => item.productId === id
+        ) && (
+          <span className="absolute -right-1 -top-1 flex size-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
+            {
+              storedValue.find(
+                (item: { productId: string }) => item.productId === id
+              )?.qty
+            }
+          </span>
+        )}
       </motion.button>
     </Card>
   );

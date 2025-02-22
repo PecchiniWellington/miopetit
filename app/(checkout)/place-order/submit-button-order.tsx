@@ -12,7 +12,6 @@ const SubmitButtonOrder = () => {
     e.preventDefault();
 
     const res = await createOrder();
-    console.log("RES", res);
     if (res.redirectTo) router.push(res.redirectTo);
   };
 

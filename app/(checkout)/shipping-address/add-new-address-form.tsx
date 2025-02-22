@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { createUserAddress } from "@/core/actions/user/create-user-address.action";
 import { addressSchema } from "@/core/validators/user-address.validator";
-import { useIndexedDBCart } from "@/hooks/use-indexCart";
+import useLocalStorage from "@/hooks/use-local-storage-item";
 import { useToast } from "@/hooks/use-toast";
 import { SHIPPING_ADDRESS_DEFAULT_VALUES } from "@/lib/constants";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -30,7 +30,7 @@ const AddNewAddressForm = ({
   const router = useRouter();
   const { toast } = useToast();
   const { data: session } = useSession();
-  const { saveUserAddress } = useIndexedDBCart();
+  const [storedValue, setStoredValue] = useLocalStorage("addresses", addresses);
 
   const form = useForm<z.infer<typeof addressSchema>>({
     resolver: zodResolver(addressSchema),
@@ -44,9 +44,9 @@ const AddNewAddressForm = ({
       const addressUser = addresses?.find(
         (address) => address.isDefault === true
       );
+      setStoredValue(values);
 
       if (session?.user) {
-        // ✅ Utente loggato -> salva nel database
         const res = await createUserAddress({
           ...values,
           isDefault: true,
@@ -58,8 +58,6 @@ const AddNewAddressForm = ({
           return;
         }
       } else {
-        // ❌ Utente non loggato -> salva nel IndexedDB
-        await saveUserAddress({ ...addressUser, isDefault: true });
         toast({
           description: "Indirizzo salvato localmente",
         });
