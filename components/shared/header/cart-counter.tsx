@@ -15,7 +15,7 @@ export default function CartCounter() {
         className="text-white transition-all duration-300 hover:scale-110"
       />
       <span className="absolute -right-2 -top-2 flex size-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
-        {storedValue.length}
+        {storedValue?.length || 0}
       </span>
     </Link>
   );

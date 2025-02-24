@@ -3,7 +3,6 @@
 import { Card } from "@/components/ui/card";
 import { addItemToCart } from "@/core/actions/cart/cart.actions";
 import { IProduct } from "@/core/validators";
-import { useIndexedDB } from "@/hooks/use-indexDB";
 import useLocalStorage from "@/hooks/use-local-storage";
 import { motion } from "framer-motion";
 import { Heart, ShoppingCart } from "lucide-react";
@@ -41,23 +40,27 @@ export default function CustomProduct({
   product,
   slug,
 }: Product & { currentUser?: { id: string } }) {
-  const { favorites, addFavorite, removeFavorite } = useIndexedDB();
+  /*  const { favorites, addFavorite, removeFavorite } = useIndexedDB(); */
   const [isWishlisted, setWishlisted] = useState(false);
   const [storedValue, setValue] = useLocalStorage("cart", []);
+  const [storedFavorites, setFavorites, removeFavorite] = useLocalStorage(
+    "favorites",
+    []
+  );
 
   // Hook useStorage per gestire il carrello nel localStorage
 
   useEffect(() => {
-    setWishlisted(favorites.some((fav) => fav.id.toString() === id));
-  }, [favorites, id]);
+    setWishlisted(storedFavorites?.some((fav) => fav.id.toString() === id));
+  }, [storedFavorites, id]);
 
   const toggleFavorite = () => {
     const product = { id, image, name, brand, price, oldPrice, slug };
 
     if (isWishlisted) {
-      removeFavorite(id);
+      setFavorites(storedFavorites.filter((fav) => fav.id !== id));
     } else {
-      addFavorite(product);
+      setFavorites([...storedFavorites, product]);
     }
     setWishlisted(!isWishlisted);
   };
@@ -88,8 +91,8 @@ export default function CustomProduct({
         cart.push(newItem);
       }
 
-      setValue(cart);
       await addItemToCart(newItem);
+      setValue(cart);
     },
     [setValue, storedValue]
   );
@@ -167,17 +170,18 @@ export default function CustomProduct({
         className="absolute bottom-4 right-4 flex size-12 items-center justify-center rounded-full bg-black p-2 transition hover:bg-gray-800"
       >
         <ShoppingCart className="size-6 text-white" />
-        {storedValue.some(
-          (item: { productId: string }) => item.productId === id
-        ) && (
-          <span className="absolute -right-1 -top-1 flex size-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
-            {
-              storedValue.find(
-                (item: { productId: string }) => item.productId === id
-              )?.qty
-            }
-          </span>
-        )}
+        {storedValue &&
+          storedValue.some(
+            (item: { productId: string }) => item.productId === id
+          ) && (
+            <span className="absolute -right-1 -top-1 flex size-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
+              {
+                storedValue.find(
+                  (item: { productId: string }) => item.productId === id
+                )?.qty
+              }
+            </span>
+          )}
       </motion.button>
     </Card>
   );

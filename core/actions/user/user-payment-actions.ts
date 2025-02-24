@@ -13,15 +13,18 @@ export async function updateUserPaymentMethod(data: IPaymentMethod) {
         id: session?.user?.id,
       },
     });
+    console.log("SONO QUIIII", currentUser);
 
     if (!currentUser) throw new Error("User not found");
 
     const paymentMethod = paymentMethodSchema.parse(data);
+    console.log("SpaymentMethod-test", paymentMethod);
 
     const userUpdated = await prisma.user.update({
       where: { id: currentUser.id },
       data: { paymentMethod: paymentMethod.type },
     });
+    console.log("userUpdated-test", userUpdated);
 
     return {
       success: true,

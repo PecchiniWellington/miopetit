@@ -11,14 +11,14 @@ export const metadata: Metadata = {
 const PaymentMethod = async () => {
   const session = await auth();
   const userId = session?.user?.id;
-  if (!userId) {
-    /* TODO: inserire le agevolazioni se ti autentichi */
-    /* redirect("/sign-in"); */
-    return <PaymentMethodForm />;
-  } else {
-    const user = await getUserById(userId);
-    return <PaymentMethodForm preferredPaymentMethod={user?.paymentMethod} />;
-  }
+
+  const user = userId ? await getUserById(userId) : null;
+  return (
+    <PaymentMethodForm
+      preferredPaymentMethod={user?.paymentMethod}
+      userId={userId}
+    />
+  );
 };
 
 export default PaymentMethod;

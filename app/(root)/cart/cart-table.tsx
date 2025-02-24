@@ -17,22 +17,49 @@ import {
 } from "@/core/actions/cart/cart.actions";
 import { ICart, ICartItem } from "@/core/validators";
 import useLocalStorageItem from "@/hooks/use-local-storage-item";
-import { formatCurrency } from "@/lib/utils";
+import { formatCurrency, round2 } from "@/lib/utils";
+import { motion } from "framer-motion";
 import { ArrowRight, Loader, Minus, Plus, Trash } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { startTransition, useTransition } from "react";
+import { startTransition, useEffect, useState, useTransition } from "react";
+
+const calcPrice = (items: ICartItem[]) => {
+  const itemsPrice = items?.reduce(
+    (acc, item) => acc + Number(item.price) * item.qty,
+    0
+  );
+
+  const shippingPrice = round2(itemsPrice > 100 ? 0 : 10); // Free shipping over €100
+  const taxPrice = round2(0.15 * itemsPrice); // 15% tax
+  const totalPrice = round2(itemsPrice + shippingPrice + taxPrice); // Total price
+
+  return {
+    itemsPrice: itemsPrice.toFixed(2),
+    shippingPrice: shippingPrice.toFixed(2),
+    taxPrice: taxPrice.toFixed(2),
+    totalPrice: totalPrice.toFixed(2),
+  };
+};
 
 export const CartTable = ({ cart }: { cart?: ICart }) => {
   const [isPending, setIsPending] = useTransition();
+  const [resume, setResume] = useState<ICart[] | null>(null);
   const router = useRouter();
   const [storedValue, addItem, removeItem, decreaseItem] = useLocalStorageItem(
     "cart",
     cart
   );
 
-  console.log("🛒 [CartTable] - Cart:", storedValue);
+  useEffect(() => {
+    if ((storedValue as ICartItem[])?.length > 0) {
+      setResume({
+        resumeCart: calcPrice(storedValue),
+        totalItems: storedValue,
+      });
+    }
+  }, [storedValue]);
 
   const cleanedCartProduct = Array.isArray(storedValue)
     ? storedValue.map((item) => ({
@@ -71,15 +98,108 @@ export const CartTable = ({ cart }: { cart?: ICart }) => {
     });
   };
 
-  console.log("🛒 [CartTable] - Cart:", cleanedCartProduct);
+  const goToCheckout = () => {
+    startTransition(() => router.push("/shipping-address"));
+  };
+
+  const EmptyCart = () => {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="flex min-h-[60vh] flex-col items-center justify-center rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 p-8 shadow-xl"
+      >
+        {/* Testo principale */}
+        <motion.h2
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.5, ease: "easeOut" }}
+          className="text-4xl font-extrabold text-white"
+        >
+          Il tuo carrello è vuoto 🛒
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.5, duration: 0.4 }}
+          className="mt-3 max-w-lg text-center text-lg text-gray-200"
+        >
+          Sembra che tu non abbia ancora aggiunto nulla al carrello. Esplora il
+          nostro shop e trova le migliori offerte!
+        </motion.p>
+
+        {/* SVG con animazione */}
+        <motion.div
+          initial={{ scale: 0.7, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 0.7, duration: 0.5, ease: "easeOut" }}
+          className="mt-6"
+        >
+          <svg
+            width="180"
+            height="180"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="text-white drop-shadow-lg"
+          >
+            <motion.path
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: 1 }}
+              transition={{ delay: 1, duration: 1.2, ease: "easeOut" }}
+              d="M6.6 18H19.5C20.3 18 20.8 17.2 20.5 16.5L17.5 9.5C17.4 9.2 17.1 9 16.8 9H8.4L7.5 6.5C7.3 6 6.8 5.8 6.3 5.8H4"
+              stroke="white"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <motion.circle
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 1.5, duration: 0.5, ease: "easeOut" }}
+              cx="10"
+              cy="20"
+              r="1.5"
+              stroke="white"
+              strokeWidth="1.5"
+            />
+            <motion.circle
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 1.7, duration: 0.5, ease: "easeOut" }}
+              cx="17"
+              cy="20"
+              r="1.5"
+              stroke="white"
+              strokeWidth="1.5"
+            />
+          </svg>
+        </motion.div>
+
+        {/* Pulsante per lo shopping con animazione */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.8, duration: 0.5, ease: "easeOut" }}
+        >
+          <Link
+            href="/"
+            className="mt-8 flex items-center gap-2 rounded-full bg-yellow-400 px-8 py-3 text-lg font-semibold text-gray-900 shadow-lg transition-all duration-300 hover:scale-105 hover:bg-yellow-500"
+          >
+            🛍️ Torna allo Shopping
+          </Link>
+        </motion.div>
+      </motion.div>
+    );
+  };
+
   return (
     <>
       <h1 className="h2-bold py-4">Shopping Cart</h1>
 
       {!cleanedCartProduct || cleanedCartProduct?.length === 0 ? (
-        <div>
-          Cart is empty. <Link href="/">Go Shopping</Link>
-        </div>
+        <EmptyCart />
       ) : (
         <div className="grid md:grid-cols-4 md:gap-5">
           <div className="overflow-x-auto md:col-span-3">
@@ -170,7 +290,9 @@ export const CartTable = ({ cart }: { cart?: ICart }) => {
                     {isPending ? (
                       <Loader className="size-4 animate-spin" />
                     ) : (
-                      formatCurrency(cart?.itemsPrice)
+                      formatCurrency(
+                        resume?.resumeCart.itemsPrice || cart?.itemsPrice
+                      )
                     )}
                   </span>
                 </div>
@@ -185,7 +307,10 @@ export const CartTable = ({ cart }: { cart?: ICart }) => {
                 <div className="flex justify-between">
                   <span>Shipping</span>
                   <span className="font-bold">
-                    {formatCurrency(5.99)} {/* Spedizione Mockata */}
+                    {formatCurrency(
+                      resume?.resumeCart.taxPrice || cart?.taxPrice
+                    )}{" "}
+                    {/* Spedizione Mockata */}
                   </span>
                 </div>
 
@@ -197,8 +322,12 @@ export const CartTable = ({ cart }: { cart?: ICart }) => {
                   <span>
                     {isPending ? (
                       <Loader className="size-4 animate-spin" />
+                    ) : resume ? (
+                      formatCurrency(
+                        (resume?.resumeCart.totalPrice || 0) - 10.0 + 5.99
+                      )
                     ) : (
-                      formatCurrency((cart?.itemsPrice || 0) - 10.0 + 5.99)
+                      formatCurrency((cart?.totalPrice || 0) - 10.0 + 5.99)
                     )}
                   </span>
                 </div>
@@ -208,10 +337,14 @@ export const CartTable = ({ cart }: { cart?: ICart }) => {
 
               {/* Subtotal Mockato */}
               <div className="flex items-center gap-2 pb-3 text-lg text-gray-700">
-                Total Items:{" "}
+                Total Items:
                 <span className=" font-semibold">
                   {isPending ? (
                     <Loader className="size-4 animate-spin" />
+                  ) : resume ? (
+                    resume?.totalItems
+                      ?.reduce((a, c) => a + c?.qty, 0)
+                      ?.toString()
                   ) : (
                     cart?.items?.reduce((a, c) => a + c?.qty, 0)?.toString()
                   )}
@@ -221,9 +354,7 @@ export const CartTable = ({ cart }: { cart?: ICart }) => {
               {/* Bottone di Checkout */}
               <DynamicButton
                 className="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-5 py-2 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none"
-                handleAction={() =>
-                  startTransition(() => router.push("/shipping-address"))
-                }
+                handleAction={goToCheckout}
               >
                 {isPending ? (
                   <Loader className="size-4 animate-spin" />

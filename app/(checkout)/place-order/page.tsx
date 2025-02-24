@@ -4,7 +4,6 @@ import { getMyCart } from "@/core/actions/cart/cart.actions";
 import { getUserById } from "@/core/actions/user";
 import { Metadata } from "next";
 import PlaceOrderLogged from "./place-order-logged";
-import PlaceOrderPageGuest from "./place-order-not-logged";
 
 export const metadata: Metadata = {
   title: "Conferma Ordine",
@@ -27,15 +26,12 @@ const PlaceOrderPage = async () => {
   return (
     <>
       <CheckoutSteps current={3} />
-      {user ? (
-        <PlaceOrderLogged
-          cart={cart}
-          defaultAddress={defaultAddress}
-          user={user}
-        />
-      ) : (
-        <PlaceOrderPageGuest />
-      )}
+
+      <PlaceOrderLogged
+        cart={cart}
+        defaultAddress={defaultAddress}
+        user={user}
+      />
     </>
   );
 };

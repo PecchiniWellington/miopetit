@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function useLocalStorageItem<T>(key: string, initialValue: T[]) {
+function useLocalStorageItem<T>(key: string, initialValue: T[] | "") {
   const [storedValue, setStoredValue] = useState<T>(() => {
     try {
       if (typeof window === "undefined") return initialValue;

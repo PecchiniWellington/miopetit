@@ -18,16 +18,8 @@ import {
   PAYMENT_METHODS,
 } from "@/lib/constants/payment-methods";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  ArrowRight,
-  Banknote,
-  Info,
-  Loader,
-  Wallet,
-  XCircle,
-} from "lucide-react";
+import { ArrowRight, Banknote, Loader, Wallet } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { JSX, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -76,14 +68,13 @@ const paymentIcons: Record<string, JSX.Element> = {
 
 const PaymentMethodForm = ({
   preferredPaymentMethod,
-  user,
+  userId,
 }: {
   preferredPaymentMethod?: string | null;
-  user?: any;
+  userId?: string;
 }) => {
   const router = useRouter();
   const [isPending, setIsPending] = useState(false);
-  const [showBanner, setShowBanner] = useState(!user);
   const [, setValue] = useLocalStorage(
     "preferredPaymentMethod",
     preferredPaymentMethod
@@ -100,8 +91,9 @@ const PaymentMethodForm = ({
     try {
       setIsPending(true);
 
-      if (user) {
+      if (userId) {
         const res = await updateUserPaymentMethod(value);
+        console.log("REEEEES", res);
         setIsPending(false);
 
         if (!res.success) {
@@ -125,43 +117,6 @@ const PaymentMethodForm = ({
       <CheckoutSteps current={2} />
 
       {/* 🔔 Banner per utenti non loggati */}
-      {showBanner && !preferredPaymentMethod && (
-        <div className="relative mx-auto max-w-2xl rounded-lg border border-yellow-400 bg-gradient-to-r from-yellow-500 to-orange-600 p-5 shadow-lg">
-          <div className="flex items-center gap-3 text-white">
-            <Info className="size-8 animate-bounce" />
-            <div>
-              <p className="text-lg font-semibold">
-                Indirizzo Salvato Temporaneamente 🕒
-              </p>
-              <p className="text-md mt-1">
-                Il tuo indirizzo verrà salvato per un massimo di{" "}
-                <span className="font-bold">15 giorni</span> e poi sarà
-                cancellato automaticamente.
-              </p>
-            </div>
-          </div>
-
-          <div className="mt-4 flex flex-col items-center">
-            {/* Bottone principale per salvare l'indirizzo */}
-            <Link
-              href="/sign-up"
-              className="w-full rounded-full bg-white px-3 py-2 text-center text-sm font-semibold text-yellow-700 shadow-md transition-all duration-300 hover:scale-105 hover:bg-yellow-100 sm:px-5 sm:py-3 sm:text-lg"
-            >
-              🔒 Salva il tuo Indirizzo Permanentemente!
-            </Link>
-
-            {/* Link secondario per più informazioni */}
-          </div>
-
-          {/* Pulsante per chiudere il banner */}
-          <button
-            onClick={() => setShowBanner(false)}
-            className="absolute right-3 top-3 text-white hover:text-gray-200"
-          >
-            <XCircle className="size-6" />
-          </button>
-        </div>
-      )}
 
       <div className="mx-auto mt-10 max-w-lg space-y-6 md:mt-0">
         <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
@@ -224,10 +179,7 @@ const PaymentMethodForm = ({
             />
 
             <div className="flex w-full items-center justify-center">
-              <DynamicButton
-                handleAction={() => router.push("/place-order")}
-                className="flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-5 py-2 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none"
-              >
+              <DynamicButton className="flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-5 py-2 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none">
                 {isPending ? (
                   <Loader className="size-5 animate-spin" />
                 ) : (

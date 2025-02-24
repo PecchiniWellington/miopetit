@@ -36,7 +36,7 @@ export async function createUserAddress(req: any) {
       });
     }
 
-    const newAddress = await prisma.address.create({
+    await prisma.address.create({
       data: {
         ...data,
         isDefault: data.isDefault ?? false, // Imposta false se undefined

@@ -1,5 +1,5 @@
 "use client";
-import DynamicButton from "@/components/dynamic-button";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -30,11 +30,12 @@ const AddNewAddressForm = ({
   const router = useRouter();
   const { toast } = useToast();
   const { data: session } = useSession();
-  const [storedValue, setStoredValue] = useLocalStorage("addresses", addresses);
+  const [, setStoredValue] = useLocalStorage("addresses", addresses);
 
   const form = useForm<z.infer<typeof addressSchema>>({
     resolver: zodResolver(addressSchema),
     defaultValues: addresses?.[0] || SHIPPING_ADDRESS_DEFAULT_VALUES,
+    mode: "onBlur",
   });
 
   const onSubmit: SubmitHandler<z.infer<typeof addressSchema>> = async (
@@ -97,6 +98,11 @@ const AddNewAddressForm = ({
               placeholder: "Mario Rossi",
             },
             {
+              name: "email",
+              label: "Email",
+              placeholder: "tuamail@email.it",
+            },
+            {
               name: "street",
               label: "Indirizzo",
               placeholder: "Via Roma 123",
@@ -140,15 +146,19 @@ const AddNewAddressForm = ({
             />
           ))}
 
-          <DynamicButton className="mt-10 flex w-full items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-5 py-2 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none md:w-fit">
+          <Button
+            type="submit"
+            className="mt-10 flex w-full items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-5 py-2 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none md:w-fit"
+          >
             {/*  {isPending ? (
               <Loader className="size-5 animate-spin" />
             ) : ( */}
             <ArrowRight className="size-5" />
             {/* )} */}
             Aggiungi Indirizzo
-          </DynamicButton>
+          </Button>
         </form>
+        <FormMessage />
       </Form>
     </div>
   );

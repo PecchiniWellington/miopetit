@@ -1,16 +1,17 @@
 "use client";
 
-import { useIndexedDB } from "@/hooks/use-indexDB";
+import useLocalStorage from "@/hooks/use-local-storage";
 import { Heart } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function FavoritesCounter() {
-  const { favorites, dbError } = useIndexedDB();
   const [favoriteCount, setFavoriteCount] = useState(0);
+  const [storedFavorites, setFavorites] = useLocalStorage("favorites", []);
+
   useEffect(() => {
     const loadFavorites = async () => {
-      setFavoriteCount(favorites.length);
+      setFavoriteCount(storedFavorites.length);
     };
 
     loadFavorites();
@@ -25,9 +26,9 @@ export default function FavoritesCounter() {
     return () => {
       window.removeEventListener("favoritesUpdated", updateCount);
     };
-  }, [favorites]);
+  }, [storedFavorites]);
 
-  if (dbError) {
+  if (favoriteCount === 0) {
     return (
       <div className="relative cursor-not-allowed opacity-50">
         <Heart height={28} width={28} className="text-gray-500" />
@@ -35,8 +36,10 @@ export default function FavoritesCounter() {
     );
   }
 
+  console.log("storedFavorites", storedFavorites);
+
   return (
-    <Link href="/favourites" className="relative">
+    <Link href="/favorites" className="relative">
       <Heart
         height={28}
         width={28}

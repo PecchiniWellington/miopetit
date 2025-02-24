@@ -1,6 +1,7 @@
 "use client";
 import DynamicButton from "@/components/dynamic-button";
 import { createOrder } from "@/core/actions/order/order.action";
+import useLocalStorage from "@/hooks/use-local-storage";
 import { Check, Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -8,10 +9,14 @@ import { useFormStatus } from "react-dom";
 
 const SubmitButtonOrder = () => {
   const router = useRouter();
+  const [, setValue] = useLocalStorage("cart", []);
+  const [, setCheckoutSteps] = useLocalStorage("completedCheckout", []);
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const res = await createOrder();
+    setValue(null);
+    setCheckoutSteps(null);
     if (res.redirectTo) router.push(res.redirectTo);
   };
 

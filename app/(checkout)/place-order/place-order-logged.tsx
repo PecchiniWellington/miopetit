@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import {
+  Table,
   TableBody,
   TableCell,
   TableHead,
@@ -7,7 +8,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { formatCurrency } from "@/lib/utils";
-import { Table } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";

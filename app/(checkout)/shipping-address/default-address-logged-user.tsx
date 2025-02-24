@@ -63,7 +63,7 @@ const DefaultAddressLoggedUser = ({
       if (session?.user) {
         const res = await setDefaultAddress(addressUser?.id, user.id);
         if (res.data) {
-          await updateUserAddress({
+          const t = await updateUserAddress({
             ...res.data,
             fullName: res.data.fullName || "",
             street: res.data.street,
@@ -71,6 +71,7 @@ const DefaultAddressLoggedUser = ({
             postalCode: res.data.postalCode || "",
             country: res.data.country || "",
           });
+          console.log("TTTT", t);
         }
 
         if (!res.success) {
