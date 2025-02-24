@@ -12,6 +12,7 @@ import FavoritesCounter from "./favourites-counter";
 import GlobalSearch from "./global-search";
 import { SearchProvider } from "./global-search/global-search-context";
 import Menu from "./menu";
+import TopBar from "./top-bar";
 import UserButton from "./user-button";
 
 const Header = async () => {
@@ -29,6 +30,7 @@ const Header = async () => {
   return (
     <header className=" w-full shadow-md">
       {/* 🔔 Banner Promozionale */}
+      <TopBar />
 
       {/* 📌 Header Principale */}
       {/* Top Navbar */}
