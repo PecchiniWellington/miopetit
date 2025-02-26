@@ -1,6 +1,7 @@
 "use client";
 
 import { ILatestProduct } from "@/core/validators";
+import useCartHandler from "@/hooks/use-cart-handler";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -52,6 +53,7 @@ const BestSellingProduct = ({
   latestProducts: ILatestProduct[];
   animalName?: string;
 }) => {
+  const { addToCart, getProductQuantity } = useCartHandler();
   return (
     <section className="my-12 rounded-lg border border-gray-200 bg-white p-8 shadow-md">
       {/* Titolo */}
@@ -111,7 +113,11 @@ const BestSellingProduct = ({
             itemsPerView={3}
             gap={20}
             renderItem={(latestProducts) => (
-              <CustomProduct {...latestProducts} />
+              <CustomProduct
+                {...latestProducts}
+                addToCart={addToCart}
+                getProductQuantity={getProductQuantity}
+              />
             )}
           />
         </motion.div>

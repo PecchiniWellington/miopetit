@@ -2,13 +2,12 @@
 
 import { Card } from "@/components/ui/card";
 import { IProduct } from "@/core/validators";
-import useCartHandler from "@/hooks/use-cart-handler";
 import useLocalStorage from "@/hooks/use-local-storage";
 import { motion } from "framer-motion";
 import { Heart, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 interface ProductProps {
   id: string;
@@ -24,6 +23,8 @@ interface ProductProps {
   pricePerKg?: string;
   product: IProduct;
   slug: string;
+  addToCart: (product: IProduct) => void;
+  getProductQuantity: (id: string) => number;
 }
 
 export default function CustomProduct({
@@ -39,21 +40,18 @@ export default function CustomProduct({
   pricePerKg,
   product,
   slug,
+  addToCart,
+  getProductQuantity,
 }: ProductProps) {
-  const cartHandler = useCartHandler();
-  const { addToCart } = useMemo(() => cartHandler, [cartHandler]);
-  /*  { data }: { data: ILatestProduct[] } */
   const [isWishlisted, setWishlisted] = useState(false);
   const [favorites, setFavorites] = useLocalStorage("favorites", []);
 
-  // ✅ Evitiamo che l'effetto venga rieseguito inutilmente
   useEffect(() => {
     if (Array.isArray(favorites)) {
       setWishlisted(favorites.some((fav) => fav.id === id));
     }
   }, [favorites, id]);
 
-  // ✅ Evitiamo di creare una nuova funzione ad ogni render
   const toggleFavorite = () => {
     const product = { id, image, name, brand, price, oldPrice, slug };
 
@@ -64,10 +62,6 @@ export default function CustomProduct({
     }
     setWishlisted(!isWishlisted);
   };
-
-  const handleAddToCart = useCallback(() => {
-    addToCart(product);
-  }, [addToCart, product]);
 
   return (
     <Card className="relative z-10 overflow-hidden rounded-xl border bg-white p-4 shadow-md transition hover:shadow-lg">
@@ -144,15 +138,15 @@ export default function CustomProduct({
       </div>
 
       <motion.button
-        onClick={handleAddToCart}
+        onClick={() => addToCart(product)}
         whileTap={{ scale: 0.9 }}
         className="absolute bottom-4 right-4 flex size-12 items-center justify-center rounded-full bg-black p-2 transition hover:bg-gray-800"
       >
         <ShoppingCart className="size-6 text-white" />
 
-        {1 > 0 && (
+        {getProductQuantity(product?.id) > 0 && (
           <span className="absolute -right-1 -top-1 flex size-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
-            {1}
+            {getProductQuantity(product?.id)}
           </span>
         )}
       </motion.button>

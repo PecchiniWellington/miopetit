@@ -18,8 +18,6 @@ function useLocalStorage<T>(key: string, initialValue: T) {
   // ✅ Sincronizza il localStorage solo se il valore è diverso
   const setValue = (value: T) => {
     try {
-      if (JSON.stringify(storedValue) === JSON.stringify(value)) return; // 🔥 Evita aggiornamenti inutili
-
       setStoredValue(value);
       window.localStorage.setItem(key, JSON.stringify(value));
       window.dispatchEvent(new Event("localStorageUpdated"));

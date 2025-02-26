@@ -6,14 +6,11 @@ import { convertToPlainObject } from "@/lib/utils";
  * @param {string} searchTerm - Testo di ricerca inserito dall'utente
  */
 export async function getProductsBySearchTerm(searchTerm: string) {
-  console.log("ENTRO???");
   try {
     if (!searchTerm.trim()) {
       console.warn("⚠️ Nessun termine di ricerca inserito.");
       return { products: [], brands: [] };
     }
-
-    console.log(`🔎 Ricerca avviata per: "${searchTerm}"`);
 
     // 🔥 Trova i prodotti corrispondenti nel nome
     const products = await prisma.product.findMany({

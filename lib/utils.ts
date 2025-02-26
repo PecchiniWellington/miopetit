@@ -295,6 +295,7 @@ export const calcPrice = (items: ICartItem[]) => {
     (acc, item) => acc + Number(item.price) * item.qty,
     0
   );
+  const totalItems = items?.reduce((acc, item) => acc + item.qty, 0);
 
   const shippingPrice = round2(itemsPrice > 100 ? 0 : 10);
   const taxPrice = round2(0.15 * itemsPrice);
@@ -305,5 +306,6 @@ export const calcPrice = (items: ICartItem[]) => {
     shippingPrice: shippingPrice?.toFixed(2),
     taxPrice: taxPrice?.toFixed(2),
     totalPrice: totalPrice?.toFixed(2),
+    totalItems: totalItems,
   };
 };

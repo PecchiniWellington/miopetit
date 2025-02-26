@@ -10,7 +10,6 @@ export async function deleteUserAccount() {
     }
 
     const userId = session.user.id;
-    console.log("ID UTENTE:", userId);
 
     // Controlla se l'utente esiste
     const existingUser = await prisma.user.findUnique({

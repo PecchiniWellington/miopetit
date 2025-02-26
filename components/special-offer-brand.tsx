@@ -1,5 +1,7 @@
 "use client";
+import product from "@/core/db-static/product";
 import { IProduct } from "@/core/validators";
+import useCartHandler from "@/hooks/use-cart-handler";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useMemo } from "react";
@@ -12,6 +14,7 @@ interface IProductListProps {
 }
 
 const SpecialOfferBrand = ({ data, title }: IProductListProps) => {
+  const { addToCart, getProductQuantity } = useCartHandler();
   const memoizedData = useMemo(() => data, [data]);
   return (
     <motion.div
@@ -64,7 +67,24 @@ const SpecialOfferBrand = ({ data, title }: IProductListProps) => {
           data={memoizedData}
           itemsPerView={3}
           gap={20}
-          renderItem={(memoizedData) => <CustomProduct {...memoizedData} />}
+          renderItem={(memoizedData) => (
+            <CustomProduct
+              key={memoizedData.id}
+              id={memoizedData.id}
+              image={memoizedData.image[0]}
+              name={memoizedData.name}
+              productBrand={product?.productBrand?.name}
+              rating={Number(memoizedData.rating)}
+              reviews={memoizedData.numReviews}
+              availability="Disponibile in 2 varianti (FAKE)"
+              price={Number(memoizedData.price)}
+              oldPrice={54.99}
+              pricePerKg="€4,16/KG (FAKE)"
+              product={memoizedData}
+              getProductQuantity={getProductQuantity}
+              addToCart={addToCart}
+            />
+          )}
         />
       </motion.div>
     </motion.div>

@@ -1,6 +1,5 @@
 import DynamicButton from "@/components/dynamic-button";
 import { BadgeStatus } from "@/components/shared/badge-status";
-import CustomProduct from "@/components/shared/product/customProduct";
 import { getAllCategories } from "@/core/actions/products/product-infos.ts/get-product-category.action";
 import { STATUS } from "@/lib/constants";
 import Link from "next/link";
@@ -227,10 +226,8 @@ const SearchPage = async (props: {
               <div>No Product Found</div>
             )
           }
-          {
-            /* products.data.map((product) => ( */
-
-            [].map((product: any) => (
+          {/* products.data.map((product) => ( */
+          /*  [].map((product: any) => (
               <CustomProduct
                 product={product}
                 key={product.id}
@@ -244,9 +241,9 @@ const SearchPage = async (props: {
                 price={Number(product.price)}
                 oldPrice={54.99}
                 pricePerKg="€4,16/KG (FAKE)"
+                
               />
-            ))
-          }
+            )) */}
         </div>
       </div>
     </div>

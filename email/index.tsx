@@ -28,7 +28,6 @@ export const sendPasswordResetEmail = async ({
   user: any;
   resetUrl: string;
 }) => {
-  console.log("USER", resetUrl);
   await resend.emails.send({
     from: `${APP_NAME} <${SENDER_EMAIL}>`,
     to: user.email as string,

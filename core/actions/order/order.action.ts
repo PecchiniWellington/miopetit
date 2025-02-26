@@ -13,7 +13,6 @@ import {
   IPaymentResult,
   ISalesDataType,
   IShippingAddress,
-  insertOrderItemSchema,
   insertOrderSchema,
 } from "@/core/validators";
 import { convertToPlainObject, formatError } from "@/lib/utils";
@@ -66,8 +65,6 @@ export async function createOrder() {
       // Create order
       const insertedOrder = await tx.order.create({ data: order });
 
-      console.log("insertedOrder", insertedOrder);
-      // Create order items from the cart items
       for (const item of cart.items as ICartItem[]) {
         console.log("item", item);
         const orderItem = {
@@ -78,9 +75,6 @@ export async function createOrder() {
           image: item.image ?? "",
           orderId: insertedOrder.id,
         };
-
-        const orderItemSchema = insertOrderItemSchema.parse(orderItem);
-        console.log("orderItemSchema", orderItemSchema);
 
         try {
           await tx.orderItem.create({

@@ -93,7 +93,6 @@ const PaymentMethodForm = ({
 
       if (userId) {
         const res = await updateUserPaymentMethod(value);
-        console.log("REEEEES", res);
         setIsPending(false);
 
         if (!res.success) {

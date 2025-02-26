@@ -31,7 +31,7 @@ export default async function Home() {
     ...product,
     image: ["/images/royal-canin-4.jpg"],
   }));
-  console.log("Home");
+  console.log("Home", data);
 
   return (
     <div>
