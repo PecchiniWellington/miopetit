@@ -71,7 +71,7 @@ const DynamicCarousel = <T,>({
 
   return (
     <div
-      className="relative mx-auto w-full max-w-6xl overflow-hidden rounded-xl pb-12"
+      className="relative mx-auto w-full overflow-hidden rounded-xl pb-12"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}

@@ -1,6 +1,5 @@
+import AnimalCategory from "@/components/animals-catergory";
 import BestSellingProduct from "@/components/best-selling-products";
-import CarouselAnimalsCategory from "@/components/carousels/carousel-animals-catergory";
-import ProductCarousel from "@/components/carousels/featured-product-carousel";
 import Gifts from "@/components/gifts";
 import IconBoxes from "@/components/icons-boxes";
 import PresentationDeals from "@/components/presentation-deals";
@@ -10,7 +9,7 @@ import {
   getLatestProducts,
 } from "@/core/actions/products";
 import Image from "next/image";
-import { cache, Suspense } from "react";
+import { cache } from "react";
 
 // ✅ Memorizziamo i dati in cache per ridurre i rerender
 const fetchLatestProducts = cache(async () => getLatestProducts({ limit: 8 }));
@@ -37,16 +36,16 @@ export default async function Home() {
   return (
     <div>
       {/* ✅ Usiamo Suspense per evitare rendering multipli */}
-      <Suspense fallback={<div>Caricamento prodotti...</div>}>
+      {/*  <Suspense fallback={<div>Caricamento prodotti...</div>}>
         {featuredProducts.length > 0 && (
           <ProductCarousel data={featuredProducts} />
         )}
-      </Suspense>
+      </Suspense> */}
 
       <PresentationDeals />
 
       <div className="mt-2">
-        <CarouselAnimalsCategory />
+        <AnimalCategory />
       </div>
 
       <div className="my-12">

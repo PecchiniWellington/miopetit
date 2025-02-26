@@ -1,16 +1,10 @@
 "use client";
 
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
 import Link from "next/link";
 import AnimalAvatar from "../animal-avatar";
+import DynamicCarousel from "./carousel";
 
-const CarouselIndispensable = ({
+const IndispensableList = ({
   indispensables,
   mainCategory,
 }: {
@@ -23,43 +17,20 @@ const CarouselIndispensable = ({
         Indispensabile per il tuo{" "}
         {mainCategory.charAt(0).toUpperCase() + mainCategory.slice(1)} 🐾
       </h2>
-      <Carousel
-        className="w-full"
-        opts={{
-          loop: true,
-          startIndex: 0,
-          align: "start",
-        }}
-      >
-        <CarouselContent>
-          {indispensables.map(
-            ({
-              label,
-              image,
-              href,
-            }: {
-              image: string;
-              href: string;
-              label: string;
-            }) => (
-              <CarouselItem
-                key={label}
-                className={`basis-1/2 md:basis-1/3 lg:basis-2/12`}
-              >
-                <Link href={`/${href}`}>
-                  <div className="relative mx-auto h-full ">
-                    <AnimalAvatar image={image} name={label} />
-                  </div>
-                </Link>
-              </CarouselItem>
-            )
-          )}
-        </CarouselContent>
-        <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2" />
-        <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2" />
-      </Carousel>
+      <DynamicCarousel
+        data={indispensables}
+        itemsPerView={3}
+        gap={20}
+        renderItem={({ image, label, href }) => (
+          <Link href={`/${href}`}>
+            <div className="relative mx-auto h-full ">
+              <AnimalAvatar image={image} name={label} />
+            </div>
+          </Link>
+        )}
+      />
     </div>
   );
 };
 
-export default CarouselIndispensable;
+export default IndispensableList;
