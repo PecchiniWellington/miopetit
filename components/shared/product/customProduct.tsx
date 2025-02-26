@@ -1,16 +1,16 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
-import { addItemToCart } from "@/core/actions/cart/cart.actions";
 import { IProduct } from "@/core/validators";
+import useCartHandler from "@/hooks/use-cart-handler";
 import useLocalStorage from "@/hooks/use-local-storage";
 import { motion } from "framer-motion";
 import { Heart, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
-interface Product {
+interface ProductProps {
   id: string;
   image: string;
   name: string;
@@ -39,63 +39,44 @@ export default function CustomProduct({
   pricePerKg,
   product,
   slug,
-}: Product & { currentUser?: { id: string } }) {
-  /*  const { favorites, addFavorite, removeFavorite } = useIndexedDB(); */
+}: ProductProps) {
+  const cartHandler = useCartHandler();
+  const { addToCart } = useMemo(() => cartHandler, [cartHandler]);
+  /*  { data }: { data: ILatestProduct[] } */
   const [isWishlisted, setWishlisted] = useState(false);
-  const [storedValue, setValue] = useLocalStorage("cart", []);
-  const [storedFavorites, setFavorites, removeFavorite] = useLocalStorage(
-    "favorites",
-    []
-  );
+  const [storedFavorites, setFavorites] = useLocalStorage("favorites", []);
 
-  // Hook useStorage per gestire il carrello nel localStorage
+  const favoritesMemo = useMemo(() => storedFavorites, [storedFavorites]);
 
+  // ✅ Evitiamo che l'effetto venga rieseguito inutilmente
   useEffect(() => {
-    setWishlisted(storedFavorites?.some((fav) => fav.id.toString() === id));
-  }, [storedFavorites, id]);
+    setWishlisted(favoritesMemo.some((fav) => fav.id === id));
+  }, [favoritesMemo, id]);
 
-  const toggleFavorite = () => {
-    const product = { id, image, name, brand, price, oldPrice, slug };
-
-    if (isWishlisted) {
-      setFavorites(storedFavorites.filter((fav) => fav.id !== id));
-    } else {
-      setFavorites([...storedFavorites, product]);
-    }
+  // ✅ Evitiamo di creare una nuova funzione ad ogni render
+  const toggleFavorite = useCallback(() => {
+    const productData = { id, image, name, brand, price, oldPrice, slug };
+    setFavorites((prevFavorites) =>
+      isWishlisted
+        ? prevFavorites.filter((fav) => fav.id !== id)
+        : [...prevFavorites, productData]
+    );
     setWishlisted(!isWishlisted);
-  };
+  }, [
+    id,
+    image,
+    name,
+    brand,
+    price,
+    oldPrice,
+    slug,
+    isWishlisted,
+    setFavorites,
+  ]);
 
-  const addToCart = useCallback(
-    async (product: IProduct) => {
-      const newItem = {
-        productId: product.id,
-        name: product.name,
-        price: product.price.toString(),
-        qty: 1,
-        image: Array.isArray(product.image) ? product.image[0] : product.image,
-        slug: product.slug,
-      };
-
-      const cart = Array.isArray(storedValue) ? [...storedValue] : [];
-
-      const existingItemIndex = cart.findIndex(
-        (i: { productId: string }) => i.productId === newItem.productId
-      );
-
-      if (existingItemIndex !== -1) {
-        cart[existingItemIndex] = {
-          ...cart[existingItemIndex],
-          qty: cart[existingItemIndex].qty + 1,
-        };
-      } else {
-        cart.push(newItem);
-      }
-
-      await addItemToCart(newItem);
-      setValue(cart);
-    },
-    [setValue, storedValue]
-  );
+  const handleAddToCart = useCallback(() => {
+    addToCart(product);
+  }, [addToCart, product]);
 
   return (
     <Card className="relative z-10 overflow-hidden rounded-xl border bg-white p-4 shadow-md transition hover:shadow-lg">
@@ -128,12 +109,11 @@ export default function CustomProduct({
           </motion.button>
         </div>
       </motion.div>
-      {/* Product Details */}
+
       <div className="mt-4 space-y-2">
         <h3 className="text-sm font-semibold text-gray-900">{name}</h3>
         <p className="text-xs text-gray-500">{productBrand}</p>
 
-        {/* Ratings */}
         <div className="flex items-center space-x-1">
           <span className="text-sm font-bold text-yellow-500">★★★★★</span>
           <span className="text-xs font-semibold text-gray-700">
@@ -141,7 +121,6 @@ export default function CustomProduct({
           </span>
         </div>
 
-        {/* Availability */}
         <p
           className={`text-xs font-medium ${
             availability === "Disponibile" ? "text-green-600" : "text-red-500"
@@ -150,7 +129,6 @@ export default function CustomProduct({
           {availability}
         </p>
 
-        {/* Pricing */}
         <div className="flex items-center space-x-2">
           {oldPrice && (
             <span className="text-sm text-gray-400 line-through">
@@ -163,25 +141,18 @@ export default function CustomProduct({
         {pricePerKg && <p className="text-xs text-gray-500">({pricePerKg})</p>}
       </div>
 
-      {/* Add to Cart Button */}
       <motion.button
-        onClick={() => addToCart(product)}
+        onClick={handleAddToCart}
         whileTap={{ scale: 0.9 }}
         className="absolute bottom-4 right-4 flex size-12 items-center justify-center rounded-full bg-black p-2 transition hover:bg-gray-800"
       >
         <ShoppingCart className="size-6 text-white" />
-        {storedValue &&
-          storedValue.some(
-            (item: { productId: string }) => item.productId === id
-          ) && (
-            <span className="absolute -right-1 -top-1 flex size-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
-              {
-                storedValue.find(
-                  (item: { productId: string }) => item.productId === id
-                )?.qty
-              }
-            </span>
-          )}
+
+        {1 > 0 && (
+          <span className="absolute -right-1 -top-1 flex size-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
+            {1}
+          </span>
+        )}
       </motion.button>
     </Card>
   );

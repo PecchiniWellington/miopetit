@@ -51,23 +51,23 @@ const ConfigCategoryPage = ({
         Nessun prodotto trovato
       </div>
     ) : (
-      products.data.map((product: IProduct) => (
-        <CustomProduct
-          slug={product.slug}
-          key={product.id}
-          id={product.id}
-          brand={product.productBrand?.name}
-          image={product.images[0]}
-          reviews={product.numReviews}
-          availability={
-            product.stock && product.stock > 0 ? "In Stock" : "Out of Stock"
-          }
-          name={product.name}
-          rating={product.rating as number}
-          price={Number(product.price)}
-          product={product}
-        />
-      ))
+        {products.data.map((product: IProduct) => (
+          <CustomProduct
+            slug={product.slug}
+            key={product.id}
+            id={product.id}
+            brand={product.productBrand?.name}
+            image={product.images[0]}
+            reviews={product.numReviews}
+            availability={
+              product.stock && product.stock > 0 ? "In Stock" : "Out of Stock"
+            }
+            name={product.name}
+            rating={product.rating as number}
+            price={Number(product.price)}
+            product={product}
+          />
+        ))}
     );
 
   return (
@@ -82,17 +82,17 @@ const ConfigCategoryPage = ({
       </div>
       <section className="relative mb-6  grid  w-full grid-cols-1 items-start gap-4  md:grid-cols-5">
         <FilterProvider>
-          <aside className="sticky top-2 flex w-full gap-4">
+          {/*  <aside className="sticky top-2 flex w-full gap-4">
             <AsideFilter />
-          </aside>
+          </aside> */}
 
           <main className="space-y-6 md:col-span-4">
-            <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            {/*  <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
               <ActiveFilter />
             </div>
-
+ */}
             <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-              <ProductsList />
+             {/*  <ProductsList /> */}
             </div>
           </main>
         </FilterProvider>

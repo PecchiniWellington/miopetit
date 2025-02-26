@@ -86,7 +86,6 @@ const ProfileTabsConfig = ({ tabs, user }: { tabs: Tab[]; user: any }) => {
         {/* 📌 Logout */}
         {/* <div className="mt-6">
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <SessionProvider>
               <Button
                 variant="destructive"
                 className="flex w-full items-center gap-2"
@@ -94,7 +93,6 @@ const ProfileTabsConfig = ({ tabs, user }: { tabs: Tab[]; user: any }) => {
               >
                 <LogOut className="size-5" /> Logout
               </Button>
-            </SessionProvider>
           </motion.div>
         </div> */}
       </motion.aside>

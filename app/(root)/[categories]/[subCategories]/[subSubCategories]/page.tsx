@@ -5,8 +5,8 @@ import { indispensableDog } from "@/core/db-static/indispensable/indispensable-d
 import ConfigCategoryPage from "../../config-category-page";
 
 const MainCategory = async ({
-  searchParams,
-  params,
+  searchParams: searchParamsPromise,
+  params: paramsPromise,
 }: {
   searchParams: Promise<{ [key: string]: string | string[] }>;
   params: Promise<{
@@ -16,7 +16,9 @@ const MainCategory = async ({
     sort?: string;
   }>;
 }) => {
-  const { categories, subCategories, subSubCategories } = await params;
+  const searchParams = await searchParamsPromise;
+  const params = await paramsPromise;
+  const { categories, subCategories, subSubCategories } = params;
 
   const queries: IQueryParams = Object.fromEntries(
     Object.entries(searchParams).map(([key, value]) => [

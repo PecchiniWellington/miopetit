@@ -1,15 +1,17 @@
 "use client";
-import { ILatestProduct } from "@/core/validators";
+import { IProduct } from "@/core/validators";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useMemo } from "react";
 import CarouselProducts from "./carousels/carousel-products";
 
 interface IProductListProps {
-  data: ILatestProduct[];
+  data: IProduct[];
   title?: string;
 }
 
 const SpecialOfferBrand = ({ data, title }: IProductListProps) => {
+  const memoizedData = useMemo(() => data, [data]);
   return (
     <motion.div
       className="relative grid grid-cols-1 gap-10 rounded-xl bg-gray-100 p-6 shadow-lg md:my-12 md:grid-cols-4 md:p-12"
@@ -56,7 +58,7 @@ const SpecialOfferBrand = ({ data, title }: IProductListProps) => {
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.4, delay: 0.3 }}
       >
-        <CarouselProducts data={data} />
+        <CarouselProducts data={memoizedData} />
       </motion.div>
     </motion.div>
   );

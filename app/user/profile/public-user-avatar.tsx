@@ -55,7 +55,6 @@ export default function PublicUserAvatar({
       const { url } = await response.json();
       setValue(name, url);
 
-      /*  const res = await updateUserAvatar(url); */
       if (!res.success) {
         throw new Error(res.message);
       }

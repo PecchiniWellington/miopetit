@@ -7,6 +7,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import useLocalStorage from "@/hooks/use-local-storage";
 import ROLES from "@/lib/constants/roles";
 import { LayoutDashboard, Loader, LogOut, User, UserIcon } from "lucide-react";
 import { signIn, signOut, useSession } from "next-auth/react";
@@ -15,6 +16,7 @@ import Link from "next/link";
 
 const UserButton = ({ userLogged }: { userLogged: any }) => {
   const { data: session, status } = useSession();
+  const [, setValue] = useLocalStorage("cart", []);
 
   if (status === "loading") {
     return (
@@ -89,7 +91,10 @@ const UserButton = ({ userLogged }: { userLogged: any }) => {
         )}
 
         <DropdownMenuItem
-          onClick={() => signOut()}
+          onClick={async () => {
+            setValue([]);
+            await signOut();
+          }}
           className="flex items-center gap-3 rounded-md px-4 py-3 text-red-600 transition-all duration-300 hover:bg-red-100 dark:text-red-400 dark:hover:bg-red-800"
         >
           <LogOut size={18} />

@@ -1,7 +1,7 @@
 import { Toaster } from "@/components/ui/toaster";
 import { APP_DESCRIPTION, APP_NAME, BASE_URL } from "@/lib/constants";
 import type { Metadata } from "next";
-import { ThemeProvider } from "next-themes";
+import { SessionProvider } from "next-auth/react";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
@@ -24,15 +24,17 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className="mx-auto">
       <body className={`${inter.className}  antialiased`}>
-        <ThemeProvider
+        {/* <ThemeProvider
           attribute="class"
           defaultTheme="light"
           enableSystem
           disableTransitionOnChange
-        >
+        > */}
+        <SessionProvider>
           {children}
           <Toaster />
-        </ThemeProvider>
+        </SessionProvider>
+        {/* </ThemeProvider> */}
       </body>
     </html>
   );

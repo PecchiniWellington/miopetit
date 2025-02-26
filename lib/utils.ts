@@ -254,3 +254,37 @@ export function debounce(func: (...args: any[]) => void, wait: number) {
     timeout = setTimeout(later, wait);
   };
 }
+
+export const isEqual = (value: any, other: any): boolean => {
+  if (value === other) return true;
+
+  if (
+    typeof value !== "object" ||
+    value === null ||
+    typeof other !== "object" ||
+    other === null
+  ) {
+    return false;
+  }
+
+  const keysA = Object.keys(value);
+  const keysB = Object.keys(other);
+
+  if (keysA.length !== keysB.length) return false;
+
+  for (const key of keysA) {
+    if (!keysB.includes(key) || !isEqual(value[key], other[key])) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
+export const memoize = <T>(value: T): T => {
+  let cache: T | null = null;
+  if (cache === null) {
+    cache = value;
+  }
+  return cache;
+};

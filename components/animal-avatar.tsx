@@ -15,6 +15,7 @@ const AnimalAvatar = ({
         className={`relative mx-auto flex justify-center overflow-hidden ${rounded} align-middle`}
       >
         <Image
+          priority
           src={`/images/${image!}`}
           alt={name}
           height={200}

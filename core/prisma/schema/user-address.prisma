@@ -8,7 +8,7 @@ model Address {
 
     isDefault Boolean @default(false)
     userId    String  @db.Uuid // Cambia da Text a Uuid
-    user      User    @relation(fields: [userId], references: [id])
+    user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt

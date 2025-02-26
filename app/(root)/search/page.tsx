@@ -229,7 +229,7 @@ const SearchPage = async (props: {
           }
           {
             /* products.data.map((product) => ( */
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
             [].map((product: any) => (
               <CustomProduct
                 product={product}

@@ -1,54 +1,59 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 function useLocalStorage<T>(key: string, initialValue: T) {
-  const [storedValue, setStoredValue] = useState<T>(() => {
+  // ✅ Carica i dati dal localStorage SOLO una volta
+  const storedValueMemo = useMemo(() => {
     try {
       if (typeof window === "undefined") return initialValue;
       const item = window.localStorage.getItem(key);
       return item ? JSON.parse(item) : initialValue;
     } catch (error) {
-      console.error("Error reading from localStorage:", error);
+      console.error("❌ Error reading from localStorage:", error);
       return initialValue;
     }
-  });
+  }, [key]); // Dipende solo dalla chiave
 
-  // 🔥 Monitora localStorage e aggiorna lo stato automaticamente
+  const [storedValue, setStoredValue] = useState<T>(storedValueMemo);
+
+  // ✅ Sincronizza il localStorage solo se il valore è diverso
+  const setValue = (value: T) => {
+    try {
+      if (JSON.stringify(storedValue) === JSON.stringify(value)) return; // 🔥 Evita aggiornamenti inutili
+
+      setStoredValue(value);
+      window.localStorage.setItem(key, JSON.stringify(value));
+      window.dispatchEvent(new Event("localStorageUpdated"));
+    } catch (error) {
+      console.error("❌ Error writing to localStorage:", error);
+    }
+  };
+
+  const removeItem = () => {
+    try {
+      if (!window.localStorage.getItem(key)) return; // 🔥 Evita di rimuovere se non esiste
+
+      setStoredValue(initialValue);
+      window.localStorage.removeItem(key);
+      window.dispatchEvent(new Event("localStorageUpdated"));
+    } catch (error) {
+      console.error("❌ Error removing from localStorage:", error);
+    }
+  };
+
+  // ✅ Monitora `localStorage` e aggiorna lo stato automaticamente SOLO quando cambia
   useEffect(() => {
     const syncStorage = () => {
       try {
         const item = window.localStorage.getItem(key);
         setStoredValue(item ? JSON.parse(item) : initialValue);
       } catch (error) {
-        console.error("Error reading from localStorage:", error);
+        console.error("❌ Error reading from localStorage:", error);
       }
     };
 
     window.addEventListener("localStorageUpdated", syncStorage);
-    return () => {
-      window.removeEventListener("localStorageUpdated", syncStorage);
-    };
+    return () => window.removeEventListener("localStorageUpdated", syncStorage);
   }, [key, initialValue]);
-
-  // 🔥 Aggiorna il localStorage e notifica tutti i componenti
-  const setValue = (value: T) => {
-    try {
-      setStoredValue(value);
-      window.localStorage.setItem(key, JSON.stringify(value));
-      window.dispatchEvent(new Event("localStorageUpdated")); // 🔥 Notifica gli altri componenti
-    } catch (error) {
-      console.error("Error writing to localStorage:", error);
-    }
-  };
-
-  const removeItem = () => {
-    try {
-      setStoredValue(initialValue);
-      window.localStorage.removeItem(key);
-      window.dispatchEvent(new Event("localStorageUpdated")); // 🔥 Notifica gli altri componenti
-    } catch (error) {
-      console.error("Error removing from localStorage:", error);
-    }
-  };
 
   return [storedValue, setValue, removeItem] as const;
 }

@@ -10,59 +10,27 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  addItemToCart,
-  cancelItemFromCart,
-  removeItemFromCart,
-} from "@/core/actions/cart/cart.actions";
 import { ICart, ICartItem } from "@/core/validators";
-import useLocalStorageItem from "@/hooks/use-local-storage-item";
-import { formatCurrency, round2 } from "@/lib/utils";
+import useCartHandler from "@/hooks/use-cart-handler";
+import { formatCurrency } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { ArrowRight, Loader, Minus, Plus, Trash } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { startTransition, useEffect, useState, useTransition } from "react";
-
-const calcPrice = (items: ICartItem[]) => {
-  const itemsPrice = items?.reduce(
-    (acc, item) => acc + Number(item.price) * item.qty,
-    0
-  );
-
-  const shippingPrice = round2(itemsPrice > 100 ? 0 : 10); // Free shipping over €100
-  const taxPrice = round2(0.15 * itemsPrice); // 15% tax
-  const totalPrice = round2(itemsPrice + shippingPrice + taxPrice); // Total price
-
-  return {
-    itemsPrice: itemsPrice.toFixed(2),
-    shippingPrice: shippingPrice.toFixed(2),
-    taxPrice: taxPrice.toFixed(2),
-    totalPrice: totalPrice.toFixed(2),
-  };
-};
+import { startTransition, useMemo, useTransition } from "react";
 
 export const CartTable = ({ cart }: { cart?: ICart }) => {
   const [isPending, setIsPending] = useTransition();
-  const [resume, setResume] = useState<ICart[] | null>(null);
   const router = useRouter();
-  const [storedValue, addItem, removeItem, decreaseItem] = useLocalStorageItem(
-    "cart",
-    cart
-  );
 
-  useEffect(() => {
-    if ((storedValue as ICartItem[])?.length > 0) {
-      setResume({
-        resumeCart: calcPrice(storedValue),
-        totalItems: storedValue,
-      });
-    }
-  }, [storedValue]);
+  const cartHandler = useCartHandler(); // ✅ Nessun errore
 
-  const cleanedCartProduct = Array.isArray(storedValue)
-    ? storedValue.map((item) => ({
+  const { cartItems, addToCart, removeFromCart, cancelFromCart, resume } =
+    useMemo(() => cartHandler, [cartHandler]); //
+
+  const cleanedCartProduct = Array.isArray(cartItems)
+    ? cartItems.map((item) => ({
         productId: item.productId,
         image: item.image,
         name: item.name,
@@ -73,28 +41,17 @@ export const CartTable = ({ cart }: { cart?: ICart }) => {
     : [];
 
   const handleRemoveFromCart = async (item: any) => {
-    if (item.qty === 1) {
-      await removeItemFromCart(item.productId);
-      removeItem(item.productId);
-    } else {
-      setIsPending(async () => {
-        await removeItemFromCart(item.productId);
-        decreaseItem(item.productId);
-      });
-    }
+    await removeFromCart(item);
   };
 
   const handleAddToCart = async (item: ICartItem) => {
     setIsPending(async () => {
-      await addItemToCart(item);
-      addItem(item);
+      await addToCart(item);
     });
   };
-
   const cancelProduct = async (item: ICartItem) => {
     setIsPending(async () => {
-      await cancelItemFromCart(item.productId);
-      removeItem(item.productId);
+      await cancelFromCart(item.productId);
     });
   };
 
@@ -102,6 +59,7 @@ export const CartTable = ({ cart }: { cart?: ICart }) => {
     startTransition(() => router.push("/shipping-address"));
   };
 
+  console.log("RESUME", resume);
   const EmptyCart = () => {
     return (
       <motion.div
@@ -226,7 +184,7 @@ export const CartTable = ({ cart }: { cart?: ICart }) => {
                               ? item?.image[0]
                               : item?.image || "/images/placeholder.jpg"
                           }
-                          alt={item?.name}
+                          alt={item?.name || "Product Image"}
                           width={50}
                           height={50}
                         />
@@ -290,9 +248,7 @@ export const CartTable = ({ cart }: { cart?: ICart }) => {
                     {isPending ? (
                       <Loader className="size-4 animate-spin" />
                     ) : (
-                      formatCurrency(
-                        resume?.resumeCart.itemsPrice || cart?.itemsPrice
-                      )
+                      formatCurrency(resume?.itemsPrice || cart?.itemsPrice)
                     )}
                   </span>
                 </div>
@@ -307,9 +263,7 @@ export const CartTable = ({ cart }: { cart?: ICart }) => {
                 <div className="flex justify-between">
                   <span>Shipping</span>
                   <span className="font-bold">
-                    {formatCurrency(
-                      resume?.resumeCart.taxPrice || cart?.taxPrice
-                    )}{" "}
+                    {formatCurrency(resume?.taxPrice || cart?.taxPrice)}{" "}
                     {/* Spedizione Mockata */}
                   </span>
                 </div>
@@ -323,9 +277,7 @@ export const CartTable = ({ cart }: { cart?: ICart }) => {
                     {isPending ? (
                       <Loader className="size-4 animate-spin" />
                     ) : resume ? (
-                      formatCurrency(
-                        (resume?.resumeCart.totalPrice || 0) - 10.0 + 5.99
-                      )
+                      formatCurrency((resume?.totalPrice || 0) - 10.0 + 5.99)
                     ) : (
                       formatCurrency((cart?.totalPrice || 0) - 10.0 + 5.99)
                     )}

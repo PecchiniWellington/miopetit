@@ -7,7 +7,6 @@ import { IAddress } from "@/core/validators/user-address.validator";
 import { useToast } from "@/hooks/use-toast";
 import { SHIPPING_ADDRESS_DEFAULT_VALUES } from "@/lib/constants";
 import { motion } from "framer-motion";
-import { SessionProvider } from "next-auth/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import AddNewAddressForm from "./add-new-address-form";
@@ -80,13 +79,11 @@ const ShippingAddressForm = ({ user }: { user?: any }) => {
       <div className="flex flex-col items-center justify-center lg:flex-row lg:space-x-8">
         {user && (
           <>
-            <SessionProvider>
-              <DefaultAddressLoggedUser
-                addresses={addresses}
-                setAddresses={setAddresses}
-                user={user}
-              />
-            </SessionProvider>
+            <DefaultAddressLoggedUser
+              addresses={addresses}
+              setAddresses={setAddresses}
+              user={user}
+            />
 
             <div className="my-auto lg:w-1/12">
               <Separator className="hidden h-96 w-[2px] bg-slate-100 md:block" />
@@ -100,11 +97,9 @@ const ShippingAddressForm = ({ user }: { user?: any }) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <SessionProvider>
-            <AddNewAddressForm
-              addresses={addresses ?? SHIPPING_ADDRESS_DEFAULT_VALUES}
-            />
-          </SessionProvider>
+          <AddNewAddressForm
+            addresses={addresses ?? SHIPPING_ADDRESS_DEFAULT_VALUES}
+          />
         </motion.div>
       </div>
     </>

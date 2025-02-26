@@ -5,7 +5,6 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 import { compare } from "bcryptjs";
 import type { NextAuthConfig } from "next-auth";
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 export const config = {
@@ -94,27 +93,28 @@ export const config = {
         }
 
         if (trigger === "signIn" || trigger === "signUp") {
-          const cookiesObject = await cookies();
-          const sessionCartId = cookiesObject.get("sessionCartId")?.value;
-
-          if (sessionCartId) {
+          /*  const cookiesObject = await cookies(); */
+          /* const sessionCartId = cookiesObject.get("sessionCartId")?.value; */
+          /* if (sessionCartId) {
             const sessionCart = await prisma.cart.findFirst({
               where: { sessionCartId },
             });
 
             if (sessionCart) {
-              // Delete current user cart
+              
+              
               await prisma.cart.deleteMany({
                 where: { userId: user.id },
               });
 
-              // Assign new cart
+            
+              
               await prisma.cart.update({
                 where: { id: sessionCart.id },
                 data: { userId: user.id },
               });
             }
-          }
+          } */
         }
       }
 

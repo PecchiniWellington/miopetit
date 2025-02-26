@@ -36,6 +36,7 @@ export default function PresentationDeals() {
           >
             <div className="relative flex size-full max-w-[140px] items-center justify-center rounded-lg bg-white p-4 sm:max-w-[180px] sm:p-6 md:max-w-[200px] lg:max-w-[300px]">
               <Image
+                priority
                 src={deal.image}
                 alt={deal.title}
                 width={180}

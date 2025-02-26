@@ -14,7 +14,7 @@ const MainCategory = async ({
   const { categories } = await params;
 
   const queries: IQueryParams = Object.fromEntries(
-    Object.entries(searchParams).map(([key, value]) => [
+    Object.entries(await searchParams).map(([key, value]) => [
       key,
       Array.isArray(value) ? value.join(",") : value.toString(),
     ])

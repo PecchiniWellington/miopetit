@@ -1,7 +1,13 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { DialogFooter, DialogHeader } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
@@ -9,21 +15,28 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
-import { Dialog, DialogContent, DialogTitle } from "@radix-ui/react-dialog";
+import { deleteUserAccount } from "@/core/actions/user";
+import { useToast } from "@/hooks/use-toast";
 import { AlertTriangle, Check, Trash2, X } from "lucide-react";
 import { useState } from "react";
 
 const SettingsTab = () => {
+  const { toast } = useToast();
   const [language, setLanguage] = useState("it");
   const [notifications, setNotifications] = useState(true);
   const [twoFactorAuth, setTwoFactorAuth] = useState(false);
-
   const [open, setOpen] = useState(false);
 
-  const handleDelete = () => {
-    console.log("Account eliminato!");
-    setOpen(false);
+  const handleDelete = async () => {
+    try {
+      const response = await deleteUserAccount();
+      console.log("Risposta:", response);
+
+      setOpen(false);
+    } catch (error) {
+      console.log("Errore nell'eliminazione dell'account");
+      setOpen(false);
+    }
   };
 
   return (
@@ -60,7 +73,7 @@ const SettingsTab = () => {
         </div>
 
         {/* 🔔 Notifiche */}
-        <div className="flex items-center justify-between">
+        {/* <div className="flex items-center justify-between">
           <div>
             <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
               🔔 Notifiche
@@ -70,10 +83,10 @@ const SettingsTab = () => {
             </p>
           </div>
           <Switch checked={notifications} onCheckedChange={setNotifications} />
-        </div>
+        </div> */}
 
         {/* 🔒 Autenticazione a Due Fattori */}
-        <div className="flex items-center justify-between">
+        {/* <div className="flex items-center justify-between">
           <div>
             <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
               🔒 Autenticazione 2FA
@@ -83,7 +96,7 @@ const SettingsTab = () => {
             </p>
           </div>
           <Switch checked={twoFactorAuth} onCheckedChange={setTwoFactorAuth} />
-        </div>
+        </div> */}
 
         {/* 🚀 Salva le Modifiche */}
         <Button className="w-full bg-indigo-600 text-white shadow-md hover:bg-indigo-700">

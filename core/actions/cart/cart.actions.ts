@@ -36,7 +36,7 @@ const calcPrice = (items: ICartItem[]) => {
 };
 
 // Check for cart cookie
-const getSessionCartId = async () => {
+export const getSessionCartId = async () => {
   const sessionCartId = (await cookies()).get("sessionCartId")?.value;
   if (!sessionCartId) throw new Error("Cart session not found");
   return { sessionCartId };
@@ -248,28 +248,35 @@ export async function addItemToCart(data: ICartItem) {
   }
 }
 
-export async function getMyCart() {
-  const { sessionCartId } = await getSessionCartId();
-  const { userId } = await getSessionAndUserId();
+export const getMyCart = async () => {
+  const sessionCartId = (await cookies()).get("sessionCartId")?.value;
+  if (!sessionCartId) throw new Error("Cart session not found");
+  const session = await auth();
+  const userId = session?.user?.id ? (session.user.id as string) : undefined;
 
-  // Get user cart from database
-  const cart = await prisma.cart.findFirst({
-    where: userId ? { userId: userId } : { sessionCartId: sessionCartId },
-  });
+  try {
+    const cart = await prisma.cart.findFirst({
+      where: userId ? { userId: userId } : { sessionCartId: sessionCartId },
+    });
 
-  if (!cart) return undefined;
-
-  // Convert decimals and return
-  return convertToPlainObject({
-    ...cart,
-    id: cart.id,
-    items: cart.items as ICartItem[],
-    itemsPrice: cart.itemsPrice.toString() as unknown as Prisma.Decimal,
-    totalPrice: cart.totalPrice.toString() as unknown as Prisma.Decimal,
-    shippingPrice: cart.shippingPrice.toString() as unknown as Prisma.Decimal,
-    taxPrice: cart.taxPrice.toString() as unknown as Prisma.Decimal,
-  });
-}
+    if (cart) {
+      return convertToPlainObject({
+        ...cart,
+        id: cart?.id,
+        items: cart?.items as ICartItem[],
+        itemsPrice: cart?.itemsPrice.toString() as unknown as Prisma.Decimal,
+        totalPrice: cart?.totalPrice.toString() as unknown as Prisma.Decimal,
+        shippingPrice:
+          cart?.shippingPrice.toString() as unknown as Prisma.Decimal,
+        taxPrice: cart?.taxPrice.toString() as unknown as Prisma.Decimal,
+      });
+    } else {
+      return null;
+    }
+  } catch (error) {
+    return { success: false, message: formatError(error) };
+  }
+};
 
 export async function removeItemFromCart(productId: string) {
   try {
