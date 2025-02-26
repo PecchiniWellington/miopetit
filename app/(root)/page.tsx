@@ -1,5 +1,7 @@
+import BestSellingProduct from "@/components/best-selling-products";
 import CarouselAnimalsCategory from "@/components/carousels/carousel-animals-catergory";
 import ProductCarousel from "@/components/carousels/featured-product-carousel";
+import Gifts from "@/components/gifts";
 import IconBoxes from "@/components/icons-boxes";
 import PresentationDeals from "@/components/presentation-deals";
 import SpecialOfferBrand from "@/components/special-offer-brand";
@@ -66,7 +68,7 @@ export default async function Home() {
         <SpecialOfferBrand data={data} title="Offerta Royal Canin" />
       </div>
 
-      {/* <Gifts />
+      <Gifts />
       <BestSellingProduct latestProducts={latestProducts} animalName="cane" />
       <BestSellingProduct latestProducts={latestProducts} animalName="gatto" />
 
@@ -79,7 +81,7 @@ export default async function Home() {
           className="size-full object-cover object-center"
           priority
         />
-      </div> */}
+      </div>
     </div>
   );
 }

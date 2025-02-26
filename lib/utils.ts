@@ -1,3 +1,4 @@
+import { ICartItem } from "@/core/validators";
 import { clsx, type ClassValue } from "clsx";
 import qs from "query-string";
 import { twMerge } from "tailwind-merge";
@@ -287,4 +288,22 @@ export const memoize = <T>(value: T): T => {
     cache = value;
   }
   return cache;
+};
+
+export const calcPrice = (items: ICartItem[]) => {
+  const itemsPrice = items?.reduce(
+    (acc, item) => acc + Number(item.price) * item.qty,
+    0
+  );
+
+  const shippingPrice = round2(itemsPrice > 100 ? 0 : 10);
+  const taxPrice = round2(0.15 * itemsPrice);
+  const totalPrice = round2(itemsPrice + shippingPrice + taxPrice);
+
+  return {
+    itemsPrice: itemsPrice?.toFixed(2),
+    shippingPrice: shippingPrice?.toFixed(2),
+    taxPrice: taxPrice?.toFixed(2),
+    totalPrice: totalPrice?.toFixed(2),
+  };
 };

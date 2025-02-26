@@ -2,8 +2,9 @@
 
 import { ILatestProduct } from "@/core/validators";
 import { motion } from "framer-motion";
+import DynamicCarousel from "./carousels/carousel";
 import CarouselBrands from "./carousels/carousel-brands";
-import CarouselProducts from "./carousels/carousel-products";
+import CustomProduct from "./shared/product/customProduct";
 import ProductList from "./shared/product/product-list";
 
 const BestSellingProduct = ({
@@ -47,7 +48,15 @@ const BestSellingProduct = ({
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <CarouselProducts data={latestProducts} />
+          {/*  <CarouselProducts data={latestProducts} /> */}
+          <DynamicCarousel
+            data={latestProducts}
+            itemsPerView={3}
+            gap={20}
+            renderItem={(latestProducts) => (
+              <CustomProduct {...latestProducts} />
+            )}
+          />
         </motion.div>
 
         {/* Desktop: Lista prodotti */}

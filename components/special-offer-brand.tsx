@@ -3,7 +3,8 @@ import { IProduct } from "@/core/validators";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useMemo } from "react";
-import CarouselProducts from "./carousels/carousel-products";
+import DynamicCarousel from "./carousels/carousel";
+import CustomProduct from "./shared/product/customProduct";
 
 interface IProductListProps {
   data: IProduct[];
@@ -58,7 +59,13 @@ const SpecialOfferBrand = ({ data, title }: IProductListProps) => {
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.4, delay: 0.3 }}
       >
-        <CarouselProducts data={memoizedData} />
+        {/* <CarouselProducts data={memoizedData} /> */}
+        <DynamicCarousel
+          data={memoizedData}
+          itemsPerView={3}
+          gap={20}
+          renderItem={(memoizedData) => <CustomProduct {...memoizedData} />}
+        />
       </motion.div>
     </motion.div>
   );

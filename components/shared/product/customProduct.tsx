@@ -44,35 +44,26 @@ export default function CustomProduct({
   const { addToCart } = useMemo(() => cartHandler, [cartHandler]);
   /*  { data }: { data: ILatestProduct[] } */
   const [isWishlisted, setWishlisted] = useState(false);
-  const [storedFavorites, setFavorites] = useLocalStorage("favorites", []);
-
-  const favoritesMemo = useMemo(() => storedFavorites, [storedFavorites]);
+  const [favorites, setFavorites] = useLocalStorage("favorites", []);
 
   // ✅ Evitiamo che l'effetto venga rieseguito inutilmente
   useEffect(() => {
-    setWishlisted(favoritesMemo.some((fav) => fav.id === id));
-  }, [favoritesMemo, id]);
+    if (Array.isArray(favorites)) {
+      setWishlisted(favorites.some((fav) => fav.id === id));
+    }
+  }, [favorites, id]);
 
   // ✅ Evitiamo di creare una nuova funzione ad ogni render
-  const toggleFavorite = useCallback(() => {
-    const productData = { id, image, name, brand, price, oldPrice, slug };
-    setFavorites((prevFavorites) =>
-      isWishlisted
-        ? prevFavorites.filter((fav) => fav.id !== id)
-        : [...prevFavorites, productData]
-    );
+  const toggleFavorite = () => {
+    const product = { id, image, name, brand, price, oldPrice, slug };
+
+    if (isWishlisted) {
+      setFavorites(favorites.filter((fav) => fav.id !== id));
+    } else {
+      setFavorites([...favorites, product]);
+    }
     setWishlisted(!isWishlisted);
-  }, [
-    id,
-    image,
-    name,
-    brand,
-    price,
-    oldPrice,
-    slug,
-    isWishlisted,
-    setFavorites,
-  ]);
+  };
 
   const handleAddToCart = useCallback(() => {
     addToCart(product);
@@ -87,15 +78,26 @@ export default function CustomProduct({
               -{Math.round(((oldPrice - price) / oldPrice) * 100)}%
             </span>
           )}
-          <Link href={`/product/${product.slug}`}>
-            <Image
-              src={image || "/images/placeholder.jpg"}
-              alt={name}
-              width={180}
-              height={180}
-              className="object-contain"
-              loading="lazy"
-            />
+          <Link href={`/product/${product?.slug}`}>
+            {Array.isArray(image) ? (
+              <Image
+                src={image[0] || "/images/placeholder.jpg"}
+                alt={name}
+                width={180}
+                height={180}
+                className="object-contain"
+                loading="lazy"
+              />
+            ) : (
+              <Image
+                src={image || "/images/placeholder.jpg"}
+                alt={name}
+                width={180}
+                height={180}
+                className="object-contain"
+                loading="lazy"
+              />
+            )}
           </Link>
 
           <motion.button

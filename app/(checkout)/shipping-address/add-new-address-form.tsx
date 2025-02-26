@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { createUserAddress } from "@/core/actions/user/create-user-address.action";
 import { addressSchema } from "@/core/validators/user-address.validator";
-import useLocalStorage from "@/hooks/use-local-storage-item";
+import useLocalStorage from "@/hooks/use-local-storage";
 import { useToast } from "@/hooks/use-toast";
 import { SHIPPING_ADDRESS_DEFAULT_VALUES } from "@/lib/constants";
 import { zodResolver } from "@hookform/resolvers/zod";

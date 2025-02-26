@@ -6,27 +6,9 @@ import {
 } from "@/core/actions/cart/cart.actions";
 import { ICartItem, IProduct } from "@/core/validators";
 import useLocalStorage from "@/hooks/use-local-storage";
-import { round2 } from "@/lib/utils";
+import { calcPrice } from "@/lib/utils";
 import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-
-const calcPrice = (items: ICartItem[]) => {
-  const itemsPrice = items.reduce(
-    (acc, item) => acc + Number(item.price) * item.qty,
-    0
-  );
-
-  const shippingPrice = round2(itemsPrice > 100 ? 0 : 10);
-  const taxPrice = round2(0.15 * itemsPrice);
-  const totalPrice = round2(itemsPrice + shippingPrice + taxPrice);
-
-  return {
-    itemsPrice: itemsPrice.toFixed(2),
-    shippingPrice: shippingPrice.toFixed(2),
-    taxPrice: taxPrice.toFixed(2),
-    totalPrice: totalPrice.toFixed(2),
-  };
-};
 
 const useCartHandler = () => {
   const { data: session } = useSession();
@@ -59,7 +41,7 @@ const useCartHandler = () => {
 
         let hasChanges = false;
 
-        storedCartMemo.forEach((storedItem) => {
+        storedCartMemo?.forEach((storedItem) => {
           const existingItem = backendCart?.items.find(
             (item) => item.productId === storedItem.productId
           );

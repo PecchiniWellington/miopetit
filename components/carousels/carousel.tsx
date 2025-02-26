@@ -1,21 +1,21 @@
 "use client";
 
-import { IProduct } from "@/core/validators";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import CustomProduct from "../shared/product/customProduct";
 
-interface CarouselProps {
-  data: IProduct[];
-  itemsPerView?: number;
-  gap?: number; // Gap tra le card in pixel
+interface CarouselProps<T> {
+  data: T[]; // Può essere un array di qualsiasi cosa (prodotti, immagini, articoli, ecc.)
+  renderItem: (item: T, index: number) => JSX.Element; // Funzione per renderizzare gli elementi dinamicamente
+  itemsPerView?: number; // Numero di elementi visibili
+  gap?: number; // Spazio tra gli elementi
 }
 
-const ProductCarousel = ({
+const DynamicCarousel = <T,>({
   data,
+  renderItem,
   itemsPerView = 3,
   gap = 16,
-}: CarouselProps) => {
+}: CarouselProps<T>) => {
   const totalItems = data.length;
   const [currentIndex, setCurrentIndex] = useState(0);
   const touchStartX = useRef<number | null>(null);
@@ -32,26 +32,29 @@ const ProductCarousel = ({
 
   const itemsToShow = isMobile ? 1 : itemsPerView;
 
-  // ✅ Avanza di 1 prodotto alla volta
+  // ✅ Avanza di 1 elemento alla volta
   const nextSlide = () => {
     setCurrentIndex((prev) =>
       prev + 1 >= totalItems - itemsToShow + 1 ? 0 : prev + 1
     );
   };
 
-  // ✅ Torna indietro di 1 prodotto alla volta
+  // ✅ Torna indietro di 1 elemento alla volta
   const prevSlide = () => {
     setCurrentIndex((prev) =>
       prev - 1 < 0 ? totalItems - itemsToShow : prev - 1
     );
   };
 
-  // ✅ Inizio del touch (memorizza posizione)
+  // ✅ Gestione swipe touch
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
   };
 
-  // ✅ Fine del touch (decide la direzione dello scroll)
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+
   const handleTouchEnd = () => {
     if (!touchStartX.current || !touchEndX.current) return;
     const deltaX = touchStartX.current - touchEndX.current;
@@ -64,11 +67,6 @@ const ProductCarousel = ({
 
     touchStartX.current = null;
     touchEndX.current = null;
-  };
-
-  // ✅ Durante il touch (memorizza posizione finale)
-  const handleTouchMove = (e: React.TouchEvent) => {
-    touchEndX.current = e.touches[0].clientX;
   };
 
   return (
@@ -89,7 +87,7 @@ const ProductCarousel = ({
           marginLeft: `calc(${gap * itemsPerView}px )`,
         }}
       >
-        {data.map((product, index) => (
+        {data.map((item, index) => (
           <div
             key={index}
             className="shrink-0"
@@ -97,24 +95,8 @@ const ProductCarousel = ({
               flex: `0 0 calc(${100 / itemsToShow}% - ${gap}px)`,
             }}
           >
-            <CustomProduct
-              id={product.id}
-              image={
-                Array.isArray(product.image)
-                  ? product.image[0]
-                  : product.image || "/images/placeholder.jpg"
-              }
-              name={product.name}
-              productBrand={product?.brand}
-              rating={5}
-              reviews={0}
-              availability="Disponibile"
-              price={product.price}
-              oldPrice={product.oldPrice || null}
-              pricePerKg={"129"}
-              product={product}
-              slug={product.slug}
-            />
+            {renderItem(item, index)}{" "}
+            {/* 🔥 Usa la funzione passata per renderizzare qualsiasi componente */}
           </div>
         ))}
       </div>
@@ -152,4 +134,4 @@ const ProductCarousel = ({
   );
 };
 
-export default ProductCarousel;
+export default DynamicCarousel;
