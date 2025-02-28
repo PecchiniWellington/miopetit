@@ -8,7 +8,6 @@ import { formatDateTime } from "@/lib/utils";
 
 import { Filter, Package, RefreshCw, ShieldCheck } from "lucide-react";
 import Link from "next/link";
-import { format } from "path";
 import { useState } from "react";
 
 // Mock dati per ordini e azioni dell'utente
@@ -43,8 +42,8 @@ const mockActions = [
 ];
 
 export default function HistoryTab() {
-  const [orders, setOrders] = useState(mockOrders);
-  const [actions, setActions] = useState(mockActions);
+  const [orders] = useState(mockOrders);
+  const [actions] = useState(mockActions);
   const [filter, setFilter] = useState("");
 
   const filteredOrders = orders.filter((order) =>
@@ -95,13 +94,7 @@ export default function HistoryTab() {
                       <span className="font-semibold">{order.total}</span>
                     </p>
                   </div>
-                  <Badge
-                    variant={
-                      order.status === "Consegnato" ? "success" : "warning"
-                    }
-                  >
-                    {order.status}
-                  </Badge>
+                  <Badge>{order.status}</Badge>
                 </li>
               ))}
             </ul>
@@ -140,7 +133,7 @@ export default function HistoryTab() {
                       {action.description}
                     </p>
                     <p className="text-sm text-gray-500 dark:text-gray-400">
-                      {format(new Date(action.date), "dd MMM yyyy")}
+                      {formatDateTime(action.date).dateTime}
                     </p>
                   </div>
                 </li>

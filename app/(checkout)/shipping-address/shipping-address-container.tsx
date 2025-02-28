@@ -3,6 +3,7 @@
 import CheckoutSteps from "@/components/shared/checkout-steps";
 import { Separator } from "@/components/ui/separator";
 import { getUserAddress } from "@/core/actions/user/get-user-address.action";
+import { IUser } from "@/core/validators";
 import { IAddress } from "@/core/validators/user-address.validator";
 import { useToast } from "@/hooks/use-toast";
 import { SHIPPING_ADDRESS_DEFAULT_VALUES } from "@/lib/constants";
@@ -12,7 +13,7 @@ import { useEffect, useState } from "react";
 import AddNewAddressForm from "./add-new-address-form";
 import DefaultAddressLoggedUser from "./default-address-logged-user";
 
-const ShippingAddressForm = ({ user }: { user?: any }) => {
+const ShippingAddressForm = ({ user }: { user?: IUser }) => {
   const { toast } = useToast();
   const [addresses, setAddresses] = useState<IAddress[]>([]);
 

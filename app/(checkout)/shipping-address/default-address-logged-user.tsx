@@ -3,6 +3,8 @@
 import { Button } from "@/components/ui/button";
 import { updateUserAddress } from "@/core/actions/user";
 import { setDefaultAddress } from "@/core/actions/user/set-user-default-address.action";
+import { IUser } from "@/core/validators";
+import { IAddress } from "@/core/validators/user-address.validator";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
 import { CheckCircle, Loader2, MapPin } from "lucide-react";
@@ -14,9 +16,9 @@ const DefaultAddressLoggedUser = ({
   user,
   setAddresses,
 }: {
-  addresses: any[];
-  user: any;
-  setAddresses: (addresses: any) => void;
+  addresses: IAddress[];
+  user: IUser;
+  setAddresses: (addresses: IAddress) => void;
 }) => {
   const router = useRouter();
   const { toast } = useToast();

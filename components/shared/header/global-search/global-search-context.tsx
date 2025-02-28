@@ -39,7 +39,7 @@ interface SearchContextType {
   fetchSearchResults: (query: string) => void;
   fetchSearchCategories: () => void;
 
-  searchCategories: any[];
+  searchCategories: string[];
 
   searchRef: React.RefObject<HTMLDivElement | null>;
   isLoading: boolean;
@@ -58,9 +58,9 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [searchCategories, setSearchCategories] = useState<any[]>([]);
+  const [searchCategories, setSearchCategories] = useState<string[]>([]);
 
-  const cache = useRef<{ [key: string]: any }>({});
+  const cache = useRef<{ [key: string]: unknown }>({});
 
   /**
    * ✅ Recupera prodotti e brand, controllando prima la cache

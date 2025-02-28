@@ -17,6 +17,7 @@ import { useForm } from "react-hook-form";
 interface Ticket {
   id: string;
   subject: string;
+  email: string;
   description: string;
   status: "PENDING" | "RESPONDED" | "CLOSED";
   createdAt: string;
@@ -26,10 +27,6 @@ export default function SupportTab() {
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [isPending, startTransition] = useTransition();
   /*  const [tickets, setTickets] = useState(mockTickets); */
-  const [newTicket, setNewTicket] = useState({
-    subject: "",
-    message: "",
-  });
 
   useEffect(() => {
     async function fetchTickets() {
@@ -44,7 +41,12 @@ export default function SupportTab() {
     defaultValues: { subject: "", description: "", email: "", orderId: "" },
   });
 
-  const onSubmit = async (values: any) => {
+  const onSubmit = async (values: {
+    subject: string;
+    description: string;
+    email: string;
+    orderId?: string;
+  }) => {
     startTransition(async () => {
       const result = await createSupportTicket(null, values);
       if (result.success) {

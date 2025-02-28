@@ -1,5 +1,4 @@
 import { getAllCategories } from "@/core/actions/products/product-infos.ts/get-product-category.action";
-import handleError from "@/types/handlers/error";
 import { NextResponse } from "next/server";
 
 export async function GET() {
@@ -8,6 +7,9 @@ export async function GET() {
 
     return NextResponse.json({ success: true, ...categories }, { status: 200 });
   } catch (error) {
-    return handleError(error, "api") as APIErrorResponse;
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 }
+    );
   }
 }

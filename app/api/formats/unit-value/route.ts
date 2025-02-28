@@ -1,5 +1,4 @@
 import { getUnitValue } from "@/core/actions/products/product-infos.ts/get-product-formats.action";
-import handleError from "@/types/handlers/error";
 import { NextResponse } from "next/server";
 
 export async function GET() {
@@ -13,6 +12,9 @@ export async function GET() {
       { status: 200 }
     );
   } catch (error) {
-    return handleError(error, "api") as APIErrorResponse;
+    return NextResponse.json(
+      { success: false, message: error.message },
+      { status: 500 }
+    );
   }
 }

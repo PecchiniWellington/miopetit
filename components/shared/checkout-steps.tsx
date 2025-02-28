@@ -61,7 +61,6 @@ const CheckoutSteps = ({ current = 0 }) => {
       {steps.map((step, index) => {
         const isActive = index === current;
         const isCompleted = index < current || completedSteps.includes(index);
-        const isClickable = isCompleted || index === current;
 
         return (
           /* 🔗 Barra di collegamento tra gli step */

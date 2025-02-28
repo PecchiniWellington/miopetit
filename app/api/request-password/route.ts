@@ -1,5 +1,5 @@
 import { requestPasswordReset } from "@/core/actions/user/request-reset-psw.action";
-import handleError from "@/types/handlers/error";
+
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
@@ -13,6 +13,9 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ success: true, data: result }, { status: 200 });
   } catch (error) {
-    return handleError(error, "api") as APIErrorResponse;
+    return NextResponse.json(
+      { success: false, message: error.message },
+      { status: 500 }
+    );
   }
 }

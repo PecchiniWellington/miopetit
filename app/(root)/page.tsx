@@ -4,16 +4,13 @@ import Gifts from "@/components/gifts";
 import IconBoxes from "@/components/icons-boxes";
 import PresentationDeals from "@/components/presentation-deals";
 import SpecialOfferBrand from "@/components/special-offer-brand";
-import {
-  getFeaturedProducts,
-  getLatestProducts,
-} from "@/core/actions/products";
+import { getLatestProducts } from "@/core/actions/products";
 import Image from "next/image";
 import { cache } from "react";
 
 // ✅ Memorizziamo i dati in cache per ridurre i rerender
 const fetchLatestProducts = cache(async () => getLatestProducts({ limit: 8 }));
-const fetchFeaturedProducts = cache(async () => {
+/* const fetchFeaturedProducts = cache(async () => {
   const products = await getFeaturedProducts();
   return products.map((product) => ({
     ...product,
@@ -21,7 +18,7 @@ const fetchFeaturedProducts = cache(async () => {
     rating: product.rating ?? 0,
     image: [product.images[0] ?? "/images/default-image.jpg"],
   }));
-});
+}); */
 
 export default async function Home() {
   const latestProducts = await fetchLatestProducts();

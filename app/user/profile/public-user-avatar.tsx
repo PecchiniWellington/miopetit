@@ -1,22 +1,28 @@
 "use client";
 
 import { FormControl, FormItem, FormLabel } from "@/components/ui/form";
+import { IUser } from "@/core/validators";
 /* import { updateUserAvatar } from "@/core/actions/user/update-user-avatar"; */
 import { useToast } from "@/hooks/use-toast";
 import { Camera, XCircle } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { Controller, useFormContext } from "react-hook-form";
+import {
+  Control,
+  Controller,
+  FieldValues,
+  useFormContext,
+} from "react-hook-form";
 
 export default function PublicUserAvatar({
   name,
   control,
   user,
-  update,
+  /* update, */
 }: {
   name: string;
-  control: any;
-  user: any;
+  control: Control<FieldValues>;
+  user: IUser;
   update: () => void;
 }) {
   const { setValue, watch } = useFormContext();
@@ -61,13 +67,13 @@ export default function PublicUserAvatar({
         throw new Error(res.message);
       }
 
-      await update({
+      /*  await update({
         ...user,
         user: {
           ...user,
           image: url,
         },
-      });
+      }); */
 
       toast({
         description: "Avatar aggiornato con successo!",

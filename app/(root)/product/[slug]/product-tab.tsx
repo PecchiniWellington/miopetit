@@ -1,6 +1,5 @@
 "use client";
 
-import useReview from "@/hooks/use-reviews";
 import { AnimatePresence, motion } from "framer-motion";
 import { Info, Star } from "lucide-react";
 import { useState } from "react";
@@ -25,8 +24,6 @@ const ProductTabs = ({
   /*  userId: string; */
 }) => {
   const [activeTab, setActiveTab] = useState("description");
-
-  const { reviews, setReviews } = useReview(productId);
 
   /* const reload = async () => {
     const res = await getReviews({ productId });

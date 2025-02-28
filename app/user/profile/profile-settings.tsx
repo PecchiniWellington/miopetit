@@ -16,15 +16,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { deleteUserAccount } from "@/core/actions/user";
-import { useToast } from "@/hooks/use-toast";
 import { AlertTriangle, Check, Trash2, X } from "lucide-react";
 import { useState } from "react";
 
 const SettingsTab = () => {
-  const { toast } = useToast();
   const [language, setLanguage] = useState("it");
-  const [notifications, setNotifications] = useState(true);
-  const [twoFactorAuth, setTwoFactorAuth] = useState(false);
   const [open, setOpen] = useState(false);
 
   const handleDelete = async () => {
@@ -110,8 +106,8 @@ const SettingsTab = () => {
             ⚠️ Attenzione! Zona Pericolosa
           </h3>
           <p className="text-sm text-red-600 dark:text-red-300">
-            Eliminare il tuo account è un'azione permanente e non può essere
-            annullata. Tutti i tuoi dati verranno persi.
+            Eliminare il tuo account è un&apos;azione permanente e non può
+            essere annullata. Tutti i tuoi dati verranno persi.
           </p>
 
           <Button

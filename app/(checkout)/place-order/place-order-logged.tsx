@@ -7,6 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { ICart, ICartItem, IUser } from "@/core/validators";
 import { formatCurrency } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
@@ -25,8 +26,8 @@ const PlaceOrderLogged = ({
     postalCode: string;
     country: string;
   };
-  user: any;
-  cart: any;
+  user: IUser;
+  cart: ICart;
 }) => {
   if (!cart || cart.items.length === 0) redirect("/cart");
   if (!user?.defaultAddress) redirect("/shipping-address");
@@ -91,7 +92,7 @@ const PlaceOrderLogged = ({
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {cart?.items.map((item) => (
+                {cart?.items.map((item: ICartItem) => (
                   <TableRow
                     key={item.slug}
                     className="transition hover:bg-gray-50 dark:hover:bg-gray-900"
@@ -102,7 +103,7 @@ const PlaceOrderLogged = ({
                         className="flex items-center gap-4"
                       >
                         <Image
-                          src={item.image}
+                          src={item.image || "/images/placeholder.jpg"}
                           alt={item.name}
                           width={60}
                           height={60}

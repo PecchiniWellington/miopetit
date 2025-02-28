@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { createUserAddress } from "@/core/actions/user/create-user-address.action";
+import { IUser } from "@/core/validators";
 import { addressSchema } from "@/core/validators/user-address.validator";
 import useLocalStorage from "@/hooks/use-local-storage";
 import { useToast } from "@/hooks/use-toast";
@@ -26,7 +27,7 @@ const AddNewAddressForm = ({
   user,
 }: {
   addresses?: z.infer<typeof addressSchema>[];
-  user: any;
+  user?: IUser;
 }) => {
   const router = useRouter();
   const { toast } = useToast();
@@ -42,9 +43,9 @@ const AddNewAddressForm = ({
     values
   ) => {
     startTransition(async () => {
-      const addressUser = addresses?.find(
+      /*  const addressUser = addresses?.find(
         (address) => address.isDefault === true
-      );
+      ); */
       setStoredValue(values);
 
       if (user) {

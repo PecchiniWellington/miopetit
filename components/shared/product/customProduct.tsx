@@ -46,7 +46,6 @@ export default function CustomProduct({
 }: ProductProps) {
   const [isWishlisted, setWishlisted] = useState(false);
   const [favorites, setFavorites] = useLocalStorage("favorites", []);
-  const [localCart, setLocalCart] = useLocalStorage("cart", []);
 
   const { addToCart } = useCartHandler("session");
 

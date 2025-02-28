@@ -244,9 +244,9 @@ export const generatePriceRanges = (
   return ranges;
 };
 
-export function debounce(func: (...args: any[]) => void, wait: number) {
+export function debounce(func: (...args: unknown[]) => void, wait: number) {
   let timeout: NodeJS.Timeout;
-  return function executedFunction(...args: any[]) {
+  return function executedFunction(...args: unknown[]) {
     const later = () => {
       clearTimeout(timeout);
       func(...args);
@@ -256,7 +256,10 @@ export function debounce(func: (...args: any[]) => void, wait: number) {
   };
 }
 
-export const isEqual = (value: any, other: any): boolean => {
+export const isEqual = (
+  value: { [key: string]: unknown },
+  other: { [key: string]: unknown }
+): boolean => {
   if (value === other) return true;
 
   if (
@@ -274,7 +277,13 @@ export const isEqual = (value: any, other: any): boolean => {
   if (keysA.length !== keysB.length) return false;
 
   for (const key of keysA) {
-    if (!keysB.includes(key) || !isEqual(value[key], other[key])) {
+    if (
+      !keysB.includes(key) ||
+      !isEqual(
+        value[key] as { [key: string]: unknown },
+        other[key] as { [key: string]: unknown }
+      )
+    ) {
       return false;
     }
   }
