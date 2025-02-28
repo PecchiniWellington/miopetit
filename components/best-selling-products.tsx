@@ -8,6 +8,7 @@ import Link from "next/link";
 import DynamicCarousel from "./carousels/carousel";
 import CustomProduct from "./shared/product/customProduct";
 import ProductList from "./shared/product/product-list";
+import { useState, useEffect } from "react";
 const brands = [
   {
     name: "brand1",
@@ -54,6 +55,14 @@ const BestSellingProduct = ({
   animalName?: string;
 }) => {
   const { addToCart, getProductQuantity } = useCartHandler();
+
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true); // ✅ Imposta lo stato su "true" solo nel client
+  }, []);
+
+  if (!isClient) return null; // 🔥 Ev
   return (
     <section className="my-12 rounded-lg border border-gray-200 bg-white p-8 shadow-md">
       {/* Titolo */}

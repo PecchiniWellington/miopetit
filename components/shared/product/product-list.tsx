@@ -9,6 +9,7 @@ interface IProductListProps {
 
 const ProductList = ({ data, limit }: IProductListProps) => {
   const { addToCart, getProductQuantity } = useCartHandler();
+
   const limitedData = limit ? data.slice(0, limit) : data;
   return (
     <div className="my-10">

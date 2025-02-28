@@ -25,8 +25,6 @@ export const Cart = () => {
       }))
     : [];
 
-  console.log("cleanedCartProduct", cleanedCartProduct);
-
   const handleRemoveFromCart = async (item: any) => {
     await removeFromCart(item);
   };

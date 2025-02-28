@@ -58,7 +58,7 @@ const ConfigCategoryPage = ({
             key={product.id}
             id={product.id}
             brand={product.productBrand?.name}
-            image={product.image}
+            image={product.image ? product.image[0] : ""}
             reviews={product.numReviews}
             availability={
               product.stock && product.stock > 0 ? "In Stock" : "Out of Stock"
