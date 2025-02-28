@@ -6,7 +6,6 @@ import { setDefaultAddress } from "@/core/actions/user/set-user-default-address.
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
 import { CheckCircle, Loader2, MapPin } from "lucide-react";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -19,7 +18,6 @@ const DefaultAddressLoggedUser = ({
   user: any;
   setAddresses: (addresses: any) => void;
 }) => {
-  const { data: session } = useSession();
   const router = useRouter();
   const { toast } = useToast();
   const [isUpdating, setIsUpdating] = useState(false);
@@ -60,7 +58,7 @@ const DefaultAddressLoggedUser = ({
         (address) => address.isDefault === true
       );
 
-      if (session?.user) {
+      if (user) {
         const res = await setDefaultAddress(addressUser?.id, user.id);
         if (res.data) {
           const t = await updateUserAddress({

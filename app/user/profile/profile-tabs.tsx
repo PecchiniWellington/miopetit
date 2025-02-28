@@ -14,32 +14,27 @@ import { updateUserProfileSchema } from "@/core/validators";
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckCircle } from "lucide-react";
-import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { undefined, z } from "zod";
 import PublicUserAvatar from "./public-user-avatar";
 
 export const ProfileTab = ({ user }: { user: any }) => {
-  const { data: session } = useSession();
-
   return (
     <div className="relative rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800">
-      {/* Form Profilo */}
-      <ProfileForm />
+      Form Profilo
+      <ProfileForm user={user} />
     </div>
   );
 };
 
 /** 📌 Form Profili */
-const ProfileForm = () => {
-  const { data: session, update } = useSession();
-
+const ProfileForm = (user: any) => {
   const form = useForm<z.infer<typeof updateUserProfileSchema>>({
     resolver: zodResolver(updateUserProfileSchema),
     defaultValues: {
-      name: "",
-      email: "",
+      name: user.name,
+      email: user.email,
     },
   });
 
@@ -47,13 +42,13 @@ const ProfileForm = () => {
 
   // ✅ Effettua il reset del form quando la sessione viene popolata
   useEffect(() => {
-    if (session?.user) {
+    if (user) {
       form.reset({
-        name: session.user.name ?? undefined,
-        email: session.user.email ?? undefined,
+        name: user.name ?? undefined,
+        email: user.email ?? undefined,
       });
     }
-  }, [session, form]);
+  }, [user, form]);
 
   const onSubmit = async (values: z.infer<typeof updateUserProfileSchema>) => {
     const res = await updateUserProfile(values);
@@ -67,9 +62,9 @@ const ProfileForm = () => {
 
     // ✅ Aggiorna la sessione per il nome in tempo reale
     await update({
-      ...session,
+      ...user,
       user: {
-        ...session?.user,
+        ...user,
         name: values.name,
       },
     });
@@ -88,7 +83,7 @@ const ProfileForm = () => {
       >
         <div className="grid grid-cols-1 gap-5 md:grid-cols-1">
           {/* Sezione Avatar */}
-          <PublicUserAvatar name="Test" control={form.control} />
+          <PublicUserAvatar name="Test" control={form.control} user={user} />
 
           {/* Form Profilo */}
 

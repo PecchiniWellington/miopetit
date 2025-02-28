@@ -16,7 +16,6 @@ import { useToast } from "@/hooks/use-toast";
 import { SHIPPING_ADDRESS_DEFAULT_VALUES } from "@/lib/constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight } from "lucide-react";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { startTransition } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -24,12 +23,13 @@ import { z } from "zod";
 
 const AddNewAddressForm = ({
   addresses,
+  user,
 }: {
   addresses?: z.infer<typeof addressSchema>[];
+  user: any;
 }) => {
   const router = useRouter();
   const { toast } = useToast();
-  const { data: session } = useSession();
   const [, setStoredValue] = useLocalStorage("addresses", addresses);
 
   const form = useForm<z.infer<typeof addressSchema>>({
@@ -47,7 +47,7 @@ const AddNewAddressForm = ({
       );
       setStoredValue(values);
 
-      if (session?.user) {
+      if (user) {
         const res = await createUserAddress({
           ...values,
           isDefault: true,

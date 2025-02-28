@@ -1,21 +1,24 @@
 "use client";
 import { ICartItem } from "@/core/validators";
-import useCartHandler from "@/hooks/use-cart-handler";
 import { useRouter } from "next/navigation";
-import { startTransition, useTransition } from "react";
+import { useTransition } from "react";
 import CartTable from "./cart-table";
 import EmptyCart from "./empty-cart";
 import OrderSummary from "./order-summary";
+import useLocalStorage from "@/hooks/use-local-storage";
 
 export const Cart = () => {
-  const [isPending, setIsPending] = useTransition();
+  const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
-  const { cartItems, addToCart, removeFromCart, cancelFromCart, resume } =
-    useCartHandler();
+  const [storedValue, setStoredValue] = useLocalStorage<ICartItem[]>(
+    "cart",
+    []
+  );
 
-  const cleanedCartProduct = Array.isArray(cartItems)
-    ? cartItems.map((item) => ({
+  // ✅ Controlla se storedValue è un array, altrimenti usa un array vuoto
+  const cleanedCartProduct = Array.isArray(storedValue)
+    ? storedValue.map((item) => ({
         productId: item.productId,
         image: item.image,
         name: item.name,
@@ -25,16 +28,31 @@ export const Cart = () => {
       }))
     : [];
 
-  const handleRemoveFromCart = async (item: any) => {
-    await removeFromCart(item);
+  const handleRemoveFromCart = (item: ICartItem) => {
+    console.log("removeFromCart", item);
+    const updatedCart = cleanedCartProduct.filter(
+      (cartItem) => cartItem.productId !== item.productId
+    );
+    setStoredValue(updatedCart);
   };
 
-  const handleAddToCart = async (item: ICartItem) => {
-    await addToCart(item);
+  const handleAddToCart = (item: ICartItem) => {
+    console.log("addToCart", item);
+    const updatedCart = cleanedCartProduct.map((cartItem) =>
+      cartItem.productId === item.productId
+        ? { ...cartItem, qty: cartItem.qty + 1 }
+        : cartItem
+    );
+    setStoredValue(updatedCart);
   };
+
   const cancelProduct = async (item: ICartItem) => {
-    setIsPending(async () => {
-      await cancelFromCart(item.productId);
+    startTransition(() => {
+      console.log("cancelFromCart", item.productId);
+      const updatedCart = cleanedCartProduct.filter(
+        (cartItem) => cartItem.productId !== item.productId
+      );
+      setStoredValue(updatedCart);
     });
   };
 
@@ -46,7 +64,7 @@ export const Cart = () => {
     <>
       <h1 className="h2-bold py-4">Shopping Cart</h1>
 
-      {!cleanedCartProduct || cleanedCartProduct?.length === 0 ? (
+      {cleanedCartProduct.length === 0 ? (
         <EmptyCart />
       ) : (
         <div className="grid md:grid-cols-4 md:gap-5">
@@ -61,7 +79,7 @@ export const Cart = () => {
           </div>
 
           <OrderSummary
-            resume={resume}
+            resume={{ total: 0, subtotal: 0, shipping: 0 }}
             isPending={isPending}
             goToCheckout={goToCheckout}
           />

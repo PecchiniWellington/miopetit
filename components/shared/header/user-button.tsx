@@ -17,6 +17,8 @@ import Link from "next/link";
 const UserButton = ({ userLogged }: { userLogged: any }) => {
   const { data: session, status } = useSession();
   const [, setValue] = useLocalStorage("cart", []);
+  const user = session?.user;
+  const firstInitial = user?.name?.charAt(0).toUpperCase() ?? "";
 
   if (status === "loading") {
     return (
@@ -36,9 +38,6 @@ const UserButton = ({ userLogged }: { userLogged: any }) => {
       </button>
     );
   }
-
-  const user = session.user;
-  const firstInitial = user?.name?.charAt(0).toUpperCase() ?? "";
 
   return (
     <DropdownMenu>

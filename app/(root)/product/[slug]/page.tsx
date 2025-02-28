@@ -14,10 +14,6 @@ import ProductTabs from "./product-tab";
 
 const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
   const { slug } = await props.params;
-
-  /*  const session = await auth();
-  const userId = session?.user.id;
- */
   const product = await getProductBySlug(slug);
   if (!product) return NotFound();
 

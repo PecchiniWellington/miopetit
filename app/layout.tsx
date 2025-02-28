@@ -1,7 +1,6 @@
 import { Toaster } from "@/components/ui/toaster";
 import { APP_DESCRIPTION, APP_NAME, BASE_URL } from "@/lib/constants";
 import type { Metadata } from "next";
-import { SessionProvider } from "next-auth/react";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
@@ -30,10 +29,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         > */}
-        <SessionProvider>
-          {children}
-          <Toaster />
-        </SessionProvider>
+
+        {children}
+        <Toaster />
+
         {/* </ThemeProvider> */}
       </body>
     </html>

@@ -16,6 +16,7 @@ import SubmitForm from "../shared/submit-form";
 
 export const metadata: Metadata = {
   title: "Sign In",
+
   description: "Sign in to your account",
 };
 

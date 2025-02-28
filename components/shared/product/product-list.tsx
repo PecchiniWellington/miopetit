@@ -1,5 +1,4 @@
 import { ILatestProduct } from "@/core/validators";
-import useCartHandler from "@/hooks/use-cart-handler";
 import CustomProduct from "./customProduct";
 
 interface IProductListProps {
@@ -8,7 +7,7 @@ interface IProductListProps {
 }
 
 const ProductList = ({ data, limit }: IProductListProps) => {
-  const { addToCart, getProductQuantity } = useCartHandler();
+  /* const { addToCart, getProductQuantity } = useCartHandler(); */
 
   const limitedData = limit ? data.slice(0, limit) : data;
   return (
@@ -30,8 +29,8 @@ const ProductList = ({ data, limit }: IProductListProps) => {
                 oldPrice={54.99}
                 pricePerKg="€4,16/KG (FAKE)"
                 product={product}
-                getProductQuantity={getProductQuantity}
-                addToCart={addToCart}
+                /*  getProductQuantity={getProductQuantity}
+                addToCart={addToCart} */
               />
             ))
           ) : (

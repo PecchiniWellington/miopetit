@@ -1,14 +1,13 @@
 "use client";
 
 import { ILatestProduct } from "@/core/validators";
-import useCartHandler from "@/hooks/use-cart-handler";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import DynamicCarousel from "./carousels/carousel";
 import CustomProduct from "./shared/product/customProduct";
 import ProductList from "./shared/product/product-list";
-import { useState, useEffect } from "react";
 const brands = [
   {
     name: "brand1",
@@ -54,7 +53,7 @@ const BestSellingProduct = ({
   latestProducts: ILatestProduct[];
   animalName?: string;
 }) => {
-  const { addToCart, getProductQuantity } = useCartHandler();
+  /*  const { addToCart, getProductQuantity } = useCartHandler(); */
 
   const [isClient, setIsClient] = useState(false);
 
@@ -124,8 +123,8 @@ const BestSellingProduct = ({
             renderItem={(latestProducts) => (
               <CustomProduct
                 {...latestProducts}
-                addToCart={addToCart}
-                getProductQuantity={getProductQuantity}
+                /*  addToCart={addToCart}
+                getProductQuantity={getProductQuantity} */
               />
             )}
           />

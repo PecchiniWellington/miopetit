@@ -4,6 +4,7 @@ import { getAllCategoriesForMegaMenu } from "@/core/actions/products/mega-menu.a
 import { getAllBrands } from "@/core/actions/products/product-infos.ts";
 import { getUserById } from "@/core/actions/user";
 import { APP_NAME } from "@/lib/constants";
+import { SessionProvider } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import CartCounter from "./cart-counter";
@@ -63,7 +64,9 @@ const Header = async () => {
                   <FavoritesCounter />
                 </span>
               )}
-              <UserButton userLogged={userLogged} />
+              <SessionProvider>
+                <UserButton userLogged={userLogged} />
+              </SessionProvider>
             </div>
           </div>
         </div>

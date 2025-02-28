@@ -1,7 +1,7 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
-import { IProduct } from "@/core/validators";
+import { ICartItem, IProduct } from "@/core/validators";
 import useLocalStorage from "@/hooks/use-local-storage";
 import { motion } from "framer-motion";
 import { Heart, ShoppingCart } from "lucide-react";
@@ -23,8 +23,8 @@ interface ProductProps {
   pricePerKg?: string;
   product: IProduct;
   slug: string;
-  addToCart: (product: IProduct) => void;
-  getProductQuantity: (id: string) => number;
+  /* addToCart: (product: IProduct) => void;
+  getProductQuantity: (id: string) => number; */
 }
 
 export default function CustomProduct({
@@ -40,11 +40,12 @@ export default function CustomProduct({
   pricePerKg,
   product,
   slug,
-  addToCart,
-  getProductQuantity,
+  /* addToCart,
+  getProductQuantity, */
 }: ProductProps) {
   const [isWishlisted, setWishlisted] = useState(false);
   const [favorites, setFavorites] = useLocalStorage("favorites", []);
+  const [localCart, setLocalCart] = useLocalStorage("cart", []);
 
   useEffect(() => {
     if (Array.isArray(favorites)) {
@@ -61,6 +62,30 @@ export default function CustomProduct({
       setFavorites([...favorites, product]);
     }
     setWishlisted(!isWishlisted);
+  };
+
+  const addToCart = (product: IProduct) => {
+    const newItem: ICartItem = {
+      productId: product?.productId || product?.id,
+      name: product?.name,
+      price: product?.price.toString(),
+      qty: 1,
+      image: Array.isArray(product?.image) ? product?.image[0] : product?.image,
+      slug: product?.slug,
+    };
+    const cart = [...localCart];
+    const existingItemIndex = cart.findIndex(
+      (i) => i.productId === newItem.productId
+    );
+
+    if (existingItemIndex !== -1) {
+      cart[existingItemIndex].qty += 1;
+    } else {
+      cart.push(newItem);
+    }
+
+    setLocalCart(cart);
+    return;
   };
 
   return (
@@ -144,9 +169,14 @@ export default function CustomProduct({
       >
         <ShoppingCart className="size-6 text-white" />
 
-        {getProductQuantity(product?.id) > 0 && (
+        {/*  {getProductQuantity(product?.id) > 0 && (
           <span className="absolute -right-1 -top-1 flex size-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
             {getProductQuantity(product?.id)}
+          </span>
+        )} */}
+        {1 > 0 && (
+          <span className="absolute -right-1 -top-1 flex size-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
+            1
           </span>
         )}
       </motion.button>

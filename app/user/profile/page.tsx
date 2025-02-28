@@ -9,6 +9,7 @@ import {
   ShoppingBag,
   User,
 } from "lucide-react";
+import { SessionProvider } from "next-auth/react";
 import LogoutHandler from "./logout-handler";
 import ProfileTabsConfig from "./profile-tabs-config";
 const tabs = [
@@ -53,7 +54,9 @@ const ProfilePage = async () => {
   return (
     <div className=" mx-auto flex flex-col gap-8 py-6 md:flex-row md:p-6">
       {/* 📌 Sidebar */}
-      <ProfileTabsConfig tabs={tabs} user={user} />
+      <SessionProvider>
+        <ProfileTabsConfig tabs={tabs} user={user} />
+      </SessionProvider>
     </div>
   );
 };

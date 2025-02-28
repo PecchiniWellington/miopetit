@@ -4,7 +4,6 @@ import { FormControl, FormItem, FormLabel } from "@/components/ui/form";
 /* import { updateUserAvatar } from "@/core/actions/user/update-user-avatar"; */
 import { useToast } from "@/hooks/use-toast";
 import { Camera, XCircle } from "lucide-react";
-import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
@@ -12,17 +11,20 @@ import { Controller, useFormContext } from "react-hook-form";
 export default function PublicUserAvatar({
   name,
   control,
+  user,
+  update,
 }: {
   name: string;
   control: any;
+  user: any;
+  update: () => void;
 }) {
   const { setValue, watch } = useFormContext();
   const inputFileRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
-  const { data: session, update } = useSession();
 
   const [preview, setPreview] = useState<string | null>(
-    session?.user?.image || "/images/user-avatar.png"
+    user?.image || "/images/user-avatar.png"
   );
 
   const selectedFile = watch(name);
@@ -60,9 +62,9 @@ export default function PublicUserAvatar({
       }
 
       await update({
-        ...session,
+        ...user,
         user: {
-          ...session?.user,
+          ...user,
           image: url,
         },
       });
@@ -107,17 +109,17 @@ export default function PublicUserAvatar({
                   >
                     <XCircle className="size-5" />
                   </button>
-                  {session?.user?.image ? (
+                  {user?.image ? (
                     <Image
                       alt="User Avatar"
-                      src={session?.user?.image || "/images/placeholder.jpg"}
+                      src={user?.image || "/images/placeholder.jpg"}
                       height={42}
                       width={42}
                       className="rounded-full border-2 border-transparent bg-gradient-to-r from-indigo-500 to-purple-600 object-cover p-[2px] transition-all duration-300 hover:scale-105 hover:border-indigo-400 dark:border-gray-500"
                     />
                   ) : (
                     <div className="flex size-full items-center justify-center overflow-hidden rounded-full border-2 border-gray-500 bg-gray-300 object-cover text-5xl  font-bold text-gray-700 shadow-md dark:border-gray-300 dark:bg-gray-700 dark:text-white">
-                      {session?.user?.name?.charAt(0).toUpperCase() ?? ""}
+                      {user?.name?.charAt(0).toUpperCase() ?? ""}
                     </div>
                   )}
                 </div>

@@ -98,6 +98,7 @@ const ShippingAddressForm = ({ user }: { user?: any }) => {
           transition={{ duration: 0.5 }}
         >
           <AddNewAddressForm
+            user={user}
             addresses={addresses ?? SHIPPING_ADDRESS_DEFAULT_VALUES}
           />
         </motion.div>

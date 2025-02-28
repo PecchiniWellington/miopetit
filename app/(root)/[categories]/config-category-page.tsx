@@ -7,7 +7,6 @@ import SortProduct from "@/components/category/sort-product";
 import CustomProduct from "@/components/shared/product/customProduct";
 import { FilterProvider } from "@/context/filter-context";
 import { IProduct } from "@/core/validators";
-import useCartHandler from "@/hooks/use-cart-handler";
 
 const ConfigCategoryPage = ({
   indispensable,
@@ -45,7 +44,7 @@ const ConfigCategoryPage = ({
   );
   /* PRODUCTS LIST */
   const ProductsList = ({ products }: { products: IProduct[] }) => {
-    const { addToCart, getProductQuantity } = useCartHandler();
+    /* const { addToCart, getProductQuantity } = useCartHandler(); */
     return products.length === 0 ? (
       <div className="col-span-full text-center text-gray-500">
         Nessun prodotto trovato
@@ -67,8 +66,8 @@ const ConfigCategoryPage = ({
             rating={product.rating as number}
             price={Number(product.price)}
             product={product}
-            addToCart={addToCart}
-            getProductQuantity={getProductQuantity}
+            /* addToCart={addToCart}
+            getProductQuantity={getProductQuantity} */
           />
         ))}
       </>
