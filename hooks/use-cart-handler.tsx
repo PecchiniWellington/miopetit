@@ -1,18 +1,30 @@
-const useCartHandler = () => {
-  /*  const session = useSession();
-  const userId = session?.data?.user?.id; */
+import {
+  addItemToCart,
+  cancelItemFromCart,
+  getMyCart,
+  removeItemFromCart,
+} from "@/core/actions/cart/cart.actions";
+import { ICartItem, IProduct } from "@/core/validators";
+import useLocalStorage from "@/hooks/use-local-storage";
+import { calcPrice } from "@/lib/utils";
+import { useCallback, useEffect, useState } from "react";
 
-  /* const [storedValue, setValue] = useLocalStorage<ICartItem[]>("cart", []);
+const useCartHandler = (session: any) => {
+  const userId = session?.data?.user?.id;
+
+  const [storedValue, setValue] = useLocalStorage<ICartItem[]>("cart", []);
   const [cartItems, setCartItems] = useState<ICartItem[]>([]);
   const [cartCount, setCartCount] = useState(0);
   const [resume, setResume] = useState(calcPrice(storedValue));
   const [isUpdating, setIsUpdating] = useState(false);
-  const [isMounted, setIsMounted] = useState(false); // 🔥 Evita mismatch SSR */
+  const [isMounted, setIsMounted] = useState(false); // 🔥 Evita mismatch SSR
 
-  /*   useEffect(() => {
+  // ✅ Controlla se il client è montato per evitare errori di hydration
+  useEffect(() => {
     setIsMounted(true);
   }, []);
 
+  // ✅ Recupera il carrello dal backend se l'utente è loggato
   const fetchCart = useCallback(async () => {
     if (!userId) return [];
     try {
@@ -22,14 +34,14 @@ const useCartHandler = () => {
       console.error("❌ Errore nel recupero del carrello:", error);
       return [];
     }
-  }, [userId]); */
+  }, [userId]);
 
-  /* const syncCartWithBackend = useCallback(async () => {
+  const syncCartWithBackend = useCallback(async () => {
     if (!userId) return;
 
     try {
-      const backendCart = await fetchCart();
-      const localCart = storedValue;
+      const backendCart = await fetchCart(); // Ottieni il carrello dal backend
+      const localCart = storedValue; // Ottieni i prodotti dal localStorage
 
       if (!localCart.length) {
         setCartItems(backendCart);
@@ -46,15 +58,18 @@ const useCartHandler = () => {
         );
 
         if (existingItemIndex !== -1) {
+          // 🔥 Se il prodotto esiste già, aumenta la quantità
           mergedCart[existingItemIndex].qty += localItem.qty;
         } else {
+          // 🔥 Se il prodotto non esiste, lo aggiunge al backend
           mergedCart.push(localItem);
         }
       });
 
+      // 🔥 Se ci sono modifiche, aggiorna il backend
       if (JSON.stringify(backendCart) !== JSON.stringify(mergedCart)) {
         await addItemToCart(mergedCart);
-        setValue([]);
+        setValue([]); // 🔥 Pulisce il localStorage dopo il merge
       }
 
       setCartItems(mergedCart);
@@ -63,10 +78,11 @@ const useCartHandler = () => {
     } catch (error) {
       console.error("❌ Errore nella sincronizzazione del carrello:", error);
     }
-  }, [fetchCart, userId, storedValue, setValue]); */
+  }, [fetchCart, userId, storedValue, setValue]);
 
-  /* useEffect(() => {
-    if (!isMounted) return; 
+  // ✅ Sincronizza `cartItems` e `cartCount` in modo sicuro
+  useEffect(() => {
+    if (!isMounted) return;
 
     if (!userId) {
       setCartItems(storedValue);
@@ -77,9 +93,9 @@ const useCartHandler = () => {
       syncCartWithBackend();
     }
   }, [fetchCart, userId, storedValue, isMounted]);
- */
+
   // ✅ Aggiungi un prodotto al carrello
-  /* const addToCart = useCallback(
+  const addToCart = useCallback(
     async (product: IProduct) => {
       setIsUpdating(true);
       const newItem: ICartItem = {
@@ -136,9 +152,9 @@ const useCartHandler = () => {
       }
     },
     [userId, storedValue, setValue]
-  ); */
+  );
 
-  /* const getProductQuantity = useCallback(
+  const getProductQuantity = useCallback(
     (productId: string) => {
       if (!userId) {
         const product = storedValue.find(
@@ -200,19 +216,18 @@ const useCartHandler = () => {
     } finally {
       setIsUpdating(false);
     }
-  }, []); */
+  }, []);
 
   return {
-    /*  cartItems, */
-    /*  addToCart,
+    cartItems,
+    addToCart,
     removeFromCart,
     getProductQuantity,
-    cancelFromCart, */
-    /*  resume,
+    cancelFromCart,
+    resume,
     cartCount,
     isUpdating,
-    isMounted, */
-    // 🔥 Per nascondere elementi fino a quando non è montato
+    isMounted, // 🔥 Per nascondere elementi fino a quando non è montato
   };
 };
 

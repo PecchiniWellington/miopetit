@@ -1,7 +1,8 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
-import { ICartItem, IProduct } from "@/core/validators";
+import { IProduct } from "@/core/validators";
+import useCartHandler from "@/hooks/use-cart-handler";
 import useLocalStorage from "@/hooks/use-local-storage";
 import { motion } from "framer-motion";
 import { Heart, ShoppingCart } from "lucide-react";
@@ -47,6 +48,8 @@ export default function CustomProduct({
   const [favorites, setFavorites] = useLocalStorage("favorites", []);
   const [localCart, setLocalCart] = useLocalStorage("cart", []);
 
+  const { addToCart } = useCartHandler("session");
+
   useEffect(() => {
     if (Array.isArray(favorites)) {
       setWishlisted(favorites.some((fav) => fav.id === id));
@@ -64,28 +67,8 @@ export default function CustomProduct({
     setWishlisted(!isWishlisted);
   };
 
-  const addToCart = (product: IProduct) => {
-    const newItem: ICartItem = {
-      productId: product?.productId || product?.id,
-      name: product?.name,
-      price: product?.price.toString(),
-      qty: 1,
-      image: Array.isArray(product?.image) ? product?.image[0] : product?.image,
-      slug: product?.slug,
-    };
-    const cart = [...localCart];
-    const existingItemIndex = cart.findIndex(
-      (i) => i.productId === newItem.productId
-    );
-
-    if (existingItemIndex !== -1) {
-      cart[existingItemIndex].qty += 1;
-    } else {
-      cart.push(newItem);
-    }
-
-    setLocalCart(cart);
-    return;
+  const handlerAddToCart = (product: IProduct) => {
+    addToCart(product);
   };
 
   return (
@@ -163,22 +146,22 @@ export default function CustomProduct({
       </div>
 
       <motion.button
-        onClick={() => addToCart(product)}
+        onClick={() => handlerAddToCart(product)}
         whileTap={{ scale: 0.9 }}
         className="absolute bottom-4 right-4 flex size-12 items-center justify-center rounded-full bg-black p-2 transition hover:bg-gray-800"
       >
         <ShoppingCart className="size-6 text-white" />
 
-        {/*  {getProductQuantity(product?.id) > 0 && (
-          <span className="absolute -right-1 -top-1 flex size-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
-            {getProductQuantity(product?.id)}
-          </span>
-        )} */}
         {1 > 0 && (
           <span className="absolute -right-1 -top-1 flex size-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
             1
           </span>
         )}
+        {/* {getProductQuantity(product?.id) > 0 && (
+          <span className="absolute -right-1 -top-1 flex size-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
+            {getProductQuantity(product?.id)}
+          </span>
+        )} */}
       </motion.button>
     </Card>
   );

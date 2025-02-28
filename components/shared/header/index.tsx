@@ -16,7 +16,6 @@ import TopBar from "./top-bar";
 import UserButton from "./user-button";
 
 const Header = async () => {
-  console.log("Header");
   const megaMenuCat = await getAllCategoriesForMegaMenu("gatti");
   const megaMenuDog = await getAllCategoriesForMegaMenu("cani");
   const megaMenuSmallAnimal =

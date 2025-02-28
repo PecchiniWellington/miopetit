@@ -4,7 +4,6 @@ import { ILatestProduct } from "@/core/validators";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import DynamicCarousel from "./carousels/carousel";
 import CustomProduct from "./shared/product/customProduct";
 import ProductList from "./shared/product/product-list";
@@ -53,18 +52,8 @@ const BestSellingProduct = ({
   latestProducts: ILatestProduct[];
   animalName?: string;
 }) => {
-  /*  const { addToCart, getProductQuantity } = useCartHandler(); */
-
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true); // ✅ Imposta lo stato su "true" solo nel client
-  }, []);
-
-  if (!isClient) return null; // 🔥 Ev
   return (
     <section className="my-12 rounded-lg border border-gray-200 bg-white p-8 shadow-md">
-      {/* Titolo */}
       <motion.h1
         className="text-center text-3xl font-extrabold text-gray-900 md:text-4xl"
         initial={{ opacity: 0, y: -20 }}
@@ -74,7 +63,6 @@ const BestSellingProduct = ({
         {animalName === "Cane" ? "🐶" : "🐱"} {animalName.toUpperCase()}
       </motion.h1>
 
-      {/* Barra decorativa sottile */}
       <motion.div
         className="mx-auto mt-3 h-1 w-20 rounded-full bg-primary-500"
         initial={{ scaleX: 0 }}
@@ -140,6 +128,7 @@ const BestSellingProduct = ({
           <h2 className="mb-4 text-center text-xl font-semibold text-gray-800">
             🔥 I Prodotti più venduti
           </h2>
+
           <ProductList data={latestProducts} />
         </motion.div>
       </div>

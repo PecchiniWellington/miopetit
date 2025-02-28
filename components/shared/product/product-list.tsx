@@ -7,7 +7,7 @@ interface IProductListProps {
 }
 
 const ProductList = ({ data, limit }: IProductListProps) => {
-  /* const { addToCart, getProductQuantity } = useCartHandler(); */
+  /* const session = useSession(); */
 
   const limitedData = limit ? data.slice(0, limit) : data;
   return (

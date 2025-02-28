@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 
 export default function FavoritesCounter() {
   const [favoriteCount, setFavoriteCount] = useState(0);
-  const [storedFavorites, setFavorites] = useLocalStorage("favorites", []);
+  const [storedFavorites] = useLocalStorage("favorites", []);
 
   useEffect(() => {
     const loadFavorites = async () => {
@@ -35,8 +35,6 @@ export default function FavoritesCounter() {
       </div>
     );
   }
-
-  console.log("storedFavorites", storedFavorites);
 
   return (
     <Link href="/favorites" className="relative">

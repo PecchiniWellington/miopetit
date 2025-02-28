@@ -25,13 +25,11 @@ const fetchFeaturedProducts = cache(async () => {
 
 export default async function Home() {
   const latestProducts = await fetchLatestProducts();
-  const featuredProducts = await fetchFeaturedProducts();
 
   const data = latestProducts.map((product) => ({
     ...product,
     image: ["/images/royal-canin-4.jpg"],
   }));
-  console.log("Home", data);
 
   return (
     <div>
