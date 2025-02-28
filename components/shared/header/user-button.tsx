@@ -15,7 +15,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const UserButton = ({ userLogged }: { userLogged: any }) => {
-  const { data: session, status } = useSession();
+  const { data: session, status } = useSession({ required: false });
   const [, setValue] = useLocalStorage("cart", []);
   const user = session?.user;
   const firstInitial = user?.name?.charAt(0).toUpperCase() ?? "";

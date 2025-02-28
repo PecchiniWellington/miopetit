@@ -4,7 +4,6 @@ import { getUserById } from "@/core/actions/user";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 import ShippingAddressForm from "./shipping-address-container";
-import { SessionProvider } from "next-auth/react";
 
 export const metadata: Metadata = {
   title: "Shipping Address",
@@ -25,11 +24,7 @@ const ShippingAddress = async () => {
   } else {
     const user = await getUserById(userId);
     if (user) {
-      return (
-        <SessionProvider>
-          <ShippingAddressForm user={user} />;
-        </SessionProvider>
-      );
+      return <ShippingAddressForm user={user} />;
     }
   }
 };

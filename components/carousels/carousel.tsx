@@ -2,7 +2,6 @@
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { JSX, useEffect, useRef, useState } from "react";
-import LazyLoadComponent from "../lazy-component";
 
 interface CarouselProps<T> {
   data: T[];
@@ -71,69 +70,67 @@ const DynamicCarousel = <T,>({
   };
 
   return (
-    <LazyLoadComponent className="h-fit">
+    <div
+      className="relative mx-auto w-full overflow-hidden rounded-xl pb-12"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
+      {/* Contenuto del carosello */}
       <div
-        className="relative mx-auto w-full overflow-hidden rounded-xl pb-12"
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
+        className="flex w-full transition-transform duration-300 ease-in-out"
+        style={{
+          transform: `translateX(-${
+            currentIndex * (100 / itemsToShow) + gap / itemsToShow
+          }%)`,
+          gap: `${gap}px`,
+          marginLeft: `calc(${gap * itemsPerView}px )`,
+        }}
       >
-        {/* Contenuto del carosello */}
-        <div
-          className="flex w-full transition-transform duration-300 ease-in-out"
-          style={{
-            transform: `translateX(-${
-              currentIndex * (100 / itemsToShow) + gap / itemsToShow
-            }%)`,
-            gap: `${gap}px`,
-            marginLeft: `calc(${gap * itemsPerView}px )`,
-          }}
-        >
-          {data.map((item, index) => (
-            <div
+        {data.map((item, index) => (
+          <div
+            key={index}
+            className="shrink-0"
+            style={{
+              flex: `0 0 calc(${100 / itemsToShow}% - ${gap}px)`,
+            }}
+          >
+            {renderItem(item, index)}{" "}
+            {/* 🔥 Usa la funzione passata per renderizzare qualsiasi componente */}
+          </div>
+        ))}
+      </div>
+
+      {/* Pulsanti di navigazione */}
+      <button
+        onClick={prevSlide}
+        className="absolute left-4 top-1/2 z-10 flex -translate-y-1/2 items-center justify-center rounded-full bg-black/50 p-3 text-white transition hover:bg-black/80"
+      >
+        <ChevronLeft size={32} />
+      </button>
+      <button
+        onClick={nextSlide}
+        className="absolute right-4 top-1/2 z-10 flex -translate-y-1/2 items-center justify-center rounded-full bg-black/50 p-3 text-white transition hover:bg-black/80"
+      >
+        <ChevronRight size={32} />
+      </button>
+
+      {/* Indicatori */}
+      <div className="absolute inset-x-0 bottom-0 flex justify-center pb-4">
+        <div className="flex gap-2 rounded-lg bg-white/80 p-2 shadow-md">
+          {Array.from({
+            length: totalItems - itemsToShow + 1,
+          }).map((_, index) => (
+            <span
               key={index}
-              className="shrink-0"
-              style={{
-                flex: `0 0 calc(${100 / itemsToShow}% - ${gap}px)`,
-              }}
-            >
-              {renderItem(item, index)}{" "}
-              {/* 🔥 Usa la funzione passata per renderizzare qualsiasi componente */}
-            </div>
+              className={`size-3 rounded-full transition-all ${
+                index === currentIndex ? "w-5 bg-black" : "w-3 bg-gray-400"
+              }`}
+            />
           ))}
         </div>
-
-        {/* Pulsanti di navigazione */}
-        <button
-          onClick={prevSlide}
-          className="absolute left-4 top-1/2 z-10 flex -translate-y-1/2 items-center justify-center rounded-full bg-black/50 p-3 text-white transition hover:bg-black/80"
-        >
-          <ChevronLeft size={32} />
-        </button>
-        <button
-          onClick={nextSlide}
-          className="absolute right-4 top-1/2 z-10 flex -translate-y-1/2 items-center justify-center rounded-full bg-black/50 p-3 text-white transition hover:bg-black/80"
-        >
-          <ChevronRight size={32} />
-        </button>
-
-        {/* Indicatori */}
-        <div className="absolute inset-x-0 bottom-0 flex justify-center pb-4">
-          <div className="flex gap-2 rounded-lg bg-white/80 p-2 shadow-md">
-            {Array.from({
-              length: totalItems - itemsToShow + 1,
-            }).map((_, index) => (
-              <span
-                key={index}
-                className={`size-3 rounded-full transition-all ${
-                  index === currentIndex ? "w-5 bg-black" : "w-3 bg-gray-400"
-                }`}
-              />
-            ))}
-          </div>
-        </div>
       </div>
-    </LazyLoadComponent>
+    </div>
   );
 };
 

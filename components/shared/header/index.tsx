@@ -1,10 +1,8 @@
 import { auth } from "@/auth";
 import MegaMenu from "@/components/mega-menu/mega-menu";
 import { getAllCategoriesForMegaMenu } from "@/core/actions/products/mega-menu.action";
-import { getAllBrands } from "@/core/actions/products/product-infos.ts";
 import { getUserById } from "@/core/actions/user";
 import { APP_NAME } from "@/lib/constants";
-import { SessionProvider } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import CartCounter from "./cart-counter";
@@ -16,11 +14,10 @@ import TopBar from "./top-bar";
 import UserButton from "./user-button";
 
 const Header = async () => {
-  const megaMenuCat = await getAllCategoriesForMegaMenu("gatti");
-  const megaMenuDog = await getAllCategoriesForMegaMenu("cani");
-  const megaMenuSmallAnimal =
-    await getAllCategoriesForMegaMenu("piccoli-animali");
-  const brands = await getAllBrands();
+  const categories = ["gatti", "cani", "piccoli-animali"];
+  const [megaMenuCat, megaMenuDog, megaMenuSmallAnimal] = await Promise.all(
+    categories.map((category) => getAllCategoriesForMegaMenu(category))
+  );
 
   const session = await auth();
   let userLogged = null;
@@ -63,9 +60,7 @@ const Header = async () => {
                   <FavoritesCounter />
                 </span>
               )}
-              <SessionProvider>
-                <UserButton userLogged={userLogged} />
-              </SessionProvider>
+              <UserButton userLogged={userLogged} />
             </div>
           </div>
         </div>

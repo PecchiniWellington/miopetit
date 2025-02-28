@@ -43,14 +43,14 @@ export const getSessionCartId = async () => {
 };
 
 // Get session and user Id
-const getSessionAndUserId = async () => {
+/* const getSessionAndUserId = async () => {
   const session = await auth();
   const userId = session?.user?.id ? (session.user.id as string) : undefined;
   return { userId };
-};
+}; */
 
 // Find product in database by item.productId
-const getProductByItemProductId = async (item: ICartItem) => {
+/* const getProductByItemProductId = async (item: ICartItem) => {
   const product = await prisma.product.findFirst({
     where: { id: item.id },
   });
@@ -60,7 +60,7 @@ const getProductByItemProductId = async (item: ICartItem) => {
     product,
   };
 };
-
+ */
 // Add item to cart
 const createNewCart = async (
   userId: string | undefined,

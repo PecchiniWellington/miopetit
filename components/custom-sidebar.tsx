@@ -2,7 +2,6 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, ChevronRight, X } from "lucide-react";
-import { SessionProvider } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -185,9 +184,7 @@ export default function SidebarMenu({
           </AnimatePresence>
         </div>
         <div className="mt-auto">
-          <SessionProvider>
-            <UserButton userLogged={user} />
-          </SessionProvider>
+          <UserButton userLogged={user} />
         </div>
       </motion.div>
     </div>
