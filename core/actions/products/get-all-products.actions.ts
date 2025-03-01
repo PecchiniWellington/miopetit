@@ -135,7 +135,7 @@ export async function getAllProducts({
   }));
 
   return {
-    data: convertToPlainObject(updatedData),
+    ...convertToPlainObject(updatedData),
     totalPages: Math.ceil(productCount / limit),
     totalProducts: productCount,
   };

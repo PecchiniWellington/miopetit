@@ -77,6 +77,6 @@ export async function updateUserAddress(data: IShippingAddress) {
   return {
     success: true,
     message: "Address Updated successfully",
-    data: updatedAddress,
+    ...updatedAddress,
   };
 }

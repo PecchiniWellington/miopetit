@@ -1,5 +1,6 @@
 import { prisma } from "@/core/prisma/prisma";
 import { insertProductSchema } from "@/core/validators";
+import { convertToPlainObject } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
 
 // Create product
@@ -80,7 +81,7 @@ export async function createProduct(data: unknown) {
     return {
       success: true,
       message: "Product created successfully",
-      data: product.data,
+      ...convertToPlainObject(product.data),
     };
   } catch (error) {
     return {

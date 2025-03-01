@@ -47,7 +47,8 @@ const ConfigCategoryPage = ({
       <SortProduct mainCategory={mainCategory} className="hidden md:block" />
     </>
   );
-  const ProductsList = ({ products }: { products: { data: any[] } }) => {
+  const ProductsList = ({ products }: { products: any[] }) => {
+    console.log(products);
     return products.data.length === 0 ? (
       <div className="col-span-full text-center text-gray-500">
         Nessun prodotto trovato
@@ -97,7 +98,7 @@ const ConfigCategoryPage = ({
             </div>
 
             <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-              <ProductsList products={{ data: products }} />
+              <ProductsList products={products} />
             </div>
           </main>
         </FilterProvider>

@@ -22,7 +22,7 @@ export async function getAllCategories() {
     }));
 
     return {
-      data: convertToPlainObject(categories),
+      ...convertToPlainObject(categories),
       totalProductCount: categoriesWithCount.reduce(
         (acc, cat) => acc + cat.productCount,
         0
@@ -60,7 +60,7 @@ export async function getCategoryWithProducts(categorySlug: string) {
     }
 
     return {
-      data: convertToPlainObject(category),
+      ...convertToPlainObject(category),
       totalProductCount: new Set(
         category.productCategory.map((pc) => pc.productId)
       ).size,

@@ -37,7 +37,7 @@ async function getMainCategory(categorySlug: string) {
     category
   );
 
-  return category;
+  return convertToPlainObject(category);
 }
 
 // Ottieni tutti i prodotti per categoryType e sottocategorie
@@ -59,27 +59,23 @@ export async function getAllProductsBySlug({
       return { data: [], totalPages: 0, totalProducts: 0 };
     }
 
-    // Recupera tutte le sottocategorie della categoria principale
     const subCategoryIds = await getAllSubCategoryIds(mainCategory.id);
     const categoryIds = [mainCategory.id, ...subCategoryIds];
 
     // Costruzione della query
     const where: any = {
       OR: [
-        { categoryType: slug }, // Filtra i prodotti che hanno esattamente questa categoriaType
+        { categoryType: slug },
         {
           productCategory: {
             some: {
-              categoryId: { in: categoryIds }, // Include i prodotti delle sottocategorie
+              categoryId: { in: categoryIds },
             },
           },
         },
       ],
     };
 
-    console.log(`🛠 Filtri applicati alla query Prisma:`, where);
-
-    // Applica filtri dinamici
     if (query.animalAge) {
       where.animalAge = query.animalAge;
     }
@@ -228,9 +224,7 @@ export async function getAllProductsBySlug({
       })),
     }));
 
-    return {
-      data: convertToPlainObject(updatedData),
-    };
+    return convertToPlainObject(updatedData);
   } catch (error) {
     console.error("❌ Errore durante il fetch dei prodotti:", error);
     return { data: [], totalPages: 0, totalProducts: 0 };

@@ -91,7 +91,7 @@ export async function getReviews({ productId }: { productId: string }) {
       orderBy: { createdAt: "desc" },
     });
 
-    return { success: true, data: reviews };
+    return { success: true, reviews };
   } catch (error) {
     return { success: false, message: formatError(error) };
   }

@@ -29,7 +29,7 @@ export async function updateUserPaymentMethod(data: IPaymentMethod) {
     return {
       success: true,
       message: "Payment method updated successfully",
-      data: userUpdated,
+      ...userUpdated,
     };
   } catch (error) {
     return { success: false, message: formatError(error) };

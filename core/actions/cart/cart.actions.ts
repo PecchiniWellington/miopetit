@@ -343,7 +343,7 @@ export async function cancelItemFromCart(productId: string) {
     return {
       success: true,
       message: `Rimosso completamente ${exist.name} dal carrello`,
-      data: JSON.parse(JSON.stringify(cartUpdated)),
+      ...convertToPlainObject(cartUpdated),
     };
   } catch (error) {
     console.error("❌ Errore in cancelItemFromCart:", error);
