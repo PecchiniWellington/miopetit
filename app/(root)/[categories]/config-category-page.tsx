@@ -13,7 +13,12 @@ const ConfigCategoryPage = ({
   mainCategory,
   productFilters,
   products,
-}: any) => {
+}: {
+  indispensable: { image: string; href: string; label: string }[];
+  mainCategory: string;
+  productFilters: any;
+  products: any[];
+}) => {
   /* INDISPENSABLE */
   const Indispensable = () => (
     <IndispensableList
@@ -42,17 +47,15 @@ const ConfigCategoryPage = ({
       <SortProduct mainCategory={mainCategory} className="hidden md:block" />
     </>
   );
-  /* PRODUCTS LIST */
-  const ProductsList = ({ products }: { products: IProduct[] }) => {
-    /* const { addToCart, getProductQuantity } = useCartHandler(); */
-    return products.length === 0 ? (
+  const ProductsList = ({ products }: { products: { data: any[] } }) => {
+    return products.data.length === 0 ? (
       <div className="col-span-full text-center text-gray-500">
         Nessun prodotto trovato
       </div>
     ) : (
       <>
         {/* product.data?? */}
-        {products.map((product: IProduct | ILatestProduct) => (
+        {products?.data.map((product: IProduct | ILatestProduct) => (
           <CustomProduct
             slug={product.slug}
             key={product.id}
@@ -94,7 +97,7 @@ const ConfigCategoryPage = ({
             </div>
 
             <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-              <ProductsList products={products} />
+              <ProductsList products={{ data: products }} />
             </div>
           </main>
         </FilterProvider>

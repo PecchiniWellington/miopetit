@@ -33,7 +33,8 @@ const MainCategory = async ({
     ? await getFiltersForCategory(cat)
     : {};
 
-  const products = await getAllProductsBySlug({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const products: any = await getAllProductsBySlug({
     slug: cat || "",
     query: queries,
   });
