@@ -70,6 +70,7 @@ export const latestProductSchema = z.object({
   unitValueId: z.string().uuid().optional().nullable(),
   unitOfMeasureId: z.string().uuid().optional().nullable(),
   image: z.array(z.string()),
+  availability: z.boolean().optional().default(false),
 });
 
 // Definizione dei tipi

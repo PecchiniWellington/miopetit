@@ -16,7 +16,7 @@ const tabs = [
 
 const ProductTabs = ({
   description,
-  productId,
+  /* productId, */
   /*  userId, */
 }: {
   description: string;

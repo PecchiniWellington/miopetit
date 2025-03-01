@@ -14,11 +14,11 @@ import { useState } from "react";
 const DefaultAddressLoggedUser = ({
   addresses,
   user,
-  setAddresses,
+  /* setAddresses, */
 }: {
   addresses: IAddress[];
   user: IUser;
-  setAddresses: (addresses: IAddress) => void;
+  /*  setAddresses: (addresses: IAddress) => void; */
 }) => {
   const router = useRouter();
   const { toast } = useToast();
@@ -33,19 +33,20 @@ const DefaultAddressLoggedUser = ({
       if (res.success) {
         toast({ description: res.message });
 
-        setAddresses((prevAddresses) =>
-          prevAddresses.map((addr) => ({
-            ...addr,
-            isDefault: addr.id === id,
-          }))
-        );
+        /*  setAddresses(
+          (prevAddresses: IAddress[]) =>
+            prevAddresses.map((addr: IAddress) => ({
+              ...addr,
+              isDefault: addr.id === id,
+            })) as IAddress[]
+        ); */
       } else {
         toast({ variant: "destructive", description: res.message });
       }
     } catch (error) {
       toast({
         variant: "destructive",
-        description: "Errore nell'aggiornamento dell'indirizzo.",
+        description: "Errore nell'aggiornamento dell'indirizzo." + error,
       });
     } finally {
       setIsUpdating(false);
@@ -61,21 +62,23 @@ const DefaultAddressLoggedUser = ({
       );
 
       if (user) {
-        const res = await setDefaultAddress(addressUser?.id, user.id);
-        if (res.data) {
-          const t = await updateUserAddress({
-            ...res.data,
-            fullName: res.data.fullName || "",
-            street: res.data.street,
-            city: res.data.city,
-            postalCode: res.data.postalCode || "",
-            country: res.data.country || "",
-          });
-        }
+        if (addressUser?.id) {
+          const res = await setDefaultAddress(addressUser.id, user.id);
 
-        if (!res.success) {
-          toast({ variant: "destructive", description: res.message });
-          return;
+          if (res.data) {
+            await updateUserAddress({
+              ...res.data,
+              fullName: res.data.fullName || "",
+              street: res.data.street,
+              city: res.data.city,
+              postalCode: res.data.postalCode || "",
+              country: res.data.country || "",
+            });
+          }
+          if (!res.success) {
+            toast({ variant: "destructive", description: res.message });
+            return;
+          }
         }
       } else {
         toast({ description: "Indirizzo salvato localmente" });
@@ -85,7 +88,7 @@ const DefaultAddressLoggedUser = ({
     } catch (error) {
       toast({
         variant: "destructive",
-        description: "Errore nell'aggiornamento dell'indirizzo.",
+        description: "Errore nell'aggiornamento dell'indirizzo." + error,
       });
     } finally {
       setIsUpdating(false);
@@ -100,7 +103,7 @@ const DefaultAddressLoggedUser = ({
             📍 I tuoi Indirizzi di Spedizione
           </h2>
           <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-            Gestisci e seleziona l'indirizzo per una consegna più rapida.
+            Gestisci e seleziona l&apos;indirizzo per una consegna più rapida.
           </p>
 
           <div className="mt-4 space-y-4">
@@ -134,7 +137,11 @@ const DefaultAddressLoggedUser = ({
                       <Button
                         variant="outline"
                         size="icon"
-                        onClick={() => handleSetDefault(address.id, user.id)}
+                        onClick={() =>
+                          address.id &&
+                          user.id &&
+                          handleSetDefault(address.id, user.id)
+                        }
                         disabled={isUpdating}
                       >
                         {isUpdating ? (

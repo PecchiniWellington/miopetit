@@ -15,7 +15,7 @@ import { createUserAddress } from "@/core/actions/user/create-user-address.actio
 import { deleteUserAddress } from "@/core/actions/user/delete-user-address.action";
 import { getUserAddress } from "@/core/actions/user/get-user-address.action";
 import { setDefaultAddress } from "@/core/actions/user/set-user-default-address.action";
-import { shippingAddressSchema } from "@/core/validators";
+import { IUser, shippingAddressSchema } from "@/core/validators";
 import {
   addressSchema,
   IAddress,
@@ -36,7 +36,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-export const AddressesTab = ({ user }: { user: any }) => {
+export const AddressesTab = ({ user }: { user: IUser }) => {
   const { toast } = useToast();
   const [addresses, setAddresses] = useState<IAddress[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -50,7 +50,16 @@ export const AddressesTab = ({ user }: { user: any }) => {
   const fetchAddresses = async () => {
     try {
       const r = await getUserAddress(user.id);
-      setAddresses(r.data);
+      if (r.data) {
+        setAddresses(
+          r.data.map((address) => ({
+            ...address,
+            fullName: address.fullName || "",
+            postalCode: address.postalCode || "",
+            country: address.country || "",
+          }))
+        );
+      }
     } catch (error) {
       console.error("Error fetching addresses:", error);
     }
@@ -62,7 +71,7 @@ export const AddressesTab = ({ user }: { user: any }) => {
 
   // 📌 Gestisce l'apertura del form per l'editing di un indirizzo
   const handleEditAddress = (address: IAddress) => {
-    setEditingAddress(address.id);
+    setEditingAddress(address?.id ?? null);
 
     // 🔥 Reset dei valori del form con i dati dell'indirizzo selezionato
     form.reset({
@@ -98,7 +107,6 @@ export const AddressesTab = ({ user }: { user: any }) => {
       if (res.success) {
         toast({
           description: res.message,
-          icon: <CheckCircle className="size-4 text-green-500" />,
         });
         setIsModalOpen(false);
         setEditingAddress(null);
@@ -112,7 +120,7 @@ export const AddressesTab = ({ user }: { user: any }) => {
     } catch (error) {
       toast({
         variant: "destructive",
-        description: "Dati non validi. Controlla i campi inseriti.",
+        description: "Dati non validi. Controlla i campi inseriti." + error,
       });
     }
   };
@@ -125,7 +133,6 @@ export const AddressesTab = ({ user }: { user: any }) => {
       if (res.success) {
         toast({
           description: res.message,
-          icon: <CheckCircle className="size-4 text-green-500" />,
         });
 
         // 📌 Aggiorna lo stato locale impostando isDefault solo per l'indirizzo selezionato
@@ -145,7 +152,7 @@ export const AddressesTab = ({ user }: { user: any }) => {
       toast({
         variant: "destructive",
         description:
-          "Errore durante l'aggiornamento dell'indirizzo predefinito.",
+          "Errore durante l'aggiornamento dell'indirizzo predefinito." + error,
       });
     }
   };
@@ -187,7 +194,9 @@ export const AddressesTab = ({ user }: { user: any }) => {
                   <Button
                     variant="outline"
                     size="icon"
-                    onClick={() => handleSetDefault(address.id, user.id)}
+                    onClick={() =>
+                      address.id && handleSetDefault(address.id, user.id)
+                    }
                   >
                     <CheckCircle className="size-4 text-green-500" />
                   </Button>
@@ -203,7 +212,9 @@ export const AddressesTab = ({ user }: { user: any }) => {
                   variant="outline"
                   size="icon"
                   onClick={() => {
-                    deleteUserAddress(address.id, user.id);
+                    if (address.id) {
+                      deleteUserAddress(address.id, user.id);
+                    }
                     fetchAddresses();
                   }}
                 >

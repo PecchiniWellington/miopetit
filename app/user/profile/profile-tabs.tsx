@@ -10,16 +10,15 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { updateUserProfile } from "@/core/actions/user";
-import { updateUserProfileSchema } from "@/core/validators";
+import { IUser, updateUserProfileSchema } from "@/core/validators";
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CheckCircle } from "lucide-react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { undefined, z } from "zod";
 import PublicUserAvatar from "./public-user-avatar";
 
-export const ProfileTab = ({ user }: { user: any }) => {
+export const ProfileTab = ({ user }: { user: IUser }) => {
   return (
     <div className="relative rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800">
       Form Profilo
@@ -29,7 +28,7 @@ export const ProfileTab = ({ user }: { user: any }) => {
 };
 
 /** 📌 Form Profili */
-const ProfileForm = (user: any) => {
+const ProfileForm = ({ user }: { user: IUser }) => {
   const form = useForm<z.infer<typeof updateUserProfileSchema>>({
     resolver: zodResolver(updateUserProfileSchema),
     defaultValues: {
@@ -61,17 +60,16 @@ const ProfileForm = (user: any) => {
     }
 
     // ✅ Aggiorna la sessione per il nome in tempo reale
-    await update({
+    /* await update({
       ...user,
       user: {
         ...user,
         name: values.name,
       },
-    });
+    }); */
 
     toast({
       description: res.message,
-      icon: <CheckCircle className="size-4 text-green-500" />,
     });
   };
 
@@ -83,7 +81,7 @@ const ProfileForm = (user: any) => {
       >
         <div className="grid grid-cols-1 gap-5 md:grid-cols-1">
           {/* Sezione Avatar */}
-          <PublicUserAvatar name="Test" control={form.control} user={user} />
+          <PublicUserAvatar name="name" control={form.control} user={user} />
 
           {/* Form Profilo */}
 

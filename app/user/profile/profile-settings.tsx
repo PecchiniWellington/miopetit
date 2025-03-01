@@ -30,7 +30,7 @@ const SettingsTab = () => {
 
       setOpen(false);
     } catch (error) {
-      console.log("Errore nell'eliminazione dell'account");
+      console.log("Errore nell'eliminazione dell'account" + error);
       setOpen(false);
     }
   };

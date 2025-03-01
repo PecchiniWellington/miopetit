@@ -4,7 +4,6 @@ import DynamicButton from "@/components/dynamic-button";
 import DynamicFormField from "@/components/shared/dynamic-form-field";
 
 import { updateUser } from "@/core/actions/admin/admin.actions";
-import { IUser } from "@/core/validators";
 import { updateUserSchema } from "@/core/validators/user.validator";
 import { useToast } from "@/hooks/use-toast";
 import { USER_ROLES } from "@/lib/constants/roles";
@@ -16,7 +15,8 @@ import { useRouter } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 
-const UpdateUserForm = ({ user }: { user: IUser }) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const UpdateUserForm = ({ user }: { user: any }) => {
   const router = useRouter();
   const { toast } = useToast();
 

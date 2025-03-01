@@ -111,6 +111,16 @@ const BestSellingProduct = ({
             renderItem={(latestProducts) => (
               <CustomProduct
                 {...latestProducts}
+                reviews={latestProducts.numReviews}
+                availability={latestProducts.availability}
+                product={latestProducts}
+                image={latestProducts.image[0]}
+                price={Number(latestProducts.price)}
+                productBrand={
+                  typeof latestProducts.productBrand === "string"
+                    ? latestProducts.productBrand
+                    : undefined
+                }
                 /*  addToCart={addToCart}
                 getProductQuantity={getProductQuantity} */
               />

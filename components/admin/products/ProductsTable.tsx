@@ -133,9 +133,9 @@ const ProductsTable = ({ products }: { products: { data: IProduct[] } }) => {
                   <td className="flex items-center gap-2 whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-100">
                     <Image
                       src={
-                        product.images.length === 0
+                        product.image.length === 0
                           ? "/images/placeholder.jpg"
-                          : `${product.images[0]}`
+                          : `${product.image[0]}`
                       }
                       alt="Product img"
                       className="size-10 rounded-full"

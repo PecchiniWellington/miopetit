@@ -20,7 +20,12 @@ const mockSubscription = {
 };
 
 export default function SubscriptionTab() {
-  const [subscription, setSubscription] = useState(mockSubscription);
+  const [subscription, setSubscription] = useState<{
+    plan: string;
+    price: string;
+    renewalDate: string;
+    features: string[];
+  } | null>(mockSubscription);
   const [isCancelling, setIsCancelling] = useState(false);
 
   const handleCancelSubscription = () => {
@@ -48,7 +53,7 @@ export default function SubscriptionTab() {
                 <span className="text-xl font-bold text-indigo-600 dark:text-indigo-400">
                   {subscription.plan}
                 </span>
-                <Badge variant="success">Attivo</Badge>
+                <Badge>Attivo</Badge>
               </div>
               <p className="text-lg text-gray-700 dark:text-gray-300">
                 {subscription.price}

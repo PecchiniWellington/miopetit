@@ -39,15 +39,15 @@ const ProfileForm = () => {
       });
     }
 
-    const newSession = {
-      /*  ...session, */
+    /*  const newSession = {
+       ...session,
       user: {
-        /*  ...session?.user, */
+         ...session?.user,
         name: values.name,
       },
     };
-
-    await update(newSession);
+ */
+    /*  await update(newSession); */
 
     toast({
       description: res.message,

@@ -11,7 +11,7 @@ export async function GET() {
     );
   } catch (error) {
     return NextResponse.json(
-      { success: false, message: error.message },
+      { success: false, error: (error as Error).message },
       { status: 500 }
     );
   }
@@ -27,6 +27,9 @@ export async function POST(request: Request) {
       { status: 201 }
     );
   } catch (error) {
-    return handleError(error, "api") as APIErrorResponse;
+    return NextResponse.json(
+      { success: false, error: (error as Error).message },
+      { status: 500 }
+    );
   }
 }

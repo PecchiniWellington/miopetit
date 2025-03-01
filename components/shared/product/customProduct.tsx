@@ -1,7 +1,7 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
-import { IProduct } from "@/core/validators";
+import { ILatestProduct } from "@/core/validators";
 import useCartHandler from "@/hooks/use-cart-handler";
 import useLocalStorage from "@/hooks/use-local-storage";
 import { motion } from "framer-motion";
@@ -20,9 +20,9 @@ interface ProductProps {
   productBrand?: string | null;
   rating: number;
   reviews: number;
-  availability: string;
+  availability: boolean;
   pricePerKg?: string;
-  product: IProduct;
+  product: ILatestProduct;
   slug: string;
   /* addToCart: (product: IProduct) => void;
   getProductQuantity: (id: string) => number; */
@@ -66,7 +66,7 @@ export default function CustomProduct({
     setWishlisted(!isWishlisted);
   };
 
-  const handlerAddToCart = (product: IProduct) => {
+  const handlerAddToCart = (product: ILatestProduct) => {
     addToCart(product);
   };
 
@@ -126,10 +126,10 @@ export default function CustomProduct({
 
         <p
           className={`text-xs font-medium ${
-            availability === "Disponibile" ? "text-green-600" : "text-red-500"
+            availability ? "text-green-600" : "text-red-500"
           }`}
         >
-          {availability}
+          {availability ? "Disponibile" : "Non disponibile"}
         </p>
 
         <div className="flex items-center space-x-2">

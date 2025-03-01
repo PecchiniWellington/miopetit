@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ICart, ICartItem, IUser } from "@/core/validators";
+import { ICartItem } from "@/core/validators";
 import { formatCurrency } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
@@ -26,8 +26,11 @@ const PlaceOrderLogged = ({
     postalCode: string;
     country: string;
   };
-  user: IUser;
-  cart: ICart;
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  user: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  cart: any;
 }) => {
   if (!cart || cart.items.length === 0) redirect("/cart");
   if (!user?.defaultAddress) redirect("/shipping-address");

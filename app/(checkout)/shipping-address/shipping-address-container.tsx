@@ -62,7 +62,15 @@ const ShippingAddressForm = ({ user }: { user?: IUser }) => {
       try {
         const r = await getUserAddress(user.id);
         if (r.data) {
-          setAddresses(r.data);
+          setAddresses(
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            r.data.map((address: any) => ({
+              ...address,
+              fullName: address.fullName ?? "",
+              postalCode: address.postalCode ?? "",
+              country: address.country ?? "",
+            }))
+          );
         }
         console.log("r.data", r.data);
       } catch (error) {
@@ -82,7 +90,7 @@ const ShippingAddressForm = ({ user }: { user?: IUser }) => {
           <>
             <DefaultAddressLoggedUser
               addresses={addresses}
-              setAddresses={setAddresses}
+              /*  setAddresses={setAddresses} */
               user={user}
             />
 

@@ -6,7 +6,12 @@ import { IProduct } from "@/core/validators";
 import { BadgeCheck } from "lucide-react";
 import Rating from "./rating";
 
-export default function ProductDetails({ product }: { product: IProduct }) {
+export default function ProductDetails({
+  product,
+}: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  product: IProduct | any;
+}) {
   function truncateText(text: string, maxLength: number): string {
     if (text.length <= maxLength) {
       return text;
@@ -23,16 +28,21 @@ export default function ProductDetails({ product }: { product: IProduct }) {
     {
       key: "Funzione alimentare",
       value: product.productsFeatureOnProduct
-        .map((f) => f.productFeature.name)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .map((f: any) => f.productFeature.name)
         .join(", "),
     },
     {
       key: "Patologie supportate",
-      value: product.productPathologies.map((p) => p.name).join(", "),
+      value: product.productPathologies
+        .map((p: { name: string }) => p.name)
+        .join(", "),
     },
     {
       key: "Proteine principali",
-      value: product.productProteins.map((p) => p.name).join(", "),
+      value: product.productProteins
+        .map((p: { name: string }) => p.name)
+        .join(", "),
     },
     { key: "Età animale", value: product.animalAge },
   ];

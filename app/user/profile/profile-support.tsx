@@ -31,7 +31,12 @@ export default function SupportTab() {
   useEffect(() => {
     async function fetchTickets() {
       const userTickets = await getUserTickets();
-      setTickets(userTickets);
+      setTickets(
+        userTickets.map((ticket) => ({
+          ...ticket,
+          createdAt: ticket.createdAt.toISOString(),
+        }))
+      );
     }
     fetchTickets();
   }, []);

@@ -51,7 +51,8 @@ const ConfigCategoryPage = ({
       </div>
     ) : (
       <>
-        {products.data.map((product: IProduct) => (
+        {/* product.data?? */}
+        {products.map((product: IProduct) => (
           <CustomProduct
             slug={product.slug}
             key={product.id}

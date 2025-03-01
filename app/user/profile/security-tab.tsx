@@ -1,6 +1,13 @@
 import SendRequest from "@/app/forgot-password/send-request-change-btn";
 
-export const SecurityTab = ({
+interface SecurityTabProps {
+  email: string;
+  setIsLoading: (isLoading: boolean) => void;
+  setErrorMessage: (message: string) => void;
+  setSuccessMessage: (message: string) => void;
+}
+
+export const SecurityTab: React.FC<SecurityTabProps> = ({
   email,
   setIsLoading,
   setErrorMessage,

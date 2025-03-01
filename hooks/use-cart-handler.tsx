@@ -4,7 +4,7 @@ import {
   getMyCart,
   removeItemFromCart,
 } from "@/core/actions/cart/cart.actions";
-import { ICartItem, IProduct } from "@/core/validators";
+import { ICartItem, ILatestProduct, IProduct } from "@/core/validators";
 import useLocalStorage from "@/hooks/use-local-storage";
 import { calcPrice } from "@/lib/utils";
 import { useCallback, useEffect, useState } from "react";
@@ -96,7 +96,7 @@ const useCartHandler = (session: any) => {
 
   // ✅ Aggiungi un prodotto al carrello
   const addToCart = useCallback(
-    async (product: IProduct) => {
+    async (product: ILatestProduct | IProduct) => {
       setIsUpdating(true);
       const newItem: ICartItem = {
         productId: product?.productId || product?.id,

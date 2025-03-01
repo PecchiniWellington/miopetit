@@ -23,9 +23,15 @@ const fetchLatestProducts = cache(async () => getLatestProducts({ limit: 8 }));
 export default async function Home() {
   const latestProducts = await fetchLatestProducts();
 
-  const data = latestProducts.map((product) => ({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const data = latestProducts.map((product: any) => ({
     ...product,
     image: ["/images/royal-canin-4.jpg"],
+    description: product.description ?? "",
+    stock: product.stock ?? null,
+    animalAge: product.animalAge ?? "",
+    categoryType: product.categoryType ?? "",
+    productProteinsId: product.productProteinsId ?? [],
   }));
 
   return (

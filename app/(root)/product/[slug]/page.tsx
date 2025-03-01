@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import NotFound from "@/app/not-found";
 import { AddToCart } from "@/components/shared/product/add-to-cart/add-to-cart";
 import ProductImages from "@/components/shared/product/product-image/product-images";
@@ -8,16 +9,16 @@ import { getMyCart } from "@/core/actions/cart/cart.actions";
 
 import ProductDetails from "@/components/shared/product/product-details";
 import { getProductBySlug } from "@/core/actions/products";
-import { ICartItem } from "@/core/validators";
+import { IProduct } from "@/core/validators";
 import { CheckCircle, XCircle } from "lucide-react";
 import ProductTabs from "./product-tab";
 
 const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
   const { slug } = await props.params;
-  const product = await getProductBySlug(slug);
+  const product = (await getProductBySlug(slug)) as unknown as IProduct;
   if (!product) return NotFound();
 
-  const cart = await getMyCart();
+  const cart: any = await getMyCart();
 
   const ProductPageLeftImages = () => (
     <div className="col-span-2">
@@ -38,7 +39,7 @@ const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
         {/* Disponibilità */}
         <div className="flex items-center justify-between text-lg font-semibold text-gray-800 dark:text-gray-300">
           {/*  <span>📦 Disponibilità</span> */}
-          {product.stock > 0 ? (
+          {product?.stock && product.stock > 0 ? (
             <Badge className="flex items-center gap-1 bg-green-100 px-3 py-1 text-green-700 dark:bg-green-800 dark:text-green-300">
               <CheckCircle className="size-4" /> Disponibile
             </Badge>
@@ -48,26 +49,26 @@ const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
             </Badge>
           )}
         </div>
-        {product.stock > 0 && (
+        {product?.stock && product.stock > 0 && (
           <div className="mt-4 flex justify-center">
             {/* Pulsante Aggiungi al carrello */}
             <AddToCart
               cart={{
                 ...cart,
-                items: cart?.items as ICartItem[],
-                sessionCartId: cart?.id as string,
-                itemsPrice: cart?.itemsPrice as unknown as string,
-                totalPrice: cart?.totalPrice as unknown as string,
-                shippingPrice: cart?.totalPrice as unknown as string,
-                taxPrice: cart?.taxPrice as unknown as string,
+                items: cart?.items,
+                sessionCartId: cart?.id,
+                itemsPrice: cart?.itemsPrice,
+                totalPrice: cart?.totalPrice,
+                shippingPrice: cart?.totalPrice,
+                taxPrice: cart?.taxPrice,
               }}
               item={{
-                id: product.id.toString(),
+                productId: product.id.toString(),
                 name: product.name,
                 slug: product.slug,
                 price: product.price.toString(),
                 qty: 1,
-                image: Array.isArray(product.images) ? product.images[0] : "",
+                image: Array.isArray(product.image) ? product.image[0] : "",
               }}
             />
           </div>

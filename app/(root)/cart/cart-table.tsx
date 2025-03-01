@@ -20,7 +20,7 @@ const CartTable = ({
   cancelProduct,
   handleRemoveFromCart,
 }: {
-  cart: any;
+  cart: ICartItem[];
   isPending: boolean;
   handleAddToCart: (item: ICartItem) => void;
   cancelProduct: (item: ICartItem) => void;
@@ -38,7 +38,7 @@ const CartTable = ({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {cart?.map((item: any, index: number) => (
+        {cart?.map((item: ICartItem, index: number) => (
           <TableRow key={index}>
             <TableCell>
               <Link

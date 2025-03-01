@@ -11,7 +11,7 @@ import {
   Smartphone,
   Trash2,
 } from "lucide-react";
-import { useState } from "react";
+import { JSX, useState } from "react";
 
 interface Notification {
   id: string;

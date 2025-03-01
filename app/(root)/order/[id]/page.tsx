@@ -39,9 +39,29 @@ const OrderDetailsPage = async (props: { params: Promise<{ id: string }> }) => {
         order={{
           ...order,
           shippingAddress: order.shippingAddress as IShippingAddress,
-          orderitems: order.orderitems.map((item) => ({
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          orderitems: order.orderitems.map((item: any) => ({
             ...item,
             name: item.name || "",
+            user: item.user || {
+              id: "",
+              role: "",
+              name: "",
+              createdAt: new Date(),
+              updatedAt: new Date(),
+              status: "",
+              email: "",
+              defaultAddress: {
+                fullName: "",
+                street: "",
+                city: "",
+                state: "",
+                postalCode: "",
+                country: "",
+                isDefault: false,
+              },
+              sessions: [],
+            },
           })),
         }}
         stripeClientSecret={client_secret}

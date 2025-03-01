@@ -14,8 +14,12 @@ const SendRequest = ({
   setErrorMessage: (message: string) => void;
   setSuccessMessage: (message: string) => void;
 }) => {
-  const handleAction = async (e) => {
-    e.preventDefault();
+  const handleAction = async (
+    e: React.MouseEvent<HTMLButtonElement> | unknown
+  ) => {
+    if (e && e instanceof MouseEvent) {
+      e.preventDefault();
+    }
     setIsLoading(true);
     setErrorMessage("");
     setSuccessMessage("");
@@ -37,7 +41,7 @@ const SendRequest = ({
         setSuccessMessage("Link di reset inviato con successo!");
       }
     } catch (error) {
-      setErrorMessage("Errore durante l'invio del link di reset.");
+      setErrorMessage("Errore durante l'invio del link di reset." + error);
     } finally {
       setIsLoading(false);
     }

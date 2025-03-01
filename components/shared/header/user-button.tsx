@@ -7,6 +7,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { IUser } from "@/core/validators";
 import useLocalStorage from "@/hooks/use-local-storage";
 import ROLES from "@/lib/constants/roles";
 import { LayoutDashboard, Loader, LogOut, User, UserIcon } from "lucide-react";
@@ -14,7 +15,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 
-const UserButton = ({ userLogged }: { userLogged: any }) => {
+const UserButton = ({ userLogged }: { userLogged: IUser }) => {
   const { data: session, status } = useSession({ required: false });
   const [, setValue] = useLocalStorage("cart", []);
   const user = session?.user;
@@ -66,9 +67,9 @@ const UserButton = ({ userLogged }: { userLogged: any }) => {
       >
         <DropdownMenuLabel className="flex items-center gap-3 border-b border-gray-300 pb-3 text-sm font-semibold text-gray-700 dark:border-gray-600 dark:text-gray-300">
           <div className="flex flex-col">
-            <span className="text-lg font-bold">{user.name}</span>
+            <span className="text-lg font-bold">{user?.name}</span>
             <span className="text-sm text-gray-500 dark:text-gray-400">
-              {user.email}
+              {user?.email}
             </span>
           </div>
         </DropdownMenuLabel>
@@ -80,7 +81,7 @@ const UserButton = ({ userLogged }: { userLogged: any }) => {
           </Link>
         </DropdownMenuItem>
 
-        {user.role === ROLES.ADMIN && (
+        {user?.role === ROLES.ADMIN && (
           <DropdownMenuItem className="flex items-center gap-3 rounded-md px-4 py-3 text-gray-700 transition-all duration-300 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
             <LayoutDashboard size={18} className="text-green-500" />
             <Link href="/admin/overview" className="block w-full">

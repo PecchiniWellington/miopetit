@@ -35,7 +35,7 @@ const relatedProducts: Product[] = [
 export default function FavouritesPage() {
   // Usiamo il custom hook per IndexedDB
   /*  const { favorites, removeFavorite } = useIndexedDB(); */
-  const [storedFavorites] = useLocalStorage("favorites", []);
+  const [storedFavorites] = useLocalStorage<Product[]>("favorites", []);
 
   return (
     <div className="container mx-auto px-6 py-8">

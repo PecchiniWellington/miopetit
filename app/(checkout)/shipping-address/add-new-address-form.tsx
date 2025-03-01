@@ -46,7 +46,7 @@ const AddNewAddressForm = ({
       /*  const addressUser = addresses?.find(
         (address) => address.isDefault === true
       ); */
-      setStoredValue(values);
+      setStoredValue([values]);
 
       if (user) {
         const res = await createUserAddress({

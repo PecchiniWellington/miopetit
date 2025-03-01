@@ -3,6 +3,7 @@ import { z } from "zod";
 import { PAYMENT_METHODS } from "@/lib/constants/payment-methods";
 import { currency } from "@/lib/utils";
 import { shippingAddressSchema } from "./shipping.validator";
+import { userSchema } from "./user.validator";
 
 // Schema for insert the order
 export const insertOrderSchema = z.object({
@@ -24,6 +25,7 @@ export const insertOrderItemSchema = z.object({
   name: z.string(),
   price: currency,
   qty: z.number(),
+  user: userSchema,
 });
 
 export const orderSchema = insertOrderSchema.extend({

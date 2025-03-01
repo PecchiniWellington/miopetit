@@ -15,17 +15,19 @@ import {
   Truck,
   X,
 } from "lucide-react";
-import { startTransition, useState } from "react";
+import { ReactElement, startTransition, useState } from "react";
 import { useForm } from "react-hook-form";
 
-const faqCategories = [
+const faqCategories: { id: string; name: string; icon: ReactElement }[] = [
   { id: "orders", name: "Ordini e Spedizioni", icon: <ShoppingCart /> },
   { id: "shipping", name: "Metodi di Spedizione", icon: <Truck /> },
   { id: "payments", name: "Pagamenti e Fatturazione", icon: <Shield /> },
   { id: "products", name: "Informazioni sui Prodotti", icon: <HelpCircle /> },
 ];
 
-const faqs = {
+type FAQCategory = "orders" | "shipping" | "payments" | "products";
+
+const faqs: Record<FAQCategory, { question: string; answer: string }[]> = {
   orders: [
     {
       question: "Come posso effettuare un ordine?",
@@ -81,16 +83,16 @@ const faqs = {
     },
   ],
 };
-
 export default function FAQPage() {
-  const [openCategory, setOpenCategory] = useState("orders");
+  const [openCategory, setOpenCategory] = useState<FAQCategory>("orders");
   const [searchTerm, setSearchTerm] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [isPending, setIsPending] = useState(false);
 
   // Filtra solo le domande della categoria attiva
-  const filteredFaqs = faqs[openCategory].filter((faq) =>
-    faq.question.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredFaqs = faqs[openCategory].filter(
+    (faq: { question: string; answer: string }) =>
+      faq.question.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   // Hook per gestire il form
@@ -100,7 +102,12 @@ export default function FAQPage() {
   });
 
   // Funzione per inviare il ticket
-  const onSubmit = async (values) => {
+  const onSubmit = async (values: {
+    subject: string;
+    email: string;
+    description: string;
+    orderId?: string | undefined;
+  }) => {
     startTransition(async () => {
       setIsPending(true);
       const result = await createSupportTicket(null, values);
@@ -141,7 +148,7 @@ export default function FAQPage() {
           <button
             key={category.id}
             onClick={() => {
-              setOpenCategory(category.id);
+              setOpenCategory(category.id as FAQCategory);
               setSearchTerm(""); // Reset del filtro quando si cambia categoria
             }}
             className={`flex items-center gap-2 rounded-lg px-4 py-2 transition ${
@@ -161,23 +168,25 @@ export default function FAQPage() {
         {filteredFaqs.length === 0 ? (
           <p className="text-center text-gray-500">Nessuna domanda trovata.</p>
         ) : (
-          filteredFaqs.map((faq, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-              className="rounded-lg border border-gray-200 bg-gray-50 p-4 shadow-sm transition hover:shadow-md"
-            >
-              <details className="group">
-                <summary className="flex cursor-pointer items-center justify-between font-medium text-gray-800">
-                  {faq.question}
-                  <ChevronDown className="transition-transform group-open:rotate-180" />
-                </summary>
-                <p className="mt-2 text-gray-600">{faq.answer}</p>
-              </details>
-            </motion.div>
-          ))
+          filteredFaqs.map(
+            (faq: { question: string; answer: string }, index: number) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="rounded-lg border border-gray-200 bg-gray-50 p-4 shadow-sm transition hover:shadow-md"
+              >
+                <details className="group">
+                  <summary className="flex cursor-pointer items-center justify-between font-medium text-gray-800">
+                    {faq.question}
+                    <ChevronDown className="transition-transform group-open:rotate-180" />
+                  </summary>
+                  <p className="mt-2 text-gray-600">{faq.answer}</p>
+                </details>
+              </motion.div>
+            )
+          )
         )}
       </div>
 

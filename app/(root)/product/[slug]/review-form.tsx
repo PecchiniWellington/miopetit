@@ -29,11 +29,11 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
 const ReviewForm = ({
-  /*  userId, */
+  userId,
   productId,
   onReviewSubmitted,
 }: {
-  /*  userId: string; */
+  userId: string;
   productId: string;
   onReviewSubmitted: () => void;
 }) => {
@@ -44,6 +44,7 @@ const ReviewForm = ({
     defaultValues: REVIEW_FORM_DEFAULT_VALUES,
   });
 
+  console.log("userId", userId);
   /* Open Form Handler */
   /* const handleOpenForm = async () => {
     form.setValue("userId", userId);

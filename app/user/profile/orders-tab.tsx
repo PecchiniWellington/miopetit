@@ -1,5 +1,6 @@
 import { BadgeStatus } from "@/components/shared/badge-status";
 import { getMyOrders } from "@/core/actions/order/order.action";
+import { IOrder } from "@/core/validators";
 import { formatCurrency } from "@/lib/utils";
 import { CheckCircle, Clock, Package, Truck } from "lucide-react";
 import Image from "next/image";
@@ -8,12 +9,30 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 export const OrdersTab = () => {
-  const [myOrders, setOrders] = useState<any[]>([]);
+  const [myOrders, setOrders] = useState<IOrder[]>([]);
 
   const fetchOrders = async () => {
     try {
       const r = (await getMyOrders({ page: 1 })) || [];
-      setOrders(r.data);
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const orders = r.data.map((order: any) => ({
+        ...order,
+        user: order.user || null,
+        itemsPrice: order.itemsPrice || "0",
+        shippingPrice: order.shippingPrice || "0",
+        taxPrice: order.taxPrice || "0",
+        paymentMethod: order.paymentMethod || "",
+        shippingAddress: order.shippingAddress || {
+          fullName: "",
+          street: "",
+          city: "",
+          postalCode: "",
+          country: "",
+        },
+      }));
+      setOrders(orders);
+      setOrders(orders);
     } catch (error) {
       console.error("Error fetching orders:", error);
     }

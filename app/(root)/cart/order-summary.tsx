@@ -9,7 +9,13 @@ const OrderSummary = ({
   goToCheckout,
 }: {
   isPending: boolean;
-  resume: any;
+  resume: {
+    itemsPrice: number;
+    shippingPrice: number;
+    taxPrice: number;
+    totalPrice: number;
+    totalItems: number;
+  };
   goToCheckout: () => void;
 }) => {
   return (

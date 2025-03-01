@@ -1,11 +1,11 @@
 "use client";
 import { ICartItem } from "@/core/validators";
+import useLocalStorage from "@/hooks/use-local-storage";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import CartTable from "./cart-table";
 import EmptyCart from "./empty-cart";
 import OrderSummary from "./order-summary";
-import useLocalStorage from "@/hooks/use-local-storage";
 
 export const Cart = () => {
   const [isPending, startTransition] = useTransition();
@@ -79,7 +79,13 @@ export const Cart = () => {
           </div>
 
           <OrderSummary
-            resume={{ total: 0, subtotal: 0, shipping: 0 }}
+            resume={{
+              itemsPrice: 0,
+              shippingPrice: 0,
+              taxPrice: 0,
+              totalPrice: 0,
+              totalItems: 0,
+            }}
             isPending={isPending}
             goToCheckout={goToCheckout}
           />

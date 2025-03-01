@@ -43,7 +43,10 @@ const AdminProductUpdatePage = async (props: {
         product={product}
         productId={product.id}
         categories={Array.isArray(categories.data) ? categories.data : []}
-        brands={brands}
+        brands={brands?.map((brand) => ({
+          ...brand,
+          image: brand.image ?? "",
+        }))}
         pathologies={pathologies}
         proteins={proteins}
         unitValues={unitValues ?? []}

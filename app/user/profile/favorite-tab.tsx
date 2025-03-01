@@ -1,4 +1,5 @@
 "use client";
+import { IProduct } from "@/core/validators";
 import useLocalStorage from "@/hooks/use-local-storage";
 import { motion } from "framer-motion";
 import { ShoppingCart, Trash2 } from "lucide-react";
@@ -25,7 +26,7 @@ export const FavoritesTab = () => {
             </p>
           ) : (
             <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5">
-              {storedFavorites?.map((product) => (
+              {storedFavorites?.map((product: IProduct) => (
                 <motion.div
                   key={product.id}
                   whileHover={{ scale: 1.05 }}
@@ -64,12 +65,14 @@ export const FavoritesTab = () => {
                     {product.name ?? "Nome non disponibile"}
                   </h3>
                   <p className="text-xs text-gray-500">
-                    {product.brand ?? "Marca sconosciuta"}
+                    {typeof product.productBrand === "string"
+                      ? product.productBrand
+                      : "Marca sconosciuta"}
                   </p>
 
                   {/* Controllo su price */}
                   <span className="text-lg font-bold text-red-600">
-                    €{(product.price ?? 0).toFixed(2)}
+                    €{(parseFloat(product.price) ?? 0).toFixed(2)}
                   </span>
 
                   {/* Bottone carrello */}

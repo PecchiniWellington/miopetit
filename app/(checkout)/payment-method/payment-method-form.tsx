@@ -102,7 +102,7 @@ const PaymentMethodForm = ({
       } else {
         setIsPending(false);
       }
-      setValue(value);
+      setValue(value.type);
       setIsPending(false);
       router.push("/place-order");
     } catch (error) {

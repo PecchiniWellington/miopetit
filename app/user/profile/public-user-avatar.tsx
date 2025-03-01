@@ -7,12 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Camera, XCircle } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import {
-  Control,
-  Controller,
-  FieldValues,
-  useFormContext,
-} from "react-hook-form";
+import { Control, Controller, useFormContext } from "react-hook-form";
 
 export default function PublicUserAvatar({
   name,
@@ -20,10 +15,17 @@ export default function PublicUserAvatar({
   user,
   /* update, */
 }: {
-  name: string;
-  control: Control<FieldValues>;
+  name: "name" | "email" | "image";
+  control: Control<
+    {
+      name: string;
+      email: string;
+      image?: string | undefined;
+    },
+    unknown
+  >;
   user: IUser;
-  update: () => void;
+  /* update: () => void; */
 }) {
   const { setValue, watch } = useFormContext();
   const inputFileRef = useRef<HTMLInputElement>(null);
@@ -63,10 +65,6 @@ export default function PublicUserAvatar({
       const { url } = await response.json();
       setValue(name, url);
 
-      if (!res.success) {
-        throw new Error(res.message);
-      }
-
       /*  await update({
         ...user,
         user: {
@@ -81,7 +79,7 @@ export default function PublicUserAvatar({
     } catch (error) {
       toast({
         variant: "destructive",
-        description: "Errore durante l'upload dell'immagine!",
+        description: "Errore durante l'upload dell'immagine!" + error,
       });
     }
   };
