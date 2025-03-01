@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { addressSchema } from "./user-address.validator";
 
 // Schema for updating user profile
 export const updateUserProfileSchema = z.object({
@@ -22,7 +21,20 @@ export const userSchema = z.object({
   image: z.string().nullable().optional(),
   password: z.string().nullable().optional(),
   role: z.string(),
-  defaultAddress: addressSchema,
+  defaultAddress: z
+    .object({
+      id: z.string().optional(),
+      street: z.string().min(3, "La via deve avere almeno 3 caratteri"),
+      city: z.string().min(2, "La città deve avere almeno 2 caratteri"),
+      isDefault: z.boolean().optional(),
+      fullName: z.string().min(3, "Il nome deve avere almeno 3 caratteri"),
+      postalCode: z
+        .string()
+        .min(5, "Il codice postale deve avere almeno 5 caratteri"),
+      country: z.string().min(2, "Il paese deve avere almeno 2 caratteri"),
+      userId: z.string().optional(),
+    })
+    .optional(),
   address: z.unknown().nullable().optional(), // TODO: Change to IAddress schema
   paymentMethod: z.string().nullable().optional(),
   status: z.string(),

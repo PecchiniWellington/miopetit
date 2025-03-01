@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { prisma } from "@/core/prisma/prisma";
 import { IFormattedProduct } from "@/core/validators/product.validator";
 import { convertToPlainObject } from "@/lib/utils";
@@ -5,7 +6,7 @@ import { convertToPlainObject } from "@/lib/utils";
 export async function getProductById(
   id: string
 ): Promise<IFormattedProduct | null> {
-  const product = await prisma.product.findFirst({
+  const product: any = await prisma.product.findFirst({
     where: { id },
     include: {
       orderitems: true,
@@ -35,12 +36,16 @@ export async function getProductById(
 
   return convertToPlainObject({
     ...product,
-    totalSales: product.orderitems.reduce((acc, item) => acc + item.qty, 0),
-    totalRevenue: product.orderitems.reduce(
-      (acc, item) => acc + item.qty * Number(item.price),
+
+    totalSales: product.orderitems.reduce(
+      (acc: any, item: any) => acc + item.qty,
       0
     ),
-    productCategory: product.productCategory.map((f) => ({
+    totalRevenue: product.orderitems.reduce(
+      (acc: any, item: any) => acc + item.qty * Number(item.price),
+      0
+    ),
+    productCategory: product.productCategory.map((f: any) => ({
       category: {
         id: f.category.id,
         name: f.category.name,
@@ -56,15 +61,15 @@ export async function getProductById(
           name: product.productBrand.name,
         }
       : undefined,
-    productPathologies: product.productPathologyOnProduct.map((p) => ({
+    productPathologies: product.productPathologyOnProduct.map((p: any) => ({
       id: p.pathology.id,
       name: p.pathology.name,
     })),
-    productFeatures: product.productsFeatureOnProduct.map((f) => ({
+    productFeatures: product.productsFeatureOnProduct.map((f: any) => ({
       id: f.productFeature.id,
       name: f.productFeature.name,
     })),
-    productProteins: product.productProteinOnProduct.map((p) => ({
+    productProteins: product.productProteinOnProduct.map((p: any) => ({
       id: p.productProtein.id,
       name: p.productProtein.name,
     })),
@@ -85,5 +90,6 @@ export async function getProductById(
           },
         }
       : undefined,
+    images: product.images, // Add this line to include the images property
   });
 }

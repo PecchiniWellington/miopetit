@@ -2,13 +2,7 @@
 
 import { auth } from "@/auth";
 import { prisma } from "@/core/prisma/prisma";
-import {
-  cartItemSchema,
-  ICart,
-  ICartItem,
-  IInsertProduct,
-  insertCartSchema,
-} from "@/core/validators";
+import { cartItemSchema, ICartItem, insertCartSchema } from "@/core/validators";
 import { convertToPlainObject, formatError, round2 } from "@/lib/utils";
 import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
@@ -62,13 +56,12 @@ export const getSessionCartId = async () => {
 };
  */
 // Add item to cart
-const createNewCart = async (
+/* const createNewCart = async (
   userId: string | undefined,
   item: ICartItem,
   sessionCartId: string,
   product: IInsertProduct
 ) => {
-  // Create new cart obj
   const newCart = insertCartSchema.parse({
     userId: userId,
     items: [item],
@@ -76,19 +69,17 @@ const createNewCart = async (
     ...calcPrice([item]),
   });
 
-  // Add new cart to database
   await prisma.cart.create({ data: newCart });
 
-  // revalidate product page from cache to update cart count
   revalidatePath(`/product/${product.slug}`);
 
   return {
     success: true,
     message: `${product.name} added to cart successfully`,
   };
-};
+}; */
 
-const updateExistingCart = async (
+/* const updateExistingCart = async (
   cart: ICart & { id: string },
   item: ICartItem,
   product: IInsertProduct
@@ -126,7 +117,7 @@ const updateExistingCart = async (
       existingItem ? "updated in " : "added to"
     } cart`,
   };
-};
+}; */
 
 /* EXPORTS ACTION CART */
 export async function addItemToCart(data: ICartItem) {
@@ -158,7 +149,7 @@ export async function addItemToCart(data: ICartItem) {
     if (!product) throw new Error("Product not found");
 
     // ✅ Se il carrello non esiste, creane uno nuovo
-    if (!cart) {
+    if (!cart || !("items" in cart)) {
       console.log(
         "🆕 [Carrello] - Nessun carrello trovato, creazione di uno nuovo"
       );
@@ -288,7 +279,7 @@ export async function removeItemFromCart(productId: string) {
 
     // Get user cart from database
     const cart = await getMyCart();
-    if (!cart) throw new Error("Cart not found");
+    if (!cart || "success" in cart) throw new Error("Cart not found");
 
     // Check for item in cart
     const exist = (cart.items as ICartItem[]).find(
@@ -330,6 +321,8 @@ export async function cancelItemFromCart(productId: string) {
   try {
     const cart = await getMyCart();
     if (!cart) throw new Error("Carrello non trovato");
+
+    if (!("items" in cart)) throw new Error("Invalid cart format");
 
     const exist = cart.items.find((i) => i.productId === productId);
     if (!exist) throw new Error("Prodotto non presente nel carrello");

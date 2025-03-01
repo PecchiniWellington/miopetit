@@ -112,7 +112,7 @@ const BestSellingProduct = ({
               <CustomProduct
                 {...latestProducts}
                 reviews={latestProducts.numReviews}
-                availability={latestProducts.availability}
+                availability={latestProducts.stock ? true : false}
                 product={latestProducts}
                 image={latestProducts.image[0]}
                 price={Number(latestProducts.price)}

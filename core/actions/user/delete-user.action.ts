@@ -45,7 +45,7 @@ export async function deleteUserAccount() {
     return {
       success: false,
       message: "Errore nell'eliminazione dell'account.",
-      error: error.message,
+      error: (error as Error).message,
     };
   }
 }

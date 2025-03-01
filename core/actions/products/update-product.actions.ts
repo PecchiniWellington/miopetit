@@ -6,7 +6,7 @@ import { z } from "zod";
 
 export async function updateProduct(data: z.infer<typeof updateProductSchema>) {
   try {
-    const product = updateProductSchema.parse(data) as {
+    const product = updateProductSchema.parse(data) as unknown as {
       id: string;
       name: string;
       slug: string;

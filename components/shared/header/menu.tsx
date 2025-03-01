@@ -3,6 +3,7 @@ import SidebarMenu from "@/components/custom-sidebar";
 import menuCat from "@/core/db-static/mega-menu/menu-cats.json";
 import menuDog from "@/core/db-static/mega-menu/menu-dogs.json";
 import menuSmallAnimals from "@/core/db-static/mega-menu/menu-small-animals.json";
+import { IUser } from "@/core/validators";
 import { MenuIcon } from "lucide-react";
 import { useState } from "react";
 const categoriesData = [
@@ -11,7 +12,13 @@ const categoriesData = [
   ...(Array.isArray(menuSmallAnimals) ? menuSmallAnimals : [menuSmallAnimals]),
 ];
 
-export default function HomePage({ className }: { className: string }) {
+export default function Menu({
+  className,
+  user,
+}: {
+  className: string;
+  user: IUser | null;
+}) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
@@ -25,6 +32,7 @@ export default function HomePage({ className }: { className: string }) {
 
       {isSidebarOpen && (
         <SidebarMenu
+          user={user}
           categories={categoriesData}
           onClose={() => setIsSidebarOpen(false)}
         />

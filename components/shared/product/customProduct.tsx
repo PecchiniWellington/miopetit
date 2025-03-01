@@ -1,7 +1,7 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
-import { ILatestProduct } from "@/core/validators";
+import { ILatestProduct, IProduct } from "@/core/validators";
 import useCartHandler from "@/hooks/use-cart-handler";
 import useLocalStorage from "@/hooks/use-local-storage";
 import { motion } from "framer-motion";
@@ -22,7 +22,7 @@ interface ProductProps {
   reviews: number;
   availability: boolean;
   pricePerKg?: string;
-  product: ILatestProduct;
+  product: ILatestProduct | IProduct;
   slug: string;
   /* addToCart: (product: IProduct) => void;
   getProductQuantity: (id: string) => number; */
@@ -45,7 +45,9 @@ export default function CustomProduct({
   getProductQuantity, */
 }: ProductProps) {
   const [isWishlisted, setWishlisted] = useState(false);
-  const [favorites, setFavorites] = useLocalStorage("favorites", []);
+  const [favorites, setFavorites] = useLocalStorage<
+    IProduct[] | ILatestProduct[]
+  >("favorites", []);
 
   const { addToCart } = useCartHandler("session");
 
@@ -59,14 +61,21 @@ export default function CustomProduct({
     const product = { id, image, name, brand, price, oldPrice, slug };
 
     if (isWishlisted) {
-      setFavorites(favorites.filter((fav) => fav.id !== id));
+      setFavorites(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (favorites as any).filter(
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (fav: any): fav is IProduct | ILatestProduct => fav.id !== id
+        )
+      );
     } else {
-      setFavorites([...favorites, product]);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      setFavorites([...favorites, product] as any);
     }
     setWishlisted(!isWishlisted);
   };
 
-  const handlerAddToCart = (product: ILatestProduct) => {
+  const handlerAddToCart = (product: ILatestProduct | IProduct) => {
     addToCart(product);
   };
 

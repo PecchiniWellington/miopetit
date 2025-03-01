@@ -25,13 +25,14 @@ export async function createOrder() {
     if (!session) throw new Error("User not authenticated");
 
     const cart = await getMyCart();
+
     const userId = session?.user?.id;
 
     if (!userId) throw new Error("User not found");
 
     const user = await getUserById(userId);
 
-    if (!cart || cart.items.length === 0) {
+    if (!cart || !("items" in cart) || cart.items.length === 0) {
       return { success: false, message: "Cart is empty", redirectTo: "/cart" };
     }
     if (!user || !user.defaultAddress) {
@@ -177,7 +178,8 @@ export async function updateOrderToPaid({
   sendPurchaseReceipt({
     order: {
       ...updatedOrder,
-      orderitems: updatedOrder.orderitems as ICartItem[],
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      orderitems: updatedOrder.orderitems as any[],
       shippingAddress: updatedOrder.shippingAddress as IShippingAddress,
       paymentResult: updatedOrder.paymentResult as IPaymentResult,
     },

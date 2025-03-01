@@ -9,6 +9,7 @@ import useLocalStorage from "@/hooks/use-local-storage";
 import { calcPrice } from "@/lib/utils";
 import { useCallback, useEffect, useState } from "react";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const useCartHandler = (session: any) => {
   const userId = session?.data?.user?.id;
 
@@ -29,7 +30,10 @@ const useCartHandler = (session: any) => {
     if (!userId) return [];
     try {
       const backendCart = await getMyCart();
-      return backendCart?.items || [];
+      if (backendCart && "items" in backendCart) {
+        return backendCart.items;
+      }
+      return [];
     } catch (error) {
       console.error("❌ Errore nel recupero del carrello:", error);
       return [];
@@ -68,7 +72,9 @@ const useCartHandler = (session: any) => {
 
       // 🔥 Se ci sono modifiche, aggiorna il backend
       if (JSON.stringify(backendCart) !== JSON.stringify(mergedCart)) {
-        await addItemToCart(mergedCart);
+        for (const item of mergedCart) {
+          await addItemToCart(item);
+        }
         setValue([]); // 🔥 Pulisce il localStorage dopo il merge
       }
 
@@ -99,7 +105,7 @@ const useCartHandler = (session: any) => {
     async (product: ILatestProduct | IProduct) => {
       setIsUpdating(true);
       const newItem: ICartItem = {
-        productId: product?.productId || product?.id,
+        productId: product?.id,
         name: product?.name,
         price: product?.price.toString(),
         qty: 1,

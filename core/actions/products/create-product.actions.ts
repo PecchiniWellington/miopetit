@@ -62,7 +62,7 @@ export async function createProduct(data: unknown) {
         price: rest.price,
         name: rest.name,
         slug: rest.slug,
-        images: rest.images,
+        images: rest.image,
         description: rest.description,
         stock: rest.stock ?? undefined,
         isFeatured: rest.isFeatured,
@@ -71,6 +71,7 @@ export async function createProduct(data: unknown) {
         productPathologyId: rest.productPathologyId,
         productBrandId: rest.productBrandId,
         productUnitFormatId: productUnitFormatId,
+        categoryType: rest.categoryType,
       },
     });
 

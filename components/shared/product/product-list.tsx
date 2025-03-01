@@ -24,11 +24,12 @@ const ProductList = ({ data, limit }: IProductListProps) => {
                 productBrand={product?.productBrand?.name}
                 rating={Number(product.rating)}
                 reviews={product.numReviews}
-                availability="Disponibile in 2 varianti (FAKE)"
+                availability={product.stock ? true : false}
                 price={Number(product.price)}
                 oldPrice={54.99}
                 pricePerKg="€4,16/KG (FAKE)"
                 product={product}
+                slug={product.slug}
                 /*  getProductQuantity={getProductQuantity}
                 addToCart={addToCart} */
               />

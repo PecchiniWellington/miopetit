@@ -1,5 +1,4 @@
 "use client";
-import product from "@/core/db-static/product";
 import { IProduct } from "@/core/validators";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -72,14 +71,15 @@ const SpecialOfferBrand = ({ data, title }: IProductListProps) => {
               id={memoizedData.id}
               image={memoizedData.image[0]}
               name={memoizedData.name}
-              productBrand={product?.productBrand?.name}
+              productBrand={memoizedData?.productBrand?.name}
               rating={Number(memoizedData.rating)}
               reviews={memoizedData.numReviews}
-              availability="Disponibile in 2 varianti (FAKE)"
+              availability={memoizedData.stock ? true : false}
               price={Number(memoizedData.price)}
               oldPrice={54.99}
               pricePerKg="€4,16/KG (FAKE)"
               product={memoizedData}
+              slug={memoizedData.slug}
               /* getProductQuantity={getProductQuantity}
               addToCart={addToCart} */
             />

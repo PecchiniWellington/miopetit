@@ -15,7 +15,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 
-const UserButton = ({ userLogged }: { userLogged: IUser }) => {
+const UserButton = ({ userLogged }: { userLogged: IUser | null }) => {
   const { data: session, status } = useSession({ required: false });
   const [, setValue] = useLocalStorage("cart", []);
   const user = session?.user;

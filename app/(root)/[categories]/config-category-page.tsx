@@ -6,7 +6,7 @@ import Filter from "@/components/category/filter";
 import SortProduct from "@/components/category/sort-product";
 import CustomProduct from "@/components/shared/product/customProduct";
 import { FilterProvider } from "@/context/filter-context";
-import { IProduct } from "@/core/validators";
+import { ILatestProduct, IProduct } from "@/core/validators";
 
 const ConfigCategoryPage = ({
   indispensable,
@@ -52,7 +52,7 @@ const ConfigCategoryPage = ({
     ) : (
       <>
         {/* product.data?? */}
-        {products.map((product: IProduct) => (
+        {products.map((product: IProduct | ILatestProduct) => (
           <CustomProduct
             slug={product.slug}
             key={product.id}
@@ -60,9 +60,7 @@ const ConfigCategoryPage = ({
             brand={product.productBrand?.name}
             image={product.image ? product.image[0] : ""}
             reviews={product.numReviews}
-            availability={
-              product.stock && product.stock > 0 ? "In Stock" : "Out of Stock"
-            }
+            availability={(product.stock ?? 0) > 0 ? true : false}
             name={product.name}
             rating={product.rating as number}
             price={Number(product.price)}

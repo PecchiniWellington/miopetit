@@ -17,6 +17,7 @@ interface SearchContextType {
     id: string;
     name: string;
     slug: string;
+    image: string;
   }[];
   setSearchResults: (
     results: {
@@ -32,6 +33,7 @@ interface SearchContextType {
       id: string;
       name: string;
       slug: string;
+      image: string;
     }[]
   ) => void;
   isDropdownVisible: boolean;
@@ -39,7 +41,7 @@ interface SearchContextType {
   fetchSearchResults: (query: string) => void;
   fetchSearchCategories: () => void;
 
-  searchCategories: string[];
+  searchCategories: { slug: string; id: string }[];
 
   searchRef: React.RefObject<HTMLDivElement | null>;
   isLoading: boolean;
@@ -53,14 +55,32 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
     { id: string; slug: string; name: string; price: string; image: string }[]
   >([]);
   const [searchBrands, setSearchBrands] = useState<
-    { id: string; name: string; slug: string }[]
+    { id: string; name: string; slug: string; image: string }[]
   >([]);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [searchCategories, setSearchCategories] = useState<string[]>([]);
+  const [searchCategories, setSearchCategories] = useState<
+    { slug: string; id: string }[]
+  >([]);
 
-  const cache = useRef<{ [key: string]: unknown }>({});
+  const cache = useRef<{
+    [key: string]: {
+      products: {
+        id: string;
+        slug: string;
+        name: string;
+        price: string;
+        image: string;
+      }[];
+      brands: {
+        id: string;
+        name: string;
+        slug: string;
+        image: string;
+      }[];
+    };
+  }>({});
 
   /**
    * ✅ Recupera prodotti e brand, controllando prima la cache
@@ -91,7 +111,15 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
       }
 
       if (cache.current[query]) {
-        setSearchResults(cache.current[query].products);
+        setSearchResults(
+          cache.current[query].products as {
+            id: string;
+            slug: string;
+            name: string;
+            price: string;
+            image: string;
+          }[]
+        );
         setSearchBrands(cache.current[query].brands);
         setIsDropdownVisible(true);
         return;

@@ -7,10 +7,8 @@ import {
 import {
   ICart,
   ICartItem,
-  ICartUpdate,
   cartItemSchema,
   insertCartSchema,
-  updateCartSchema,
 } from "./cart.validator";
 import {
   ICategory,
@@ -71,7 +69,6 @@ import {
 export type {
   ICart,
   ICartItem,
-  ICartUpdate,
   ICategory,
   ICategoryInsert,
   ICategoryUpdate,
@@ -117,7 +114,6 @@ export {
   shippingAddressSchema,
   signInFormSchema,
   signUpFormSchema,
-  updateCartSchema,
   updateCategorySchema,
   updateProductSchema,
   updateReviewSchema,

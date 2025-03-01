@@ -52,7 +52,7 @@ export const formatError = (error: any) => {
   if (error.name === "ZodError") {
     console.log("⚠️ [Zod Validation Error] - Dettagli:", error.errors);
 
-    const fieldErrors = error.errors.map((err) => {
+    const fieldErrors = error.errors.map((err: z.ZodIssue) => {
       const fieldPath = err.path.join("."); // Se il path è annidato, lo rende più leggibile
 
       let message = `🔍 Campo: "${fieldPath}"\n`;
@@ -61,7 +61,7 @@ export const formatError = (error: any) => {
         message += `   ❌ Tipo errato\n`;
         message += `   ➡️  Atteso: "${err.expected}"\n`;
         message += `   ❌ Ricevuto: "${err.received}"\n`;
-      } else if (err.code === "required") {
+      } else if (err.code === "invalid_literal") {
         message += `   🚨 Campo obbligatorio mancante\n`;
       } else {
         message += `   📌 Dettaglio: ${err.message}\n`;
@@ -244,9 +244,13 @@ export const generatePriceRanges = (
   return ranges;
 };
 
-export function debounce(func: (...args: unknown[]) => void, wait: number) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function debounce<T extends (...args: any[]) => void>(
+  func: T,
+  wait: number
+) {
   let timeout: NodeJS.Timeout;
-  return function executedFunction(...args: unknown[]) {
+  return function executedFunction(...args: Parameters<T>) {
     const later = () => {
       clearTimeout(timeout);
       func(...args);

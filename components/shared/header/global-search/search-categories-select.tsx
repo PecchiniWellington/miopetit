@@ -7,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ICategory } from "@/core/validators";
 import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useSearch } from "./global-search-context";
@@ -37,7 +38,7 @@ const SearchCategorySelect = () => {
             <Loader className="size-6 animate-spin text-indigo-600" />
           </div>
         ) : (
-          searchCategories.map((x) => (
+          (searchCategories as ICategory[]).map((x: ICategory) => (
             <SelectItem
               value={x.slug}
               key={x.id}
