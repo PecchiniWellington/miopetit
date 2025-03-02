@@ -4,7 +4,7 @@ import {
   getMyCart,
   removeItemFromCart,
 } from "@/core/actions/cart/cart.actions";
-import { ICartItem, ILatestProduct, IProduct } from "@/core/validators";
+import { ICartItem } from "@/core/validators";
 import useLocalStorage from "@/hooks/use-local-storage";
 import { calcPrice } from "@/lib/utils";
 import { useCallback, useEffect, useState } from "react";
@@ -44,8 +44,8 @@ const useCartHandler = (session: any) => {
     if (!userId) return;
 
     try {
-      const backendCart = await fetchCart(); // Ottieni il carrello dal backend
-      const localCart = storedValue; // Ottieni i prodotti dal localStorage
+      const backendCart = await fetchCart();
+      const localCart = storedValue;
 
       if (!localCart.length) {
         setCartItems(backendCart);
@@ -57,25 +57,23 @@ const useCartHandler = (session: any) => {
       const mergedCart: ICartItem[] = [...backendCart];
 
       localCart.forEach((localItem) => {
+        console.log({ localItem, mergedCart });
         const existingItemIndex = mergedCart.findIndex(
           (item) => item.productId === localItem.productId
         );
 
         if (existingItemIndex !== -1) {
-          // 🔥 Se il prodotto esiste già, aumenta la quantità
           mergedCart[existingItemIndex].qty += localItem.qty;
         } else {
-          // 🔥 Se il prodotto non esiste, lo aggiunge al backend
           mergedCart.push(localItem);
         }
       });
 
-      // 🔥 Se ci sono modifiche, aggiorna il backend
       if (JSON.stringify(backendCart) !== JSON.stringify(mergedCart)) {
         for (const item of mergedCart) {
           await addItemToCart(item);
         }
-        setValue([]); // 🔥 Pulisce il localStorage dopo il merge
+        setValue([]);
       }
 
       setCartItems(mergedCart);
@@ -96,19 +94,21 @@ const useCartHandler = (session: any) => {
       setCartCount(storedValue.length);
       return;
     } else {
+      console.log("🛒 Carrello sincronizzato:", cartItems);
       syncCartWithBackend();
     }
   }, [fetchCart, userId, storedValue, isMounted]);
 
   // ✅ Aggiungi un prodotto al carrello
   const addToCart = useCallback(
-    async (product: ILatestProduct | IProduct) => {
+    async (product: ICartItem) => {
       setIsUpdating(true);
       const newItem: ICartItem = {
-        productId: product?.id,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        productId: product.productId || (product as any).id,
         name: product?.name,
         price: product?.price.toString(),
-        qty: 1,
+        qty: product.qty || 1,
         image: Array.isArray(product?.image)
           ? product?.image[0]
           : product?.image,

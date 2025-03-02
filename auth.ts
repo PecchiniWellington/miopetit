@@ -92,8 +92,8 @@ export const config = {
           });
         }
 
-        /* if (trigger === "signIn" || trigger === "signUp") {
-          const cookiesObject = await cookies();
+        if (trigger === "signIn" || trigger === "signUp") {
+          /*  const cookiesObject = await cookies();
           const sessionCartId = cookiesObject.get("sessionCartId")?.value;
           if (sessionCartId) {
             const sessionCart = await prisma.cart.findFirst({
@@ -110,8 +110,8 @@ export const config = {
                 data: { userId: user.id },
               });
             }
-          }
-        } */
+          } */
+        }
       }
 
       // Handle session updates

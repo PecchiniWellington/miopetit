@@ -26,7 +26,6 @@ const CartTable = ({
   cancelProduct: (item: ICartItem) => void;
   handleRemoveFromCart: (item: ICartItem) => void;
 }) => {
-  console.log("cart", cart);
   return (
     <Table>
       <TableHeader>

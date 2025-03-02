@@ -136,10 +136,11 @@ export async function addItemToCart(data: ICartItem) {
     const item = cartItemSchema.parse({
       ...data,
       image: Array.isArray(data.image) ? data.image[0] : data.image,
+      price: data?.price,
     });
     console.log("🔍 [addItemToCart] - Item:", item);
-    const products = await prisma.product.findMany();
-    console.log("🔍 [ALLPRODUCTS] - All products:", products);
+    /* const products =  */ await prisma.product.findMany();
+    /*  console.log("🔍 [ALLPRODUCTS] - All products:", products); */
 
     const product = await prisma.product.findFirst({
       where: { id: item.productId }, // Usa `productId` invece di `id`
@@ -151,7 +152,8 @@ export async function addItemToCart(data: ICartItem) {
     // ✅ Se il carrello non esiste, creane uno nuovo
     if (!cart || !("items" in cart)) {
       console.log(
-        "🆕 [Carrello] - Nessun carrello trovato, creazione di uno nuovo"
+        "🆕 [Carrello] - Nessun carrello trovato, creazione di uno nuovo",
+        { cart, item }
       );
 
       const newCart = insertCartSchema.parse({
@@ -239,7 +241,7 @@ export async function addItemToCart(data: ICartItem) {
   }
 }
 
-export const getMyCart = async () => {
+/* export const getMyCart = async () => {
   const sessionCartId = (await cookies()).get("sessionCartId")?.value;
   if (!sessionCartId) throw new Error("Cart session not found");
   const session = await auth();
@@ -265,6 +267,34 @@ export const getMyCart = async () => {
       return null;
     }
   } catch (error) {
+    return { success: false, message: formatError(error) };
+  }
+}; */
+
+export const getMyCart = async () => {
+  const sessionCartId = (await cookies()).get("sessionCartId")?.value;
+  const session = await auth();
+  const userId = session?.user?.id ? (session.user.id as string) : undefined;
+
+  if (!sessionCartId && !userId) throw new Error("Cart session not found");
+
+  try {
+    const cart = await prisma.cart.findFirst({
+      where: userId ? { userId } : { sessionCartId },
+    });
+
+    if (!cart) return null;
+
+    return convertToPlainObject({
+      ...cart,
+      items: cart.items as ICartItem[],
+      itemsPrice: Number(cart.itemsPrice),
+      totalPrice: Number(cart.totalPrice),
+      shippingPrice: Number(cart.shippingPrice),
+      taxPrice: Number(cart.taxPrice),
+    });
+  } catch (error) {
+    console.error("❌ Errore in getMyCart:", error);
     return { success: false, message: formatError(error) };
   }
 };

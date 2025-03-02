@@ -1,15 +1,14 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { signOutUser } from "@/core/actions/auth/auth.actions";
-import useLocalStorage from "@/hooks/use-local-storage";
 
 const SignOutBtn = () => {
-  const [, setValue] = useLocalStorage("cart", []);
+  /*  const [, setValue] = useLocalStorage("cart", []); */
   return (
     <form
       onSubmit={async (event) => {
         event.preventDefault();
-        setValue([]);
+        /*  setValue([]); */
         await signOutUser();
       }}
     >

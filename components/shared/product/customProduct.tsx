@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { Card } from "@/components/ui/card";
-import { ILatestProduct, IProduct } from "@/core/validators";
+import { ICartItem, ILatestProduct, IProduct } from "@/core/validators";
 import useCartHandler from "@/hooks/use-cart-handler";
 import useLocalStorage from "@/hooks/use-local-storage";
 import { motion } from "framer-motion";
@@ -22,10 +23,8 @@ interface ProductProps {
   reviews: number;
   availability: boolean;
   pricePerKg?: string;
-  product: ILatestProduct | IProduct;
+  product: ICartItem;
   slug: string;
-  /* addToCart: (product: IProduct) => void;
-  getProductQuantity: (id: string) => number; */
 }
 
 export default function CustomProduct({
@@ -49,7 +48,21 @@ export default function CustomProduct({
     IProduct[] | ILatestProduct[]
   >("favorites", []);
 
-  const { addToCart } = useCartHandler("session");
+  const { addToCart, getProductQuantity } = useCartHandler("session");
+
+  /*  async function mergeCartOnLogin(userId: string) {
+    const localCart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+    if (localCart.length > 0) {
+      await fetch("/api/cart/merge", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId, localCart }),
+      });
+
+      localStorage.removeItem("cart"); // Cancella il carrello locale dopo il merge
+    }
+  } */
 
   useEffect(() => {
     if (Array.isArray(favorites)) {
@@ -62,20 +75,17 @@ export default function CustomProduct({
 
     if (isWishlisted) {
       setFavorites(
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (favorites as any).filter(
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (fav: any): fav is IProduct | ILatestProduct => fav.id !== id
         )
       );
     } else {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       setFavorites([...favorites, product] as any);
     }
     setWishlisted(!isWishlisted);
   };
 
-  const handlerAddToCart = (product: ILatestProduct | IProduct) => {
+  const handlerAddToCart = (product: ICartItem) => {
     addToCart(product);
   };
 
@@ -160,16 +170,11 @@ export default function CustomProduct({
       >
         <ShoppingCart className="size-6 text-white" />
 
-        {1 > 0 && (
+        {getProductQuantity((product as any)?.id) > 0 && (
           <span className="absolute -right-1 -top-1 flex size-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
-            1
+            {getProductQuantity((product as any)?.id)}
           </span>
         )}
-        {/* {getProductQuantity(product?.id) > 0 && (
-          <span className="absolute -right-1 -top-1 flex size-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
-            {getProductQuantity(product?.id)}
-          </span>
-        )} */}
       </motion.button>
     </Card>
   );

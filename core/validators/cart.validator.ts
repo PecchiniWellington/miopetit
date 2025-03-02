@@ -19,5 +19,6 @@ export const insertCartSchema = z.object({
   sessionCartId: z.string().min(1, "Session cart id is required"),
   userId: z.string().optional().nullable(),
 });
+
 export type ICartItem = z.infer<typeof cartItemSchema>;
 export type ICart = z.infer<typeof insertCartSchema>;

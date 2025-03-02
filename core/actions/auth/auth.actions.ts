@@ -18,9 +18,13 @@ export const signInWithCredentials = async (
       password: formData.get("password") as string,
     });
 
-    await signIn("credentials", user);
+    const auth = await signIn("credentials", user);
 
-    return { success: true, message: "User signed in successfully" };
+    return {
+      success: true,
+      message: "User signed in successfully",
+      data: auth,
+    };
   } catch (error) {
     if (isRedirectError(error)) {
       throw error;
