@@ -1,27 +1,23 @@
+import { auth } from "@/auth";
 import AnimalCategory from "@/components/animals-catergory";
 import BestSellingProduct from "@/components/best-selling-products";
 import Gifts from "@/components/gifts";
 import IconBoxes from "@/components/icons-boxes";
 import PresentationDeals from "@/components/presentation-deals";
 import SpecialOfferBrand from "@/components/special-offer-brand";
+import { getMyCart } from "@/core/actions/cart/cart.actions";
 import { getLatestProducts } from "@/core/actions/products";
 import Image from "next/image";
 import { cache } from "react";
 
-// ✅ Memorizziamo i dati in cache per ridurre i rerender
 const fetchLatestProducts = cache(async () => getLatestProducts({ limit: 8 }));
-/* const fetchFeaturedProducts = cache(async () => {
-  const products = await getFeaturedProducts();
-  return products.map((product) => ({
-    ...product,
-    isFeatured: product.isFeatured ?? false,
-    rating: product.rating ?? 0,
-    image: [product.images[0] ?? "/images/default-image.jpg"],
-  }));
-}); */
 
 export default async function Home() {
   const latestProducts = await fetchLatestProducts();
+  const myCart = await getMyCart();
+  const userLogged = await auth();
+  const userId = userLogged?.user?.id;
+  console.log("🔍 [DEBUG] - userId:", userId);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const data = latestProducts.map((product: any) => ({
@@ -65,12 +61,27 @@ export default async function Home() {
       </div>
 
       <div className="mt-12">
-        <SpecialOfferBrand data={data} title="Offerta Royal Canin" />
+        <SpecialOfferBrand
+          data={data}
+          userId={userId}
+          myCart={myCart}
+          title="Offerta Royal Canin"
+        />
       </div>
 
       <Gifts />
-      <BestSellingProduct latestProducts={latestProducts} animalName="cane" />
-      <BestSellingProduct latestProducts={latestProducts} animalName="gatto" />
+      <BestSellingProduct
+        userId={userId}
+        myCart={myCart}
+        data={latestProducts}
+        animalName="cane"
+      />
+      {/*  <BestSellingProduct
+        userId={userId}
+        myCart={myCart}
+        latestProducts={latestProducts}
+        animalName="gatto"
+      /> */}
 
       <div className="mt-12">
         <Image

@@ -1,12 +1,21 @@
-import { ILatestProduct } from "@/core/validators";
+import { ICart, ILatestProduct } from "@/core/validators";
 import CustomProduct from "./customProduct";
 
 interface IProductListProps {
   data: ILatestProduct[];
   limit?: number;
+  myCart: ICart;
+  userId?: string;
+  getProductQuantity: (productId: string) => number;
 }
 
-const ProductList = ({ data, limit }: IProductListProps) => {
+const ProductList = ({
+  data,
+  limit,
+  myCart,
+  userId,
+  getProductQuantity,
+}: IProductListProps) => {
   /* const session = useSession(); */
 
   const limitedData = limit ? data.slice(0, limit) : data;
@@ -30,6 +39,9 @@ const ProductList = ({ data, limit }: IProductListProps) => {
                 pricePerKg="€4,16/KG (FAKE)"
                 product={product}
                 slug={product.slug}
+                myCart={myCart}
+                userId={userId}
+                getProductQuantity={getProductQuantity(product.id)}
                 /*  getProductQuantity={getProductQuantity}
                 addToCart={addToCart} */
               />

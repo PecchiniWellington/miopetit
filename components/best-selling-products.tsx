@@ -1,9 +1,11 @@
 "use client";
 
-import { ILatestProduct } from "@/core/validators";
+import { ICart, ILatestProduct } from "@/core/validators";
+import useLocalStorage from "@/hooks/use-local-storage";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { useCallback, useMemo } from "react";
 import DynamicCarousel from "./carousels/carousel";
 import CustomProduct from "./shared/product/customProduct";
 import ProductList from "./shared/product/product-list";
@@ -46,12 +48,39 @@ const brands = [
 ];
 
 const BestSellingProduct = ({
-  latestProducts,
+  data,
   animalName = "Cane",
+  myCart,
+  userId,
 }: {
-  latestProducts: ILatestProduct[];
+  data: ILatestProduct[];
   animalName?: string;
+  myCart: ICart;
+  userId?: string;
 }) => {
+  const [storedValue] = useLocalStorage<{ productId: string; qty: number }[]>(
+    "cart",
+    []
+  );
+  const getProductQuantity = useCallback(
+    (productId: string) => {
+      if (!userId) {
+        const product = storedValue.find(
+          (item) => item.productId === productId
+        );
+        return product ? product.qty : 0;
+      } else {
+        const product = myCart.items.find(
+          (item) => item.productId === productId
+        );
+
+        return product ? product.qty : 0;
+      }
+    },
+    [storedValue, userId, myCart]
+  );
+
+  const memoizedData = useMemo(() => data, [data]);
   return (
     <section className="my-12 rounded-lg border border-gray-200 bg-white p-8 shadow-md">
       <motion.h1
@@ -105,20 +134,20 @@ const BestSellingProduct = ({
         >
           {/*  <CarouselProducts data={latestProducts} /> */}
           <DynamicCarousel
-            data={latestProducts}
+            data={data}
             itemsPerView={3}
             gap={20}
-            renderItem={(latestProducts) => (
+            renderItem={(data) => (
               <CustomProduct
-                {...latestProducts}
-                reviews={latestProducts.numReviews}
-                availability={latestProducts.stock ? true : false}
-                product={latestProducts}
-                image={latestProducts.image[0]}
-                price={Number(latestProducts.price)}
+                {...data}
+                reviews={data.numReviews}
+                availability={data.stock ? true : false}
+                product={data}
+                image={data.image[0]}
+                price={Number(data.price)}
                 productBrand={
-                  typeof latestProducts.productBrand === "string"
-                    ? latestProducts.productBrand
+                  typeof data.productBrand === "string"
+                    ? data.productBrand
                     : undefined
                 }
                 /*  addToCart={addToCart}
@@ -139,7 +168,12 @@ const BestSellingProduct = ({
             🔥 I Prodotti più venduti
           </h2>
 
-          <ProductList data={latestProducts} />
+          <ProductList
+            data={data}
+            myCart={myCart}
+            userId={userId}
+            getProductQuantity={getProductQuantity}
+          />
         </motion.div>
       </div>
     </section>

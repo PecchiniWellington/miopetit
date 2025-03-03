@@ -30,8 +30,8 @@ export default function FavoritesCounter() {
 
   if (favoriteCount === 0) {
     return (
-      <div className="relative cursor-not-allowed opacity-50">
-        <Heart height={28} width={28} className="text-gray-500" />
+      <div className="relative cursor-not-allowed opacity-20">
+        <Heart height={28} width={28} className="text-white" />
       </div>
     );
   }

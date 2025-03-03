@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
 import MegaMenu from "@/components/mega-menu/mega-menu";
+import { getMyCart } from "@/core/actions/cart/cart.actions";
 import { getAllCategoriesForMegaMenu } from "@/core/actions/products/mega-menu.action";
 import { getUserById } from "@/core/actions/user";
 import { APP_NAME } from "@/lib/constants";
@@ -18,11 +19,13 @@ const Header = async () => {
   const [megaMenuCat, megaMenuDog, megaMenuSmallAnimal] = await Promise.all(
     categories.map((category) => getAllCategoriesForMegaMenu(category))
   );
-
+  const countLoggedUser = await getMyCart();
   const session = await auth();
   let userLogged = null;
+
   if (session && session.user && typeof session.user.id === "string") {
     const user = await getUserById(session.user.id);
+
     if (
       user &&
       user.defaultAddress &&
@@ -92,7 +95,13 @@ const Header = async () => {
 
             {/* 🛒 Carrello + Utente */}
             <div className="flex items-center gap-4">
-              <CartCounter />
+              <CartCounter
+                countLoggedUser={
+                  countLoggedUser && "items" in countLoggedUser
+                    ? countLoggedUser.items.length
+                    : 0
+                }
+              />
               {userLogged && (
                 <span className="hidden md:flex">
                   <FavoritesCounter />

@@ -1,8 +1,17 @@
 "use client";
+import {
+  addItemToCart,
+  cancelItemFromCart,
+  getMyCart,
+  removeItemFromCart,
+} from "@/core/actions/cart/cart.actions";
 import { ICartItem } from "@/core/validators";
 import useLocalStorage from "@/hooks/use-local-storage";
+import loader from "@/public/assets/loader.gif";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import CartTable from "./cart-table";
 import EmptyCart from "./empty-cart";
 import OrderSummary from "./order-summary";
@@ -10,49 +19,87 @@ import OrderSummary from "./order-summary";
 export const Cart = () => {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
+  const { data: session, status } = useSession();
+  const [fetching, startFetching] = useState(false);
 
   const [storedValue, setStoredValue] = useLocalStorage<ICartItem[]>(
     "cart",
     []
   );
+  const [cleanedCartProduct, setCleanedCartProduct] = useState<ICartItem[]>([]);
 
-  // ✅ Controlla se storedValue è un array, altrimenti usa un array vuoto
-  const cleanedCartProduct = Array.isArray(storedValue)
-    ? storedValue.map((item) => ({
-        productId: item.productId,
-        image: item.image,
-        name: item.name,
-        price: item.price,
-        qty: item.qty,
-        slug: item.slug,
-      }))
-    : [];
+  useEffect(() => {
+    startFetching(true);
+    const fetchCart = async () => {
+      console.log("Cart status:", { status, session: session?.user?.id });
+
+      if (status === "authenticated" && session?.user?.id) {
+        console.log("Fetching cart from database...");
+        const cartResponse = await getMyCart();
+        if (cartResponse && !("success" in cartResponse)) {
+          setCleanedCartProduct(cartResponse.items || []);
+          startFetching(false);
+        } else {
+          console.error("Errore nel recupero del carrello:", cartResponse);
+          startFetching(false);
+        }
+      } else {
+        console.log("Fetching cart from localStorage...");
+        setCleanedCartProduct(storedValue);
+        startFetching(false);
+      }
+    };
+
+    fetchCart();
+  }, [status, session, storedValue, setCleanedCartProduct]);
 
   const handleRemoveFromCart = (item: ICartItem) => {
-    console.log("removeFromCart", item);
-    const updatedCart = cleanedCartProduct.filter(
-      (cartItem) => cartItem.productId !== item.productId
-    );
-    setStoredValue(updatedCart);
+    startTransition(async () => {
+      const updatedCart = cleanedCartProduct.map((cartItem) =>
+        cartItem.productId === item.productId
+          ? { ...cartItem, qty: cartItem.qty - 1 }
+          : cartItem
+      );
+      if (session?.user?.id) {
+        if (item.qty === 1) {
+          const updatedCartDB = await cancelItemFromCart(item.productId);
+          setCleanedCartProduct(updatedCartDB.items || []);
+        } else {
+          await removeItemFromCart(item.productId);
+          setCleanedCartProduct(updatedCart);
+        }
+      } else {
+        setStoredValue(updatedCart);
+        setCleanedCartProduct(updatedCart);
+      }
+    });
   };
 
-  const handleAddToCart = (item: ICartItem) => {
-    console.log("addToCart", item);
+  const handleAddToCart = async (item: ICartItem) => {
     const updatedCart = cleanedCartProduct.map((cartItem) =>
       cartItem.productId === item.productId
         ? { ...cartItem, qty: cartItem.qty + 1 }
         : cartItem
     );
-    setStoredValue(updatedCart);
+    if (session?.user?.id) {
+      await addItemToCart(item);
+    } else {
+      setStoredValue(updatedCart);
+    }
+    setCleanedCartProduct(updatedCart);
   };
 
-  const cancelProduct = async (item: ICartItem) => {
-    startTransition(() => {
-      console.log("cancelFromCart", item.productId);
+  const cancelProduct = (item: ICartItem) => {
+    startTransition(async () => {
       const updatedCart = cleanedCartProduct.filter(
         (cartItem) => cartItem.productId !== item.productId
       );
-      setStoredValue(updatedCart);
+      if (session?.user?.id) {
+        await cancelItemFromCart(item.productId);
+      } else {
+        setStoredValue(updatedCart);
+      }
+      setCleanedCartProduct(updatedCart);
     });
   };
 
@@ -60,7 +107,11 @@ export const Cart = () => {
     startTransition(() => router.push("/shipping-address"));
   };
 
-  return (
+  return fetching ? (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/50 backdrop-blur-sm">
+      <Image src={loader} height={150} width={150} alt="Loading..." priority />
+    </div>
+  ) : (
     <>
       <h1 className="h2-bold py-4">Shopping Cart</h1>
 

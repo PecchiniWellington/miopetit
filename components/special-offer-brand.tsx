@@ -1,18 +1,48 @@
 "use client";
-import { IProduct } from "@/core/validators";
+import { ICart, IProduct } from "@/core/validators";
+import useLocalStorage from "@/hooks/use-local-storage";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import DynamicCarousel from "./carousels/carousel";
 import CustomProduct from "./shared/product/customProduct";
 
 interface IProductListProps {
   data: IProduct[];
   title?: string;
+  myCart: ICart;
+  userId?: string;
 }
 
-const SpecialOfferBrand = ({ data, title }: IProductListProps) => {
-  /*  const { addToCart, getProductQuantity } = useCartHandler(); */
+const SpecialOfferBrand = ({
+  data,
+  title,
+  myCart,
+  userId,
+}: IProductListProps) => {
+  const [storedValue] = useLocalStorage<{ productId: string; qty: number }[]>(
+    "cart",
+    []
+  );
+
+  const getProductQuantity = useCallback(
+    (productId: string) => {
+      if (!userId) {
+        const product = storedValue.find(
+          (item) => item.productId === productId
+        );
+        return product ? product.qty : 0;
+      } else {
+        const product = myCart.items.find(
+          (item) => item.productId === productId
+        );
+
+        return product ? product.qty : 0;
+      }
+    },
+    [storedValue, userId, myCart]
+  );
+
   const memoizedData = useMemo(() => data, [data]);
   return (
     <motion.div
@@ -80,8 +110,8 @@ const SpecialOfferBrand = ({ data, title }: IProductListProps) => {
               pricePerKg="€4,16/KG (FAKE)"
               product={memoizedData}
               slug={memoizedData.slug}
-              /* getProductQuantity={getProductQuantity}
-              addToCart={addToCart} */
+              userId={userId}
+              getProductQuantity={getProductQuantity(memoizedData.id)}
             />
           )}
         />

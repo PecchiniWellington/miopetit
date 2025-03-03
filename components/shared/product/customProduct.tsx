@@ -2,14 +2,14 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
+import { addItemToCart } from "@/core/actions/cart/cart.actions";
 import { ICartItem, ILatestProduct, IProduct } from "@/core/validators";
-import useCartHandler from "@/hooks/use-cart-handler";
 import useLocalStorage from "@/hooks/use-local-storage";
 import { motion } from "framer-motion";
 import { Heart, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { startTransition, useEffect, useState } from "react";
 
 interface ProductProps {
   id: string;
@@ -25,6 +25,8 @@ interface ProductProps {
   pricePerKg?: string;
   product: ICartItem;
   slug: string;
+  getProductQuantity: number;
+  userId?: string;
 }
 
 export default function CustomProduct({
@@ -40,29 +42,19 @@ export default function CustomProduct({
   pricePerKg,
   product,
   slug,
-  /* addToCart,
-  getProductQuantity, */
+  getProductQuantity,
+  userId,
 }: ProductProps) {
   const [isWishlisted, setWishlisted] = useState(false);
   const [favorites, setFavorites] = useLocalStorage<
     IProduct[] | ILatestProduct[]
   >("favorites", []);
 
-  const { addToCart, getProductQuantity } = useCartHandler("session");
-
-  /*  async function mergeCartOnLogin(userId: string) {
-    const localCart = JSON.parse(localStorage.getItem("cart") || "[]");
-
-    if (localCart.length > 0) {
-      await fetch("/api/cart/merge", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, localCart }),
-      });
-
-      localStorage.removeItem("cart"); // Cancella il carrello locale dopo il merge
-    }
-  } */
+  /* const { data: session } = useSession(); */
+  const [storedValue, setStoredValue] = useLocalStorage<ICartItem[]>(
+    "cart",
+    []
+  );
 
   useEffect(() => {
     if (Array.isArray(favorites)) {
@@ -85,8 +77,19 @@ export default function CustomProduct({
     setWishlisted(!isWishlisted);
   };
 
-  const handlerAddToCart = (product: ICartItem) => {
-    addToCart(product);
+  const handlerAddToCart = async (item: ICartItem) => {
+    startTransition(async () => {
+      const updatedCart = storedValue.map((cartItem) =>
+        cartItem.productId === item.productId
+          ? { ...cartItem, qty: cartItem.qty + 1 }
+          : cartItem
+      );
+      if (userId) {
+        await addItemToCart({ ...item, qty: 1, productId: item.id });
+      } else {
+        setStoredValue(updatedCart);
+      }
+    });
   };
 
   return (
@@ -170,9 +173,9 @@ export default function CustomProduct({
       >
         <ShoppingCart className="size-6 text-white" />
 
-        {getProductQuantity((product as any)?.id) > 0 && (
+        {getProductQuantity > 0 && (
           <span className="absolute -right-1 -top-1 flex size-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
-            {getProductQuantity((product as any)?.id)}
+            {getProductQuantity}
           </span>
         )}
       </motion.button>
