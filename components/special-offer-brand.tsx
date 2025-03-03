@@ -1,9 +1,10 @@
 "use client";
 import { ICart, IProduct } from "@/core/validators";
 import useLocalStorage from "@/hooks/use-local-storage";
+import { useHybridTranslation } from "@/hooks/useHybridTranslation";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import DynamicCarousel from "./carousels/carousel";
 import CustomProduct from "./shared/product/customProduct";
 
@@ -12,6 +13,7 @@ interface IProductListProps {
   title?: string;
   myCart: ICart;
   userId?: string;
+  locale?: string;
 }
 
 const SpecialOfferBrand = ({
@@ -19,11 +21,32 @@ const SpecialOfferBrand = ({
   title,
   myCart,
   userId,
+  locale = "en",
 }: IProductListProps) => {
   const [storedValue] = useLocalStorage<{ productId: string; qty: number }[]>(
     "cart",
     []
   );
+
+  const translate = useHybridTranslation();
+  const [translations, setTranslations] = useState<{ [key: string]: string }>(
+    {}
+  );
+
+  useEffect(() => {
+    const fetchTranslations = async () => {
+      const newTranslations: { [key: string]: string } = {};
+      for (const category of data || []) {
+        newTranslations[category.slug] = await translate(category.slug, locale);
+        for (const child of category.children || []) {
+          newTranslations[child.slug] = await translate(child.slug, locale);
+        }
+      }
+      setTranslations(newTranslations);
+    };
+
+    fetchTranslations();
+  }, [data, locale]);
 
   const getProductQuantity = useCallback(
     (productId: string) => {
@@ -33,7 +56,7 @@ const SpecialOfferBrand = ({
         );
         return product ? product.qty : 0;
       } else {
-        const product = myCart.items.find(
+        const product = myCart?.items?.find(
           (item) => item.productId === productId
         );
 
@@ -100,7 +123,7 @@ const SpecialOfferBrand = ({
               key={memoizedData.id}
               id={memoizedData.id}
               image={memoizedData.image[0]}
-              name={memoizedData.name}
+              name={translations[memoizedData.name]}
               productBrand={memoizedData?.productBrand?.name}
               rating={Number(memoizedData.rating)}
               reviews={memoizedData.numReviews}

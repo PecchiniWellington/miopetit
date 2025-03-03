@@ -54,6 +54,8 @@ export async function getAllProductsBySlug({
     // Trova la categoria principale associata al categoryType
     const mainCategory = await getMainCategory(slug);
 
+    console.log("🔍 Query params:", mainCategory);
+
     if (!mainCategory) {
       console.warn(`⚠️ Nessuna categoria trovata per slug: ${slug}`);
       return { data: [], totalPages: 0, totalProducts: 0 };

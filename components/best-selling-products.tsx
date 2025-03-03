@@ -70,7 +70,7 @@ const BestSellingProduct = ({
         );
         return product ? product.qty : 0;
       } else {
-        const product = myCart.items.find(
+        const product = myCart?.items?.find(
           (item) => item.productId === productId
         );
 

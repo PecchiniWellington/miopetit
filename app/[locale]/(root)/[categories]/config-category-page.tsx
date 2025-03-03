@@ -49,7 +49,7 @@ const ConfigCategoryPage = ({
   );
   const ProductsList = ({ products }: { products: any[] }) => {
     console.log(products);
-    return products.data.length === 0 ? (
+    return products?.data?.length === 0 ? (
       <div className="col-span-full text-center text-gray-500">
         Nessun prodotto trovato
       </div>

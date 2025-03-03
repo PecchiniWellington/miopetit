@@ -30,6 +30,7 @@ const MainCategory = async ({
     query: queries,
   });
 
+  console.log("PPPPPP2", products);
   return (
     <ConfigCategoryPage
       indispensable={indispensableDog}
