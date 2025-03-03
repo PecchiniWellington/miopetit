@@ -17,8 +17,6 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const ProfileForm = () => {
-  /* const { data: session, update } = useSession(); */
-
   const form = useForm<z.infer<typeof updateUserProfileSchema>>({
     resolver: zodResolver(updateUserProfileSchema),
     defaultValues: {

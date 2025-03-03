@@ -50,7 +50,6 @@ export default function CustomProduct({
     IProduct[] | ILatestProduct[]
   >("favorites", []);
 
-  /* const { data: session } = useSession(); */
   const [storedValue, setStoredValue] = useLocalStorage<ICartItem[]>(
     "cart",
     []

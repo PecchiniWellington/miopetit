@@ -16,8 +16,6 @@ const ProductList = ({
   userId,
   getProductQuantity,
 }: IProductListProps) => {
-  /* const session = useSession(); */
-
   const limitedData = limit ? data.slice(0, limit) : data;
   return (
     <div className="my-10">
