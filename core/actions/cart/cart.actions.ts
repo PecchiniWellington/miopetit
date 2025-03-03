@@ -162,7 +162,7 @@ export const getMyCart = async () => {
   const session = await auth();
   const userId = session?.user?.id ? (session.user.id as string) : undefined;
 
-  if (!sessionCartId && !userId) throw new Error("Cart session not found");
+  /* if (!sessionCartId && !userId) throw new Error("Cart session not found"); */
 
   try {
     const cart = await prisma.cart.findFirst({

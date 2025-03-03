@@ -37,7 +37,7 @@ export default async function RootLayout({
   // side is the easiest way to get started
   const messages = await getMessages();
   return (
-    <html lang="en" suppressHydrationWarning className="mx-auto">
+    <html lang={locale} suppressHydrationWarning className="mx-auto">
       <body className={`${inter.className}  antialiased`}>
         {/* <ThemeProvider
           attribute="class"
@@ -45,9 +45,12 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         > */}
-        <NextIntlClientProvider messages={messages}>
-          <SessionProvider>{children}</SessionProvider>
-        </NextIntlClientProvider>
+
+        <SessionProvider>
+          <NextIntlClientProvider messages={messages || {}}>
+            {children}
+          </NextIntlClientProvider>
+        </SessionProvider>
         <Toaster />
 
         {/* </ThemeProvider> */}

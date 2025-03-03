@@ -1,33 +1,55 @@
-import { auth } from "@/auth"; // Importa il gestore di autenticazione
+import { auth } from "@/auth";
 import createMiddleware from "next-intl/middleware";
 import { NextRequest, NextResponse } from "next/server";
 import { routing } from "./i18n/routing";
 
+const locales = ["en", "it", "de", "es"];
 const intlMiddleware = createMiddleware(routing);
 
 export default async function middleware(req: NextRequest) {
-  // ✅ 1. Controlla l'autenticazione con NextAuth.js
+  const pathname = req.nextUrl.pathname;
+
+  // 🔹 1. Controlla se l'URL ha già una lingua
+  const hasLocale = locales.some((locale) => pathname.startsWith(`/${locale}`));
+
+  if (!hasLocale) {
+    // ✅ Controlla se esiste un cookie con la lingua salvata dall'utente
+    const userLocale = req.cookies.get("NEXT_LOCALE")?.value;
+
+    // ✅ Se c'è un cookie, usalo, altrimenti prendi la lingua dal browser
+    const browserLocale = req.headers
+      .get("accept-language")
+      ?.split(",")[0]
+      .split("-")[0];
+
+    const locale = locales.includes(userLocale || "")
+      ? userLocale
+      : locales.includes(browserLocale || "")
+        ? browserLocale
+        : "en";
+
+    // 🔄 Reindirizza alla lingua giusta
+    return NextResponse.redirect(new URL(`/${locale}${pathname}`, req.url));
+  }
+
+  // 🔹 2. Controlla l'autenticazione
   const session = await auth();
   const isAuthenticated = !!session?.user;
-
-  // ✅ 2. Proteggi le pagine che richiedono autenticazione
-  const protectedRoutes = ["/dashboard", "/account", "/profile"]; // Aggiungi le tue pagine protette
+  const protectedRoutes = ["/dashboard", "/account", "/profile"];
   const isProtectedRoute = protectedRoutes.some((path) =>
-    req.nextUrl.pathname.startsWith(path)
+    pathname.startsWith(path)
   );
 
   if (isProtectedRoute && !isAuthenticated) {
     return NextResponse.redirect(new URL("/auth/signin", req.url));
   }
 
-  // ✅ 3. Passa la richiesta al middleware di `next-intl`
   return intlMiddleware(req);
 }
 
-// ✅ 4. Configura il middleware per gestire autenticazione + lingue
 export const config = {
   matcher: [
-    "/((?!_next|_static|favicon.ico|public|api/auth).*)", // Ignora file statici
-    "/(de|en|it)/:path*", // Aggiungi tutte le lingue supportate
+    "/((?!_next|_static|favicon.ico|public|api/auth).*)",
+    "/(de|en|it|es)/:path*",
   ],
 };

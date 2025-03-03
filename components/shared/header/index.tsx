@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
 import MegaMenu from "@/components/mega-menu/mega-menu";
+import LanguageSwitcher from "@/components/switcher-language";
 import { getMyCart } from "@/core/actions/cart/cart.actions";
 import { getAllCategoriesForMegaMenu } from "@/core/actions/products/mega-menu.action";
 import { getUserById } from "@/core/actions/user";
@@ -15,8 +16,8 @@ import TopBar from "./top-bar";
 import UserButton from "./user-button";
 
 const Header = async () => {
-  const categories = ["gatti", "cani", "piccoli-animali"];
-  const [megaMenuCat, megaMenuDog, megaMenuSmallAnimal] = await Promise.all(
+  const categories = ["dogs", "cats", "small-animals"];
+  const [megaMenuDog, megaMenuCat, megaMenuSmallAnimal] = await Promise.all(
     categories.map((category) => getAllCategoriesForMegaMenu(category))
   );
   const countLoggedUser = await getMyCart();
@@ -108,6 +109,7 @@ const Header = async () => {
                 </span>
               )}
               <UserButton userLogged={userLogged} />
+              <LanguageSwitcher />
             </div>
           </div>
         </div>

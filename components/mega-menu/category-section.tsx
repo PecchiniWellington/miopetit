@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 
 interface ICategory {
@@ -12,12 +13,13 @@ export const CategorySection = ({
   categories?: ICategory[];
   mainCategory: string;
 }) => {
+  const t = useTranslations("MegaMenu");
   return (
     <div className="col-span-3 grid grid-cols-3 gap-6">
       {categories?.map((category, index) => (
         <div key={index}>
           <h3 className="mb-2 text-lg font-semibold text-black">
-            {category.name}
+            {t(category.slug)}
           </h3>
           {category.children && category.children.length > 0 ? (
             <ul>
@@ -26,7 +28,7 @@ export const CategorySection = ({
                   key={idx}
                   className="mb-1 cursor-pointer text-gray-600 hover:text-black"
                 >
-                  <Link href={`/${child.slug}`}>{child.name}</Link>
+                  <Link href={`/${child.slug}`}>{t(child.slug)}</Link>
                 </li>
               ))}
             </ul>

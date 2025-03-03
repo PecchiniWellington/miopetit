@@ -1,0 +1,11 @@
+{
+  "MegaMenu": {
+    "dogs": "Perros",
+    "cats": "Gatos",
+    "small-animals": "Pequeños animales"
+  },
+  "HomePage": {
+    "title": "¡Bienvenido a Vue.js!",
+    "subtitle": "Esta es tu primera aplicación Vue.js."
+  }
+}

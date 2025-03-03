@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -30,6 +31,8 @@ interface MegaMenuProps {
 
 export default function MegaMenu({ data, brands = [], imgSrc }: MegaMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const t = useTranslations("MegaMenu");
+  console.log("Missing translations", data?.slug);
 
   return (
     <>
@@ -40,7 +43,7 @@ export default function MegaMenu({ data, brands = [], imgSrc }: MegaMenuProps) {
         onMouseLeave={() => setIsOpen(false)}
         onClick={() => setIsOpen(!isOpen)}
       >
-        <Link href={`/${data?.slug}`}>{data?.name}</Link>
+        <Link href={`/${data?.slug}`}>{t(data?.slug)}</Link>
       </div>
 
       {isOpen && (
