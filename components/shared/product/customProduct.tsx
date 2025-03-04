@@ -91,6 +91,9 @@ export default function CustomProduct({
     });
   };
 
+  /* const { translatedText: translatedDesc, loading: loadingDesc } =
+    useTranslateProduct(description, "en"); */
+
   return (
     <Card className="relative z-10 overflow-hidden rounded-xl border bg-white p-4 shadow-md transition hover:shadow-lg">
       <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>

@@ -1,10 +1,11 @@
 "use client";
 import { ICart, IProduct } from "@/core/validators";
 import useLocalStorage from "@/hooks/use-local-storage";
-import { useHybridTranslation } from "@/hooks/useHybridTranslation";
+import { useTranslateAutomatic } from "@/hooks/use-translate-automatic";
 import { motion } from "framer-motion";
+import { useLocale } from "next-intl";
 import Image from "next/image";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo } from "react";
 import DynamicCarousel from "./carousels/carousel";
 import CustomProduct from "./shared/product/customProduct";
 
@@ -13,7 +14,6 @@ interface IProductListProps {
   title?: string;
   myCart: ICart;
   userId?: string;
-  locale?: string;
 }
 
 const SpecialOfferBrand = ({
@@ -21,32 +21,23 @@ const SpecialOfferBrand = ({
   title,
   myCart,
   userId,
-  locale = "en",
 }: IProductListProps) => {
   const [storedValue] = useLocalStorage<{ productId: string; qty: number }[]>(
     "cart",
     []
   );
 
-  const translate = useHybridTranslation();
-  const [translations, setTranslations] = useState<{ [key: string]: string }>(
-    {}
+  const locale = useLocale();
+  const memoizedData = useMemo(() => data, [data]);
+  const productNames = data.map((product) => product.name);
+  const { translatedText, loading } = useTranslateAutomatic(
+    productNames,
+    locale
   );
-
-  useEffect(() => {
-    const fetchTranslations = async () => {
-      const newTranslations: { [key: string]: string } = {};
-      for (const category of data || []) {
-        newTranslations[category.slug] = await translate(category.slug, locale);
-        for (const child of category.children || []) {
-          newTranslations[child.slug] = await translate(child.slug, locale);
-        }
-      }
-      setTranslations(newTranslations);
-    };
-
-    fetchTranslations();
-  }, [data, locale]);
+  const translatedProducts = memoizedData.map((product, index) => ({
+    ...product,
+    name: Array.isArray(translatedText) ? translatedText[index] : product.name,
+  }));
 
   const getProductQuantity = useCallback(
     (productId: string) => {
@@ -66,7 +57,6 @@ const SpecialOfferBrand = ({
     [storedValue, userId, myCart]
   );
 
-  const memoizedData = useMemo(() => data, [data]);
   return (
     <motion.div
       className="relative grid grid-cols-1 gap-10 rounded-xl bg-gray-100 p-6 shadow-lg md:my-12 md:grid-cols-4 md:p-12"
@@ -115,26 +105,26 @@ const SpecialOfferBrand = ({
       >
         {/* <CarouselProducts data={memoizedData} /> */}
         <DynamicCarousel
-          data={memoizedData}
+          data={translatedProducts}
           itemsPerView={3}
           gap={20}
-          renderItem={(memoizedData) => (
+          renderItem={(translatedProducts) => (
             <CustomProduct
-              key={memoizedData.id}
-              id={memoizedData.id}
-              image={memoizedData.image[0]}
-              name={translations[memoizedData.name]}
-              productBrand={memoizedData?.productBrand?.name}
-              rating={Number(memoizedData.rating)}
-              reviews={memoizedData.numReviews}
-              availability={memoizedData.stock ? true : false}
-              price={Number(memoizedData.price)}
+              key={translatedProducts.id}
+              id={translatedProducts.id}
+              image={translatedProducts.image[0]}
+              name={loading ? "Translating..." : translatedProducts.name}
+              productBrand={translatedProducts?.productBrand?.name}
+              rating={Number(translatedProducts.rating)}
+              reviews={translatedProducts.numReviews}
+              availability={translatedProducts.stock ? true : false}
+              price={Number(translatedProducts.price)}
               oldPrice={54.99}
               pricePerKg="€4,16/KG (FAKE)"
-              product={memoizedData}
-              slug={memoizedData.slug}
+              product={translatedProducts}
+              slug={translatedProducts.slug}
               userId={userId}
-              getProductQuantity={getProductQuantity(memoizedData.id)}
+              getProductQuantity={getProductQuantity(translatedProducts.id)}
             />
           )}
         />

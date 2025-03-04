@@ -76,12 +76,12 @@ export default async function Home() {
         data={latestProducts}
         animalName="cane"
       />
-      {/*  <BestSellingProduct
+      <BestSellingProduct
         userId={userId}
         myCart={myCart}
-        latestProducts={latestProducts}
+        data={latestProducts}
         animalName="gatto"
-      /> */}
+      />
 
       <div className="mt-12">
         <Image

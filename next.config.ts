@@ -6,7 +6,14 @@ const nextConfig: NextConfig = {
   /* config options here */
 
   reactStrictMode: false, // Disabling Strict Mode
-
+  async rewrites() {
+    return [
+      {
+        source: "/:locale/api/:path*", // Se l'API viene chiamata con il locale
+        destination: "/api/:path*", // La riscriviamo a /api senza locale
+      },
+    ];
+  },
   images: {
     /*  domains: [
       "rqtqmmtupkjdpvpv.public.blob.vercel-storage.com",

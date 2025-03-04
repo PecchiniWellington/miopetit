@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import NotFound from "@/app/not-found";
 import { AddToCart } from "@/components/shared/product/add-to-cart/add-to-cart";
 import ProductImages from "@/components/shared/product/product-image/product-images";
 import ProductPrice from "@/components/shared/product/product-price";
@@ -12,6 +11,7 @@ import { getProductBySlug } from "@/core/actions/products";
 import { IProduct } from "@/core/validators";
 import { CheckCircle, XCircle } from "lucide-react";
 import ProductTabs from "./product-tab";
+import NotFound from "@/app/[locale]/not-found";
 
 const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
   const { slug } = await props.params;

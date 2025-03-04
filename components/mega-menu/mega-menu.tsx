@@ -32,7 +32,6 @@ interface MegaMenuProps {
 export default function MegaMenu({ data, brands = [], imgSrc }: MegaMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const t = useTranslations("MegaMenu");
-  console.log("Missing translations", data?.slug);
 
   return (
     <>
