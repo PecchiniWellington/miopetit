@@ -2,12 +2,11 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { FaGlobe } from "react-icons/fa";
 
 const languages = [
-  { code: "en", label: "English", flag: "🇬🇧" },
-  { code: "it", label: "Italiano", flag: "🇮🇹" },
-  { code: "es", label: "Español", flag: "🇪🇸" },
+  { code: "en", label: "En", flag: "🇬🇧" },
+  { code: "it", label: "It", flag: "🇮🇹" },
+  { code: "es", label: "Es", flag: "🇪🇸" },
 ];
 
 export default function LanguageSwitcher() {
@@ -39,13 +38,12 @@ export default function LanguageSwitcher() {
 
   return (
     <div className="relative">
-      <motion.div className="flex cursor-pointer items-center gap-2 rounded-3xl border bg-white p-2 shadow-sm transition-all hover:shadow-md">
-        <FaGlobe className="text-gray-600" />
-        <span>{currentFlag}</span>
+      <motion.div className="flex cursor-pointer items-center gap-2 rounded-3xl border bg-white px-2 shadow-sm transition-all hover:shadow-md">
+        <span className="text-2xl">{currentFlag}</span>
         <select
           value={locale}
           onChange={(e) => changeLanguage(e.target.value)}
-          className="cursor-pointer bg-transparent font-medium text-gray-700 focus:outline-none"
+          className="cursor-pointer  bg-transparent font-medium text-gray-700 focus:outline-none"
         >
           {languages.map(({ code, label }) => (
             <option key={code} value={code}>
