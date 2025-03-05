@@ -25,13 +25,6 @@ const ProductTabs = ({
 }) => {
   const [activeTab, setActiveTab] = useState("description");
 
-  /* const reload = async () => {
-    const res = await getReviews({ productId });
-    if (res.data) {
-      setReviews(res.data);
-    }
-  }; */
-
   return (
     <div className="mt-10 w-full  rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800">
       {/* Tab Navigation */}

@@ -13,11 +13,15 @@ import { cache } from "react";
 const fetchLatestProducts = cache(async () => getLatestProducts({ limit: 8 }));
 
 export default async function Home() {
-  const latestProducts = await fetchLatestProducts();
-  const myCart = await getMyCart();
-  const userLogged = await auth();
+  const fetchProductWithDelay = async (fetchFunction: () => Promise<any>) => {
+    await new Promise((resolve) => setTimeout(resolve, 1000)); // Ritardo di 5 secondi
+    return fetchFunction();
+  };
+
+  const latestProducts = await fetchProductWithDelay(fetchLatestProducts);
+  const myCart = await fetchProductWithDelay(getMyCart);
+  const userLogged = await fetchProductWithDelay(auth);
   const userId = userLogged?.user?.id;
-  console.log("🔍 [DEBUG] - userId:", userId);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const data = latestProducts.map((product: any) => ({

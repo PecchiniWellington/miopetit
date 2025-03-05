@@ -8,17 +8,23 @@ import { getMyCart } from "@/core/actions/cart/cart.actions";
 
 import ProductDetails from "@/components/shared/product/product-details";
 import { getProductBySlug } from "@/core/actions/products";
-import { IProduct } from "@/core/validators";
 import { CheckCircle, XCircle } from "lucide-react";
+import { Suspense } from "react";
+import Loading from "./loading";
 import ProductTabs from "./product-tab";
-import NotFound from "@/app/[locale]/not-found";
 
 const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
   const { slug } = await props.params;
-  const product = (await getProductBySlug(slug)) as unknown as IProduct;
-  if (!product) return NotFound();
+  /* const product = (await getProductBySlug(slug)) as unknown as IProduct; */
 
   const cart: any = await getMyCart();
+
+  const fetchProductWithDelay = async (slug: string) => {
+    await new Promise((resolve) => setTimeout(resolve, 5000)); // Ritardo di 5 secondi
+    return getProductBySlug(slug);
+  };
+
+  const product = await fetchProductWithDelay(slug);
 
   const ProductPageLeftImages = () => (
     <div className="col-span-2">
@@ -78,14 +84,13 @@ const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
   );
 
   return (
-    <>
+    <Suspense fallback={<Loading />}>
       <section>
         <div className="grid grid-cols-1 md:grid-cols-5">
           <ProductPageLeftImages />
           <ProductDetails product={product} />
-          <div>
-            <ProductPageRightCard />
-          </div>
+
+          <ProductPageRightCard />
         </div>
       </section>
       <section className="mt-10">
@@ -93,14 +98,8 @@ const ProductPage = async (props: { params: Promise<{ slug: string }> }) => {
           productId={product.id}
           description="Laboris consequat aliquip excepteur occaecat culpa. Nulla amet aliqua non est mollit commodo do cillum. Deserunt in velit laborum adipisicing. Aute duis minim anim id. Enim eiusmod in officia mollit nostrud."
         />
-        {/*  <h2 className="h2-bold">Customer Reviews</h2>
-        <ReviewList
-          userId={userId || ""}
-          productId={product.id.toString()}
-          productSlug={product.slug}
-        /> */}
       </section>
-    </>
+    </Suspense>
   );
 };
 

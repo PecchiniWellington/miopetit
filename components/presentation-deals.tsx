@@ -27,7 +27,6 @@ export default function PresentationDeals() {
   const t = useTranslations("HomePage");
   return (
     <section className="mx-auto px-4 py-12">
-      {t("title")}
       <div className="grid grid-cols-2 gap-10 sm:grid-cols-3 md:grid-cols-4 ">
         {presentationDeals.map((deal, index) => (
           <motion.div
