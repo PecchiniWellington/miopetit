@@ -1,7 +1,6 @@
 "use client";
-import { useRouter, useSearchParams } from "next/navigation";
-import { formUrlQuery } from "@/lib/utils";
-import DynamicButton from "../dynamic-button";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 type PaginationProps = {
   page: number | string;
@@ -9,37 +8,51 @@ type PaginationProps = {
   urlParamName?: string;
 };
 
-const Pagination = ({ page, totalPages, urlParamName }: PaginationProps) => {
+const Pagination = ({
+  page,
+  totalPages,
+  urlParamName = "page",
+}: PaginationProps) => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const currentPage = Number(page);
+  const pathname = usePathname();
 
-  const handleClick = (btnType: string) => {
-    const pageValue = btnType === "prev" ? Number(page) - 1 : Number(page) + 1;
-    const newUrl = formUrlQuery({
-      params: searchParams.toString(),
-      key: urlParamName || "page",
-      value: pageValue.toString(),
-    });
-
-    router.push(newUrl);
+  // Genera un nuovo URL aggiornando il parametro della pagina
+  const updatePageUrl = (newPage: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set(urlParamName, newPage.toString());
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
   return (
-    <div className="flex gap-2">
-      <DynamicButton
-        className="w-28"
-        disabled={Number(page) <= 1}
-        handleAction={() => handleClick("prev")}
+    <div className="mt-6 flex items-center justify-center gap-3">
+      {/* Bottone "Indietro" */}
+      <button
+        onClick={() => updatePageUrl(currentPage - 1)}
+        disabled={currentPage <= 1}
+        className={`flex items-center gap-1 rounded-full px-4 py-2 text-sm font-semibold transition-all 
+          ${currentPage <= 1 ? "cursor-not-allowed bg-gray-600 text-gray-400" : "bg-purple-600 text-white hover:bg-purple-700"}
+        `}
       >
-        Previous
-      </DynamicButton>
-      <DynamicButton
-        className="w-28"
-        disabled={Number(page) >= totalPages}
-        handleAction={() => handleClick("next")}
+        <ChevronLeft size={18} /> Indietro
+      </button>
+
+      {/* Indicatore pagina */}
+      <span className="rounded-md bg-gray-700 px-4 py-2 text-sm font-semibold text-white shadow">
+        Pagina {currentPage} di {totalPages}
+      </span>
+
+      {/* Bottone "Avanti" */}
+      <button
+        onClick={() => updatePageUrl(currentPage + 1)}
+        disabled={currentPage >= totalPages}
+        className={`flex items-center gap-1 rounded-full px-4 py-2 text-sm font-semibold transition-all 
+          ${currentPage >= totalPages ? "cursor-not-allowed bg-gray-600 text-gray-400" : "bg-purple-600 text-white hover:bg-purple-700"}
+        `}
       >
-        Next
-      </DynamicButton>
+        Avanti <ChevronRight size={18} />
+      </button>
     </div>
   );
 };

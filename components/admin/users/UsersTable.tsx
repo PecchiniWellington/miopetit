@@ -10,7 +10,7 @@ import { motion } from "framer-motion";
 import { Edit } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import AdminSearch, { SearchProvider } from "../admin-search";
 
 const Roles = ({ userRole }: { userRole: string }) => {
   switch (userRole) {
@@ -74,16 +74,7 @@ const Status = ({ userStatus }: { userStatus: string }) => {
   }
 };
 
-import { ChangeEvent } from "react";
-import AdminSearch, { SearchProvider } from "../admin-search";
 const UsersTable = ({ users }: { users?: { data: IUser[] } }) => {
-  const [searchTerm] = useState("");
-
-  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e);
-    return;
-  };
-
   return (
     <motion.div
       className="rounded-xl border border-gray-700 bg-gray-800/50 p-6 shadow-lg backdrop-blur-md"

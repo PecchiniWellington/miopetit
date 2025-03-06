@@ -42,7 +42,11 @@ const ProductsPage = async (props: {
         </div>
         {/* STATS */}
 
-        <ProductsTable products={products.data} />
+        <ProductsTable
+          products={products.data}
+          page={page}
+          totalPages={products.totalPages}
+        />
 
         {/* CHARTS */}
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
