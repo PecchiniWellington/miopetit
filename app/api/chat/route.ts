@@ -1,17 +1,28 @@
-export default async function handler(req, res) {
-  if (req.method === "POST") {
-    const response = await fetch(
-      "http://localhost:5005/webhooks/rest/webhook",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sender: "user", message: req.body.message }),
-      }
-    );
+import { OpenAI } from "openai";
 
-    const data = await response.json();
-    res.status(200).json(data);
-  } else {
-    res.status(405).end();
+export async function POST(req) {
+  try {
+    const { message } = await req.json();
+    if (!message) {
+      return Response.json({ error: "Messaggio vuoto" }, { status: 400 });
+    }
+
+    const openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY, // Usa la variabile d'ambiente per sicurezza
+    });
+
+    const chatResponse = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo", // Puoi usare anche "gpt-3.5-turbo" per ridurre i costi
+      messages: [{ role: "user", content: message }],
+      temperature: 0.7,
+    });
+
+    return Response.json(
+      { reply: chatResponse.choices[0].message.content },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Errore ChatGPT:", error);
+    return Response.json({ error: "Errore interno" }, { status: 500 });
   }
 }

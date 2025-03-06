@@ -30,17 +30,15 @@ const CartSideMenu = () => {
     fetchCart();
   }, [fetchCart]);
 
-  // Mostra il pulsante in base allo scroll (solo desktop)
+  // Mostra il pulsante in base allo scroll (funziona sia su mobile che su desktop)
   useEffect(() => {
-    if (isMobile) return; // In mobile il pulsante è sempre visibile
-
     const handleScroll = () => {
       setShowCartButton(window.scrollY > 150);
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [isMobile]);
+  }, []);
 
   // Calcola il totale e la quantità dei prodotti
   const { totalPrice, totalCount } = useMemo(() => {
@@ -56,11 +54,11 @@ const CartSideMenu = () => {
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
-      {(showCartButton || isMobile) && (
+      {showCartButton && (
         <SheetTrigger asChild>
           <Button
             className={`fixed bottom-5 right-5 z-50 flex items-center ${
-              isMobile ? " p-3 shadow-md" : "gap-2 px-5 py-2 shadow-lg"
+              isMobile ? "p-3 shadow-md" : "gap-2 px-5 py-2 shadow-lg"
             } rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none`}
           >
             <ShoppingCart className="size-6" />

@@ -24,25 +24,15 @@ const Loading = () => {
   const [showHeaderSkeleton, setShowHeaderSkeleton] = useState(true);
 
   useEffect(() => {
-    console.log("🌍 PREVIOUS PATH:", previousPath);
-    console.log("🚀 CURRENT PATH:", pathName);
-    console.log("🏠 IS HOME?", isHome);
-    console.log("🔄 REFRESH DETECTED?", isRefreshed);
-
     const wasOnHome = previousPath === `/${locale}`;
     const cameFromAnotherPage =
       previousPath !== null && previousPath !== pathName && !wasOnHome;
 
-    console.log("📍 Came from another page?", cameFromAnotherPage);
-
     if (cameFromAnotherPage) {
-      console.log("✅ SONO QUI 1 - Arrivo alla home da un'altra pagina");
       setShowHeaderSkeleton(false);
     } else if (!isHome) {
-      console.log("✅ SONO QUI 2 - Sono su una pagina diversa dalla home");
       setShowHeaderSkeleton(true);
     } else if (isRefreshed && isHome) {
-      console.log("✅ SONO QUI 3 - Sono già sulla home e faccio refresh");
       setShowHeaderSkeleton(true);
     }
 

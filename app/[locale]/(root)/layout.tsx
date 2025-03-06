@@ -3,6 +3,7 @@ import Footer from "@/components/footer";
 import Header from "@/components/shared/header";
 import { Suspense } from "react";
 import Loading from "./loading";
+import Chatbot from "@/components/chatbot/chatbot";
 
 export default async function RootLayout({
   children,
@@ -15,6 +16,7 @@ export default async function RootLayout({
         <Header />
         <main className=" wrapper my-10 flex-1">{children}</main>
         <CartSideMenu />
+        <Chatbot />
         <Footer />
       </Suspense>
     </div>
