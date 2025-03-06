@@ -1,4 +1,4 @@
-import SendRequest from "@/app/forgot-password/send-request-change-btn";
+import SendRequest from "../../forgot-password/send-request-change-btn";
 
 interface SecurityTabProps {
   email: string;

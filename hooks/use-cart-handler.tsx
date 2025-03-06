@@ -46,11 +46,12 @@ const useCartHandler = (session: any) => {
     try {
       const backendCart = await fetchCart();
       const localCart = storedValue;
+      const count = backendCart.reduce((acc, item) => acc + item.qty, 0);
 
       if (!localCart.length) {
         setCartItems(backendCart);
         setResume(calcPrice(backendCart));
-        setCartCount(backendCart.length);
+        setCartCount(count);
         return;
       }
 
@@ -75,10 +76,11 @@ const useCartHandler = (session: any) => {
         }
         setValue([]);
       }
+      const countCart = mergedCart.reduce((acc, item) => acc + item.qty, 0);
 
       setCartItems(mergedCart);
       setResume(calcPrice(mergedCart));
-      setCartCount(mergedCart.length);
+      setCartCount(countCart);
     } catch (error) {
       console.error("❌ Errore nella sincronizzazione del carrello:", error);
     }
@@ -89,9 +91,11 @@ const useCartHandler = (session: any) => {
     if (!isMounted) return;
 
     if (!userId) {
+      const countCart = storedValue.reduce((acc, item) => acc + item.qty, 0);
+
       setCartItems(storedValue);
       setResume(calcPrice(storedValue));
-      setCartCount(storedValue.length);
+      setCartCount(countCart);
       return;
     } else {
       console.log("🛒 Carrello sincronizzato:", cartItems);
@@ -127,9 +131,11 @@ const useCartHandler = (session: any) => {
           cart.push(newItem);
         }
 
+        const countCart = cart.reduce((acc, item) => acc + item.qty, 0);
+
         setValue(cart);
         setCartItems(cart);
-        setCartCount(cart.length);
+        setCartCount(countCart);
         return;
       }
 
@@ -147,8 +153,13 @@ const useCartHandler = (session: any) => {
             updatedCart.push(newItem);
           }
 
+          const countCart = updatedCart.reduce(
+            (acc, item) => acc + item.qty,
+            0
+          );
+
           setResume(calcPrice(updatedCart));
-          setCartCount(updatedCart.length);
+          setCartCount(countCart);
           return updatedCart;
         });
       } catch (error) {
@@ -210,8 +221,9 @@ const useCartHandler = (session: any) => {
         )
         .filter((item) => item.qty > 0);
 
+      const countCart = updatedCart.reduce((acc, item) => acc + item.qty, 0);
       setResume(calcPrice(updatedCart));
-      setCartCount(updatedCart.length);
+      setCartCount(countCart);
       return updatedCart;
     });
 

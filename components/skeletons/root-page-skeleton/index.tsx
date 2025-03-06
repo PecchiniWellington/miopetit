@@ -1,3 +1,4 @@
+"use client";
 import { Skeleton } from "@/components/ui/skeleton";
 import CarouselSkeleton from "../shared/carousel-skeleton";
 import CategoriesCardCenter from "../shared/categories-card-center";

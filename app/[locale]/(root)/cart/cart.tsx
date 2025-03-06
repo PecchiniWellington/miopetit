@@ -7,9 +7,7 @@ import {
 } from "@/core/actions/cart/cart.actions";
 import { ICartItem } from "@/core/validators";
 import useLocalStorage from "@/hooks/use-local-storage";
-import loader from "@/public/assets/loader.gif";
 import { useSession } from "next-auth/react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 import CartTable from "./cart-table";
@@ -107,11 +105,7 @@ export const Cart = () => {
     startTransition(() => router.push("/shipping-address"));
   };
 
-  return fetching ? (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/50 backdrop-blur-sm">
-      <Image src={loader} height={150} width={150} alt="Loading..." priority />
-    </div>
-  ) : (
+  return (
     <>
       <h1 className="h2-bold py-4">Shopping Cart</h1>
 

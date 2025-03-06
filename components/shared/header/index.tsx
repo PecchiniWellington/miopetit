@@ -106,7 +106,10 @@ const Header = async () => {
               <CartCounter
                 countLoggedUser={
                   countLoggedUser && "items" in countLoggedUser
-                    ? countLoggedUser.items.length
+                    ? countLoggedUser.items.reduce(
+                        (acc, item) => acc + item.qty,
+                        0
+                      )
                     : 0
                 }
               />

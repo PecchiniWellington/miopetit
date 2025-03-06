@@ -42,7 +42,7 @@ export async function addItemToCart(data: ICartItem) {
 
     const sessionCartId = (await cookies()).get("sessionCartId")?.value;
 
-    if (!sessionCartId) throw new Error("Cart session not found");
+    /* if (!sessionCartId) throw new Error("Cart session not found"); */
 
     const session = await auth();
     const userId = session?.user?.id ? (session.user.id as string) : undefined;

@@ -1,0 +1,150 @@
+"use client";
+
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { getMyCart } from "@/core/actions/cart/cart.actions";
+import { useMediaQuery } from "@/hooks/use-media-query";
+import { DialogTitle } from "@radix-ui/react-dialog"; // Import per accessibilità
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden"; // Per nascondere il titolo
+import { ShoppingCart, X } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useCallback, useEffect, useMemo, useState } from "react";
+
+const CartSideMenu = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [cartItems, setCartItems] = useState([]);
+  const [showCartButton, setShowCartButton] = useState(false);
+  const isMobile = useMediaQuery("(max-width: 768px)");
+
+  // Fetch ottimizzato del carrello
+  const fetchCart = useCallback(async () => {
+    const cartResponse = await getMyCart();
+    if (cartResponse && !("success" in cartResponse)) {
+      setCartItems(cartResponse.items || []);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchCart();
+  }, [fetchCart]);
+
+  // Mostra il pulsante in base allo scroll (solo desktop)
+  useEffect(() => {
+    if (isMobile) return; // In mobile il pulsante è sempre visibile
+
+    const handleScroll = () => {
+      setShowCartButton(window.scrollY > 150);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isMobile]);
+
+  // Calcola il totale e la quantità dei prodotti
+  const { totalPrice, totalCount } = useMemo(() => {
+    const total = cartItems.reduce(
+      (acc, item) => acc + item.price * item.qty,
+      0
+    );
+    const count = cartItems.reduce((acc, item) => acc + item.qty, 0);
+    return { totalPrice: total, totalCount: count };
+  }, [cartItems]);
+
+  const shippingCost = totalPrice > 49 ? 0 : 5.99;
+
+  return (
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
+      {(showCartButton || isMobile) && (
+        <SheetTrigger asChild>
+          <Button
+            className={`fixed bottom-5 right-5 z-50 flex items-center ${
+              isMobile ? " p-3 shadow-md" : "gap-2 px-5 py-2 shadow-lg"
+            } rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none`}
+          >
+            <ShoppingCart className="size-6" />
+            {totalCount > 0 && (
+              <span className="absolute -right-2 -top-2 flex size-6 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
+                {totalCount}
+              </span>
+            )}
+            {!isMobile && <span>Carrello</span>}
+          </Button>
+        </SheetTrigger>
+      )}
+      <SheetContent
+        side="right"
+        className="w-96 rounded-l-2xl bg-slate-50 shadow-lg sm:w-96 [&>button]:hidden"
+      >
+        <DialogTitle asChild>
+          <VisuallyHidden>Il tuo Carrello</VisuallyHidden>
+        </DialogTitle>
+        {/* Intestazione */}
+        <div className="flex items-center justify-between rounded-t-2xl border-b bg-gradient-to-r from-indigo-500 to-purple-600 p-4 text-white">
+          <h2 className="text-lg font-semibold">Il tuo Carrello</h2>
+          <button onClick={() => setIsOpen(false)} className="p-1">
+            <X className="size-6 text-white" />
+          </button>
+        </div>
+
+        {/* Lista dei prodotti */}
+        <ScrollArea className="h-[60vh] p-4">
+          {cartItems.length === 0 ? (
+            <p className="text-center text-gray-500">Il carrello è vuoto</p>
+          ) : (
+            cartItems.map((item, index) => (
+              <div
+                key={index}
+                className="flex items-center justify-between rounded-lg bg-white p-3 shadow-sm"
+              >
+                <div className="flex items-center gap-3">
+                  <Image
+                    src={item.image || "/images/placeholder.jpg"}
+                    alt={item.name}
+                    width={50}
+                    height={50}
+                    className="rounded-lg object-cover"
+                  />
+                  <div>
+                    <p className="text-sm font-medium">{item.name}</p>
+                    <p className="text-xs text-gray-500">€{item.price}</p>
+                  </div>
+                </div>
+                <p className="text-sm font-medium">x{item.qty}</p>
+              </div>
+            ))
+          )}
+        </ScrollArea>
+
+        {/* Resoconto Ordine */}
+        {cartItems.length > 0 && (
+          <div className="sticky bottom-8 mt-[100%] rounded-b-2xl border-t bg-white p-4 shadow-lg">
+            <div className="flex justify-between text-sm text-gray-700">
+              <span>Subtotale:</span>
+              <span>€{totalPrice.toFixed(2)}</span>
+            </div>
+            <div className="flex justify-between text-sm text-gray-700">
+              <span>Spedizione:</span>
+              <span className={shippingCost === 0 ? "text-green-500" : ""}>
+                {shippingCost === 0 ? "Gratis" : `€${shippingCost.toFixed(2)}`}
+              </span>
+            </div>
+            <div className="mt-2 flex justify-between border-t pt-2 text-lg font-bold">
+              <span>Totale:</span>
+              <span>€{(totalPrice + shippingCost).toFixed(2)}</span>
+            </div>
+
+            <Link href="/checkout">
+              <Button className="mt-4 w-full rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 py-3 text-lg font-semibold text-white hover:from-indigo-600 hover:to-purple-700">
+                Procedi al Checkout
+              </Button>
+            </Link>
+          </div>
+        )}
+      </SheetContent>
+    </Sheet>
+  );
+};
+
+export default CartSideMenu;
