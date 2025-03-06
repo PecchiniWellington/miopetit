@@ -7,7 +7,7 @@ import ROLES from "@/lib/constants/roles";
 import { USER_STATUS_ACTIVATION } from "@/lib/constants/user-status";
 import { formatId } from "@/lib/utils";
 import { motion } from "framer-motion";
-import { Edit, Search } from "lucide-react";
+import { Edit } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -75,6 +75,7 @@ const Status = ({ userStatus }: { userStatus: string }) => {
 };
 
 import { ChangeEvent } from "react";
+import AdminSearch, { SearchProvider } from "../admin-search";
 const UsersTable = ({ users }: { users?: { data: IUser[] } }) => {
   const [searchTerm] = useState("");
 
@@ -93,14 +94,9 @@ const UsersTable = ({ users }: { users?: { data: IUser[] } }) => {
       <div className="mb-6 flex items-center justify-between">
         <h2 className="text-xl font-semibold text-gray-100">Users</h2>
         <div className="relative">
-          <input
-            type="text"
-            placeholder="Search users..."
-            className="rounded-lg bg-gray-700 py-2 pl-10 pr-4 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={searchTerm}
-            onChange={handleSearch}
-          />
-          <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
+          <SearchProvider>
+            <AdminSearch />
+          </SearchProvider>
         </div>
       </div>
 

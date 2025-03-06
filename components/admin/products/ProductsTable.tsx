@@ -5,68 +5,18 @@ import { deleteProduct } from "@/core/actions/products";
 import { IProduct } from "@/core/validators";
 import { formatId } from "@/lib/utils";
 import { motion } from "framer-motion";
-import { Edit, Eye, Search } from "lucide-react";
+import { Edit, Eye } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import AdminSearch, { SearchProvider } from "../admin-search";
 
-const PRODUCT_DATA = [
-  {
-    id: 1,
-    name: "Wireless Earbuds",
-    category: "Electronics",
-    price: 59.99,
-    stock: 143,
-    sales: 1200,
-  },
-  {
-    id: 2,
-    name: "Leather Wallet",
-    category: "Accessories",
-    price: 39.99,
-    stock: 89,
-    sales: 800,
-  },
-  {
-    id: 3,
-    name: "Smart Watch",
-    category: "Electronics",
-    price: 199.99,
-    stock: 56,
-    sales: 650,
-  },
-  {
-    id: 4,
-    name: "Yoga Mat",
-    category: "Fitness",
-    price: 29.99,
-    stock: 210,
-    sales: 950,
-  },
-  {
-    id: 5,
-    name: "Coffee Maker",
-    category: "Home",
-    price: 79.99,
-    stock: 78,
-    sales: 720,
-  },
-];
-
-const ProductsTable = ({ products }: { products: { data: IProduct[] } }) => {
+const ProductsTable = ({ products }: { products: IProduct[] }) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [, setFilteredProducts] = useState(PRODUCT_DATA);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const term = (e.target as HTMLInputElement).value.toLowerCase();
     setSearchTerm(term);
-    const filtered = PRODUCT_DATA?.filter(
-      (product) =>
-        product.name.toLowerCase().includes(term) ||
-        product.category.toLowerCase().includes(term)
-    );
-
-    setFilteredProducts(filtered);
   };
 
   return (
@@ -79,14 +29,9 @@ const ProductsTable = ({ products }: { products: { data: IProduct[] } }) => {
       <div className="mb-6 flex items-center justify-between">
         <h2 className="text-xl font-semibold text-gray-100">Product List</h2>
         <div className="relative">
-          <input
-            type="text"
-            placeholder="Search products..."
-            className="rounded-lg bg-gray-700 py-2 pl-10 pr-4 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            onChange={handleSearch}
-            value={searchTerm}
-          />
-          <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
+          <SearchProvider>
+            <AdminSearch />
+          </SearchProvider>
         </div>
       </div>
 
@@ -120,7 +65,7 @@ const ProductsTable = ({ products }: { products: { data: IProduct[] } }) => {
 
           <tbody className="divide-y divide-gray-700">
             {products &&
-              products?.data.map((product: IProduct) => (
+              products?.map((product: IProduct) => (
                 <motion.tr
                   key={product.id}
                   initial={{ opacity: 0 }}
@@ -133,7 +78,7 @@ const ProductsTable = ({ products }: { products: { data: IProduct[] } }) => {
                   <td className="flex items-center gap-2 whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-100">
                     <Image
                       src={
-                        product.image.length === 0
+                        !product?.image || product.image.length === 0
                           ? "/images/placeholder.jpg"
                           : `${product.image[0]}`
                       }

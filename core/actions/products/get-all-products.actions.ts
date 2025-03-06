@@ -18,18 +18,27 @@ export async function getAllProducts({
   page: number;
   sort?: string;
 }) {
-  console.log("QUERIES:", queries);
+  console.log("QUERIES:", query);
 
-  // Filtro di ricerca per nome del prodotto
-  const queryFilter: Prisma.ProductWhereInput =
-    query && query !== "all"
-      ? {
-          name: {
-            contains: query,
-            mode: "insensitive",
-          } as Prisma.StringFilter,
-        }
-      : {};
+  // Filtro di ricerca per nome e descrizione del prodotto
+  const queryFilter: Prisma.ProductWhereInput = query
+    ? {
+        OR: [
+          {
+            name: {
+              contains: query,
+              mode: "insensitive",
+            } as Prisma.StringFilter,
+          },
+          {
+            description: {
+              contains: query,
+              mode: "insensitive",
+            } as Prisma.StringFilter,
+          },
+        ],
+      }
+    : {};
 
   // Ottieni tutte le categorie e i brand
   const categories = await getAllCategories();
@@ -63,19 +72,16 @@ export async function getAllProducts({
     if (!value || value === "all") continue;
 
     if (key === "price" && value.includes("-")) {
-      // Filtra per range di prezzo
       const [min, max] = value.split("-").map(Number);
       dynamicFilters.price = {
         gte: min || 0,
         lte: max || Infinity,
       };
     } else if (key === "rating") {
-      // Filtra per rating minimo
       dynamicFilters.rating = {
         gte: parseInt(value),
       };
     } else if (key === "category" && categoryMap[value]) {
-      // Filtra per categoria ID
       dynamicFilters.productCategory = {
         some: {
           category: {
@@ -84,10 +90,8 @@ export async function getAllProducts({
         },
       };
     } else if (key === "brand" && brandMap[value]) {
-      // Filtra per brand ID
       dynamicFilters.productBrandId = brandMap[value];
     } else if (validFields.has(key)) {
-      // Solo campi validi vengono aggiunti
       (dynamicFilters as Record<string, string | number | Prisma.StringFilter>)[
         key
       ] = value;
@@ -135,7 +139,7 @@ export async function getAllProducts({
   }));
 
   return {
-    ...convertToPlainObject(updatedData),
+    data: convertToPlainObject(updatedData),
     totalPages: Math.ceil(productCount / limit),
     totalProducts: productCount,
   };

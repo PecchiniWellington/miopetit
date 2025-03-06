@@ -41,8 +41,8 @@ const UsersPage = async (props: {
 
   const summaryResponse = await getOrderSummary();
 
-  const users = JSON.parse(JSON.stringify(usersResponse));
-  const summary = JSON.parse(JSON.stringify(summaryResponse));
+  const users = usersResponse;
+  const summary = summaryResponse;
 
   // remove user logged in from the list
   users.data = users.data?.filter(

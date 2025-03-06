@@ -21,15 +21,13 @@ const ProductsPage = async (props: {
   const page = Number(searchParams.page) || 1;
   const searchQuery = searchParams.query || "";
 
-  const productsResponse = await getAllProducts({
+  const products = await getAllProducts({
     query: searchQuery,
     page,
-    limit: 100,
+    limit: 10,
   });
-  const categories = await getAllCategories();
 
-  const products = JSON.parse(JSON.stringify(productsResponse));
-  const categoriesDistribution = JSON.parse(JSON.stringify(categories));
+  const categories = await getAllCategories();
 
   return (
     <div className="relative z-10 flex-1 overflow-auto">
@@ -44,15 +42,13 @@ const ProductsPage = async (props: {
         </div>
         {/* STATS */}
 
-        <ProductsTable products={products} />
+        <ProductsTable products={products.data} />
 
         {/* CHARTS */}
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
           <SalesTrendChart />
 
-          <CategoryDistributionChart
-            categoriesDistribution={categoriesDistribution}
-          />
+          <CategoryDistributionChart categoriesDistribution={categories} />
         </div>
       </main>
     </div>
