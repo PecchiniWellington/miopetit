@@ -113,7 +113,7 @@ const Header = async () => {
                     : 0
                 }
               />
-              {userLogged && (
+              {session.user && (
                 <span className="hidden md:flex">
                   <FavoritesCounter />
                 </span>
