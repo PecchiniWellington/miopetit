@@ -1,5 +1,5 @@
 "use client";
-import SidebarMenu from "@/components/custom-sidebar";
+import SidebarMenu from "@/components/shared/header/custom-sidebar";
 import menuCat from "@/core/db-static/mega-menu/menu-cats.json";
 import menuDog from "@/core/db-static/mega-menu/menu-dogs.json";
 import menuSmallAnimals from "@/core/db-static/mega-menu/menu-small-animals.json";

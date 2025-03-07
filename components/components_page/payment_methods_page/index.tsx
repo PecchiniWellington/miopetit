@@ -30,6 +30,7 @@ const paymentIcons: Record<string, JSX.Element> = {
       <Image
         src="assets/payment-methods/apple_pay.svg"
         alt="Apple Pay"
+        className="h-6 w-10"
         width={40}
         height={24}
       />
@@ -151,7 +152,9 @@ const ConfigPaymentMethodsPage = ({
                               checked={field.value === paymentMethod}
                             />
                           </FormControl>
-                          {(paymentIcons && paymentIcons[paymentMethod]) || (
+                          {paymentIcons?.[paymentMethod] !== undefined ? (
+                            paymentIcons[paymentMethod]
+                          ) : (
                             <Wallet className="size-6 text-gray-500" />
                           )}
                           <FormLabel className="text-lg font-medium text-gray-800 dark:text-white">

@@ -8,7 +8,6 @@ const SignOutBtn = () => {
     <form
       onSubmit={async (event) => {
         event.preventDefault();
-        /*  setValue([]); */
         await signOutUser();
       }}
     >

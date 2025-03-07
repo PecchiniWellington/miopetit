@@ -51,10 +51,11 @@ const DealCountdown = () => {
         </div>
         <div className="flex justify-center">
           <Image
-            src="/images/royal-canin-4.jpg"
+            src="/images/placeholder.jpg"
             alt="promotion"
             width={350}
             height={350}
+            priority
             className="rounded-lg shadow-lg"
           />
         </div>

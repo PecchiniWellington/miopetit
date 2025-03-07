@@ -1,4 +1,3 @@
-// src/components/reset-password-form.tsx
 "use client";
 
 import { Input } from "@/components/ui/input";
@@ -23,49 +22,6 @@ const ResetPasswordForm = () => {
         onChange={(e) => setEmail(e.target.value)}
         required
       />
-
-      {/* Input Nuova Password */}
-      {/* <div className="relative">
-        <Input
-          type={isPasswordVisible ? "text" : "password"}
-          placeholder="Nuova Password"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-          required
-        />
-        <button
-          type="button"
-          className="absolute right-3 top-2 text-gray-500 hover:text-gray-700"
-          onClick={togglePasswordVisibility}
-        >
-          {isPasswordVisible ? (
-            <EyeOff className="size-5" />
-          ) : (
-            <Eye className="size-5" />
-          )}
-        </button>
-      </div>
-
-      <div className="relative">
-        <Input
-          type={isPasswordVisible ? "text" : "password"}
-          placeholder="Conferma Password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          required
-        />
-        <button
-          type="button"
-          className="absolute right-3 top-2 text-gray-500 hover:text-gray-700"
-          onClick={togglePasswordVisibility}
-        >
-          {isPasswordVisible ? (
-            <EyeOff className="size-5" />
-          ) : (
-            <Eye className="size-5" />
-          )}
-        </button>
-      </div> */}
 
       {/* Messaggio di errore */}
       {errorMessage && <p className="text-sm text-red-600">{errorMessage}</p>}

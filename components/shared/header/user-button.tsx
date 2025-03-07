@@ -8,7 +8,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { IUser } from "@/core/validators";
-import useLocalStorage from "@/hooks/use-local-storage";
 import ROLES from "@/lib/constants/roles";
 import { LayoutDashboard, Loader, LogOut, User, UserIcon } from "lucide-react";
 import { signIn, signOut, useSession } from "next-auth/react";
@@ -17,7 +16,6 @@ import Link from "next/link";
 
 const UserButton = ({ userLogged }: { userLogged: IUser | null }) => {
   const { data: session, status } = useSession({ required: false });
-  const [, setValue] = useLocalStorage("cart", []);
   const user = session?.user;
   const firstInitial = user?.name?.charAt(0).toUpperCase() ?? "";
 
@@ -92,7 +90,6 @@ const UserButton = ({ userLogged }: { userLogged: IUser | null }) => {
 
         <DropdownMenuItem
           onClick={async () => {
-            /* setValue([]); */
             await signOut();
           }}
           className="flex items-center gap-3 rounded-md px-4 py-3 text-red-600 transition-all duration-300 hover:bg-red-100 dark:text-red-400 dark:hover:bg-red-800"
