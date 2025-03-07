@@ -2,11 +2,9 @@
 
 import { presentation_deals } from "@/core/db-static/db_root_page";
 import { motion } from "framer-motion";
-import { useTranslations } from "next-intl";
 import Image from "next/image";
 
 export default function PresentationDeals() {
-  const t = useTranslations("HomePage");
   return (
     <section className="mx-auto px-4 py-12">
       <div className="grid grid-cols-2 gap-10 sm:grid-cols-3 md:grid-cols-4 ">

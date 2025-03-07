@@ -1,7 +1,7 @@
 "use client";
+import { Card, CardContent } from "@/components/ui/card";
 import { features } from "@/core/db-static/db_root_page";
 import { motion } from "framer-motion";
-import { Card, CardContent } from "../ui/card";
 
 const IconBoxes = () => {
   return (

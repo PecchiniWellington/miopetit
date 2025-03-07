@@ -4,7 +4,7 @@ import IndispensableList from "@/components/carousels/carousel-indispensable";
 import ActiveFilters from "@/components/category/active-filters";
 import Filter from "@/components/category/filter";
 import SortProduct from "@/components/category/sort-product";
-import CustomProduct from "@/components/shared/product/customProduct";
+import CustomProduct from "@/components/product/customProduct";
 import { FilterProvider } from "@/context/filter-context";
 import { ILatestProduct, IProduct } from "@/core/validators";
 

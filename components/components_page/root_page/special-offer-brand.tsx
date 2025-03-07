@@ -1,4 +1,6 @@
 "use client";
+import DynamicCarousel from "@/components/carousels/carousel";
+import CustomProduct from "@/components/product/customProduct";
 import { ICart, IProduct } from "@/core/validators";
 import useLocalStorage from "@/hooks/use-local-storage";
 import { useTranslateAutomatic } from "@/hooks/use-translate-automatic";
@@ -6,8 +8,6 @@ import { motion } from "framer-motion";
 import { useLocale } from "next-intl";
 import Image from "next/image";
 import { useCallback, useMemo } from "react";
-import DynamicCarousel from "../carousels/carousel";
-import CustomProduct from "../shared/product/customProduct";
 
 interface IProductListProps {
   data: IProduct[];

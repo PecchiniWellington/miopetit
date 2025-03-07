@@ -1,9 +1,9 @@
 import CartSideMenu from "@/components/cart-side-menu";
-import Footer from "@/components/footer";
+import Chatbot from "@/components/chatbot/chatbot";
+import Footer from "@/components/shared/footer/footer";
 import Header from "@/components/shared/header";
 import { Suspense } from "react";
 import Loading from "./loading";
-import Chatbot from "@/components/chatbot/chatbot";
 
 export default async function RootLayout({
   children,

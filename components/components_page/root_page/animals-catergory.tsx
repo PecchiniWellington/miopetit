@@ -1,9 +1,9 @@
 "use client";
 
+import AnimalAvatar from "@/components/animal-avatar";
+import DynamicCarousel from "@/components/carousels/carousel";
 import { animals_categories } from "@/core/db-static/db_root_page";
 import Link from "next/link";
-import AnimalAvatar from "../animal-avatar";
-import DynamicCarousel from "../carousels/carousel";
 
 const AnimalCategory = () => {
   return (

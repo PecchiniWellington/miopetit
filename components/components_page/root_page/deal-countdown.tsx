@@ -1,9 +1,9 @@
 "use client";
+import DynamicButton from "@/components/dynamic-button";
 import useCountdown from "@/hooks/use-countdown";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import DynamicButton from "../dynamic-button";
 
 // Static date for the countdown (replace with desired date)
 const TARGET_DATE = new Date("2025-04-31T23:59:59");

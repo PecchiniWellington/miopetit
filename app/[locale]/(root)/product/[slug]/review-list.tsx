@@ -1,6 +1,6 @@
 "use client";
 
-import Rating from "@/components/shared/product/rating";
+import Rating from "@/components/product/rating";
 import {
   Card,
   CardContent,
@@ -9,12 +9,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { getReviews } from "@/core/actions/reviews/review.action";
+import { IReview } from "@/core/validators";
 import useReview from "@/hooks/use-reviews";
 import { formatDateTime } from "@/lib/utils";
 import { Calendar, User } from "lucide-react";
 import Link from "next/link";
 import ReviewForm from "./review-form";
-import { IReview } from "@/core/validators";
 
 const ReviewList = ({
   userId,

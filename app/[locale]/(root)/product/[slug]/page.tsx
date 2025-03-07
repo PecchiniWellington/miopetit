@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AddToCart } from "@/components/shared/product/add-to-cart/add-to-cart";
-import ProductImages from "@/components/shared/product/product-image/product-images";
-import ProductPrice from "@/components/shared/product/product-price";
+import { AddToCart } from "@/components/product/add-to-cart/add-to-cart";
+import ProductImages from "@/components/product/product-image/product-images";
+import ProductPrice from "@/components/product/product-price";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { getMyCart } from "@/core/actions/cart/cart.actions";
 
-import ProductDetails from "@/components/shared/product/product-details";
+import ProductDetails from "@/components/product/product-details";
 import { getProductBySlug } from "@/core/actions/products";
 import { CheckCircle, XCircle } from "lucide-react";
 import { Suspense } from "react";

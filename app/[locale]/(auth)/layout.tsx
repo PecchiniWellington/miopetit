@@ -1,5 +1,5 @@
-import Footer from "@/components/footer";
 import Breadcrumb from "@/components/shared/bread-crumb";
+import Footer from "@/components/shared/footer/footer";
 import Header from "@/components/shared/header";
 
 export default function AuthLayout({

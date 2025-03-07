@@ -3,14 +3,15 @@
 import { motion } from "framer-motion";
 
 import { gift_data } from "@/core/db-static/db_root_page";
-import AnimalAvatar from "../animal-avatar";
+
+import AnimalAvatar from "@/components/animal-avatar";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "../ui/carousel";
+} from "@/components/ui/carousel";
 
 const Gifts = () => {
   return (

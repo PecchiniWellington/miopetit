@@ -1,4 +1,4 @@
-import Footer from "@/components/footer";
+import Footer from "@/components/shared/footer/footer";
 import HeaderCheckout from "@/components/shared/header/header-checkout";
 
 export default function RootLayout({

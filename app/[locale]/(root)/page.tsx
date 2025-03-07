@@ -1,17 +1,8 @@
 import { auth } from "@/auth";
-import {
-  AnimalCategory,
-  BestSellingProduct,
-  DealCountdown,
-  Gifts,
-  IconBoxes,
-  PresentationDeals,
-  SpecialOfferBrand,
-} from "@/components/components_root_page";
+import { ConfigRootPage } from "@/components/components_page/root_page";
 
 import { getMyCart } from "@/core/actions/cart/cart.actions";
 import { getLatestProducts } from "@/core/actions/products";
-import Image from "next/image";
 import { cache } from "react";
 
 const fetchLatestProducts = cache(async () => getLatestProducts({ limit: 8 }));
@@ -38,70 +29,5 @@ export default async function Home() {
     productProteinsId: product.productProteinsId ?? [],
   }));
 
-  return (
-    <div>
-      {/* ✅ Usiamo Suspense per evitare rendering multipli */}
-      {/*  <Suspense fallback={<div>Caricamento prodotti...</div>}>
-        {featuredProducts.length > 0 && (
-          <ProductCarousel data={featuredProducts} />
-        )}
-      </Suspense> */}
-
-      <PresentationDeals />
-
-      <div className="mt-2">
-        <AnimalCategory />
-      </div>
-
-      <div className="my-12">
-        <IconBoxes />
-      </div>
-
-      <div className="mt-12">
-        <Image
-          src="/images/porta-un-amico.png"
-          alt="product"
-          width={1920}
-          height={400}
-          className="size-full object-cover object-center"
-          priority
-        />
-      </div>
-
-      <div className="mt-12">
-        <SpecialOfferBrand
-          data={data}
-          userId={userId}
-          myCart={myCart}
-          title="Offerta Royal Canin"
-        />
-      </div>
-
-      <Gifts />
-      <DealCountdown />
-      <BestSellingProduct
-        userId={userId}
-        myCart={myCart}
-        data={latestProducts}
-        animalName="cane"
-      />
-      <BestSellingProduct
-        userId={userId}
-        myCart={myCart}
-        data={latestProducts}
-        animalName="gatto"
-      />
-
-      <div className="mt-12">
-        <Image
-          src="/images/Modo-semplice-per-spedire.png"
-          alt="product"
-          width={1920}
-          height={400}
-          className="size-full object-cover object-center"
-          priority
-        />
-      </div>
-    </div>
-  );
+  return <ConfigRootPage myCart={myCart} userId={userId} data={data} />;
 }
