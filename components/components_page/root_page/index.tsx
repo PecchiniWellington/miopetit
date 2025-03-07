@@ -1,3 +1,4 @@
+import { ICart, IProduct } from "@/core/validators";
 import Image from "next/image";
 import AnimalCategory from "./animals-catergory";
 import BestSellingProduct from "./best-selling-products";
@@ -12,9 +13,9 @@ export const ConfigRootPage = ({
   data,
   myCart,
 }: {
-  userId: string;
-  data: any;
-  myCart: any;
+  userId?: string;
+  data: IProduct[];
+  myCart: ICart | null;
 }) => {
   return (
     <>

@@ -27,6 +27,8 @@ const MainCategory = async ({
     query: queries,
   });
 
+  console.log("🔍 Products:", products);
+
   return (
     <ConfigCategoryPage
       indispensable={indispensableDog}

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { Card } from "@/components/ui/card";
@@ -7,44 +6,19 @@ import { ICartItem, IProduct } from "@/core/validators";
 import useLocalStorage from "@/hooks/use-local-storage";
 import { motion } from "framer-motion";
 import { Heart, ShoppingCart } from "lucide-react";
-import Image from "next/image";
+import { default as image, default as Image } from "next/image";
 import Link from "next/link";
 import { startTransition, useEffect, useState } from "react";
 
-interface ProductProps {
-  id: string;
-  image: string;
-  name: string;
-  brand?: string;
-  price: number;
-  oldPrice?: number;
-  productBrand?: string | null;
-  rating: number;
-  reviews: number;
-  availability: boolean;
-  pricePerKg?: string;
-  product: ICartItem;
-  slug: string;
-  getProductQuantity: number;
-  userId?: string;
-}
-
 export default function CustomProduct({
-  id,
-  image,
-  name,
-  brand,
-  productBrand,
-  reviews,
-  availability,
-  price,
-  oldPrice,
-  pricePerKg,
   product,
-  slug,
   getProductQuantity,
   userId,
-}: ProductProps) {
+}: {
+  product: IProduct;
+  getProductQuantity: number;
+  userId?: string;
+}) {
   const [isWishlisted, setWishlisted] = useState(false);
   const [favorites, setFavorites] = useLocalStorage<IProduct[]>(
     "favorites",
@@ -58,27 +32,25 @@ export default function CustomProduct({
 
   useEffect(() => {
     if (Array.isArray(favorites)) {
-      setWishlisted(favorites.some((fav) => fav.id === id));
+      setWishlisted(favorites.some((fav) => fav.id === product.id));
     }
-  }, [favorites, id]);
+  }, [favorites, product.id]);
 
   const toggleFavorite = () => {
-    const product = { id, image, name, brand, price, oldPrice, slug };
-
     if (isWishlisted) {
       setFavorites(
-        (favorites as any).filter((fav: any): fav is IProduct => fav.id !== id)
+        favorites.filter((fav): fav is IProduct => fav.id !== product.id)
       );
     } else {
-      setFavorites([...favorites, product] as any);
+      setFavorites([...favorites, product]);
     }
     setWishlisted(!isWishlisted);
   };
 
-  const handlerAddToCart = async (item: ICartItem) => {
+  const handlerAddToCart = async (item: IProduct) => {
     startTransition(async () => {
       const updatedCart = storedValue.map((cartItem) =>
-        cartItem.productId === item.productId
+        cartItem.productId === item.id
           ? { ...cartItem, qty: cartItem.qty + 1 }
           : cartItem
       );
@@ -92,6 +64,13 @@ export default function CustomProduct({
 
   /* const { translatedText: translatedDesc, loading: loadingDesc } =
     useTranslateProduct(description, "en"); */
+  const oldPrice =
+    product.percentageDiscount > 0
+      ? (
+          parseFloat(product.price) /
+          (1 - product.percentageDiscount / 100)
+        ).toFixed(2)
+      : null;
 
   return (
     <Card className="relative z-10 overflow-hidden rounded-xl border bg-white p-4 shadow-md transition hover:shadow-lg">
@@ -99,14 +78,21 @@ export default function CustomProduct({
         <div className="relative flex items-center justify-center rounded-lg bg-gray-100 p-6">
           {oldPrice && (
             <span className="absolute left-3 top-3 rounded-full bg-red-500 px-3 py-1 text-xs font-semibold text-white shadow">
-              -{Math.round(((oldPrice - price) / oldPrice) * 100)}%
+              -
+              {Math.round(
+                ((parseFloat(oldPrice) - parseFloat(product.price)) /
+                  parseFloat(oldPrice)) *
+                  100
+              )}
+              %
             </span>
           )}
+
           <Link href={`/product/${product?.slug}`}>
             {Array.isArray(image) ? (
               <Image
                 src={image[0] || "/images/placeholder.jpg"}
-                alt={name}
+                alt={product.name}
                 width={180}
                 height={180}
                 className="object-contain"
@@ -114,8 +100,8 @@ export default function CustomProduct({
               />
             ) : (
               <Image
-                src={image || "/images/placeholder.jpg"}
-                alt={name}
+                src={product.images[0] || "/images/placeholder.jpg"}
+                alt={product.name}
                 width={180}
                 height={180}
                 className="object-contain"
@@ -123,7 +109,6 @@ export default function CustomProduct({
               />
             )}
           </Link>
-
           <motion.button
             onClick={toggleFavorite}
             whileTap={{ scale: 0.9 }}
@@ -137,22 +122,24 @@ export default function CustomProduct({
       </motion.div>
 
       <div className="mt-4 space-y-2">
-        <h3 className="text-sm font-semibold text-gray-900">{name}</h3>
-        <p className="text-xs text-gray-500">{productBrand}</p>
+        <h3 className="text-sm font-semibold text-gray-900">{product.name}</h3>
+        {product.productBrand && (
+          <p className="text-xs text-gray-500">{product.productBrand.name}</p>
+        )}
 
         <div className="flex items-center space-x-1">
           <span className="text-sm font-bold text-yellow-500">★★★★★</span>
           <span className="text-xs font-semibold text-gray-700">
-            ({reviews} recensioni)
+            ({product.numReviews} recensioni)
           </span>
         </div>
 
         <p
           className={`text-xs font-medium ${
-            availability ? "text-green-600" : "text-red-500"
+            product.stock ? "text-green-600" : "text-red-500"
           }`}
         >
-          {availability ? "Disponibile" : "Non disponibile"}
+          {product.stock ? "Disponibile" : "Non disponibile"}
         </p>
 
         <div className="flex items-center space-x-2">
@@ -161,10 +148,12 @@ export default function CustomProduct({
               €{oldPrice}
             </span>
           )}
-          <span className="text-lg font-bold text-red-600">€{price}</span>
+          <span className="text-lg font-bold text-red-600">
+            €{product.price}
+          </span>
         </div>
 
-        {pricePerKg && <p className="text-xs text-gray-500">({pricePerKg})</p>}
+        {/*  {product.pricePerKg && <p className="text-xs text-gray-500">({pricePerKg})</p>} */}
       </div>
 
       <motion.button

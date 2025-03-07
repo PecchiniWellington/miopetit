@@ -12,7 +12,7 @@ import { useCallback, useMemo } from "react";
 interface IProductListProps {
   data: IProduct[];
   title?: string;
-  myCart: ICart;
+  myCart: ICart | null;
   userId?: string;
 }
 
@@ -112,7 +112,7 @@ const SpecialOfferBrand = ({
             <CustomProduct
               key={translatedProducts.id}
               id={translatedProducts.id}
-              image={translatedProducts.image[0]}
+              image={translatedProducts.images[0]}
               name={loading ? "Translating..." : translatedProducts.name}
               productBrand={translatedProducts?.productBrand?.name}
               rating={Number(translatedProducts.rating)}

@@ -4,12 +4,7 @@ import {
   signInFormSchema,
   signUpFormSchema,
 } from "./auth.validator";
-import {
-  ICart,
-  ICartItem,
-  cartItemSchema,
-  insertCartSchema,
-} from "./cart.validator";
+import { ICart, ICartItem, cartItemSchema } from "./cart.validator";
 import {
   ICategory,
   ICategoryInsert,
@@ -96,7 +91,6 @@ export {
   SalesDataTypeSchema,
   cartItemSchema,
   categorySchema,
-  insertCartSchema,
   insertCategorySchema,
   insertOrderItemSchema,
   insertOrderSchema,

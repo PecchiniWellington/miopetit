@@ -18,8 +18,6 @@ export async function getAllProducts({
   page: number;
   sort?: string;
 }) {
-  console.log("QUERIES:", query);
-
   // Filtro di ricerca per nome e descrizione del prodotto
   const queryFilter: Prisma.ProductWhereInput = query
     ? {
@@ -137,6 +135,8 @@ export async function getAllProducts({
       ? brands?.find((b) => b.id === item.productBrandId)?.name
       : null,
   }));
+
+  console.log("updatedData", updatedData);
 
   return {
     data: convertToPlainObject(updatedData),

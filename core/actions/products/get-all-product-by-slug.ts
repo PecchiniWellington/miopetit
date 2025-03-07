@@ -1,5 +1,7 @@
 import { prisma } from "@/core/prisma/prisma";
+import { productSchema } from "@/core/validators";
 import { convertToPlainObject } from "@/lib/utils";
+import { z } from "zod";
 
 // Tipizzazione dei query params
 export type IQueryParams = {
@@ -64,7 +66,7 @@ export async function getAllProductsBySlug({
     const subCategoryIds = await getAllSubCategoryIds(mainCategory.id);
     const categoryIds = [mainCategory.id, ...subCategoryIds];
 
-    // Costruzione della query
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const where: any = {
       OR: [
         { categoryType: slug },
@@ -159,30 +161,61 @@ export async function getAllProductsBySlug({
     // Trova i prodotti filtrati
     const data = await prisma.product.findMany({
       where,
-      include: {
+      select: {
+        id: true,
+        name: true,
+        slug: true,
+        price: true,
+        description: true,
+        images: true,
+        stock: true,
+        rating: true,
+        numReviews: true,
+        isFeatured: true,
+        createdAt: true,
+        updatedAt: true,
+        animalAge: true,
+        categoryType: true,
+        percentageDiscount: true,
+
         productCategory: {
-          include: {
+          select: {
             category: true,
           },
         },
-        productUnitFormat: {
-          include: {
-            unitValue: true,
-            unitOfMeasure: true,
+
+        productBrand: {
+          select: {
+            id: true,
+            name: true,
           },
         },
-        productBrand: true,
-        orderitems: true,
+
+        productUnitFormat: {
+          select: {
+            id: true,
+            slug: true,
+            unitValue: { select: { value: true } },
+            unitOfMeasure: { select: { code: true } },
+          },
+        },
 
         productPathologyOnProduct: {
-          include: { pathology: true },
+          select: {
+            pathology: { select: { id: true, name: true } },
+          },
         },
+
         productsFeatureOnProduct: {
-          include: { productFeature: true },
+          select: {
+            productFeature: { select: { id: true, name: true } },
+          },
         },
 
         productProteinOnProduct: {
-          include: { productProtein: true },
+          select: {
+            productProtein: { select: { id: true, name: true } },
+          },
         },
       },
       orderBy:
@@ -195,38 +228,40 @@ export async function getAllProductsBySlug({
               : { createdAt: "desc" },
     });
 
-    console.log(`✅ Trovati ${data.length} prodotti.`);
+    /* OUTPUT */
+    const transformedData = data.map(
+      ({
+        productPathologyOnProduct,
+        productProteinOnProduct,
+        productCategory,
+        productsFeatureOnProduct,
+        ...rest
+      }) => ({
+        ...rest,
+        productPathologies: productPathologyOnProduct.map((p) => p.pathology),
+        productProteins: productProteinOnProduct.map((p) => p.productProtein),
+        productCategories: productCategory.map((c) => c.category),
+        productUnitFormat: rest.productUnitFormat
+          ? {
+              id: rest.productUnitFormat.id,
+              unitValue: rest.productUnitFormat.unitValue.value,
+              unitOfMeasure: rest.productUnitFormat.unitOfMeasure.code,
+              slug: rest.productUnitFormat.slug,
+            }
+          : null,
+        productFeature: productsFeatureOnProduct.map((f) => f.productFeature),
+      })
+    );
 
-    // Formatta i dati
-    const updatedData = data.map((item) => ({
-      ...item,
-      category: item.productCategory?.length
-        ? item.productCategory.map((pc) => pc.category.name).join(", ")
-        : "N/A",
-      productBrand: item.productBrand ? item.productBrand.name : null,
-      productUnitFormat: item.productUnitFormat
-        ? {
-            id: item.productUnitFormat.id,
-            unitValue: item.productUnitFormat.unitValue.value,
-            unitOfMeasure: item.productUnitFormat.unitOfMeasure.code,
-            slug: item.productUnitFormat.slug,
-          }
-        : null,
-      productPathologies: item.productPathologyOnProduct.map((p) => ({
-        id: p.pathology.id,
-        name: p.pathology.name,
-      })),
-      productFeatures: item.productsFeatureOnProduct.map((f) => ({
-        id: f.productFeature.id,
-        name: f.productFeature.name,
-      })),
-      productProteins: item.productProteinOnProduct.map((p) => ({
-        id: p.productProtein.id,
-        name: p.productProtein.name,
-      })),
-    }));
+    const result = z.array(productSchema).safeParse(transformedData);
 
-    return convertToPlainObject(updatedData);
+    if (!result.success) {
+      console.error(
+        "❌ Errore nella validazione dei prodotti:",
+        result.error.format()
+      );
+      throw new Error("Errore di validazione dei prodotti");
+    }
   } catch (error) {
     console.error("❌ Errore durante il fetch dei prodotti:", error);
     return { data: [], totalPages: 0, totalProducts: 0 };

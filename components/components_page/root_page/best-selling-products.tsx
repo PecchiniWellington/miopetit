@@ -6,9 +6,7 @@ import ProductList from "@/components/product/product-list";
 import { brands } from "@/core/db-static/db_root_page";
 import { ICart, IProduct } from "@/core/validators";
 import useLocalStorage from "@/hooks/use-local-storage";
-import { useTranslateAutomatic } from "@/hooks/use-translate-automatic";
 import { motion } from "framer-motion";
-import { useLocale } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useMemo } from "react";
@@ -21,24 +19,15 @@ const BestSellingProduct = ({
 }: {
   data: IProduct[];
   animalName?: string;
-  myCart: ICart;
+  myCart: ICart | null;
   userId?: string;
 }) => {
   const [storedValue] = useLocalStorage<{ productId: string; qty: number }[]>(
     "cart",
     []
   );
-  const locale = useLocale();
   const memoizedData = useMemo(() => data, [data]);
-  const productNames = data.map((product) => product.name);
-  const { translatedText, loading } = useTranslateAutomatic(
-    productNames,
-    locale
-  );
-  const translatedProducts = memoizedData.map((product, index) => ({
-    ...product,
-    name: Array.isArray(translatedText) ? translatedText[index] : product.name,
-  }));
+
   const getProductQuantity = useCallback(
     (productId: string) => {
       if (!userId) {
@@ -115,21 +104,10 @@ const BestSellingProduct = ({
             gap={20}
             renderItem={(memoizedData) => (
               <CustomProduct
-                {...memoizedData}
-                reviews={memoizedData.numReviews}
-                availability={memoizedData.stock ? true : false}
+                userId={userId}
+                key={memoizedData.id}
                 product={memoizedData}
-                image={memoizedData.image[0]}
-                price={Number(memoizedData.price)}
                 getProductQuantity={getProductQuantity(memoizedData.id)}
-                name={loading ? "Translating..." : translatedProducts.name}
-                productBrand={
-                  typeof memoizedData.productBrand === "string"
-                    ? memoizedData.productBrand
-                    : undefined
-                }
-                /*  addToCart={addToCart}
-                getProductQuantity={getProductQuantity} */
               />
             )}
           />
@@ -147,8 +125,7 @@ const BestSellingProduct = ({
           </h2>
 
           <ProductList
-            data={translatedProducts}
-            myCart={myCart}
+            product={data}
             userId={userId}
             getProductQuantity={getProductQuantity}
           />

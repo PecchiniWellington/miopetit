@@ -1,50 +1,36 @@
-import { ICart, IProduct } from "@/core/validators";
+import { IProduct } from "@/core/validators";
+import { useMemo } from "react";
 import CustomProduct from "./customProduct";
 
 interface IProductListProps {
-  data: IProduct[];
+  product: IProduct[];
   limit?: number;
-  myCart: ICart;
   userId?: string;
-  locale?: string;
+
   getProductQuantity: (productId: string) => number;
 }
 
 const ProductList = ({
-  data,
+  product,
   limit,
-  myCart,
   userId,
-  locale = "en",
+
   getProductQuantity,
 }: IProductListProps) => {
-  const limitedData = limit ? data.slice(0, limit) : data;
+  const memoizedData = useMemo(() => product, [product]);
+  const limitedData = limit ? memoizedData.slice(0, limit) : memoizedData;
 
   return (
     <div className="my-10">
-      {data.length > 0 ? (
+      {product.length > 0 ? (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {limitedData ? (
             limitedData.map((product: IProduct) => (
               <CustomProduct
                 key={product.id}
-                id={product.id}
-                image={product.image[0]}
-                name={product.name}
-                productBrand={product?.productBrand?.name}
-                rating={Number(product.rating)}
-                reviews={product.numReviews}
-                availability={product.stock ? true : false}
-                price={Number(product.price)}
-                oldPrice={54.99}
-                pricePerKg="€4,16/KG (FAKE)"
                 product={product}
-                slug={product.slug}
-                myCart={myCart}
-                userId={userId}
                 getProductQuantity={getProductQuantity(product.id)}
-                /*  getProductQuantity={getProductQuantity}
-                addToCart={addToCart} */
+                userId={userId}
               />
             ))
           ) : (

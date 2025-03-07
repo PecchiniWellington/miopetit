@@ -2,7 +2,8 @@
 
 import { auth } from "@/auth";
 import { prisma } from "@/core/prisma/prisma";
-import { cartItemSchema, ICartItem, insertCartSchema } from "@/core/validators";
+import { cartItemSchema, ICartItem } from "@/core/validators";
+import { cartSchema } from "@/core/validators/cart.validator";
 import { convertToPlainObject, formatError, round2 } from "@/lib/utils";
 import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
@@ -72,16 +73,23 @@ export async function addItemToCart(data: ICartItem) {
         { cart, item }
       );
 
-      const newCart = insertCartSchema.parse({
+      const {
+        data: newCart,
+        success,
+        error,
+      } = cartSchema.safeParse({
+        ...cart,
         userId: userId,
         items: [item],
         sessionCartId: sessionCartId,
         ...calcPrice([item]),
       });
 
-      console.log("🆕 [Nuovo Carrello] - Schema del nuovo carrello:", newCart);
-
-      await prisma.cart.create({ data: newCart });
+      if (success) {
+        await prisma.cart.create({ data: newCart });
+      } else {
+        throw new Error("Failed to create new cart:" + error.format());
+      }
 
       revalidatePath(`/cart`);
       console.log(
@@ -162,27 +170,24 @@ export const getMyCart = async () => {
   const session = await auth();
   const userId = session?.user?.id ? (session.user.id as string) : undefined;
 
-  /* if (!sessionCartId && !userId) throw new Error("Cart session not found"); */
+  const cart = await prisma.cart.findFirst({
+    where: userId ? { userId } : { sessionCartId },
+  });
 
-  try {
-    const cart = await prisma.cart.findFirst({
-      where: userId ? { userId } : { sessionCartId },
-    });
+  if (!cart) return null;
 
-    if (!cart) return null;
+  const { data, success, error } = cartSchema.safeParse(cart);
 
-    return convertToPlainObject({
-      ...cart,
-      items: cart.items as ICartItem[],
-      itemsPrice: Number(cart.itemsPrice),
-      totalPrice: Number(cart.totalPrice),
-      shippingPrice: Number(cart.shippingPrice),
-      taxPrice: Number(cart.taxPrice),
-    });
-  } catch (error) {
-    console.error("❌ Errore in getMyCart:", error);
-    return { success: false, message: formatError(error) };
+  if (!success) {
+    console.error("❌ Errore nella validazione del carrello:", error.format());
+    throw new Error("Errore di validazione del carrello");
   }
+
+  return {
+    ...convertToPlainObject(data),
+    success: true,
+    message: "Carrello creato",
+  };
 };
 
 export async function removeItemFromCart(productId: string) {

@@ -10,15 +10,17 @@ export const cartItemSchema = z.object({
   price: currency,
 });
 
-export const insertCartSchema = z.object({
+export const cartSchema = z.object({
+  id: z.string().uuid(),
   items: z.array(cartItemSchema),
+  createdAt: z.date().optional(),
   itemsPrice: currency,
   totalPrice: currency,
   shippingPrice: currency,
   taxPrice: currency,
-  sessionCartId: z.string().min(1, "Session cart id is required"),
-  userId: z.string().optional().nullable(),
+  sessionCartId: z.string().uuid(),
+  userId: z.string().uuid(),
 });
 
 export type ICartItem = z.infer<typeof cartItemSchema>;
-export type ICart = z.infer<typeof insertCartSchema>;
+export type ICart = z.infer<typeof cartSchema>;
