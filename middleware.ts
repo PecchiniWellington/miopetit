@@ -31,7 +31,12 @@ export default async function middleware(req: NextRequest) {
         ? browserLocale
         : "en";
 
-    return NextResponse.redirect(new URL(`/${locale}${pathname}`, req.url));
+    // 🚨 Evita loop infinito: non reindirizzare se è già nella forma corretta
+    const newPathname = `/${locale}${pathname}`;
+    if (pathname !== newPathname) {
+      console.log(`🔄 Redirect: ${pathname} → ${newPathname}`);
+      return NextResponse.redirect(new URL(newPathname, req.url));
+    }
   }
 
   // 🔹 3. Controlla l'autenticazione usando `auth()`
@@ -46,7 +51,6 @@ export default async function middleware(req: NextRequest) {
     "/payment-method",
     "/place-order",
     "/favorites",
-    "/profile",
     "/user",
     "/order",
     "/admin",
@@ -91,7 +95,7 @@ export default async function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!_next|_static|favicon.ico|public|api/auth).*)",
+    "/((?!_next|_static|favicon.ico|public|api/auth|images).*)",
     "/(de|en|it|es)/:path*",
     "/shipping-address",
     "/payment-method",
