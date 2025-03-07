@@ -1,41 +1,9 @@
 "use client";
 
+import { animals_categories } from "@/core/db-static/db_root_page";
 import Link from "next/link";
-import AnimalAvatar from "./animal-avatar";
-import DynamicCarousel from "./carousels/carousel";
-
-const animals = [
-  {
-    name: "dog",
-    image: "dog.png",
-    href: "/dog",
-  },
-  {
-    name: "cat",
-    image: "cat.png",
-    href: "/cat",
-  },
-  {
-    name: "small animals",
-    image: "small-animals.png",
-    href: "/small-animals",
-  },
-  {
-    name: "fish",
-    image: "fish.png",
-    href: "/fish",
-  },
-  {
-    name: "bird",
-    image: "bird.png",
-    href: "/bird",
-  },
-  {
-    name: "reptiles",
-    image: "reptiles.png",
-    href: "/reptiles",
-  },
-];
+import AnimalAvatar from "../animal-avatar";
+import DynamicCarousel from "../carousels/carousel";
 
 const AnimalCategory = () => {
   return (
@@ -44,7 +12,7 @@ const AnimalCategory = () => {
         Per chi stai comprando? 🐾
       </h2>
       <DynamicCarousel
-        data={animals}
+        data={animals_categories}
         itemsPerView={4}
         gap={20}
         renderItem={({ name, image }) => (

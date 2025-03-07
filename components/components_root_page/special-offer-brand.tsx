@@ -6,8 +6,8 @@ import { motion } from "framer-motion";
 import { useLocale } from "next-intl";
 import Image from "next/image";
 import { useCallback, useMemo } from "react";
-import DynamicCarousel from "./carousels/carousel";
-import CustomProduct from "./shared/product/customProduct";
+import DynamicCarousel from "../carousels/carousel";
+import CustomProduct from "../shared/product/customProduct";
 
 interface IProductListProps {
   data: IProduct[];

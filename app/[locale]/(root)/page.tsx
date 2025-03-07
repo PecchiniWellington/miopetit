@@ -1,10 +1,14 @@
 import { auth } from "@/auth";
-import AnimalCategory from "@/components/animals-catergory";
-import BestSellingProduct from "@/components/best-selling-products";
-import Gifts from "@/components/gifts";
-import IconBoxes from "@/components/icons-boxes";
-import PresentationDeals from "@/components/presentation-deals";
-import SpecialOfferBrand from "@/components/special-offer-brand";
+import {
+  AnimalCategory,
+  BestSellingProduct,
+  DealCountdown,
+  Gifts,
+  IconBoxes,
+  PresentationDeals,
+  SpecialOfferBrand,
+} from "@/components/components_root_page";
+
 import { getMyCart } from "@/core/actions/cart/cart.actions";
 import { getLatestProducts } from "@/core/actions/products";
 import Image from "next/image";
@@ -74,6 +78,7 @@ export default async function Home() {
       </div>
 
       <Gifts />
+      <DealCountdown />
       <BestSellingProduct
         userId={userId}
         myCart={myCart}

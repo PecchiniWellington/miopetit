@@ -8,9 +8,9 @@ import { useLocale } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useMemo } from "react";
-import DynamicCarousel from "./carousels/carousel";
-import CustomProduct from "./shared/product/customProduct";
-import ProductList from "./shared/product/product-list";
+import DynamicCarousel from "../carousels/carousel";
+import CustomProduct from "../shared/product/customProduct";
+import ProductList from "../shared/product/product-list";
 const brands = [
   {
     name: "brand1",

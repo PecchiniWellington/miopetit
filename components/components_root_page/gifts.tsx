@@ -1,37 +1,16 @@
 "use client";
 
 import { motion } from "framer-motion";
-import AnimalAvatar from "./animal-avatar";
+
+import { gift_data } from "@/core/db-static/db_root_page";
+import AnimalAvatar from "../animal-avatar";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "./ui/carousel";
-
-const giftsData = [
-  {
-    name: "Toys, treats & more",
-    image: "coccola-tutti.png",
-  },
-  {
-    name: "Regali Cani",
-    image: "coccola-cani.png",
-  },
-  {
-    name: "Regali Gatti",
-    image: "coccola-gatti.png",
-  },
-  {
-    name: "Regali Piccoli Animali",
-    image: "coccola-piccoli-animali.png",
-  },
-  {
-    name: "Regali per te",
-    image: "coccola-te.png",
-  },
-];
+} from "../ui/carousel";
 
 const Gifts = () => {
   return (
@@ -53,7 +32,7 @@ const Gifts = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        {giftsData.map(({ name, image }) => (
+        {gift_data.map(({ name, image }) => (
           <motion.div
             key={name}
             className="group relative  rounded-3xl bg-white   transition-transform duration-300 hover:scale-105 "
@@ -83,7 +62,7 @@ const Gifts = () => {
           }}
         >
           <CarouselContent>
-            {giftsData.map(({ name, image }) => (
+            {gift_data.map(({ name, image }) => (
               <CarouselItem key={name} className="md:basis-1/2 lg:basis-1/4">
                 <div className="relative mx-auto h-full">
                   <motion.div

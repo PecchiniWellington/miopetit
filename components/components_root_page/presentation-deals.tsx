@@ -1,34 +1,16 @@
 "use client";
 
+import { presentation_deals } from "@/core/db-static/db_root_page";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-
-const presentationDeals = [
-  {
-    title: "Affari sotto il 15%",
-    image: "/images/affari-quindici.png",
-  },
-  {
-    title: "I nostri migliori Prodotti",
-    image: "/images/migliori-prodotti.png",
-  },
-  {
-    title: "Prendi 3 ricevi un Regalo",
-    image: "/images/prendi-3.png",
-  },
-  {
-    title: "Iscriviti e Risparmia fino a 30%",
-    image: "/images/risparmia-30.png",
-  },
-];
 
 export default function PresentationDeals() {
   const t = useTranslations("HomePage");
   return (
     <section className="mx-auto px-4 py-12">
       <div className="grid grid-cols-2 gap-10 sm:grid-cols-3 md:grid-cols-4 ">
-        {presentationDeals.map((deal, index) => (
+        {presentation_deals.map((deal, index) => (
           <motion.div
             key={deal.title}
             className="relative flex items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-orange-400 via-pink-500 to-purple-500 p-1 shadow-md transition-transform duration-300 hover:scale-x-150 hover:shadow-lg"
