@@ -18,7 +18,13 @@ const Filter = ({
   productFilters,
   className,
 }: {
-  productFilters: unknown[];
+  productFilters: {
+    [key: string]:
+      | string
+      | number
+      | { [key: string]: string | number }
+      | Array<string | number | object>;
+  };
 
   className?: string;
 }) => {

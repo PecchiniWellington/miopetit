@@ -47,6 +47,7 @@ export const capitalizeFirstLetter = (text: string) => {
   return text.charAt(0).toUpperCase() + text.slice(1);
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const formatError = (error: any) => {
   if (error.name === "ZodError") {
     console.log("⚠️ [Zod Validation Error] - Dettagli:", error.errors);
@@ -243,6 +244,7 @@ export const generatePriceRanges = (
   return ranges;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function debounce<T extends (...args: any[]) => void>(
   func: T,
   wait: number

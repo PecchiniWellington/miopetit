@@ -1,8 +1,6 @@
 import { IBrand } from "@/types/index";
 import { z } from "zod";
 
-// Schema per il modello Product
-
 export const productSchema = z.object({
   id: z.string().uuid(),
   name: z.string(),

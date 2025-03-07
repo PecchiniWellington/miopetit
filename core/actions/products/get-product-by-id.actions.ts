@@ -1,12 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { prisma } from "@/core/prisma/prisma";
-import { IFormattedProduct } from "@/core/validators/product.validator";
 import { convertToPlainObject } from "@/lib/utils";
 
-export async function getProductById(
-  id: string
-): Promise<IFormattedProduct | null> {
-  const product: any = await prisma.product.findFirst({
+export async function getProductById(id: string) {
+  const product = await prisma.product.findFirst({
     where: { id },
     include: {
       orderitems: true,

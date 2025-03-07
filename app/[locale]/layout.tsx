@@ -29,31 +29,20 @@ export default async function RootLayout({
   params: Promise<{ locale: string }>;
 }>) {
   const { locale } = await params;
-  if (!routing.locales.includes(locale as any)) {
+  if (!routing.locales.includes(locale as "en" | "it" | "es")) {
     notFound();
   }
 
-  // Providing all messages to the client
-  // side is the easiest way to get started
   const messages = await getMessages();
   return (
     <html lang={locale} suppressHydrationWarning className="mx-auto">
       <body className={`${inter.className}  antialiased`}>
-        {/* <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem
-          disableTransitionOnChange
-        > */}
-
         <SessionProvider>
           <NextIntlClientProvider messages={messages || {}}>
             {children}
           </NextIntlClientProvider>
         </SessionProvider>
         <Toaster />
-
-        {/* </ThemeProvider> */}
       </body>
     </html>
   );

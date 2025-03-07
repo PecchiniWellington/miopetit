@@ -11,8 +11,8 @@ import {
 
 // **Tipizzazione del contesto**
 interface FilterContextType {
-  filters: { [key: string]: any };
-  updateFilters: (key: string, value: any) => void;
+  filters: { [key: string]: string };
+  updateFilters: (key: string, value: string) => void;
   resetFilters: () => void;
   isAccordionOpen: boolean;
   setIsAccordionOpen: (isOpen: boolean) => void;
@@ -23,13 +23,12 @@ const FilterContext = createContext<FilterContextType | undefined>(undefined);
 
 // **Provider per il contesto**
 export const FilterProvider = ({ children }: { children: ReactNode }) => {
-  const [filters, setFilters] = useState<{ [key: string]: any }>({});
+  const [filters, setFilters] = useState<{ [key: string]: string }>({});
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname(); // ✅ Manteniamo l'intero percorso
   const searchParams = useSearchParams();
 
-  // ✅ Effetto per aggiornare l'URL SOLO quando i filtri cambiano
   useEffect(() => {
     if (Object.keys(filters).length === 0) return; // Evita esecuzioni inutili
 
@@ -45,26 +44,22 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
 
     const newUrl = `${pathname}?${params.toString()}`;
 
-    // ✅ Evita aggiornamenti inutili se l'URL è già lo stesso
     if (newUrl !== window.location.pathname + window.location.search) {
       router.replace(newUrl, { scroll: false });
     }
   }, [filters, router, pathname, searchParams]);
 
-  // ✅ Funzione per aggiornare i filtri
-  const updateFilters = (key: string, value: any) => {
+  const updateFilters = (key: string, value: string) => {
     setFilters((prevFilters) => ({
       ...prevFilters,
       [key]: value,
     }));
   };
 
-  // ✅ Funzione per resettare i filtri
   const resetFilters = () => {
-    setFilters({}); // ✅ Resetta lo stato dei filtri
+    setFilters({});
     setIsAccordionOpen(false);
 
-    // ✅ Rimuove i filtri dall'URL
     router.replace(pathname, { scroll: false });
   };
 

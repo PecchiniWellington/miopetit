@@ -1,24 +1,59 @@
 "use client";
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import IndispensableList from "@/components/carousels/carousel-indispensable";
 import ActiveFilters from "@/components/category/active-filters";
 import Filter from "@/components/category/filter";
 import SortProduct from "@/components/category/sort-product";
 import CustomProduct from "@/components/product/customProduct";
 import { FilterProvider } from "@/context/filter-context";
-import { IProduct } from "@/core/validators";
+import { ICart, IProduct } from "@/core/validators";
+import useLocalStorage from "@/hooks/use-local-storage";
+import { useCallback, useMemo } from "react";
 
 const ConfigCategoryPage = ({
   indispensable,
   mainCategory,
   productFilters,
   products,
+  userId,
+  myCart,
 }: {
   indispensable: { image: string; href: string; label: string }[];
   mainCategory: string;
-  productFilters: any;
-  products: any[];
+  productFilters: {
+    [key: string]:
+      | string
+      | number
+      | { [key: string]: string | number }
+      | Array<string | number | object>;
+  };
+  products: IProduct[];
+  userId?: string;
+  myCart: ICart | null;
 }) => {
+  const memoizedData = useMemo(() => products, [products]);
+  console.log("🔍 Products:", memoizedData);
+  const [storedValue] = useLocalStorage<{ productId: string; qty: number }[]>(
+    "cart",
+    []
+  );
+
+  const getProductQuantity = useCallback(
+    (productId: string) => {
+      if (!userId) {
+        const product = storedValue.find(
+          (item) => item.productId === productId
+        );
+        return product ? product.qty : 0;
+      } else {
+        const product = myCart?.items?.find(
+          (item) => item.productId === productId
+        );
+
+        return product ? product.qty : 0;
+      }
+    },
+    [storedValue, userId, myCart]
+  );
   /* INDISPENSABLE */
   const Indispensable = () => (
     <IndispensableList
@@ -44,9 +79,8 @@ const ConfigCategoryPage = ({
       <SortProduct mainCategory={mainCategory} className="hidden md:block" />
     </>
   );
-  const ProductsList = ({ products }: { products: any[] }) => {
-    console.log(products);
-    return products?.length === 0 ? (
+  const ProductsList = ({ products }: { products: IProduct[] }) => {
+    return memoizedData?.length === 0 ? (
       <div className="col-span-full text-center text-gray-500">
         Nessun prodotto trovato
       </div>
@@ -55,19 +89,10 @@ const ConfigCategoryPage = ({
         {/* product.data?? */}
         {products?.map((product: IProduct) => (
           <CustomProduct
-            slug={product.slug}
+            userId={userId}
             key={product.id}
-            id={product.id}
-            brand={product.productBrand?.name}
-            image={product.image ? product.image[0] : ""}
-            reviews={product.numReviews}
-            availability={(product.stock ?? 0) > 0 ? true : false}
-            name={product.name}
-            rating={product.rating as number}
-            price={Number(product.price)}
             product={product}
-            /* addToCart={addToCart}
-            getProductQuantity={getProductQuantity} */
+            getProductQuantity={getProductQuantity(product.id)}
           />
         ))}
       </>
@@ -95,7 +120,7 @@ const ConfigCategoryPage = ({
             </div>
 
             <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-              <ProductsList products={products} />
+              <ProductsList products={memoizedData} />
             </div>
           </main>
         </FilterProvider>

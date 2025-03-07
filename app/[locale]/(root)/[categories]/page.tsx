@@ -1,4 +1,6 @@
+import { auth } from "@/auth";
 import ConfigCategoryPage from "@/components/components_page/category_page";
+import { getMyCart } from "@/core/actions/cart/cart.actions";
 import { getAllProductsBySlug } from "@/core/actions/products/get-all-product-by-slug";
 import { getFiltersForCategory } from "@/core/actions/products/product-infos.ts/get-product-category.action";
 import { IQueryParams } from "@/core/actions/types";
@@ -12,6 +14,8 @@ const MainCategory = async ({
   params: Promise<{ categories: string; sort: string }>;
 }) => {
   const { categories } = await params;
+  const userLogged = await auth();
+  const userId = userLogged?.user?.id;
 
   const queries: IQueryParams = Object.fromEntries(
     Object.entries(await searchParams).map(([key, value]) => [
@@ -20,14 +24,23 @@ const MainCategory = async ({
     ])
   );
 
-  const productFilters = await getFiltersForCategory(categories);
+  const productFilters: {
+    [key: string]:
+      | string
+      | number
+      | { [key: string]: string | number }
+      | Array<string | number | object>;
+  } = await getFiltersForCategory(categories);
+  const myCart = await getMyCart();
 
-  const products: any = await getAllProductsBySlug({
+  const productsResponse = await getAllProductsBySlug({
     slug: categories,
     query: queries,
   });
 
-  console.log("🔍 Products:", products);
+  const products = Array.isArray(productsResponse)
+    ? productsResponse
+    : productsResponse.data;
 
   return (
     <ConfigCategoryPage
@@ -35,6 +48,8 @@ const MainCategory = async ({
       mainCategory={categories}
       productFilters={productFilters}
       products={products}
+      myCart={myCart}
+      userId={userId}
     />
   );
 };

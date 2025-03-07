@@ -169,7 +169,7 @@ export async function getFiltersForCategory(categorySlug: string) {
     _max: { price: true },
   });
 
-  return convertToPlainObject({
+  const convert = convertToPlainObject({
     animalAge: Array.from(new Set(filters.map((f) => f.animalAge))),
     productFormats: (
       await prisma.productUnitFormat.findMany({
@@ -266,4 +266,7 @@ export async function getFiltersForCategory(categorySlug: string) {
       ),
     },
   });
+
+  console.log("CONVERT", convert);
+  return convert;
 }

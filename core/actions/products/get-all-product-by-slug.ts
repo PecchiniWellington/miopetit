@@ -1,21 +1,19 @@
 import { prisma } from "@/core/prisma/prisma";
 import { productSchema } from "@/core/validators";
-import { convertToPlainObject } from "@/lib/utils";
+import { convertToPlainObject, formatDateTime } from "@/lib/utils";
 import { z } from "zod";
 
-// Tipizzazione dei query params
 export type IQueryParams = {
   [key: string]: string;
 };
 
-// Funzione ricorsiva per ottenere tutte le sottocategorie di una categoria
 async function getAllSubCategoryIds(parentId: string): Promise<string[]> {
   const subCategories = await prisma.category.findMany({
     where: { parentId },
     select: { id: true },
   });
 
-  if (subCategories.length === 0) return []; // Nessuna sottocategoria
+  if (subCategories.length === 0) return [];
 
   const subCategoryIds = subCategories.map((c) => c.id);
   const deepSubCategoryIds = await Promise.all(
@@ -25,7 +23,6 @@ async function getAllSubCategoryIds(parentId: string): Promise<string[]> {
   return subCategoryIds.concat(deepSubCategoryIds.flat());
 }
 
-// Trova la categoria principale associata a categoryType
 async function getMainCategory(categorySlug: string) {
   const category = await prisma.category.findFirst({
     where: {
@@ -42,7 +39,6 @@ async function getMainCategory(categorySlug: string) {
   return convertToPlainObject(category);
 }
 
-// Ottieni tutti i prodotti per categoryType e sottocategorie
 export async function getAllProductsBySlug({
   query,
   slug,
@@ -53,7 +49,6 @@ export async function getAllProductsBySlug({
   try {
     console.log(`🔎 Ricerca prodotti per categoryType: ${slug}`);
 
-    // Trova la categoria principale associata al categoryType
     const mainCategory = await getMainCategory(slug);
 
     console.log("🔍 Query params:", mainCategory);
@@ -250,6 +245,8 @@ export async function getAllProductsBySlug({
             }
           : null,
         productFeature: productsFeatureOnProduct.map((f) => f.productFeature),
+        createdAt: formatDateTime(rest.createdAt.toString()).dateTime,
+        updatedAt: formatDateTime(rest.updatedAt.toString()).dateTime,
       })
     );
 
@@ -262,6 +259,8 @@ export async function getAllProductsBySlug({
       );
       throw new Error("Errore di validazione dei prodotti");
     }
+
+    return convertToPlainObject(result.data);
   } catch (error) {
     console.error("❌ Errore durante il fetch dei prodotti:", error);
     return { data: [], totalPages: 0, totalProducts: 0 };
