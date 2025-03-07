@@ -25,30 +25,29 @@ import { JSX, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-// Mappa delle icone/metodi di pagamento
 const paymentIcons: Record<string, JSX.Element> = {
   Stripe: (
     <div className="flex items-center gap-3">
       <Image
-        src="/assets/payment-methods/apple_pay.svg"
+        src="@/assets/payment-methods/apple_pay.svg"
         alt="Apple Pay"
         width={40}
         height={24}
       />
       <Image
-        src="/assets/payment-methods/google_pay.svg"
+        src="@/assets/payment-methods/google_pay.svg"
         alt="Google Pay"
         width={40}
         height={24}
       />
       <Image
-        src="/assets/payment-methods/mc_pay.svg"
+        src="@/assets/payment-methods/mc_pay.svg"
         alt="Mastercard"
         width={40}
         height={24}
       />
       <Image
-        src="/assets/payment-methods/visa.svg"
+        src="@/assets/payment-methods/visa.svg"
         alt="Visa"
         width={40}
         height={24}
@@ -57,7 +56,7 @@ const paymentIcons: Record<string, JSX.Element> = {
   ),
   PayPal: (
     <Image
-      src="/assets/payment-methods/paypal_pay.svg"
+      src="@/assets/payment-methods/paypal_pay.svg"
       alt="PayPal"
       width={80}
       height={24}
@@ -66,7 +65,7 @@ const paymentIcons: Record<string, JSX.Element> = {
   "Bank Transfer": <Banknote className="size-6 text-green-500" />,
 };
 
-const PaymentMethodForm = ({
+const ConfigPaymentMethodsPage = ({
   preferredPaymentMethod,
   userId,
 }: {
@@ -115,8 +114,6 @@ const PaymentMethodForm = ({
     <>
       <CheckoutSteps current={2} />
 
-      {/* 🔔 Banner per utenti non loggati */}
-
       <div className="mx-auto mt-10 max-w-lg space-y-6 md:mt-0">
         <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
           🏦 Seleziona un metodo di pagamento
@@ -158,7 +155,7 @@ const PaymentMethodForm = ({
                                 checked={field.value === paymentMethod}
                               />
                             </FormControl>
-                            {paymentIcons[paymentMethod] || (
+                            {(paymentIcons && paymentIcons[paymentMethod]) || (
                               <Wallet className="size-6 text-gray-500" />
                             )}
                             <FormLabel className="text-lg font-medium text-gray-800 dark:text-white">
@@ -194,4 +191,4 @@ const PaymentMethodForm = ({
   );
 };
 
-export default PaymentMethodForm;
+export default ConfigPaymentMethodsPage;

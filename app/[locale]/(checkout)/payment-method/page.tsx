@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
+import ConfigPaymentMethodsPage from "@/components/components_page/payment_methods";
 import { getUserById } from "@/core/actions/user";
 import { Metadata } from "next";
-import PaymentMethodForm from "./payment-method-form";
 
 export const metadata: Metadata = {
   title: "Select Payment Method",
@@ -14,7 +14,7 @@ const PaymentMethod = async () => {
 
   const user = userId ? await getUserById(userId) : null;
   return (
-    <PaymentMethodForm
+    <ConfigPaymentMethodsPage
       preferredPaymentMethod={user?.paymentMethod}
       userId={userId}
     />
