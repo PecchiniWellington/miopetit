@@ -21,7 +21,6 @@ const ConfigShippingAddressPage = ({
   useEffect(() => {
     if (userAddress.data) {
       setAddresses(
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         userAddress.data.map((address: any) => ({
           ...address,
           fullName: address.fullName ?? "",

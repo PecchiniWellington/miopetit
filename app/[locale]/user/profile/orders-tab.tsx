@@ -15,7 +15,6 @@ export const OrdersTab = () => {
     try {
       const r = (await getMyOrders({ page: 1 })) || [];
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const orders = r.data.map((order: any) => ({
         ...order,
         user: order.user || null,

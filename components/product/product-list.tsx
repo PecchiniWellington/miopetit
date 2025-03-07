@@ -1,8 +1,8 @@
-import { ICart, ILatestProduct } from "@/core/validators";
+import { ICart, IProduct } from "@/core/validators";
 import CustomProduct from "./customProduct";
 
 interface IProductListProps {
-  data: ILatestProduct[];
+  data: IProduct[];
   limit?: number;
   myCart: ICart;
   userId?: string;
@@ -25,7 +25,7 @@ const ProductList = ({
       {data.length > 0 ? (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {limitedData ? (
-            limitedData.map((product: ILatestProduct) => (
+            limitedData.map((product: IProduct) => (
               <CustomProduct
                 key={product.id}
                 id={product.id}

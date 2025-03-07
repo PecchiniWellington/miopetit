@@ -22,7 +22,6 @@ const MainCategory = async ({
 
   const productFilters = await getFiltersForCategory(categories);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const products: any = await getAllProductsBySlug({
     slug: categories,
     query: queries,

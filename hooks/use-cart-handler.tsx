@@ -9,7 +9,6 @@ import useLocalStorage from "@/hooks/use-local-storage";
 import { calcPrice } from "@/lib/utils";
 import { useCallback, useEffect, useState } from "react";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const useCartHandler = (session: any) => {
   const userId = session?.data?.user?.id;
 
@@ -108,7 +107,6 @@ const useCartHandler = (session: any) => {
     async (product: ICartItem) => {
       setIsUpdating(true);
       const newItem: ICartItem = {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         productId: product.productId || (product as any).id,
         name: product?.name,
         price: product?.price.toString(),

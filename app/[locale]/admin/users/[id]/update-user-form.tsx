@@ -15,7 +15,6 @@ import { useRouter } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const UpdateUserForm = ({ user }: { user: any }) => {
   const router = useRouter();
   const { toast } = useToast();

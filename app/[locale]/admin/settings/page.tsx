@@ -14,7 +14,7 @@ const SettingsPage = async () => {
     // Handle the case where session or session.user.id is null or undefined
     throw new Error("User session is not valid");
   }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   let user: any = await getUserById(session.user.id);
   if (user && user.defaultAddress === null) {
     user = {

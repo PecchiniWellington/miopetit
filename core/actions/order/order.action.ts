@@ -178,7 +178,7 @@ export async function updateOrderToPaid({
   sendPurchaseReceipt({
     order: {
       ...updatedOrder,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       orderitems: updatedOrder.orderitems as any[],
       shippingAddress: updatedOrder.shippingAddress as IShippingAddress,
       paymentResult: updatedOrder.paymentResult as IPaymentResult,

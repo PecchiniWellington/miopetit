@@ -2,7 +2,6 @@ import DynamicFormField from "@/components/shared/dynamic-form-field";
 import { Button } from "@/components/ui/button";
 import slugify from "slugify";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const SlugFormField = ({ form }: { form: any }) => {
   const handleSetValue = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();

@@ -12,7 +12,7 @@ export default function UploadAvatar({
   control,
 }: {
   name: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   control: Control<any>;
 }) {
   const { setValue, watch } = useFormContext();

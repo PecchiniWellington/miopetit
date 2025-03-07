@@ -3,7 +3,7 @@
 
 import { Card } from "@/components/ui/card";
 import { addItemToCart } from "@/core/actions/cart/cart.actions";
-import { ICartItem, ILatestProduct, IProduct } from "@/core/validators";
+import { ICartItem, IProduct } from "@/core/validators";
 import useLocalStorage from "@/hooks/use-local-storage";
 import { motion } from "framer-motion";
 import { Heart, ShoppingCart } from "lucide-react";
@@ -46,9 +46,10 @@ export default function CustomProduct({
   userId,
 }: ProductProps) {
   const [isWishlisted, setWishlisted] = useState(false);
-  const [favorites, setFavorites] = useLocalStorage<
-    IProduct[] | ILatestProduct[]
-  >("favorites", []);
+  const [favorites, setFavorites] = useLocalStorage<IProduct[]>(
+    "favorites",
+    []
+  );
 
   const [storedValue, setStoredValue] = useLocalStorage<ICartItem[]>(
     "cart",
@@ -66,9 +67,7 @@ export default function CustomProduct({
 
     if (isWishlisted) {
       setFavorites(
-        (favorites as any).filter(
-          (fav: any): fav is IProduct | ILatestProduct => fav.id !== id
-        )
+        (favorites as any).filter((fav: any): fav is IProduct => fav.id !== id)
       );
     } else {
       setFavorites([...favorites, product] as any);

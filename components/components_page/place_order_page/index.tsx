@@ -17,9 +17,8 @@ const ConfigPlaceOrderPage = ({
     country: string;
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   user: any;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   cart: any;
 }) => {
   if (!cart || cart.items.length === 0) redirect("/cart");

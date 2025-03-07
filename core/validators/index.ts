@@ -34,11 +34,9 @@ import {
 } from "./payments.validator";
 import {
   IInsertProduct,
-  ILatestProduct,
   IProduct,
   IUpdateProduct,
   insertProductSchema,
-  latestProductSchema,
   productSchema,
   updateProductSchema,
 } from "./product.validator";
@@ -73,7 +71,6 @@ export type {
   ICategoryInsert,
   ICategoryUpdate,
   IInsertProduct,
-  ILatestProduct,
   ILatestSales,
   IOrder,
   IOrderInsert,
@@ -105,7 +102,6 @@ export {
   insertOrderSchema,
   insertProductSchema,
   insertReviewSchema,
-  latestProductSchema,
   orderSchema,
   paymentMethodSchema,
   paymentResultSchema,

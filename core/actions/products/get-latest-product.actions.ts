@@ -1,5 +1,5 @@
 import { prisma } from "@/core/prisma/prisma";
-import { latestProductSchema } from "@/core/validators";
+import { productSchema } from "@/core/validators";
 import { LATEST_PRODUCTS_LIMIT } from "@/lib/constants";
 import { convertToPlainObject } from "@/lib/utils";
 
@@ -16,7 +16,7 @@ export async function getLatestProducts({
   });
 
   const productsData = products.map((product) => {
-    const parsedProduct = latestProductSchema.parse({
+    const parsedProduct = productSchema.parse({
       ...product,
       price: product.price.toString(),
       rating: product.rating,

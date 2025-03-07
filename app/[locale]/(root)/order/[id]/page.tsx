@@ -39,7 +39,7 @@ const OrderDetailsPage = async (props: { params: Promise<{ id: string }> }) => {
         order={{
           ...order,
           shippingAddress: order.shippingAddress as IShippingAddress,
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
           orderitems: order.orderitems.map((item: any) => ({
             ...item,
             name: item.name || "",

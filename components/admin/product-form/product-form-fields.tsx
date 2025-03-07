@@ -23,7 +23,6 @@ export function ProductFormFields({
   allFeatures = [],
   product,
 }: {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   form: any;
   categories?: ICategory[];
   brands?: IBrand[];

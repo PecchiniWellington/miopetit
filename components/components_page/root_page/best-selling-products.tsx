@@ -4,7 +4,7 @@ import DynamicCarousel from "@/components/carousels/carousel";
 import CustomProduct from "@/components/product/customProduct";
 import ProductList from "@/components/product/product-list";
 import { brands } from "@/core/db-static/db_root_page";
-import { ICart, ILatestProduct } from "@/core/validators";
+import { ICart, IProduct } from "@/core/validators";
 import useLocalStorage from "@/hooks/use-local-storage";
 import { useTranslateAutomatic } from "@/hooks/use-translate-automatic";
 import { motion } from "framer-motion";
@@ -19,7 +19,7 @@ const BestSellingProduct = ({
   myCart,
   userId,
 }: {
-  data: ILatestProduct[];
+  data: IProduct[];
   animalName?: string;
   myCart: ICart;
   userId?: string;

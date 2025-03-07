@@ -9,7 +9,6 @@ import Rating from "./rating";
 export default function ProductDetails({
   product,
 }: {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   product: IProduct | any;
 }) {
   function truncateText(text: string, maxLength: number): string {
@@ -28,7 +27,7 @@ export default function ProductDetails({
     {
       key: "Funzione alimentare",
       value: product.productsFeatureOnProduct
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
         .map((f: any) => f.productFeature.name)
         .join(", "),
     },

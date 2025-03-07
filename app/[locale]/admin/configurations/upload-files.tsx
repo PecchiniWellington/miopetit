@@ -46,7 +46,6 @@ export default function UploadFiles() {
         skipEmptyLines: true,
       });
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const formattedData = data.map((item: any) => ({
         ...item,
         categoryId: item.categoryId || "d0380863-516c-4fda-9ddf-818252b7916f",

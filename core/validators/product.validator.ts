@@ -24,7 +24,7 @@ export const productSchema = z.object({
   productBrandId: z.string().uuid().nullable(),
   productPathologyId: z.string().uuid().nullable(),
   productProteinsId: z.array(z.string().uuid()).nullable().optional(),
-  orderitems: z.array(orderItemSchema),
+  orderitems: z.array(orderItemSchema).optional(),
   animalAge: z.enum(["PUPPY", "ADULT", "SENIOR"]).nullable(),
   unitValueId: z.string().uuid().optional(),
   unitOfMeasureId: z.string().uuid().optional(),
@@ -55,23 +55,6 @@ export const updateProductSchema = insertProductSchema.extend({
 });
 
 // Schema per i prodotti più recenti
-export const latestProductSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  price: z.string(),
-  rating: z.number(),
-  createdAt: z.date(),
-  productBrandId: z.string().uuid().nullable(),
-  updatedAt: z.date(),
-  numReviews: z.number(),
-  slug: z.string(),
-  banner: z.string().nullable(),
-  isFeatured: z.boolean().optional().default(false),
-  unitValueId: z.string().uuid().optional().nullable(),
-  unitOfMeasureId: z.string().uuid().optional().nullable(),
-  image: z.array(z.string()),
-  stock: z.number().nullable().default(0),
-});
 
 // Definizione dei tipi
 export type IProduct = z.infer<typeof productSchema> & {
@@ -177,6 +160,3 @@ export type IFormattedProduct = IProduct & {
 };
 export type IInsertProduct = z.infer<typeof insertProductSchema>;
 export type IUpdateProduct = z.infer<typeof updateProductSchema>;
-export type ILatestProduct = z.infer<typeof latestProductSchema> & {
-  productBrand?: IBrand;
-};

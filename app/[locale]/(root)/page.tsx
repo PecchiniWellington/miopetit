@@ -18,7 +18,6 @@ export default async function Home() {
   const userLogged = await fetchProductWithDelay(auth);
   const userId = userLogged?.user?.id;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const data = latestProducts.map((product: any) => ({
     ...product,
     image: ["/images/royal-canin-4.jpg"],

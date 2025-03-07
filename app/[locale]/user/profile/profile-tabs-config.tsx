@@ -18,7 +18,6 @@ interface Tab {
   icon: JSX.Element;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ProfileTabsConfig = ({ tabs, user }: { tabs: Tab[]; user: any }) => {
   const [activeTab, setActiveTab] = useState("profile");
 
