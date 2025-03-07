@@ -8,6 +8,7 @@ interface SearchSelectProps {
   onSelect: (value: string) => void;
   placeholder?: string;
   value?: string;
+  defaultValue?: string;
 }
 
 export default function SearchSelect({
@@ -61,6 +62,7 @@ export default function SearchSelect({
             className="w-full rounded-b-none border-none bg-gray-900 p-2 focus:outline-none"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            defaultValue={value}
           />
           <ul className="max-h-60 overflow-y-auto border-t border-slate-700">
             {filteredOptions.length > 0 ? (

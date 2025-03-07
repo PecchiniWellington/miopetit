@@ -33,6 +33,12 @@ const AdminProductUpdatePage = async (props: {
   const unitOfMeasure = await getUnitOfMeasure();
   const allFeatures = await getAllFeatures();
 
+  console.log("product", product);
+  console.log("categories", categories);
+  console.log("brands", brands);
+  console.log("pathologies", pathologies);
+  console.log("proteins", proteins);
+
   if (!product) return notFound();
 
   return (

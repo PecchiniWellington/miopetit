@@ -13,12 +13,12 @@ export default function Chatbot() {
   const isMobile = useMediaQuery("(max-width: 768px)");
   // Effetto per spostare il chatbot dopo 150px di scroll
   useEffect(() => {
-    if (isMobile) {
+    /*  if (isMobile) {
       setBottomOffset("bottom-16");
       setChatBottomOffset("bottom-24");
-    }
+    } */
     const handleScroll = () => {
-      if (window.scrollY > 150 && isMobile) {
+      if (window.scrollY > 150 && !isMobile) {
         setBottomOffset("bottom-16");
         setChatBottomOffset("bottom-24");
       } else {

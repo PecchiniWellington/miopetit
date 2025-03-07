@@ -60,6 +60,7 @@ const DynamicFormField = ({
                 options={options! || []}
                 onSelect={(value) => field.onChange(value)}
                 placeholder="Choose an option"
+                defaultValue={defaultValue as string}
               />
             ) : type === "multiple-select" ? (
               <CustomMultipleSelect

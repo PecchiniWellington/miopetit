@@ -4,8 +4,8 @@ import SalesTrendChart from "@/components/admin/products/SalesTrendChart";
 
 import OrderDistribution from "@/components/admin/orders/OrderDistribution";
 import UserDemographicsChart from "@/components/admin/users/UserDemographicsChart";
-import ProductResumeCard from "./products-resume-card";
 import { getProductById } from "@/core/actions/products";
+import ProductResumeCard from "./products-resume-card";
 
 const ProductsOverviewPage = async (props: {
   searchParams: Promise<{

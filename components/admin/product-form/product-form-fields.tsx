@@ -34,6 +34,8 @@ export function ProductFormFields({
   allFeatures?: IProductFeatureOnProduct[];
   product?: IFormattedProduct;
 }) {
+  console.log("product", product);
+
   const getOnlyProteinId =
     product?.productProteinOnProduct?.map(
       (protein) => protein.productProteinId
@@ -44,11 +46,12 @@ export function ProductFormFields({
       (feature) => feature.productFeatureId
     ) || [];
 
+  /* const getOnlyProductCategory =
+    product?.productCategory?.map((category) => category.categoryId)[0] || ""; */
+
   const getOnlyPathologiesId =
     product?.productPathologyOnProduct?.map((feature) => feature.pathologyId) ||
     [];
-
-  console.log("getOnlyPathologiesId", getOnlyPathologiesId);
 
   const formatterForSelect = (
     data: Array<ICategory | IBrand | IPathology | IProtein> = []

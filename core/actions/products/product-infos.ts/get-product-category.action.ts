@@ -22,7 +22,7 @@ export async function getAllCategories() {
     }));
 
     return {
-      ...convertToPlainObject(categories),
+      data: convertToPlainObject(categories),
       totalProductCount: categoriesWithCount.reduce(
         (acc, cat) => acc + cat.productCount,
         0
