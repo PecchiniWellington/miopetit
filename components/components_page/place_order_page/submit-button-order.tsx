@@ -11,9 +11,9 @@ const SubmitButtonOrder = () => {
   const router = useRouter();
   const [, setValue] = useLocalStorage("cart", []);
   const [, setCheckoutSteps] = useLocalStorage("completedCheckoutSteps", []);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     const res = await createOrder();
     setValue([]);
     setCheckoutSteps([]);

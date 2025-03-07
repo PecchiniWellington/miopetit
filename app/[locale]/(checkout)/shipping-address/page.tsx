@@ -1,9 +1,10 @@
 import { auth } from "@/auth";
+import ConfigShippingAddressPage from "@/components/components_page/shipping_address";
 import { getMyCart } from "@/core/actions/cart/cart.actions";
 import { getUserById } from "@/core/actions/user";
+import { getUserAddress } from "@/core/actions/user/get-user-address.action";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
-import ShippingAddressForm from "./shipping-address-container";
 
 export const metadata: Metadata = {
   title: "Shipping Address",
@@ -17,12 +18,11 @@ const ShippingAddress = async () => {
   const session = await auth();
   const userId = session?.user?.id;
 
-  /* TODO: inserire le agevolazioni se ti autentichi */
-
   if (!userId) {
-    return <ShippingAddressForm />;
+    return <ConfigShippingAddressPage />;
   } else {
     const user = await getUserById(userId);
+    const userAddress = await getUserAddress(userId);
     if (user) {
       const defaultAddress = user.defaultAddress as {
         street: string;
@@ -34,7 +34,12 @@ const ShippingAddress = async () => {
         userId?: string;
         isDefault?: boolean;
       };
-      return <ShippingAddressForm user={{ ...user, defaultAddress }} />;
+      return (
+        <ConfigShippingAddressPage
+          user={{ ...user, defaultAddress }}
+          userAddress={userAddress}
+        />
+      );
     }
   }
 };

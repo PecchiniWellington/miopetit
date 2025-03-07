@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { CreditCard, MapPin, PackageCheck, User } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const steps = [
@@ -27,6 +28,22 @@ const steps = [
 
 const CheckoutSteps = ({ current = 0 }) => {
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
+
+  const pathName = usePathname();
+  const cleanPathName = pathName.replace(/^\/[a-zA-Z]{2}(\/|$)/, "/");
+  const getCurrentStep = () => {
+    switch (cleanPathName) {
+      case "/place-order":
+        return 3;
+      case "/payment-method":
+        return 2;
+      case "/shipping-address":
+        return 1;
+      default:
+        return 0;
+    }
+  };
+  const currentStep = getCurrentStep();
 
   // ✅ Recupera i dati dal localStorage al mount
   useEffect(() => {
@@ -59,8 +76,9 @@ const CheckoutSteps = ({ current = 0 }) => {
   return (
     <div className="mx-auto my-8 flex w-full max-w-4xl  items-center md:flex-row md:items-center md:space-x-6 md:space-y-0">
       {steps.map((step, index) => {
-        const isActive = index === current;
-        const isCompleted = index < current || completedSteps.includes(index);
+        const isActive = index === currentStep;
+        const isCompleted =
+          index < currentStep || completedSteps.includes(index);
 
         return (
           /* 🔗 Barra di collegamento tra gli step */

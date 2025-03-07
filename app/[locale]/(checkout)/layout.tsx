@@ -1,3 +1,4 @@
+import CheckoutSteps from "@/components/shared/checkout-steps";
 import Footer from "@/components/shared/footer/footer";
 import HeaderCheckout from "@/components/shared/header/header-checkout";
 
@@ -9,6 +10,7 @@ export default function RootLayout({
   return (
     <div className="flex h-screen flex-col">
       <HeaderCheckout />
+      <CheckoutSteps />
       <main className="wrapper flex-1 md:my-12">{children}</main>
       <Footer />
     </div>

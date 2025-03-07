@@ -27,7 +27,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "prisma/mergeSchemas.js"
+    "prisma/mergeSchemas.js",
+    "components/components_page/place_order_page"
   ],
   "exclude": ["node_modules"]
 }
