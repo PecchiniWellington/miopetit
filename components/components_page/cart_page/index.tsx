@@ -2,54 +2,52 @@
 import {
   addItemToCart,
   cancelItemFromCart,
-  getMyCart,
   removeItemFromCart,
 } from "@/core/actions/cart/cart.actions";
 import { ICartItem } from "@/core/validators";
 import useLocalStorage from "@/hooks/use-local-storage";
-import { useSession } from "next-auth/react";
+import { calcPrice } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 import CartTable from "./cart-table";
 import EmptyCart from "./empty-cart";
 import OrderSummary from "./order-summary";
 
-export const Cart = () => {
-  const [isPending, startTransition] = useTransition();
+export const ConfigCartPage = ({
+  userLogged,
+  cart,
+}: {
+  userLogged: {
+    user: {
+      name: string;
+      email: string;
+      id: string;
+      role: string;
+    };
+  };
+  cart: ICartItem[];
+}) => {
   const router = useRouter();
-  const { data: session, status } = useSession();
-  const [fetching, startFetching] = useState(false);
-
+  const [isPending, startTransition] = useTransition();
+  const [cleanedCartProduct, setCleanedCartProduct] = useState<ICartItem[]>([]);
+  const [resume, setResume] = useState(calcPrice(cart));
   const [storedValue, setStoredValue] = useLocalStorage<ICartItem[]>(
     "cart",
     []
   );
-  const [cleanedCartProduct, setCleanedCartProduct] = useState<ICartItem[]>([]);
 
   useEffect(() => {
-    startFetching(true);
-    const fetchCart = async () => {
-      console.log("Cart status:", { status, session: session?.user?.id });
-
-      if (status === "authenticated" && session?.user?.id) {
-        console.log("Fetching cart from database...");
-        const cartResponse = await getMyCart();
-        if (cartResponse && !("success" in cartResponse)) {
-          setCleanedCartProduct(cartResponse.items || []);
-          startFetching(false);
-        } else {
-          console.error("Errore nel recupero del carrello:", cartResponse);
-          startFetching(false);
-        }
+    if (userLogged?.user?.id) {
+      if (cart) {
+        setCleanedCartProduct(cart || []);
+        setResume(calcPrice(cart));
       } else {
-        console.log("Fetching cart from localStorage...");
-        setCleanedCartProduct(storedValue);
-        startFetching(false);
+        console.error("Errore nel recupero del carrello:", cart);
       }
-    };
-
-    fetchCart();
-  }, [status, session, storedValue, setCleanedCartProduct]);
+    } else {
+      setCleanedCartProduct(storedValue);
+    }
+  }, [userLogged, storedValue, cart, setCleanedCartProduct]);
 
   const handleRemoveFromCart = (item: ICartItem) => {
     startTransition(async () => {
@@ -58,7 +56,7 @@ export const Cart = () => {
           ? { ...cartItem, qty: cartItem.qty - 1 }
           : cartItem
       );
-      if (session?.user?.id) {
+      if (userLogged?.user?.id) {
         if (item.qty === 1) {
           const updatedCartDB = await cancelItemFromCart(item.productId);
           setCleanedCartProduct(updatedCartDB.items || []);
@@ -79,7 +77,7 @@ export const Cart = () => {
         ? { ...cartItem, qty: cartItem.qty + 1 }
         : cartItem
     );
-    if (session?.user?.id) {
+    if (userLogged?.user?.id) {
       await addItemToCart(item);
     } else {
       setStoredValue(updatedCart);
@@ -92,7 +90,7 @@ export const Cart = () => {
       const updatedCart = cleanedCartProduct.filter(
         (cartItem) => cartItem.productId !== item.productId
       );
-      if (session?.user?.id) {
+      if (userLogged?.user?.id) {
         await cancelItemFromCart(item.productId);
       } else {
         setStoredValue(updatedCart);
@@ -125,11 +123,11 @@ export const Cart = () => {
 
           <OrderSummary
             resume={{
-              itemsPrice: 0,
-              shippingPrice: 0,
-              taxPrice: 0,
-              totalPrice: 0,
-              totalItems: 0,
+              itemsPrice: Number(resume.itemsPrice),
+              shippingPrice: Number(resume.shippingPrice),
+              taxPrice: Number(resume.taxPrice),
+              totalPrice: Number(resume.totalPrice),
+              totalItems: Number(resume.totalItems),
             }}
             isPending={isPending}
             goToCheckout={goToCheckout}

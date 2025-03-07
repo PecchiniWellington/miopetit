@@ -13,11 +13,9 @@ const Loading = () => {
   const lastSegment = pathName.split("/").filter(Boolean).pop();
   const isHome = pathName === `/${locale}`;
 
-  // Controlla se la navigazione è stata un refresh
   const isRefreshed =
     performance.getEntriesByType("navigation")[0]?.type === "reload";
 
-  // 🔹 Recupera il path precedente da localStorage
   const previousPath =
     typeof window !== "undefined" ? localStorage.getItem("previousPath") : null;
 
@@ -36,7 +34,6 @@ const Loading = () => {
       setShowHeaderSkeleton(true);
     }
 
-    // 🔄 Aggiorna `previousPath` su localStorage per il prossimo cambio di pagina
     localStorage.setItem("previousPath", pathName);
   }, [pathName, locale]);
 

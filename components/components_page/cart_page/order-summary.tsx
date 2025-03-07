@@ -23,7 +23,6 @@ const OrderSummary = ({
       <CardContent className="gap-4 p-4">
         <h2 className="text-2xl font-semibold text-gray-800">Order Summary</h2>
 
-        {/* Dettaglio dei prezzi */}
         <div className="space-y-2 text-gray-600">
           <div className="flex justify-between">
             <span>Subtotal</span>
@@ -52,7 +51,6 @@ const OrderSummary = ({
 
           <hr className="my-2" />
 
-          {/* Totale Finale */}
           <div className="flex items-center justify-between text-xl font-semibold text-gray-800">
             <span>Total</span>
             <span>
@@ -67,7 +65,6 @@ const OrderSummary = ({
 
         <hr className="my-4" />
 
-        {/* Subtotal Mockato */}
         <div className="flex items-center gap-2 pb-3 text-lg text-gray-700">
           Total Items:
           <span className=" font-semibold">
@@ -79,7 +76,6 @@ const OrderSummary = ({
           </span>
         </div>
 
-        {/* Bottone di Checkout */}
         <DynamicButton
           className="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-5 py-2 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none"
           handleAction={goToCheckout}

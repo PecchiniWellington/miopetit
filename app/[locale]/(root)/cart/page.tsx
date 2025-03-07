@@ -1,12 +1,21 @@
+import { auth } from "@/auth";
+import { ConfigCartPage } from "@/components/components_page/cart_page";
+import { getMyCart } from "@/core/actions/cart/cart.actions";
 import { Metadata } from "next";
-import { Cart } from "./cart";
 
 export const metadata: Metadata = {
   title: "Shopping Cart",
 };
 
 const CartPage = async () => {
-  return <Cart />;
+  const user = await auth();
+  const cartResponse = await getMyCart();
+
+  if (!cartResponse) {
+    return <div>Failed to load cart.</div>;
+  }
+
+  return <ConfigCartPage userLogged={user} cart={cartResponse.items} />;
 };
 
 export default CartPage;
