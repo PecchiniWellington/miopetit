@@ -24,11 +24,9 @@ ResetPasswordEmail.PreviewProps = {
 };
 
 type ResetPasswordProps = {
-  user: {
-    name: string;
-    email: string;
-    resetLink: string;
-  };
+  name: string;
+  email: string;
+  resetLink: string;
 };
 
 export default function ResetPasswordEmail({
@@ -56,8 +54,7 @@ export default function ResetPasswordEmail({
                 Password Reset Request
               </Heading>
               <Text className="mt-2 text-gray-600">
-                Hi {user?.user?.name}, it seems like you requested a password
-                reset.
+                Hi {user?.name}, it seems like you requested a password reset.
               </Text>
               <Text className="mt-2 text-gray-600">
                 Click the button below to reset your password:

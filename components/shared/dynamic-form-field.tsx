@@ -1,7 +1,6 @@
-/* components/DynamicFormField.tsx */
-
 import { Control, Controller } from "react-hook-form";
 
+import { IProduct } from "@/core/validators";
 import { FormControl, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
@@ -14,9 +13,8 @@ interface Option {
 }
 interface DynamicFormFieldProps {
   disabled?: boolean;
-
-  control: Control<any>;
-  name: string;
+  control: Control<IProduct>; //TODO: fix any
+  name: keyof IProduct;
   title: string;
   placeholder?: string;
   type?: "input" | "textarea" | "select" | "multiple-select";
@@ -49,6 +47,7 @@ const DynamicFormField = ({
                 disabled={disabled}
                 placeholder={placeholder}
                 {...field}
+                value={field.value ?? ""}
                 className={`resize-none border-slate-700 bg-transparent ${className}`}
               />
             ) : type === "select" ? (

@@ -1,6 +1,9 @@
 import { createProduct, updateProduct } from "@/core/actions/products";
-import { insertProductSchema, updateProductSchema } from "@/core/validators";
-import { IFormattedProduct } from "@/core/validators/product.validator";
+import {
+  insertProductSchema,
+  IProduct,
+  updateProductSchema,
+} from "@/core/validators";
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -13,7 +16,7 @@ export function useProductForm({
   productId,
 }: {
   type: "Create" | "Update";
-  product?: IFormattedProduct;
+  product?: IProduct;
   productId?: string;
 }) {
   const router = useRouter();
@@ -45,7 +48,7 @@ export function useProductForm({
       toast({
         className: "bg-red-100 text-red-700 px-5 py-2",
         title: "Error",
-        description: res.message,
+        description: res.error,
       });
     } else {
       toast({

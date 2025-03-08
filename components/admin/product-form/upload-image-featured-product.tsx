@@ -7,26 +7,17 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
-import { insertProductSchema, updateProductSchema } from "@/core/validators";
+import { IProduct } from "@/core/validators";
 import { toast } from "@/hooks/use-toast";
 
 import { UploadButton } from "@uploadthing/react";
 import Image from "next/image";
-
-import { Control, UseFormSetValue } from "react-hook-form";
-import { z } from "zod";
+import { UseFormReturn } from "react-hook-form";
 
 interface UploadImageFeaturedProductProps {
   isFeatured: boolean | null;
-  banner: string | null;
-  form: {
-    control: Control<
-      z.infer<typeof insertProductSchema | typeof updateProductSchema>
-    >;
-    setValue: UseFormSetValue<
-      z.infer<typeof insertProductSchema | typeof updateProductSchema>
-    >;
-  };
+  banner?: string;
+  form: UseFormReturn<IProduct>;
 }
 
 export const UploadImageFeaturedProduct: React.FC<

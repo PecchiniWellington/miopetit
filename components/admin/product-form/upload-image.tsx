@@ -8,19 +8,17 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { IProduct } from "@/core/validators";
 import { toast } from "@/hooks/use-toast";
 import { UploadButton } from "@uploadthing/react";
 import Image from "next/image";
-import { Control } from "react-hook-form";
+import { UseFormReturn } from "react-hook-form";
 
 export const UploadImage = ({
   form,
   images,
 }: {
-  form: {
-    control: Control<{ images: string[] }>;
-    setValue: (field: string, value: string[]) => void;
-  };
+  form: UseFormReturn<IProduct>;
   images: string[];
 }) => {
   return (

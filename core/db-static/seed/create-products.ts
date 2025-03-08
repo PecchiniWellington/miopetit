@@ -3,6 +3,7 @@ import productsData from "../product";
 
 type AnimalAge = "PUPPY" | "ADULT" | "SENIOR";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function createProducts(productUnitFormats: any[]) {
   console.log(`⏳ Creating products...`);
 

@@ -1,4 +1,6 @@
 import { prisma } from "@/core/prisma/prisma";
+import { IOrderItem } from "@/core/validators";
+import { IProductCategory } from "@/core/validators/category.validator";
 import { convertToPlainObject } from "@/lib/utils";
 
 export async function getProductById(id: string) {
@@ -34,14 +36,14 @@ export async function getProductById(id: string) {
     ...product,
 
     totalSales: product.orderitems.reduce(
-      (acc: any, item: any) => acc + item.qty,
+      (acc: number, item: IOrderItem) => acc + item.qty,
       0
     ),
     totalRevenue: product.orderitems.reduce(
-      (acc: any, item: any) => acc + item.qty * Number(item.price),
+      (acc: number, item: IOrderItem) => acc + item.qty * Number(item.price),
       0
     ),
-    productCategory: product.productCategory.map((f: any) => ({
+    productCategory: product.productCategory.map((f: IProductCategory) => ({
       category: {
         id: f.category.id,
         name: f.category.name,
@@ -57,18 +59,31 @@ export async function getProductById(id: string) {
           name: product.productBrand.name,
         }
       : undefined,
-    productPathologies: product.productPathologyOnProduct.map((p: any) => ({
-      id: p.pathology.id,
-      name: p.pathology.name,
-    })),
-    productFeatures: product.productsFeatureOnProduct.map((f: any) => ({
-      id: f.productFeature.id,
-      name: f.productFeature.name,
-    })),
-    productProteins: product.productProteinOnProduct.map((p: any) => ({
-      id: p.productProtein.id,
-      name: p.productProtein.name,
-    })),
+    productPathologies: product.productPathologyOnProduct.map(
+      (p: { pathology: { id: string; name: string } }) => ({
+        id: p.pathology.id,
+        name: p.pathology.name,
+      })
+    ),
+    productFeatures: product.productsFeatureOnProduct.map(
+      (f: {
+        productFeature: {
+          id: string;
+          name: string;
+          description: string | null;
+          image: string | null;
+        };
+      }) => ({
+        id: f.productFeature.id,
+        name: f.productFeature.name,
+      })
+    ),
+    productProteins: product.productProteinOnProduct.map(
+      (p: { productProtein: { id: string; name: string } }) => ({
+        id: p.productProtein.id,
+        name: p.productProtein.name,
+      })
+    ),
     productUnitFormat: product.productUnitFormat
       ? {
           id: product.productUnitFormat.id,

@@ -25,7 +25,11 @@ export const sendPasswordResetEmail = async ({
   user,
   resetUrl,
 }: {
-  user: any;
+  user: {
+    name: string;
+    email: string;
+    resetLink: string;
+  };
   resetUrl: string;
 }) => {
   await resend.emails.send({

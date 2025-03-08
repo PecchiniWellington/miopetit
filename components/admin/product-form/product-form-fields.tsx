@@ -2,12 +2,13 @@ import DynamicFormField from "@/components/shared/dynamic-form-field";
 import { AnimalAge } from "@/core/actions/types";
 import { ICategory } from "@/core/validators";
 import { IProductFeatureOnProduct } from "@/core/validators/product-feature.validator";
-import { IFormattedProduct } from "@/core/validators/product.validator";
+import { IProduct } from "@/core/validators/product.validator";
 import {
   IUnitOfMeasure,
   IUnitValue,
 } from "@/core/validators/unitsFormat.validator";
 import { IBrand, IPathology, IProtein } from "@/types/index";
+import { UseFormReturn } from "react-hook-form";
 import SlugFormField from "./slug-form-field";
 import UploadImage from "./upload-image";
 import UploadImageFeaturedProduct from "./upload-image-featured-product";
@@ -23,7 +24,7 @@ export function ProductFormFields({
   allFeatures = [],
   product,
 }: {
-  form: any;
+  form: UseFormReturn<IProduct>;
   categories?: ICategory[];
   brands?: IBrand[];
   pathologies?: IPathology[];
@@ -31,26 +32,19 @@ export function ProductFormFields({
   unitValues?: IUnitValue[];
   unitOfMeasure?: IUnitOfMeasure[];
   allFeatures?: IProductFeatureOnProduct[];
-  product?: IFormattedProduct;
+  product?: IProduct;
 }) {
-  console.log("product", product);
-
   const getOnlyProteinId =
-    product?.productProteinOnProduct?.map(
-      (protein) => protein.productProteinId
-    ) || [];
+    product?.productProteins?.map((protein) => protein.id) || [];
 
   const getOnlyFeatureId =
-    product?.productsFeatureOnProduct?.map(
-      (feature) => feature.productFeatureId
-    ) || [];
+    product?.productFeature?.map((feature) => feature.id) || [];
 
-  /* const getOnlyProductCategory =
-    product?.productCategory?.map((category) => category.categoryId)[0] || ""; */
+  const getOnlyProductCategory =
+    product?.productCategories?.map((category) => category.id)[0] || "";
 
   const getOnlyPathologiesId =
-    product?.productPathologyOnProduct?.map((feature) => feature.pathologyId) ||
-    [];
+    product?.productPathologies?.map((feature) => feature.id) || [];
 
   const formatterForSelect = (
     data: Array<ICategory | IBrand | IPathology | IProtein> = []
@@ -115,6 +109,7 @@ export function ProductFormFields({
           name="categoryId"
           title="Category"
           placeholder="Enter category"
+          defaultValue={getOnlyProductCategory}
         />
 
         {/* Pathologies */}
@@ -169,7 +164,7 @@ export function ProductFormFields({
             control={form.control}
             name="unitValueId"
             title="Unit value"
-            defaultValue={product?.unitValueId}
+            defaultValue={product?.productUnitFormat?.unitValue.toString()}
             placeholder="Enter unit value"
           />
           {/* UnitOfMeasure */}
@@ -181,7 +176,7 @@ export function ProductFormFields({
             name="unitOfMeasureId"
             title="Unit of measure"
             placeholder="Enter brand"
-            defaultValue={product?.unitOfMeasureId}
+            defaultValue={product?.productUnitFormat?.unitOfMeasure.toString()}
           />
         </div>
         <DynamicFormField

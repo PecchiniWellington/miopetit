@@ -5,11 +5,12 @@ import {
   removeItemFromCart,
 } from "@/core/actions/cart/cart.actions";
 import { ICartItem } from "@/core/validators";
+import { ISession } from "@/core/validators/session.validator";
 import useLocalStorage from "@/hooks/use-local-storage";
 import { calcPrice } from "@/lib/utils";
 import { useCallback, useEffect, useState } from "react";
 
-const useCartHandler = (session: any) => {
+const useCartHandler = ({ session }: { session: ISession }) => {
   const userId = session?.data?.user?.id;
 
   const [storedValue, setValue] = useLocalStorage<ICartItem[]>("cart", []);
@@ -107,7 +108,7 @@ const useCartHandler = (session: any) => {
     async (product: ICartItem) => {
       setIsUpdating(true);
       const newItem: ICartItem = {
-        productId: product.productId || (product as any).id,
+        productId: product.productId,
         name: product?.name,
         price: product?.price.toString(),
         qty: product.qty || 1,

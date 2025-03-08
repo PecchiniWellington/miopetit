@@ -1,11 +1,14 @@
 "use server";
 import { auth } from "@/auth";
 import { prisma } from "@/core/prisma/prisma";
-import { createAddressSchema } from "@/core/validators/user-address.validator";
+import {
+  createAddressSchema,
+  IAddress,
+} from "@/core/validators/user-address.validator";
 import { formatError } from "@/lib/utils";
 
 // Update the user's address
-export async function createUserAddress(req: any) {
+export async function createUserAddress(req: IAddress) {
   try {
     const session = await auth();
     const currentUser = await prisma.user.findFirst({
@@ -21,9 +24,7 @@ export async function createUserAddress(req: any) {
       };
     }
 
-    /*  const body = await req.json(); */
-
-    const data = JSON.parse(JSON.stringify(createAddressSchema.parse(req)));
+    const data = createAddressSchema.parse(req);
     if (data.isDefault) {
       await prisma.address.updateMany({
         where: {
@@ -38,8 +39,12 @@ export async function createUserAddress(req: any) {
 
     await prisma.address.create({
       data: {
-        ...data,
-        isDefault: data.isDefault ?? false, // Imposta false se undefined
+        street: data.street,
+        city: data.city,
+        fullName: data.fullName,
+        postalCode: data.postalCode,
+        country: data.country,
+        isDefault: data.isDefault ?? false,
         user: {
           connect: {
             id: currentUser.id,

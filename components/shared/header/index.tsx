@@ -16,19 +16,12 @@ import TopBar from "./top-bar";
 import UserButton from "./user-button";
 
 const Header = async () => {
-  const fetchProductWithDelay = async (fetchFunction: () => Promise<any>) => {
-    await new Promise((resolve) => setTimeout(resolve, 1000)); // Ritardo di 1 secondo
-    return fetchFunction();
-  };
-
   const categories = ["dogs", "cats", "small-animals"];
   const [megaMenuDog, megaMenuCat, megaMenuSmallAnimal] = await Promise.all(
-    categories.map((category) =>
-      fetchProductWithDelay(() => getAllCategoriesForMegaMenu(category))
-    )
+    categories.map((category) => getAllCategoriesForMegaMenu(category))
   );
-  const countLoggedUser = await fetchProductWithDelay(getMyCart);
-  const session = await fetchProductWithDelay(auth);
+  const countLoggedUser = await getMyCart();
+  const session = await auth();
   let userLogged = null;
 
   if (session && session.user && typeof session.user.id === "string") {

@@ -46,18 +46,13 @@ export default function UploadFiles() {
         skipEmptyLines: true,
       });
 
-      const formattedData = data.map((item: any) => ({
-        ...item,
-        categoryId: item.categoryId || "d0380863-516c-4fda-9ddf-818252b7916f",
-      }));
-
       switch (urlPath) {
         case "categories":
           try {
             const responseCategory = await fetch(`/api/upload/categories`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ data: formattedData }),
+              body: JSON.stringify({ data }),
             });
 
             if (!responseCategory.ok) {
@@ -79,7 +74,7 @@ export default function UploadFiles() {
             const response = await fetch(`/api/upload/products`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(formattedData),
+              body: JSON.stringify(data),
             });
 
             if (!response.ok) {
@@ -101,7 +96,7 @@ export default function UploadFiles() {
             const response = await fetch(`/api/upload/users`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(formattedData),
+              body: JSON.stringify(data),
             });
 
             if (!response.ok) {
@@ -123,7 +118,7 @@ export default function UploadFiles() {
             const response = await fetch(`/api/upload/orders`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(formattedData),
+              body: JSON.stringify(data),
             });
 
             if (!response.ok) {

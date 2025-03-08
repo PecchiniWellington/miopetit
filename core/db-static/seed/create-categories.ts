@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { prisma } from "@/core/prisma/prisma";
 
 // ✅ Funzione per creare le categorie in modo ricorsivo
