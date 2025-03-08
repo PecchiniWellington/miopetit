@@ -1,38 +1,82 @@
 import { prisma } from "@/core/prisma/prisma";
-import { convertToPlainObject } from "@/lib/utils";
+import { productSchema } from "@/core/validators";
+import { convertToPlainObject, formatDateTime } from "@/lib/utils";
 
 export async function getProductBySlug(slug: string) {
   const product = await prisma.product.findFirst({
     where: { slug },
-    include: {
+    select: {
+      id: true,
+      name: true,
+      slug: true,
+      price: true,
+      description: true,
+      images: true,
+      stock: true,
+      rating: true,
+      numReviews: true,
+      isFeatured: true,
+      createdAt: true,
+      updatedAt: true,
+      animalAge: true,
+      categoryType: true,
+      percentageDiscount: true,
+
       productCategory: {
-        include: { category: true },
-      },
-      productUnitFormat: {
-        include: {
-          unitValue: true,
-          unitOfMeasure: true,
+        select: {
+          category: true,
         },
       },
-      productBrand: true,
-      productPathologyOnProduct: {
-        include: { pathology: true },
+
+      productBrand: {
+        select: {
+          id: true,
+          name: true,
+        },
       },
+
+      productUnitFormat: {
+        select: {
+          id: true,
+          slug: true,
+          unitValue: { select: { value: true } },
+          unitOfMeasure: { select: { code: true } },
+        },
+      },
+
+      productPathologyOnProduct: {
+        select: {
+          pathology: { select: { id: true, name: true } },
+        },
+      },
+
       productsFeatureOnProduct: {
-        include: { productFeature: true },
+        select: {
+          productFeature: { select: { id: true, name: true } },
+        },
       },
 
       productProteinOnProduct: {
-        include: { productProtein: true },
+        select: {
+          productProtein: { select: { id: true, name: true } },
+        },
       },
     },
   });
 
   if (!product) return null;
 
-  return convertToPlainObject({
+  const transformedData = {
     ...product,
-    productCategory:
+    productPathologies: product.productPathologyOnProduct.map((p) => ({
+      id: p.pathology.id,
+      name: p.pathology.name,
+    })),
+    productProteins: product.productProteinOnProduct.map((p) => ({
+      id: p.productProtein.id,
+      name: p.productProtein.name,
+    })),
+    productCategories:
       product.productCategory?.map((cat) => ({
         id: cat.category.id,
         name: cat.category.name,
@@ -40,27 +84,35 @@ export async function getProductBySlug(slug: string) {
       })) ?? [],
     productUnitFormat: product.productUnitFormat
       ? {
+          id: product.productUnitFormat.id,
           unitValue: product.productUnitFormat.unitValue.value,
           unitOfMeasure: product.productUnitFormat.unitOfMeasure.code,
+          slug: product.productUnitFormat.slug,
         }
       : null,
+    productFeature: product.productsFeatureOnProduct.map((f) => ({
+      id: f.productFeature.id,
+      name: f.productFeature.name,
+    })),
     productBrand: product.productBrand
       ? {
           id: product.productBrand.id,
           name: product.productBrand.name,
         }
       : null,
-    productPathologies: product.productPathologyOnProduct.map((p) => ({
-      id: p.pathology.id,
-      name: p.pathology.name,
-    })),
-    productFeatures: product.productsFeatureOnProduct.map((f) => ({
-      id: f.productFeature.id,
-      name: f.productFeature.name,
-    })),
-    productProteins: product.productProteinOnProduct.map((p) => ({
-      id: p.productProtein.id,
-      name: p.productProtein.name,
-    })),
-  });
+    createdAt: formatDateTime(product.createdAt.toString()).dateTime,
+    updatedAt: formatDateTime(product.updatedAt.toString()).dateTime,
+  };
+
+  const result = productSchema.safeParse(transformedData);
+
+  if (!result.success) {
+    console.error(
+      "❌ Errore nella validazione dei prodotti:",
+      result.error.format()
+    );
+    throw new Error("Errore di validazione dei prodotti");
+  }
+
+  return convertToPlainObject(result.data);
 }

@@ -13,14 +13,8 @@ import {
   insertCategorySchema,
   updateCategorySchema,
 } from "./category.validator";
-import {
-  IOrder,
-  IOrderInsert,
-  IOrderItem,
-  insertOrderItemSchema,
-  insertOrderSchema,
-  orderSchema,
-} from "./orders.validator";
+import { IOrderItem } from "./order-items.validator";
+import { IOrder, orderSchema } from "./orders.validator";
 import {
   IPaymentMethod,
   IPaymentResult,
@@ -68,7 +62,6 @@ export type {
   IInsertProduct,
   ILatestSales,
   IOrder,
-  IOrderInsert,
   IOrderItem,
   IPaymentMethod,
   IPaymentResult,
@@ -92,8 +85,6 @@ export {
   cartItemSchema,
   categorySchema,
   insertCategorySchema,
-  insertOrderItemSchema,
-  insertOrderSchema,
   insertProductSchema,
   insertReviewSchema,
   orderSchema,

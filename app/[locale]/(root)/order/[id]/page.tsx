@@ -1,6 +1,5 @@
 import { auth } from "@/auth";
 import { getOrderById } from "@/core/actions/order/order.action";
-import { IShippingAddress } from "@/core/validators";
 import ROLES from "@/lib/constants/roles";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -19,12 +18,9 @@ const OrderDetailsPage = async (props: { params: Promise<{ id: string }> }) => {
 
   let client_secret = null;
 
-  // CHeck if is not paid and using stripe
   if (order.paymentMethod === "stripe" && !order.isPaid) {
-    // Initialize Stripe instance
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY! as string);
 
-    // Create a PaymentIntent with the order total price
     const paymentIntent = await stripe.paymentIntents.create({
       amount: Math.round(Number(order.totalPrice) * 100),
       currency: "USD",
@@ -36,34 +32,7 @@ const OrderDetailsPage = async (props: { params: Promise<{ id: string }> }) => {
   return (
     <div>
       <OrderDetailsTable
-        order={{
-          ...order,
-          shippingAddress: order.shippingAddress as IShippingAddress,
-
-          orderitems: order.orderitems.map((item: any) => ({
-            ...item,
-            name: item.name || "",
-            user: item.user || {
-              id: "",
-              role: "",
-              name: "",
-              createdAt: new Date(),
-              updatedAt: new Date(),
-              status: "",
-              email: "",
-              defaultAddress: {
-                fullName: "",
-                street: "",
-                city: "",
-                state: "",
-                postalCode: "",
-                country: "",
-                isDefault: false,
-              },
-              sessions: [],
-            },
-          })),
-        }}
+        order={order}
         stripeClientSecret={client_secret}
         paypalClientId={process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || "sb"}
         isAdmin={session?.user?.role === ROLES.ADMIN || false}

@@ -16,12 +16,9 @@ const tabs = [
 
 const ProductTabs = ({
   description,
-  /* productId, */
-  /*  userId, */
 }: {
   description: string;
   productId: string;
-  /*  userId: string; */
 }) => {
   const [activeTab, setActiveTab] = useState("description");
 

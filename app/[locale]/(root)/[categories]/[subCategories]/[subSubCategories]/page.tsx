@@ -1,4 +1,5 @@
 import ConfigCategoryPage from "@/components/components_page/category_page";
+import { getMyCart } from "@/core/actions/cart/cart.actions";
 import { getAllProductsBySlug } from "@/core/actions/products/get-all-product-by-slug";
 import { getFiltersForCategory } from "@/core/actions/products/product-infos.ts/get-product-category.action";
 import { IQueryParams } from "@/core/actions/types";
@@ -33,10 +34,12 @@ const MainCategory = async ({
     ? await getFiltersForCategory(cat)
     : {};
 
-  const products: any = await getAllProductsBySlug({
+  const products = await getAllProductsBySlug({
     slug: cat || "",
     query: queries,
   });
+
+  const myCart = await getMyCart();
 
   return (
     <ConfigCategoryPage
@@ -44,6 +47,7 @@ const MainCategory = async ({
       mainCategory={cat}
       productFilters={productFilters}
       products={products}
+      myCart={myCart}
     />
   );
 };

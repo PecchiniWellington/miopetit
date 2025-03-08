@@ -28,8 +28,12 @@ model OrderItem {
     image     String
     createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(6)
     updatedAt DateTime @updatedAt @map("updated_at")
-    order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
-    Product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+    /**
+     * RELATIONS
+     */
+    order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+    Product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
     @@id([orderId, productId], map: "orderItems_orderId_productId_pk")
 }

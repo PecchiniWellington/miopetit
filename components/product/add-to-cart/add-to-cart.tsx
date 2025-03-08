@@ -13,10 +13,10 @@ import AddToCartButton from "./add-to-cart-btn";
 import IncreaseDecreaseProduct from "./increase-decrease-product";
 
 export const AddToCart = ({
-  cart,
+  myCart,
   item,
 }: {
-  cart?: ICart;
+  myCart: ICart | null;
   item: ICartItem;
 }) => {
   const router = useRouter();
@@ -25,7 +25,7 @@ export const AddToCart = ({
 
   //Check if the item is already in the cart
   const existItem =
-    cart && cart?.items?.find((i) => i.productId === item.productId);
+    myCart && myCart?.items?.find((i) => i.productId === item.productId);
 
   const handleRemoveFromCart = async () => {
     setIsPending(async () => {

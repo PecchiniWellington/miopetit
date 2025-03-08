@@ -1,41 +1,16 @@
 import { z } from "zod";
 
-import { PAYMENT_METHODS } from "@/lib/constants/payment-methods";
 import { currency } from "@/lib/utils";
-import { shippingAddressSchema } from "./shipping.validator";
-import { userSchema } from "./user.validator";
+import { orderItemSchema } from "./order-items.validator";
 
-// Schema for insert the order
-export const insertOrderSchema = z.object({
-  userId: z.string().min(1, "User id is required"),
-  itemsPrice: currency,
-  shippingPrice: currency,
-  taxPrice: currency,
-  totalPrice: currency,
-  paymentMethod: z.string().refine((data) => PAYMENT_METHODS?.includes(data), {
-    message: "Invalid payment method",
-  }),
-  shippingAddress: shippingAddressSchema,
-});
-
-export const insertOrderItemSchema = z.object({
-  productId: z.string(),
-  slug: z.string(),
-  image: z.string(),
-  name: z.string(),
-  price: currency,
-  qty: z.number(),
-  user: userSchema,
-});
-
-export const orderSchema = insertOrderSchema.extend({
+export const orderSchema: z.ZodSchema = z.object({
   id: z.string(),
   createdAt: z.date(),
   isPaid: z.boolean(),
   paidAt: z.date().nullable(),
   isDelivered: z.boolean(),
   deliveredAt: z.date().nullable(),
-  orderitems: z.array(insertOrderItemSchema),
+  orderitems: z.array(z.lazy(() => orderItemSchema)),
   paymentResult: z.object({
     id: z.string(),
     status: z.string(),
@@ -59,23 +34,4 @@ export const orderSchema = insertOrderSchema.extend({
     .optional(),
 });
 
-export const orderItemSchema = z.object({
-  orderId: z.string().uuid(),
-  productId: z.string().uuid(),
-  qty: z.number(),
-  price: currency,
-  name: z.string().nullable(),
-  slug: z.string(),
-  image: z.string(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
-  order: orderSchema,
-  product: z.object({
-    id: z.string().uuid(),
-  }),
-});
-
-export type IOrderItem = z.infer<typeof orderItemSchema>;
-export type IOrderItemInsert = z.infer<typeof insertOrderItemSchema>;
 export type IOrder = z.infer<typeof orderSchema>;
-export type IOrderInsert = z.infer<typeof insertOrderSchema>;

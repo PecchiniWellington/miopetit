@@ -46,223 +46,214 @@ export async function getAllProductsBySlug({
   query: IQueryParams;
   slug: string;
 }) {
-  try {
-    console.log(`🔎 Ricerca prodotti per categoryType: ${slug}`);
+  const mainCategory = await getMainCategory(slug);
 
-    const mainCategory = await getMainCategory(slug);
+  if (!mainCategory) {
+    console.warn(`⚠️ Nessuna categoria trovata per slug: ${slug}`);
+    return [];
+  }
 
-    console.log("🔍 Query params:", mainCategory);
+  const subCategoryIds = await getAllSubCategoryIds(mainCategory.id);
+  const categoryIds = [mainCategory.id, ...subCategoryIds];
 
-    if (!mainCategory) {
-      console.warn(`⚠️ Nessuna categoria trovata per slug: ${slug}`);
-      return { data: [], totalPages: 0, totalProducts: 0 };
-    }
-
-    const subCategoryIds = await getAllSubCategoryIds(mainCategory.id);
-    const categoryIds = [mainCategory.id, ...subCategoryIds];
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const where: any = {
-      OR: [
-        { categoryType: slug },
-        {
-          productCategory: {
-            some: {
-              categoryId: { in: categoryIds },
-            },
-          },
-        },
-      ],
-    };
-
-    if (query.animalAge) {
-      where.animalAge = query.animalAge;
-    }
-
-    if (query.productBrand) {
-      const productBrand = await prisma.productBrand.findFirst({
-        where: { slug: query.productBrand },
-        select: { id: true },
-      });
-
-      if (productBrand) {
-        where.productBrandId = productBrand.id;
-      } else {
-        console.warn(`⚠️ Nessun brand trovato per slug: ${query.productBrand}`);
-      }
-    }
-
-    if (query.productFormats) {
-      const productFormat = await prisma.productUnitFormat.findFirst({
-        where: { slug: query.productFormats },
-        select: { id: true },
-      });
-
-      if (productFormat) {
-        where.productUnitFormatId = productFormat.id;
-      } else {
-        console.warn(
-          `⚠️ Nessun formato trovato per slug: ${query.productFormats}`
-        );
-      }
-    }
-
-    if (query.productPathologies) {
-      const productPathology = await prisma.productPathology.findUnique({
-        where: { slug: query.productPathologies },
-        select: { id: true },
-      });
-
-      if (productPathology?.id) {
-        where.productPathologyOnProduct = {
-          some: {
-            pathologyId: productPathology.id,
-          },
-        };
-      } else {
-        console.warn(
-          `⚠️ Nessuna patologia trovata per slug: ${query.productPathologies}`
-        );
-      }
-    }
-
-    if (query.productProteins) {
-      const productProteins = await prisma.productProtein.findUnique({
-        where: { slug: query.productProteins },
-        select: { id: true },
-      });
-
-      if (productProteins?.id) {
-        where.productProteinOnProduct = {
-          some: {
-            productProteinId: productProteins.id,
-          },
-        };
-      } else {
-        console.warn(
-          `⚠️ Nessuna proteina trovata per slug: ${query.productProteins}`
-        );
-      }
-    }
-
-    if (query.price) {
-      const [min, max] = query.price.split("-").map(Number);
-      where.price = {
-        gte: min || 0,
-        lte: max || Number.MAX_SAFE_INTEGER,
-      };
-    }
-
-    // Trova i prodotti filtrati
-    const data = await prisma.product.findMany({
-      where,
-      select: {
-        id: true,
-        name: true,
-        slug: true,
-        price: true,
-        description: true,
-        images: true,
-        stock: true,
-        rating: true,
-        numReviews: true,
-        isFeatured: true,
-        createdAt: true,
-        updatedAt: true,
-        animalAge: true,
-        categoryType: true,
-        percentageDiscount: true,
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const where: any = {
+    OR: [
+      { categoryType: slug },
+      {
         productCategory: {
-          select: {
-            category: true,
-          },
-        },
-
-        productBrand: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-
-        productUnitFormat: {
-          select: {
-            id: true,
-            slug: true,
-            unitValue: { select: { value: true } },
-            unitOfMeasure: { select: { code: true } },
-          },
-        },
-
-        productPathologyOnProduct: {
-          select: {
-            pathology: { select: { id: true, name: true } },
-          },
-        },
-
-        productsFeatureOnProduct: {
-          select: {
-            productFeature: { select: { id: true, name: true } },
-          },
-        },
-
-        productProteinOnProduct: {
-          select: {
-            productProtein: { select: { id: true, name: true } },
+          some: {
+            categoryId: { in: categoryIds },
           },
         },
       },
-      orderBy:
-        query.sort === "lowest"
-          ? { price: "asc" }
-          : query.sort === "highest"
-            ? { price: "desc" }
-            : query.sort === "rating"
-              ? { rating: "desc" }
-              : { createdAt: "desc" },
+    ],
+  };
+
+  if (query.animalAge) {
+    where.animalAge = query.animalAge;
+  }
+
+  if (query.productBrand) {
+    const productBrand = await prisma.productBrand.findFirst({
+      where: { slug: query.productBrand },
+      select: { id: true },
     });
 
-    /* OUTPUT */
-    const transformedData = data.map(
-      ({
-        productPathologyOnProduct,
-        productProteinOnProduct,
-        productCategory,
-        productsFeatureOnProduct,
-        ...rest
-      }) => ({
-        ...rest,
-        productPathologies: productPathologyOnProduct.map((p) => p.pathology),
-        productProteins: productProteinOnProduct.map((p) => p.productProtein),
-        productCategories: productCategory.map((c) => c.category),
-        productUnitFormat: rest.productUnitFormat
-          ? {
-              id: rest.productUnitFormat.id,
-              unitValue: rest.productUnitFormat.unitValue.value,
-              unitOfMeasure: rest.productUnitFormat.unitOfMeasure.code,
-              slug: rest.productUnitFormat.slug,
-            }
-          : null,
-        productFeature: productsFeatureOnProduct.map((f) => f.productFeature),
-        createdAt: formatDateTime(rest.createdAt.toString()).dateTime,
-        updatedAt: formatDateTime(rest.updatedAt.toString()).dateTime,
-      })
-    );
-
-    const result = z.array(productSchema).safeParse(transformedData);
-
-    if (!result.success) {
-      console.error(
-        "❌ Errore nella validazione dei prodotti:",
-        result.error.format()
-      );
-      throw new Error("Errore di validazione dei prodotti");
+    if (productBrand) {
+      where.productBrandId = productBrand.id;
+    } else {
+      console.warn(`⚠️ Nessun brand trovato per slug: ${query.productBrand}`);
     }
-
-    return convertToPlainObject(result.data);
-  } catch (error) {
-    console.error("❌ Errore durante il fetch dei prodotti:", error);
-    return { data: [], totalPages: 0, totalProducts: 0 };
   }
+
+  if (query.productFormats) {
+    const productFormat = await prisma.productUnitFormat.findFirst({
+      where: { slug: query.productFormats },
+      select: { id: true },
+    });
+
+    if (productFormat) {
+      where.productUnitFormatId = productFormat.id;
+    } else {
+      console.warn(
+        `⚠️ Nessun formato trovato per slug: ${query.productFormats}`
+      );
+    }
+  }
+
+  if (query.productPathologies) {
+    const productPathology = await prisma.productPathology.findUnique({
+      where: { slug: query.productPathologies },
+      select: { id: true },
+    });
+
+    if (productPathology?.id) {
+      where.productPathologyOnProduct = {
+        some: {
+          pathologyId: productPathology.id,
+        },
+      };
+    } else {
+      console.warn(
+        `⚠️ Nessuna patologia trovata per slug: ${query.productPathologies}`
+      );
+    }
+  }
+
+  if (query.productProteins) {
+    const productProteins = await prisma.productProtein.findUnique({
+      where: { slug: query.productProteins },
+      select: { id: true },
+    });
+
+    if (productProteins?.id) {
+      where.productProteinOnProduct = {
+        some: {
+          productProteinId: productProteins.id,
+        },
+      };
+    } else {
+      console.warn(
+        `⚠️ Nessuna proteina trovata per slug: ${query.productProteins}`
+      );
+    }
+  }
+
+  if (query.price) {
+    const [min, max] = query.price.split("-").map(Number);
+    where.price = {
+      gte: min || 0,
+      lte: max || Number.MAX_SAFE_INTEGER,
+    };
+  }
+
+  // Trova i prodotti filtrati
+  const data = await prisma.product.findMany({
+    where,
+    select: {
+      id: true,
+      name: true,
+      slug: true,
+      price: true,
+      description: true,
+      images: true,
+      stock: true,
+      rating: true,
+      numReviews: true,
+      isFeatured: true,
+      createdAt: true,
+      updatedAt: true,
+      animalAge: true,
+      categoryType: true,
+      percentageDiscount: true,
+
+      productCategory: {
+        select: {
+          category: true,
+        },
+      },
+
+      productBrand: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+
+      productUnitFormat: {
+        select: {
+          id: true,
+          slug: true,
+          unitValue: { select: { value: true } },
+          unitOfMeasure: { select: { code: true } },
+        },
+      },
+
+      productPathologyOnProduct: {
+        select: {
+          pathology: { select: { id: true, name: true } },
+        },
+      },
+
+      productsFeatureOnProduct: {
+        select: {
+          productFeature: { select: { id: true, name: true } },
+        },
+      },
+
+      productProteinOnProduct: {
+        select: {
+          productProtein: { select: { id: true, name: true } },
+        },
+      },
+    },
+    orderBy:
+      query.sort === "lowest"
+        ? { price: "asc" }
+        : query.sort === "highest"
+          ? { price: "desc" }
+          : query.sort === "rating"
+            ? { rating: "desc" }
+            : { createdAt: "desc" },
+  });
+
+  /* OUTPUT */
+  const transformedData = data.map(
+    ({
+      productPathologyOnProduct,
+      productProteinOnProduct,
+      productCategory,
+      productsFeatureOnProduct,
+      ...rest
+    }) => ({
+      ...rest,
+      productPathologies: productPathologyOnProduct.map((p) => p.pathology),
+      productProteins: productProteinOnProduct.map((p) => p.productProtein),
+      productCategories: productCategory.map((c) => c.category),
+      productUnitFormat: rest.productUnitFormat
+        ? {
+            id: rest.productUnitFormat.id,
+            unitValue: rest.productUnitFormat.unitValue.value,
+            unitOfMeasure: rest.productUnitFormat.unitOfMeasure.code,
+            slug: rest.productUnitFormat.slug,
+          }
+        : null,
+      productFeature: productsFeatureOnProduct.map((f) => f.productFeature),
+      createdAt: formatDateTime(rest.createdAt.toString()).dateTime,
+      updatedAt: formatDateTime(rest.updatedAt.toString()).dateTime,
+    })
+  );
+
+  const result = z.array(productSchema).safeParse(transformedData);
+
+  if (!result.success) {
+    console.error(
+      "❌ Errore nella validazione dei prodotti:",
+      result.error.format()
+    );
+    throw new Error("Errore di validazione dei prodotti");
+  }
+
+  return convertToPlainObject(result.data);
 }

@@ -13,8 +13,8 @@ import {
   IPaymentResult,
   ISalesDataType,
   IShippingAddress,
-  insertOrderSchema,
 } from "@/core/validators";
+import { orderItemSchema } from "@/core/validators/order-items.validator";
 import { convertToPlainObject, formatError } from "@/lib/utils";
 import { getMyCart } from "../cart/cart.actions";
 import { getUserById } from "../user";
@@ -23,14 +23,11 @@ export async function createOrder() {
   try {
     const session = await auth();
     if (!session) throw new Error("User not authenticated");
+    const userId = session?.user?.id;
+    if (!userId) throw new Error("User not found");
+    const user = await getUserById(userId);
 
     const cart = await getMyCart();
-
-    const userId = session?.user?.id;
-
-    if (!userId) throw new Error("User not found");
-
-    const user = await getUserById(userId);
 
     if (!cart || !("items" in cart) || cart.items.length === 0) {
       return { success: false, message: "Cart is empty", redirectTo: "/cart" };
@@ -50,8 +47,7 @@ export async function createOrder() {
       };
     }
 
-    // Create order object
-    const order = insertOrderSchema.parse({
+    const order = orderItemSchema.parse({
       userId: user.id,
       shippingAddress: user.defaultAddress,
       paymentMethod: user.paymentMethod,
@@ -61,13 +57,10 @@ export async function createOrder() {
       totalPrice: cart.totalPrice,
     });
 
-    // Create a transaction to create order and order items in database
     const insertedOrderId = await prisma.$transaction(async (tx) => {
-      // Create order
       const insertedOrder = await tx.order.create({ data: order });
 
       for (const item of cart.items as ICartItem[]) {
-        console.log("item", item);
         const orderItem = {
           ...item,
           price: item.price,
@@ -85,7 +78,6 @@ export async function createOrder() {
           return { success: false, message: formatError(error) };
         }
       }
-      // Clear the cart
       await tx.cart.update({
         where: { id: cart.id },
         data: {
@@ -113,7 +105,6 @@ export async function createOrder() {
   }
 }
 
-// Get order by id
 export async function getOrderById(orderId: string) {
   const data = await prisma.order.findFirst({
     where: { id: orderId },
@@ -126,7 +117,6 @@ export async function getOrderById(orderId: string) {
   return convertToPlainObject(data);
 }
 
-// Update order to paid
 export async function updateOrderToPaid({
   orderId,
   paymentResult,
@@ -142,9 +132,7 @@ export async function updateOrderToPaid({
   if (!order) throw new Error("Order not found");
   if (order.isPaid) throw new Error("Order already paid");
 
-  // Transaction to update order and account for product stock
   await prisma.$transaction(async (tx) => {
-    // Iterate over products and update stock
     for (const item of order.orderitems) {
       await tx.product.update({
         where: { id: item.productId },
@@ -152,7 +140,6 @@ export async function updateOrderToPaid({
       });
     }
 
-    // Update order to paid
     await tx.order.update({
       where: { id: orderId },
       data: {
@@ -163,7 +150,6 @@ export async function updateOrderToPaid({
     });
   });
 
-  // Get updated order after transaction
   const updatedOrder = await prisma.order.findFirst({
     where: { id: orderId },
     include: {
@@ -171,7 +157,6 @@ export async function updateOrderToPaid({
       user: { select: { email: true, name: true } },
     },
   });
-  /*  revalidatePath(`/order/${orderId}`); */
 
   if (!updatedOrder) throw new Error("Order not found");
 
@@ -179,14 +164,13 @@ export async function updateOrderToPaid({
     order: {
       ...updatedOrder,
 
-      orderitems: updatedOrder.orderitems as any[],
+      orderitems: updatedOrder.orderitems as ICartItem[],
       shippingAddress: updatedOrder.shippingAddress as IShippingAddress,
       paymentResult: updatedOrder.paymentResult as IPaymentResult,
     },
   });
 }
 
-// Get my orders
 export async function getMyOrders({
   limit = PAGE_SIZE,
   page,
@@ -215,18 +199,14 @@ export async function getMyOrders({
   });
 }
 
-// Get sales data and order summary
 export async function getOrderSummary() {
-  // Get count for each resource
   const ordersCount = await prisma.order.count();
   const productsCount = await prisma.product.count();
   const usersCount = await prisma.user.count();
-  // Calculate the total sales
   const totalSales = await prisma.order.aggregate({
     _sum: { totalPrice: true },
   });
 
-  // Get Monthly sales data
   const salesDataRaw = await prisma.$queryRaw<
     Array<{ month: string; totalSales: Prisma.Decimal }>
   >`SELECT to_char("created_at", 'MM/YY') as "month", 
@@ -240,7 +220,6 @@ export async function getOrderSummary() {
     totalSales: Number(item.totalSales),
   }));
 
-  // Get latest sales data
   const latestSales = await prisma.order.findMany({
     orderBy: { createdAt: "desc" },
     take: 6,
