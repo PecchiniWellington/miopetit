@@ -11,26 +11,11 @@ import { getUserById } from "@/core/actions/user";
 const SettingsPage = async () => {
   const session = await auth();
   if (!session || !session.user || !session.user.id) {
-    // Handle the case where session or session.user.id is null or undefined
     throw new Error("User session is not valid");
   }
 
-  let user: any = await getUserById(session.user.id);
-  if (user && user.defaultAddress === null) {
-    user = {
-      ...user,
-      defaultAddress: {
-        fullName: "",
-        street: "",
-        city: "",
-        postalCode: "",
-        country: "",
-        userId: user.id,
-        id: "",
-        isDefault: false,
-      },
-    };
-  }
+  const user = await getUserById(session.user.id);
+
   if (!user) {
     console.log("User not found");
     return;

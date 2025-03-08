@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import SettingSection from "./SettingSection";
 
-const UserProfile = ({ userLogged }: { userLogged: IUser }) => {
+const UserProfile = ({ userLogged }: { userLogged: IUser | null }) => {
   return (
     <SettingSection icon={User} title={"Profile"}>
       <div className="mb-6 flex flex-col items-center sm:flex-row">

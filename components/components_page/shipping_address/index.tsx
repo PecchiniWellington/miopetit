@@ -14,22 +14,15 @@ const ConfigShippingAddressPage = ({
   userAddress,
 }: {
   user?: IUser;
-  userAddress?: any;
+  userAddress?: IAddress[] | null;
 }) => {
   const [addresses, setAddresses] = useState<IAddress[]>([]);
 
   useEffect(() => {
-    if (userAddress.data) {
-      setAddresses(
-        userAddress.data.map((address: any) => ({
-          ...address,
-          fullName: address.fullName ?? "",
-          postalCode: address.postalCode ?? "",
-          country: address.country ?? "",
-        }))
-      );
+    if (userAddress && userAddress) {
+      setAddresses(userAddress);
     }
-  }, [userAddress.data]);
+  }, [userAddress]);
 
   return (
     <div className="flex flex-col items-center justify-center lg:flex-row lg:space-x-8">

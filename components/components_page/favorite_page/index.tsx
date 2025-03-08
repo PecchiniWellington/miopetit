@@ -1,7 +1,7 @@
 "use client";
 
+import { IProduct } from "@/core/validators";
 import useLocalStorage from "@/hooks/use-local-storage";
-import { Product } from "@prisma/client";
 import { motion } from "framer-motion";
 import { ShoppingCart, Trash2 } from "lucide-react";
 import Image from "next/image";
@@ -9,9 +9,9 @@ import Image from "next/image";
 export const ConfigFavoritePage = ({
   relatedProducts,
 }: {
-  relatedProducts: any;
+  relatedProducts: IProduct[];
 }) => {
-  const [storedFavorites] = useLocalStorage<Product[]>("favorites", []);
+  const [storedFavorites] = useLocalStorage<IProduct[]>("favorites", []);
 
   return (
     <div className="container mx-auto px-6 py-8">
@@ -42,9 +42,9 @@ export const ConfigFavoritePage = ({
                     <Trash2 className="size-5" />
                   </button>
 
-                  {product.image && (
+                  {product.images && (
                     <Image
-                      src={product.image}
+                      src={product.images[0]}
                       alt={product.name || "Prodotto"}
                       width={120}
                       height={120}
@@ -57,12 +57,12 @@ export const ConfigFavoritePage = ({
                     {product.name ?? "Nome non disponibile"}
                   </h3>
                   <p className="text-xs text-gray-500">
-                    {product.brand ?? "Marca sconosciuta"}
+                    {product.productBrand?.name ?? "Marca sconosciuta"}
                   </p>
 
                   {/* Controllo su price */}
                   <span className="text-lg font-bold text-red-600">
-                    €{(product.price ?? 0).toFixed(2)}
+                    €{Number(product.price ?? 0).toFixed(2)}
                   </span>
 
                   {/* Bottone carrello */}
@@ -97,7 +97,7 @@ export const ConfigFavoritePage = ({
             {/* Immagine */}
             <div className="flex items-center justify-center bg-gray-100 p-4">
               <Image
-                src={product.image}
+                src={product.images[0]}
                 alt={product.name}
                 width={120}
                 height={120}
@@ -110,11 +110,13 @@ export const ConfigFavoritePage = ({
             <h3 className="mt-3 text-sm font-semibold text-gray-900">
               {product.name}
             </h3>
-            <p className="text-xs text-gray-500">{product.brand}</p>
+            <p className="text-xs text-gray-500">
+              {product.productBrand?.name}
+            </p>
 
             {/* Prezzo */}
             <span className="text-lg font-bold text-red-600">
-              €{product.price.toFixed(2)}
+              €{Number(product.price).toFixed(2)}
             </span>
 
             {/* Bottone carrello */}

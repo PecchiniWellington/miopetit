@@ -11,22 +11,15 @@ export const metadata: Metadata = {
 const PlaceOrderPage = async () => {
   const session = await auth();
   const userId = session?.user?.id;
-
   const user = userId ? await getUserById(userId) : null;
-  const cart = user ? await getMyCart() : null;
-  const defaultAddress = user?.defaultAddress as {
-    fullName: string;
-    street: string;
-    city: string;
-    postalCode: string;
-    country: string;
-  };
+  const myCart = user ? await getMyCart() : null;
+  const defaultAddress = user ? user?.defaultAddress : null;
 
   return (
     <ConfigPlaceOrderPage
-      cart={cart}
-      defaultAddress={defaultAddress}
+      myCart={myCart}
       user={user}
+      defaultAddress={defaultAddress}
     />
   );
 };

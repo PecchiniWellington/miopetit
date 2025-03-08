@@ -1,6 +1,5 @@
 import { z } from "zod";
 
-// Schema for updating user profile
 export const updateUserProfileSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 character"),
   email: z.string().min(3, "Email must be at least 3 character"),
@@ -22,37 +21,38 @@ export const userSchema = z.object({
   password: z.string().nullable().optional(),
   role: z.string(),
   defaultAddress: z
-    .object({
-      id: z.string().optional(),
-      street: z.string().min(3, "La via deve avere almeno 3 caratteri"),
-      city: z.string().min(2, "La città deve avere almeno 2 caratteri"),
-      isDefault: z.boolean().optional(),
-      fullName: z.string().min(3, "Il nome deve avere almeno 3 caratteri"),
-      postalCode: z
-        .string()
-        .min(5, "Il codice postale deve avere almeno 5 caratteri"),
-      country: z.string().min(2, "Il paese deve avere almeno 2 caratteri"),
-      userId: z.string().optional(),
-    })
+    .union([
+      z.object({
+        id: z.string().optional(),
+        street: z.string().min(3, "La via deve avere almeno 3 caratteri"),
+        city: z.string().min(2, "La città deve avere almeno 2 caratteri"),
+        isDefault: z.boolean().optional(),
+        fullName: z.string().min(3, "Il nome deve avere almeno 3 caratteri"),
+        postalCode: z
+          .string()
+          .min(5, "Il codice postale deve avere almeno 5 caratteri"),
+        country: z.string().min(2, "Il paese deve avere almeno 2 caratteri"),
+        userId: z.string().optional(),
+      }),
+      z.null(),
+    ])
     .optional(),
-  address: z.unknown().nullable().optional(), // TODO: Change to IAddress schema
+  address: z.unknown().nullable().optional(),
   paymentMethod: z.string().nullable().optional(),
   status: z.string(),
   createdAt: z.date(),
   updatedAt: z.date(),
-  accounts: z.array(z.unknown()).optional(), // TODO: Define Account schema
-  sessions: z.array(z.unknown()).optional(), // TODO: Define Session schema
-  Cart: z.array(z.unknown()).optional(), // TODO: Define Cart schema
-  Order: z.array(z.unknown()).optional(), // TODO: Define Order schema
-  Review: z.array(z.unknown()).optional(), // TODO: Define Review schema
+  accounts: z.array(z.unknown()).optional(),
+  sessions: z.array(z.unknown()).optional(),
+  Cart: z.array(z.unknown()).optional(),
+  Order: z.array(z.unknown()).optional(),
+  Review: z.array(z.unknown()).optional(),
 });
 
-// Schema per la richiesta di reset
 export const requestPasswordResetSchema = z.object({
   email: z.string().email("Email non valida"),
 });
 
-// Schema per il reset effettivo della password
 export const resetPasswordSchema = z
   .object({
     token: z.string().min(1, "Token mancante"),

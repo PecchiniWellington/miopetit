@@ -1,10 +1,9 @@
 "use client";
-import UploadAvatar from "@/app/admin/configurations/upload-avatar";
 import DynamicButton from "@/components/dynamic-button";
 import DynamicFormField from "@/components/shared/dynamic-form-field";
 
 import { updateUser } from "@/core/actions/admin/admin.actions";
-import { updateUserSchema } from "@/core/validators/user.validator";
+import { IUser, updateUserSchema } from "@/core/validators/user.validator";
 import { useToast } from "@/hooks/use-toast";
 import { USER_ROLES } from "@/lib/constants/roles";
 import { USER_STATUS } from "@/lib/constants/user-status";
@@ -12,10 +11,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { FormProvider, useForm } from "react-hook-form";
+import { Control, FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
+import UploadAvatar from "../../configurations/upload-avatar";
 
-const UpdateUserForm = ({ user }: { user: any }) => {
+const UpdateUserForm = ({ user }: { user: IUser }) => {
   const router = useRouter();
   const { toast } = useToast();
 
@@ -94,7 +94,14 @@ const UpdateUserForm = ({ user }: { user: any }) => {
     <FormProvider {...form}>
       <form className="space-y-4" onSubmit={startUpload} method="POST">
         <div className="upload-field flex flex-col gap-5 md:flex-row">
-          <UploadAvatar name="image" control={form.control} />
+          <UploadAvatar
+            name="image"
+            control={
+              form.control as unknown as Control<{
+                [key: string]: string | File | null;
+              }>
+            }
+          />
         </div>
 
         {/* Email */}

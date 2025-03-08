@@ -7,12 +7,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ICartItem } from "@/core/validators";
+import { ICart, ICartItem } from "@/core/validators";
 import { formatCurrency } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 
-const PlaceOrderTableResume = ({ cart }: { cart: any }) => {
+const PlaceOrderTableResume = ({ myCart }: { myCart: ICart }) => {
   return (
     <Card className="shadow-lg transition-all hover:shadow-xl md:col-span-2">
       <CardContent className="space-y-5 p-6">
@@ -28,7 +28,7 @@ const PlaceOrderTableResume = ({ cart }: { cart: any }) => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {cart?.items.map((item: ICartItem) => (
+            {myCart?.items.map((item: ICartItem) => (
               <TableRow
                 key={item.slug}
                 className="transition hover:bg-gray-50 dark:hover:bg-gray-900"

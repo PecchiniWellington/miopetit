@@ -1,12 +1,13 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { IAddress } from "@/core/validators/user-address.validator";
 import Link from "next/link";
 
 const PlaceOrderShippingAddress = ({
   defaultAddress,
 }: {
-  defaultAddress: any;
+  defaultAddress?: IAddress | null;
 }) => {
-  return (
+  return defaultAddress ? (
     <Card className="shadow-lg transition-all hover:shadow-xl md:col-span-2">
       <CardContent className="space-y-5 p-6">
         <h2 className="text-xl font-bold text-gray-800 dark:text-white">
@@ -26,7 +27,7 @@ const PlaceOrderShippingAddress = ({
         </Link>
       </CardContent>
     </Card>
-  );
+  ) : null;
 };
 
 export default PlaceOrderShippingAddress;

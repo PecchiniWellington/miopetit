@@ -53,7 +53,7 @@ export const productSchema = z.object({
       id: z.string().uuid(),
       name: z.string(),
       slug: z.string(),
-      parentId: z.string().uuid().nullable(), // Può essere null
+      parentId: z.string().uuid().nullable().optional(),
     })
   ),
 

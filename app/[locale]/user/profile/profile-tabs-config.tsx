@@ -11,6 +11,7 @@ import SubscriptionTab from "./profile-subscriptions";
 import SupportTab from "./profile-support";
 import { ProfileTab } from "./profile-tabs";
 import { SecurityTab } from "./security-tab";
+import { IUser } from "@/core/validators";
 
 interface Tab {
   id: string;
@@ -18,7 +19,7 @@ interface Tab {
   icon: JSX.Element;
 }
 
-const ProfileTabsConfig = ({ tabs, user }: { tabs: Tab[]; user: any }) => {
+const ProfileTabsConfig = ({ tabs, user }: { tabs: Tab[]; user: IUser }) => {
   const [activeTab, setActiveTab] = useState("profile");
 
   const [, setIsLoading] = useState(false);

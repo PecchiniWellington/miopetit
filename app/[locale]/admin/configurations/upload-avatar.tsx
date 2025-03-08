@@ -12,15 +12,13 @@ export default function UploadAvatar({
   control,
 }: {
   name: string;
-
-  control: Control<any>;
+  control: Control<{ [key: string]: File | string | null }>;
 }) {
   const { setValue, watch } = useFormContext();
   const inputFileRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const selectedFile = watch(name);
 
-  // ✅ Se c'è un valore iniziale dal database, impostalo come preview
   useEffect(() => {
     if (typeof selectedFile === "string") {
       setPreview(selectedFile);
@@ -31,7 +29,7 @@ export default function UploadAvatar({
     const file = event.target.files?.[0];
     if (!file) return;
 
-    const fileURL = URL.createObjectURL(file); // Genera la preview
+    const fileURL = URL.createObjectURL(file);
     setPreview(fileURL);
     setValue(name, file, { shouldValidate: true });
   };
@@ -41,7 +39,7 @@ export default function UploadAvatar({
     setValue(name, null, { shouldValidate: true });
 
     if (inputFileRef.current) {
-      inputFileRef.current.value = ""; // Reset input file
+      inputFileRef.current.value = "";
     }
   };
 

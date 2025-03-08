@@ -1,3 +1,5 @@
+import { ICart, IUser } from "@/core/validators";
+import { IAddress } from "@/core/validators/user-address.validator";
 import { redirect } from "next/navigation";
 import PlaceOrderPaymentMethod from "./place_order_payment_method";
 import PlaceOrderResume from "./place_order_resume";
@@ -7,21 +9,13 @@ import PlaceOrderTableResume from "./place_order_table_resume";
 const ConfigPlaceOrderPage = ({
   defaultAddress,
   user,
-  cart,
+  myCart,
 }: {
-  defaultAddress: {
-    fullName: string;
-    street: string;
-    city: string;
-    postalCode: string;
-    country: string;
-  };
-
-  user: any;
-
-  cart: any;
+  defaultAddress?: IAddress | null;
+  user: IUser | null;
+  myCart: ICart | null;
 }) => {
-  if (!cart || cart.items.length === 0) redirect("/cart");
+  if (!myCart || myCart.items.length === 0) redirect("/cart");
   if (!user?.defaultAddress) redirect("/shipping-address");
   if (!user?.paymentMethod) redirect("/payment-method");
   return (
@@ -38,10 +32,10 @@ const ConfigPlaceOrderPage = ({
         <PlaceOrderPaymentMethod user={user} />
 
         {/* 🛍️ Articoli dell'ordine */}
-        <PlaceOrderTableResume cart={cart} />
+        <PlaceOrderTableResume myCart={myCart} />
 
         {/* 📊 Riepilogo Ordine */}
-        <PlaceOrderResume cart={cart} />
+        <PlaceOrderResume myCart={myCart} />
       </div>
     </div>
   );

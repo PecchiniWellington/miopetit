@@ -1,7 +1,8 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { IUser } from "@/core/validators";
 import Link from "next/link";
 
-const PlaceOrderPaymentMethod = ({ user }: { user: any }) => {
+const PlaceOrderPaymentMethod = ({ user }: { user: IUser }) => {
   return (
     <Card className="shadow-lg transition-all hover:shadow-xl">
       <CardContent className="flex flex-col items-stretch space-y-5 p-6">

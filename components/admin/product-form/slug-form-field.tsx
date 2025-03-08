@@ -2,7 +2,14 @@ import DynamicFormField from "@/components/shared/dynamic-form-field";
 import { Button } from "@/components/ui/button";
 import slugify from "slugify";
 
-const SlugFormField = ({ form }: { form: any }) => {
+import { UseFormReturn } from "react-hook-form";
+
+interface FormData {
+  name: string;
+  slug: string;
+}
+
+const SlugFormField = ({ form }: { form: UseFormReturn<FormData> }) => {
   const handleSetValue = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     form.setValue("slug", slugify(form.getValues("name"), { lower: true }));

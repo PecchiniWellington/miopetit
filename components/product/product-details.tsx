@@ -6,11 +6,7 @@ import { IProduct } from "@/core/validators";
 import { BadgeCheck } from "lucide-react";
 import Rating from "./rating";
 
-export default function ProductDetails({
-  product,
-}: {
-  product: IProduct | any;
-}) {
+export default function ProductDetails({ product }: { product: IProduct }) {
   function truncateText(text: string, maxLength: number): string {
     if (text.length <= maxLength) {
       return text;
@@ -23,12 +19,12 @@ export default function ProductDetails({
     return truncated.slice(0, lastSpaceIndex) + "...";
   }
 
+  console.log(product.productFeature);
   const extractProductData = [
     {
       key: "Funzione alimentare",
-      value: product.productsFeatureOnProduct
-
-        .map((f: any) => f.productFeature.name)
+      value: product.productFeature
+        .map((p: { name: string }) => p.name)
         .join(", "),
     },
     {

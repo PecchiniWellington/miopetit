@@ -1,6 +1,6 @@
 import { BadgeStatus } from "@/components/shared/badge-status";
 import { getMyOrders } from "@/core/actions/order/order.action";
-import { IOrder } from "@/core/validators";
+import { IOrder, IOrderItem } from "@/core/validators";
 import { formatCurrency } from "@/lib/utils";
 import { CheckCircle, Clock, Package, Truck } from "lucide-react";
 import Image from "next/image";
@@ -13,25 +13,9 @@ export const OrdersTab = () => {
 
   const fetchOrders = async () => {
     try {
-      const r = (await getMyOrders({ page: 1 })) || [];
-
-      const orders = r.data.map((order: any) => ({
-        ...order,
-        user: order.user || null,
-        itemsPrice: order.itemsPrice || "0",
-        shippingPrice: order.shippingPrice || "0",
-        taxPrice: order.taxPrice || "0",
-        paymentMethod: order.paymentMethod || "",
-        shippingAddress: order.shippingAddress || {
-          fullName: "",
-          street: "",
-          city: "",
-          postalCode: "",
-          country: "",
-        },
-      }));
-      setOrders(orders);
-      setOrders(orders);
+      const { data } = (await getMyOrders({ page: 1 })) || [];
+      setOrders(data);
+      setOrders(data);
     } catch (error) {
       console.error("Error fetching orders:", error);
     }
@@ -101,7 +85,7 @@ export const OrdersTab = () => {
 
             {/* 📦 Dettagli Prodotti */}
             <div className="space-y-3">
-              {order.orderitems.map((item) => (
+              {order.orderitems.map((item: IOrderItem) => (
                 <div key={item.productId} className="flex items-center gap-4">
                   <Image
                     height={50}
