@@ -106,7 +106,7 @@ export function ProductFormFields({
           type="select"
           options={formatterForSelect(categories)}
           control={form.control}
-          name="categoryId"
+          name="productCategories"
           title="Category"
           placeholder="Enter category"
           defaultValue={getOnlyProductCategory}
@@ -118,7 +118,7 @@ export function ProductFormFields({
           type="multiple-select"
           options={formatterForSelect(pathologies)}
           control={form.control}
-          name="productPathologyOnProduct"
+          name="productPathologies"
           title="Pathologies"
           placeholder="Enter Pathologies"
           defaultValue={getOnlyPathologiesId}
@@ -130,16 +130,17 @@ export function ProductFormFields({
           type="select"
           options={formatterForSelect(brands)}
           control={form.control}
-          name="productBrandId"
+          name="productBrand"
           title="Brand"
           placeholder="Enter brand"
+          defaultValue={product?.productBrand?.id}
         />
         {/* Proteins */}
         <DynamicFormField
           type="multiple-select"
           options={formatterForSelect(proteins)}
           control={form.control}
-          name="productProteinOnProduct"
+          name="productProteins"
           title="Proteins"
           placeholder="Enter proteins"
           defaultValue={getOnlyProteinId}
@@ -149,7 +150,7 @@ export function ProductFormFields({
           type="multiple-select"
           options={formatterForFeature}
           control={form.control}
-          name="productsFeatureOnProduct"
+          name="productFeature"
           title="Features"
           placeholder="Enter features"
           defaultValue={getOnlyFeatureId}
@@ -162,7 +163,7 @@ export function ProductFormFields({
             type="select"
             options={formatterForUnitValue}
             control={form.control}
-            name="unitValueId"
+            name="productUnitFormat"
             title="Unit value"
             defaultValue={product?.productUnitFormat?.unitValue.toString()}
             placeholder="Enter unit value"
@@ -173,7 +174,7 @@ export function ProductFormFields({
             type="select"
             options={formatterForUnitOfMeasure}
             control={form.control}
-            name="unitOfMeasureId"
+            name="productUnitFormat"
             title="Unit of measure"
             placeholder="Enter brand"
             defaultValue={product?.productUnitFormat?.unitOfMeasure.toString()}

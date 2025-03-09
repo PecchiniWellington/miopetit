@@ -13,7 +13,7 @@ interface Option {
 }
 interface DynamicFormFieldProps {
   disabled?: boolean;
-  control: Control<IProduct>; //TODO: fix any
+  control: Control<IProduct>;
   name: keyof IProduct;
   title: string;
   placeholder?: string;
@@ -47,7 +47,7 @@ const DynamicFormField = ({
                 disabled={disabled}
                 placeholder={placeholder}
                 {...field}
-                value={field.value ?? ""}
+                value={typeof field.value === "string" ? field.value : ""}
                 className={`resize-none border-slate-700 bg-transparent ${className}`}
               />
             ) : type === "select" ? (
@@ -62,17 +62,22 @@ const DynamicFormField = ({
               />
             ) : type === "multiple-select" ? (
               <CustomMultipleSelect
-                defaultValue={defaultValue as string[]}
-                value={field.value || []}
+                value={
+                  Array.isArray(field.value) &&
+                  field.value.every((item) => typeof item === "string")
+                    ? field.value
+                    : []
+                }
                 options={options! || []}
                 onSelect={(value) => field.onChange(value)}
-                placeholder={"custom placheholder"}
+                placeholder={"custom placeholder"}
               />
             ) : (
               <Input
                 disabled={disabled}
                 placeholder={placeholder}
                 {...field}
+                value={typeof field.value === "string" ? field.value : ""}
                 className={`border-slate-700 bg-transparent ${className}`}
               />
             )}
