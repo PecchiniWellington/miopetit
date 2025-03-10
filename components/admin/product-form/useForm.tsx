@@ -18,12 +18,14 @@ export function useProductForm({
   const router = useRouter();
   const { toast } = useToast();
 
-  const form = useForm<IProduct>({
+  const form = useForm<z.infer<typeof productSchema>>({
     resolver: zodResolver(productSchema),
-    defaultValues: {
-      ...product,
-      id: product?.id || productId || "",
-    },
+    defaultValues:
+      type === "Create"
+        ? { id: "" }
+        : product
+          ? { ...product, id: product.id ?? "" } // 👈 Assicura che id sia sempre string
+          : { id: "" },
   });
 
   const onSubmit = async (data: z.infer<typeof productSchema>) => {

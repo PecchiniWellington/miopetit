@@ -3,11 +3,11 @@ import { prisma } from "@/core/prisma/prisma";
 import {
   categorySchema,
   ICategory,
-  updateCategorySchema,
   updateUserSchema,
+  userSchema,
 } from "@/core/validators";
 import { PAGE_SIZE } from "@/lib/constants";
-import { formatError } from "@/lib/utils";
+import { convertToPlainObject, formatError } from "@/lib/utils";
 import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
@@ -46,11 +46,27 @@ export async function getAllUsers({
 
   const dataCount = await prisma.user.count();
 
+  const result = userSchema.safeParse(data);
+
+  if (!result.success) {
+    console.error(
+      "❌ Errore nella validazione dei prodotti:",
+      result.error.format()
+    );
+    throw new Error("Errore di validazione dei prodotti");
+  }
+
   return {
-    data,
+    data: convertToPlainObject(result.data),
     totalPages: Math.ceil(dataCount / limit),
     totalUsers: dataCount,
   };
+
+  /* return {
+    data,
+    totalPages: Math.ceil(dataCount / limit),
+    totalUsers: dataCount,
+  }; */
 }
 
 // Delete a user
@@ -272,6 +288,13 @@ export async function deleteCategory(id: string) {
   }
 }
 
+/* TODO: CANCELLARE */
+export async function updataCategory(data: z.infer<typeof categorySchema>) {
+  return data;
+}
+
+/* TODO: SISTEMARE QUESTO INVECE */
+/* 
 export async function updataCategory(
   data: z.infer<typeof updateCategorySchema>
 ) {
@@ -299,4 +322,4 @@ export async function updataCategory(
   } catch (error) {
     return { success: false, message: formatError(error) };
   }
-}
+} */

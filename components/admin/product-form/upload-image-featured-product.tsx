@@ -15,7 +15,7 @@ import Image from "next/image";
 import { UseFormReturn } from "react-hook-form";
 
 interface UploadImageFeaturedProductProps {
-  isFeatured: boolean | null;
+  isFeatured?: boolean;
   banner?: string;
   form: UseFormReturn<IProduct>;
 }

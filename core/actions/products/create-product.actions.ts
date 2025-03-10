@@ -1,12 +1,11 @@
 import { prisma } from "@/core/prisma/prisma";
-import { insertProductSchema } from "@/core/validators";
+import { createProductSchema } from "@/core/validators";
 import { convertToPlainObject } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
 
-// Create product
 export async function createProduct(data: unknown) {
   try {
-    const product = insertProductSchema.safeParse(data);
+    const product = createProductSchema.safeParse(data);
 
     if (!product.success) {
       return {
@@ -63,7 +62,7 @@ export async function createProduct(data: unknown) {
         price: rest.price,
         name: rest.name,
         slug: rest.slug,
-        images: rest.image,
+        images: rest.images,
         description: rest.description,
         stock: rest.stock ?? undefined,
         isFeatured: rest.isFeatured,

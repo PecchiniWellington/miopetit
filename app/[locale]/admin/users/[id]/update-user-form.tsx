@@ -19,7 +19,7 @@ const UpdateUserForm = ({ user }: { user: IUser }) => {
   const router = useRouter();
   const { toast } = useToast();
 
-  const form = useForm<z.infer<typeof updateUserSchema>>({
+  const form = useForm<z.infer<typeof updateUserSchema> & { image: string }>({
     resolver: zodResolver(updateUserSchema),
     defaultValues: { ...user, image: user.image || "" },
   });

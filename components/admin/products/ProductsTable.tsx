@@ -43,7 +43,7 @@ const ProductsTable = ({
             { key: "id", label: "ID" },
             { key: "name", label: "NAME" },
             { key: "price", label: "PRICE" },
-            { key: "category", label: "CATEGORY" },
+            { key: "productCategories", label: "CATEGORY" },
             { key: "stock", label: "STOCK" },
             { key: "rating", label: "RATING" },
           ]}
@@ -60,7 +60,7 @@ const ProductsTable = ({
               </td>
               <td className="flex items-center gap-2 whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-100">
                 <Image
-                  src={product.image?.[0] || "/images/placeholder.jpg"}
+                  src={product.images?.[0] || "/images/placeholder.jpg"}
                   alt="Product img"
                   className="size-10 rounded-full"
                   height={40}
@@ -72,7 +72,9 @@ const ProductsTable = ({
                 {product.price}
               </td>
               <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-300">
-                {product.category || "N/A"}
+                {product.productCategories
+                  .map((p: { name: string }) => p.name)
+                  .join(", ") || "N/A"}
               </td>
               <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-300">
                 {product.stock}

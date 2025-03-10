@@ -66,19 +66,27 @@ export const productSchema = z.object({
   ),
 });
 
-// Schema per l'inserimento di prodotti
-export const insertProductSchema = productSchema.omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
+export const createProductSchema = z.object({
+  id: z.string().uuid(),
+  name: z.string(),
+  slug: z.string(),
+  price: z.string().regex(/^\d+(\.\d{1,2})?$/, "Invalid price format"),
+  stock: z.number().int().nonnegative(),
+  banner: z.string().optional(),
+  isFeatured: z.boolean(),
+  createdAt: z.string().optional(),
+  animalAge: z.enum(["PUPPY", "ADULT", "SENIOR"]),
+  categoryType: z.string(),
+  percentageDiscount: z.number().int().nonnegative().max(100),
+  images: z.array(z.string()),
+  description: z.string(),
+  productBrandId: z.string(),
+  unitValueId: z.string(),
+  unitOfMeasureId: z.string(),
+  productPathologyId: z.string(),
+  productProteinsId: z.array(z.string()),
+  productFeaturesId: z.array(z.string()),
 });
-
-// Schema per l'aggiornamento dei prodotti
-export const updateProductSchema = insertProductSchema.extend({
-  id: z.string().uuid().min(1, "L'ID è obbligatorio"),
-});
-
-// Definizione dei tipi
 
 export type IFormattedProduct = IProduct & {
   totalSales: number;
@@ -87,5 +95,4 @@ export type IFormattedProduct = IProduct & {
 };
 
 export type IProduct = z.infer<typeof productSchema>;
-export type IInsertProduct = z.infer<typeof insertProductSchema>;
-export type IUpdateProduct = z.infer<typeof updateProductSchema>;
+export type ICreateProduct = z.infer<typeof createProductSchema>;

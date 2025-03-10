@@ -1,7 +1,9 @@
 import { prisma } from "@/core/prisma/prisma";
+import { productSchema } from "@/core/validators/product.validator";
 import { PAGE_SIZE } from "@/lib/constants";
-import { convertToPlainObject } from "@/lib/utils";
+import { convertToPlainObject, formatDateTime } from "@/lib/utils";
 import { Prisma } from "@prisma/client";
+import { z } from "zod";
 import { getAllBrands } from "./product-infos.ts";
 import { getAllCategories } from "./product-infos.ts/get-product-category.action";
 
@@ -104,11 +106,62 @@ export async function getAllProducts({
       ...queryFilter,
       ...dynamicFilters,
     },
-    include: {
+    select: {
+      id: true,
+      name: true,
+      slug: true,
+      price: true,
+      description: true,
+      images: true,
+      stock: true,
+      rating: true,
+      numReviews: true,
+      isFeatured: true,
+      createdAt: true,
+      updatedAt: true,
+      animalAge: true,
+      categoryType: true,
+      percentageDiscount: true,
+
       productCategory: {
-        include: { category: true },
+        select: {
+          category: true,
+        },
       },
-      productUnitFormat: true,
+
+      productBrand: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+
+      productUnitFormat: {
+        select: {
+          id: true,
+          slug: true,
+          unitValue: { select: { value: true } },
+          unitOfMeasure: { select: { code: true } },
+        },
+      },
+
+      productPathologyOnProduct: {
+        select: {
+          pathology: { select: { id: true, name: true } },
+        },
+      },
+
+      productsFeatureOnProduct: {
+        select: {
+          productFeature: { select: { id: true, name: true } },
+        },
+      },
+
+      productProteinOnProduct: {
+        select: {
+          productProtein: { select: { id: true, name: true } },
+        },
+      },
     },
     orderBy:
       sort === "lowest"
@@ -125,21 +178,44 @@ export async function getAllProducts({
   // Conteggio totale dei prodotti
   const productCount = await prisma.product.count({ where: dynamicFilters });
 
-  // Format dei dati per il frontend
-  const updatedData = data.map((item) => ({
-    ...item,
-    category: item.productCategory?.length
-      ? item.productCategory.map((pc) => pc.category.name).join(", ")
-      : "N/A",
-    productBrand: item.productBrandId
-      ? brands?.find((b) => b.id === item.productBrandId)?.name
-      : null,
-  }));
+  const transformedData = data.map(
+    ({
+      productPathologyOnProduct,
+      productProteinOnProduct,
+      productCategory,
+      productsFeatureOnProduct,
+      ...rest
+    }) => ({
+      ...rest,
+      productPathologies: productPathologyOnProduct.map((p) => p.pathology),
+      productProteins: productProteinOnProduct.map((p) => p.productProtein),
+      productCategories: productCategory.map((c) => c.category),
+      productUnitFormat: rest.productUnitFormat
+        ? {
+            id: rest.productUnitFormat.id,
+            unitValue: rest.productUnitFormat.unitValue.value,
+            unitOfMeasure: rest.productUnitFormat.unitOfMeasure.code,
+            slug: rest.productUnitFormat.slug,
+          }
+        : null,
+      productFeature: productsFeatureOnProduct.map((f) => f.productFeature),
+      createdAt: formatDateTime(rest.createdAt.toString()).dateTime,
+      updatedAt: formatDateTime(rest.updatedAt.toString()).dateTime,
+    })
+  );
 
-  console.log("updatedData", updatedData);
+  const result = z.array(productSchema).safeParse(transformedData);
+
+  if (!result.success) {
+    console.error(
+      "❌ Errore nella validazione dei prodotti:",
+      result.error.format()
+    );
+    throw new Error("Errore di validazione dei prodotti");
+  }
 
   return {
-    data: convertToPlainObject(updatedData),
+    data: convertToPlainObject(result.data),
     totalPages: Math.ceil(productCount / limit),
     totalProducts: productCount,
   };

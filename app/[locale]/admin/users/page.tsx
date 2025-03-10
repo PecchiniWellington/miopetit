@@ -9,7 +9,6 @@ import DownloadCSV from "@/components/download-csv";
 import DynamicButton from "@/components/dynamic-button";
 import { getAllUsers } from "@/core/actions/admin/admin.actions";
 import { getOrderSummary } from "@/core/actions/order/order.action";
-import { IUser } from "@/core/validators/user.validator";
 import Link from "next/link";
 import UsersCard from "./users-card";
 
@@ -41,13 +40,10 @@ const UsersPage = async (props: {
 
   const summaryResponse = await getOrderSummary();
 
-  const users = usersResponse;
-  const summary = summaryResponse;
-
-  // remove user logged in from the list
-  users.data = users.data?.filter(
-    (user: IUser) => user.id !== session?.user?.id
+  const users = usersResponse.data.filter(
+    (user: { id: string }) => user.id !== session?.user.id
   );
+  const summary = summaryResponse;
 
   return (
     <div className="relative z-10 flex-1 overflow-auto">
@@ -58,7 +54,7 @@ const UsersPage = async (props: {
           <DynamicButton>
             <Link href="/admin/users/create">Create User</Link>
           </DynamicButton>
-          <DownloadCSV csvData={users.data} />
+          <DownloadCSV csvData={users} />
         </div>
         {/* STATS */}
         <UsersCard userStats={userStats} summary={summary} users={users} />

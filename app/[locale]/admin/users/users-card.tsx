@@ -17,13 +17,13 @@ const UsersCard = ({
     churnRate: string;
   };
   summary: IOrder & { usersCount: number };
-  users: { data: IUser[] };
+  users: IUser[];
 }) => {
   const today = new Date().toISOString().split("T")[0];
-  const newUserToday = users.data?.filter((user: IUser) =>
+  const newUserToday = users?.filter((user: IUser) =>
     String(user?.createdAt).startsWith(today)
   ).length;
-  const active = users.data?.filter((user: IUser) => user.status === "ACTIVE");
+  const active = users?.filter((user: IUser) => user.status === "ACTIVE");
   return (
     <motion.div
       className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4"

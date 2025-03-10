@@ -5,14 +5,7 @@ import {
   signUpFormSchema,
 } from "./auth.validator";
 import { ICart, ICartItem, cartItemSchema } from "./cart.validator";
-import {
-  ICategory,
-  ICategoryInsert,
-  ICategoryUpdate,
-  categorySchema,
-  insertCategorySchema,
-  updateCategorySchema,
-} from "./category.validator";
+import { ICategory, categorySchema } from "./category.validator";
 import { IOrderItem } from "./order-items.validator";
 import { IOrder, orderSchema } from "./orders.validator";
 import {
@@ -22,12 +15,10 @@ import {
   paymentResultSchema,
 } from "./payments.validator";
 import {
-  IInsertProduct,
+  ICreateProduct,
   IProduct,
-  IUpdateProduct,
-  insertProductSchema,
+  createProductSchema,
   productSchema,
-  updateProductSchema,
 } from "./product.validator";
 import {
   IReview,
@@ -57,9 +48,7 @@ export type {
   ICart,
   ICartItem,
   ICategory,
-  ICategoryInsert,
-  ICategoryUpdate,
-  IInsertProduct,
+  ICreateProduct,
   ILatestSales,
   IOrder,
   IOrderItem,
@@ -73,7 +62,6 @@ export type {
   IShippingAddress,
   ISignInForm,
   ISignUpForm,
-  IUpdateProduct,
   IUpdateUser,
   IUpdateUserProfile,
   IUser,
@@ -84,8 +72,7 @@ export {
   SalesDataTypeSchema,
   cartItemSchema,
   categorySchema,
-  insertCategorySchema,
-  insertProductSchema,
+  createProductSchema,
   insertReviewSchema,
   orderSchema,
   paymentMethodSchema,
@@ -95,8 +82,6 @@ export {
   shippingAddressSchema,
   signInFormSchema,
   signUpFormSchema,
-  updateCategorySchema,
-  updateProductSchema,
   updateReviewSchema,
   updateUserProfileSchema,
   updateUserSchema,

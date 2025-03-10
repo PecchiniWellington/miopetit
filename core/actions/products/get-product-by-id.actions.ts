@@ -1,7 +1,6 @@
 import { prisma } from "@/core/prisma/prisma";
 import { IOrderItem, productSchema } from "@/core/validators";
 import { convertToPlainObject, formatDateTime } from "@/lib/utils";
-import { z } from "zod";
 
 export async function getProductById(id: string) {
   const product = await prisma.product.findFirst({
@@ -79,7 +78,7 @@ export async function getProductById(id: string) {
     0
   );
 
-  const result = z.array(productSchema).safeParse(transformedData);
+  const result = productSchema.safeParse(transformedData);
 
   if (!result.success) {
     console.error(

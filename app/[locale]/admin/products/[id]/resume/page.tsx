@@ -1,8 +1,6 @@
 import Header from "@/components/admin/common/Header";
-
-import SalesTrendChart from "@/components/admin/products/SalesTrendChart";
-
 import OrderDistribution from "@/components/admin/orders/OrderDistribution";
+import SalesTrendChart from "@/components/admin/products/SalesTrendChart";
 import UserDemographicsChart from "@/components/admin/users/UserDemographicsChart";
 import { getProductById } from "@/core/actions/products";
 import ProductResumeCard from "./products-resume-card";
@@ -16,9 +14,7 @@ const ProductsOverviewPage = async (props: {
   params: Promise<{ id: string }>;
 }) => {
   const { id } = await props.params;
-
   const productsResponse = await getProductById(id);
-
   const product = JSON.parse(JSON.stringify(productsResponse));
 
   return (
@@ -26,12 +22,7 @@ const ProductsOverviewPage = async (props: {
       <Header title="Products" />
 
       <main className="mx-auto max-w-7xl px-4 py-6 lg:px-8">
-        {/* STATS */}
         <ProductResumeCard product={product} />
-
-        {/* PRODUCT DETAIL */}
-
-        {/* CHARTS */}
         <div className=" mb-8">
           <SalesTrendChart /* product={product} */ />
         </div>

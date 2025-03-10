@@ -83,7 +83,7 @@ export function ProductFormFields({
   }));
 
   const images = form.watch("images");
-  const isFeatured: boolean | null = form.watch("isFeatured");
+  const isFeatured = form.watch("isFeatured");
   const banner = form.watch("banner");
 
   return (

@@ -1,6 +1,5 @@
-import { Control, Controller } from "react-hook-form";
+import { Control, Controller, Path } from "react-hook-form";
 
-import { IProduct } from "@/core/validators";
 import { FormControl, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
@@ -11,10 +10,10 @@ interface Option {
   label: string;
   value: string;
 }
-interface DynamicFormFieldProps {
+interface DynamicFormFieldProps<T extends FieldValues> {
   disabled?: boolean;
-  control: Control<IProduct>;
-  name: keyof IProduct;
+  control: Control<T>;
+  name: Path<T>;
   title: string;
   placeholder?: string;
   type?: "input" | "textarea" | "select" | "multiple-select";
@@ -23,7 +22,9 @@ interface DynamicFormFieldProps {
   defaultValue?: string | string[];
 }
 
-const DynamicFormField = ({
+import { FieldValues } from "react-hook-form";
+
+const DynamicFormField = <T extends FieldValues>({
   disabled,
   control,
   name,
@@ -33,7 +34,7 @@ const DynamicFormField = ({
   className,
   options,
   defaultValue,
-}: DynamicFormFieldProps) => {
+}: DynamicFormFieldProps<T>) => {
   return (
     <Controller
       control={control}
@@ -64,7 +65,7 @@ const DynamicFormField = ({
               <CustomMultipleSelect
                 value={
                   Array.isArray(field.value) &&
-                  field.value.every((item) => typeof item === "string")
+                  field.value.every((item: unknown) => typeof item === "string")
                     ? field.value
                     : []
                 }

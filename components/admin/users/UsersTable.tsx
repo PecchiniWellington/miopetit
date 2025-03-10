@@ -74,7 +74,7 @@ const Status = ({ userStatus }: { userStatus: string }) => {
   }
 };
 
-const UsersTable = ({ users }: { users?: { data: IUser[] } }) => {
+const UsersTable = ({ users }: { users?: IUser[] }) => {
   return (
     <motion.div
       className="rounded-xl border border-gray-700 bg-gray-800/50 p-6 shadow-lg backdrop-blur-md"
@@ -117,7 +117,7 @@ const UsersTable = ({ users }: { users?: { data: IUser[] } }) => {
           </thead>
 
           <tbody className="divide-y divide-gray-700">
-            {users?.data?.map((user: IUser) => (
+            {users?.map((user: IUser) => (
               <motion.tr
                 key={user.id}
                 initial={{ opacity: 0 }}

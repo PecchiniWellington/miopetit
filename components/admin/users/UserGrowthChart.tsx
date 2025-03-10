@@ -26,8 +26,8 @@ const monthNames = [
   "Dec",
 ]; */
 
-const UserGrowthChart = ({ users }: { users?: { data: IUser[] } }) => {
-  const createdAt = users?.data.reduce((acc /* user */) => {
+const UserGrowthChart = ({ users }: { users?: IUser[] }) => {
+  const createdAt = users?.reduce((acc /* user */) => {
     /*  const date = new Date(user.createdAt);
     const monthIndex = date.getMonth();
     const monthName = monthNames[monthIndex]; */

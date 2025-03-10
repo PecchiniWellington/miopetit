@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowDown, ArrowUp, XCircle } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { JSX } from "react";
 
 interface SortableTableProps<T> {
   columns: { key: keyof T; label: string }[];
@@ -38,6 +39,7 @@ const SortableTable = <T,>({
     router.push(`?${params.toString()}`);
   };
 
+  console.log("DAta", data);
   // Ordina i dati in base alla colonna e all'ordine attuale
   const sortedData = [...data].sort((a, b) => {
     const valueA = a[sortKey as keyof T];

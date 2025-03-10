@@ -1,6 +1,5 @@
 import Header from "@/components/admin/common/Header";
 
-import CategoryDistributionChart from "@/components/admin/overview/CategoryDistributionChart";
 import ProductsTable from "@/components/admin/products/ProductsTable";
 import SalesTrendChart from "@/components/admin/products/SalesTrendChart";
 import DownloadCSV from "@/components/download-csv";
@@ -17,7 +16,6 @@ const ProductsPage = async (props: {
   }>;
 }) => {
   const searchParams = await props.searchParams;
-
   const page = Number(searchParams.page) || 1;
   const searchQuery = searchParams.query || "";
 
@@ -28,6 +26,8 @@ const ProductsPage = async (props: {
   });
 
   const categories = await getAllCategories();
+
+  console.log("categories", categories);
 
   return (
     <div className="relative z-10 flex-1 overflow-auto">
@@ -52,7 +52,7 @@ const ProductsPage = async (props: {
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
           <SalesTrendChart />
 
-          <CategoryDistributionChart categoriesDistribution={categories} />
+          {/* <CategoryDistributionChart categories={categories} /> */}
         </div>
       </main>
     </div>

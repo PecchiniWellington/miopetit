@@ -1,6 +1,5 @@
 "use client";
-import { ICategory } from "@/core/validators";
-import { Product } from "@prisma/client";
+import { ICategory, IProduct } from "@/core/validators";
 import { motion } from "framer-motion";
 import {
   Cell,
@@ -29,13 +28,14 @@ const generateColors = (numColors: number) => {
 };
 
 const CategoryDistributionChart = ({
-  categoriesDistribution,
+  categories,
 }: {
-  categoriesDistribution: { data: (ICategory & { Product: Product[] })[] };
+  categories?: { data: IProduct[] };
 }) => {
   const colors = generateColors(categoryData.length);
+  console.log("categories", categories);
 
-  const newValue = categoriesDistribution?.data
+  /* const newValue = categories?.data
     ?.filter((item) => item?.Product?.length > 0)
     .slice(0, 5)
     .map((item: ICategory & { Product: Product[] }) => {
@@ -43,7 +43,7 @@ const CategoryDistributionChart = ({
         name: item.name,
         value: item?.Product?.length,
       };
-    });
+    }); */
 
   /*  ?.filter((item) => item.value > 0); */
 
@@ -61,7 +61,7 @@ const CategoryDistributionChart = ({
         <ResponsiveContainer width={"100%"} height={"100%"}>
           <PieChart>
             <Pie
-              data={newValue}
+              data={[]}
               cx={"50%"}
               cy={"50%"}
               labelLine={false}
@@ -72,14 +72,12 @@ const CategoryDistributionChart = ({
                 `${name} ${(percent * 100).toFixed(0)}%`
               }
             >
-              {categoriesDistribution?.data?.map(
-                (entry: ICategory, index: number) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={colors[index % colors.length]}
-                  />
-                )
-              )}
+              {[]?.map((entry: ICategory, index: number) => (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={colors[index % colors.length]}
+                />
+              ))}
             </Pie>
             <Tooltip
               contentStyle={{
