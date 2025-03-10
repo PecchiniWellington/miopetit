@@ -14,7 +14,11 @@ const Loading = () => {
   const isHome = pathName === `/${locale}`;
 
   const isRefreshed =
-    performance.getEntriesByType("navigation")[0]?.type === "reload";
+    (
+      performance.getEntriesByType(
+        "navigation"
+      )[0] as PerformanceNavigationTiming
+    )?.type === "reload";
 
   const previousPath =
     typeof window !== "undefined" ? localStorage.getItem("previousPath") : null;

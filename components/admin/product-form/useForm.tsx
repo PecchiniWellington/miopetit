@@ -1,9 +1,5 @@
 import { createProduct, updateProduct } from "@/core/actions/products";
-import {
-  insertProductSchema,
-  IProduct,
-  updateProductSchema,
-} from "@/core/validators";
+import { IProduct, productSchema } from "@/core/validators";
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -16,21 +12,22 @@ export function useProductForm({
   productId,
 }: {
   type: "Create" | "Update";
-  product?: IProduct;
+  product?: IProduct & { id: string };
   productId?: string;
 }) {
   const router = useRouter();
   const { toast } = useToast();
 
-  const schema = type === "Update" ? updateProductSchema : insertProductSchema;
-
-  const form = useForm<z.infer<typeof schema>>({
-    resolver: zodResolver(schema),
-    defaultValues: product || {},
+  const form = useForm<IProduct>({
+    resolver: zodResolver(productSchema),
+    defaultValues: {
+      ...product,
+      id: product?.id || productId || "",
+    },
   });
 
-  const onSubmit = async (data: z.infer<typeof schema>) => {
-    const parsed = schema.safeParse(data);
+  const onSubmit = async (data: z.infer<typeof productSchema>) => {
+    const parsed = productSchema.safeParse(data);
     if (!parsed.success) {
       console.log("🔴 Validation Errors:", parsed.error.format());
       return;

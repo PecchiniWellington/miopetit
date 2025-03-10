@@ -1,6 +1,8 @@
 "use server";
 import { prisma } from "@/core/prisma/prisma";
+import { addressSchema } from "@/core/validators/user-address.validator";
 import { formatError } from "@/lib/utils";
+import { z } from "zod";
 
 // Get user by id
 export const getUserAddress = async (userId: string) => {
@@ -13,7 +15,9 @@ export const getUserAddress = async (userId: string) => {
     throw new Error("User not found");
   } */
 
-    return { success: true, data: addresses };
+    const { data } = z.array(addressSchema).safeParse(addresses);
+
+    return { success: true, data };
   } catch (error) {
     return { success: false, message: formatError(error) };
   }

@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { ICategory } from "@/core/validators";
 import { IProductFeatureOnProduct } from "@/core/validators/product-feature.validator";
-import { IFormattedProduct } from "@/core/validators/product.validator";
+import { IProduct } from "@/core/validators/product.validator";
 import {
   IUnitOfMeasure,
   IUnitValue,
@@ -25,7 +25,7 @@ const ProductForm = ({
   allFeatures,
 }: {
   type: "Create" | "Update";
-  product?: IFormattedProduct;
+  product?: IProduct & { totalSales?: number; totalRevenue?: number };
   productId?: string;
   categories?: ICategory[];
   brands?: IBrand[];

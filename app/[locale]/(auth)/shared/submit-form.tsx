@@ -65,14 +65,14 @@ export default function SubmitForm({
     handleLogin();
   }, [status, session]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setLoadingMessage("Effettuando l'accesso...");
     setError("");
     setSuccessMessage("");
 
-    const formData = new FormData(e.target);
+    const formData = new FormData(e.target as HTMLFormElement);
 
     if (formType === "sign-in") {
       const response = await signIn("credentials", {

@@ -9,7 +9,10 @@ export default function CartCounter({
 }: {
   countLoggedUser: number;
 }) {
-  const storedValue = JSON.parse(localStorage.getItem("cart") || "[]");
+  const storedValue =
+    typeof window !== "undefined"
+      ? JSON.parse(localStorage.getItem("cart") || "[]")
+      : [];
   const countCart = storedValue.reduce(
     (acc: number, item: ICartItem) => acc + item.qty,
     0

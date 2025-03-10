@@ -8,14 +8,16 @@ export const metadata: Metadata = {
 };
 
 const CartPage = async () => {
-  const user = await auth();
+  const session = await auth();
   const cartResponse = await getMyCart();
 
   if (!cartResponse) {
     return <div>Failed to load cart.</div>;
   }
 
-  return <ConfigCartPage userLogged={user} cart={cartResponse.items} />;
+  return (
+    <ConfigCartPage userLogged={session?.user} cart={cartResponse.items} />
+  );
 };
 
 export default CartPage;

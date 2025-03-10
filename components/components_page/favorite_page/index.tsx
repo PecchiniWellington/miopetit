@@ -6,11 +6,7 @@ import { motion } from "framer-motion";
 import { ShoppingCart, Trash2 } from "lucide-react";
 import Image from "next/image";
 
-export const ConfigFavoritePage = ({
-  relatedProducts,
-}: {
-  relatedProducts: IProduct[];
-}) => {
+export const ConfigFavoritePage = () => {
   const [storedFavorites] = useLocalStorage<IProduct[]>("favorites", []);
 
   return (
@@ -88,7 +84,7 @@ export const ConfigFavoritePage = ({
       </p>
 
       <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {relatedProducts.map((product) => (
+        {storedFavorites.slice(0, 5).map((product) => (
           <motion.div
             key={product.id}
             whileHover={{ scale: 1.05 }}

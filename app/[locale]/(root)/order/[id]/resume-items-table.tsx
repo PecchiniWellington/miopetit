@@ -6,16 +6,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { IOrderItemInsert } from "@/core/validators/orders.validator";
+import { IOrderItem } from "@/core/validators";
 import { formatCurrency } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 
-const ResumeItemsTable = ({
-  orderitems,
-}: {
-  orderitems: IOrderItemInsert[];
-}) => {
+const ResumeItemsTable = ({ orderitems }: { orderitems: IOrderItem[] }) => {
   return (
     <div className="w-full overflow-hidden rounded-lg border bg-white shadow-md dark:border-gray-800 dark:bg-gray-900">
       <Table className="w-full">

@@ -1,5 +1,7 @@
 import { addItemToCart } from "@/core/actions/cart/cart.actions";
 import { prisma } from "@/core/prisma/prisma";
+import { ICart, ICartItem } from "@/core/validators";
+import { cartSchema } from "@/core/validators/cart.validator";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
@@ -7,7 +9,7 @@ export async function POST(req: Request) {
 
   try {
     requestBody = await req.json();
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: "Invalid JSON format" }, { status: 400 });
   }
 
@@ -20,7 +22,6 @@ export async function POST(req: Request) {
 
   const { userId, localCart } = requestBody;
 
-  console.log("Request body:", requestBody);
   if (!userId || !Array.isArray(localCart)) {
     return NextResponse.json(
       { error: "Missing or invalid data" },
@@ -28,9 +29,13 @@ export async function POST(req: Request) {
     );
   }
 
-  const userCart = await prisma.cart.findMany({ where: { userId } });
+  const userCart = await prisma.cart.findMany({
+    where: { userId },
+  });
 
-  if (userCart.length === 0) {
+  const cartParse = cartSchema.parse(userCart);
+
+  if (cartParse.items.length === 0) {
     for (const item of localCart) {
       await addItemToCart({
         userId,
@@ -48,11 +53,11 @@ export async function POST(req: Request) {
     });
   }
 
-  const mergedCart = mergeCarts(userCart, localCart);
+  const mergedCart = mergeCarts(cartParse, localCart);
 
   for (const item of mergedCart) {
     await addItemToCart({
-      /* userId, */
+      userId,
       productId: item.productId,
       qty: item.qty,
       price: item.price,
@@ -69,10 +74,10 @@ export async function POST(req: Request) {
 }
 
 // 🔹 Funzione per unire i carrelli
-function mergeCarts(userCart, localCart) {
+function mergeCarts(cartParse: ICart, localCart: ICartItem[]) {
   const cartMap = new Map();
 
-  [...userCart, ...localCart].forEach((item) => {
+  [...cartParse.items, ...localCart].forEach((item) => {
     if (cartMap.has(item.productId)) {
       cartMap.get(item.productId).qty += Number(item.qty);
     } else {

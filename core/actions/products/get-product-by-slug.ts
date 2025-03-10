@@ -104,9 +104,7 @@ export async function getProductBySlug(slug: string) {
     updatedAt: formatDateTime(product.updatedAt.toString()).dateTime,
   };
 
-  console.log("RESULT-transformedData", transformedData);
   const result = productSchema.safeParse(transformedData);
-  console.log("RESULT", result);
 
   if (!result.success) {
     console.error(

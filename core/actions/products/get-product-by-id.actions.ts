@@ -1,7 +1,7 @@
 import { prisma } from "@/core/prisma/prisma";
-import { IOrderItem } from "@/core/validators";
-import { IProductCategory } from "@/core/validators/category.validator";
-import { convertToPlainObject } from "@/lib/utils";
+import { IOrderItem, productSchema } from "@/core/validators";
+import { convertToPlainObject, formatDateTime } from "@/lib/utils";
+import { z } from "zod";
 
 export async function getProductById(id: string) {
   const product = await prisma.product.findFirst({
@@ -32,75 +32,62 @@ export async function getProductById(id: string) {
 
   if (!product) return null;
 
-  return convertToPlainObject({
+  const transformedData = {
     ...product,
-
-    totalSales: product.orderitems.reduce(
-      (acc: number, item: IOrderItem) => acc + item.qty,
-      0
-    ),
-    totalRevenue: product.orderitems.reduce(
-      (acc: number, item: IOrderItem) => acc + item.qty * Number(item.price),
-      0
-    ),
-    productCategory: product.productCategory.map((f: IProductCategory) => ({
-      category: {
-        id: f.category.id,
-        name: f.category.name,
-        slug: f.category.slug,
-        parentId: f.category.parentId ?? null,
-      },
-      productId: f.productId,
-      categoryId: f.categoryId,
+    productPathologies: product.productPathologyOnProduct.map((p) => ({
+      id: p.pathology.id,
+      name: p.pathology.name,
+    })),
+    productProteins: product.productProteinOnProduct.map((p) => ({
+      id: p.productProtein.id,
+      name: p.productProtein.name,
+    })),
+    productCategories:
+      product.productCategory?.map((cat) => ({
+        id: cat.category.id,
+        name: cat.category.name,
+        slug: cat.category.slug,
+      })) ?? [],
+    productUnitFormat: product.productUnitFormat
+      ? {
+          id: product.productUnitFormat.id,
+          unitValue: product.productUnitFormat.unitValue.value,
+          unitOfMeasure: product.productUnitFormat.unitOfMeasure.code,
+          slug: product.productUnitFormat.slug,
+        }
+      : null,
+    productFeature: product.productsFeatureOnProduct.map((f) => ({
+      id: f.productFeature.id,
+      name: f.productFeature.name,
     })),
     productBrand: product.productBrand
       ? {
           id: product.productBrand.id,
           name: product.productBrand.name,
         }
-      : undefined,
-    productPathologies: product.productPathologyOnProduct.map(
-      (p: { pathology: { id: string; name: string } }) => ({
-        id: p.pathology.id,
-        name: p.pathology.name,
-      })
-    ),
-    productFeatures: product.productsFeatureOnProduct.map(
-      (f: {
-        productFeature: {
-          id: string;
-          name: string;
-          description: string | null;
-          image: string | null;
-        };
-      }) => ({
-        id: f.productFeature.id,
-        name: f.productFeature.name,
-      })
-    ),
-    productProteins: product.productProteinOnProduct.map(
-      (p: { productProtein: { id: string; name: string } }) => ({
-        id: p.productProtein.id,
-        name: p.productProtein.name,
-      })
-    ),
-    productUnitFormat: product.productUnitFormat
-      ? {
-          id: product.productUnitFormat.id,
-          slug: product.productUnitFormat.slug,
-          unitValueId: product.productUnitFormat.unitValueId,
-          unitMeasureId: product.productUnitFormat.unitMeasureId,
-          unitValue: {
-            value: product.productUnitFormat.unitValue.value,
-            id: product.productUnitFormat.unitValue.id,
-          },
-          unitOfMeasure: {
-            name: product.productUnitFormat.unitOfMeasure.name,
-            code: product.productUnitFormat.unitOfMeasure.code,
-            id: product.productUnitFormat.unitOfMeasure.id,
-          },
-        }
-      : undefined,
-    images: product.images, // Add this line to include the images property
-  });
+      : null,
+    createdAt: formatDateTime(product.createdAt.toString()).dateTime,
+    updatedAt: formatDateTime(product.updatedAt.toString()).dateTime,
+  };
+
+  const totalSales = product.orderitems.reduce(
+    (acc: number, item: IOrderItem) => acc + item.qty,
+    0
+  );
+  const totalRevenue = product.orderitems.reduce(
+    (acc: number, item: IOrderItem) => acc + item.qty * Number(item.price),
+    0
+  );
+
+  const result = z.array(productSchema).safeParse(transformedData);
+
+  if (!result.success) {
+    console.error(
+      "❌ Errore nella validazione dei prodotti:",
+      result.error.format()
+    );
+    throw new Error("Errore di validazione dei prodotti");
+  }
+
+  return convertToPlainObject({ ...result.data, totalSales, totalRevenue });
 }

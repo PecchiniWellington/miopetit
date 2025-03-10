@@ -7,6 +7,7 @@ import {
 import { ICartItem } from "@/core/validators";
 import useLocalStorage from "@/hooks/use-local-storage";
 import { calcPrice } from "@/lib/utils";
+import { User } from "next-auth";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 import CartTable from "./cart-table";
@@ -17,14 +18,9 @@ export const ConfigCartPage = ({
   userLogged,
   cart,
 }: {
-  userLogged: {
-    user: {
-      name: string;
-      email: string;
-      id: string;
-      role: string;
-    };
-  };
+  userLogged?: {
+    role: string;
+  } & User;
   cart: ICartItem[];
 }) => {
   const router = useRouter();
@@ -37,7 +33,7 @@ export const ConfigCartPage = ({
   );
 
   useEffect(() => {
-    if (userLogged?.user?.id) {
+    if (userLogged?.id) {
       if (cart) {
         setCleanedCartProduct(cart || []);
         setResume(calcPrice(cart));
@@ -56,10 +52,11 @@ export const ConfigCartPage = ({
           ? { ...cartItem, qty: cartItem.qty - 1 }
           : cartItem
       );
-      if (userLogged?.user?.id) {
+      if (userLogged?.id) {
         if (item.qty === 1) {
           const updatedCartDB = await cancelItemFromCart(item.productId);
-          setCleanedCartProduct(updatedCartDB.items || []);
+
+          setCleanedCartProduct(updatedCartDB?.items || []);
         } else {
           await removeItemFromCart(item.productId);
           setCleanedCartProduct(updatedCart);
@@ -77,8 +74,8 @@ export const ConfigCartPage = ({
         ? { ...cartItem, qty: cartItem.qty + 1 }
         : cartItem
     );
-    if (userLogged?.user?.id) {
-      await addItemToCart(item);
+    if (userLogged?.id) {
+      await addItemToCart({ ...item, userId: userLogged.id });
     } else {
       setStoredValue(updatedCart);
     }
@@ -90,7 +87,7 @@ export const ConfigCartPage = ({
       const updatedCart = cleanedCartProduct.filter(
         (cartItem) => cartItem.productId !== item.productId
       );
-      if (userLogged?.user?.id) {
+      if (userLogged?.id) {
         await cancelItemFromCart(item.productId);
       } else {
         setStoredValue(updatedCart);

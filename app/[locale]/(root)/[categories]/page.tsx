@@ -38,16 +38,12 @@ const MainCategory = async ({
     query: queries,
   });
 
-  const products = Array.isArray(productsResponse)
-    ? productsResponse
-    : productsResponse.data;
-
   return (
     <ConfigCategoryPage
       indispensable={indispensableDog}
       mainCategory={categories}
       productFilters={productFilters}
-      products={products}
+      products={productsResponse}
       myCart={myCart}
       userId={userId}
     />
