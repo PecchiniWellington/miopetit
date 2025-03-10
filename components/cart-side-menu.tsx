@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { getMyCart } from "@/core/actions/cart/cart.actions";
+import { ICartItem } from "@/core/validators";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { DialogTitle } from "@radix-ui/react-dialog"; // Import per accessibilità
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden"; // Per nascondere il titolo
@@ -14,14 +15,14 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 
 const CartSideMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState<ICartItem[]>([]);
   const [showCartButton, setShowCartButton] = useState(false);
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   // Fetch ottimizzato del carrello
   const fetchCart = useCallback(async () => {
     const cartResponse = await getMyCart();
-    if (cartResponse && !("success" in cartResponse)) {
+    if (cartResponse) {
       setCartItems(cartResponse.items || []);
     }
   }, []);
@@ -43,7 +44,7 @@ const CartSideMenu = () => {
   // Calcola il totale e la quantità dei prodotti
   const { totalPrice, totalCount } = useMemo(() => {
     const total = cartItems.reduce(
-      (acc, item) => acc + item.price * item.qty,
+      (acc, item) => acc + Number(item.price) * Number(item.qty),
       0
     );
     const count = cartItems.reduce((acc, item) => acc + item.qty, 0);

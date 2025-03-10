@@ -26,7 +26,6 @@ ResetPasswordEmail.PreviewProps = {
 type ResetPasswordProps = {
   name: string;
   email: string;
-  resetLink: string;
 };
 
 export default function ResetPasswordEmail({

@@ -9,7 +9,6 @@ import {
   useState,
 } from "react";
 
-// **Tipizzazione del contesto**
 interface FilterContextType {
   filters: { [key: string]: string };
   updateFilters: (key: string, value: string) => void;

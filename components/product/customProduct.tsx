@@ -55,7 +55,12 @@ export default function CustomProduct({
           : cartItem
       );
       if (userId) {
-        await addItemToCart({ ...item, qty: 1, productId: item.id });
+        await addItemToCart({
+          ...item,
+          qty: 1,
+          productId: item.id,
+          userId: userId || "",
+        });
       } else {
         setStoredValue(updatedCart);
       }

@@ -11,7 +11,7 @@ import { calcPrice } from "@/lib/utils";
 import { useCallback, useEffect, useState } from "react";
 
 const useCartHandler = ({ session }: { session: ISession }) => {
-  const userId = session?.data?.user?.id;
+  const userId = session?.user?.id;
 
   const [storedValue, setValue] = useLocalStorage<ICartItem[]>("cart", []);
   const [cartItems, setCartItems] = useState<ICartItem[]>([]);
@@ -72,7 +72,7 @@ const useCartHandler = ({ session }: { session: ISession }) => {
 
       if (JSON.stringify(backendCart) !== JSON.stringify(mergedCart)) {
         for (const item of mergedCart) {
-          await addItemToCart(item);
+          await addItemToCart({ ...item, userId });
         }
         setValue([]);
       }
@@ -139,7 +139,7 @@ const useCartHandler = ({ session }: { session: ISession }) => {
       }
 
       try {
-        await addItemToCart(newItem);
+        await addItemToCart({ ...newItem, userId });
         setCartItems((prevCart) => {
           const updatedCart = [...prevCart];
           const existingItemIndex = updatedCart.findIndex(

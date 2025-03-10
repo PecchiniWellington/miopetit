@@ -53,7 +53,11 @@ export const AddToCart = ({
 
   const handleAddToCart = async () => {
     setIsPending(async () => {
-      const res = await addItemToCart({ ...item, image: item.image || "" });
+      const res = await addItemToCart({
+        ...item,
+        image: item.image || "",
+        userId: myCart?.userId || "",
+      });
 
       if (!res?.success) {
         toast({

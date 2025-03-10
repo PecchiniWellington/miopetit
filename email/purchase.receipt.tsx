@@ -1,5 +1,5 @@
 import sampleData from "@/core/db-static/sample-data";
-import { IOrder } from "@/core/validators";
+import { ICartItem, IOrder } from "@/core/validators";
 import { formatCurrency } from "@/lib/utils";
 import {
   Body,
@@ -105,14 +105,14 @@ export default function PurchaseReceiptEmail({ order }: OrderInformationProps) {
             </Section>
             <Section className="my-4 rounded-lg border border-solid border-gray-500 p-4 md:p-6">
               <Heading>Shipping Address</Heading>
-              {order.orderitems.map((item) => (
+              {order.orderitems.map((item: ICartItem) => (
                 <Row key={item.productId} className="mt-8">
                   <Column>
                     <Img
                       width="80"
                       className="rounded"
                       src={
-                        item.image.startsWith("/")
+                        (item.image ?? "").startsWith("/")
                           ? `${process.env.NEXT_PUBLIC_BASE_URL}${item.image}`
                           : item.image
                       }

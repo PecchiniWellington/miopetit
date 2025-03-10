@@ -267,6 +267,5 @@ export async function getFiltersForCategory(categorySlug: string) {
     },
   });
 
-  console.log("CONVERT", convertToPlainObject(convert));
   return convertToPlainObject(convert);
 }

@@ -23,8 +23,8 @@ const useReview = (productId: string) => {
       if (!productId) return;
       try {
         const res = await getReviews({ productId });
-        if (res.data) {
-          setReviews(filterReviews(res.data));
+        if (res.reviews) {
+          setReviews(filterReviews(res.reviews));
         }
       } catch (error) {
         console.error("Error loading reviews:", error);

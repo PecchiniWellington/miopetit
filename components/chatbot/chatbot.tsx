@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState("");
-  const [chat, setChat] = useState([]);
+  const [chat, setChat] = useState<{ sender: string; text: string }[]>([]);
   const [bottomOffset, setBottomOffset] = useState("bottom-6");
   const [chatBottomOffset, setChatBottomOffset] = useState("bottom-20");
   const [isLoading, setIsLoading] = useState(false);
@@ -57,7 +57,7 @@ export default function Chatbot() {
   };
 
   // Funzione per inviare il messaggio con il tasto Invio
-  const handleKeyPress = (e) => {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
       sendMessage();

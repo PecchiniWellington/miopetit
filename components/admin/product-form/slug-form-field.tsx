@@ -2,22 +2,29 @@ import DynamicFormField from "@/components/shared/dynamic-form-field";
 import { Button } from "@/components/ui/button";
 import slugify from "slugify";
 
-import { UseFormReturn } from "react-hook-form";
-import { ICategory } from "@/core/validators";
-interface SlugFormFieldProps {
-  form: UseFormReturn<ICategory>;
+import { FieldValues, Path, PathValue, UseFormReturn } from "react-hook-form";
+interface SlugFormFieldProps<T extends FieldValues> {
+  form: UseFormReturn<T>;
 }
 
-const SlugFormField: React.FC<SlugFormFieldProps> = ({ form }) => {
+const SlugFormField = <T extends FieldValues>({
+  form,
+}: SlugFormFieldProps<T>) => {
   const handleSetValue = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    form.setValue("slug", slugify(form.getValues("name"), { lower: true }));
+    form.setValue(
+      "slug" as Path<T>,
+      slugify(form.getValues("name" as Path<T>), { lower: true }) as PathValue<
+        T,
+        Path<T>
+      >
+    );
   };
   return (
     <div className="flex w-full flex-col space-y-2">
       <DynamicFormField
         control={form.control}
-        name="slug"
+        name={"slug" as Path<T>}
         title="Slug"
         placeholder="Enter slug"
       />

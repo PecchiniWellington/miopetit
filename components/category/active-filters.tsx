@@ -3,7 +3,6 @@
 import { BadgeStatus } from "@/components/shared/badge-status";
 import { useFilterContext } from "@/context/filter-context";
 import { STATUS } from "@/lib/constants";
-import { transformKey } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { Button } from "../ui/button";
@@ -33,6 +32,7 @@ const ActiveFilters = () => {
     setIsAccordionOpen(false);
   };
 
+  console.log("🔍 [ActiveFilters] - Filters:", filters);
   return (
     <div className="flex flex-wrap items-center gap-2 text-sm text-gray-600">
       {Object.entries(filters).map(([key, value]) =>
@@ -41,12 +41,12 @@ const ActiveFilters = () => {
             key={key}
             status={filterStatusMap[key] || STATUS.DEFAULT}
           >
-            {key === "rating"
+            {/*  {key === "rating"
               ? `${value} ⭐ & più`
               : typeof value === "object"
                 ? value.name || `${value.unitValue} ${value.unitOfMeasure}`
                 : transformKey(key.charAt(0).toUpperCase() + key.slice(1)) +
-                  `: ${value}`}
+                  `: ${value}`} */}
 
             <Link
               scroll={false}

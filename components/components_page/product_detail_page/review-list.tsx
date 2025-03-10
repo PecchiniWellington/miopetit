@@ -29,8 +29,10 @@ const ReviewList = ({
 
   const reload = async () => {
     const res = await getReviews({ productId });
-    if (res.data) {
-      setReviews(res.data);
+    if (res) {
+      if (res.reviews) {
+        setReviews(res.reviews);
+      }
     }
   };
 
