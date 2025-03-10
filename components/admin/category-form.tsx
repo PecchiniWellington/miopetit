@@ -9,13 +9,7 @@ import {
   createCategory,
   updataCategory,
 } from "@/core/actions/admin/admin.actions";
-import {
-  ICategory,
-  ICategoryInsert,
-  ICategoryUpdate,
-  insertCategorySchema,
-  updateCategorySchema,
-} from "@/core/validators";
+import { categorySchema, ICategory } from "@/core/validators";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -34,18 +28,14 @@ const CategoryForm = ({
   const router = useRouter();
   const { toast } = useToast();
 
-  const form = useForm<ICategoryInsert | ICategoryUpdate>({
-    resolver:
-      type === "Update"
-        ? zodResolver(updateCategorySchema)
-        : zodResolver(insertCategorySchema),
+  const form = useForm<ICategory>({
+    resolver: zodResolver(categorySchema),
+
     defaultValues:
       category && type === "Update" ? category : CATEGORIES_DEFAULT_VALUES,
   });
 
-  const onSubmit: SubmitHandler<ICategoryInsert | ICategoryUpdate> = async (
-    data
-  ) => {
+  const onSubmit: SubmitHandler<ICategory> = async (data) => {
     const handleResponse = (
       res: { success: boolean; error?: string; message?: string },
       successMessage: string

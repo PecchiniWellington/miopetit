@@ -1,6 +1,6 @@
 import { OpenAI } from "openai";
 
-export async function POST(req) {
+export async function POST(req: Request) {
   try {
     const { message } = await req.json();
     if (!message) {

@@ -16,7 +16,12 @@ const CartPage = async () => {
   }
 
   return (
-    <ConfigCartPage userLogged={session?.user} cart={cartResponse.items} />
+    <ConfigCartPage
+      userLogged={
+        session?.user && { ...session.user, role: session.user.role || "" }
+      }
+      cart={cartResponse.items}
+    />
   );
 };
 

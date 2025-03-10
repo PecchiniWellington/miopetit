@@ -35,7 +35,7 @@ export async function getAllUsers({
           },
         }
       : {};
-  const data = await prisma.user.findMany({
+  const userData = await prisma.user.findMany({
     where: {
       ...queryFilter,
     },
@@ -46,18 +46,15 @@ export async function getAllUsers({
 
   const dataCount = await prisma.user.count();
 
-  const result = userSchema.safeParse(data);
+  const { data, success, error } = z.array(userSchema).safeParse(userData);
 
-  if (!result.success) {
-    console.error(
-      "❌ Errore nella validazione dei prodotti:",
-      result.error.format()
-    );
+  if (!success) {
+    console.error("❌ Errore nella validazione dei prodotti:", error.format());
     throw new Error("Errore di validazione dei prodotti");
   }
 
   return {
-    data: convertToPlainObject(result.data),
+    data: convertToPlainObject(data),
     totalPages: Math.ceil(dataCount / limit),
     totalUsers: dataCount,
   };
@@ -288,18 +285,9 @@ export async function deleteCategory(id: string) {
   }
 }
 
-/* TODO: CANCELLARE */
 export async function updataCategory(data: z.infer<typeof categorySchema>) {
-  return data;
-}
-
-/* TODO: SISTEMARE QUESTO INVECE */
-/* 
-export async function updataCategory(
-  data: z.infer<typeof updateCategorySchema>
-) {
   try {
-    const category = updateCategorySchema.parse(data);
+    const category = categorySchema.parse(data);
     const existingCategory = await prisma.category.findFirst({
       where: {
         id: category.id,
@@ -322,4 +310,4 @@ export async function updataCategory(
   } catch (error) {
     return { success: false, message: formatError(error) };
   }
-} */
+}

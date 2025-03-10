@@ -32,7 +32,10 @@ export const config = {
 
         // Verifica la password
         if (user && user.password) {
-          const isMatch = await compare(credentials.password, user.password);
+          const isMatch = await compare(
+            credentials.password as string,
+            user.password as string
+          );
           if (isMatch) {
             console.log("🔐 Login riuscito per", user.email);
             return {

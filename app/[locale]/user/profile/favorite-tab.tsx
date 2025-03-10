@@ -39,9 +39,9 @@ export const FavoritesTab = () => {
                     <Trash2 className="size-5" />
                   </button>
 
-                  {Array.isArray(product.image) ? (
+                  {Array.isArray(product.images) ? (
                     <Image
-                      src={product.image[0]}
+                      src={product.images[0]}
                       alt={product.name || "Prodotto"}
                       width={120}
                       height={120}
@@ -49,9 +49,9 @@ export const FavoritesTab = () => {
                       loading="lazy"
                     />
                   ) : (
-                    product.image && (
+                    product.images && (
                       <Image
-                        src={product.image}
+                        src={product.images}
                         alt={product.name || "Prodotto"}
                         width={120}
                         height={120}
