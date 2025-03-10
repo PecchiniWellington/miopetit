@@ -1,4 +1,3 @@
-import { auth } from "@/auth";
 import createMiddleware from "next-intl/middleware";
 import { NextRequest, NextResponse } from "next/server";
 import { routing } from "./i18n/routing";
@@ -11,7 +10,10 @@ export default async function middleware(req: NextRequest) {
   console.log("✅ Middleware attivo su:", pathname);
 
   // 🔹 1. Escludi API di NextAuth per evitare problemi
-  if (pathname.startsWith("/api/auth")) {
+  if (
+    pathname.startsWith("/api/auth") ||
+    pathname.startsWith("/api/auth-check")
+  ) {
     return NextResponse.next();
   }
 
@@ -28,8 +30,8 @@ export default async function middleware(req: NextRequest) {
     const locale = locales.includes(userLocale || "")
       ? userLocale
       : locales.includes(browserLocale || "")
-        ? browserLocale
-        : "en";
+      ? browserLocale
+      : "en";
 
     // 🚨 Evita loop infinito: non reindirizzare se è già nella forma corretta
     const newPathname = `/${locale}${pathname}`;
@@ -39,9 +41,26 @@ export default async function middleware(req: NextRequest) {
     }
   }
 
-  // 🔹 3. Controlla l'autenticazione usando `auth()`
-  const session = await auth();
-  const isAuthenticated = !!session?.user;
+  // 🔹 3. Controlla l'autenticazione usando l'API endpoint
+  const sessionToken = req.cookies.get("next-auth.session-token")?.value;
+
+  let isAuthenticated = false;
+
+  if (sessionToken) {
+    // Chiama l'API endpoint per verificare l'autenticazione
+    try {
+      const authCheckUrl = new URL("/api/auth-check", req.url);
+      authCheckUrl.searchParams.set("sessionToken", sessionToken);
+
+      const authResponse = await fetch(authCheckUrl);
+      if (authResponse.ok) {
+        const authData = await authResponse.json();
+        isAuthenticated = authData.isAuthenticated;
+      }
+    } catch (error) {
+      console.error("Errore durante la verifica dell'autenticazione:", error);
+    }
+  }
 
   const protectedRoutes = [
     "/dashboard",
