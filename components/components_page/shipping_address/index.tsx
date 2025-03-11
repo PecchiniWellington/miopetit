@@ -28,11 +28,7 @@ const ConfigShippingAddressPage = ({
     <div className="flex flex-col items-center justify-center lg:flex-row lg:space-x-8">
       {user && (
         <>
-          <DefaultAddressLoggedUser
-            addresses={addresses}
-            /*  setAddresses={setAddresses} */
-            user={user}
-          />
+          <DefaultAddressLoggedUser addresses={addresses} user={user} />
 
           <div className="my-auto lg:w-1/12">
             <Separator className="hidden h-96 w-[2px] bg-slate-100 md:block" />

@@ -26,6 +26,7 @@ export const MarkAsDeliveredButton = ({
         onClick={() =>
           setIsPending(async () => {
             const res = await updateOrderToDeliveredCOD(order.id);
+
             toast({
               variant: res.success ? "default" : "destructive",
               description: res.message,

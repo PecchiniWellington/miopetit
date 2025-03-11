@@ -3,6 +3,7 @@ import { APP_NAME, SENDER_EMAIL } from "@/lib/constants";
 import { Resend } from "resend";
 import PurchaseReceiptEmail from "./purchase.receipt";
 import ResetPasswordEmail from "./reset-password";
+import ShippingConfirmationEmail from "./shipping-confirmation";
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 require("dotenv").config();
@@ -18,6 +19,15 @@ export const sendPurchaseReceipt = async ({ order }: { order: IOrder }) => {
     to: order?.user?.email as string,
     subject: `${APP_NAME} - Abbiamo confermato l'ordine #${order.id}`,
     react: <PurchaseReceiptEmail order={order} />,
+  });
+};
+export const sendOrderDeliverEmail = async ({ order }: { order: IOrder }) => {
+  console.log("ORDER", { order });
+  await resend.emails.send({
+    from: `${APP_NAME} <${SENDER_EMAIL}>`,
+    to: order?.user?.email as string,
+    subject: `${APP_NAME} - Abbiamo spedito il tui ordine #${order.id}`,
+    react: <ShippingConfirmationEmail order={order} />,
   });
 };
 

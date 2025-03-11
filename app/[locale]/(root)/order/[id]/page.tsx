@@ -14,6 +14,7 @@ const OrderDetailsPage = async (props: { params: Promise<{ id: string }> }) => {
   const order = await getOrderById(id);
   if (!order) notFound();
 
+  console.log("📥 [OrderDetailsPage] - Order:", order);
   const session = await auth();
 
   let client_secret = null;
@@ -30,14 +31,12 @@ const OrderDetailsPage = async (props: { params: Promise<{ id: string }> }) => {
   }
 
   return (
-    <div>
-      <OrderDetailsTable
-        order={order}
-        stripeClientSecret={client_secret}
-        paypalClientId={process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || "sb"}
-        isAdmin={session?.user?.role === ROLES.ADMIN || false}
-      />
-    </div>
+    <OrderDetailsTable
+      order={order}
+      stripeClientSecret={client_secret}
+      paypalClientId={process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || "sb"}
+      isAdmin={session?.user?.role === ROLES.ADMIN || false}
+    />
   );
 };
 

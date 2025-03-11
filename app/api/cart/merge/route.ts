@@ -80,7 +80,7 @@ export async function POST(req: Request) {
     await prisma.cart.update({
       where: { id: userCart.id },
       data: {
-        items: mergedCart as Prisma.CartUpdateitemsInput[],
+        items: mergedCart,
       },
     });
 

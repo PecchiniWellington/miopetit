@@ -13,8 +13,8 @@ import {
   IPaymentResult,
   ISalesDataType,
   IShippingAddress,
+  orderSchema,
 } from "@/core/validators";
-import { orderItemSchema } from "@/core/validators/order-items.validator";
 import { convertToPlainObject, formatError } from "@/lib/utils";
 import { getMyCart } from "../cart/cart.actions";
 import { getUserById } from "../user";
@@ -26,10 +26,9 @@ export async function createOrder() {
     const userId = session?.user?.id;
     if (!userId) throw new Error("User not found");
     const user = await getUserById(userId);
-
     const cart = await getMyCart();
 
-    if (!cart || !("items" in cart) || cart.items.length === 0) {
+    if (!cart || cart.items.length === 0) {
       return { success: false, message: "Cart is empty", redirectTo: "/cart" };
     }
     if (!user || !user.defaultAddress) {
@@ -47,7 +46,7 @@ export async function createOrder() {
       };
     }
 
-    const order = orderItemSchema.parse({
+    const order = orderSchema.parse({
       userId: user.id,
       shippingAddress: user.defaultAddress,
       paymentMethod: user.paymentMethod,
@@ -55,7 +54,9 @@ export async function createOrder() {
       shippingPrice: cart.shippingPrice,
       taxPrice: cart.taxPrice,
       totalPrice: cart.totalPrice,
+      createdAt: new Date(),
     });
+    console.log("📥 [createOrder] - Order:", order);
 
     const insertedOrderId = await prisma.$transaction(async (tx) => {
       const insertedOrder = await tx.order.create({ data: order });
@@ -160,10 +161,9 @@ export async function updateOrderToPaid({
 
   if (!updatedOrder) throw new Error("Order not found");
 
-  sendPurchaseReceipt({
+  await sendPurchaseReceipt({
     order: {
       ...updatedOrder,
-
       orderitems: updatedOrder.orderitems as ICartItem[],
       shippingAddress: updatedOrder.shippingAddress as IShippingAddress,
       paymentResult: updatedOrder.paymentResult as IPaymentResult,

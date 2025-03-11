@@ -9,7 +9,6 @@ import {
   PayPalScriptProvider,
   usePayPalScriptReducer,
 } from "@paypal/react-paypal-js";
-import router from "next/router";
 
 const PayPalPayment = ({
   paypalClientId,
@@ -37,8 +36,6 @@ const PayPalPayment = ({
       variant: res.success ? "default" : "destructive",
       description: res.message,
     });
-
-    router.push(`/order/${order.id}`);
   };
 
   const PrintLoadingState = () => {

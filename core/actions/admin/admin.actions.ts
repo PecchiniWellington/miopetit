@@ -2,10 +2,14 @@
 import { prisma } from "@/core/prisma/prisma";
 import {
   categorySchema,
+  ICartItem,
   ICategory,
+  IPaymentResult,
+  IShippingAddress,
   updateUserSchema,
   userSchema,
 } from "@/core/validators";
+import { sendOrderDeliverEmail } from "@/email";
 import { PAGE_SIZE } from "@/lib/constants";
 import { convertToPlainObject, formatError } from "@/lib/utils";
 import { Prisma } from "@prisma/client";
@@ -212,9 +216,23 @@ export async function updateOrderToDeliveredCOD(orderId: string) {
     if (!order) throw new Error("Order not found");
     if (!order.isPaid) throw new Error("Order not paid");
 
-    await prisma.order.update({
+    const orderUpdated = await prisma.order.update({
       where: { id: orderId },
+      include: {
+        orderitems: true,
+        user: { select: { email: true, name: true } },
+      },
       data: { isDelivered: true, deliveredAt: new Date() },
+    });
+
+    if (!orderUpdated) throw new Error("Order not found");
+    await sendOrderDeliverEmail({
+      order: {
+        ...orderUpdated,
+        orderitems: orderUpdated.orderitems as ICartItem[],
+        shippingAddress: orderUpdated.shippingAddress as IShippingAddress,
+        paymentResult: orderUpdated.paymentResult as IPaymentResult,
+      },
     });
 
     revalidatePath(`/order/${orderId}`);

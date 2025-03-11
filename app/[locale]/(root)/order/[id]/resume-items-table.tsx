@@ -38,7 +38,7 @@ const ResumeItemsTable = ({ orderitems }: { orderitems: IOrderItem[] }) => {
                   className="flex items-center gap-3"
                 >
                   <Image
-                    src={item.image}
+                    src={item.image || "/images/placeholder.jpg"}
                     alt={item.name}
                     width={50}
                     height={50}

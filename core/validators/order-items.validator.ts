@@ -11,12 +11,14 @@ export const orderItemSchema: z.ZodSchema = z.object({
   name: z.string().nullable(),
   slug: z.string(),
   image: z.string(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
-  order: z.lazy(() => orderSchema),
-  product: z.object({
-    id: z.string().uuid(),
-  }),
+  createdAt: z.date().optional(),
+  updatedAt: z.date().optional(),
+  order: z.lazy(() => orderSchema).optional(),
+  product: z
+    .object({
+      id: z.string().uuid(),
+    })
+    .optional(),
 });
 
 export type IOrderItem = z.infer<typeof orderItemSchema>;

@@ -2,6 +2,7 @@
 
 import { IOrder } from "@/core/validators";
 import { formatId } from "@/lib/utils";
+import { useEffect, useState } from "react";
 import OrderCard from "./order-card";
 import PaymentCard from "./payment-card-component";
 import ResumeItemsTable from "./resume-items-table";
@@ -13,11 +14,17 @@ const OrderDetailsTable = ({
   isAdmin,
 }: {
   name?: string;
-  order: /* IOrder */ Omit<IOrder, "paymentResult">;
+  order: IOrder;
   stripeClientSecret: string | null;
   paypalClientId: string;
   isAdmin: boolean;
 }) => {
+  const [isPaid, setIsPaid] = useState(order.isPaid);
+
+  useEffect(() => {
+    setIsPaid(order.isPaid);
+  }, [order.isPaid]);
+
   const {
     shippingAddress,
     paymentMethod,
@@ -25,7 +32,6 @@ const OrderDetailsTable = ({
     shippingPrice,
     taxPrice,
     totalPrice,
-    isPaid,
     paidAt,
     isDelivered,
     deliveredAt,
@@ -48,7 +54,8 @@ const OrderDetailsTable = ({
             subtitle={paymentMethod}
             paidAt={paidAt}
             title="Metodo di Pagamento"
-            type="Pagato"
+            confirmedType="Pagamento effettuato"
+            toConfirmType="Da pagare"
           />
 
           {/* 📍 **Indirizzo di Spedizione** */}
@@ -57,7 +64,8 @@ const OrderDetailsTable = ({
             subtitle={shippingAddress.fullName}
             paidAt={deliveredAt}
             title="Indirizzo di Spedizione"
-            type="Consegnato"
+            confirmedType="Spedizione effettuata"
+            toConfirmType="Da spedire"
           >
             <p className="text-gray-700 dark:text-gray-300">
               {shippingAddress.street}, {shippingAddress.city},{" "}

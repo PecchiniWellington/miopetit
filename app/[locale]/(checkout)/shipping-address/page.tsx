@@ -26,16 +26,7 @@ const ShippingAddress = async () => {
     const user = await getUserById(userId);
     const userAddress = await getUserAddress(userId);
     if (user) {
-      const defaultAddress = user.defaultAddress as {
-        street: string;
-        city: string;
-        fullName: string;
-        postalCode: string;
-        country: string;
-        id?: string;
-        userId?: string;
-        isDefault?: boolean;
-      };
+      const defaultAddress = user.defaultAddress;
       return (
         <ConfigShippingAddressPage
           user={{ ...user, defaultAddress }}

@@ -33,7 +33,7 @@ export async function createPaypalOrder(orderId: string) {
         },
       },
     });
-
+    revalidatePath(`/order/${orderId}`);
     return {
       success: true,
       message: "Item order created successfully",
@@ -49,7 +49,6 @@ export async function approvePaypalOrder(
   orderId: string,
   data: { orderID: string }
 ) {
-  console.log("APPROVE PAYPAL ORDER", orderId, data);
   try {
     const order = await prisma.order.findFirst({
       where: { id: orderId },
@@ -67,8 +66,7 @@ export async function approvePaypalOrder(
       throw new Error("Invalid payment");
     }
 
-    // Update order to paid
-    updateOrderToPaid({
+    await updateOrderToPaid({
       orderId,
       paymentResult: {
         id: captureData.id,

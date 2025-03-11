@@ -4,6 +4,7 @@
 import { auth } from "@/auth";
 import { prisma } from "@/core/prisma/prisma";
 import { formatError } from "@/lib/utils";
+import { revalidatePath } from "next/cache";
 
 // 📌 Imposta l'indirizzo come predefinito e annulla gli altri
 export async function setDefaultAddress(id: string, userId: string) {
@@ -36,9 +37,10 @@ export async function setDefaultAddress(id: string, userId: string) {
       },
     });
 
+    revalidatePath(`/shipping-address`);
     return {
       success: true,
-      message: "Indirizzo predefinito aggiornato con successo",
+      message: "Ixndirizzo predefinito aggiornato con successo",
       data,
     };
   } catch (error) {

@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { STATUS } from "@/lib/constants";
 import { formatDateTime } from "@/lib/utils";
 import { Calendar, CheckCircle, XCircle } from "lucide-react";
+import { useEffect, useState } from "react";
 
 const OrderCard = ({
   children,
@@ -10,15 +11,22 @@ const OrderCard = ({
   subtitle,
   paidAt,
   title,
-  type,
+  confirmedType,
+  toConfirmType,
 }: {
   children?: React.ReactNode;
   isPaid?: boolean;
   subtitle?: string;
   paidAt?: Date | null;
   title?: string;
-  type?: string;
+  confirmedType?: string;
+  toConfirmType?: string;
 }) => {
+  const [paidStatus, setPaidStatus] = useState(isPaid);
+
+  useEffect(() => {
+    setPaidStatus(isPaid);
+  }, [isPaid]);
   return (
     <Card className="relative overflow-hidden rounded-2xl border border-gray-300 bg-white p-6 shadow-lg transition-all duration-300 hover:shadow-xl dark:border-gray-700 dark:bg-gray-900">
       <CardContent className="space-y-5">
@@ -27,7 +35,8 @@ const OrderCard = ({
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
             {title}
           </h2>
-          {type && (
+
+          {confirmedType || toConfirmType ? (
             <BadgeStatus
               status={isPaid ? "success" : STATUS.DANGER}
               className="flex items-center gap-1 px-3 py-1 text-sm font-medium"
@@ -35,23 +44,23 @@ const OrderCard = ({
               {isPaid ? (
                 <>
                   <CheckCircle className="size-4 text-green-500" />
-                  {type} effettuato
+                  {confirmedType}
                 </>
               ) : (
                 <>
                   <XCircle className="size-4 text-red-500" />
-                  {type} mancante
+                  {toConfirmType}
                 </>
               )}
             </BadgeStatus>
-          )}
+          ) : null}
         </div>
 
         {/* Divider elegante */}
         <div className="border-t border-gray-200 dark:border-gray-700"></div>
 
         {/* Dettagli pagamento */}
-        {isPaid && paidAt && (
+        {paidStatus && paidAt && (
           <div className="flex items-center gap-3 text-sm text-gray-700 dark:text-gray-400">
             <Calendar className="size-5 text-indigo-500" />
             <span>Pagato il {formatDateTime(paidAt.toString()).dateTime}</span>
