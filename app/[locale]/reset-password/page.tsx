@@ -28,6 +28,7 @@ const ResetPasswordForm = () => {
   const token = searchParams.get("token");
 
   useEffect(() => {
+    console.log("Token:", token);
     if (!token) {
       toast({
         variant: "destructive",

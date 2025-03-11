@@ -4,7 +4,7 @@ import { formatError } from "@/lib/utils";
 import { hashSync } from "bcryptjs";
 import crypto from "crypto";
 
-export const requestPasswordReset = async (email: string) => {
+export const requestPasswordReset = async (email: string, locale?: string) => {
   try {
     const user = await prisma.user.findUnique({
       where: { email },
@@ -28,9 +28,15 @@ export const requestPasswordReset = async (email: string) => {
       },
     });
 
-    const resetUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/reset-password?token=${token}`;
+    console.log(
+      "RESET URL",
+      `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/reset-password?token=${token}`,
+      user
+    );
+    const resetUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/reset-password?token=${token}`;
 
-    await sendPasswordResetEmail({ user, resetUrl });
+    const t = await sendPasswordResetEmail({ user, resetUrl });
+    console.log("MANNNAGGIAATE", t);
     return { success: true, message: "Email di reset inviata!" };
   } catch (error) {
     console.log("ERROR", error);

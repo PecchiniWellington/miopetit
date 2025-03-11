@@ -11,8 +11,9 @@ export async function POST(req: Request) {
         { status: 400 }
       );
     }
+    console.log("EMAIL", body.email, body.locale);
 
-    const result = await requestPasswordReset(body.email);
+    const result = await requestPasswordReset(body.email, body.locale);
 
     return NextResponse.json({ success: true, data: result }, { status: 200 });
   } catch (error) {

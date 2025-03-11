@@ -69,7 +69,7 @@ export const OrdersTab = () => {
               <BadgeStatus status={order.isDelivered ? "success" : "warning"}>
                 {order.isDelivered ? (
                   <>
-                    <CheckCircle className="mr-2 size-4" /> Consegnato
+                    <CheckCircle className="mr-2 size-4" /> Spedito
                   </>
                 ) : order.isPaid ? (
                   <>
@@ -90,7 +90,7 @@ export const OrdersTab = () => {
                   <Image
                     height={50}
                     width={50}
-                    src={item.image}
+                    src={item.image || "/images/placeholder.jpg"}
                     alt={item.name}
                     className="size-16 rounded-lg border shadow-sm"
                   />

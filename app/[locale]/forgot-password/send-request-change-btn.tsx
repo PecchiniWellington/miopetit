@@ -2,6 +2,7 @@
 "use client";
 
 import DynamicButton from "@/components/dynamic-button";
+import { useLocale } from "next-intl";
 
 const SendRequest = ({
   email,
@@ -14,6 +15,7 @@ const SendRequest = ({
   setErrorMessage: (message: string) => void;
   setSuccessMessage: (message: string) => void;
 }) => {
+  const locale = useLocale();
   const handleAction = async (
     e: React.MouseEvent<HTMLButtonElement> | unknown
   ) => {
@@ -30,7 +32,7 @@ const SendRequest = ({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, locale }),
       });
 
       const data = await res.json();

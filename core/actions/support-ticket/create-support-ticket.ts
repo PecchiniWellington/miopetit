@@ -3,6 +3,7 @@
 import { auth } from "@/auth";
 import { prisma } from "@/core/prisma/prisma";
 import { supportTicketSchema } from "@/core/validators/support-ticket.validator";
+import { sendTicketRequest } from "@/email";
 
 import { revalidatePath } from "next/cache";
 
@@ -36,11 +37,18 @@ export async function createSupportTicket(
       },
     });
 
+    await sendTicketRequest({
+      orderId: ticketData.orderId || "",
+      message: ticketData.description,
+      ticketTitle: ticketData.subject,
+      userEmail: ticketData.email,
+    });
+
     revalidatePath("/support");
 
     return { success: true, message: "Ticket inviato con successo!" };
   } catch (error) {
-    return { success: false, message: "Errore nell'invio del ticket" };
+    return { success: false, message: "Errore nell'invio del ticket" + error };
   }
 }
 

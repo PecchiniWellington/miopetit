@@ -124,5 +124,6 @@ export const config = {
     "/user/:path*",
     "/order/:path*",
     "/admin/:path*",
+    "/dashboard",
   ],
 };

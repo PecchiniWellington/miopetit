@@ -4,6 +4,7 @@ import { Resend } from "resend";
 import PurchaseReceiptEmail from "./purchase.receipt";
 import ResetPasswordEmail from "./reset-password";
 import ShippingConfirmationEmail from "./shipping-confirmation";
+import SupportTicketEmail from "./support-ticket-request";
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 require("dotenv").config();
@@ -13,6 +14,31 @@ const resend = new Resend(
     "re_FiWKUKfj_GCuqahrs7g2Uz6tkJcudjr9w"
 );
 
+export const sendTicketRequest = async ({
+  orderId,
+  message,
+  userEmail,
+  ticketTitle,
+}: {
+  orderId: string;
+  message: string;
+  userEmail: string;
+  ticketTitle: string;
+}) => {
+  await resend.emails.send({
+    from: `${APP_NAME} <${SENDER_EMAIL}>`,
+    to: userEmail as string,
+    subject: `${APP_NAME} - Abbiamo preso in carico la tua richiesta`,
+    react: (
+      <SupportTicketEmail
+        orderId={orderId}
+        message={message}
+        ticketTitle={ticketTitle}
+        userEmail={userEmail}
+      />
+    ),
+  });
+};
 export const sendPurchaseReceipt = async ({ order }: { order: IOrder }) => {
   await resend.emails.send({
     from: `${APP_NAME} <${SENDER_EMAIL}>`,

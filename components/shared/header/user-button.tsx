@@ -72,21 +72,21 @@ const UserButton = ({ userLogged }: { userLogged: IUser | null }) => {
           </div>
         </DropdownMenuLabel>
 
-        <DropdownMenuItem className="flex items-center gap-3 rounded-md px-4 py-3 text-gray-700 transition-all duration-300 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
-          <User size={18} className="text-indigo-500" />
-          <Link href="/user/profile" className="block w-full">
-            Profile
-          </Link>
-        </DropdownMenuItem>
-
-        {user?.role === ROLES.ADMIN && (
+        <Link href="/user/profile" className="block w-full cursor-pointer">
           <DropdownMenuItem className="flex items-center gap-3 rounded-md px-4 py-3 text-gray-700 transition-all duration-300 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
-            <LayoutDashboard size={18} className="text-green-500" />
-            <Link href="/admin/overview" className="block w-full">
-              Admin Dashboard
-            </Link>
+            <User size={18} className="text-indigo-500" />
+            Profile
           </DropdownMenuItem>
-        )}
+        </Link>
+
+        <Link href="/admin/overview" className="block w-full cursor-pointer">
+          {user?.role === ROLES.ADMIN && (
+            <DropdownMenuItem className="flex items-center gap-3 rounded-md px-4 py-3 text-gray-700 transition-all duration-300 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
+              <LayoutDashboard size={18} className="text-green-500" />
+              Admin Dashboard
+            </DropdownMenuItem>
+          )}
+        </Link>
 
         <DropdownMenuItem
           onClick={async () => {
