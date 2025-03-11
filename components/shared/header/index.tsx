@@ -1,6 +1,5 @@
 import { auth } from "@/auth";
 import MegaMenu from "@/components/mega-menu/mega-menu";
-import LanguageSwitcher from "@/components/switcher-language";
 import { getMyCart } from "@/core/actions/cart/cart.actions";
 import { getAllCategoriesForMegaMenu } from "@/core/actions/products/mega-menu.action";
 import { getUserById } from "@/core/actions/user";
@@ -108,7 +107,6 @@ const Header = async () => {
                 </span>
               )}
               <UserButton userLogged={userLogged} />
-              <LanguageSwitcher />
             </div>
           </div>
         </div>

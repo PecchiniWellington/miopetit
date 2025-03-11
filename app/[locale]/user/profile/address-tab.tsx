@@ -168,7 +168,6 @@ export const AddressesTab = ({ user }: { user: IUser }) => {
         Gestisci i tuoi indirizzi per una consegna più rapida.
       </p>
 
-      {console.log("📌 Indirizzi:", { addresses, user })}
       {/* Lista Indirizzi */}
       <div className="mt-4 space-y-4">
         {addresses

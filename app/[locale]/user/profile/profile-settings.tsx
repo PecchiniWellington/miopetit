@@ -1,5 +1,6 @@
 "use client";
 
+import LanguageSwitcher from "@/components/switcher-language";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -8,13 +9,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { deleteUserAccount } from "@/core/actions/user";
 import { AlertTriangle, Check, Trash2, X } from "lucide-react";
 import { useState } from "react";
@@ -55,17 +49,7 @@ const SettingsTab = () => {
               Seleziona la tua lingua preferita
             </p>
           </div>
-          <Select value={language} onValueChange={setLanguage}>
-            <SelectTrigger className="w-40">
-              <SelectValue placeholder="Seleziona" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="it">🇮🇹 Italiano</SelectItem>
-              <SelectItem value="en">🇬🇧 English</SelectItem>
-              <SelectItem value="fr">🇫🇷 Français</SelectItem>
-              <SelectItem value="es">🇪🇸 Español</SelectItem>
-            </SelectContent>
-          </Select>
+          <LanguageSwitcher />
         </div>
 
         {/* 🔔 Notifiche */}

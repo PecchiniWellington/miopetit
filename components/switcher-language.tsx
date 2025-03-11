@@ -4,9 +4,9 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 const languages = [
-  { code: "en", label: "En", flag: "🇬🇧" },
-  { code: "it", label: "It", flag: "🇮🇹" },
-  { code: "es", label: "Es", flag: "🇪🇸" },
+  { code: "en", label: "Inglese", flag: "🇬🇧" },
+  { code: "it", label: "Italiano", flag: "🇮🇹" },
+  { code: "es", label: "Spagnolo", flag: "🇪🇸" },
 ];
 
 export default function LanguageSwitcher() {
@@ -47,7 +47,7 @@ export default function LanguageSwitcher() {
         >
           {languages.map(({ code, label }) => (
             <option key={code} value={code}>
-              {label}
+              {label} {name}
             </option>
           ))}
         </select>
