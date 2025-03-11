@@ -1,23 +1,28 @@
-import { neon, neonConfig } from "@neondatabase/serverless";
-import { PrismaNeonHTTP } from "@prisma/adapter-neon";
+import { neonConfig, Pool } from "@neondatabase/serverless";
+import { PrismaNeon } from "@prisma/adapter-neon";
 import { PrismaClient } from "@prisma/client";
 import ws from "ws";
 
+import dotenv from "dotenv";
+dotenv.config({ path: ".env.local" });
+
+console.log("🔎 DATABASE_URL:", process.env.DATABASE_URL);
+
 // Sets up WebSocket connections, which enables Neon to use WebSocket communication.
 neonConfig.webSocketConstructor = ws;
-/* const connectionString = `${process.env.DATABASE_URL}`;
- */
-const connection = neon(`${process.env.DATABASE_URL}`, {
+const connectionString = `${process.env.DATABASE_URL}`;
+
+/* const connection = neon(`${process.env.DATABASE_URL}`, {
   arrayMode: false,
   fullResults: true,
 });
-const adapter = new PrismaNeonHTTP(connection);
+const adapter = new PrismaNeonHTTP(connection); */
 
 // Creates a new connection pool using the provided connection string, allowing multiple concurrent connections.
-/* const pool = new Pool({ connectionString }); */
+const pool = new Pool({ connectionString });
 
 // Instantiates the Prisma adapter using the Neon connection pool to handle the connection between Prisma and Neon.
-/* const adapter = new PrismaNeon(pool); */
+const adapter = new PrismaNeon(pool);
 
 // Extends the PrismaClient with a custom result transformer to convert the price and rating fields to strings.
 

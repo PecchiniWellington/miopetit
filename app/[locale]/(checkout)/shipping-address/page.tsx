@@ -13,13 +13,15 @@ export const metadata: Metadata = {
 
 const ShippingAddress = async () => {
   const cart = await getMyCart();
-  if (!cart || !("items" in cart) || cart.items.length === 0) redirect("/cart");
+  if (!cart) {
+    redirect("/cart");
+  }
 
   const session = await auth();
   const userId = session?.user?.id;
 
   if (!userId) {
-    return <ConfigShippingAddressPage />;
+    return;
   } else {
     const user = await getUserById(userId);
     const userAddress = await getUserAddress(userId);

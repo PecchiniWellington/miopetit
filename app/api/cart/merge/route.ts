@@ -13,6 +13,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid JSON format" }, { status: 400 });
   }
 
+  console.log("Request body:", requestBody);
+
   if (!requestBody || typeof requestBody !== "object") {
     return NextResponse.json(
       { error: "Missing request body" },
@@ -32,6 +34,8 @@ export async function POST(req: Request) {
   const userCart = await prisma.cart.findMany({
     where: { userId },
   });
+
+  console.log("User cart:", userCart);
 
   const cartParse = cartSchema.parse(userCart);
 

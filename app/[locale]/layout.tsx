@@ -19,6 +19,11 @@ export const metadata: Metadata = {
   },
   description: APP_DESCRIPTION,
   metadataBase: new URL(BASE_URL),
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.png",
+  },
 };
 
 export default async function RootLayout({

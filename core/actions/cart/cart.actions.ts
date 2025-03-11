@@ -56,8 +56,7 @@ export async function addItemToCart(data: ICartItem & { userId: string }) {
       price: data?.price,
     });
     console.log("🔍 [addItemToCart] - Item:", item);
-    /* const products =  */ await prisma.product.findMany();
-    /*  console.log("🔍 [ALLPRODUCTS] - All products:", products); */
+    await prisma.product.findMany();
 
     const product = await prisma.product.findFirst({
       where: { id: item.productId }, // Usa `productId` invece di `id`
@@ -261,7 +260,7 @@ export async function cancelItemFromCart(productId: string) {
     revalidatePath(`/cart`);
     revalidatePath(`/product/${exist.slug}`);
 
-    const { data, success } = cartSchema.safeParse(cartUpdated);
+    const { data } = cartSchema.safeParse(cartUpdated);
 
     console.log("🗑 [Cancellazione] - Prodotto rimosso dal carrello:", {
       ...convertToPlainObject(data),

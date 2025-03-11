@@ -128,6 +128,7 @@ export const ConfigCartPage = ({
             }}
             isPending={isPending}
             goToCheckout={goToCheckout}
+            userLogged={userLogged}
           />
         </div>
       )}

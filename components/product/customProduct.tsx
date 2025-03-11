@@ -49,11 +49,18 @@ export default function CustomProduct({
 
   const handlerAddToCart = async (item: IProduct) => {
     startTransition(async () => {
-      const updatedCart = storedValue.map((cartItem) =>
-        cartItem.productId === item.id
-          ? { ...cartItem, qty: cartItem.qty + 1 }
-          : cartItem
+      const existingItem = storedValue.find(
+        (cartItem) => cartItem.productId === item.id
       );
+
+      const updatedCart = existingItem
+        ? storedValue.map((cartItem) =>
+            cartItem.productId === item.id
+              ? { ...cartItem, qty: cartItem.qty + 1 }
+              : cartItem
+          )
+        : [...storedValue, { ...item, productId: item.id, qty: 1 }];
+
       if (userId) {
         await addItemToCart({
           ...item,
@@ -67,8 +74,6 @@ export default function CustomProduct({
     });
   };
 
-  /* const { translatedText: translatedDesc, loading: loadingDesc } =
-    useTranslateProduct(description, "en"); */
   const oldPrice =
     product.percentageDiscount > 0
       ? (
