@@ -12,6 +12,8 @@ export async function getProductsBySearchTerm(searchTerm: string) {
       return { products: [], brands: [] };
     }
 
+    console.log(`🔍 Ricerca prodotti per "${searchTerm}"...`);
+
     // 🔥 Trova i prodotti corrispondenti nel nome
     const products = await prisma.product.findMany({
       where: {
@@ -36,6 +38,7 @@ export async function getProductsBySearchTerm(searchTerm: string) {
       take: 10, // Limita a 10 risultati
     });
 
+    console.log("🔍 Prodotti trovatiIIIIIIIIIIIII:", products);
     console.log("🔍 Prodotti trovati:", products.length ? products : "Nessuno");
 
     // 🔍 Trova i brand corrispondenti nel nome

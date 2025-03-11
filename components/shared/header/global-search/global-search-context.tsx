@@ -103,6 +103,7 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
   };
   const fetchSearchResults = useMemo(() => {
     return debounce(async (query: string) => {
+      console.log("🔍 Ricerca per", query);
       if (!query) {
         setSearchResults([]);
         setSearchBrands([]);
@@ -127,7 +128,13 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
 
       setIsLoading(true);
       try {
-        const response = await fetch(`/api/products/search?query=${query}`);
+        const response = await fetch(`/api/products/search`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ query }),
+        });
         const { products, brands } = await response.json();
 
         console.log("🔍 Risultati ricerca per", query, ":", {
