@@ -18,16 +18,33 @@ async function mergeCartOnLogin(
 
   if (Array.isArray(localCart) && localCart.length > 0) {
     setLoadingMessage("Sincronizzando il carrello...");
-    const response = await fetch("/api/cart/merge", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId, localCart }),
-    });
 
-    const data = await response.json();
-    console.log("Carrello sincronizzato con successo!", data);
-    localStorage.removeItem("cart"); // Cancella il carrello locale dopo il merge
-    setLoadingMessage("Reindirizzamento in corso...");
+    try {
+      const response = await fetch("/api/cart/merge", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId, localCart }),
+      });
+
+      if (!response.ok) {
+        console.error("❌ Errore nella risposta della API:", response.status);
+        return;
+      }
+
+      const text = await response.text();
+      if (!text) {
+        console.error("❌ La risposta è vuota!");
+        return;
+      }
+
+      const data = JSON.parse(text);
+      console.log("✅ Carrello sincronizzato con successo!", data);
+
+      localStorage.removeItem("cart");
+      setLoadingMessage("Reindirizzamento in corso...");
+    } catch (error) {
+      console.error("❌ Errore durante il merge del carrello:", error);
+    }
   }
 }
 
@@ -129,7 +146,7 @@ export default function SubmitForm({
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <input type="hidden" name="callbackUrl" value={callbackUrl} />
-        <div className="space-y-6">
+        <div className="flex flex-col items-center space-y-6">
           <Input
             type="email"
             name="email"
@@ -157,6 +174,7 @@ export default function SubmitForm({
           <SubmitButton formType={formType} />
 
           {error && <div className="text-red-500">{error}</div>}
+
           {successMessage && (
             <div className="text-green-500">{successMessage}</div>
           )}

@@ -6,8 +6,6 @@ import ws from "ws";
 import dotenv from "dotenv";
 dotenv.config({ path: ".env.local" });
 
-console.log("🔎 DATABASE_URL:", process.env.DATABASE_URL);
-
 // Sets up WebSocket connections, which enables Neon to use WebSocket communication.
 neonConfig.webSocketConstructor = ws;
 const connectionString = `${process.env.DATABASE_URL}`;
@@ -122,7 +120,7 @@ export const prisma = new PrismaClient({
 async function testConnection() {
   try {
     await prisma.$connect();
-    console.log("✅ Connessione al database riuscita");
+    //console.log("✅ Connessione al database riuscita");
   } catch (error) {
     console.error("❌ Errore di connessione:", error);
   }

@@ -22,5 +22,8 @@ export const cartSchema = z.object({
   userId: z.string().uuid(),
 });
 
+export const createCartSchema = cartSchema.omit({ id: true, createdAt: true });
+
 export type ICartItem = z.infer<typeof cartItemSchema>;
 export type ICart = z.infer<typeof cartSchema>;
+export type ICreateCart = z.infer<typeof createCartSchema>;

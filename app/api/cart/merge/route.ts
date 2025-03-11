@@ -13,8 +13,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid JSON format" }, { status: 400 });
   }
 
-  console.log("Request body:", requestBody);
-
   if (!requestBody || typeof requestBody !== "object") {
     return NextResponse.json(
       { error: "Missing request body" },
@@ -31,15 +29,12 @@ export async function POST(req: Request) {
     );
   }
 
-  const userCart = await prisma.cart.findMany({
+  const userCart = await prisma.cart.findFirst({
     where: { userId },
   });
 
-  console.log("User cart:", userCart);
-
-  const cartParse = cartSchema.parse(userCart);
-
-  if (cartParse.items.length === 0) {
+  if (!userCart) {
+    // Se non c'è un carrello per l'utente, creane uno nuovo con il localCart
     for (const item of localCart) {
       await addItemToCart({
         userId,
@@ -55,39 +50,71 @@ export async function POST(req: Request) {
       success: true,
       message: "Carrello creato e sincronizzato",
     });
-  }
+  } else {
+    // Se il carrello esiste, facciamo il merge
+    const cartParse = cartSchema.parse(userCart);
 
-  const mergedCart = mergeCarts(cartParse, localCart);
+    if (cartParse.items.length === 0) {
+      // Se il carrello esiste ma è vuoto, aggiungiamo tutti gli elementi dal localCart
+      for (const item of localCart) {
+        await addItemToCart({
+          userId,
+          productId: item.productId,
+          qty: item.qty,
+          price: item.price,
+          image: item.image,
+          name: item.name,
+          slug: item.slug,
+        });
+      }
+      return NextResponse.json({
+        success: true,
+        message: "Carrello sincronizzato con nuovi prodotti",
+      });
+    }
 
-  for (const item of mergedCart) {
-    await addItemToCart({
-      userId,
-      productId: item.productId,
-      qty: item.qty,
-      price: item.price,
-      image: item.image,
-      name: item.name,
-      slug: item.slug,
+    // Merge dei carrelli mantenendo le quantità corrette
+    const mergedCart = mergeCarts(cartParse, localCart);
+
+    // Aggiorniamo il carrello nel database con i nuovi dati
+    await prisma.cart.update({
+      where: { id: userCart.id },
+      data: {
+        items: mergedCart as Prisma.CartUpdateitemsInput[],
+      },
+    });
+
+    return NextResponse.json({
+      success: true,
+      message: "Carrello aggiornato con il merge",
     });
   }
-
-  return NextResponse.json({
-    success: true,
-    message: "Carrello aggiornato con il merge",
-  });
 }
 
-// 🔹 Funzione per unire i carrelli
 function mergeCarts(cartParse: ICart, localCart: ICartItem[]) {
   const cartMap = new Map();
 
-  [...cartParse.items, ...localCart].forEach((item) => {
+  // Aggiungi gli elementi dal carrello utente SENZA modificare la quantità
+  cartParse.items.forEach((item) => {
+    cartMap.set(item.productId, {
+      ...item,
+      qty: item.qty, // Mantieni la quantità originale
+      itemsPrice: Number(item.price) * Number(item.qty),
+    });
+  });
+
+  // Aggiungi gli elementi dal localCart SOLO SE sono nuovi, o aggiorna quelli esistenti
+  localCart.forEach((item) => {
     if (cartMap.has(item.productId)) {
-      cartMap.get(item.productId).qty += Number(item.qty);
+      // L'elemento esiste in entrambi i carrelli: aggiorna SOLO se è nel localCart
+      const existingItem = cartMap.get(item.productId);
+      existingItem.qty = existingItem.qty + item.qty; // Somma solo se esiste in entrambi
+      existingItem.itemsPrice = Number(existingItem.price) * existingItem.qty;
     } else {
+      // L'elemento esiste solo nel localCart: aggiungilo normalmente
       cartMap.set(item.productId, {
         ...item,
-        qty: Number(item.qty),
+        qty: item.qty,
         itemsPrice: Number(item.price) * Number(item.qty),
       });
     }

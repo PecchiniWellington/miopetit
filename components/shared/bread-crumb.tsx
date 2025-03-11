@@ -10,10 +10,23 @@ interface BreadcrumbProps {
 export default function Breadcrumb({ separator = "-" }: BreadcrumbProps) {
   const pathname = usePathname();
 
-  // Divide il path in segmenti (escludendo gli spazi vuoti)
-  const segments = pathname.split("/")?.filter(Boolean);
+  // Definisci le lingue supportate
+  const supportedLocales = ["it", "en"];
 
-  // Se siamo nella home, non mostrare nulla
+  // Ottieni i segmenti dell'URL e filtra quelli vuoti
+  let segments = pathname.split("/").filter(Boolean);
+
+  // Se il primo segmento è una lingua supportata, rimuovilo
+  if (supportedLocales.includes(segments[0])) {
+    segments = segments.slice(1);
+  }
+
+  // Controlla se siamo in una pagina di sign-in o sign-out
+  const excludedPages = ["sign-in", "sign-out"];
+  if (excludedPages.includes(segments[0])) {
+    return null;
+  }
+
   if (segments.length === 0) return null;
 
   return (

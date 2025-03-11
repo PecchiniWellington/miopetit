@@ -66,11 +66,8 @@ const Header = async () => {
   return (
     <header className=" w-full shadow-md">
       <SearchProvider>
-        {/* 🔔 Banner Promozionale */}
         <TopBar />
 
-        {/* 📌 Header Principale */}
-        {/* Top Navbar */}
         <div className=" bg-gradient-to-r from-indigo-500 to-purple-600 ">
           <div className="md:wrapper flex items-center justify-between   px-4 py-3 ">
             {/* 🍔 Menu Mobile */}
@@ -94,7 +91,6 @@ const Header = async () => {
               <GlobalSearch />
             </div>
 
-            {/* 🛒 Carrello + Utente */}
             <div className="flex items-center gap-4">
               <CartCounter
                 countLoggedUser={
@@ -117,7 +113,6 @@ const Header = async () => {
           </div>
         </div>
 
-        {/* 🔍 Barra di Ricerca */}
         <div className="flex items-center px-4 py-3 md:hidden">
           <GlobalSearch />
         </div>

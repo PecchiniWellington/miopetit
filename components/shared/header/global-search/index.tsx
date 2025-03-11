@@ -33,7 +33,7 @@ const Search = () => {
         <div className="fixed inset-0 z-20 bg-black bg-opacity-65 transition-opacity"></div>
       )}
 
-      <div ref={searchRef} className="relative z-30  md:w-full md:max-w-lg">
+      <div ref={searchRef} className="relative z-30  w-full md:max-w-lg">
         <form
           action="/search"
           method="GET"

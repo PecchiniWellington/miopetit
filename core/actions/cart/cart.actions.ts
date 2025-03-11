@@ -3,7 +3,7 @@
 import { auth } from "@/auth";
 import { prisma } from "@/core/prisma/prisma";
 import { cartItemSchema, ICartItem } from "@/core/validators";
-import { cartSchema } from "@/core/validators/cart.validator";
+import { cartSchema, createCartSchema } from "@/core/validators/cart.validator";
 import { convertToPlainObject, formatError, round2 } from "@/lib/utils";
 import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
@@ -66,18 +66,13 @@ export async function addItemToCart(data: ICartItem & { userId: string }) {
     if (!product) throw new Error("Product not found");
 
     // ✅ Se il carrello non esiste, creane uno nuovo
-    if (!cart || !("items" in cart)) {
+    if (!cart) {
       console.log(
         "🆕 [Carrello] - Nessun carrello trovato, creazione di uno nuovo",
         { cart, item }
       );
 
-      const {
-        data: newCart,
-        success,
-        error,
-      } = cartSchema.safeParse({
-        ...(cart || {}),
+      const { data, success, error } = createCartSchema.safeParse({
         userId: userId,
         items: [item],
         sessionCartId: sessionCartId,
@@ -85,7 +80,7 @@ export async function addItemToCart(data: ICartItem & { userId: string }) {
       });
 
       if (success) {
-        await prisma.cart.create({ data: newCart });
+        await prisma.cart.create({ data });
       } else {
         throw new Error("Failed to create new cart:" + error.format());
       }

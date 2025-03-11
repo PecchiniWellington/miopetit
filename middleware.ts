@@ -30,8 +30,8 @@ export default async function middleware(req: NextRequest) {
     const locale = locales.includes(userLocale || "")
       ? userLocale
       : locales.includes(browserLocale || "")
-      ? browserLocale
-      : "en";
+        ? browserLocale
+        : "en";
 
     // 🚨 Evita loop infinito: non reindirizzare se è già nella forma corretta
     const newPathname = `/${locale}${pathname}`;
