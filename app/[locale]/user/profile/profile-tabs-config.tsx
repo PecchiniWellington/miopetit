@@ -1,6 +1,7 @@
 "use client";
+import { IUser } from "@/core/validators";
 import { motion } from "framer-motion";
-import { JSX, useState } from "react";
+import { JSX, useEffect, useState } from "react";
 import { AddressesTab } from "./address-tab";
 import { FavoritesTab } from "./favorite-tab";
 import { OrdersTab } from "./orders-tab";
@@ -11,7 +12,6 @@ import SubscriptionTab from "./profile-subscriptions";
 import SupportTab from "./profile-support";
 import { ProfileTab } from "./profile-tabs";
 import { SecurityTab } from "./security-tab";
-import { IUser } from "@/core/validators";
 
 interface Tab {
   id: string;
@@ -22,13 +22,33 @@ interface Tab {
 const ProfileTabsConfig = ({ tabs, user }: { tabs: Tab[]; user: IUser }) => {
   const [activeTab, setActiveTab] = useState("profile");
 
-  const [, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      // Prende l'hash attuale e imposta il tab attivo
+      const updateActiveTab = () => {
+        const hash = window.location.hash.replace("#", "");
+        if (tabs.some((tab) => tab.id === hash)) {
+          setActiveTab(hash);
+        }
+      };
+
+      updateActiveTab(); // Setta la tab all'avvio
+      window.addEventListener("hashchange", updateActiveTab); // Ascolta i cambiamenti dell'hash
+
+      return () => {
+        window.removeEventListener("hashchange", updateActiveTab);
+      };
+    }
+  }, []);
+
+  const handleActiveTab = (tabId: string) => {
+    setActiveTab(tabId);
+    window.history.pushState(null, "", `#${tabId}`);
+  };
 
   return (
     <div className="flex w-full flex-col gap-6 md:flex-row">
-      {/* 📌 Navigazione */}
+      {/* 📌 Sidebar */}
       <motion.aside
         initial={{ x: -30, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
@@ -38,30 +58,8 @@ const ProfileTabsConfig = ({ tabs, user }: { tabs: Tab[]; user: IUser }) => {
         <h2 className="text-lg font-semibold text-gray-800 dark:text-white">
           🎯 Navigazione Profilo
         </h2>
-        <div className="z-40 mt-4 ">
-          {/* Mobile: Orizzontale solo con icone */}
-          <div className="flex justify-around sm:hidden">
-            {tabs.map((tab) => (
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                key={tab.id}
-                className={`rounded-full p-2 transition-all
-          ${
-            activeTab === tab.id
-              ? "bg-indigo-600 text-white shadow-lg"
-              : "text-gray-600 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-700"
-          }`}
-                onClick={() => setActiveTab(tab.id)}
-                aria-pressed={activeTab === tab.id}
-                aria-label={`Vai alla sezione ${tab.label}`}
-              >
-                {tab.icon}
-              </motion.button>
-            ))}
-          </div>
-
-          {/* Tablet & Desktop: Verticale con icone e testo */}
+        <div className="z-40 mt-4">
+          {/* Desktop: Navigazione verticale */}
           <div className="hidden space-y-2 sm:block">
             {tabs.map((tab) => (
               <motion.button
@@ -69,12 +67,12 @@ const ProfileTabsConfig = ({ tabs, user }: { tabs: Tab[]; user: IUser }) => {
                 whileTap={{ scale: 0.95 }}
                 key={tab.id}
                 className={`flex w-full items-center gap-3 rounded-md p-3 text-left text-sm font-medium transition-all
-          ${
-            activeTab === tab.id
-              ? "bg-indigo-600 text-white shadow-lg"
-              : "text-gray-600 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-700"
-          }`}
-                onClick={() => setActiveTab(tab.id)}
+                  ${
+                    activeTab === tab.id
+                      ? "bg-indigo-600 text-white shadow-lg"
+                      : "text-gray-600 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-700"
+                  }`}
+                onClick={() => handleActiveTab(tab.id)}
                 aria-pressed={activeTab === tab.id}
                 aria-label={`Vai alla sezione ${tab.label}`}
               >
@@ -83,23 +81,9 @@ const ProfileTabsConfig = ({ tabs, user }: { tabs: Tab[]; user: IUser }) => {
             ))}
           </div>
         </div>
-
-        {/* 📌 Logout */}
-        {/* <div className="mt-6">
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button
-                variant="destructive"
-                className="flex w-full items-center gap-2"
-                onClick={() => signOut()}
-              >
-                <LogOut className="size-5" /> Logout
-              </Button>
-          </motion.div>
-        </div> */}
       </motion.aside>
 
       {/* 📌 Contenuti */}
-
       <motion.section
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -114,26 +98,15 @@ const ProfileTabsConfig = ({ tabs, user }: { tabs: Tab[]; user: IUser }) => {
         {activeTab === "support" && <SupportTab />}
         {activeTab === "history" && <HistoryTab />}
         {activeTab === "settings" && <SettingsTab />}
-        {activeTab === "notifications" && (
-          <ProfileNotificationsTab /* user={user} */ />
-        )}
-        {activeTab === "subscriptions" && <SubscriptionTab /* user={user} */ />}
+        {activeTab === "notifications" && <ProfileNotificationsTab />}
+        {activeTab === "subscriptions" && <SubscriptionTab />}
         {activeTab === "security" && (
           <SecurityTab
             email={user.email}
-            setIsLoading={setIsLoading}
-            setErrorMessage={setErrorMessage}
-            setSuccessMessage={setSuccessMessage}
+            setIsLoading={() => {}}
+            setErrorMessage={() => {}}
+            setSuccessMessage={() => {}}
           />
-        )}
-        {/* Messaggio di errore */}
-        {errorMessage && (
-          <p className="mt-8 text-sm text-red-600">{errorMessage}</p>
-        )}
-
-        {/* Messaggio di successo */}
-        {successMessage && (
-          <p className="mt-8 text-sm text-green-600">{successMessage}</p>
         )}
       </motion.section>
     </div>

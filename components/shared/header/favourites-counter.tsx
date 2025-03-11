@@ -2,12 +2,14 @@
 
 import useLocalStorage from "@/hooks/use-local-storage";
 import { Heart } from "lucide-react";
+import { useLocale } from "next-intl";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function FavoritesCounter() {
   const [favoriteCount, setFavoriteCount] = useState(0);
   const [storedFavorites] = useLocalStorage("favorites", []);
+  const locale = useLocale();
 
   useEffect(() => {
     const loadFavorites = async () => {
@@ -37,7 +39,7 @@ export default function FavoritesCounter() {
   }
 
   return (
-    <Link href="/favorites" className="relative">
+    <Link href={`/${locale}/user/profile#favorites`} className="relative">
       <Heart
         height={28}
         width={28}
