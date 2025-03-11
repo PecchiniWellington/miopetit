@@ -30,7 +30,7 @@ const ShippingAddress = async () => {
       return (
         <ConfigShippingAddressPage
           user={{ ...user, defaultAddress }}
-          userAddress={userAddress.data}
+          userAddressList={userAddress.data}
         />
       );
     }

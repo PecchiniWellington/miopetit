@@ -7,8 +7,16 @@ import { ShoppingCart, Trash2 } from "lucide-react";
 import Image from "next/image";
 
 export const ConfigFavoritePage = () => {
-  const [storedFavorites] = useLocalStorage<IProduct[]>("favorites", []);
-
+  const [storedFavorites, setValue] = useLocalStorage<IProduct[]>(
+    "favorites",
+    []
+  );
+  const removeFavorite = (id: string) => {
+    const updatedFavorites = storedFavorites.filter(
+      (product: IProduct) => product.id !== id
+    );
+    setValue(updatedFavorites);
+  };
   return (
     <div className="container mx-auto px-6 py-8">
       <h1 className="text-2xl font-bold text-gray-900">⭐ I tuoi Preferiti</h1>
@@ -32,7 +40,7 @@ export const ConfigFavoritePage = () => {
                   className="relative rounded-lg border p-4 shadow-md transition hover:shadow-lg"
                 >
                   <button
-                    /*  onClick={() => removeFavorite(product.id)} */
+                    onClick={() => removeFavorite(product.id)}
                     className="absolute right-4 top-4 flex size-8 items-center justify-center rounded-full bg-red-500 text-white shadow-md transition hover:bg-red-600"
                   >
                     <Trash2 className="size-5" />
@@ -40,7 +48,7 @@ export const ConfigFavoritePage = () => {
 
                   {product.images && (
                     <Image
-                      src={product.images[0]}
+                      src={product.images[0] || "/images/placeholder.jpg"}
                       alt={product.name || "Prodotto"}
                       width={120}
                       height={120}
@@ -76,7 +84,7 @@ export const ConfigFavoritePage = () => {
       )}
 
       {/* Sezione Prodotti Correlati */}
-      <h2 className="mt-10 text-2xl font-bold text-gray-900">
+      {/* <h2 className="mt-10 text-2xl font-bold text-gray-900">
         🔗 Prodotti Correlati
       </h2>
       <p className="text-gray-600">
@@ -90,7 +98,6 @@ export const ConfigFavoritePage = () => {
             whileHover={{ scale: 1.05 }}
             className="relative rounded-lg border p-4 shadow-md transition hover:shadow-lg"
           >
-            {/* Immagine */}
             <div className="flex items-center justify-center bg-gray-100 p-4">
               <Image
                 src={product.images[0]}
@@ -102,7 +109,6 @@ export const ConfigFavoritePage = () => {
               />
             </div>
 
-            {/* Dettagli Prodotto */}
             <h3 className="mt-3 text-sm font-semibold text-gray-900">
               {product.name}
             </h3>
@@ -110,12 +116,10 @@ export const ConfigFavoritePage = () => {
               {product.productBrand?.name}
             </p>
 
-            {/* Prezzo */}
             <span className="text-lg font-bold text-red-600">
               €{Number(product.price).toFixed(2)}
             </span>
 
-            {/* Bottone carrello */}
             <motion.button
               whileTap={{ scale: 0.9 }}
               className="absolute bottom-4 right-4 flex size-10 items-center justify-center rounded-full bg-black p-2 transition hover:bg-gray-800"
@@ -124,7 +128,7 @@ export const ConfigFavoritePage = () => {
             </motion.button>
           </motion.div>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };

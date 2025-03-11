@@ -18,6 +18,8 @@ const ConfigPlaceOrderPage = ({
   if (!myCart || myCart.items.length === 0) redirect("/cart");
   if (!user?.defaultAddress) redirect("/shipping-address");
   if (!user?.paymentMethod) redirect("/payment-method");
+
+  console.log("Default Address:", defaultAddress);
   return (
     <div className="mx-auto w-full space-y-8 px-6 py-10">
       <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white">

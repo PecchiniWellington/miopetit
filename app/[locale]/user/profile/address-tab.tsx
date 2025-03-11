@@ -42,6 +42,7 @@ export const AddressesTab = ({ user }: { user: IUser }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingAddress, setEditingAddress] = useState<string | null>(null);
 
+  console.log("👤 Utente:", user);
   const form = useForm<z.infer<typeof shippingAddressSchema>>({
     resolver: zodResolver(shippingAddressSchema),
     defaultValues: SHIPPING_ADDRESS_DEFAULT_VALUES,
@@ -50,6 +51,7 @@ export const AddressesTab = ({ user }: { user: IUser }) => {
   const fetchAddresses = async () => {
     try {
       const r = await getUserAddress(user.id);
+
       if (r.data) {
         setAddresses(
           r.data.map((address) => ({
@@ -166,6 +168,7 @@ export const AddressesTab = ({ user }: { user: IUser }) => {
         Gestisci i tuoi indirizzi per una consegna più rapida.
       </p>
 
+      {console.log("📌 Indirizzi:", { addresses, user })}
       {/* Lista Indirizzi */}
       <div className="mt-4 space-y-4">
         {addresses

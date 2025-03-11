@@ -11,18 +11,18 @@ import DefaultAddressLoggedUser from "./default-address-logged-user";
 
 const ConfigShippingAddressPage = ({
   user,
-  userAddress,
+  userAddressList,
 }: {
   user?: IUser;
-  userAddress?: IAddress[] | null;
+  userAddressList?: IAddress[] | null;
 }) => {
   const [addresses, setAddresses] = useState<IAddress[]>([]);
 
   useEffect(() => {
-    if (userAddress && userAddress) {
-      setAddresses(userAddress);
+    if (userAddressList) {
+      setAddresses(userAddressList);
     }
-  }, [userAddress]);
+  }, [userAddressList]);
 
   return (
     <div className="flex flex-col items-center justify-center lg:flex-row lg:space-x-8">

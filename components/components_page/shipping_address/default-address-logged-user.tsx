@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { updateUserAddress } from "@/core/actions/user";
+import { getUserById, updateUserAddress } from "@/core/actions/user";
 import { setDefaultAddress } from "@/core/actions/user/set-user-default-address.action";
 import { IUser } from "@/core/validators";
 import { IAddress } from "@/core/validators/user-address.validator";
@@ -26,6 +26,17 @@ const DefaultAddressLoggedUser = ({
     try {
       setIsUpdating(true);
       const res = await setDefaultAddress(id, userId);
+      if (res.data) {
+        const updatedUserAddress = await updateUserAddress({
+          ...res.data,
+          fullName: res.data.fullName || "",
+          postalCode: res.data.postalCode || "",
+          country: res.data.country || "",
+        });
+
+        const user = await getUserById(userId);
+        console.log("UPDATED ADDRESS", { updatedUserAddress, user });
+      }
 
       if (res.success) {
         toast({ description: res.message });
@@ -45,11 +56,11 @@ const DefaultAddressLoggedUser = ({
   const updateAddress = async () => {
     try {
       setIsUpdating(true);
-      const addressUser = addresses.find(
+      /* const addressUser = addresses.find(
         (address) => address.isDefault === true
-      );
+      ); */
 
-      if (user) {
+      /* if (user) {
         if (addressUser?.id) {
           const res = await setDefaultAddress(addressUser.id, user.id);
 
@@ -70,7 +81,7 @@ const DefaultAddressLoggedUser = ({
         }
       } else {
         toast({ description: "Indirizzo salvato localmente" });
-      }
+      } */
 
       router.push("/payment-method");
     } catch (error) {
