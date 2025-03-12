@@ -1,4 +1,5 @@
-import DynamicButton from "@/components/dynamic-button";
+import { Button } from "@/components/ui/button";
+import { ICartItem } from "@/core/validators";
 import { Loader, Minus, Plus } from "lucide-react";
 
 const IncreaseDecreaseProduct = ({
@@ -6,30 +7,51 @@ const IncreaseDecreaseProduct = ({
   handleRemoveFromCart,
   isPending,
   existItem,
+  item,
 }: {
-  handleAddToCart: () => void;
-  handleRemoveFromCart: () => void;
+  handleAddToCart: (item: ICartItem) => Promise<void>;
+  handleRemoveFromCart: (item: ICartItem) => Promise<void>;
   isPending: boolean;
   existItem: number;
+  item: ICartItem;
 }) => {
   return (
-    <>
-      <DynamicButton handleAction={handleRemoveFromCart}>
+    <div className="flex items-center gap-3">
+      {/* Bottone diminuisci */}
+      <Button
+        variant="outline"
+        size="icon"
+        className="flex size-10 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-blue-500 text-white shadow-md transition-all hover:brightness-110 active:scale-95"
+        onClick={() => handleRemoveFromCart(item)}
+        disabled={isPending}
+      >
         {isPending ? (
           <Loader className="size-4 animate-spin" />
         ) : (
           <Minus className="size-4" />
         )}
-      </DynamicButton>
-      <span className="px-3">{existItem.toString()}</span>
-      <DynamicButton handleAction={handleAddToCart}>
+      </Button>
+
+      {/* Quantità prodotto */}
+      <span className="w-6 text-center text-lg font-semibold text-gray-900">
+        {existItem.toString()}
+      </span>
+
+      {/* Bottone aumenta */}
+      <Button
+        variant="outline"
+        size="icon"
+        className="flex size-10 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-blue-500 text-white shadow-md transition-all hover:brightness-110 active:scale-95"
+        onClick={() => handleAddToCart(item)}
+        disabled={isPending}
+      >
         {isPending ? (
           <Loader className="size-4 animate-spin" />
         ) : (
           <Plus className="size-4" />
         )}
-      </DynamicButton>
-    </>
+      </Button>
+    </div>
   );
 };
 

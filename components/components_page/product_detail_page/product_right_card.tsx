@@ -8,9 +8,13 @@ import { CheckCircle, XCircle } from "lucide-react";
 export const ProductPageRightCard = ({
   product,
   myCart,
+  userId,
+  productQtyInCart,
 }: {
   product: IProduct | null;
   myCart: ICart | null;
+  userId?: string;
+  productQtyInCart?: number;
 }) => (
   <Card className="w-full max-w-sm rounded-lg border bg-white shadow-lg dark:bg-gray-800 md:max-w-md lg:max-w-lg">
     <CardContent className="flex flex-col space-y-6 p-6">
@@ -36,16 +40,18 @@ export const ProductPageRightCard = ({
           </div>
         </>
       )}
+
       {product?.stock && product.stock > 0 && (
         <div className="mt-4 flex justify-center">
           <AddToCart
+            userId={userId}
             myCart={myCart}
             item={{
               productId: product.id.toString(),
               name: product.name,
               slug: product.slug,
               price: product.price.toString(),
-              qty: 1,
+              qty: productQtyInCart || 1,
               image: Array.isArray(product.images) ? product.images[0] : "",
             }}
           />

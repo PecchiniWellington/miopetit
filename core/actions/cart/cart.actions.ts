@@ -190,14 +190,14 @@ export async function removeItemFromCart(productId: string) {
       where: { id: productId },
     });
     if (!product) throw new Error("Product not found");
-
     // Get user cart from database
-    const cart: { id: string; items: ICartItem[] } | null = await getMyCart();
+    const cart = await getMyCart();
     if (!cart) throw new Error("Cart not found");
-    if (!cart || "success" in cart) throw new Error("Cart not found");
+    console.log("🔍 [Controllo] - Prodotto trovato:", { product, cart });
 
     // Check for item in cart
     const exist = cart.items.find((i) => i.productId === productId);
+    console.log("🔍 [Controllo] - Prodotto trovato nel carrello:", exist);
 
     // Se l'elemento esiste, aggiorniamo la quantità senza rimuoverlo dalla UI
     if (exist) {
@@ -269,5 +269,49 @@ export async function cancelItemFromCart(productId: string) {
   } catch (error) {
     console.error("❌ Errore in cancelItemFromCart:", error);
     /*  return { success: false, message: formatError(error) }; */
+  }
+}
+
+export async function clearCart() {
+  try {
+    const sessionCartId = (await cookies()).get("sessionCartId")?.value;
+    const session = await auth();
+    const userId = session?.user?.id ? (session.user.id as string) : undefined;
+
+    // 🔍 Recupera il carrello dell'utente o della sessione
+    const cart = await prisma.cart.findFirst({
+      where: userId ? { userId } : { sessionCartId },
+    });
+
+    if (!cart) {
+      console.warn("⚠️ Nessun carrello trovato.");
+      return { success: false, message: "Carrello già vuoto" };
+    }
+
+    // 🗑 Svuota il carrello impostando items a un array vuoto
+    const updatedCart = await prisma.cart.update({
+      where: { id: cart.id },
+      data: {
+        items: [],
+        itemsPrice: "0.00",
+        shippingPrice: "0.00",
+        taxPrice: "0.00",
+        totalPrice: "0.00",
+      },
+    });
+
+    // 🔄 Forza aggiornamento UI
+    revalidatePath(`/cart`);
+
+    console.log("✅ Carrello svuotato con successo:", updatedCart);
+
+    return {
+      success: true,
+      message: "Carrello svuotato con successo",
+      data: convertToPlainObject(updatedCart),
+    };
+  } catch (error) {
+    console.error("❌ Errore durante la pulizia del carrello:", error);
+    return { success: false, message: formatError(error) };
   }
 }

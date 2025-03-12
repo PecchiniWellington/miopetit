@@ -9,6 +9,7 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 import { DialogTitle } from "@radix-ui/react-dialog"; // Import per accessibilità
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden"; // Per nascondere il titolo
 import { ShoppingCart, X } from "lucide-react";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -18,6 +19,7 @@ const CartSideMenu = () => {
   const [cartItems, setCartItems] = useState<ICartItem[]>([]);
   const [showCartButton, setShowCartButton] = useState(false);
   const isMobile = useMediaQuery("(max-width: 768px)");
+  const session = useSession();
 
   // Fetch ottimizzato del carrello
   const fetchCart = useCallback(async () => {
@@ -28,8 +30,10 @@ const CartSideMenu = () => {
   }, []);
 
   useEffect(() => {
-    fetchCart();
-  }, [fetchCart]);
+    if (session.data?.user?.id) {
+      fetchCart();
+    }
+  }, [fetchCart, session.data?.user?.id]);
 
   // Mostra il pulsante in base allo scroll (funziona sia su mobile che su desktop)
   useEffect(() => {

@@ -9,8 +9,11 @@ const fetchLatestProducts = cache(async () => getLatestProducts({ limit: 8 }));
 
 export default async function Home() {
   const latestProducts = await fetchLatestProducts();
-  const myCart = await getMyCart();
   const userLogged = await auth();
+  let myCart = null;
+  if (userLogged?.user?.id) {
+    myCart = await getMyCart();
+  }
   const userId = userLogged?.user?.id;
   return (
     <ConfigRootPage myCart={myCart} userId={userId} data={latestProducts} />

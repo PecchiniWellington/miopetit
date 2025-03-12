@@ -102,7 +102,27 @@ export const ConfigCartPage = ({
 
   return (
     <>
-      <h1 className="h2-bold py-4">Shopping Cart</h1>
+      <span className="flex items-center justify-start gap-3">
+        <h1 className="h2-bold py-4">Shopping Cart </h1>
+        {/* {cleanedCartProduct.length !== 0 ? (
+          <button
+            className="flex items-center gap-2 rounded-md border border-red-500 bg-white px-5 py-2 text-base font-semibold text-red-500 shadow-md transition-colors duration-200 hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-400 md:w-auto"
+            onClick={() => {
+              startTransition(async () => {
+                if (userLogged?.id) {
+                  await clearCart();
+                } else {
+                  setStoredValue([]);
+                }
+                setCleanedCartProduct([]);
+              });
+            }}
+          >
+            <Trash2 className="size-5 text-red-500" />
+            <span>Pulisci carrello</span>
+          </button>
+        ) : null} */}
+      </span>
 
       {cleanedCartProduct.length === 0 ? (
         <EmptyCart />

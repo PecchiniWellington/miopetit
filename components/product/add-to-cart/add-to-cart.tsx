@@ -1,13 +1,11 @@
 "use client";
 
-import { ToastAction } from "@/components/ui/toast";
 import {
   addItemToCart,
   removeItemFromCart,
 } from "@/core/actions/cart/cart.actions";
 import { ICart, ICartItem } from "@/core/validators";
-import { useToast } from "@/hooks/use-toast";
-import { useRouter } from "next/navigation";
+import useLocalStorage from "@/hooks/use-local-storage";
 import { useTransition } from "react";
 import AddToCartButton from "./add-to-cart-btn";
 import IncreaseDecreaseProduct from "./increase-decrease-product";
@@ -15,75 +13,60 @@ import IncreaseDecreaseProduct from "./increase-decrease-product";
 export const AddToCart = ({
   myCart,
   item,
+  userId,
 }: {
   myCart: ICart | null;
   item: ICartItem;
+  userId?: string;
 }) => {
-  const router = useRouter();
-  const { toast } = useToast();
   const [isPending, setIsPending] = useTransition();
+  const [storedValue, setValue] = useLocalStorage<ICartItem[]>("cart", []);
 
-  //Check if the item is already in the cart
-  const existItem =
-    myCart && myCart?.items?.find((i) => i.productId === item.productId);
+  const existItem = myCart
+    ? myCart.items.find((i) => i.productId === item.productId)
+    : storedValue.find((i: ICartItem) => i.productId === item.productId);
+
+  const updateLocalCart = (item: ICartItem, qtyChange: number) => {
+    const updatedCart = existItem
+      ? storedValue.map((cartItem) =>
+          cartItem.productId === item.productId
+            ? { ...cartItem, qty: cartItem.qty + qtyChange }
+            : cartItem
+        )
+      : [...storedValue, { ...item, productId: item.productId, qty: 1 }];
+
+    setValue(updatedCart);
+  };
 
   const handleRemoveFromCart = async () => {
-    setIsPending(async () => {
-      if (item.qty === 1) {
-        await removeItemFromCart(item.productId);
-      } else {
-        setIsPending(async () => {
+    if (userId) {
+      setIsPending(async () => {
+        if (item.qty === 1) {
           await removeItemFromCart(item.productId);
-        });
-      }
-
-      /*  toast({
-        className: `${
-          res.success
-            ? "bg-green-100 text-green-700 px-5 py-2"
-            : "bg-red-100 text-red-700 px-5 py-2"
-        } `,
-        variant: res.success ? "default" : "destructive",
-        description: res.message,
-      }); */
-
-      return;
-    });
+        } else {
+          setIsPending(async () => {
+            await removeItemFromCart(item.productId);
+          });
+        }
+        return;
+      });
+    } else {
+      updateLocalCart(item, -1);
+    }
   };
 
   const handleAddToCart = async () => {
-    setIsPending(async () => {
-      const res = await addItemToCart({
-        ...item,
-        image: item.image || "",
-        userId: myCart?.userId || "",
+    if (userId) {
+      setIsPending(async () => {
+        await addItemToCart({
+          ...item,
+          image: item.image || "",
+          userId: userId || "",
+        });
       });
-
-      if (!res?.success) {
-        toast({
-          className: "bg-red-100 text-red-700 px-5 py-2",
-          title: "Error",
-          variant: "destructive",
-          description: "Item is not added",
-        });
-      } else {
-        toast({
-          className: "bg-green-100 text-green-700 px-5 py-2",
-          variant: "default",
-          title: "Success",
-          description: res.message,
-          action: (
-            <ToastAction
-              altText="Go To Cart"
-              className="bg-white text-gray-800 hover:bg-slate-200"
-              onClick={() => router.push("/cart")}
-            >
-              Go To Cart
-            </ToastAction>
-          ),
-        });
-      }
-    });
+    } else {
+      updateLocalCart(item, 1);
+    }
   };
   return existItem ? (
     <IncreaseDecreaseProduct
@@ -91,6 +74,7 @@ export const AddToCart = ({
       handleAddToCart={handleAddToCart}
       handleRemoveFromCart={handleRemoveFromCart}
       isPending={isPending}
+      item={item}
     />
   ) : (
     <AddToCartButton

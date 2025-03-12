@@ -19,8 +19,11 @@ const Header = async () => {
   const [megaMenuDog, megaMenuCat, megaMenuSmallAnimal] = await Promise.all(
     categories.map((category) => getAllCategoriesForMegaMenu(category))
   );
-  const countLoggedUser = await getMyCart();
   const session = await auth();
+  let countLoggedUser = null;
+  if (session?.user.id) {
+    countLoggedUser = await getMyCart();
+  }
   let userLogged = null;
 
   if (session && session.user && typeof session.user.id === "string") {
