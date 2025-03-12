@@ -37,16 +37,6 @@ const ProfileForm = () => {
       });
     }
 
-    /*  const newSession = {
-       ...session,
-      user: {
-         ...session?.user,
-        name: values.name,
-      },
-    };
- */
-    /*  await update(newSession); */
-
     toast({
       description: res.message,
     });

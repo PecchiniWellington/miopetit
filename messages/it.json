@@ -317,5 +317,55 @@
       "credit_card": "Carta di debito o credito",
       "powered_by_paypal": "Con tecnologia PayPal"
     }
+  },
+  "Profile": {
+    "title": "Navigazione Profilo",
+    "sections": {
+      "profile": "Profilo",
+      "orders": "Ordini",
+      "favorites": "Preferiti",
+      "addresses": "Indirizzi",
+      "security": "Sicurezza",
+      "support": "Supporto",
+      "settings": "Impostazioni"
+    },
+    "profile_image": {
+      "title": "Immagine del Profilo",
+      "remove": "Rimuovi immagine",
+      "upload": "Carica immagine"
+    },
+    "form": {
+      "name": "Nome utente",
+      "email": "Email",
+      "error": "Valore non valido: attesa una stringa, ricevuto null",
+      "save": "Salva Modifiche",
+      "saving": "Salvataggio in corso..."
+    },
+    "OrdersTab": {
+      "title": "📦 I tuoi ordini",
+      "no_orders": {
+        "message": "Nessun ordine recente",
+        "shop_button": "🛍️ Esplora il negozio"
+      },
+      "order_card": {
+        "order_number": "Ordine #",
+        "date": "Data",
+        "status": {
+          "shipped": "Spedito",
+          "shipping": "In Spedizione",
+          "pending_payment": "In Attesa di Pagamento"
+        },
+        "items": {
+          "quantity": "Quantità",
+          "price": "Prezzo"
+        },
+        "total": "Totale",
+        "details_button": "📄 Visualizza Dettagli"
+      }
+    },
+    "FavoritesTab": {
+      "title": "❤️ I tuoi preferiti",
+      "no_favorites": "Non hai ancora aggiunto prodotti ai preferiti."
+    }
   }
 }

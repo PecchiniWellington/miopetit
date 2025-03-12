@@ -29,26 +29,26 @@ const paymentIcons: Record<string, JSX.Element> = {
   Stripe: (
     <div className="flex items-center gap-3">
       <Image
-        src="assets/payment-methods/apple_pay.svg"
+        src="/assets/payment-methods/apple_pay.svg"
         alt="Apple Pay"
         className="h-6 w-10"
         width={40}
         height={24}
       />
       <Image
-        src="assets/payment-methods/google_pay.svg"
+        src="/assets/payment-methods/google_pay.svg"
         alt="Google Pay"
         width={40}
         height={24}
       />
       <Image
-        src="assets/payment-methods/mc_pay.svg"
+        src="/assets/payment-methods/mc_pay.svg"
         alt="Mastercard"
         width={40}
         height={24}
       />
       <Image
-        src="assets/payment-methods/visa.svg"
+        src="/assets/payment-methods/visa.svg"
         alt="Visa"
         width={40}
         height={24}
@@ -57,7 +57,7 @@ const paymentIcons: Record<string, JSX.Element> = {
   ),
   PayPal: (
     <Image
-      src="assets/payment-methods/paypal_pay.svg"
+      src="/assets/payment-methods/paypal_pay.svg"
       alt="PayPal"
       width={80}
       height={24}

@@ -13,6 +13,7 @@ import { updateUserProfile } from "@/core/actions/user";
 import { IUser, updateUserProfileSchema } from "@/core/validators";
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { undefined, z } from "zod";
@@ -21,7 +22,6 @@ import PublicUserAvatar from "./public-user-avatar";
 export const ProfileTab = ({ user }: { user: IUser }) => {
   return (
     <div className="relative rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800">
-      Form Profilo
       <ProfileForm user={user} />
     </div>
   );
@@ -59,20 +59,12 @@ const ProfileForm = ({ user }: { user: IUser }) => {
       });
     }
 
-    // ✅ Aggiorna la sessione per il nome in tempo reale
-    /* await update({
-      ...user,
-      user: {
-        ...user,
-        name: values.name,
-      },
-    }); */
-
     toast({
       description: res.message,
     });
   };
 
+  const t = useTranslations("Profile");
   return (
     <Form {...form}>
       <form
@@ -124,7 +116,7 @@ const ProfileForm = ({ user }: { user: IUser }) => {
         </div>
 
         <Button className="mt-2 inline-block w-full rounded-lg bg-indigo-600 px-5 py-2 text-center text-white shadow-md transition hover:bg-indigo-700">
-          {form.formState.isSubmitting ? "Salvando..." : "Salva Modifiche"}
+          {form.formState.isSubmitting ? t("form.saving") : t("form.save")}
         </Button>
       </form>
     </Form>

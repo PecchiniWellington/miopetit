@@ -3,6 +3,7 @@ import { getMyOrders } from "@/core/actions/order/order.action";
 import { IOrder, IOrderItem } from "@/core/validators";
 import { formatCurrency } from "@/lib/utils";
 import { CheckCircle, Clock, Package, Truck } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -25,18 +26,20 @@ export const OrdersTab = () => {
     fetchOrders();
   }, [toast]);
 
+  const t = useTranslations("Profile.OrdersTab");
+
   if (myOrders.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center p-6 text-center">
         <Package className="size-10 text-gray-400" />
         <p className="mt-2 text-lg font-semibold text-gray-600">
-          Nessun ordine recente
+          {t("no_orders.message")}
         </p>
         <Link
           href="/shop"
           className="mt-4 rounded-lg bg-indigo-600 px-5 py-2 text-white shadow-md transition hover:bg-indigo-700"
         >
-          🛍️ Esplora il negozio
+          {t("no_orders.shop_button")}
         </Link>
       </div>
     );
@@ -45,7 +48,7 @@ export const OrdersTab = () => {
   return (
     <div className="rounded-lg bg-white  dark:bg-gray-800">
       <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-        📦 I tuoi ordini
+        {t("title")}
       </h2>
 
       <div className="mt-6 space-y-6">
@@ -58,7 +61,8 @@ export const OrdersTab = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-lg font-semibold text-gray-900 dark:text-white">
-                  Ordine #{order.id.slice(-6).toUpperCase()}
+                  {t("order_card.order_number")}
+                  {order.id.slice(-6).toUpperCase()}
                 </p>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
                   {new Date(order.createdAt).toLocaleDateString()}
@@ -69,15 +73,18 @@ export const OrdersTab = () => {
               <BadgeStatus status={order.isDelivered ? "success" : "warning"}>
                 {order.isDelivered ? (
                   <>
-                    <CheckCircle className="mr-2 size-4" /> Spedito
+                    <CheckCircle className="mr-2 size-4" />
+                    {t("order_card.status.shipped")}
                   </>
                 ) : order.isPaid ? (
                   <>
-                    <Truck className=" mr-2 size-4" /> In Spedizione
+                    <Truck className=" mr-2 size-4" />
+                    {t("order_card.status.shipping")}
                   </>
                 ) : (
                   <>
-                    <Clock className=" mr-2 size-4" /> In Attesa di Pagamento
+                    <Clock className=" mr-2 size-4" /> In{" "}
+                    {t("order_card.status.pending_payment")}
                   </>
                 )}
               </BadgeStatus>
@@ -99,8 +106,8 @@ export const OrdersTab = () => {
                       {item.name}
                     </p>
                     <p className="text-sm text-gray-600 dark:text-gray-400">
-                      Quantità: {item.qty} | Prezzo:{" "}
-                      {formatCurrency(item.price)}
+                      {t("order_card.items.quantity")}: {item.qty} |
+                      {t("order_card.items.price")}:{formatCurrency(item.price)}
                     </p>
                   </div>
                 </div>
@@ -109,7 +116,7 @@ export const OrdersTab = () => {
 
             {/* 💰 Riepilogo Prezzi */}
             <div className="flex flex-wrap justify-between border-t pt-4 text-gray-900 dark:text-white">
-              <span>Totale: </span>
+              <span> {t("order_card.total")}: </span>
               <span className="text-lg font-bold">
                 {formatCurrency(order.totalPrice)}
               </span>
@@ -120,7 +127,7 @@ export const OrdersTab = () => {
               href={`/order/${order.id}`}
               className="mt-2 inline-block w-full rounded-lg bg-indigo-600 px-5 py-2 text-center text-white shadow-md transition hover:bg-indigo-700"
             >
-              📄 Visualizza Dettagli
+              {t("order_card.details_button")}
             </Link>
           </div>
         ))}

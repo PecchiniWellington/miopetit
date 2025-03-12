@@ -2,9 +2,9 @@
 
 import { FormControl, FormItem, FormLabel } from "@/components/ui/form";
 import { IUser } from "@/core/validators";
-/* import { updateUserAvatar } from "@/core/actions/user/update-user-avatar"; */
 import { useToast } from "@/hooks/use-toast";
 import { Camera, XCircle } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { Control, Controller, useFormContext } from "react-hook-form";
@@ -13,7 +13,6 @@ export default function PublicUserAvatar({
   name,
   control,
   user,
-  /* update, */
 }: {
   name: "name" | "email" | "image";
   control: Control<
@@ -25,21 +24,29 @@ export default function PublicUserAvatar({
     unknown
   >;
   user: IUser;
-  /* update: () => void; */
 }) {
   const { setValue, watch } = useFormContext();
   const inputFileRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
   const [preview, setPreview] = useState<string | null>(
-    user?.image || "/images/user-avatar.png"
+    user?.image || "/images/placeholder.jpg"
   );
+  console.log("user", user);
 
   const selectedFile = watch(name);
 
   useEffect(() => {
-    if (typeof selectedFile === "string") {
+    if (selectedFile instanceof File) {
+      const fileURL = URL.createObjectURL(selectedFile);
+      setPreview(fileURL);
+    } else if (
+      typeof selectedFile === "string" &&
+      selectedFile.startsWith("http")
+    ) {
       setPreview(selectedFile);
+    } else {
+      setPreview(user?.image || "/images/user-avatar.png");
     }
   }, [selectedFile]);
 
@@ -65,14 +72,6 @@ export default function PublicUserAvatar({
       const { url } = await response.json();
       setValue(name, url);
 
-      /*  await update({
-        ...user,
-        user: {
-          ...user,
-          image: url,
-        },
-      }); */
-
       toast({
         description: "Avatar aggiornato con successo!",
       });
@@ -93,6 +92,7 @@ export default function PublicUserAvatar({
     }
   };
 
+  const t = useTranslations("Profile.profile_image");
   return (
     <Controller
       name={name}
@@ -100,47 +100,44 @@ export default function PublicUserAvatar({
       render={() => (
         <FormItem className="relative flex flex-col items-center space-y-3">
           <FormLabel className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
-            Immagine del Profilo
+            {t("title")}
           </FormLabel>
           <FormControl>
-            <div className="relative">
-              {preview ? (
-                <div className="relative size-32 rounded-full border-4 border-indigo-500 shadow-md">
+            <div className="relative flex items-center justify-center">
+              {/* Cerchio con l'immagine */}
+              <div className="relative flex size-40 items-center justify-center rounded-full border-4 border-indigo-500 bg-white shadow-md">
+                {preview ? (
+                  <Image
+                    alt="User Avatar"
+                    src={preview || user?.image || "/images/user-avatar.png"}
+                    fill
+                    objectFit="cover"
+                    className="rounded-full border-2 border-transparent bg-gradient-to-r from-indigo-500 to-purple-600 transition-all duration-300 hover:scale-105 hover:border-indigo-400 dark:border-gray-500"
+                  />
+                ) : (
+                  <div className="flex size-full items-center justify-center rounded-full border-2 border-gray-500 bg-gray-300 text-5xl font-bold text-gray-700 shadow-md dark:border-gray-300 dark:bg-gray-700 dark:text-white">
+                    {user?.name?.charAt(0).toUpperCase() ?? ""}
+                  </div>
+                )}
+
+                {/* Bottone di rimozione immagine */}
+                {preview && preview !== "/images/user-avatar.png" && (
                   <button
                     type="button"
-                    className="absolute right-0 top-0 rounded-full bg-red-500 p-1 text-white hover:bg-red-600"
+                    className="absolute -right-3 -top-3 flex size-8 items-center justify-center rounded-full bg-red-500 p-1 text-white shadow-md transition-all hover:scale-110 hover:bg-red-600"
                     onClick={handleRemoveImage}
                   >
                     <XCircle className="size-5" />
                   </button>
-                  {user?.image ? (
-                    <Image
-                      alt="User Avatar"
-                      src={user?.image || "/images/placeholder.jpg"}
-                      height={42}
-                      width={42}
-                      className="rounded-full border-2 border-transparent bg-gradient-to-r from-indigo-500 to-purple-600 object-cover p-[2px] transition-all duration-300 hover:scale-105 hover:border-indigo-400 dark:border-gray-500"
-                    />
-                  ) : (
-                    <div className="flex size-full items-center justify-center overflow-hidden rounded-full border-2 border-gray-500 bg-gray-300 object-cover text-5xl  font-bold text-gray-700 shadow-md dark:border-gray-300 dark:bg-gray-700 dark:text-white">
-                      {user?.name?.charAt(0).toUpperCase() ?? ""}
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <div className="flex size-32 items-center justify-center rounded-full border-2 border-dashed border-gray-300 dark:border-gray-600">
-                  <span className="text-gray-600 dark:text-gray-300">
-                    Nessuna immagine
-                  </span>
-                </div>
-              )}
+                )}
+              </div>
 
               {/* Icona per il caricamento */}
               <label
                 htmlFor="profile-upload"
-                className="absolute bottom-2 right-2 flex size-8 cursor-pointer items-center justify-center rounded-full bg-indigo-600 text-white shadow-md hover:bg-indigo-700"
+                className="absolute bottom-0 right-0 flex size-10 cursor-pointer items-center justify-center rounded-full border-4 border-white bg-indigo-600 text-white shadow-lg transition-all hover:scale-110 hover:bg-indigo-700"
               >
-                <Camera className="size-4" />
+                <Camera className="size-5" />
               </label>
               <input
                 type="file"

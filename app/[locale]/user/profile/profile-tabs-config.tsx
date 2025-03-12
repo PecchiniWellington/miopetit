@@ -1,7 +1,9 @@
 "use client";
-import { IUser } from "@/core/validators";
+import { useProfileTabs } from "@/core/db-static/db_profile_page/tabs";
+import { ICart, IUser } from "@/core/validators";
 import { motion } from "framer-motion";
-import { JSX, useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
 import { AddressesTab } from "./address-tab";
 import { FavoritesTab } from "./favorite-tab";
 import { OrdersTab } from "./orders-tab";
@@ -13,14 +15,17 @@ import SupportTab from "./profile-support";
 import { ProfileTab } from "./profile-tabs";
 import { SecurityTab } from "./security-tab";
 
-interface Tab {
-  id: string;
-  label: string;
-  icon: JSX.Element;
-}
-
-const ProfileTabsConfig = ({ tabs, user }: { tabs: Tab[]; user: IUser }) => {
+const ProfileTabsConfig = ({
+  user,
+  myCart,
+}: {
+  user: IUser;
+  myCart: ICart | null;
+}) => {
   const [activeTab, setActiveTab] = useState("profile");
+  const tabs = useProfileTabs();
+
+  console.log("🔍 Tabs:", myCart);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -46,6 +51,8 @@ const ProfileTabsConfig = ({ tabs, user }: { tabs: Tab[]; user: IUser }) => {
     window.history.pushState(null, "", `#${tabId}`);
   };
 
+  const t = useTranslations("Profile");
+
   return (
     <div className="flex w-full flex-col gap-6 md:flex-row">
       {/* 📌 Sidebar */}
@@ -56,7 +63,7 @@ const ProfileTabsConfig = ({ tabs, user }: { tabs: Tab[]; user: IUser }) => {
         className="sticky z-10 flex h-fit w-full flex-col rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800 md:top-20 md:w-3/12"
       >
         <h2 className="text-lg font-semibold text-gray-800 dark:text-white">
-          🎯 Navigazione Profilo
+          🎯 {t("title")}
         </h2>
         <div className="z-40 mt-4">
           {/* Desktop: Navigazione verticale */}
@@ -76,7 +83,7 @@ const ProfileTabsConfig = ({ tabs, user }: { tabs: Tab[]; user: IUser }) => {
                 aria-pressed={activeTab === tab.id}
                 aria-label={`Vai alla sezione ${tab.label}`}
               >
-                {tab.icon} {tab.label}
+                <tab.icon /> {tab.label}
               </motion.button>
             ))}
           </div>
@@ -93,7 +100,9 @@ const ProfileTabsConfig = ({ tabs, user }: { tabs: Tab[]; user: IUser }) => {
       >
         {activeTab === "profile" && <ProfileTab user={user} />}
         {activeTab === "orders" && <OrdersTab />}
-        {activeTab === "favorites" && <FavoritesTab />}
+        {activeTab === "favorites" && (
+          <FavoritesTab user={user} myCart={myCart} />
+        )}
         {activeTab === "addresses" && <AddressesTab user={user} />}
         {activeTab === "support" && <SupportTab />}
         {activeTab === "history" && <HistoryTab />}

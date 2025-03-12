@@ -314,5 +314,55 @@
       "credit_card": "Debit or Credit Card",
       "powered_by_paypal": "Powered by PayPal"
     }
+  },
+  "Profile": {
+    "title": "Profile Navigation",
+    "sections": {
+      "profile": "Profile",
+      "orders": "Orders",
+      "favorites": "Favorites",
+      "addresses": "Addresses",
+      "security": "Security",
+      "support": "Support",
+      "settings": "Settings"
+    },
+    "profile_image": {
+      "title": "Profile Picture",
+      "remove": "Remove Image",
+      "upload": "Upload Image"
+    },
+    "form": {
+      "name": "Username",
+      "email": "Email",
+      "error": "Invalid value: expected a string, received null",
+      "save": "Save Changes",
+      "saving": "Saving..."
+    },
+    "OrdersTab": {
+      "title": "📦 Your Orders",
+      "no_orders": {
+        "message": "No recent orders",
+        "shop_button": "🛍️ Browse the store"
+      },
+      "order_card": {
+        "order_number": "Order #",
+        "date": "Date",
+        "status": {
+          "shipped": "Shipped",
+          "shipping": "In Transit",
+          "pending_payment": "Awaiting Payment"
+        },
+        "items": {
+          "quantity": "Quantity",
+          "price": "Price"
+        },
+        "total": "Total",
+        "details_button": "📄 View Details"
+      }
+    },
+    "FavoritesTab": {
+      "title": "❤️ Your Favorites",
+      "no_favorites": "No favorites yet"
+    }
   }
 }

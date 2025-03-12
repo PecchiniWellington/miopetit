@@ -1,42 +1,8 @@
 import { auth } from "@/auth";
+import { getMyCart } from "@/core/actions/cart/cart.actions";
 import { getUserById } from "@/core/actions/user";
-import {
-  Heart,
-  HelpCircle,
-  Lock,
-  MapPin,
-  Settings,
-  ShoppingBag,
-  User,
-} from "lucide-react";
 import LogoutHandler from "./logout-handler";
 import ProfileTabsConfig from "./profile-tabs-config";
-const tabs = [
-  { id: "profile", label: "Profilo", icon: <User className="size-5" /> },
-  { id: "orders", label: "Ordini", icon: <ShoppingBag className="size-5" /> },
-  { id: "favorites", label: "Preferiti", icon: <Heart className="size-5" /> },
-  { id: "addresses", label: "Indirizzi", icon: <MapPin className="size-5" /> },
-  { id: "security", label: "Sicurezza", icon: <Lock className="size-5" /> },
-  { id: "support", label: "Supporto", icon: <HelpCircle className="size-5" /> },
-  /* {
-    id: "notifications",
-    label: "Notifiche",
-    icon: <Bell className="size-5" />,
-  },
-  {
-    id: "subscriptions",
-    label: "Abbonamenti",
-    icon: <CreditCard className="size-5" />,
-  }, 
-   { id: "history", label: "Cronologia", icon: <Clock className="size-5" /> },
-  */
-
-  {
-    id: "settings",
-    label: "Impostazioni",
-    icon: <Settings className="size-5" />,
-  },
-];
 
 const ProfilePage = async () => {
   const loggedUser = await auth();
@@ -45,15 +11,17 @@ const ProfilePage = async () => {
   }
   const userId = loggedUser?.user?.id;
   const user = userId ? await getUserById(userId) : null;
-
+  let myCart = null;
   if (!user) {
     return <LogoutHandler />; // 👈 Se l'utente non esiste, esegui il logout lato client
+  } else {
+    myCart = await getMyCart();
   }
 
   return (
     <div className=" mx-auto flex flex-col gap-8 py-6 md:flex-row md:p-6">
       {/* 📌 Sidebar */}
-      <ProfileTabsConfig tabs={tabs} user={user} />
+      <ProfileTabsConfig user={user} myCart={myCart} />
     </div>
   );
 };
