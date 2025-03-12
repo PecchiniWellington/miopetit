@@ -2,6 +2,7 @@
 
 import { IOrder } from "@/core/validators";
 import { formatId } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import OrderCard from "./order-card";
 import PaymentCard from "./payment-card-component";
@@ -38,11 +39,13 @@ const OrderDetailsTable = ({
     orderitems,
   } = order;
 
+  const t = useTranslations("OrderConfirmation");
   return (
     <div className="mx-auto w-full space-y-6 px-4">
       {/* 🏷️ Titolo dell'ordine */}
       <h1 className="text-3xl font-semibold text-gray-900 dark:text-white">
-        Ordine <span className="text-indigo-600">#{formatId(order.id)}</span>
+        {t("order_number")}{" "}
+        <span className="text-indigo-600">#{formatId(order.id)}</span>
       </h1>
 
       <div className="grid md:grid-cols-3 md:gap-6">
@@ -53,9 +56,9 @@ const OrderDetailsTable = ({
             isPaid={isPaid}
             subtitle={paymentMethod}
             paidAt={paidAt}
-            title="Metodo di Pagamento"
-            confirmedType="Pagamento effettuato"
-            toConfirmType="Da pagare"
+            title={t("payment_method")}
+            confirmedType={t("order_confirmation")}
+            toConfirmType={t("to_pay")}
           />
 
           {/* 📍 **Indirizzo di Spedizione** */}
@@ -63,9 +66,9 @@ const OrderDetailsTable = ({
             isPaid={isDelivered}
             subtitle={shippingAddress.fullName}
             paidAt={deliveredAt}
-            title="Indirizzo di Spedizione"
-            confirmedType="Spedizione effettuata"
-            toConfirmType="Da spedire"
+            title={t("shipping_address")}
+            confirmedType={t("order_delivered")}
+            toConfirmType={t("to_deliver")}
           >
             <p className="text-gray-700 dark:text-gray-300">
               {shippingAddress.street}, {shippingAddress.city},{" "}
@@ -74,7 +77,7 @@ const OrderDetailsTable = ({
           </OrderCard>
 
           {/* 🛍️ **Riepilogo degli Articoli** */}
-          <OrderCard title="Articoli dell'Ordine">
+          <OrderCard title={t("order_items")}>
             <ResumeItemsTable orderitems={orderitems} />
           </OrderCard>
         </div>

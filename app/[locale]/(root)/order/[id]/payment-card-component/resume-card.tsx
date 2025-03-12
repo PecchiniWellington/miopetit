@@ -1,52 +1,46 @@
+import SubmitButtonOrder from "@/components/components_page/place_order_page/submit-button-order";
+import { Card, CardContent } from "@/components/ui/card";
 import { formatCurrency } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 export const ResumeCard = ({
   itemsPrice,
   taxPrice,
   shippingPrice,
   totalPrice,
+  showPlaceOrder = true,
 }: {
   itemsPrice: string;
   taxPrice: string;
   shippingPrice: string;
   totalPrice: string;
+  showPlaceOrder?: boolean;
 }) => {
+  const t = useTranslations("Checkout.PlaceOrder");
   return (
-    <div className="w-full rounded-lg border bg-white p-5 shadow-lg dark:border-gray-800 dark:bg-gray-900">
-      <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">
-        Riepilogo Ordine
-      </h2>
-
-      <div className="space-y-3">
-        {/* 📦 Subtotale */}
-        <div className="flex justify-between text-gray-700 dark:text-gray-300">
-          <span>Subtotale</span>
-          <span className="font-medium">{formatCurrency(itemsPrice)}</span>
+    <Card className="shadow-lg transition-all hover:shadow-xl">
+      <CardContent className="space-y-6 p-6">
+        <h2 className="text-xl font-bold text-gray-800 dark:text-white">
+          {t("order_summary")}
+        </h2>
+        <div className="flex justify-between text-lg text-gray-700 dark:text-gray-300">
+          <span>{t("subtotal")}</span>
+          <span>{formatCurrency(itemsPrice as unknown as string)}</span>
         </div>
-
-        {/* 🏦 Tassa */}
-        <div className="flex justify-between text-gray-700 dark:text-gray-300">
-          <span>IVA</span>
-          <span className="font-medium">{formatCurrency(taxPrice)}</span>
+        <div className="flex justify-between text-lg text-gray-700 dark:text-gray-300">
+          <span>{t("tax")}</span>
+          <span>{formatCurrency(taxPrice as unknown as string)}</span>
         </div>
-
-        {/* 🚚 Spedizione */}
-        <div className="flex justify-between text-gray-700 dark:text-gray-300">
-          <span>Spedizione</span>
-          <span className="font-medium">{formatCurrency(shippingPrice)}</span>
+        <div className="flex justify-between text-lg text-gray-700 dark:text-gray-300">
+          <span>{t("shipping")}</span>
+          <span>{formatCurrency(shippingPrice as unknown as string)}</span>
         </div>
-
-        {/* 🔥 Divider */}
-        <div className="border-t border-gray-300 dark:border-gray-700"></div>
-
-        {/* 💰 Totale */}
-        <div className="flex justify-between text-lg font-semibold text-gray-900 dark:text-gray-100">
-          <span>Totale</span>
-          <span className="text-green-600 dark:text-green-400">
-            {formatCurrency(totalPrice)}
-          </span>
+        <div className="flex justify-between border-t pt-4 text-2xl font-bold text-gray-900 dark:text-white">
+          <span>{t("total")}</span>
+          <span>{formatCurrency(totalPrice as unknown as string)}</span>
         </div>
-      </div>
-    </div>
+        {showPlaceOrder && <SubmitButtonOrder />}
+      </CardContent>
+    </Card>
   );
 };

@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { updateOrderToDeliveredCOD } from "@/core/actions/admin/admin.actions";
 import { IOrder } from "@/core/validators";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 
 import { useTransition } from "react";
@@ -13,7 +14,7 @@ export const MarkAsDeliveredButton = ({
 }) => {
   const [isPending, setIsPending] = useTransition();
   const { toast } = useToast();
-
+  const t = useTranslations("OrderConfirmation");
   return (
     <div className="flex items-center gap-2">
       <Button
@@ -37,8 +38,8 @@ export const MarkAsDeliveredButton = ({
         {isPending
           ? "Processing..."
           : order.isDelivered
-            ? "Delivered"
-            : "Mark as Delivered"}
+            ? t("delivered")
+            : t("mark_as_delivered")}
       </Button>
       {order.isDelivered && (
         <Link
@@ -46,7 +47,7 @@ export const MarkAsDeliveredButton = ({
         `}
           href={"/admin/products"}
         >
-          Go to Products List
+          {t("go_to_product_list")}
         </Link>
       )}
     </div>

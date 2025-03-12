@@ -2,6 +2,7 @@ import DynamicButton from "@/components/dynamic-button";
 import { updateOrderToPaidCOD } from "@/core/actions/admin/admin.actions";
 import { IOrder } from "@/core/validators";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslations } from "next-intl";
 
 import { useTransition } from "react";
 
@@ -12,7 +13,7 @@ export const MarkAsPaidButton = ({
 }) => {
   const [isPending, setIsPending] = useTransition();
   const { toast } = useToast();
-
+  const t = useTranslations("OrderConfirmation");
   return (
     <DynamicButton
       className="flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-5 py-2 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none"
@@ -27,7 +28,7 @@ export const MarkAsPaidButton = ({
         })
       }
     >
-      {isPending ? "Processing..." : "Mark as Paid"}
+      {isPending ? "Processing..." : t("mark_as_paid")}
     </DynamicButton>
   );
 };

@@ -9,22 +9,25 @@ import {
 } from "@/components/ui/table";
 import { ICart, ICartItem } from "@/core/validators";
 import { formatCurrency } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 
 const PlaceOrderTableResume = ({ myCart }: { myCart: ICart }) => {
+  const t = useTranslations("Checkout.PlaceOrder");
+
   return (
     <Card className="shadow-lg transition-all hover:shadow-xl md:col-span-2">
       <CardContent className="space-y-5 p-6">
         <h2 className="text-xl font-bold text-gray-800 dark:text-white">
-          🛍️ Articoli nel tuo ordine
+          {t("order_items")}
         </h2>
         <Table>
           <TableHeader>
             <TableRow className="bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-white">
-              <TableHead>Prodotto</TableHead>
-              <TableHead className="text-center">Quantità</TableHead>
-              <TableHead className="text-center">Prezzo</TableHead>
+              <TableHead>{t("product")}</TableHead>
+              <TableHead className="text-center">{t("quantity")}</TableHead>
+              <TableHead className="text-center">{t("price")}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

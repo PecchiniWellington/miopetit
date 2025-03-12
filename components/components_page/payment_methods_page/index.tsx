@@ -18,6 +18,7 @@ import {
 } from "@/lib/constants/payment-methods";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight, Banknote, Loader, Wallet } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { JSX, useState } from "react";
@@ -110,13 +111,15 @@ const ConfigPaymentMethodsPage = ({
     }
   };
 
+  const t = useTranslations("Checkout.payment_method");
+
   return (
     <div className="mx-auto mt-10 max-w-lg space-y-6 md:mt-0">
       <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
-        🏦 Seleziona un metodo di pagamento
+        {t("title")}
       </h1>
       <p className="text-sm text-gray-600 dark:text-gray-400">
-        Scegli il metodo con cui desideri completare il pagamento.
+        {t("subtitle")}
       </p>
 
       <Form {...form}>
@@ -180,7 +183,7 @@ const ConfigPaymentMethodsPage = ({
               ) : (
                 <ArrowRight className="size-5" />
               )}
-              Procedi al pagamento
+              {t("continue_button")}
             </DynamicButton>
           </div>
         </form>

@@ -8,19 +8,25 @@ import {
 } from "@/components/ui/table";
 import { IOrderItem } from "@/core/validators";
 import { formatCurrency } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 
 const ResumeItemsTable = ({ orderitems }: { orderitems: IOrderItem[] }) => {
+  const t = useTranslations("OrderConfirmation");
   return (
     <div className="w-full overflow-hidden rounded-lg border bg-white shadow-md dark:border-gray-800 dark:bg-gray-900">
       <Table className="w-full">
         {/* 🌟 Intestazione della tabella */}
         <TableHeader className="bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300">
           <TableRow>
-            <TableHead className="px-4 py-3 text-left">Articolo</TableHead>
-            <TableHead className="px-4 py-3 text-center">Quantità</TableHead>
-            <TableHead className="px-4 py-3 text-right">Prezzo</TableHead>
+            <TableHead className="px-4 py-3 text-left">
+              {t("product")}
+            </TableHead>
+            <TableHead className="px-4 py-3 text-center">
+              {t("quantity")}
+            </TableHead>
+            <TableHead className="px-4 py-3 text-right">{t("price")}</TableHead>
           </TableRow>
         </TableHeader>
 

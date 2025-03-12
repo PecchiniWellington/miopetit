@@ -52,7 +52,8 @@
     "back_to_home": "Torna alla Home",
     "thank_you": "Grazie",
     "back_to_shopping": "Torna agli Acquisti",
-    "cart_is_empty_message": "Sembra che tu non abbia ancora aggiunto nulla al carrello. Esplora il  nostro shop e trova le migliori offerte!"
+    "cart_is_empty_message": "Sembra che tu non abbia ancora aggiunto nulla al carrello. Esplora il  nostro shop e trova le migliori offerte!",
+    "secure_payment": "Pagamento Sicuro"
   },
   "Features": {
     "free_shipping_title": "Spedizione Gratuita",
@@ -232,6 +233,89 @@
     "empty_cart": {
       "message": "Il tuo carrello è vuoto!",
       "continue_shopping": "Continua a Fare Acquisti"
+    }
+  },
+  "Checkout": {
+    "steps": {
+      "login": "Login",
+      "address": "Indirizzo",
+      "payment": "Pagamento",
+      "order": "Ordine"
+    },
+    "shipping_address": {
+      "title": "📍 I tuoi Indirizzi di Spedizione",
+      "subtitle": "Gestisci e seleziona l'indirizzo per una consegna più rapida.",
+      "saved_address": "Piazza Duomo 2, Bologna",
+      "continue_button": "Continua al Metodo di Pagamento",
+      "default_address": "Indirizzo Predefinito"
+    },
+    "new_address": {
+      "title": "🚚 Aggiungi Nuovo Indirizzo",
+      "subtitle": "Inserisci un nuovo indirizzo per la spedizione.",
+      "full_name": "Nome Completo",
+      "email": "Email",
+      "address": "Indirizzo",
+      "city": "Città",
+      "zip_code": "CAP",
+      "country": "Nazione",
+      "add_address_button": "➜ Aggiungi Indirizzo"
+    },
+    "payment_method": {
+      "title": "🔒 Metodo di Pagamento",
+      "subtitle": "Scegli il metodo di pagamento più adatto a te.",
+      "credit_card": "Carta di Credito",
+      "debit_card": "Carta di Debito",
+      "paypal": "PayPal",
+      "cash_on_delivery": "Pagamento alla Consegna",
+      "continue_button": "Continua all'Ordine"
+    },
+    "PlaceOrder": {
+      "title": "Conferma il tuo ordine",
+      "shipping_address": "Indirizzo di Spedizione",
+      "edit_address": "Modifica Indirizzo",
+      "payment_method": "Metodo di Pagamento",
+      "edit_payment_method": "Modifica Metodo di Pagamento",
+      "order_summary": "Riepilogo Ordine",
+      "subtotal": "Subtotale",
+      "tax": "IVA",
+      "shipping": "Spedizione",
+      "total": "Totale",
+      "place_order": "Conferma Ordine",
+      "order_items": "Articoli nel tuo ordine",
+      "product": "Prodotto",
+      "quantity": "Quantità",
+      "price": "Prezzo"
+    }
+  },
+  "OrderConfirmation": {
+    "order_number": "Ordine",
+    "payment_method": "Metodo di Pagamento",
+    "pending_payment": "Da pagare",
+    "shipping_address": "Indirizzo di Spedizione",
+    "pending_shipping": "Da spedire",
+    "order_items": "Articoli dell'Ordine",
+    "product": "Articolo",
+    "quantity": "Quantità",
+    "price": "Prezzo",
+    "order_summary": "Riepilogo Ordine",
+    "order_confirmation": "Ordine Confermato",
+    "to_pay": "Da pagare",
+    "order_delivered": "Ordine Spedito",
+    "to_deliver": "Da spedire",
+    "subtotal": "Subtotale",
+    "tax": "IVA",
+    "shipping": "Spedizione",
+    "total": "Totale",
+    "mark_as_delivered": "Conferma Spedizione",
+    "go_to_product_list": "Vai alla Lista Prodotti",
+    "delivered": "Consegnato",
+    "mark_as_paid": "Conferma Pagamento",
+    "paid": "Pagato",
+    "payment_options": {
+      "paypal": "PayPal",
+      "mybank": "MyBank",
+      "credit_card": "Carta di debito o credito",
+      "powered_by_paypal": "Con tecnologia PayPal"
     }
   }
 }

@@ -1,33 +1,15 @@
 "use client";
 
+import { useCheckoutSteps } from "@/core/db-static/db_checkout_pages/checkout_steps";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
-import { CreditCard, MapPin, PackageCheck, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
-
-const steps = [
-  { label: "Login", href: "sign-in", icon: <User className="size-5" /> },
-  {
-    label: "Address",
-    href: "shipping-address",
-    icon: <MapPin className="size-5" />,
-  },
-  {
-    label: "Payment",
-    href: "payment-method",
-    icon: <CreditCard className="size-5" />,
-  },
-  {
-    label: "Order",
-    href: "place-order",
-    icon: <PackageCheck className="size-5" />,
-  },
-];
+import React, { useEffect, useState } from "react";
 
 const CheckoutSteps = ({ current = 0 }) => {
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
+  const steps = useCheckoutSteps();
 
   const pathName = usePathname();
   const cleanPathName = pathName.replace(/^\/[a-zA-Z]{2}(\/|$)/, "/");
@@ -124,7 +106,7 @@ const CheckoutSteps = ({ current = 0 }) => {
                 href={step.href}
                 className="flex w-full flex-col items-center justify-center gap-0 md:flex-row md:gap-2"
               >
-                <span>{step.icon}</span>
+                <span>{React.createElement(step.icon)}</span>
                 <span className="text-center text-[10px] md:block md:text-base">
                   {step.label}
                 </span>

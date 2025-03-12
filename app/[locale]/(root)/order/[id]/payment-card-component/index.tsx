@@ -42,6 +42,7 @@ const PaymentCard: React.FC<PaymentCardProps> = ({
           taxPrice={taxPrice}
           shippingPrice={shippingPrice}
           totalPrice={totalPrice}
+          showPlaceOrder={false}
         />
 
         {/* Paypal Payment */}

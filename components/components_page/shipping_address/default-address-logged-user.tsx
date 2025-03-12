@@ -1,13 +1,13 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { getUserById, updateUserAddress } from "@/core/actions/user";
 import { setDefaultAddress } from "@/core/actions/user/set-user-default-address.action";
 import { IUser } from "@/core/validators";
 import { IAddress } from "@/core/validators/user-address.validator";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
 import { CheckCircle, Loader2, MapPin } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -26,17 +26,6 @@ const DefaultAddressLoggedUser = ({
     try {
       setIsUpdating(true);
       const res = await setDefaultAddress(id, userId);
-      if (res.data) {
-        const updatedUserAddress = await updateUserAddress({
-          ...res.data,
-          fullName: res.data.fullName || "",
-          postalCode: res.data.postalCode || "",
-          country: res.data.country || "",
-        });
-
-        const user = await getUserById(userId);
-        console.log("UPDATED ADDRESS", { updatedUserAddress, user });
-      }
 
       if (res.success) {
         toast({ description: res.message });
@@ -56,32 +45,6 @@ const DefaultAddressLoggedUser = ({
   const updateAddress = async () => {
     try {
       setIsUpdating(true);
-      /* const addressUser = addresses.find(
-        (address) => address.isDefault === true
-      ); */
-
-      /* if (user) {
-        if (addressUser?.id) {
-          const res = await setDefaultAddress(addressUser.id, user.id);
-
-          if (res.data) {
-            await updateUserAddress({
-              ...res.data,
-              fullName: res.data.fullName || "",
-              street: res.data.street,
-              city: res.data.city,
-              postalCode: res.data.postalCode || "",
-              country: res.data.country || "",
-            });
-          }
-          if (!res.success) {
-            toast({ variant: "destructive", description: res.message });
-            return;
-          }
-        }
-      } else {
-        toast({ description: "Indirizzo salvato localmente" });
-      } */
 
       router.push("/payment-method");
     } catch (error) {
@@ -94,15 +57,16 @@ const DefaultAddressLoggedUser = ({
     }
   };
 
+  const t = useTranslations("Checkout.shipping_address");
   return (
     <div>
       {addresses.length > 0 && (
         <div className="lg:w-10/12">
           <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
-            📍 I tuoi Indirizzi di Spedizione
+            {t("title")}
           </h2>
           <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-            Gestisci e seleziona l&apos;indirizzo per una consegna più rapida.
+            {t("subtitle")}
           </p>
 
           <div className="mt-4 space-y-4">
@@ -127,7 +91,7 @@ const DefaultAddressLoggedUser = ({
                     </p>
                     {address.isDefault && (
                       <span className="text-xs font-semibold text-blue-600 dark:text-blue-400">
-                        ✅ Indirizzo Predefinito
+                        ✅ {t("default_address")}
                       </span>
                     )}
                   </div>
@@ -164,7 +128,7 @@ const DefaultAddressLoggedUser = ({
             {isUpdating ? (
               <Loader2 className="size-5 animate-spin" />
             ) : (
-              "Continua al Metodo di Pagamento"
+              t("continue_button")
             )}
           </Button>
         </div>

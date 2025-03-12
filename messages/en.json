@@ -50,7 +50,8 @@
     "shipping_price": "Shipping Price",
     "back_to_home": "Back to Home",
     "thank_you": "Thank You",
-    "back_to_shopping": "Back to Shopping"
+    "back_to_shopping": "Back to Shopping",
+    "secure_payment": "Secure Payments "
   },
   "Features": {
     "free_shipping_title": "Free Shipping",
@@ -229,6 +230,89 @@
     "empty_cart": {
       "message": "Your cart is empty!",
       "continue_shopping": "Continue Shopping"
+    }
+  },
+  "Checkout": {
+    "steps": {
+      "login": "Login",
+      "address": "Address",
+      "payment": "Payment",
+      "order": "Order"
+    },
+    "shipping_address": {
+      "title": "📍 Your Shipping Addresses",
+      "subtitle": "Manage and select an address for faster delivery.",
+      "saved_address": "Piazza Duomo 2, Bologna",
+      "continue_button": "Continue to Payment Method",
+      "default_address": "Default Address"
+    },
+    "new_address": {
+      "title": "🚚 Add New Address",
+      "subtitle": "Enter a new shipping address.",
+      "full_name": "Full Name",
+      "email": "Email",
+      "address": "Address",
+      "city": "City",
+      "zip_code": "ZIP Code",
+      "country": "Country",
+      "add_address_button": "➜ Add Address"
+    },
+    "payment_method": {
+      "title": "🔒 Payment Method",
+      "subtitle": "Choose the payment method that suits you best.",
+      "credit_card": "Credit Card",
+      "debit_card": "Debit Card",
+      "paypal": "PayPal",
+      "cash_on_delivery": "Cash on Delivery",
+      "continue_button": "Continue to Order"
+    },
+    "PlaceOrder": {
+      "title": "Confirm Your Order",
+      "shipping_address": "Shipping Address",
+      "edit_address": "Edit Address",
+      "payment_method": "Payment Method",
+      "edit_payment_method": "Edit Payment Method",
+      "order_summary": "Order Summary",
+      "subtotal": "Subtotal",
+      "tax": "Tax",
+      "shipping": "Shipping",
+      "total": "Total",
+      "place_order": "Place Order",
+      "order_items": "Items in Your Order",
+      "product": "Product",
+      "quantity": "Quantity",
+      "price": "Price"
+    }
+  },
+  "OrderConfirmation": {
+    "order_number": "Order",
+    "payment_method": "Payment Method",
+    "pending_payment": "Pending Payment",
+    "shipping_address": "Shipping Address",
+    "pending_shipping": "Pending Shipping",
+    "order_items": "Order Items",
+    "order_confirmation": "Order Confirmed",
+    "to_pay": "To Pay",
+    "order_delivered": "Order Delivered",
+    "to_deliver": "To Deliver",
+    "product": "Product",
+    "quantity": "Quantity",
+    "price": "Price",
+    "order_summary": "Order Summary",
+    "subtotal": "Subtotal",
+    "tax": "Tax",
+    "shipping": "Shipping",
+    "total": "Total",
+    "mark_as_delivered": "Mark as Delivered",
+    "go_to_product_list": "Go to Product List",
+    "delivered": "Delivered",
+    "mark_as_paid": "Mark as Paid",
+    "paid": "Paid",
+    "payment_options": {
+      "paypal": "PayPal",
+      "mybank": "MyBank",
+      "credit_card": "Debit or Credit Card",
+      "powered_by_paypal": "Powered by PayPal"
     }
   }
 }

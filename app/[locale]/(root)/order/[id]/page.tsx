@@ -14,7 +14,6 @@ const OrderDetailsPage = async (props: { params: Promise<{ id: string }> }) => {
   const order = await getOrderById(id);
   if (!order) notFound();
 
-  console.log("📥 [OrderDetailsPage] - Order:", order);
   const session = await auth();
 
   let client_secret = null;
