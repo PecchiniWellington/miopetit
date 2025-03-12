@@ -1,6 +1,7 @@
 "use client";
 
 import { ICartItem } from "@/core/validators";
+import useLocalStorage from "@/hooks/use-local-storage";
 import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -11,16 +12,17 @@ export default function CartCounter({
   countLoggedUser: number;
 }) {
   const [countCart, setCountCart] = useState(0);
+  const [storedValue] = useLocalStorage<ICartItem[]>("cart", []);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const storedValue: ICartItem[] = JSON.parse(
-        localStorage.getItem("cart") || "[]"
+      const totalItems = storedValue.reduce(
+        (acc: number, item: ICartItem) => acc + item.qty,
+        0
       );
-      const totalItems = storedValue.reduce((acc, item) => acc + item.qty, 0);
       setCountCart(totalItems);
     }
-  }, []); // Si esegue solo una volta al montaggio
+  }, [storedValue]);
 
   return (
     <Link href="/cart" className="relative">

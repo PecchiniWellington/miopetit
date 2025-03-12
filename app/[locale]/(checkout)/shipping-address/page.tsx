@@ -1,6 +1,5 @@
 import { auth } from "@/auth";
 import ConfigShippingAddressPage from "@/components/components_page/shipping_address";
-import { getMyCart } from "@/core/actions/cart/cart.actions";
 import { getUserById } from "@/core/actions/user";
 import { getUserAddress } from "@/core/actions/user/get-user-address.action";
 import { Metadata } from "next";
@@ -12,13 +11,13 @@ export const metadata: Metadata = {
 };
 
 const ShippingAddress = async () => {
-  const cart = await getMyCart();
-  if (!cart) {
-    redirect("/cart");
-  }
-
   const session = await auth();
   const userId = session?.user?.id;
+  if (!userId) {
+    console.log("cart is empty");
+    redirect("/cart");
+  } else {
+  }
 
   if (!userId) {
     return;

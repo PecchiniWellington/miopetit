@@ -5,6 +5,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { getMyCart } from "@/core/actions/cart/cart.actions";
 import { ICartItem } from "@/core/validators";
+import useLocalStorage from "@/hooks/use-local-storage";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { DialogTitle } from "@radix-ui/react-dialog"; // Import per accessibilità
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden"; // Per nascondere il titolo
@@ -20,6 +21,7 @@ const CartSideMenu = () => {
   const [showCartButton, setShowCartButton] = useState(false);
   const isMobile = useMediaQuery("(max-width: 768px)");
   const session = useSession();
+  const [storedValue] = useLocalStorage<ICartItem[]>("cart", []);
 
   // Fetch ottimizzato del carrello
   const fetchCart = useCallback(async () => {
@@ -33,7 +35,10 @@ const CartSideMenu = () => {
     if (session.data?.user?.id) {
       fetchCart();
     }
-  }, [fetchCart, session.data?.user?.id]);
+    if (typeof window !== "undefined") {
+      setCartItems(storedValue);
+    }
+  }, [fetchCart, session.data?.user?.id, storedValue]);
 
   // Mostra il pulsante in base allo scroll (funziona sia su mobile che su desktop)
   useEffect(() => {
@@ -138,7 +143,7 @@ const CartSideMenu = () => {
               <span>€{(totalPrice + shippingCost).toFixed(2)}</span>
             </div>
 
-            <Link href="/checkout">
+            <Link href="/shipping-address">
               <Button className="mt-4 w-full rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 py-3 text-lg font-semibold text-white hover:from-indigo-600 hover:to-purple-700">
                 Procedi al Checkout
               </Button>
