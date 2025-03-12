@@ -1,9 +1,11 @@
 "use client";
 import { Card, CardContent } from "@/components/ui/card";
-import { features } from "@/core/db-static/db_root_page";
+import { useFeatures } from "@/core/db-static/db_root_page/features";
 import { motion } from "framer-motion";
 
 const IconBoxes = () => {
+  const features = useFeatures();
+
   return (
     <Card className="rounded-lg bg-white p-6 shadow-lg dark:bg-gray-900">
       <CardContent className="grid gap-6 md:grid-cols-4">

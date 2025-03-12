@@ -1,4 +1,43 @@
 {
+  "Shared": {
+    "dog": "Cane",
+    "cat": "Gatto",
+    "small_animals": "Piccolo Animale",
+    "bird": "Uccello",
+    "fish": "Pesce",
+    "reptiles": "Rettile",
+    "all": "Tutti",
+    "search": "Cerca",
+    "search_placeholder": "Cerca prodotti...",
+    "search_results": "Risultati della Ricerca",
+    "search_no_results": "Nessun risultato trovato per {query}.",
+    "search_results_for": "Risultati della Ricerca per {query}",
+    "search_results_count": "{count} risultati trovati per {query}",
+    "search_result_count": "1 risultato trovato per {query}",
+    "search_result": "1 risultato trovato per {query}",
+    "product": "Prodotto",
+    "price": "Prezzo",
+    "quantity": "Quantità",
+    "subtotal": "Subtotale",
+    "discount": "Sconto",
+    "shipping": "Spedizione",
+    "total": "Totale",
+    "total_items": "Totale Articoli:",
+    "checkout_button": "Procedi al Checkout",
+    "message": "Il tuo carrello è vuoto!",
+    "continue_shopping": "Continua a Fare Acquisti",
+    "cart": "Carrello"
+  },
+  "Features": {
+    "free_shipping_title": "Spedizione Gratuita",
+    "free_shipping_description": "Spedizione gratuita per ordini superiori a {amount}",
+    "support_title": "Supporto",
+    "support_description": "Supporto 24/7",
+    "money_back_title": "Rimborso",
+    "money_back_description": "Garanzia di rimborso al 100%",
+    "secure_payment_title": "Pagamento Sicuro",
+    "secure_payment_description": "Pagamento sicuro"
+  },
   "MegaMenu": {
     "dogs": "Cani",
     "cats": "Gatti",
@@ -7,8 +46,8 @@
     "dogs/food/dry-food": "Cibo Secco",
     "dogs/food/wet-food": "Cibo Umido",
     "dogs/food/snacks": "Snack",
-    "dogs/food/diet-dry-food": "Diete Secche",
-    "dogs/food/diet-wet-food": "Diete Umide",
+    "dogs/food/diet-dry-food": "Dieta Cibo Secco",
+    "dogs/food/diet-wet-food": "Dieta Cibo Umido",
     "dogs/accessories": "Accessori",
     "dogs/accessories/clothing": "Abbigliamento",
     "dogs/accessories/training": "Addestramento",
@@ -49,17 +88,17 @@
     "small-animals/food/dry-food": "Cibo Secco",
     "small-animals/food/wet-food": "Cibo Umido",
     "small-animals/food/snacks": "Snack",
-    "small-animals/food/diet-dry-food": "Diete Secche",
-    "small-animals/food/diet-wet-food": "Diete Umide",
+    "small-animals/food/diet-dry-food": "Dieta Cibo Secco",
+    "small-animals/food/diet-wet-food": "Dieta Cibo Umido",
     "small-animals/accessories": "Accessori",
     "small-animals/accessories/clothing": "Abbigliamento",
     "small-animals/accessories/training": "Addestramento",
     "small-animals/accessories/food-containers": "Contenitori per Cibo",
     "small-animals/accessories/grooming": "Toelettatura",
     "small-animals/toys": "Giochi",
-    "small-animals/leashes": "Guinzagli e Imbracature",
-    "small-animals/carriers-travel": "Trasportini e Viaggio",
-    "small-animals/beds-mattresses": "Letti e Tappetini",
+    "small-animals/leashes": "Guinzagli e Pettorine",
+    "small-animals/carriers-travel": "Trasportini e Viaggi",
+    "small-animals/beds-mattresses": "Letti e Materassi",
     "small-animals/hygiene": "Igiene",
     "small-animals/hygiene/coat-skin-hygiene": "Cura del Pelo e della Pelle",
     "small-animals/hygiene/oral-hygiene": "Igiene Orale",
@@ -67,8 +106,105 @@
     "small-animals/hygiene/hygienic-bags": "Sacchetti Igienici",
     "small-animals/hygiene/wipes": "Salviette"
   },
+
   "HomePage": {
-    "title": "Benvenuto in Vue.js!",
-    "subtitle": "Questa è la tua prima applicazione Vue.js."
+    "title": "Benvenuto su Vue.js!",
+    "subtitle": "Questa è la tua prima applicazione Vue.js.",
+    "who_are_you_buying_for": "Per chi stai acquistando?",
+    "Animals": {
+      "dogs": "Cani",
+      "cats": "Gatti",
+      "small-animals": "Piccoli Animali",
+      "birds": "Uccelli",
+      "fish": "Pesci",
+      "reptiles": "Rettili"
+    },
+
+    "PresentationDeals": {
+      "deals_under_15": "Offerte sotto il 15%",
+      "our_best_products": "I Nostri Migliori Prodotti",
+      "buy_3_get_a_gift": "Compra 3 e Ricevi un Regalo",
+      "subscribe_and_save": "Abbonati e Risparmia"
+    },
+
+    "SpecialOffer": {
+      "special_offers": "Offerta {brand_name}",
+      "exclusive_promotion_for": "Promozione esclusiva per il tuo {animal}",
+      "discover_best_offers": "Scopri le migliori offerte su {brand_name}! Approfitta di promozioni esclusive per il tuo amico a quattro zampe."
+    },
+
+    "discover_best_gift": "Scopri i migliori regali per il tuo amico a quattro zampe",
+
+    "BestGift": {
+      "toys_treats_more": "Giochi, Snack e Altro",
+      "dog_gifts": "Regali per Cani",
+      "cat_gifts": "Regali per Gatti",
+      "small_animal_gifts": "Regali per Piccoli Animali",
+      "gifts_for_you": "Regali per Te"
+    },
+    "DealOfTheMonth": {
+      "title": "Offerta del Mese",
+      "description": "Approfitta di questa offerta speciale prima che scada! Sconti incredibili su prodotti selezionati per il tuo animale domestico."
+    },
+    "best_selling_products": "Prodotti più venduti"
+  },
+
+  "Footer": {
+    "shop": "Negozio",
+    "all_products": "Tutti i Prodotti",
+    "categories": "Categorie",
+    "special_offers": "Offerte Speciali",
+    "new_arrivals": "Novità",
+
+    "support": "Supporto",
+    "faq": "FAQ",
+    "shipping_returns": "Spedizioni e Resi",
+    "contact_us": "Contattaci",
+    "terms_conditions": "Termini e Condizioni",
+
+    "company": "MioPetit",
+    "about_us": "Chi Siamo",
+    "sustainability": "Sostenibilità",
+    "become_partner": "Diventa Partner",
+    "careers": "Lavora con Noi",
+
+    "stay_updated": "Rimani Aggiornato",
+    "newsletter_text": "Iscriviti alla nostra newsletter per offerte esclusive e novità.",
+    "email_placeholder": "Inserisci la tua email",
+    "subscribe": "Iscriviti",
+    "copyright": "{year} © {app_name}. Tutti i diritti riservati."
+  },
+
+  "TopBar": {
+    "free_shipping": "🚚 Spedizione gratuita per ordini superiori a {amount}!",
+    "support": "📞 Assistenza",
+    "order_status": "📦 Stato Ordini"
+  },
+
+  "Cart": {
+    "title": "Carrello",
+    "breadcrumb_home": "Home",
+    "breadcrumb_cart": "Carrello",
+
+    "table": {
+      "product": "Prodotto",
+      "price": "Prezzo",
+      "quantity": "Quantità"
+    },
+
+    "order_summary": {
+      "title": "Riepilogo Ordine",
+      "subtotal": "Subtotale",
+      "discount": "Sconto",
+      "shipping": "Spedizione",
+      "total": "Totale",
+      "total_items": "Totale Articoli:",
+      "checkout_button": "Procedi al Checkout"
+    },
+
+    "empty_cart": {
+      "message": "Il tuo carrello è vuoto!",
+      "continue_shopping": "Continua a Fare Acquisti"
+    }
   }
 }

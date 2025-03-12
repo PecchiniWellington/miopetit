@@ -1,4 +1,43 @@
 {
+  "Shared": {
+    "dog": "Dog",
+    "cat": "Cat",
+    "small_animals": "Small Animal",
+    "bird": "Bird",
+    "fish": "Fish",
+    "reptiles": "Reptile",
+    "all": "All",
+    "search": "Search",
+    "search_placeholder": "Search for products...",
+    "search_results": "Search Results",
+    "search_no_results": "No results found for {query}.",
+    "search_results_for": "Search Results for {query}",
+    "search_results_count": "{count} results found for {query}",
+    "search_result_count": "1 result found for {query}",
+    "search_result": "1 result found for {query}",
+    "product": "Product",
+    "price": "Price",
+    "quantity": "Quantity",
+    "subtotal": "Subtotal",
+    "discount": "Discount",
+    "shipping": "Shipping",
+    "total": "Total",
+    "total_items": "Total Items:",
+    "checkout_button": "Proceed to Checkout",
+    "message": "Your cart is empty!",
+    "continue_shopping": "Continue Shopping",
+    "cart": "Cart"
+  },
+  "Features": {
+    "free_shipping_title": "Free Shipping",
+    "free_shipping_description": "Free shipping for orders over {amount}",
+    "support_title": "Support",
+    "support_description": "24/7 support",
+    "money_back_title": "Money Back",
+    "money_back_description": "100% money back guarantee",
+    "secure_payment_title": "Secure Payment",
+    "secure_payment_description": "Secure payment"
+  },
   "MegaMenu": {
     "dogs": "Dogs",
     "cats": "Cats",
@@ -69,6 +108,101 @@
   },
   "HomePage": {
     "title": "Welcome to Vue.js!",
-    "subtitle": "This is your first Vue.js application."
+    "subtitle": "This is your first Vue.js application.",
+    "who_are_you_buying_for": "Who are you buying for?",
+    "Animals": {
+      "dogs": "Dogs",
+      "cats": "Cats",
+      "small-animals": "Small Animals",
+      "birds": "Birds",
+      "fish": "Fish",
+      "reptiles": "Reptiles"
+    },
+    "PresentationDeals": {
+      "deals_under_15": "Deals under 15%",
+      "our_best_products": "Our Best Products",
+      "buy_3_get_a_gift": "Buy 3 Get a Gift",
+      "subscribe_and_save": "Subscribe and Save"
+    },
+
+    "SpecialOffer": {
+      "special_offers": "{brand_name} Offer",
+      "exclusive_promotion_for": "Exclusive promotion for your {animal}",
+      "discover_best_offers": "Discover the best offers on {brand_name}! Take advantage of exclusive promotions for your four-legged friend."
+    },
+
+    "discover_best_gift": "Discover the Best Gifts for Your Four-Legged Friend",
+
+    "BestGift": {
+      "toys_treats_more": "Toys, Treats, and More",
+      "dog_gifts": "Dog Gifts",
+      "cat_gifts": "Cat Gifts",
+      "small_animal_gifts": "Small Animal Gifts",
+      "gifts_for_you": "Gifts for You"
+    },
+    "DealOfTheMonth": {
+      "title": "Deal of the Month",
+      "description": "Take advantage of this special offer before it expires! Incredible discounts on selected products for your pet."
+    },
+    "best_selling_products": "Best Selling Products"
+  },
+
+  "Footer": {
+    "shop": "Shop",
+    "all_products": "All Products",
+    "categories": "Categories",
+    "special_offers": "Special Offers",
+    "new_arrivals": "New Arrivals",
+
+    "support": "Support",
+    "faq": "FAQ",
+    "shipping_returns": "Shipping & Returns",
+    "contact_us": "Contact Us",
+    "terms_conditions": "Terms & Conditions",
+
+    "company": "MioPetit",
+    "about_us": "About Us",
+    "sustainability": "Sustainability",
+    "become_partner": "Become a Partner",
+    "careers": "Careers",
+
+    "stay_updated": "Stay Updated",
+    "newsletter_text": "Subscribe to our newsletter for exclusive offers and updates.",
+    "email_placeholder": "Enter your email",
+    "subscribe": "Subscribe",
+    "copyright": "{year} © {app_name}. All Rights Reserved."
+  },
+
+  "TopBar": {
+    "free_shipping": "🚚 Free shipping for orders over {amount}!",
+    "support": "📞 Support",
+    "order_status": "📦 Order Status"
+  },
+
+  "Cart": {
+    "title": "Shopping Cart",
+    "breadcrumb_home": "Home",
+    "breadcrumb_cart": "Cart",
+
+    "table": {
+      "product": "Product",
+      "price": "Price",
+      "quantity": "Quantity"
+    },
+
+    "order_summary": {
+      "title": "Order Summary",
+      "subtotal": "Subtotal",
+      "discount": "Discount",
+      "shipping": "Shipping",
+      "total": "Total",
+      "total_items": "Total Items:",
+      "checkout_button": "Proceed to Checkout"
+    },
+
+    "empty_cart": {
+      "message": "Your cart is empty!",
+      "continue_shopping": "Continue Shopping"
+    }
   }
 }

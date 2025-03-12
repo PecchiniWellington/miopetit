@@ -1,4 +1,5 @@
 import { ICart, IProduct } from "@/core/validators";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import AnimalCategory from "./animals-catergory";
 import BestSellingProduct from "./best-selling-products";
@@ -17,11 +18,13 @@ export const ConfigRootPage = ({
   data: IProduct[];
   myCart: ICart | null;
 }) => {
+  const t = useTranslations();
+
   return (
     <>
       <PresentationDeals />
 
-      <div className="mt-2">
+      <div className="mt-12">
         <AnimalCategory />
       </div>
 
@@ -45,7 +48,9 @@ export const ConfigRootPage = ({
           data={data}
           userId={userId}
           myCart={myCart}
-          title="Offerta Royal Canin"
+          title={t("HomePage.SpecialOffer.special_offers", {
+            brand_name: "Royal Canin",
+          })}
         />
       </div>
 
@@ -55,13 +60,13 @@ export const ConfigRootPage = ({
         userId={userId}
         myCart={myCart}
         data={data}
-        animalName="cane"
+        animalName={t("Shared.dog")}
       />
       <BestSellingProduct
         userId={userId}
         myCart={myCart}
         data={data}
-        animalName="gatto"
+        animalName={t("Shared.cat")}
       />
 
       <div className="mt-12">

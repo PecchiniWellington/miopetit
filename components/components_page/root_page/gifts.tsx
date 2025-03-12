@@ -2,8 +2,6 @@
 
 import { motion } from "framer-motion";
 
-import { gift_data } from "@/core/db-static/db_root_page";
-
 import AnimalAvatar from "@/components/animal-avatar";
 import {
   Carousel,
@@ -12,8 +10,10 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { useGiftData } from "@/core/db-static/db_root_page/gift_data";
 
 const Gifts = () => {
+  const gift_data = useGiftData();
   return (
     <div className="my-12 ">
       {/* Titolo */}

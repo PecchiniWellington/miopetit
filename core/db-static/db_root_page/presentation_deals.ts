@@ -1,18 +1,24 @@
-export const presentation_deals = [
-  {
-    title: "Affari sotto il 15%",
-    image: "/images/affari-quindici.png",
-  },
-  {
-    title: "I nostri migliori Prodotti",
-    image: "/images/migliori-prodotti.png",
-  },
-  {
-    title: "Prendi 3 ricevi un Regalo",
-    image: "/images/prendi-3.png",
-  },
-  {
-    title: "Iscriviti e Risparmia fino a 30%",
-    image: "/images/risparmia-30.png",
-  },
-];
+import { useTranslations } from "next-intl";
+
+export const usePresentationDeals = () => {
+  const t = useTranslations("HomePage.PresentationDeals");
+
+  return [
+    {
+      title: t("deals_under_15"),
+      image: "/images/affari-quindici.png",
+    },
+    {
+      title: t("our_best_products"),
+      image: "/images/migliori-prodotti.png",
+    },
+    {
+      title: t("buy_3_get_a_gift"),
+      image: "/images/prendi-3.png",
+    },
+    {
+      title: t("subscribe_and_save"),
+      image: "/images/risparmia-30.png",
+    },
+  ];
+};
