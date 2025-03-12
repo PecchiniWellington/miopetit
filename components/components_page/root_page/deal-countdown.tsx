@@ -1,7 +1,9 @@
 "use client";
 import DynamicButton from "@/components/dynamic-button";
+import { Button } from "@/components/ui/button";
 import useCountdown from "@/hooks/use-countdown";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -9,19 +11,23 @@ import Link from "next/link";
 const TARGET_DATE = new Date("2025-04-31T23:59:59");
 
 const StatBox = ({ label, value }: { label: string; value: number }) => {
+  const t = useTranslations();
   return (
     <motion.li
       className="flex flex-col items-center justify-center rounded-lg bg-white bg-opacity-20 p-4 shadow-md backdrop-blur-md transition-transform duration-300 hover:scale-105"
       whileHover={{ scale: 1.1 }}
     >
       <p className="text-4xl font-extrabold text-white">{value}</p>
-      <p className="text-lg font-medium text-white">{label}</p>
+      <p className="text-lg font-medium text-white">
+        {t("Shared." + label.toLowerCase())}
+      </p>
     </motion.li>
   );
 };
 
 const DealCountdown = () => {
   const { days, hours, minutes, seconds } = useCountdown(TARGET_DATE);
+  const t = useTranslations();
 
   if (days === null) {
     return (
@@ -72,11 +78,10 @@ const DealCountdown = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          🎉 Deal Of The Month
+          🎉 {t("HomePage.DealOfTheMonth.title")}
         </motion.h3>
         <p className="text-lg text-gray-200">
-          Approfitta di questa offerta speciale prima che scada! Sconti
-          incredibili su prodotti selezionati per il tuo animale.
+          {t("HomePage.DealOfTheMonth.description")}
         </p>
         <ul className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-4">
           <StatBox label="Days" value={days} />
@@ -85,9 +90,11 @@ const DealCountdown = () => {
           <StatBox label="Seconds" value={seconds} />
         </ul>
         <div className="mt-6">
-          <DynamicButton className="bg-white text-gray-900 hover:bg-gray-200">
-            <Link href="/search">View Products</Link>
-          </DynamicButton>
+          <Button className="w-full rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-md transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none sm:w-64">
+            <Link href="/search">
+              {t("Shared.view") + " " + t("Shared.product")}
+            </Link>
+          </Button>
         </div>
       </div>
       <div className="flex justify-center">

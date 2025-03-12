@@ -11,9 +11,11 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { useGiftData } from "@/core/db-static/db_root_page/gift_data";
+import { useTranslations } from "next-intl";
 
 const Gifts = () => {
   const gift_data = useGiftData();
+  const t = useTranslations();
   return (
     <div className="my-12 ">
       {/* Titolo */}
@@ -23,7 +25,7 @@ const Gifts = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        🎁 Scopri i Migliori Regali per il Tuo Amico a Quattro Zampe
+        🎁 {t("HomePage.discover_best_gift")}
       </motion.h2>
 
       {/* Layout Desktop */}

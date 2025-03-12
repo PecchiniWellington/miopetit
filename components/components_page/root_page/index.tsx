@@ -48,9 +48,9 @@ export const ConfigRootPage = ({
           data={data}
           userId={userId}
           myCart={myCart}
-          title={t("HomePage.SpecialOffer.special_offers", {
-            brand_name: "Royal Canin",
-          })}
+          brandName="Royal Canin"
+          image="/images/royalCanin-deal.webp"
+          animalName={t("Shared.dog")}
         />
       </div>
 

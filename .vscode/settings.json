@@ -28,8 +28,6 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "typescript.tsdk": "node_modules/typescript/lib",
-  "i18n-ally.localesPaths": [
-    "i18n",
-    "messages"
-  ]
+  "i18n-ally.localesPaths": ["i18n", "messages"],
+  "i18n-ally.keystyle": "nested"
 }

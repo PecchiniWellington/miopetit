@@ -4,6 +4,7 @@ import { useToast } from "@/hooks/use-toast";
 import { formatCurrency } from "@/lib/utils";
 import { ArrowRight, Loader } from "lucide-react";
 import { User } from "next-auth";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 
 const OrderSummary = ({
@@ -26,6 +27,7 @@ const OrderSummary = ({
   goToCheckout: () => void;
 }) => {
   const { toast } = useToast();
+  const t = useTranslations("Cart.order_summary");
   const checkIfGoToCheckout = () => {
     if (userLogged?.id) {
       return goToCheckout();
@@ -76,11 +78,11 @@ const OrderSummary = ({
   return (
     <Card className="mt-10 rounded-lg border shadow-md md:mt-0">
       <CardContent className="gap-4 p-4">
-        <h2 className="text-2xl font-semibold text-gray-800">Order Summary</h2>
+        <h2 className="text-2xl font-semibold text-gray-800">{t("title")}</h2>
 
         <div className="space-y-2 text-gray-600">
           <div className="flex justify-between">
-            <span>Subtotal</span>
+            <span>{t("subtotal")}</span>
             <span className="font-bold">
               {isPending ? (
                 <Loader className="size-4 animate-spin" />
@@ -91,14 +93,14 @@ const OrderSummary = ({
           </div>
 
           <div className="flex justify-between">
-            <span>Discount</span>
+            <span>{t("discount")}</span>
             <span className="font-bold text-green-600">
               -{formatCurrency(10.0)} {/* Sconto Mockato */}
             </span>
           </div>
 
           <div className="flex justify-between">
-            <span>Shipping</span>
+            <span>{t("shipping")}</span>
             <span className="font-bold">
               {formatCurrency(resume?.taxPrice)} {/* Spedizione Mockata */}
             </span>
@@ -107,7 +109,7 @@ const OrderSummary = ({
           <hr className="my-2" />
 
           <div className="flex items-center justify-between text-xl font-semibold text-gray-800">
-            <span>Total</span>
+            <span>{t("total")}</span>
             <span>
               {isPending ? (
                 <Loader className="size-4 animate-spin" />
@@ -121,7 +123,7 @@ const OrderSummary = ({
         <hr className="my-4" />
 
         <div className="flex items-center gap-2 pb-3 text-lg text-gray-700">
-          Total Items:
+          {t("total_items")}
           <span className=" font-semibold">
             {isPending ? (
               <Loader className="size-4 animate-spin" />
@@ -140,7 +142,7 @@ const OrderSummary = ({
           ) : (
             <ArrowRight className="size-4 " />
           )}
-          Proceed to Checkout
+          {t("checkout_button")}
         </DynamicButton>
       </CardContent>
     </Card>

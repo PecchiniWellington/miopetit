@@ -11,6 +11,7 @@ import { DialogTitle } from "@radix-ui/react-dialog"; // Import per accessibilit
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden"; // Per nascondere il titolo
 import { ShoppingCart, X } from "lucide-react";
 import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -22,6 +23,7 @@ const CartSideMenu = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const session = useSession();
   const [storedValue] = useLocalStorage<ICartItem[]>("cart", []);
+  const t = useTranslations();
 
   // Fetch ottimizzato del carrello
   const fetchCart = useCallback(async () => {
@@ -77,7 +79,7 @@ const CartSideMenu = () => {
                 {totalCount}
               </span>
             )}
-            {!isMobile && <span>Carrello</span>}
+            {!isMobile && <span>{t("Shared.cart")}</span>}
           </Button>
         </SheetTrigger>
       )}
@@ -86,11 +88,15 @@ const CartSideMenu = () => {
         className="w-96 rounded-l-2xl bg-slate-50 shadow-lg sm:w-96 [&>button]:hidden"
       >
         <DialogTitle asChild>
-          <VisuallyHidden>Il tuo Carrello</VisuallyHidden>
+          <VisuallyHidden>
+            {t("Shared.your")} {t("Shared.cart")}
+          </VisuallyHidden>
         </DialogTitle>
         {/* Intestazione */}
         <div className="flex items-center justify-between rounded-t-2xl border-b bg-gradient-to-r from-indigo-500 to-purple-600 p-4 text-white">
-          <h2 className="text-lg font-semibold">Il tuo Carrello</h2>
+          <h2 className="text-lg font-semibold">
+            {t("Shared.your")} {t("Shared.cart")}
+          </h2>
           <button onClick={() => setIsOpen(false)} className="p-1">
             <X className="size-6 text-white" />
           </button>
@@ -99,7 +105,9 @@ const CartSideMenu = () => {
         {/* Lista dei prodotti */}
         <ScrollArea className="h-[60vh] p-4">
           {cartItems.length === 0 ? (
-            <p className="text-center text-gray-500">Il carrello è vuoto</p>
+            <p className="text-center text-gray-500">
+              {t("Shared.cart_is_empty")}
+            </p>
           ) : (
             cartItems.map((item, index) => (
               <div
@@ -129,23 +137,23 @@ const CartSideMenu = () => {
         {cartItems.length > 0 && (
           <div className="sticky bottom-8 mt-[100%] rounded-b-2xl border-t bg-white p-4 shadow-lg">
             <div className="flex justify-between text-sm text-gray-700">
-              <span>Subtotale:</span>
+              <span>{t("Shared.subtotal")}:</span>
               <span>€{totalPrice.toFixed(2)}</span>
             </div>
             <div className="flex justify-between text-sm text-gray-700">
-              <span>Spedizione:</span>
+              <span>{t("Shared.shipping")}:</span>
               <span className={shippingCost === 0 ? "text-green-500" : ""}>
                 {shippingCost === 0 ? "Gratis" : `€${shippingCost.toFixed(2)}`}
               </span>
             </div>
             <div className="mt-2 flex justify-between border-t pt-2 text-lg font-bold">
-              <span>Totale:</span>
+              <span>{t("Shared.total")}:</span>
               <span>€{(totalPrice + shippingCost).toFixed(2)}</span>
             </div>
 
             <Link href="/shipping-address">
               <Button className="mt-4 w-full rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 py-3 text-lg font-semibold text-white hover:from-indigo-600 hover:to-purple-700">
-                Procedi al Checkout
+                {t("Shared.proceed_to")} {t("Shared.checkout")}
               </Button>
             </Link>
           </div>

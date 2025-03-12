@@ -10,6 +10,7 @@ import {
 import { ICartItem } from "@/core/validators";
 import { Button } from "@react-email/components";
 import { Minus, Plus, Trash } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -26,13 +27,14 @@ const CartTable = ({
   cancelProduct: (item: ICartItem) => void;
   handleRemoveFromCart: (item: ICartItem) => void;
 }) => {
+  const t = useTranslations("Shared");
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Product</TableHead>
-          <TableHead className="text-center">Price</TableHead>
-          <TableHead className="text-center">Quantity</TableHead>
+          <TableHead>{t("product")}</TableHead>
+          <TableHead className="text-center">{t("price")}</TableHead>
+          <TableHead className="text-center">{t("quantity")}</TableHead>
           <TableHead className="text-center" />
         </TableRow>
       </TableHeader>

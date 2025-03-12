@@ -7,6 +7,7 @@ import { brands } from "@/core/db-static/db_root_page";
 import { ICart, IProduct } from "@/core/validators";
 import useLocalStorage from "@/hooks/use-local-storage";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useMemo } from "react";
@@ -26,6 +27,7 @@ const BestSellingProduct = ({
     "cart",
     []
   );
+  const t = useTranslations();
   const memoizedData = useMemo(() => data, [data]);
 
   const getProductQuantity = useCallback(
@@ -121,7 +123,7 @@ const BestSellingProduct = ({
           transition={{ duration: 0.8 }}
         >
           <h2 className="mb-4 text-center text-xl font-semibold text-gray-800">
-            🔥 I Prodotti più venduti
+            🔥 {t("HomePage.best_selling_products")}
           </h2>
 
           <ProductList

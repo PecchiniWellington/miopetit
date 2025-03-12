@@ -1,7 +1,9 @@
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 
 const EmptyCart = () => {
+  const t = useTranslations("Cart");
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -16,7 +18,7 @@ const EmptyCart = () => {
         transition={{ delay: 0.3, duration: 0.5, ease: "easeOut" }}
         className="text-4xl font-extrabold text-white"
       >
-        Il tuo carrello è vuoto 🛒
+        {t("cart_is_empty_message")} 🛒
       </motion.h2>
       <motion.p
         initial={{ opacity: 0, scale: 0.9 }}
@@ -24,8 +26,7 @@ const EmptyCart = () => {
         transition={{ delay: 0.5, duration: 0.4 }}
         className="mt-3 max-w-lg text-center text-lg text-gray-200"
       >
-        Sembra che tu non abbia ancora aggiunto nulla al carrello. Esplora il
-        nostro shop e trova le migliori offerte!
+        {t("cart_is_empty_message")}
       </motion.p>
 
       {/* SVG con animazione */}
@@ -86,7 +87,7 @@ const EmptyCart = () => {
           href="/"
           className="mt-8 flex items-center gap-2 rounded-full bg-yellow-400 px-8 py-3 text-lg font-semibold text-gray-900 shadow-lg transition-all duration-300 hover:scale-105 hover:bg-yellow-500"
         >
-          🛍️ Torna allo Shopping
+          🛍️ {t("back_to_shopping")}
         </Link>
       </motion.div>
     </motion.div>
