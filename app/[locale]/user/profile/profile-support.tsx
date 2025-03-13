@@ -1,6 +1,7 @@
 "use client";
 
 import AccordionFaq from "@/components/shared/accordion";
+import TicketSupport from "@/components/shared/modals/ticket-support";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -10,6 +11,7 @@ import {
 import { supportTicketSchema } from "@/core/validators/support-ticket.validator";
 import { formatDateTime } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useEffect, useState, useTransition } from "react";
@@ -31,6 +33,7 @@ export default function SupportTab() {
   const tStatus = useTranslations("Status.Tickets");
   const tFaq = useTranslations("faq");
   const faqData = tFaq.raw("questions");
+
   /*  const [tickets, setTickets] = useState(mockTickets); */
 
   const faqCategories = [
@@ -84,22 +87,39 @@ export default function SupportTab() {
             createdAt: ticket.createdAt.toISOString(),
           }))
         );
+
         form.reset();
       }
     });
   };
 
   return (
-    <div className="relative rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800">
-      <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
-        {t("title")}
-      </h2>
-      <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-        {t("subtitle")}
-      </p>
+    <div className="relative rounded-lg bg-white  dark:bg-gray-800">
+      <div className="flex flex-col items-center justify-center gap-6 sm:flex-row sm:gap-10">
+        {/* Sezione Titolo e Sottotitolo */}
+        <div className="w-full text-center sm:text-left">
+          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
+            {t("title")}
+          </h2>
+          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            {t("subtitle")}
+          </p>
+        </div>
 
+        {/* Sezione Bottone Ticket */}
+        <section className=" flex w-full justify-center">
+          {/* Modale per il Ticket */}
+          <AnimatePresence>
+            <TicketSupport
+              form={form}
+              isPending={isPending}
+              onSubmit={onSubmit}
+            />
+          </AnimatePresence>
+        </section>
+      </div>
       {/* Sezione Ticket Aperto */}
-      <Card className="mt-5 border border-gray-300 dark:border-gray-700">
+      <Card className="mt-5 border-none md:border md:border-gray-300 md:dark:border-gray-700">
         <CardContent className="p-5">
           <h2 className="text-lg font-bold"> {t("your_tickets")}</h2>
           {tickets.length === 0 ? (
@@ -117,10 +137,10 @@ export default function SupportTab() {
                   className="rounded-lg bg-gray-100 p-4 shadow transition-all duration-300 hover:shadow-lg dark:bg-gray-800"
                 >
                   {/* Oggetto del Ticket */}
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-wrap items-center justify-between">
                     <p className="text-base font-semibold">{ticket.subject}</p>
                     <span
-                      className={`rounded-full px-3 py-1 text-xs font-medium ${
+                      className={`mt-2 rounded-full px-3 py-1 text-xs font-medium sm:mt-0 ${
                         ticket.status === "PENDING"
                           ? "bg-yellow-200 text-yellow-800"
                           : ticket.status === "ANSWERED"
@@ -156,79 +176,9 @@ export default function SupportTab() {
       </Card>
 
       {/* Sezione Apertura Nuovo Ticket */}
-      <Card className="mt-5 border border-gray-300 dark:border-gray-700">
-        <CardContent className="p-5">
-          <div className="rounded-lg border bg-gray-50 p-4">
-            <h2 className="text-lg font-bold">📩 {t("open_ticket")} </h2>
-            <p className="text-sm text-gray-500">{t("describe_your_issue")} </p>
-
-            <form
-              onSubmit={form.handleSubmit(
-                (data) => {
-                  console.log("✅ Dati inviati:", data);
-                  onSubmit(data);
-                },
-                (errors) => {
-                  console.log("❌ Errori nel form:", errors);
-                }
-              )}
-              className="mt-4 space-y-4"
-            >
-              <input
-                {...form.register("subject")}
-                placeholder={t("subject_of_request")}
-                className="w-full rounded-lg border p-3"
-              />
-              {form.formState.errors.subject && (
-                <p className="mt-1 text-sm text-red-600">
-                  {form.formState.errors.subject.message}
-                </p>
-              )}
-              <input
-                {...form.register("email")}
-                placeholder={t("your_email")}
-                className="w-full rounded-lg border p-3"
-              />
-              {form.formState.errors.email && (
-                <p className="mt-1 text-sm text-red-600">
-                  {form.formState.errors.email.message}
-                </p>
-              )}
-              <input
-                {...form.register("orderId")}
-                placeholder={t("n_order")}
-                className="w-full rounded-lg border p-3"
-              />
-              {form.formState.errors.orderId && (
-                <p className="mt-1 text-sm text-red-600">
-                  {form.formState.errors.orderId?.message}
-                </p>
-              )}
-              <textarea
-                {...form.register("description")}
-                placeholder={t("describe_your_request")}
-                className="w-full rounded-lg border p-3"
-              ></textarea>
-              {form.formState.errors.description && (
-                <p className="mt-1 text-sm text-red-600">
-                  {form.formState.errors.description.message}
-                </p>
-              )}
-
-              <Button
-                type="submit"
-                disabled={isPending}
-                className="w-full bg-indigo-600 text-white"
-              >
-                {t("send_ticket")}
-              </Button>
-            </form>
-          </div>
-        </CardContent>
-      </Card>
 
       {/* Sezione FAQ */}
-      <Card className="mt-5 border border-gray-300 dark:border-gray-700">
+      <Card className="mt-5 border-none md:border md:border-gray-300 md:dark:border-gray-700">
         <CardContent className="p-5">
           <h3 className="text-lg font-bold text-gray-800 dark:text-white">
             {t("faq_answers")}

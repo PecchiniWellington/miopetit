@@ -31,7 +31,7 @@ const SettingsTab = () => {
   };
 
   return (
-    <div className="rounded-lg bg-white p-6 shadow-md dark:bg-gray-800">
+    <div className="rounded-lg bg-white  dark:bg-gray-800">
       <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
         {t("title")}
       </h2>

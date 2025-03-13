@@ -16,7 +16,7 @@ export const SecurityTab: React.FC<SecurityTabProps> = ({
 }) => {
   const t = useTranslations("Profile.SecurityTab");
   return (
-    <div className="flex flex-col gap-4 rounded-lg bg-white p-6 shadow dark:bg-gray-800">
+    <div className="flex flex-col gap-4 rounded-lg bg-white  dark:bg-gray-800">
       <h2 className="text-xl font-semibold">{t("title")}</h2>
       <p className="mt-2 text-gray-600">{t("handle_your_your_password")}</p>
       <div className="w-min">

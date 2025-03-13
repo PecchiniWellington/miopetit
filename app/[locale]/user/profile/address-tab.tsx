@@ -153,7 +153,7 @@ export const AddressesTab = ({ user }: { user: IUser }) => {
   };
 
   return (
-    <div className="relative rounded-lg bg-white p-6 shadow dark:bg-gray-800">
+    <div className="relative rounded-lg bg-white  dark:bg-gray-800">
       <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
         {t("title")}
       </h2>

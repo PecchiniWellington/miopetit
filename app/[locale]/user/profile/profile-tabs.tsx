@@ -21,7 +21,7 @@ import PublicUserAvatar from "./public-user-avatar";
 
 export const ProfileTab = ({ user }: { user: IUser }) => {
   return (
-    <div className="relative rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800">
+    <div className="relative rounded-lg bg-white  dark:bg-gray-800">
       <ProfileForm user={user} />
     </div>
   );

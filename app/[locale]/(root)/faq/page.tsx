@@ -6,14 +6,7 @@ import { createSupportTicket } from "@/core/actions/support-ticket/create-suppor
 import { supportTicketSchema } from "@/core/validators/support-ticket.validator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AnimatePresence } from "framer-motion";
-import {
-  HelpCircle,
-  MessageCircle,
-  Search,
-  Shield,
-  ShoppingCart,
-  Truck,
-} from "lucide-react";
+import { HelpCircle, Search, Shield, ShoppingCart, Truck } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -22,7 +15,6 @@ export default function FAQPage() {
   const t = useTranslations("faq");
   const [openCategory, setOpenCategory] = useState("orders_shipping");
   const [searchTerm, setSearchTerm] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
   const [, setIsPending] = useState(false);
   const [isPending, startTransition] = useTransition();
 
@@ -71,7 +63,6 @@ export default function FAQPage() {
       const result = await createSupportTicket(null, values);
       if (result.success) {
         form.reset();
-        setIsOpen(false);
       }
       setIsPending(false);
     });
@@ -99,14 +90,13 @@ export default function FAQPage() {
         </div>
 
         {/* 📞 Bottone per il supporto */}
-        <div className="flex w-full justify-center sm:w-1/2">
-          <button
-            onClick={() => setIsOpen(true)}
-            className="flex w-full max-w-xs items-center justify-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-white shadow-md transition hover:scale-105 hover:bg-blue-700 hover:shadow-lg"
-          >
-            <MessageCircle className="size-5" /> {t("contact_support")}
-          </button>
-        </div>
+        <AnimatePresence>
+          <TicketSupport
+            form={form}
+            isPending={isPending}
+            onSubmit={onSubmit}
+          />
+        </AnimatePresence>
       </div>
 
       {/* 📌 Categories */}
@@ -144,16 +134,6 @@ export default function FAQPage() {
       </div>
 
       {/* MODALE */}
-      <AnimatePresence>
-        {isOpen && (
-          <TicketSupport
-            form={form}
-            isPending={isPending}
-            setIsOpen={setIsOpen}
-            onSubmit={onSubmit}
-          />
-        )}
-      </AnimatePresence>
     </div>
   );
 }
