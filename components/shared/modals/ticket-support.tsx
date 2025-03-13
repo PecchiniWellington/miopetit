@@ -22,10 +22,10 @@ const TicketSupport = <T extends FieldValues>({
   const t = useTranslations("ModalSupportTicket");
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div>
+    <div className="flex w-full justify-end">
       <button
         onClick={() => setIsOpen(true)}
-        className="flex w-full max-w-xs items-center justify-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-white shadow-md transition hover:scale-105 hover:bg-blue-700 hover:shadow-lg"
+        className="flex w-full max-w-xs items-center justify-center gap-2 rounded-lg bg-indigo-600 px-6 py-3 text-white shadow-lg transition hover:scale-105 hover:bg-blue-700 hover:shadow-lg"
       >
         <MessageCircle className="size-5" /> {t("open_ticket")}
       </button>

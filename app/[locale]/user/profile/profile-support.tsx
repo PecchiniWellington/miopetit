@@ -95,7 +95,7 @@ export default function SupportTab() {
 
   return (
     <div className="relative rounded-lg bg-white  dark:bg-gray-800">
-      <div className="flex flex-col items-center justify-center gap-6 sm:flex-row sm:gap-10">
+      <div className="flex flex-col items-center gap-6  sm:flex-row sm:justify-between sm:gap-10">
         {/* Sezione Titolo e Sottotitolo */}
         <div className="w-full text-center sm:text-left">
           <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
@@ -107,23 +107,21 @@ export default function SupportTab() {
         </div>
 
         {/* Sezione Bottone Ticket */}
-        <section className=" flex w-full justify-center">
-          {/* Modale per il Ticket */}
-          <AnimatePresence>
-            <TicketSupport
-              form={form}
-              isPending={isPending}
-              onSubmit={onSubmit}
-            />
-          </AnimatePresence>
-        </section>
+        {/* Modale per il Ticket */}
+        <AnimatePresence>
+          <TicketSupport
+            form={form}
+            isPending={isPending}
+            onSubmit={onSubmit}
+          />
+        </AnimatePresence>
       </div>
       {/* Sezione Ticket Aperto */}
-      <Card className="mt-5 border-none md:border md:border-gray-300 md:dark:border-gray-700">
-        <CardContent className="p-5">
+      <Card className="mt-5 border-none p-0 shadow-none md:border md:border-gray-300 md:dark:border-gray-700">
+        <CardContent className="border-none p-0">
           <h2 className="text-lg font-bold"> {t("your_tickets")}</h2>
           {tickets.length === 0 ? (
-            <div className="mt-4 rounded-lg bg-gray-50 p-4 text-center shadow-sm">
+            <div className="mt-4 rounded-lg bg-gray-50 p-4 text-center sm:shadow-sm">
               <p className="text-sm text-gray-600 dark:text-gray-400">
                 {t("here_you_can_see_status")}
               </p>
@@ -134,7 +132,7 @@ export default function SupportTab() {
               {tickets.map((ticket) => (
                 <div
                   key={ticket.id}
-                  className="rounded-lg bg-gray-100 p-4 shadow transition-all duration-300 hover:shadow-lg dark:bg-gray-800"
+                  className="rounded-lg bg-gray-100 p-4 transition-all duration-300 hover:shadow-lg dark:bg-gray-800 sm:shadow"
                 >
                   {/* Oggetto del Ticket */}
                   <div className="flex flex-wrap items-center justify-between">
@@ -195,7 +193,7 @@ export default function SupportTab() {
             />
           ))}
           <Link href="/faq">
-            <Button className="mt-4 flex w-full items-center gap-2 rounded-lg bg-gray-600 px-4 py-2 text-white shadow-md transition hover:bg-gray-700">
+            <Button className="mt-4 flex w-full items-center gap-2 rounded-lg bg-gray-600 px-4 py-2 text-white transition hover:bg-gray-700 sm:shadow-md">
               📖 {t("see_all_faq")}
             </Button>
           </Link>
