@@ -54,8 +54,9 @@ const PaymentCard: React.FC<PaymentCardProps> = ({
           paymentMethod === PAYMENT_METHODS_TYPE.STRIPE &&
           stripeClientSecret && (
             <StripePayment
-              order={order}
-              stripeClientSecret={stripeClientSecret}
+              orderId={order.id}
+              priceInCents={Number(order.totalPrice) * 100}
+              clientSecret={stripeClientSecret}
             />
           )}
         {/* Cash On Delivery Payment */}

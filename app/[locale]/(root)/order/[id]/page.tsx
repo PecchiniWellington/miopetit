@@ -18,12 +18,12 @@ const OrderDetailsPage = async (props: { params: Promise<{ id: string }> }) => {
 
   let client_secret = null;
 
-  if (order.paymentMethod === "stripe" && !order.isPaid) {
+  if (order.paymentMethod === "Stripe" && !order.isPaid) {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY! as string);
 
     const paymentIntent = await stripe.paymentIntents.create({
       amount: Math.round(Number(order.totalPrice) * 100),
-      currency: "USD",
+      currency: "EUR",
       metadata: { orderId: order.id },
     });
     client_secret = paymentIntent.client_secret;
