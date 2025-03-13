@@ -24,7 +24,7 @@ const IndispensableList = ({
         renderItem={({ image, label, href }) => (
           <Link href={`/${href}`}>
             <div className="relative mx-auto h-full ">
-              <AnimalAvatar image={image} name={label} />
+              <AnimalAvatar image={"/images/" + image} name={label} />
             </div>
           </Link>
         )}

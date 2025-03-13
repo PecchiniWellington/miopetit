@@ -1,4 +1,88 @@
 {
+  "Shared": {
+    "dog": "Perro",
+    "cat": "Gato",
+    "small_animals": "Pequeño Animal",
+    "bird": "Pájaro",
+    "fish": "Pez",
+    "reptiles": "Reptil",
+    "all": "Todos",
+    "and": "y",
+    "view": "Ver",
+    "search": "Buscar",
+    "loading": "Cargando...",
+    "category": "Categoría",
+    "categories": "Categorías",
+    "brand": "Marca",
+    "brands": "Marcas",
+    "no_results": "No hay resultados",
+    "best_results_for": "Mejores resultados para ",
+    "no_category_found": "No se encontró ninguna categoría",
+    "no_products_found": "No se encontraron productos",
+    "search_placeholder": "Buscar productos...",
+    "what_are_you_looking_for": "¿Qué estás buscando?",
+    "search_results": "Resultados de búsqueda",
+    "search_no_results": "No se encontraron resultados para {query}.",
+    "search_results_for": "Resultados de búsqueda para {query}",
+    "search_results_count": "{count} resultados encontrados para {query}",
+    "search_result_count": "1 resultado encontrado para {query}",
+    "search_result": "1 resultado encontrado para {query}",
+    "product": "Producto",
+    "price": "Precio",
+    "quantity": "Cantidad",
+    "subtotal": "Subtotal",
+    "discount": "Descuento",
+    "shipping": "Envío",
+    "total": "Total",
+    "total_items": "Total de Artículos:",
+    "checkout_button": "Proceder al Pago",
+    "message": "¡Tu carrito está vacío!",
+    "cart_is_empty": "¡Tu carrito está vacío!",
+    "continue_shopping": "Seguir Comprando",
+    "cart": "Carrito",
+    "days": "días",
+    "hours": "horas",
+    "minutes": "minutos",
+    "seconds": "segundos",
+    "your": "Tu",
+    "order_status": "Estado del Pedido",
+    "proceed_to": "Proceder a",
+    "checkout": "Pago",
+    "shipping_address": "Dirección de Envío",
+    "billing_address": "Dirección de Facturación",
+    "payment_method": "Método de Pago",
+    "order_summary": "Resumen del Pedido",
+    "order_confirmation": "Confirmación del Pedido",
+    "order_number": "Número de Pedido",
+    "order_date": "Fecha del Pedido",
+    "order_total": "Total del Pedido",
+    "order_items": "Artículos del Pedido",
+    "shipping_method": "Método de Envío",
+    "shipping_time": "Tiempo de Envío",
+    "shipping_price": "Costo de Envío",
+    "back_to_home": "Volver a Inicio",
+    "thank_you": "Gracias",
+    "back_to_shopping": "Volver a Comprar",
+    "cart_is_empty_message": "Parece que aún no has agregado nada al carrito. ¡Explora nuestra tienda y encuentra las mejores ofertas!",
+    "secure_payment": "Pago Seguro"
+  },
+  "Status": {
+    "Tickets": {
+      "PENDING": "Esperando Respuesta",
+      "ANSWERED": "Respondido",
+      "CLOSED": "Cerrado"
+    }
+  },
+  "Features": {
+    "free_shipping_title": "Envío Gratis",
+    "free_shipping_description": "Envío gratis para pedidos superiores a {amount}",
+    "support_title": "Soporte",
+    "support_description": "Soporte 24/7",
+    "money_back_title": "Reembolso",
+    "money_back_description": "Garantía de reembolso del 100%",
+    "secure_payment_title": "Pago Seguro",
+    "secure_payment_description": "Pago seguro"
+  },
   "MegaMenu": {
     "dogs": "Perros",
     "cats": "Gatos",
@@ -7,22 +91,22 @@
     "dogs/food/dry-food": "Comida Seca",
     "dogs/food/wet-food": "Comida Húmeda",
     "dogs/food/snacks": "Snacks",
-    "dogs/food/diet-dry-food": "Dieta de Comida Seca",
-    "dogs/food/diet-wet-food": "Dieta de Comida Húmeda",
+    "dogs/food/diet-dry-food": "Dieta Comida Seca",
+    "dogs/food/diet-wet-food": "Dieta Comida Húmeda",
     "dogs/accessories": "Accesorios",
     "dogs/accessories/clothing": "Ropa",
     "dogs/accessories/training": "Entrenamiento",
     "dogs/accessories/training/collars": "Collares",
     "dogs/accessories/training/leashes": "Correas",
     "dogs/accessories/food-containers": "Contenedores de Comida",
-    "dogs/accessories/grooming": "Cuidado e Higiene",
+    "dogs/accessories/grooming": "Aseo",
     "dogs/toys": "Juguetes",
     "dogs/hygiene": "Higiene",
-    "dogs/hygiene/coat-skin-hygiene": "Cuidado del Pelo y la Piel",
+    "dogs/hygiene/coat-skin-hygiene": "Cuidado del Pelaje y la Piel",
     "dogs/hygiene/oral-hygiene": "Higiene Oral",
     "dogs/hygiene/diapers": "Pañales",
     "dogs/hygiene/hygienic-bags": "Bolsas Higiénicas",
-    "dogs/hygiene/hygienic-pads": "Empapadores Higiénicos",
+    "dogs/hygiene/hygienic-pads": "Almohadillas Higiénicas",
     "dogs/hygiene/wipes": "Toallitas",
     "dogs/antiparasitic": "Antiparasitarios y Cuidado",
     "dogs/antiparasitic/antiparasitic": "Antiparasitarios",
@@ -36,10 +120,10 @@
     "cats/accessories": "Accesorios",
     "cats/accessories/clothing": "Ropa",
     "cats/accessories/litter": "Arena para Gatos",
-    "cats/accessories/grooming": "Cuidado e Higiene",
+    "cats/accessories/grooming": "Aseo",
     "cats/toys": "Juguetes",
     "cats/hygiene": "Higiene",
-    "cats/hygiene/coat-skin-hygiene": "Cuidado del Pelo y la Piel",
+    "cats/hygiene/coat-skin-hygiene": "Cuidado del Pelaje y la Piel",
     "cats/hygiene/oral-hygiene": "Higiene Oral",
     "cats/antiparasitic": "Antiparasitarios y Cuidado",
     "cats/antiparasitic/antiparasitic": "Antiparasitarios",
@@ -49,8 +133,8 @@
     "small-animals/food/dry-food": "Comida Seca",
     "small-animals/food/wet-food": "Comida Húmeda",
     "small-animals/food/snacks": "Snacks",
-    "small-animals/food/diet-dry-food": "Dietas Secas",
-    "small-animals/food/diet-wet-food": "Dietas Húmedas",
+    "small-animals/food/diet-dry-food": "Dieta Comida Seca",
+    "small-animals/food/diet-wet-food": "Dieta Comida Húmeda",
     "small-animals/accessories": "Accesorios",
     "small-animals/accessories/clothing": "Ropa",
     "small-animals/accessories/training": "Entrenamiento",
@@ -58,10 +142,10 @@
     "small-animals/accessories/grooming": "Cuidado e Higiene",
     "small-animals/toys": "Juguetes",
     "small-animals/leashes": "Correas y Arnés",
-    "small-animals/carriers-travel": "Transportines y Viaje",
-    "small-animals/beds-mattresses": "Camas y Colchonetas",
+    "small-animals/carriers-travel": "Transportines y Viajes",
+    "small-animals/beds-mattresses": "Camas y Colchones",
     "small-animals/hygiene": "Higiene",
-    "small-animals/hygiene/coat-skin-hygiene": "Cuidado del Pelo y la Piel",
+    "small-animals/hygiene/coat-skin-hygiene": "Cuidado del Pelaje y la Piel",
     "small-animals/hygiene/oral-hygiene": "Higiene Oral",
     "small-animals/hygiene/diapers": "Pañales",
     "small-animals/hygiene/hygienic-bags": "Bolsas Higiénicas",
@@ -69,6 +153,301 @@
   },
   "HomePage": {
     "title": "¡Bienvenido a Vue.js!",
-    "subtitle": "Esta es tu primera aplicación en Vue.js."
+    "subtitle": "Esta es tu primera aplicación Vue.js.",
+    "who_are_you_buying_for": "¿Para quién estás comprando?",
+    "Animals": {
+      "dogs": "Perros",
+      "cats": "Gatos",
+      "small-animals": "Pequeños Animales",
+      "birds": "Pájaros",
+      "fish": "Peces",
+      "reptiles": "Reptiles"
+    },
+    "PresentationDeals": {
+      "deals_under_15": "Ofertas por debajo del 15%",
+      "our_best_products": "Nuestros Mejores Productos",
+      "buy_3_get_a_gift": "Compra 3 y recibe un regalo",
+      "subscribe_and_save": "Suscríbete y Ahorra"
+    },
+
+    "SpecialOffer": {
+      "special_offers": "Oferta {brand_name}",
+      "exclusive_promotion_for": "Promoción exclusiva para tu {animal}",
+      "discover_best_offers": "Descubre las mejores ofertas en {brand_name}! Aprovecha promociones exclusivas para tu amigo de cuatro patas."
+    },
+
+    "discover_best_gift": "Descubre los mejores regalos para tu amigo de cuatro patas",
+
+    "BestGift": {
+      "toys_treats_more": "Juguetes, Snacks y Más",
+      "dog_gifts": "Regalos para Perros",
+      "cat_gifts": "Regalos para Gatos",
+      "small_animal_gifts": "Regalos para Pequeños Animales",
+      "gifts_for_you": "Regalos para Ti"
+    },
+
+    "DealOfTheMonth": {
+      "title": "Oferta del Mes",
+      "description": "¡Aprovecha esta oferta especial antes de que termine! Descuentos increíbles en productos seleccionados para tu mascota."
+    },
+
+    "best_selling_products": "Productos más vendidos"
+  },
+  "Footer": {
+    "shop": "Tienda",
+    "all_products": "Todos los Productos",
+    "categories": "Categorías",
+    "special_offers": "Ofertas Especiales",
+    "new_arrivals": "Novedades",
+    "support": "Soporte",
+    "faq": "Preguntas Frecuentes",
+    "shipping_returns": "Envíos y Devoluciones",
+    "contact_us": "Contáctanos",
+    "terms_conditions": "Términos y Condiciones",
+    "about_us": "Sobre Nosotros",
+    "sustainability": "Sostenibilidad",
+    "become_partner": "Hazte Socio",
+    "careers": "Trabaja con Nosotros",
+    "stay_updated": "Mantente Informado",
+    "newsletter_text": "Suscríbete a nuestro boletín para ofertas exclusivas y novedades.",
+    "email_placeholder": "Introduce tu correo",
+    "subscribe": "Suscribirse",
+    "copyright": "{year} © {app_name}. Todos los derechos reservados."
+  },
+  "TopBar": {
+    "free_shipping": "🚚 ¡Envío gratuito para pedidos superiores a {amount}!",
+    "support": "📞 Soporte",
+    "order_status": "📦 Estado de los Pedidos"
+  },
+
+  "Cart": {
+    "title": "Carrito",
+    "breadcrumb_home": "Inicio",
+    "breadcrumb_cart": "Carrito",
+    "cart_is_empty_message": "Parece que aún no has agregado nada al carrito. ¡Explora nuestra tienda y encuentra las mejores ofertas!",
+    "back_to_shopping": "Volver a Comprar",
+
+    "table": {
+      "product": "Producto",
+      "price": "Precio",
+      "quantity": "Cantidad"
+    },
+
+    "order_summary": {
+      "title": "Resumen del Pedido",
+      "subtotal": "Subtotal",
+      "discount": "Descuento",
+      "shipping": "Envío",
+      "total": "Total",
+      "total_items": "Total de Artículos:",
+      "checkout_button": "Proceder al Pago"
+    },
+
+    "empty_cart": {
+      "message": "¡Tu carrito está vacío!",
+      "continue_shopping": "Seguir Comprando"
+    }
+  },
+  "Checkout": {
+    "steps": {
+      "login": "Iniciar sesión",
+      "address": "Dirección",
+      "payment": "Pago",
+      "order": "Pedido"
+    },
+    "shipping_address": {
+      "title": "📍 Tus Direcciones de Envío",
+      "subtitle": "Gestiona y selecciona la dirección para una entrega más rápida.",
+      "saved_address": "Plaza Duomo 2, Bolonia",
+      "continue_button": "Continuar con el Método de Pago",
+      "default_address": "Dirección Predeterminada"
+    },
+    "new_address": {
+      "title": "🚚 Agregar Nueva Dirección",
+      "subtitle": "Ingresa una nueva dirección de envío.",
+      "full_name": "Nombre Completo",
+      "email": "Correo Electrónico",
+      "address": "Dirección",
+      "city": "Ciudad",
+      "zip_code": "Código Postal",
+      "country": "País",
+      "add_address_button": "➜ Agregar Dirección"
+    },
+    "payment_method": {
+      "title": "🔒 Método de Pago",
+      "subtitle": "Elige el método de pago más adecuado para ti.",
+      "credit_card": "Tarjeta de Crédito",
+      "debit_card": "Tarjeta de Débito",
+      "paypal": "PayPal",
+      "cash_on_delivery": "Pago Contra Entrega",
+      "continue_button": "Continuar con el Pedido"
+    },
+    "PlaceOrder": {
+      "title": "Confirma tu pedido",
+      "shipping_address": "Dirección de Envío",
+      "edit_address": "Modificar Dirección",
+      "payment_method": "Método de Pago",
+      "edit_payment_method": "Modificar Método de Pago",
+      "order_summary": "Resumen del Pedido",
+      "subtotal": "Subtotal",
+      "tax": "IVA",
+      "shipping": "Envío",
+      "total": "Total",
+      "place_order": "Confirmar Pedido",
+      "order_items": "Artículos en tu pedido",
+      "product": "Producto",
+      "quantity": "Cantidad",
+      "price": "Precio"
+    }
+  },
+  "OrderConfirmation": {
+    "order_number": "Pedido",
+    "payment_method": "Método de Pago",
+    "pending_payment": "Pendiente de pago",
+    "shipping_address": "Dirección de Envío",
+    "pending_shipping": "Pendiente de envío",
+    "order_items": "Artículos del Pedido",
+    "product": "Artículo",
+    "quantity": "Cantidad",
+    "price": "Precio",
+    "order_summary": "Resumen del Pedido",
+    "order_confirmation": "Pedido Confirmado",
+    "to_pay": "Pendiente de pago",
+    "order_delivered": "Pedido Enviado",
+    "to_deliver": "Pendiente de envío",
+    "subtotal": "Subtotal",
+    "tax": "IVA",
+    "shipping": "Envío",
+    "total": "Total",
+    "mark_as_delivered": "Confirmar Envío",
+    "go_to_product_list": "Ir a la Lista de Productos",
+    "delivered": "Entregado",
+    "mark_as_paid": "Confirmar Pago",
+    "paid": "Pagado",
+    "payment_options": {
+      "paypal": "PayPal",
+      "mybank": "MyBank",
+      "credit_card": "Tarjeta de débito o crédito",
+      "powered_by_paypal": "Con tecnología PayPal"
+    }
+  },
+
+  "Profile": {
+    "title": "Navegación de Perfil",
+    "sections": {
+      "profile": "Perfil",
+      "orders": "Pedidos",
+      "favorites": "Favoritos",
+      "addresses": "Direcciones",
+      "security": "Seguridad",
+      "support": "Soporte",
+      "settings": "Configuración"
+    },
+    "profile_image": {
+      "title": "Imagen de Perfil",
+      "remove": "Eliminar imagen",
+      "upload": "Subir imagen"
+    },
+    "form": {
+      "name": "Nombre de usuario",
+      "email": "Correo electrónico",
+      "error": "Valor no válido: se esperaba una cadena, se recibió null",
+      "save": "Guardar Cambios",
+      "saving": "Guardando..."
+    },
+    "OrdersTab": {
+      "title": "📦 Tus pedidos",
+      "no_orders": {
+        "message": "No hay pedidos recientes",
+        "shop_button": "🛍️ Explorar la tienda"
+      },
+      "order_card": {
+        "order_number": "Pedido #",
+        "date": "Fecha",
+        "status": {
+          "shipped": "Enviado",
+          "shipping": "En proceso de envío",
+          "pending_payment": "Pendiente de pago"
+        },
+        "items": {
+          "quantity": "Cantidad",
+          "price": "Precio"
+        },
+        "total": "Total",
+        "details_button": "📄 Ver Detalles"
+      }
+    },
+    "FavoritesTab": {
+      "title": "❤️ Tus favoritos",
+      "no_favorites": "Aún no has añadido productos a tus favoritos."
+    },
+    "AddressesTab": {
+      "title": "📍 Tus direcciones",
+      "no_addresses": "Aún no has añadido direcciones.",
+      "handle_your_addresses": "Gestiona tus direcciones para una entrega más rápida.",
+      "add_address": "Añadir dirección",
+      "default_address": "Dirección Predeterminada",
+      "modal_add_address": {
+        "title_add": "Añadir Nueva Dirección",
+        "title_edit": "Editar Dirección",
+        "field": "Ingrese {field}",
+        "add_address_button": "➜ Añadir Dirección",
+        "edit_address_button": "➜ Editar Dirección",
+        "fullName": "Nombre Completo",
+        "street": "Dirección",
+        "city": "Ciudad",
+        "postalCode": "Código Postal",
+        "country": "País",
+        "address_number": "Número de Calle"
+      }
+    },
+    "SecurityTab": {
+      "title": "🔒 Seguridad",
+      "handle_your_your_password": "Gestiona tu contraseña y autenticación",
+      "send_reset_link": "Enviar enlace de restablecimiento"
+    },
+    "SupportTab": {
+      "title": "📞 Soporte & Asistencia",
+      "subtitle": "¿Necesitas ayuda? Abre un ticket o consulta nuestras preguntas frecuentes.",
+      "your_tickets": "🎟️ Tus Tickets de Soporte",
+      "here_you_can_see_status": "Aquí puedes ver el estado de tus tickets de soporte.",
+      "no_tickets": "Aún no hay tickets",
+      "open_ticket": "Abrir un nuevo ticket",
+      "faq_answers": "Preguntas Frecuentes (FAQ)",
+      "find_common_questions": "Encuentra respuestas a preguntas comunes.",
+      "see_all_faq": "Ver todas las FAQ",
+      "open_at": "Abierto el",
+      "closed_at": "Cerrado el"
+    },
+    "SettingsTab": {
+      "title": "⚙️ Configuración",
+      "manage_your_settings": "Gestiona la configuración de tu cuenta.",
+      "language": "Idioma",
+      "select_language": "Selecciona tu idioma preferido",
+      "save_changes": "Guardar Cambios",
+      "danger_zone": "Zona de Riesgo",
+      "delete_account": "⚠️ ¡Atención! Zona de Riesgo",
+      "delete_account_message": "¿Estás seguro de que quieres eliminar tu cuenta? Esta acción no se puede deshacer.",
+      "delete_account_button": "Eliminar Cuenta",
+      "delete_account_modal": {
+        "title": "Confirmar Eliminación de Cuenta",
+        "description": "¿Estás seguro de que quieres eliminar tu cuenta de forma permanente? Esta acción no se puede deshacer.",
+        "cancel_button": "Cancelar",
+        "delete_button": "Sí, Eliminar Cuenta"
+      }
+    }
+  },
+  "ModalSupportTicket": {
+    "open_ticket": "Abrir Ticket",
+    "describe_your_issue": "Describe tu solicitud y nuestro equipo responderá lo antes posible.",
+    "subject_of_request": "Asunto de la solicitud",
+    "your_email": "Tu correo electrónico: user@email.it",
+    "n_order": "Número de pedido: 123456 (opcional)",
+    "describe_your_request": "Describe tu solicitud...",
+    "send_ticket": "Enviar Solicitud",
+    "subject": "Asunto",
+    "email": "Correo Electrónico",
+    "order": "Número de Pedido",
+    "description": "Descripción"
   }
 }

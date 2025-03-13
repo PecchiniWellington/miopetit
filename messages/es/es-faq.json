@@ -1,16 +1,277 @@
 {
-  "faq": [
-    {
-      "question": "Quali sono i tempi di spedizione?",
-      "answer": "Le spedizioni impiegano 2-3 giorni lavorativi in Italia."
+  "faq": {
+    "title": "Preguntas Frecuentes",
+    "subtitle": "Encuentra respuestas rápidas a tus dudas.",
+    "search_placeholder": "Buscar una pregunta...",
+    "no_results": "No se encontró ninguna pregunta.",
+    "contact_support": "Contactar Soporte",
+    "categories": {
+      "orders_shipping": "Pedidos y Envíos",
+      "shipping_methods": "Métodos de Envío",
+      "payments_billing": "Pagos y Facturación",
+      "product_info": "Información sobre los Productos"
     },
-    {
-      "question": "Quali metodi di pagamento accettate?",
-      "answer": "Accettiamo PayPal, carte di credito e bonifico bancario."
-    },
-    {
-      "question": "Come posso tracciare il mio ordine?",
-      "answer": "Puoi tracciare il tuo ordine inserendo il codice tracking nella sezione 'Ordini'."
+    "questions": {
+      "orders_shipping": [
+        {
+          "question": "¿Cómo puedo realizar un pedido?",
+          "answer": "Puedes realizar un pedido directamente desde nuestro sitio web seleccionando los productos y procediendo al pago."
+        },
+        {
+          "question": "¿Necesito crear una cuenta para hacer un pedido?",
+          "answer": "No, puedes hacer un pedido como invitado, pero crear una cuenta te permite rastrear tus pedidos y guardar tus datos de envío."
+        },
+        {
+          "question": "¿Puedo modificar mi pedido después de haberlo confirmado?",
+          "answer": "Puedes modificar tu pedido dentro de los 30 minutos posteriores al pago. Contacta con el soporte para asistencia."
+        },
+        {
+          "question": "¿Puedo cancelar mi pedido?",
+          "answer": "Sí, puedes cancelar tu pedido antes de que sea enviado. Una vez enviado, deberás solicitar una devolución."
+        },
+        {
+          "question": "¿Cómo puedo verificar el estado de mi pedido?",
+          "answer": "Puedes verificar el estado de tu pedido en la sección 'Mis pedidos' de tu perfil."
+        },
+        {
+          "question": "¿Cómo puedo rastrear mi pedido?",
+          "answer": "Después del envío, recibirás un correo electrónico con un enlace para rastrear tu paquete."
+        },
+        {
+          "question": "¿Qué significa cuando mi pedido está en proceso?",
+          "answer": "Significa que estamos preparando tu pedido para el envío."
+        },
+        {
+          "question": "¿Cuánto tiempo tarda el envío?",
+          "answer": "El envío estándar tarda entre 3 y 5 días hábiles, mientras que la opción exprés llega en 24/48 horas."
+        },
+        {
+          "question": "¿Cuánto cuesta el envío?",
+          "answer": "Los costos de envío dependen de tu ubicación y del método de envío seleccionado. Los verás antes de completar tu pedido."
+        },
+        {
+          "question": "¿Ofrecen envío gratuito?",
+          "answer": "Sí, el envío es gratuito para pedidos superiores a 50€."
+        },
+        {
+          "question": "¿Realizan envíos internacionales?",
+          "answer": "Sí, realizamos envíos a varios países. Los tiempos y costos de envío varían según el destino."
+        },
+        {
+          "question": "¿Puedo elegir la empresa de mensajería?",
+          "answer": "Actualmente trabajamos con varias empresas de mensajería, pero no es posible seleccionar una específica."
+        },
+        {
+          "question": "¿Qué sucede si no estoy en casa cuando llega la entrega?",
+          "answer": "El repartidor intentará una nueva entrega o dejará un aviso para recoger el paquete en un punto de recogida."
+        },
+        {
+          "question": "¿Cómo puedo cambiar la dirección de envío después de haber realizado el pedido?",
+          "answer": "Contacta con el soporte lo antes posible para verificar si aún es posible modificar la dirección."
+        },
+        {
+          "question": "¿Qué debo hacer si mi pedido llega dañado?",
+          "answer": "Si el paquete llega dañado, contáctanos con fotos del daño para organizar un reemplazo o un reembolso."
+        },
+        {
+          "question": "¿Qué debo hacer si mi pedido se retrasa?",
+          "answer": "Puedes verificar el estado del envío con el código de seguimiento o contactar con nuestro soporte."
+        },
+        {
+          "question": "¿Qué sucede si mi pedido se pierde?",
+          "answer": "Si tu paquete se pierde, contáctanos y abriremos una investigación con la empresa de mensajería."
+        },
+        {
+          "question": "¿Qué significa el estado 'En preparación'?",
+          "answer": "Significa que tu pedido ha sido recibido y los productos están siendo embalados."
+        },
+        {
+          "question": "¿Cómo puedo modificar mi método de pago después de realizar el pedido?",
+          "answer": "Una vez completado el pedido, no es posible modificar el método de pago."
+        },
+        {
+          "question": "¿Aceptan pedidos por teléfono?",
+          "answer": "Actualmente solo aceptamos pedidos realizados a través de nuestro sitio web."
+        },
+        {
+          "question": "¿Puedo pedir varios artículos con diferentes fechas de entrega?",
+          "answer": "Sí, pero los artículos pueden ser enviados por separado según su disponibilidad."
+        },
+        {
+          "question": "¿Qué sucede si recibo un producto incorrecto?",
+          "answer": "Contáctanos y organizaremos un reemplazo o un reembolso."
+        },
+        {
+          "question": "¿Ofrecen recogida en tienda?",
+          "answer": "Actualmente solo realizamos envíos a domicilio."
+        },
+        {
+          "question": "¿Qué hacer si ingresé una dirección incorrecta?",
+          "answer": "Contacta a nuestro soporte lo antes posible para corregirlo antes del envío."
+        },
+        {
+          "question": "¿Los tiempos de envío incluyen los fines de semana?",
+          "answer": "No, los tiempos de envío se refieren a días laborables."
+        },
+        {
+          "question": "¿Cuáles son las opciones de embalaje para mis pedidos?",
+          "answer": "Usamos embalajes seguros y ecológicos para proteger tus compras."
+        },
+        {
+          "question": "¿Puedo solicitar un paquete de regalo?",
+          "answer": "Sí, ofrecemos la opción de envolver para regalo en el checkout."
+        },
+        {
+          "question": "¿Qué sucede si mi pedido es rechazado en la entrega?",
+          "answer": "Si el paquete es rechazado, volverá a nuestro almacén y podrás solicitar un reembolso."
+        },
+        {
+          "question": "¿Cómo puedo saber si un producto está disponible?",
+          "answer": "La disponibilidad de un producto se indica directamente en la página del artículo."
+        },
+        {
+          "question": "¿Por qué se canceló automáticamente mi pedido?",
+          "answer": "Si el pago no se completa, el pedido puede ser cancelado automáticamente."
+        },
+        {
+          "question": "¿Puedo programar la entrega para un día específico?",
+          "answer": "Actualmente no ofrecemos la posibilidad de seleccionar una fecha exacta de entrega."
+        },
+        {
+          "question": "¿Qué sucede si mi paquete es retenido en la aduana?",
+          "answer": "Podrían solicitarse documentos adicionales o el pago de aranceles aduaneros."
+        },
+        {
+          "question": "Mi paquete ha sido entregado, pero no lo he recibido. ¿Qué debo hacer?",
+          "answer": "Revisa con tus vecinos o el portero. Si no lo encuentras, contáctanos para una investigación."
+        }
+      ],
+      "shipping_methods": [
+        {
+          "question": "¿Cuáles son los tiempos de envío?",
+          "answer": "El envío estándar tarda entre 3 y 5 días laborables, mientras que la opción exprés 24/48 horas."
+        },
+        {
+          "question": "¿Cuáles son los costos de envío?",
+          "answer": "Los costos de envío varían según el destino y el método elegido. El costo exacto se calcula en el checkout."
+        },
+        {
+          "question": "¿Ofrecen envío gratuito?",
+          "answer": "Sí, ofrecemos envío gratuito para pedidos superiores a 50€."
+        },
+        {
+          "question": "¿Qué transportistas utilizan para los envíos?",
+          "answer": "Trabajamos con varias empresas como DHL, UPS y Correos para garantizar entregas rápidas y seguras."
+        },
+        {
+          "question": "¿Puedo elegir el transportista para mi envío?",
+          "answer": "No, el transportista se selecciona automáticamente según el destino y el tipo de envío."
+        },
+        {
+          "question": "¿Realizan envíos internacionales?",
+          "answer": "Sí, enviamos a varios países. Los tiempos y costos varían según el destino."
+        },
+        {
+          "question": "¿Cómo puedo rastrear mi envío?",
+          "answer": "Recibirás un correo electrónico con un enlace de seguimiento tan pronto como se envíe el paquete."
+        },
+        {
+          "question": "¿Qué sucede si no estoy en casa en el momento de la entrega?",
+          "answer": "El transportista intentará una nueva entrega o dejará un aviso para la recogida en un punto de entrega."
+        },
+        {
+          "question": "¿Puedo recoger mi pedido en un punto de recogida?",
+          "answer": "Sí, algunos transportistas ofrecen la opción de recogida en un punto designado."
+        },
+        {
+          "question": "¿Los envíos incluyen seguro?",
+          "answer": "Sí, todos los pedidos están asegurados en caso de pérdida o daño."
+        }
+      ],
+      "payments_billing": [
+        {
+          "question": "¿Qué métodos de pago aceptan?",
+          "answer": "Aceptamos Visa, Mastercard, PayPal, Klarna y transferencia bancaria."
+        },
+        {
+          "question": "¿Puedo pagar contra reembolso?",
+          "answer": "Por el momento no ofrecemos pago contra reembolso por razones de seguridad."
+        },
+        {
+          "question": "¿Cómo puedo usar un código de descuento?",
+          "answer": "Puedes ingresar el código de descuento en la página de checkout antes de completar la compra."
+        },
+        {
+          "question": "¿Los pagos en su sitio web son seguros?",
+          "answer": "Sí, utilizamos encriptación SSL y protocolos de seguridad avanzados para proteger tus datos."
+        },
+        {
+          "question": "¿Por qué se rechazó mi pago?",
+          "answer": "El pago puede ser rechazado por varios motivos, como fondos insuficientes, error en los datos ingresados o restricciones bancarias."
+        },
+        {
+          "question": "¿Puedo guardar mis datos de pago para futuras compras?",
+          "answer": "Sí, puedes optar por guardar los datos de tu tarjeta para agilizar futuras compras."
+        },
+        {
+          "question": "¿Qué sucede si el pago se realiza dos veces?",
+          "answer": "Si notas un pago duplicado, contacta con nuestro soporte para obtener un reembolso inmediato."
+        },
+        {
+          "question": "¿Puedo pagar con Apple Pay o Google Pay?",
+          "answer": "Sí, aceptamos Apple Pay y Google Pay como métodos de pago."
+        },
+        {
+          "question": "¿Puedo pagar a plazos?",
+          "answer": "Sí, ofrecemos la opción de pago a plazos a través de Klarna y otras soluciones de financiamiento."
+        },
+        {
+          "question": "¿Recibiré una factura por mi compra?",
+          "answer": "Sí, la factura se envía por correo electrónico inmediatamente después de completar el pedido."
+        }
+      ],
+      "product_info": [
+        {
+          "question": "¿Sus productos son adecuados para todos los animales?",
+          "answer": "Cada producto es específico para un tipo de animal. Consulta la descripción para más detalles."
+        },
+        {
+          "question": "¿Los alimentos para animales son naturales y sin aditivos?",
+          "answer": "Sí, ofrecemos solo productos de alta calidad con ingredientes naturales y sin conservantes artificiales."
+        },
+        {
+          "question": "¿Sus productos son probados en animales?",
+          "answer": "No, nuestros productos no son probados en animales y están certificados como cruelty-free."
+        },
+        {
+          "question": "¿Los materiales de sus juguetes para animales son seguros?",
+          "answer": "Sí, utilizamos materiales no tóxicos y sin sustancias nocivas para garantizar la seguridad de los animales."
+        },
+        {
+          "question": "¿Sus productos cuentan con certificación de calidad?",
+          "answer": "Sí, todos nuestros productos cumplen con los estándares europeos e internacionales de calidad y seguridad."
+        },
+        {
+          "question": "¿Los productos son biodegradables o ecológicos?",
+          "answer": "Sí, ofrecemos una línea de productos ecológicos fabricados con materiales biodegradables o reciclados."
+        },
+        {
+          "question": "¿Cómo puedo saber si un producto está disponible?",
+          "answer": "La disponibilidad del producto se indica en su página. Si está agotado, puedes activar la notificación de reposición."
+        },
+        {
+          "question": "¿Ofrecen productos sin gluten o hipoalergénicos para animales?",
+          "answer": "Sí, disponemos de una selección de alimentos sin gluten y hipoalergénicos para animales con necesidades especiales."
+        },
+        {
+          "question": "¿Puedo ver las reseñas de otros clientes antes de comprar?",
+          "answer": "Sí, puedes leer las reseñas de los clientes en la página de cada producto."
+        },
+        {
+          "question": "¿Ofrecen garantía en sus productos?",
+          "answer": "Sí, la mayoría de nuestros productos tienen una garantía de 12 meses. Consulta la página del producto para más detalles."
+        }
+      ]
     }
-  ]
+  }
 }

@@ -22,7 +22,17 @@ const Filter = ({
     [key: string]:
       | string
       | number
-      | (string | number | object)[]
+      | (
+          | string
+          | number
+          | {
+              slug?: string;
+              id?: string;
+              name?: string;
+              unitValue?: string;
+              unitOfMeasure?: string;
+            }
+        )[]
       | {
           [key: string]: string | number;
         };
@@ -65,48 +75,40 @@ const Filter = ({
                 <AccordionContent>
                   <ul>
                     {Array.isArray(values) &&
-                      values
-                        .filter(
-                          (
-                            value
-                          ): value is {
-                            slug?: string;
-                            id?: number;
-                            name?: string;
-                            unitValue?: number;
-                            unitOfMeasure?: string;
-                          } => typeof value === "object" && value !== null
-                        )
-                        .map((value) => {
-                          const filterValue = value.slug || value.id || "";
-                          const isActive =
-                            searchParams.get(key) === filterValue;
+                      values.map((value) => {
+                        const filterValue =
+                          typeof value === "string"
+                            ? value
+                            : value.slug || value.id || "";
+                        const isActive = searchParams.get(key) === filterValue;
 
-                          return (
-                            <li key={filterValue}>
-                              suca
-                              <Button
-                                onClick={() =>
-                                  updateFilters(key, filterValue.toString())
+                        return (
+                          <li key={filterValue}>
+                            <Button
+                              onClick={() =>
+                                updateFilters(key, filterValue.toString())
+                              }
+                              className={`block w-full rounded-lg px-3 py-2 text-left text-gray-700 hover:bg-gray-100 ${
+                                isActive ? "bg-gray-200" : ""
+                              }`}
+                            >
+                              <BadgeStatus
+                                status={
+                                  isActive
+                                    ? STATUS.PRIMARY_ACTIVE
+                                    : STATUS.DEFAULT
                                 }
-                                className={`block w-full rounded-lg px-3 py-2 text-left text-gray-700 hover:bg-gray-100 ${
-                                  isActive ? "bg-gray-200" : ""
-                                }`}
                               >
-                                <BadgeStatus
-                                  status={
-                                    isActive
-                                      ? STATUS.PRIMARY_ACTIVE
-                                      : STATUS.DEFAULT
-                                  }
-                                >
-                                  {value.name ||
-                                    `${value.unitValue ?? ""} ${value.unitOfMeasure ?? ""}`}
-                                </BadgeStatus>
-                              </Button>
-                            </li>
-                          );
-                        })}
+                                {typeof value === "string"
+                                  ? value
+                                  : typeof value === "object" && "name" in value
+                                    ? value.name
+                                    : `${value.unitValue ?? ""} ${value.unitOfMeasure ?? ""}`}
+                              </BadgeStatus>
+                            </Button>
+                          </li>
+                        );
+                      })}
                   </ul>
                 </AccordionContent>
               </AccordionItem>
