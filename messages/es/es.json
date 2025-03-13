@@ -63,7 +63,6 @@
     "back_to_home": "Volver a Inicio",
     "thank_you": "Gracias",
     "back_to_shopping": "Volver a Comprar",
-    "cart_is_empty_message": "Parece que aún no has agregado nada al carrito. ¡Explora nuestra tienda y encuentra las mejores ofertas!",
     "secure_payment": "Pago Seguro"
   },
   "Status": {
@@ -224,6 +223,7 @@
     "title": "Carrito",
     "breadcrumb_home": "Inicio",
     "breadcrumb_cart": "Carrito",
+    "cart_title": "Carrito de Compras",
     "cart_is_empty_message": "Parece que aún no has agregado nada al carrito. ¡Explora nuestra tienda y encuentra las mejores ofertas!",
     "back_to_shopping": "Volver a Comprar",
 

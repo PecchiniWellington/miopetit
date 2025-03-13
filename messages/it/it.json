@@ -63,7 +63,6 @@
     "back_to_home": "Torna alla Home",
     "thank_you": "Grazie",
     "back_to_shopping": "Torna agli Acquisti",
-    "cart_is_empty_message": "Sembra che tu non abbia ancora aggiunto nulla al carrello. Esplora il  nostro shop e trova le migliori offerte!",
     "secure_payment": "Pagamento Sicuro"
   },
   "Status": {
@@ -229,6 +228,7 @@
     "title": "Carrello",
     "breadcrumb_home": "Home",
     "breadcrumb_cart": "Carrello",
+    "cart_is_empty_title": "Il tuo carrello è vuoto!",
     "cart_is_empty_message": "Sembra che tu non abbia ancora aggiunto nulla al carrello. Esplora il  nostro shop e trova le migliori offerte!",
     "back_to_shopping": "Torna agli Acquisti",
 

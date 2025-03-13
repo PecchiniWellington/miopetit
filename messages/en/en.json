@@ -226,6 +226,7 @@
     "title": "Shopping Cart",
     "breadcrumb_home": "Home",
     "breadcrumb_cart": "Cart",
+    "cart_is_empty_title": "Your Cart is Empty",
     "cart_is_empty_message": "It looks like you haven't added anything to your cart yet. Explore our shop and find the best deals!",
     "back_to_shopping": "Back to Shopping",
 

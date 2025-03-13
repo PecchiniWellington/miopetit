@@ -18,7 +18,7 @@ const EmptyCart = () => {
         transition={{ delay: 0.3, duration: 0.5, ease: "easeOut" }}
         className="text-4xl font-extrabold text-white"
       >
-        {t("cart_is_empty_message")} 🛒
+        {t("cart_is_empty_title")} 🛒
       </motion.h2>
       <motion.p
         initial={{ opacity: 0, scale: 0.9 }}
