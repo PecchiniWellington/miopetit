@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { Form, FormControl, FormItem } from "@/components/ui/form";
@@ -23,7 +24,7 @@ export const PublicUserAvatar = ({ user }: { user: IUser }) => {
 
   const { toast } = useToast();
   const inputFileRef = useRef<HTMLInputElement>(null);
-  const [preview, setPreview] = useState<string | null>(user.image);
+  const [preview, setPreview] = useState<string | null>(user.image ?? null);
   const { setValue, watch, reset } = form;
 
   useEffect(() => {
@@ -39,8 +40,8 @@ export const PublicUserAvatar = ({ user }: { user: IUser }) => {
   const selectedFile = watch("image");
 
   useEffect(() => {
-    if (selectedFile instanceof File) {
-      const fileURL = URL.createObjectURL(selectedFile);
+    if (selectedFile && (selectedFile as any) instanceof File) {
+      const fileURL = URL.createObjectURL(selectedFile as any);
       setPreview(fileURL);
     } else if (
       typeof selectedFile === "string" &&
@@ -60,7 +61,8 @@ export const PublicUserAvatar = ({ user }: { user: IUser }) => {
 
     const fileURL = URL.createObjectURL(file);
     setPreview(fileURL);
-    setValue("image", file, { shouldValidate: true });
+
+    setValue("image", file as any, { shouldValidate: true });
 
     try {
       const formData = new FormData();

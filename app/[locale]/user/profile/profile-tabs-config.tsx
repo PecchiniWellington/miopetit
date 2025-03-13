@@ -54,7 +54,7 @@ const ProfileTabsConfig = ({
   const t = useTranslations("Profile");
 
   /* SCROLL LATERALE */
-  const scrollRef = useRef(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const [showLeftShadow, setShowLeftShadow] = useState(false);
   const [showRightShadow, setShowRightShadow] = useState(false);
 

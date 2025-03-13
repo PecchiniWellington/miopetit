@@ -73,7 +73,7 @@ const ProfileForm = ({ user }: { user: IUser }) => {
       >
         <div className="grid grid-cols-1 gap-5 md:grid-cols-1">
           {/* Sezione Avatar */}
-          <PublicUserAvatar name="name" control={form.control} user={user} />
+          <PublicUserAvatar user={user} />
 
           {/* Form Profilo */}
 

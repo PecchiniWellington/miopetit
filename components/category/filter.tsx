@@ -79,7 +79,9 @@ const Filter = ({
                         const filterValue =
                           typeof value === "string"
                             ? value
-                            : value.slug || value.id || "";
+                            : typeof value === "object"
+                              ? value.slug || value.id || ""
+                              : "";
                         const isActive = searchParams.get(key) === filterValue;
 
                         return (
@@ -103,7 +105,9 @@ const Filter = ({
                                   ? value
                                   : typeof value === "object" && "name" in value
                                     ? value.name
-                                    : `${value.unitValue ?? ""} ${value.unitOfMeasure ?? ""}`}
+                                    : typeof value === "object"
+                                      ? `${value.unitValue ?? ""} ${value.unitOfMeasure ?? ""}`
+                                      : ""}
                               </BadgeStatus>
                             </Button>
                           </li>
