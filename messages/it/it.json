@@ -416,13 +416,7 @@
       "your_tickets": "🎟️ I tuoi Ticket di Supporto",
       "here_you_can_see_status": "Qui puoi vedere lo stato dei tuoi ticket di supporto.",
       "no_tickets": "Nessun ticket ancora",
-      "open_ticket": "Apri Ticket",
-      "describe_your_issue": "Descrivi la tua richiesta e il nostro team risponderà il prima possibile.",
-      "subject_of_request": "Oggetto della richiesta",
-      "your_email": "La tua email: user@email.it",
-      "n_order": "Numero ordine: 123456 (opzionale)",
-      "describe_your_request": "Descrivi la tua richiesta...",
-      "send_ticket": "Invia Richiesta",
+
       "faq_answers": "Domande Frequenti (FAQ)",
       "find_common_questions": "Trova risposte alle domande comuni.",
       "see_all_faq": "Vedi tutte le FAQ",
@@ -446,5 +440,18 @@
         "delete_button": "Sì, Elimina Account"
       }
     }
+  },
+  "ModalSupportTicket": {
+    "open_ticket": "Apri Ticket",
+    "describe_your_issue": "Descrivi la tua richiesta e il nostro team risponderà il prima possibile.",
+    "subject_of_request": "Oggetto della richiesta",
+    "your_email": "La tua email: user@email.it",
+    "n_order": "Numero ordine: 123456 (opzionale)",
+    "describe_your_request": "Descrivi la tua richiesta...",
+    "send_ticket": "Invia Richiesta",
+    "subject": "Oggetto",
+    "email": "Email",
+    "order": "Numero Ordine",
+    "description": "Descrizione"
   }
 }

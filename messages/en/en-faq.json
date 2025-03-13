@@ -1,0 +1,277 @@
+{
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Find quick answers to your questions.",
+    "search_placeholder": "Search for a question...",
+    "no_results": "No questions found.",
+    "contact_support": "Contact Support",
+    "categories": {
+      "orders_shipping": "Orders & Shipping",
+      "shipping_methods": "Shipping Methods",
+      "payments_billing": "Payments & Billing",
+      "product_info": "Product Information"
+    },
+    "questions": {
+      "orders_shipping": [
+        {
+          "question": "How can I place an order?",
+          "answer": "You can place an order directly on our website by selecting the products and proceeding with checkout."
+        },
+        {
+          "question": "Do I need to create an account to place an order?",
+          "answer": "No, you can order as a guest, but creating an account allows you to track your orders and save your shipping details."
+        },
+        {
+          "question": "Can I modify my order after confirming it?",
+          "answer": "You can modify your order within 30 minutes after payment. Contact support for assistance."
+        },
+        {
+          "question": "Can I cancel my order?",
+          "answer": "Yes, you can cancel the order before it is shipped. After shipment, you will need to request a return."
+        },
+        {
+          "question": "How can I check my order status?",
+          "answer": "You can check your order status in the 'My Orders' section of your profile."
+        },
+        {
+          "question": "How can I track my order?",
+          "answer": "After shipping, you will receive an email with a tracking link to follow your package."
+        },
+        {
+          "question": "What does 'Processing' status mean?",
+          "answer": "It means that we are preparing your order for shipment."
+        },
+        {
+          "question": "What are the shipping times?",
+          "answer": "Standard shipping takes 3-5 business days, while express shipping delivers within 24/48 hours."
+        },
+        {
+          "question": "What are the shipping costs?",
+          "answer": "Shipping costs depend on your location and the chosen shipping method. You will see them before completing the order."
+        },
+        {
+          "question": "Do you offer free shipping?",
+          "answer": "Yes, shipping is free for orders over €50."
+        },
+        {
+          "question": "Do you ship internationally?",
+          "answer": "Yes, we ship to various countries. Shipping times and costs vary depending on the destination."
+        },
+        {
+          "question": "Can I choose the shipping courier?",
+          "answer": "We work with multiple couriers, but it is not possible to select a specific one."
+        },
+        {
+          "question": "What happens if I'm not home at the time of delivery?",
+          "answer": "The courier will attempt another delivery or leave a notice for pickup at a collection point."
+        },
+        {
+          "question": "How can I change my shipping address after placing an order?",
+          "answer": "Contact support as soon as possible to check if it is still possible to modify the address."
+        },
+        {
+          "question": "What should I do if my order arrives damaged?",
+          "answer": "If the package is damaged, contact us with photos of the damage to arrange a replacement or refund."
+        },
+        {
+          "question": "What should I do if my order is delayed?",
+          "answer": "You can check the shipping status with the tracking code or contact our support team."
+        },
+        {
+          "question": "What happens if my order gets lost?",
+          "answer": "If your package is lost, contact us and we will open an investigation with the courier."
+        },
+        {
+          "question": "What does 'Preparing' status mean?",
+          "answer": "It means that your order has been received, and the products are being packed."
+        },
+        {
+          "question": "How can I change my payment method after placing an order?",
+          "answer": "Once the order is completed, it is not possible to change the payment method."
+        },
+        {
+          "question": "Do you accept phone orders?",
+          "answer": "Currently, we only accept orders placed through our website."
+        },
+        {
+          "question": "Can I order multiple items with different delivery dates?",
+          "answer": "Yes, but items may be shipped separately based on availability."
+        },
+        {
+          "question": "What should I do if I receive the wrong product?",
+          "answer": "Contact us, and we will arrange a replacement or a refund."
+        },
+        {
+          "question": "Do you offer in-store pickup?",
+          "answer": "Currently, we only offer home delivery."
+        },
+        {
+          "question": "What should I do if I entered the wrong address?",
+          "answer": "Contact our support team as soon as possible to correct it before shipment."
+        },
+        {
+          "question": "Do shipping times include weekends?",
+          "answer": "No, shipping times refer to business days."
+        },
+        {
+          "question": "What packaging options are available for my orders?",
+          "answer": "We use secure and eco-friendly packaging to protect your purchases."
+        },
+        {
+          "question": "Can I request a gift package?",
+          "answer": "Yes, we offer a gift wrapping option at checkout."
+        },
+        {
+          "question": "What happens if my order is rejected at delivery?",
+          "answer": "If the package is refused, it will be returned to our warehouse, and you may request a refund."
+        },
+        {
+          "question": "How can I know if a product is available?",
+          "answer": "The availability of a product is indicated directly on the product page."
+        },
+        {
+          "question": "Why was my order automatically canceled?",
+          "answer": "If the payment is not completed, the order may be automatically canceled."
+        },
+        {
+          "question": "Can I schedule delivery for a specific day?",
+          "answer": "Currently, we do not offer the option to select a precise delivery date."
+        },
+        {
+          "question": "What happens if my package is held at customs?",
+          "answer": "Additional documents or customs duties may be required."
+        },
+        {
+          "question": "My package was marked as delivered, but I haven't received it. What should I do?",
+          "answer": "Check with your neighbors or building concierge. If you cannot find it, contact us for an investigation."
+        }
+      ],
+      "shipping_methods": [
+        {
+          "question": "What are the shipping times?",
+          "answer": "Standard shipping takes 3-5 business days, while express shipping delivers within 24/48 hours."
+        },
+        {
+          "question": "What are the shipping costs?",
+          "answer": "Shipping costs vary based on the destination and method chosen. The exact cost is calculated at checkout."
+        },
+        {
+          "question": "Do you offer free shipping?",
+          "answer": "Yes, we offer free shipping for orders over €50."
+        },
+        {
+          "question": "Which couriers do you use for shipping?",
+          "answer": "We use various couriers such as DHL, UPS, and Poste Italiane to ensure fast and safe deliveries."
+        },
+        {
+          "question": "Can I choose the courier for my shipment?",
+          "answer": "No, the courier is automatically selected based on the destination and shipping method."
+        },
+        {
+          "question": "Do you offer international shipping?",
+          "answer": "Yes, we ship to multiple countries. Shipping times and costs vary depending on the destination."
+        },
+        {
+          "question": "How can I track my shipment?",
+          "answer": "You will receive an email with a tracking link as soon as the package is shipped."
+        },
+        {
+          "question": "What happens if I’m not home at the time of delivery?",
+          "answer": "The courier will attempt another delivery or leave a notice for pickup at a collection point."
+        },
+        {
+          "question": "Can I pick up my order at a collection point?",
+          "answer": "Yes, some couriers offer the option to pick up the package at a designated point."
+        },
+        {
+          "question": "Does shipping include insurance?",
+          "answer": "Yes, all orders are covered by insurance in case of loss or damage."
+        }
+      ],
+      "payments_billing": [
+        {
+          "question": "What payment methods do you accept?",
+          "answer": "We accept Visa, Mastercard, PayPal, Klarna, and bank transfers."
+        },
+        {
+          "question": "Can I pay on delivery?",
+          "answer": "Currently, we do not offer cash on delivery for security reasons."
+        },
+        {
+          "question": "How can I use a discount code?",
+          "answer": "You can enter your discount code on the checkout page before completing your purchase."
+        },
+        {
+          "question": "Are payments on your site secure?",
+          "answer": "Yes, we use SSL encryption and advanced security protocols to protect your data."
+        },
+        {
+          "question": "Why was my payment declined?",
+          "answer": "Your payment may be declined due to insufficient funds, incorrect details, or bank restrictions."
+        },
+        {
+          "question": "Can I save my payment details for future purchases?",
+          "answer": "Yes, you can choose to save your card details to speed up future purchases."
+        },
+        {
+          "question": "What happens if I am charged twice?",
+          "answer": "If you notice a duplicate charge, contact our support team for an immediate refund."
+        },
+        {
+          "question": "Can I pay with Apple Pay or Google Pay?",
+          "answer": "Yes, we accept Apple Pay and Google Pay as payment methods."
+        },
+        {
+          "question": "Can I pay in installments?",
+          "answer": "Yes, we offer installment payments through Klarna and other financing options."
+        },
+        {
+          "question": "Will I receive an invoice for my purchase?",
+          "answer": "Yes, the invoice is sent via email immediately after order completion."
+        }
+      ],
+      "product_info": [
+        {
+          "question": "Are your products suitable for all animals?",
+          "answer": "Each product is designed for a specific type of animal. Check the description for more details."
+        },
+        {
+          "question": "Are your pet foods natural and additive-free?",
+          "answer": "Yes, we offer only high-quality products made with natural ingredients and no artificial preservatives."
+        },
+        {
+          "question": "Are your products tested on animals?",
+          "answer": "No, our products are cruelty-free and not tested on animals."
+        },
+        {
+          "question": "Are the materials in your pet toys safe?",
+          "answer": "Yes, we use non-toxic materials that are free from harmful substances to ensure pet safety."
+        },
+        {
+          "question": "Do your products have quality certifications?",
+          "answer": "Yes, all our products meet European and international quality and safety standards."
+        },
+        {
+          "question": "Are your products biodegradable or eco-friendly?",
+          "answer": "Yes, we offer a line of eco-friendly products made from biodegradable or recycled materials."
+        },
+        {
+          "question": "How can I check if a product is available?",
+          "answer": "Product availability is shown on the product page. If out of stock, you can enable restock notifications."
+        },
+        {
+          "question": "Do you offer gluten-free or hypoallergenic pet foods?",
+          "answer": "Yes, we have a selection of gluten-free and hypoallergenic foods for pets with special needs."
+        },
+        {
+          "question": "Can I see customer reviews before purchasing?",
+          "answer": "Yes, you can read customer reviews on each product page."
+        },
+        {
+          "question": "Do you offer a warranty on your products?",
+          "answer": "Yes, most of our products come with a 12-month warranty. Check the product page for details."
+        }
+      ]
+    }
+  }
+}

@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
@@ -19,15 +20,19 @@ export default function TopBar() {
 
         {/* 🔗 Link Assistenza e Ordini */}
         <div className="flex gap-6">
-          <Link
-            href={`${session.data?.user.id ? locale + "/user/profile#support" : "/faq"}`}
-            className="flex items-center gap-1 transition hover:scale-105 hover:text-yellow-300"
+          <Button
+            /*   href={`${session.data?.user.id ? locale + "/user/profile#support" : "/faq"}`} */
+            className={`flex items-center gap-1 transition hover:scale-105 hover:text-yellow-300`}
+            onClick={(e) => {
+              e.preventDefault();
+              window.location.href = `${session.data?.user.id ? "/user/profile#support" : "/faq"}`;
+            }}
           >
             {t("support")}
-          </Link>
+          </Button>
           <Link
             href={`/${locale}/user/profile#orders`}
-            className="flex items-center gap-1 transition hover:scale-105 hover:text-yellow-300"
+            className={`flex items-center gap-1 transition hover:scale-105 hover:text-yellow-300 `}
           >
             {t("order_status")}
           </Link>

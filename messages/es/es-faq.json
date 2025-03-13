@@ -1,0 +1,16 @@
+{
+  "faq": [
+    {
+      "question": "Quali sono i tempi di spedizione?",
+      "answer": "Le spedizioni impiegano 2-3 giorni lavorativi in Italia."
+    },
+    {
+      "question": "Quali metodi di pagamento accettate?",
+      "answer": "Accettiamo PayPal, carte di credito e bonifico bancario."
+    },
+    {
+      "question": "Come posso tracciare il mio ordine?",
+      "answer": "Puoi tracciare il tuo ordine inserendo il codice tracking nella sezione 'Ordini'."
+    }
+  ]
+}

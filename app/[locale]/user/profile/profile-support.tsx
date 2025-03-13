@@ -1,5 +1,6 @@
 "use client";
 
+import AccordionFaq from "@/components/shared/accordion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -9,7 +10,6 @@ import {
 import { supportTicketSchema } from "@/core/validators/support-ticket.validator";
 import { formatDateTime } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { HelpCircle } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useEffect, useState, useTransition } from "react";
@@ -29,7 +29,26 @@ export default function SupportTab() {
   const [isPending, startTransition] = useTransition();
   const t = useTranslations("Profile.SupportTab");
   const tStatus = useTranslations("Status.Tickets");
+  const tFaq = useTranslations("faq");
+  const faqData = tFaq.raw("questions");
   /*  const [tickets, setTickets] = useState(mockTickets); */
+
+  const faqCategories = [
+    { id: "orders_shipping" },
+    {
+      id: "shipping_methods",
+    },
+    {
+      id: "payments_billing",
+    },
+    {
+      id: "product_info",
+    },
+  ];
+
+  const firstFAQs = faqCategories
+    .map(({ id }) => faqData[id]?.[0]) // Prendi solo il primo elemento di ogni categoria
+    .filter(Boolean); // Rimuove eventuali categorie senza dati
 
   useEffect(() => {
     async function fetchTickets() {
@@ -218,27 +237,13 @@ export default function SupportTab() {
             {t("find_common_questions")}
           </p>
 
-          <ul className="mt-3 space-y-3 text-sm text-gray-700 dark:text-gray-300">
-            <li className="flex items-center gap-2">
-              <HelpCircle className="size-5 text-blue-500" />
-              <Link href="/faq#pagamenti" className="hover:underline">
-                Problemi con il pagamento?
-              </Link>
-            </li>
-            <li className="flex items-center gap-2">
-              <HelpCircle className="size-5 text-blue-500" />
-              <Link href="/faq#spedizioni" className="hover:underline">
-                Dove si trova il mio ordine?
-              </Link>
-            </li>
-            <li className="flex items-center gap-2">
-              <HelpCircle className="size-5 text-blue-500" />
-              <Link href="/faq#resi" className="hover:underline">
-                Come posso effettuare un reso?
-              </Link>
-            </li>
-          </ul>
-
+          {firstFAQs.map((faq, index) => (
+            <AccordionFaq
+              key={index}
+              answer={faq.answer}
+              question={faq.question}
+            />
+          ))}
           <Link href="/faq">
             <Button className="mt-4 flex w-full items-center gap-2 rounded-lg bg-gray-600 px-4 py-2 text-white shadow-md transition hover:bg-gray-700">
               📖 {t("see_all_faq")}
