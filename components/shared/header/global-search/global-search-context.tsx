@@ -82,10 +82,6 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
     };
   }>({});
 
-  /**
-   * ✅ Recupera prodotti e brand, controllando prima la cache
-   */
-
   const fetchSearchCategories = async () => {
     setIsLoading(true);
     try {
@@ -136,11 +132,6 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
           body: JSON.stringify({ query }),
         });
         const { products, brands } = await response.json();
-
-        console.log("🔍 Risultati ricerca per", query, ":", {
-          products,
-          brands,
-        });
 
         cache.current[query] = { products, brands };
         setSearchResults(products);

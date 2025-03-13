@@ -1,8 +1,7 @@
-// src/components/send-request-change-btn.tsx
 "use client";
 
 import DynamicButton from "@/components/dynamic-button";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 const SendRequest = ({
   email,
@@ -16,6 +15,7 @@ const SendRequest = ({
   setSuccessMessage: (message: string) => void;
 }) => {
   const locale = useLocale();
+  const t = useTranslations("Profile.SecurityTab");
   const handleAction = async (
     e: React.MouseEvent<HTMLButtonElement> | unknown
   ) => {
@@ -54,7 +54,7 @@ const SendRequest = ({
       handleAction={handleAction}
       className="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-5 py-2 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none"
     >
-      Invia Link di Reset
+      {t("send_reset_link")}
     </DynamicButton>
   );
 };

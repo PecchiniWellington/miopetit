@@ -1,5 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useSearch } from "./global-search-context";
 
 const SearchField = () => {
@@ -11,13 +12,14 @@ const SearchField = () => {
     setSearchResults,
   } = useSearch();
 
+  const t = useTranslations("Shared");
   return (
     <div className="relative w-full">
       <Input
         autoComplete="off"
         name="q"
         type="text"
-        placeholder="Cerca tra oltre 10.000 prodotti..."
+        placeholder={t("search_placeholder")}
         className="w-full rounded-full px-4 py-2 text-gray-700 focus:outline-none focus:ring-0 dark:bg-gray-800 dark:text-white"
         value={searchTerm}
         onChange={(e) => {

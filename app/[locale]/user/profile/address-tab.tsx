@@ -24,14 +24,8 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { SHIPPING_ADDRESS_DEFAULT_VALUES } from "@/lib/constants";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  ArrowRight,
-  CheckCircle,
-  CircleX,
-  Pencil,
-  Plus,
-  Trash,
-} from "lucide-react";
+import { CheckCircle, CircleX, Pencil, Plus, Trash } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -41,8 +35,9 @@ export const AddressesTab = ({ user }: { user: IUser }) => {
   const [addresses, setAddresses] = useState<IAddress[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingAddress, setEditingAddress] = useState<string | null>(null);
+  const t = useTranslations("Profile.AddressesTab");
+  const translateCommon = useTranslations("Shared");
 
-  console.log("👤 Utente:", user);
   const form = useForm<z.infer<typeof shippingAddressSchema>>({
     resolver: zodResolver(shippingAddressSchema),
     defaultValues: SHIPPING_ADDRESS_DEFAULT_VALUES,
@@ -129,7 +124,6 @@ export const AddressesTab = ({ user }: { user: IUser }) => {
 
   const handleSetDefault = async (id: string, userId: string) => {
     try {
-      // Effettua una chiamata al backend per impostare l'indirizzo come default
       const res = await setDefaultAddress(id, userId);
 
       if (res.success) {
@@ -137,7 +131,6 @@ export const AddressesTab = ({ user }: { user: IUser }) => {
           description: res.message,
         });
 
-        // 📌 Aggiorna lo stato locale impostando isDefault solo per l'indirizzo selezionato
         setAddresses((prevAddresses) =>
           prevAddresses.map((addr) => ({
             ...addr,
@@ -162,10 +155,10 @@ export const AddressesTab = ({ user }: { user: IUser }) => {
   return (
     <div className="relative rounded-lg bg-white p-6 shadow dark:bg-gray-800">
       <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-        📍 Indirizzi di Spedizione
+        {t("title")}
       </h2>
       <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-        Gestisci i tuoi indirizzi per una consegna più rapida.
+        {t("handle_your_addresses")}
       </p>
 
       {/* Lista Indirizzi */}
@@ -187,7 +180,7 @@ export const AddressesTab = ({ user }: { user: IUser }) => {
                 </p>
                 {address.isDefault && (
                   <span className="text-xs font-semibold text-indigo-600 dark:text-indigo-400">
-                    ✅ Indirizzo Predefinito
+                    ✅ {t("default_address")}
                   </span>
                 )}
               </div>
@@ -237,7 +230,7 @@ export const AddressesTab = ({ user }: { user: IUser }) => {
         }}
       >
         <Plus className="size-5" />
-        Aggiungi Indirizzo
+        {t("add_address")}
       </Button>
 
       {/* Overlay Modale Aggiunta/Modifica */}
@@ -247,8 +240,8 @@ export const AddressesTab = ({ user }: { user: IUser }) => {
             <span className="flex items-center justify-between">
               <h3 className="text-lg font-semibold text-gray-900">
                 {editingAddress
-                  ? "Modifica Indirizzo"
-                  : "Aggiungi Nuovo Indirizzo"}
+                  ? t("modal_add_address.title_edit")
+                  : t("modal_add_address.title_add")}
               </h3>
 
               <CircleX
@@ -281,12 +274,19 @@ export const AddressesTab = ({ user }: { user: IUser }) => {
                         }
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>{field.name}</FormLabel>
+                            <FormLabel>
+                              {t("modal_add_address." + field.name)}
+                            </FormLabel>
                             <FormControl>
                               <Input
                                 {...field}
                                 value={field.value ?? ""}
-                                placeholder={`Inserisci ${field.name}`}
+                                placeholder={
+                                  t(`modal_add_address.${field.name}`) +
+                                  (field.name === "street"
+                                    ? ` ${translateCommon("and")} ${t("modal_add_address.address_number")}`
+                                    : "")
+                                }
                               />
                             </FormControl>
                             <FormMessage />
@@ -301,8 +301,9 @@ export const AddressesTab = ({ user }: { user: IUser }) => {
                   type="submit"
                   className="w-full bg-indigo-600 text-white hover:bg-indigo-700"
                 >
-                  <ArrowRight className="size-5" />
-                  {editingAddress ? "Salva Modifiche" : "Aggiungi"}
+                  {editingAddress
+                    ? t("modal_add_address.add_address_button")
+                    : t("modal_add_address.edit_address_button")}
                 </Button>
               </form>
             </Form>

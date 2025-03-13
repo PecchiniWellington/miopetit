@@ -8,9 +8,20 @@
     "reptiles": "Reptile",
     "view": "View",
     "all": "All",
+    "and": "and",
     "search": "Search",
+    "loading": "Loading...",
+    "category": "Category",
+    "categories": "Categories",
+    "brand": "Brand",
+    "brands": "Brands",
+    "no_results": "No results found",
+    "best_results_for": "Best results for",
+    "no_category_found": "No category found",
+    "no_products_found": "No products found",
     "search_placeholder": "Search for products...",
     "search_results": "Search Results",
+    "what_are_you_looking_for": "What are you looking for?",
     "search_no_results": "No results found for {query}.",
     "search_results_for": "Search Results for {query}",
     "search_results_count": "{count} results found for {query}",
@@ -52,6 +63,13 @@
     "thank_you": "Thank You",
     "back_to_shopping": "Back to Shopping",
     "secure_payment": "Secure Payments "
+  },
+  "Status": {
+    "Tickets": {
+      "PENDING": "Waiting for a reply",
+      "ANSWERED": "Answered",
+      "CLOSED": "Closed"
+    }
   },
   "Features": {
     "free_shipping_title": "Free Shipping",
@@ -363,6 +381,66 @@
     "FavoritesTab": {
       "title": "❤️ Your Favorites",
       "no_favorites": "No favorites yet"
+    },
+    "AddressesTab": {
+      "title": "📍 Your Addresses",
+      "no_addresses": "You haven't added any addresses yet.",
+      "handle_your_addresses": "Manage your addresses for faster delivery.",
+      "add_address": "Add Address",
+      "default_address": "Default Address",
+      "modal_add_address": {
+        "title_add": "Add New Address",
+        "title_edit": "Edit Address",
+        "field": "Enter {field}",
+        "add_address_button": "➜ Add Address",
+        "edit_address_button": "➜ Edit Address",
+        "fullName": "full name",
+        "street": "street",
+        "city": "city",
+        "postalCode": "postalCode",
+        "country": "country",
+        "address_number": "Address Number"
+      }
+    },
+    "SecurityTab": {
+      "title": "🔒 Security",
+      "handle_your_your_password": "Manage your password and security settings.",
+      "send_reset_link": "Send Reset link"
+    },
+    "SupportTab": {
+      "title": "📞 Support & Assistance",
+      "subtitle": "Need help? Open a ticket or check out our FAQs.",
+      "your_tickets": "🎟️ Your Support Tickets",
+      "here_you_can_see_status": "Here you can see the status of your support tickets.",
+      "no_tickets": "No tickets yet",
+      "open_ticket": "Open Ticket",
+      "describe_your_issue": "Describe your request and our team will respond as soon as possible.",
+      "subject_of_request": "Subject of the request",
+      "your_email": "Your email: user@email.it",
+      "n_order": "Order N°: 123456 (optional)",
+      "describe_your_request": "Describe your request...",
+      "send_ticket": "Send Request",
+      "faq_answers": "Frequently Asked Questions (FAQ)",
+      "find_common_questions": "Find answers to common questions.",
+      "see_all_faq": "See all FAQ",
+      "open_at": "Open at",
+      "closed_at": "Closed at"
+    },
+    "SettingsTab": {
+      "title": "⚙️ Settings",
+      "manage_your_settings": "Manage your account settings.",
+      "language": "Language",
+      "select_language": "Select your favorite Language",
+      "save_changes": "Save Changes settings",
+      "delete_account": "⚠️ Attention! Danger Zone",
+      "delete_account_message": "Are you sure you want to delete your account? This action cannot be undone.",
+      "delete_account_button": "Delete Account",
+      "delete_account_modal": {
+        "title": "Confirm Delete Account",
+        "description": "Are you sure you want to permanently delete your account? This action cannot be undone.",
+        "cancel_button": "Cancel",
+        "delete_button": "Yes, Delete Account"
+      }
     }
   }
 }

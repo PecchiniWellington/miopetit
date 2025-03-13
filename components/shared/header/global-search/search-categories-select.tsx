@@ -11,10 +11,12 @@ import { ICategory } from "@/core/validators";
 import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useSearch } from "./global-search-context";
+import { useTranslations } from "next-intl";
 
 const SearchCategorySelect = () => {
   const router = useRouter();
   const { searchCategories, isLoading, fetchSearchCategories } = useSearch();
+  const t = useTranslations("Shared");
 
   return (
     <Select
@@ -30,7 +32,7 @@ const SearchCategorySelect = () => {
       disabled={isLoading}
     >
       <SelectTrigger className="w-44 rounded-full bg-gray-200 px-4 py-2 text-gray-700 shadow-md transition-all duration-300 hover:bg-gray-300 focus:ring-2 focus:ring-indigo-500 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700">
-        <SelectValue placeholder={isLoading ? "Loading..." : "All"} />
+        <SelectValue placeholder={isLoading ? t("loading") : t("all")} />
       </SelectTrigger>
       <SelectContent className="bg-gray-100 dark:bg-slate-800 dark:text-white">
         {isLoading ? (

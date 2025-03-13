@@ -11,11 +11,12 @@ import {
 } from "@/components/ui/dialog";
 import { deleteUserAccount } from "@/core/actions/user";
 import { AlertTriangle, Check, Trash2, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 const SettingsTab = () => {
-  const [language, setLanguage] = useState("it");
   const [open, setOpen] = useState(false);
+  const t = useTranslations("Profile.SettingsTab");
 
   const handleDelete = async () => {
     try {
@@ -32,10 +33,10 @@ const SettingsTab = () => {
   return (
     <div className="rounded-lg bg-white p-6 shadow-md dark:bg-gray-800">
       <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-        ⚙️ Impostazioni
+        {t("title")}
       </h2>
       <p className="text-sm text-gray-600 dark:text-gray-400">
-        Gestisci le impostazioni del tuo account
+        {t("manage_your_settings")}
       </p>
 
       <div className="mt-6 space-y-6">
@@ -43,10 +44,10 @@ const SettingsTab = () => {
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
-              🌍 Lingua
+              {t("language")}
             </h3>
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              Seleziona la tua lingua preferita
+              {t("select_language")}
             </p>
           </div>
           <LanguageSwitcher />
@@ -81,17 +82,16 @@ const SettingsTab = () => {
         {/* 🚀 Salva le Modifiche */}
         <Button className="w-full bg-indigo-600 text-white shadow-md hover:bg-indigo-700">
           <Check className="mr-2 size-5" />
-          Salva Impostazioni
+          {t("save_changes")}
         </Button>
 
         {/* 🗑️ Elimina Account */}
         <div className="mt-6 rounded-lg border border-red-500 bg-red-50 p-6 shadow-md dark:border-red-700 dark:bg-red-900">
           <h3 className="text-lg font-semibold text-red-700 dark:text-red-200">
-            ⚠️ Attenzione! Zona Pericolosa
+            {t("delete_account")}
           </h3>
           <p className="text-sm text-red-600 dark:text-red-300">
-            Eliminare il tuo account è un&apos;azione permanente e non può
-            essere annullata. Tutti i tuoi dati verranno persi.
+            {t("delete_account_message")}
           </p>
 
           <Button
@@ -100,7 +100,7 @@ const SettingsTab = () => {
             onClick={() => setOpen(true)}
           >
             <Trash2 className="mr-2 size-5" />
-            Elimina Account
+            {t("delete_account_button")}
           </Button>
 
           {/* Modale di conferma */}
@@ -109,12 +109,11 @@ const SettingsTab = () => {
               <DialogHeader>
                 <DialogTitle className="flex items-center gap-2 text-xl font-bold text-red-600 dark:text-red-300">
                   <AlertTriangle className="size-6 text-red-500 dark:text-red-300" />
-                  Conferma Eliminazione
+                  {t("delete_account_modal.title")}
                 </DialogTitle>
               </DialogHeader>
               <p className="text-md text-gray-700 dark:text-gray-300">
-                Sei sicuro di voler eliminare definitivamente il tuo account?
-                Questa azione non può essere annullata.
+                {t("delete_account_modal.description")}
               </p>
 
               <DialogFooter className="flex justify-between">
@@ -124,7 +123,7 @@ const SettingsTab = () => {
                   onClick={() => setOpen(false)}
                 >
                   <X className="mr-2 size-5" />
-                  Annulla
+                  {t("delete_account_modal.cancel_button")}
                 </Button>
                 <Button
                   variant="destructive"
@@ -132,7 +131,7 @@ const SettingsTab = () => {
                   onClick={handleDelete}
                 >
                   <Trash2 className="mr-2 size-5" />
-                  Sì, elimina definitivamente
+                  {t("delete_account_modal.delete_button")}
                 </Button>
               </DialogFooter>
             </DialogContent>

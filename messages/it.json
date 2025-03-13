@@ -7,9 +7,20 @@
     "fish": "Pesce",
     "reptiles": "Rettile",
     "all": "Tutti",
+    "and": "e",
     "view": "Vedi",
     "search": "Cerca",
+    "loading": "Caricamento...",
+    "category": "Categoria",
+    "categories": "Categorie",
+    "brand": "Marca",
+    "brands": "Marche",
+    "no_results": "Nessun risultato",
+    "best_results_for": "Migliori risultati per ",
+    "no_category_found": "Nessuna categoria trovata",
+    "no_products_found": "Nessun prodotto trovato",
     "search_placeholder": "Cerca prodotti...",
+    "what_are_you_looking_for": "Cosa stai cercando?",
     "search_results": "Risultati della Ricerca",
     "search_no_results": "Nessun risultato trovato per {query}.",
     "search_results_for": "Risultati della Ricerca per {query}",
@@ -54,6 +65,13 @@
     "back_to_shopping": "Torna agli Acquisti",
     "cart_is_empty_message": "Sembra che tu non abbia ancora aggiunto nulla al carrello. Esplora il  nostro shop e trova le migliori offerte!",
     "secure_payment": "Pagamento Sicuro"
+  },
+  "Status": {
+    "Tickets": {
+      "PENDING": "In Attesa di Risposta",
+      "ANSWERED": "Risposto",
+      "CLOSED": "Chiuso"
+    }
   },
   "Features": {
     "free_shipping_title": "Spedizione Gratuita",
@@ -366,6 +384,67 @@
     "FavoritesTab": {
       "title": "❤️ I tuoi preferiti",
       "no_favorites": "Non hai ancora aggiunto prodotti ai preferiti."
+    },
+    "AddressesTab": {
+      "title": "📍 I tuoi indirizzi",
+      "no_addresses": "Non hai ancora aggiunto indirizzi.",
+      "handle_your_addresses": "Gestisci i tuoi indirizzi per una consegna più rapida.",
+      "add_address": "Aggiungi indirizzo",
+      "default_address": "Indirizzo Predefinito",
+      "modal_add_address": {
+        "title_add": "Aggiungi Nuovo Indirizzo",
+        "title_edit": "Modifica Indirizzo",
+        "field": "Enter {field}",
+        "add_address_button": "➜ Aggiungi Indirizzo",
+        "edit_address_button": "➜ Modifica Indirizzo",
+        "fullName": "Nome Completo",
+        "street": "Indirizzo",
+        "city": "Città",
+        "postalCode": "CAP",
+        "country": "Nazione",
+        "address_number": "Numero Civico"
+      }
+    },
+    "SecurityTab": {
+      "title": "🔒 Sicurezza",
+      "handle_your_your_password": "Gestisci password e autenticazione",
+      "send_reset_link": "Invia link di reset"
+    },
+    "SupportTab": {
+      "title": "📞 Supporto & Assistenza",
+      "subtitle": "Hai bisogno di aiuto? Apri un ticket o consulta le nostre FAQ.",
+      "your_tickets": "🎟️ I tuoi Ticket di Supporto",
+      "here_you_can_see_status": "Qui puoi vedere lo stato dei tuoi ticket di supporto.",
+      "no_tickets": "Nessun ticket ancora",
+      "open_ticket": "Apri Ticket",
+      "describe_your_issue": "Descrivi la tua richiesta e il nostro team risponderà il prima possibile.",
+      "subject_of_request": "Oggetto della richiesta",
+      "your_email": "La tua email: user@email.it",
+      "n_order": "Numero ordine: 123456 (opzionale)",
+      "describe_your_request": "Descrivi la tua richiesta...",
+      "send_ticket": "Invia Richiesta",
+      "faq_answers": "Domande Frequenti (FAQ)",
+      "find_common_questions": "Trova risposte alle domande comuni.",
+      "see_all_faq": "Vedi tutte le FAQ",
+      "open_at": "Aperto il",
+      "closed_at": "Chiuso il"
+    },
+    "SettingsTab": {
+      "title": "⚙️ Impostazioni",
+      "manage_your_settings": "Gestisci le impostazioni del tuo account.",
+      "language": "Lingua",
+      "select_language": "Seleziona la tua lingua preferita",
+      "save_changes": "Salva Modifiche",
+      "danger_zone": "Zona Pericolosa",
+      "delete_account": "⚠️ Attenzione! Zona Pericolosa",
+      "delete_account_message": "Sei sicuro di voler eliminare il tuo account? Questa azione non può essere annullata.",
+      "delete_account_button": "Elimina Account",
+      "delete_account_modal": {
+        "title": "Conferma Eliminazione Account",
+        "description": "Sei sicuro di voler eliminare definitivamente il tuo account? Questa azione non può essere annullata.",
+        "cancel_button": "Annulla",
+        "delete_button": "Sì, Elimina Account"
+      }
     }
   }
 }

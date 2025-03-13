@@ -2,15 +2,16 @@ import { Loader } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearch } from "./global-search-context";
+import { useTranslations } from "next-intl";
 
 const SuggestedBrand = () => {
   const { searchBrands, isLoading, setIsDropdownVisible } = useSearch();
-  console.log("searchBrands", searchBrands);
+  const t = useTranslations("Shared");
 
   return (
     <div>
       <h3 className="border-b pb-2 text-sm font-bold text-gray-700">
-        ⭐ BRAND
+        ⭐ {t("brands")}
       </h3>
       <div className="mt-2 flex gap-3">
         {!isLoading ? (

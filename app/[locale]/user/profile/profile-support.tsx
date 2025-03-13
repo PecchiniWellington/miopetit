@@ -10,6 +10,7 @@ import { supportTicketSchema } from "@/core/validators/support-ticket.validator"
 import { formatDateTime } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { HelpCircle } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useEffect, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -19,13 +20,15 @@ interface Ticket {
   subject: string;
   email: string;
   description: string;
-  status: "PENDING" | "RESPONDED" | "CLOSED";
+  status: "PENDING" | "ANSWERED" | "CLOSED";
   createdAt: string;
 }
 
 export default function SupportTab() {
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [isPending, startTransition] = useTransition();
+  const t = useTranslations("Profile.SupportTab");
+  const tStatus = useTranslations("Status.Tickets");
   /*  const [tickets, setTickets] = useState(mockTickets); */
 
   useEffect(() => {
@@ -70,22 +73,22 @@ export default function SupportTab() {
   return (
     <div className="relative rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800">
       <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
-        📞 Supporto & Assistenza
+        {t("title")}
       </h2>
       <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-        Hai bisogno di aiuto? Apri un ticket o consulta le domande frequenti.
+        {t("subtitle")}
       </p>
 
       {/* Sezione Ticket Aperto */}
       <Card className="mt-5 border border-gray-300 dark:border-gray-700">
         <CardContent className="p-5">
-          <h2 className="text-lg font-bold">🎟️ I tuoi Ticket di Supporto</h2>
+          <h2 className="text-lg font-bold"> {t("your_tickets")}</h2>
           {tickets.length === 0 ? (
             <div className="mt-4 rounded-lg bg-gray-50 p-4 text-center shadow-sm">
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Qui puoi vedere lo stato delle tue richieste di assistenza.
+                {t("here_you_can_see_status")}
               </p>
-              <p className="mt-4 italic text-gray-500">Nessun ticket aperto</p>
+              <p className="mt-4 italic text-gray-500"> {t("no_tickets")}</p>
             </div>
           ) : (
             <div className="mt-4 space-y-4">
@@ -101,22 +104,18 @@ export default function SupportTab() {
                       className={`rounded-full px-3 py-1 text-xs font-medium ${
                         ticket.status === "PENDING"
                           ? "bg-yellow-200 text-yellow-800"
-                          : ticket.status === "RESPONDED"
+                          : ticket.status === "ANSWERED"
                             ? "bg-green-200 text-green-800"
                             : "bg-gray-300 text-gray-700"
                       }`}
                     >
-                      {ticket.status === "PENDING"
-                        ? "In attesa di risposta"
-                        : ticket.status === "RESPONDED"
-                          ? "Risposto"
-                          : "Chiuso"}
+                      {tStatus(ticket.status)}
                     </span>
                   </div>
 
                   {/* Dettagli del Ticket */}
                   <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                    Aperto il{" "}
+                    {t("open_at")}{" "}
                     {ticket.createdAt &&
                       formatDateTime(ticket.createdAt.toString()).dateTime}
                   </p>
@@ -141,11 +140,8 @@ export default function SupportTab() {
       <Card className="mt-5 border border-gray-300 dark:border-gray-700">
         <CardContent className="p-5">
           <div className="rounded-lg border bg-gray-50 p-4">
-            <h2 className="text-lg font-bold">📩 Apri un Nuovo Ticket</h2>
-            <p className="text-sm text-gray-500">
-              Descrivi il tuo problema e il nostro team ti risponderà al più
-              presto.
-            </p>
+            <h2 className="text-lg font-bold">📩 {t("open_ticket")} </h2>
+            <p className="text-sm text-gray-500">{t("describe_your_issue")} </p>
 
             <form
               onSubmit={form.handleSubmit(
@@ -161,7 +157,7 @@ export default function SupportTab() {
             >
               <input
                 {...form.register("subject")}
-                placeholder="Oggetto della richiesta"
+                placeholder={t("subject_of_request")}
                 className="w-full rounded-lg border p-3"
               />
               {form.formState.errors.subject && (
@@ -171,7 +167,7 @@ export default function SupportTab() {
               )}
               <input
                 {...form.register("email")}
-                placeholder="La tua mail: user@email.it"
+                placeholder={t("your_email")}
                 className="w-full rounded-lg border p-3"
               />
               {form.formState.errors.email && (
@@ -181,7 +177,7 @@ export default function SupportTab() {
               )}
               <input
                 {...form.register("orderId")}
-                placeholder="N° Ordine: 123456 (Opzionale)"
+                placeholder={t("n_order")}
                 className="w-full rounded-lg border p-3"
               />
               {form.formState.errors.orderId && (
@@ -191,7 +187,7 @@ export default function SupportTab() {
               )}
               <textarea
                 {...form.register("description")}
-                placeholder="Descrivi il tuo problema..."
+                placeholder={t("describe_your_request")}
                 className="w-full rounded-lg border p-3"
               ></textarea>
               {form.formState.errors.description && (
@@ -205,7 +201,7 @@ export default function SupportTab() {
                 disabled={isPending}
                 className="w-full bg-indigo-600 text-white"
               >
-                📨 Invia Richiesta
+                {t("send_ticket")}
               </Button>
             </form>
           </div>
@@ -216,10 +212,10 @@ export default function SupportTab() {
       <Card className="mt-5 border border-gray-300 dark:border-gray-700">
         <CardContent className="p-5">
           <h3 className="text-lg font-bold text-gray-800 dark:text-white">
-            ❓ Domande Frequenti (FAQ)
+            {t("faq_answers")}
           </h3>
           <p className="text-sm text-gray-600 dark:text-gray-400">
-            Trova risposte alle domande più comuni.
+            {t("find_common_questions")}
           </p>
 
           <ul className="mt-3 space-y-3 text-sm text-gray-700 dark:text-gray-300">
@@ -245,7 +241,7 @@ export default function SupportTab() {
 
           <Link href="/faq">
             <Button className="mt-4 flex w-full items-center gap-2 rounded-lg bg-gray-600 px-4 py-2 text-white shadow-md transition hover:bg-gray-700">
-              📖 Vedi tutte le FAQ
+              📖 {t("see_all_faq")}
             </Button>
           </Link>
         </CardContent>

@@ -8,10 +8,12 @@ import { useSearch } from "./global-search-context";
 import SearchCategorySelect from "./search-categories-select";
 import SearchField from "./search-field";
 import SuggestedBrand from "./suggested-brand";
+import { useTranslations } from "next-intl";
 
 const Search = () => {
   const { isDropdownVisible, setIsDropdownVisible, searchRef, searchTerm } =
     useSearch();
+  const t = useTranslations("Shared");
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -84,7 +86,7 @@ const Search = () => {
                     <path d="M10 2a8 8 0 0 1 6.32 12.9l4.39 4.39a1 1 0 0 1-1.41 1.41l-4.39-4.39A8 8 0 1 1 10 2zm0 2a6 6 0 1 0 3.89 10.6l.32-.32A6 6 0 0 0 10 4z"></path>
                   </svg>
                   <p className="text-sm font-medium text-gray-500">
-                    Cosa vuoi cercare oggi?
+                    {t("what_are_you_looking_for")}
                   </p>
                 </div>
               )}

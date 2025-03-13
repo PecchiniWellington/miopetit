@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearch } from "./global-search-context";
@@ -5,13 +6,14 @@ import { useSearch } from "./global-search-context";
 const BestProduct = () => {
   const { searchResults, searchBrands, setIsDropdownVisible, searchTerm } =
     useSearch();
+  const t = useTranslations("Shared");
 
   return (
     <div className="flex gap-8">
       {/* 🛒 Colonna sinistra - Prodotti */}
       <div className="flex-3 max-h-[300px] overflow-y-auto pr-4">
         <h3 className="mb-4 text-lg font-bold text-gray-900">
-          I migliori risultati per{" "}
+          {t("best_results_for")}
           <span className="text-indigo-600">“{searchTerm}”</span>
         </h3>
         <div className="flex flex-col gap-3">
@@ -44,7 +46,9 @@ const BestProduct = () => {
 
       {/* 💡 Colonna destra - Brand */}
       <div className="">
-        <h3 className="text-md mb-4 font-bold text-gray-900">Categoria</h3>
+        <h3 className="text-md mb-4 font-bold text-gray-900">
+          {t("category")}
+        </h3>
         <div className="mt-2 flex flex-col gap-2">
           {searchBrands?.length > 0 ? (
             searchBrands?.map((brand, index) => (
@@ -58,7 +62,7 @@ const BestProduct = () => {
               </Link>
             ))
           ) : (
-            <p className="text-sm text-gray-500">Nessuna categoria trovata</p>
+            <p className="text-sm text-gray-500">{t("no_category_found")}</p>
           )}
         </div>
       </div>
