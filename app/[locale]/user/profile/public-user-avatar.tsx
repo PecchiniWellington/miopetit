@@ -6,7 +6,6 @@ import { IUser, updateUserProfileSchema } from "@/core/validators";
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Camera, XCircle } from "lucide-react";
-import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -24,9 +23,7 @@ export const PublicUserAvatar = ({ user }: { user: IUser }) => {
 
   const { toast } = useToast();
   const inputFileRef = useRef<HTMLInputElement>(null);
-  const [preview, setPreview] = useState<string | null>(
-    user.image || "/images/user-avatar.png"
-  );
+  const [preview, setPreview] = useState<string | null>(user.image);
   const { setValue, watch, reset } = form;
 
   useEffect(() => {
@@ -51,7 +48,7 @@ export const PublicUserAvatar = ({ user }: { user: IUser }) => {
     ) {
       setPreview(selectedFile);
     } else {
-      setPreview("/images/user-avatar.png");
+      setPreview(null);
     }
   }, [selectedFile]);
 
@@ -105,7 +102,7 @@ export const PublicUserAvatar = ({ user }: { user: IUser }) => {
   };
 
   const handleRemoveImage = async () => {
-    setPreview("/images/user-avatar.png");
+    setPreview(null);
     setValue("image", "", { shouldValidate: true });
     if (inputFileRef.current) inputFileRef.current.value = "";
 
@@ -125,7 +122,7 @@ export const PublicUserAvatar = ({ user }: { user: IUser }) => {
     }
   };
 
-  const t = useTranslations("Profile");
+  const firstInitial = user?.name?.charAt(0).toUpperCase() ?? "";
   return (
     <Form {...form}>
       <div className="grid grid-cols-1 gap-5 md:grid-cols-1">
@@ -143,7 +140,7 @@ export const PublicUserAvatar = ({ user }: { user: IUser }) => {
                   />
                 ) : (
                   <div className="flex size-full items-center justify-center rounded-full border-2 border-gray-500 bg-gray-300 text-5xl font-bold text-gray-700 shadow-md">
-                    {user?.name?.charAt(0).toUpperCase() ?? ""}
+                    {firstInitial}
                   </div>
                 )}
 
