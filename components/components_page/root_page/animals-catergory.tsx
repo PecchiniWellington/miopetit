@@ -21,7 +21,7 @@ const AnimalCategory = () => {
           <Link href={`/${name}`}>
             <div className="relative mx-auto h-full ">
               <AnimalAvatar
-                image={image}
+                image={"/images/" + image}
                 name={t("Shared." + name.replace(/\s+/g, "_"))}
               />
             </div>

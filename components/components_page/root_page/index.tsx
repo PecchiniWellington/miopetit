@@ -8,6 +8,7 @@ import Gifts from "./gifts";
 import IconBoxes from "./icons-boxes";
 import PresentationDeals from "./presentation-deals";
 import SpecialOfferBrand from "./special-offer-brand";
+import AnimalCategory from "./animals-catergory";
 
 export const ConfigRootPage = ({
   userId,
@@ -26,9 +27,9 @@ export const ConfigRootPage = ({
     <>
       <PresentationDeals />
 
-      {/*  <div className="mt-12">
+      <div className="mt-12">
         <AnimalCategory />
-      </div> */}
+      </div>
 
       <div className="my-12">
         <IconBoxes />

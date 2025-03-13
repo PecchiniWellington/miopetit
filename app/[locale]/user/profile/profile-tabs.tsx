@@ -17,7 +17,7 @@ import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { undefined, z } from "zod";
-import PublicUserAvatar from "./public-user-avatar";
+import { PublicUserAvatar } from "./public-user-avatar";
 
 export const ProfileTab = ({ user }: { user: IUser }) => {
   return (

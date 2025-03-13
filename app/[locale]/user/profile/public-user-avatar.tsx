@@ -1,40 +1,45 @@
 "use client";
 
-import { FormControl, FormItem, FormLabel } from "@/components/ui/form";
-import { IUser } from "@/core/validators";
+import { Form, FormControl, FormItem } from "@/components/ui/form";
+import { updateUser } from "@/core/actions/admin/admin.actions";
+import { IUser, updateUserProfileSchema } from "@/core/validators";
 import { useToast } from "@/hooks/use-toast";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Camera, XCircle } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { Control, Controller, useFormContext } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
-export default function PublicUserAvatar({
-  name,
-  control,
-  user,
-}: {
-  name: "name" | "email" | "image";
-  control: Control<
-    {
-      name: string;
-      email: string;
-      image?: string | undefined;
+export const PublicUserAvatar = ({ user }: { user: IUser }) => {
+  const form = useForm<z.infer<typeof updateUserProfileSchema>>({
+    resolver: zodResolver(updateUserProfileSchema),
+    defaultValues: {
+      name: user.name,
+      email: user.email,
+      image: user.image || "",
     },
-    unknown
-  >;
-  user: IUser;
-}) {
-  const { setValue, watch } = useFormContext();
-  const inputFileRef = useRef<HTMLInputElement>(null);
+  });
+
   const { toast } = useToast();
-
+  const inputFileRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<string | null>(
-    user?.image || "/images/placeholder.jpg"
+    user.image || "/images/user-avatar.png"
   );
-  console.log("user", user);
+  const { setValue, watch, reset } = form;
 
-  const selectedFile = watch(name);
+  useEffect(() => {
+    if (user) {
+      reset({
+        name: user.name ?? "",
+        email: user.email ?? "",
+        image: user.image ?? "",
+      });
+    }
+  }, [user, reset]);
+
+  const selectedFile = watch("image");
 
   useEffect(() => {
     if (selectedFile instanceof File) {
@@ -46,7 +51,7 @@ export default function PublicUserAvatar({
     ) {
       setPreview(selectedFile);
     } else {
-      setPreview(user?.image || "/images/user-avatar.png");
+      setPreview("/images/user-avatar.png");
     }
   }, [selectedFile]);
 
@@ -58,7 +63,7 @@ export default function PublicUserAvatar({
 
     const fileURL = URL.createObjectURL(file);
     setPreview(fileURL);
-    setValue(name, file, { shouldValidate: true });
+    setValue("image", file, { shouldValidate: true });
 
     try {
       const formData = new FormData();
@@ -70,41 +75,63 @@ export default function PublicUserAvatar({
       });
 
       const { url } = await response.json();
-      setValue(name, url);
+
+      console.log("✅ URL immagine ricevuto:", url);
+
+      if (!url) {
+        throw new Error("URL immagine non valido");
+      }
+
+      // Imposta il valore e aggiorna immediatamente il profilo
+      setValue("image", url, { shouldValidate: true });
+
+      await updateUser({
+        ...form.getValues(),
+        id: user.id,
+        role: user.role,
+        image: url,
+      });
 
       toast({
         description: "Avatar aggiornato con successo!",
       });
     } catch (error) {
+      console.error("❌ Errore durante l'upload:", error);
       toast({
         variant: "destructive",
-        description: "Errore durante l'upload dell'immagine!" + error,
+        description: "Errore durante l'upload dell'immagine! " + error,
       });
     }
   };
 
-  const handleRemoveImage = () => {
+  const handleRemoveImage = async () => {
     setPreview("/images/user-avatar.png");
-    setValue(name, null, { shouldValidate: true });
+    setValue("image", "", { shouldValidate: true });
+    if (inputFileRef.current) inputFileRef.current.value = "";
 
-    if (inputFileRef.current) {
-      inputFileRef.current.value = "";
+    try {
+      await updateUser({
+        ...form.getValues(),
+        id: user.id,
+        role: user.role,
+        image: "",
+      });
+      toast({ description: "Avatar rimosso con successo!" });
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        description: "Errore durante la rimozione dell'avatar! " + error,
+      });
     }
   };
 
-  const t = useTranslations("Profile.profile_image");
+  const t = useTranslations("Profile");
   return (
-    <Controller
-      name={name}
-      control={control}
-      render={() => (
+    <Form {...form}>
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-1">
         <FormItem className="relative flex flex-col items-center space-y-3">
-          <FormLabel className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
-            {t("title")}
-          </FormLabel>
           <FormControl>
             <div className="relative flex items-center justify-center">
-              {/* Cerchio con l'immagine */}
               <div className="relative flex size-40 items-center justify-center rounded-full border-4 border-indigo-500 bg-white shadow-md">
                 {preview ? (
                   <Image
@@ -112,15 +139,14 @@ export default function PublicUserAvatar({
                     src={preview || user?.image || "/images/user-avatar.png"}
                     fill
                     objectFit="cover"
-                    className="rounded-full border-2 border-transparent bg-gradient-to-r from-indigo-500 to-purple-600 transition-all duration-300 hover:scale-105 hover:border-indigo-400 dark:border-gray-500"
+                    className="rounded-full border-2 border-transparent transition-all duration-300 hover:scale-105"
                   />
                 ) : (
-                  <div className="flex size-full items-center justify-center rounded-full border-2 border-gray-500 bg-gray-300 text-5xl font-bold text-gray-700 shadow-md dark:border-gray-300 dark:bg-gray-700 dark:text-white">
+                  <div className="flex size-full items-center justify-center rounded-full border-2 border-gray-500 bg-gray-300 text-5xl font-bold text-gray-700 shadow-md">
                     {user?.name?.charAt(0).toUpperCase() ?? ""}
                   </div>
                 )}
 
-                {/* Bottone di rimozione immagine */}
                 {preview && preview !== "/images/user-avatar.png" && (
                   <button
                     type="button"
@@ -132,7 +158,6 @@ export default function PublicUserAvatar({
                 )}
               </div>
 
-              {/* Icona per il caricamento */}
               <label
                 htmlFor="profile-upload"
                 className="absolute bottom-0 right-0 flex size-10 cursor-pointer items-center justify-center rounded-full border-4 border-white bg-indigo-600 text-white shadow-lg transition-all hover:scale-110 hover:bg-indigo-700"
@@ -150,7 +175,7 @@ export default function PublicUserAvatar({
             </div>
           </FormControl>
         </FormItem>
-      )}
-    />
+      </div>
+    </Form>
   );
-}
+};
