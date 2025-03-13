@@ -6,23 +6,23 @@ export const useGiftData = () => {
   return [
     {
       name: t("toys_treats_more"),
-      image: "coccola-tutti.png",
+      image: "coccola_tutti.png",
     },
     {
       name: t("dog_gifts"),
-      image: "coccola-cani.png",
+      image: "coccola_cani.png",
     },
     {
       name: t("cat_gifts"),
-      image: "coccola-gatti.png",
+      image: "coccola_gatti.png",
     },
     {
       name: t("small_animal_gifts"),
-      image: "coccola-piccoli-animali.png",
+      image: "coccola_piccoli_animali.png",
     },
     {
       name: t("gifts_for_you"),
-      image: "coccola-te.png",
+      image: "coccola_te.png",
     },
   ];
 };

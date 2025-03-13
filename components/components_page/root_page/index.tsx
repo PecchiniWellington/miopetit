@@ -1,7 +1,7 @@
 import { ICart, IProduct } from "@/core/validators";
-import { useTranslations } from "next-intl";
+import { getLocaleImagePath } from "@/lib/utils";
+import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
-import AnimalCategory from "./animals-catergory";
 import BestSellingProduct from "./best-selling-products";
 import DealCountdown from "./deal-countdown";
 import Gifts from "./gifts";
@@ -19,14 +19,16 @@ export const ConfigRootPage = ({
   myCart: ICart | null;
 }) => {
   const t = useTranslations();
+  const locale = useLocale();
+  const imagePath = locale ? getLocaleImagePath(locale) : "";
 
   return (
     <>
       <PresentationDeals />
 
-      <div className="mt-12">
+      {/*  <div className="mt-12">
         <AnimalCategory />
-      </div>
+      </div> */}
 
       <div className="my-12">
         <IconBoxes />
@@ -34,7 +36,7 @@ export const ConfigRootPage = ({
 
       <div className="mt-12">
         <Image
-          src="/images/porta-un-amico.png"
+          src={`${imagePath}test-lingua.png`}
           alt="product"
           width={1920}
           height={400}
