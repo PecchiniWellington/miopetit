@@ -37,13 +37,8 @@ const StripePayment = ({
     const [errorMessage, setErrorMessage] = useState("");
     const [email, setEmail] = useState("");
 
-    const handleSubmit = async (e: FormEvent) => {
-      e.preventDefault();
-
+    const onConfirmCheckout = async () => {
       if (stripe == null || elements == null || email == null) return;
-
-      setIsLoading(true);
-
       stripe
         .confirmPayment({
           elements,
@@ -62,6 +57,12 @@ const StripePayment = ({
           }
         })
         .finally(() => setIsLoading(false));
+      setIsLoading(true);
+    };
+
+    const handleSubmit = async (e: FormEvent) => {
+      e.preventDefault();
+      onConfirmCheckout();
     };
 
     if (!stripe || !elements || !clientSecret) {
@@ -73,11 +74,11 @@ const StripePayment = ({
         {errorMessage && <div className="text-destructive">{errorMessage}</div>}
         <PaymentElement />
         <ExpressCheckoutElement
-          onConfirm={(e) => console.log(e)}
+          onConfirm={onConfirmCheckout}
           options={{
             paymentMethods: {
-              googlePay: "always", // or set to false if not needed
-              applePay: "always", // or set to false if not needed
+              googlePay: "always",
+              applePay: "always",
               link: "never",
             },
           }}
