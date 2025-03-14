@@ -14,18 +14,23 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ["@svgr/webpack"], // Permette di importare SVG come componenti React
+    });
+    return config;
+  },
   images: {
-    /*  domains: [
-      "rqtqmmtupkjdpvpv.public.blob.vercel-storage.com",
-      "example.com",
-      "images.unsplash.com",
-      "api.unsplash.com",
-    ], */
-
     remotePatterns: [
       {
         protocol: "https",
         hostname: "utfs.io",
+        port: "",
+      },
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
         port: "",
       },
       {

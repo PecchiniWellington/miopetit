@@ -1,5 +1,6 @@
 "use client";
 
+import SignInButtonWhitProvider from "@/components/sign-in-with-provider";
 import { Input } from "@/components/ui/input";
 import { signUpUser } from "@/core/actions/auth/auth.actions"; // Import SignUp
 import { signIn, useSession } from "next-auth/react";
@@ -172,6 +173,9 @@ export default function SubmitForm({
           )}
 
           <SubmitButton formType={formType} />
+          <div className="text-gray-600">---- or ----</div>
+
+          <SignInButtonWhitProvider formType={formType} />
 
           {error && <div className="text-red-500">{error}</div>}
 

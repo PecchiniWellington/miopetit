@@ -7,17 +7,17 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { IUser } from "@/core/validators";
 import ROLES from "@/lib/constants/roles";
 import { LayoutDashboard, Loader, LogOut, User, UserIcon } from "lucide-react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 
-const UserButton = ({ userLogged }: { userLogged: IUser | null }) => {
+const UserButton = () => {
   const { data: session, status } = useSession({ required: false });
   const user = session?.user;
   const firstInitial = user?.name?.charAt(0).toUpperCase() ?? "";
+  console.log("user", user);
 
   if (status === "loading") {
     return (
@@ -37,15 +37,16 @@ const UserButton = ({ userLogged }: { userLogged: IUser | null }) => {
       </button>
     );
   }
+  console.log("userLogged", user);
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button className="flex items-center gap-2 rounded-full border border-gray-300 bg-white p-1 shadow-sm transition-all duration-300 hover:shadow-lg dark:border-gray-600 dark:bg-gray-800">
-          {userLogged?.image ? (
+          {user?.image ? (
             <Image
               alt="User Avatar"
-              src={userLogged.image || "/images/placeholder.jpg"}
+              src={user.image || "/images/placeholder.jpg"}
               height={42}
               width={42}
               className="rounded-full border-2 border-transparent bg-gradient-to-r from-indigo-500 to-purple-600 p-[2px] transition-all duration-300 hover:scale-105 hover:border-indigo-400 dark:border-gray-500"

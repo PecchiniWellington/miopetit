@@ -109,7 +109,7 @@ const Header = async () => {
                   <FavoritesCounter />
                 </span>
               )}
-              <UserButton userLogged={userLogged} />
+              <UserButton />
             </div>
           </div>
         </div>

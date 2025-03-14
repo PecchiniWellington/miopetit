@@ -2,6 +2,7 @@ import { prisma } from "@/core/prisma/prisma";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import Google from "next-auth/providers/google";
 
 import { compare } from "bcryptjs";
 import type { NextAuthConfig } from "next-auth";
@@ -17,6 +18,7 @@ export const config = {
   },
   adapter: PrismaAdapter(prisma),
   providers: [
+    Google,
     CredentialsProvider({
       credentials: {
         email: { type: "email" },
