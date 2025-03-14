@@ -3,12 +3,14 @@ import { BASE_URL } from "@/lib/constants";
 import { formatCurrency } from "@/lib/utils";
 import {
   Elements,
+  ExpressCheckoutElement,
   LinkAuthenticationElement,
   PaymentElement,
   useElements,
   useStripe,
 } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import { Loader } from "lucide-react";
 import { useLocale } from "next-intl";
 import { FormEvent, useState } from "react";
 
@@ -62,11 +64,25 @@ const StripePayment = ({
         .finally(() => setIsLoading(false));
     };
 
+    if (!stripe || !elements || !clientSecret) {
+      return <Loader className="size-6 animate-spin text-indigo-600" />;
+    }
     return (
       <form className="space-y-4" onSubmit={handleSubmit}>
         <div className="text-xl">Stripe Checkout</div>
         {errorMessage && <div className="text-destructive">{errorMessage}</div>}
         <PaymentElement />
+        <ExpressCheckoutElement
+          onConfirm={(e) => console.log(e)}
+          options={{
+            paymentMethods: {
+              googlePay: "always", // or set to false if not needed
+              applePay: "always", // or set to false if not needed
+              link: "never",
+            },
+          }}
+        />
+
         <div>
           <LinkAuthenticationElement
             onChange={(e) => setEmail(e.value.email)}
@@ -85,19 +101,21 @@ const StripePayment = ({
       </form>
     );
   };
-
+  /* ExpressCheckoutElement */
   return (
-    <Elements
-      options={{
-        clientSecret,
-        appearance: {
-          theme: "flat",
-        },
-      }}
-      stripe={stripePromise}
-    >
-      <StripeForm />
-    </Elements>
+    <>
+      <Elements
+        options={{
+          clientSecret,
+          appearance: {
+            theme: "flat",
+          },
+        }}
+        stripe={stripePromise}
+      >
+        <StripeForm />
+      </Elements>
+    </>
   );
 };
 
