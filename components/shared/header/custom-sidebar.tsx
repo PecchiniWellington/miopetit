@@ -1,6 +1,5 @@
 "use client";
 
-import { IUser } from "@/core/validators";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, ChevronRight, X } from "lucide-react";
 import Image from "next/image";
@@ -25,13 +24,11 @@ interface ISidebarMenuProps {
     menu: ICategory[];
   }[];
   onClose: () => void;
-  user: IUser | null;
 }
 
 export default function SidebarMenu({
   categories,
   onClose,
-  user,
 }: ISidebarMenuProps) {
   const [activeCategory, setActiveCategory] = useState<ICategory | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<{
@@ -187,7 +184,7 @@ export default function SidebarMenu({
           </AnimatePresence>
         </div>
         <div className="mt-auto">
-          <UserButton userLogged={user} />
+          <UserButton />
         </div>
       </motion.div>
     </div>
