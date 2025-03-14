@@ -5,13 +5,13 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 
-const NotFound = () => {
+const NotFoundSubSubCategory = () => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-r from-indigo-500 to-purple-700 p-6 text-white"
+      className="flex h-fit flex-col items-center justify-center  rounded-2xl bg-gradient-to-r from-indigo-500 to-purple-700 p-6 text-white"
     >
       {/* Icona */}
       <motion.div
@@ -36,7 +36,7 @@ const NotFound = () => {
         transition={{ delay: 0.4, duration: 0.5, ease: "easeOut" }}
         className="text-5xl font-extrabold text-white drop-shadow-lg"
       >
-        Oops! Page Not Found
+        Oops! No category found with this name
       </motion.h2>
       <motion.p
         initial={{ opacity: 0, scale: 0.9 }}
@@ -44,8 +44,8 @@ const NotFound = () => {
         transition={{ delay: 0.5, duration: 0.4 }}
         className="mt-3 max-w-lg text-center text-lg text-gray-200"
       >
-        The page you are looking for might have been removed, had its name
-        changed, or is temporarily unavailable.
+        No Category was found with that name. Please check the name and try
+        again.
       </motion.p>
 
       {/* Pulsante di ritorno alla home */}
@@ -65,4 +65,4 @@ const NotFound = () => {
   );
 };
 
-export default NotFound;
+export default NotFoundSubSubCategory;

@@ -5,6 +5,7 @@ import { getAllProductsBySlug } from "@/core/actions/products/get-all-product-by
 import { getFiltersForCategory } from "@/core/actions/products/product-infos.ts/get-product-category.action";
 import { IQueryParams } from "@/core/actions/types";
 import { indispensableDog } from "@/core/db-static/indispensable/indispensable-dog";
+import { notFound } from "next/navigation";
 
 const MainCategory = async ({
   searchParams,
@@ -38,6 +39,8 @@ const MainCategory = async ({
     query: queries,
   });
 
+  console.log("productFilters", productFilters);
+  if (!productFilters || Object.keys(productFilters).length === 0) notFound();
   return (
     <ConfigCategoryPage
       indispensable={indispensableDog}

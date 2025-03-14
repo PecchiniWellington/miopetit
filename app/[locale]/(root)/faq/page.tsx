@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { AnimatePresence } from "framer-motion";
 import { HelpCircle, Search, Shield, ShoppingCart, Truck } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { notFound } from "next/navigation";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 
@@ -67,6 +68,7 @@ export default function FAQPage() {
       setIsPending(false);
     });
   };
+  if (!faqCategories.length) notFound();
 
   return (
     <div className="container mx-auto px-6 py-12">

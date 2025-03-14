@@ -1,10 +1,10 @@
 import CartSideMenu from "@/components/cart-side-menu";
 import Chatbot from "@/components/chatbot/chatbot";
+import Breadcrumb from "@/components/shared/bread-crumb";
 import Footer from "@/components/shared/footer/footer";
 import Header from "@/components/shared/header";
 import { Suspense } from "react";
 import Loading from "./loading";
-import Breadcrumb from "@/components/shared/bread-crumb";
 
 export default async function RootLayout({
   children,
