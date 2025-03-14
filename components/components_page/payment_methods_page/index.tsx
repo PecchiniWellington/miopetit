@@ -1,5 +1,10 @@
 "use client";
 import DynamicButton from "@/components/dynamic-button";
+import ApplePay from "@/components/icons/ApplePay";
+import GooglePay from "@/components/icons/GooglePay";
+import McPay from "@/components/icons/McPay";
+import PayPalIcon from "@/components/icons/PayPalIcon";
+import VisaPay from "@/components/icons/VisaPay";
 import {
   Form,
   FormControl,
@@ -19,7 +24,6 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight, Banknote, Loader, Wallet } from "lucide-react";
 import { useTranslations } from "next-intl";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { JSX, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -27,41 +31,15 @@ import { z } from "zod";
 
 const paymentIcons: Record<string, JSX.Element> = {
   Stripe: (
-    <div className="flex items-center gap-3">
-      <Image
-        src="/assets/payment-methods/apple_pay.svg"
-        alt="Apple Pay"
-        className="h-6 w-10"
-        width={40}
-        height={24}
-      />
-      <Image
-        src="/assets/payment-methods/google_pay.svg"
-        alt="Google Pay"
-        width={40}
-        height={24}
-      />
-      <Image
-        src="/assets/payment-methods/mc_pay.svg"
-        alt="Mastercard"
-        width={40}
-        height={24}
-      />
-      <Image
-        src="/assets/payment-methods/visa.svg"
-        alt="Visa"
-        width={40}
-        height={24}
-      />
+    <div className="flex items-center gap-4 rounded-2xl ">
+      <ApplePay className="h-9 w-14 rounded-xl bg-white p-2 text-gray-700 shadow-lg transition-colors duration-200 hover:text-black " />
+      <GooglePay className="h-9 w-14 rounded-xl bg-white p-2 text-gray-700 shadow-lg transition-colors duration-200 hover:text-black " />
+      <McPay className="h-9 w-14 rounded-xl bg-white text-gray-700 shadow-lg transition-colors duration-200 hover:text-black" />
+      <VisaPay className="h-9 w-14 rounded-xl bg-white text-gray-700 shadow-lg transition-colors duration-200 hover:text-black" />
     </div>
   ),
   PayPal: (
-    <Image
-      src="/assets/payment-methods/paypal_pay.svg"
-      alt="PayPal"
-      width={80}
-      height={24}
-    />
+    <PayPalIcon className="h-14 w-24 rounded-xl bg-white text-gray-700 shadow-lg transition-colors duration-200 hover:text-black" />
   ),
   "Bank Transfer": <Banknote className="size-6 text-green-500" />,
 };
@@ -142,15 +120,16 @@ const ConfigPaymentMethodsPage = ({
                     {PAYMENT_METHODS.map((paymentMethod) => (
                       <FormItem
                         key={paymentMethod}
-                        className={`relative flex cursor-pointer items-center justify-between rounded-xl border p-5 shadow-sm transition-all duration-200 hover:shadow-md ${
+                        className={`relative flex cursor-pointer items-center justify-between overflow-hidden rounded-xl border  shadow-xl transition-all duration-200 hover:shadow-md ${
                           field.value === paymentMethod
                             ? "border-blue-500 bg-blue-50 shadow-md dark:bg-blue-900"
                             : "border-gray-300 dark:border-gray-700"
                         }`}
                       >
-                        <div className="flex items-center space-x-3">
+                        <div className="relative flex size-full items-center space-x-3  p-6">
                           <FormControl>
                             <RadioGroupItem
+                              className="absolute left-0 top-0 size-full rounded-none text-transparent opacity-60"
                               value={paymentMethod}
                               checked={field.value === paymentMethod}
                             />
@@ -161,7 +140,7 @@ const ConfigPaymentMethodsPage = ({
                             <Wallet className="size-6 text-gray-500" />
                           )}
                           <FormLabel className="text-lg font-medium text-gray-800 dark:text-white">
-                            {paymentMethod}
+                            {/*  {paymentMethod} */}
                           </FormLabel>
                         </div>
                         {field.value === paymentMethod && (
