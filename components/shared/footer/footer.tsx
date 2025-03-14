@@ -70,7 +70,7 @@ const Footer = () => {
           <h3 className="text-lg font-bold text-gray-900">MioPetit</h3>
           <ul className="mt-4 space-y-2">
             <li>
-              <Link href="/about" className="hover:text-purple-600">
+              <Link href="/about-us" className="hover:text-purple-600">
                 {t("about_us")}
               </Link>
             </li>
