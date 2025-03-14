@@ -56,7 +56,8 @@ const BestSellingProduct = ({
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        {animalName === "Cane" ? "🐶" : "🐱"} {animalName.toUpperCase()}
+        {animalName === t("Shared.dog") ? "🐶" : "🐱"}{" "}
+        {animalName.toUpperCase()}
       </motion.h1>
 
       <motion.div

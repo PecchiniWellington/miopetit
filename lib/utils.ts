@@ -325,6 +325,6 @@ export const calcPrice = (items: ICartItem[]) => {
 
 export const getLocaleImagePath = (locale: string, subFolder?: string) => {
   return subFolder
-    ? `/images/locales_images/${locale}/${subFolder}/${locale}-`
-    : `/images/locales_images/${locale}/${locale}-`;
+    ? `/images/locales_images/${locale}/${subFolder}/${locale}`
+    : `/images/locales_images/${locale}/`;
 };

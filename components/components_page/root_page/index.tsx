@@ -1,14 +1,15 @@
+"use client";
 import { ICart, IProduct } from "@/core/validators";
-import { getLocaleImagePath } from "@/lib/utils";
+import { useLocalImage } from "@/hooks/use-local-image";
 import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
+import AnimalCategory from "./animals-catergory";
 import BestSellingProduct from "./best-selling-products";
 import DealCountdown from "./deal-countdown";
 import Gifts from "./gifts";
 import IconBoxes from "./icons-boxes";
 import PresentationDeals from "./presentation-deals";
 import SpecialOfferBrand from "./special-offer-brand";
-import AnimalCategory from "./animals-catergory";
 
 export const ConfigRootPage = ({
   userId,
@@ -21,8 +22,7 @@ export const ConfigRootPage = ({
 }) => {
   const t = useTranslations();
   const locale = useLocale();
-  const imagePath = locale ? getLocaleImagePath(locale) : "";
-
+  const imagePath = useLocalImage({ locale });
   return (
     <>
       <PresentationDeals />
@@ -37,7 +37,7 @@ export const ConfigRootPage = ({
 
       <div className="mt-12">
         <Image
-          src={`${imagePath}test-lingua.png`}
+          src={`${imagePath}bring-friend.png`}
           alt="product"
           width={1920}
           height={400}
@@ -74,7 +74,7 @@ export const ConfigRootPage = ({
 
       <div className="mt-12">
         <Image
-          src="/images/Modo-semplice-per-spedire.png"
+          src={`${imagePath}shipping_fast.png`}
           alt="product"
           width={1920}
           height={400}

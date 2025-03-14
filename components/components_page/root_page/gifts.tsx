@@ -11,14 +11,19 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { useGiftData } from "@/core/db-static/db_root_page/gift_data";
-import { getLocaleImagePath } from "@/lib/utils";
+import { useLocalImage } from "@/hooks/use-local-image";
 import { useLocale, useTranslations } from "next-intl";
 
 const Gifts = () => {
   const gift_data = useGiftData();
   const t = useTranslations();
   const locale = useLocale();
-  const imagePath = locale ? getLocaleImagePath(locale, "best_gifts") : "";
+  const imagePath = useLocalImage({
+    locale,
+    subFolder: "best_gifts",
+    hasSize: false,
+  });
+
   console.log("imagePath", imagePath);
   return (
     <div className="my-12 ">
