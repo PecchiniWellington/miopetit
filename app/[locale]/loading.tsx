@@ -1,4 +1,4 @@
-"use client";
+/* "use client";
 
 import CartSkeleton from "@/components/skeletons/cart-skeleton";
 import RootPageSkeleton from "@/components/skeletons/root-page-skeleton";
@@ -41,7 +41,6 @@ const Loading = () => {
     localStorage.setItem("previousPath", pathName);
   }, [pathName, locale]);
 
-  // 🔹 Determina quale skeleton mostrare
   let SkeletonComponent = RootPageSkeleton;
   if (lastSegment === "cart") SkeletonComponent = CartSkeleton;
   else if (lastSegment === "faq") {
@@ -56,10 +55,30 @@ const Loading = () => {
 
   return (
     <div className="flex h-screen flex-col">
-      {/* 🔹 Mostra HeaderSkeleton solo quando necessario */}
       {showHeaderSkeleton && <HeaderSkeleton key={pathName} />}
       <main className="wrapper my-10 flex-1">
         <SkeletonComponent />
+      </main>
+    </div>
+  );
+};
+
+export default Loading; */
+
+"use client";
+
+import Image from "next/image";
+
+const Loading = () => {
+  return (
+    <div className="flex h-screen flex-col items-center justify-center">
+      <main className="wrapper my-10 flex flex-1 items-center justify-center">
+        <Image
+          src="/images/loader-2.gif"
+          alt="loading"
+          width={400}
+          height={400}
+        />
       </main>
     </div>
   );
