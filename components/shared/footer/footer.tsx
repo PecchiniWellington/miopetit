@@ -1,3 +1,5 @@
+"use client";
+import { Button } from "@/components/ui/button";
 import { APP_NAME } from "@/lib/constants";
 import { getCurrentYear } from "@/lib/utils";
 import { useTranslations } from "next-intl";
@@ -45,12 +47,15 @@ const Footer = () => {
               </Link>
             </li>
             <li>
-              <Link
-                href="/user/profile#orders"
-                className="hover:text-purple-600"
+              <Button
+                className="-my-5 p-0 text-base font-normal hover:text-purple-600"
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.location.href = `/user/profile#orders`;
+                }}
               >
                 {t("shipping_returns")}
-              </Link>
+              </Button>
             </li>
             <li>
               <Link href="/contact" className="hover:text-purple-600">

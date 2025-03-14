@@ -21,7 +21,6 @@ export default function TopBar() {
         {/* 🔗 Link Assistenza e Ordini */}
         <div className="flex gap-6">
           <Button
-            /*   href={`${session.data?.user.id ? locale + "/user/profile#support" : "/faq"}`} */
             className={`flex items-center gap-1 transition hover:scale-105 hover:text-yellow-300`}
             onClick={(e) => {
               e.preventDefault();

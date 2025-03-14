@@ -1,5 +1,6 @@
 "use client";
 
+import BecomePartnerFaq from "@/components/components_page/become_a_partner_page/become_a_partner";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
@@ -14,7 +15,6 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import partnerContent from "./become-a-partner-content.json";
 import partnerContentTab from "./become-a-partner-tab-db.json";
-import BecomePartnerFaq from "@/components/components_page/become_a_partner_page/become_a_partner";
 
 const icons = {
   DollarSign,
@@ -26,7 +26,11 @@ const icons = {
 };
 
 export default function BecomePartner() {
-  const [activeTab, setActiveTab] = useState(partnerContentTab[0].id);
+  // Verifica che partnerContentTab non sia vuoto
+  const [activeTab, setActiveTab] = useState(
+    partnerContentTab.length > 0 ? partnerContentTab[0].id : ""
+  );
+
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const handleTabClick = (tabId: string) => {
@@ -41,7 +45,10 @@ export default function BecomePartner() {
     }
   }, []);
 
-  const activeContent = partnerContentTab.find((tab) => tab.id === activeTab);
+  // Verifica che la tab selezionata esista, altrimenti prendi la prima disponibile
+  const activeContent =
+    partnerContentTab.find((tab) => tab.id === activeTab) ||
+    partnerContentTab[0];
 
   return (
     <div className="mx-auto w-full max-w-7xl px-6 py-16">
@@ -66,7 +73,6 @@ export default function BecomePartner() {
           className="mt-10 rounded-2xl shadow-xl"
         />
       </motion.section>
-
       {/* 📌 Tabs */}
       <div className="relative mb-10 border-b border-gray-300 dark:border-gray-700">
         <div
@@ -74,14 +80,15 @@ export default function BecomePartner() {
           className="scrollbar-hide flex space-x-6 overflow-x-auto px-2 py-4 md:justify-center"
         >
           {partnerContentTab.map((tab) => {
-            const Icon = icons[tab.icon as keyof typeof icons];
+            const Icon = icons[tab.icon as keyof typeof icons] || Store; // Fallback icona
+
             return (
               <motion.button
                 key={tab.id}
                 onClick={() => handleTabClick(tab.id)}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className={`flex items-center gap-3 whitespace-nowrap px-6 py-3 text-base font-medium transition-all md:px-8 ${
+                className={`flex items-center gap-1 whitespace-nowrap px-2 py-1 text-base font-medium transition-all md:px-2 ${
                   activeTab === tab.id
                     ? "border-b-4 border-blue-600 text-blue-600 dark:border-blue-400 dark:text-blue-400"
                     : "text-gray-600 dark:text-gray-300"
@@ -94,7 +101,6 @@ export default function BecomePartner() {
           })}
         </div>
       </div>
-
       {/* 📌 Contenuto della Tab Selezionata */}
       {activeContent && (
         <div className="mt-12 rounded-2xl bg-white p-10 shadow-lg dark:bg-gray-800">
@@ -120,7 +126,7 @@ export default function BecomePartner() {
                   {activeContent.description}
                 </p>
                 <ul className="mt-6 space-y-3 text-lg text-gray-600 dark:text-gray-300">
-                  {activeContent.points.map((point, index) => (
+                  {activeContent.points?.map((point, index) => (
                     <li key={index} className="flex items-start gap-2">
                       ✅ {point}
                     </li>
@@ -131,11 +137,10 @@ export default function BecomePartner() {
           </motion.div>
         </div>
       )}
-
       {/* 📌 Benefici */}
       <div className="mt-20 grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3">
         {partnerContent.benefits.map((benefit, index) => {
-          const Icon = icons[benefit.icon as keyof typeof icons];
+          const Icon = icons[benefit.icon as keyof typeof icons] || Store; // Fallback icona
           return (
             <motion.div
               key={index}
@@ -153,7 +158,6 @@ export default function BecomePartner() {
           );
         })}
       </div>
-
       {/* 📌 Testimonianze */}
       <div className="mt-24 rounded-2xl bg-gray-100 p-12">
         <h2 className="text-center text-4xl font-bold">
@@ -183,10 +187,9 @@ export default function BecomePartner() {
           ))}
         </div>
       </div>
-
       {/* 📌 FAQ */}
-      <BecomePartnerFaq />
-
+      {BecomePartnerFaq && <BecomePartnerFaq />}{" "}
+      {/* Verifica esistenza componente */}
       {/* 📌 Call to Action */}
       <div className="mt-24 text-center">
         <h2 className="text-4xl font-bold">{partnerContent.cta.title}</h2>

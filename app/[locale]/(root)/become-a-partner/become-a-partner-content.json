@@ -34,6 +34,11 @@
       "icon": "ShoppingBag",
       "title": "Negozio a Basso Costo",
       "description": "Apri il tuo store online senza investimenti eccessivi."
+    },
+    {
+      "icon": "Globe",
+      "title": "Il Tuo Sito Personale Senza Costi Extra",
+      "description": "Ogni partner riceve un sito dedicato all'interno di MioPetit, completamente personalizzabile e senza costi aggiuntivi."
     }
   ],
   "how_it_works": [
@@ -58,6 +63,19 @@
       "description": "Monitora i report mensili e migliora le tue vendite."
     }
   ],
+  "custom_website": {
+    "title": "Il Tuo Sito All'interno di MioPetit 🌍",
+    "description": "Come partner di MioPetit, avrai un **sito e-commerce personalizzato** all'interno della nostra piattaforma, senza dover affrontare costi di sviluppo o manutenzione. Potrai personalizzare la tua pagina, caricare il tuo logo, gestire le vendite e ottenere un'esperienza utente ottimizzata per aumentare la tua visibilità e il numero di clienti.",
+    "benefits": [
+      "✔️ Dominio personalizzato all'interno di MioPetit",
+      "✔️ Nessun costo aggiuntivo per hosting o manutenzione",
+      "✔️ Design professionale e ottimizzato per la vendita",
+      "✔️ Integrato con il sistema di pagamenti sicuro di MioPetit",
+      "✔️ SEO ottimizzato per una migliore visibilità online",
+      "✔️ Assistenza tecnica gratuita per configurazioni e gestione"
+    ],
+    "image": "/assets/partners/custom_website.jpg"
+  },
   "testimonials": [
     {
       "name": "Giulia M.",

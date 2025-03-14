@@ -51,5 +51,20 @@
       "✔️ Strategie SEO per aumentare la visibilità dei tuoi prodotti",
       "✔️ Supporto nel branding e creazione contenuti personalizzati"
     ]
+  },
+  {
+    "id": "website",
+    "label": "Negozio Online Gratuito",
+    "icon": "Globe",
+    "image": "/assets/partners/website.jpg",
+    "title": "🌐 Il Tuo Negozio Online Senza Costi",
+    "description": "Diventando partner di MioPetit, riceverai automaticamente un negozio online personalizzato all’interno della nostra piattaforma, senza costi aggiuntivi. Dimentica le spese di hosting, sviluppo e manutenzione: pensiamo a tutto noi!",
+    "points": [
+      "✔️ Sito web e-commerce dedicato incluso gratuitamente",
+      "✔️ Zero costi di sviluppo, manutenzione e aggiornamento",
+      "✔️ Pagamenti sicuri e integrati con più metodi di pagamento",
+      "✔️ Design ottimizzato per la conversione e compatibile con mobile",
+      "✔️ Accesso immediato a una rete di clienti già attiva"
+    ]
   }
 ]
