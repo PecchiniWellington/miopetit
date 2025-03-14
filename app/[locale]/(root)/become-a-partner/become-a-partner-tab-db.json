@@ -1,0 +1,55 @@
+[
+  {
+    "id": "commissions",
+    "label": "Commissioni Basse",
+    "icon": "DollarSign",
+    "image": "/assets/partners/commissions.jpg",
+    "title": "💰 Commissioni Basse",
+    "description": "A differenza di altri marketplace, abbiamo commissioni sulle vendite estremamente ridotte per aiutare le piccole imprese e i rifugi a crescere senza svantaggi economici. Vogliamo che ogni euro guadagnato rimanga il più possibile nelle mani di chi lavora ogni giorno per il benessere degli animali.",
+    "points": [
+      "✔️ Commissioni tra le più basse sul mercato",
+      "✔️ Nessun costo nascosto",
+      "✔️ Supportiamo chi vuole crescere, non chi vuole approfittarne"
+    ]
+  },
+  {
+    "id": "support",
+    "label": "Sostegno alle Piccole Imprese",
+    "icon": "HeartHandshake",
+    "image": "/assets/partners/support.jpg",
+    "title": "🤝 Sosteniamo le Piccole Imprese",
+    "description": "MioPetit nasce con un obiettivo preciso: aiutare chi ha davvero bisogno. Diamo visibilità a piccoli imprenditori e volontari senza farli annegare tra le grandi multinazionali.",
+    "points": [
+      "✔️ Formazione gratuita per migliorare la gestione del tuo business",
+      "✔️ Community di supporto tra i partner",
+      "✔️ Collaborazioni con canili, rifugi e ONG"
+    ]
+  },
+  {
+    "id": "admin",
+    "label": "Admin Intuitivo",
+    "icon": "Store",
+    "image": "/assets/partners/admin.jpg",
+    "title": "🖥️ Admin Intuitivo",
+    "description": "Il nostro pannello di controllo è progettato per essere semplice, chiaro e intuitivo. Gestire il tuo shop, monitorare gli ordini e analizzare le vendite sarà un gioco da ragazzi!",
+    "points": [
+      "✔️ Dashboard chiara e navigazione semplice",
+      "✔️ Gestione ordini veloce ed efficiente",
+      "✔️ Accesso da desktop e mobile"
+    ]
+  },
+  {
+    "id": "marketing",
+    "label": "Campagne Marketing",
+    "icon": "Megaphone",
+    "image": "/assets/partners/marketing.jpg",
+    "title": "📢 Campagne Marketing Personalizzate",
+    "description": "Ogni nostro partner riceve una strategia di marketing su misura. Promuoviamo i tuoi prodotti sui nostri canali social, con e-mail marketing e campagne pubblicitarie mirate per farti ottenere il massimo della visibilità.",
+    "points": [
+      "✔️ Annunci sponsorizzati sui social media",
+      "✔️ Campagne e-mail per fidelizzare i clienti",
+      "✔️ Strategie SEO per aumentare la visibilità dei tuoi prodotti",
+      "✔️ Supporto nel branding e creazione contenuti personalizzati"
+    ]
+  }
+]

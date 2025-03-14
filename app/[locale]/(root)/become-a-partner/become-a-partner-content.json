@@ -1,0 +1,79 @@
+{
+  "hero": {
+    "title": "Unisciti a MioPetit e Cresci con Noi! 🛍️💚",
+    "description": "Sei un piccolo imprenditore, un volontario o un rifugio per animali? Diventare nostro partner significa avere supporto concreto, un negozio online, marketing dedicato e commissioni bassissime.",
+    "image": "/assets/partners/hero_partner.jpg"
+  },
+  "benefits": [
+    {
+      "icon": "DollarSign",
+      "title": "Commissioni Basse",
+      "description": "Massimizza i tuoi guadagni con tariffe vantaggiose."
+    },
+    {
+      "icon": "HeartHandshake",
+      "title": "Supporto alle Piccole Imprese",
+      "description": "Formazione e aiuti per far crescere il tuo business."
+    },
+    {
+      "icon": "Store",
+      "title": "Admin Intuitivo",
+      "description": "Gestisci il tuo negozio con semplicità e rapidità."
+    },
+    {
+      "icon": "BarChart",
+      "title": "Report Mensili",
+      "description": "Analizza le tue vendite e migliora le performance."
+    },
+    {
+      "icon": "Megaphone",
+      "title": "Campagne Marketing",
+      "description": "Ottieni visibilità grazie alle nostre strategie pubblicitarie."
+    },
+    {
+      "icon": "ShoppingBag",
+      "title": "Negozio a Basso Costo",
+      "description": "Apri il tuo store online senza investimenti eccessivi."
+    }
+  ],
+  "how_it_works": [
+    {
+      "step": "1",
+      "title": "Iscriviti al Programma",
+      "description": "Compila il modulo e diventa partner di MioPetit."
+    },
+    {
+      "step": "2",
+      "title": "Carica i tuoi Prodotti",
+      "description": "Aggiungi i tuoi articoli alla nostra piattaforma con facilità."
+    },
+    {
+      "step": "3",
+      "title": "Inizia a Vendere",
+      "description": "Ricevi ordini e guadagna grazie al nostro supporto marketing."
+    },
+    {
+      "step": "4",
+      "title": "Ottimizza e Cresci",
+      "description": "Monitora i report mensili e migliora le tue vendite."
+    }
+  ],
+  "testimonials": [
+    {
+      "name": "Giulia M.",
+      "image": "/assets/partners/testimonial1.jpg",
+      "quote": "Grazie a MioPetit ho aumentato le vendite e ricevuto supporto nel marketing. Un team fantastico!"
+    },
+    {
+      "name": "Luca R.",
+      "image": "/assets/partners/testimonial2.jpg",
+      "quote": "Il mio negozio online ha avuto un boom di clienti! Fantastica esperienza con MioPetit."
+    }
+  ],
+  "cta": {
+    "title": "Diventa un Partner Oggi!",
+    "description": "Entra a far parte della nostra community e porta il tuo business a un nuovo livello.",
+    "button_text": "Iscriviti Ora",
+    "button_link": "/join-partner"
+  }
+}

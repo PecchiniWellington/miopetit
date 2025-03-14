@@ -80,7 +80,7 @@ const Footer = () => {
               </Link>
             </li>
             <li>
-              <Link href="/partners" className="hover:text-purple-600">
+              <Link href="/become-a-partner" className="hover:text-purple-600">
                 {t("become_partner")}
               </Link>
             </li>
