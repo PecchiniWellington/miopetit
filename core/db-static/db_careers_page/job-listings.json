@@ -1,0 +1,54 @@
+[
+  {
+    "id": 1,
+    "title": "E-commerce Manager",
+    "location": "Remoto / Padova, Italia",
+    "type": "Full-time",
+    "salary": "€35.000 - €45.000/anno",
+    "description": "Gestione e ottimizzazione dell'e-commerce, strategie di vendita e miglioramento della user experience.",
+    "requirements": [
+      "Esperienza di almeno 3 anni in gestione e-commerce",
+      "Conoscenza di Shopify, WooCommerce o piattaforme simili",
+      "Competenze in SEO e analisi dati"
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Social Media Manager",
+    "location": "Remoto / Ibrido",
+    "type": "Part-time",
+    "salary": "€1.200 - €2.000/mese",
+    "description": "Gestione dei social media, creazione di contenuti e strategie pubblicitarie per aumentare il coinvolgimento.",
+    "requirements": [
+      "Esperienza di almeno 2 anni nel social media marketing",
+      "Ottima conoscenza di Instagram, Facebook e TikTok",
+      "Capacità di creare contenuti visivi accattivanti"
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Customer Support Specialist",
+    "location": "Remoto",
+    "type": "Full-time",
+    "salary": "€1.500 - €2.500/mese",
+    "description": "Supporto clienti via email e chat, gestione ordini e resi.",
+    "requirements": [
+      "Esperienza in customer service",
+      "Ottime capacità comunicative e problem-solving",
+      "Conoscenza di CRM e piattaforme di e-commerce"
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Graphic Designer",
+    "location": "Ibrido / Padova",
+    "type": "Freelance",
+    "salary": "A progetto",
+    "description": "Creazione di grafiche per il sito e-commerce, social media e campagne pubblicitarie.",
+    "requirements": [
+      "Esperienza di almeno 2 anni in design grafico",
+      "Conoscenza di Adobe Photoshop, Illustrator e Canva",
+      "Creatività e attenzione ai dettagli"
+    ]
+  }
+]
