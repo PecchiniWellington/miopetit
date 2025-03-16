@@ -2,7 +2,6 @@
 import { useToast } from "@/hooks/use-toast";
 import { Trash2 } from "lucide-react";
 import React from "react";
-import DynamicButton from "../dynamic-button";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -14,6 +13,7 @@ import {
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
 import { Button } from "../ui/button";
+import BrandButton from "./brand-components/brand-button";
 
 const DeleteDialog = ({
   id,
@@ -63,9 +63,14 @@ const DeleteDialog = ({
           <AlertDialogCancel className="bg-slate-700 px-4 py-2 text-slate-100">
             Cancel
           </AlertDialogCancel>
-          <DynamicButton isPending={isPending} handleAction={handleDeleteClick}>
-            {isPending ? "Deleting..." : "Delete"}
-          </DynamicButton>
+
+          <BrandButton
+            onClick={() => handleDeleteClick()}
+            loading={isPending}
+            variant="flat"
+          >
+            Delete
+          </BrandButton>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

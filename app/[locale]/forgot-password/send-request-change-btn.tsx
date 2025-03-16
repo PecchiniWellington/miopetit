@@ -1,6 +1,6 @@
 "use client";
 
-import DynamicButton from "@/components/dynamic-button";
+import BrandButton from "@/components/shared/brand-components/brand-button";
 import { useLocale, useTranslations } from "next-intl";
 
 const SendRequest = ({
@@ -8,11 +8,13 @@ const SendRequest = ({
   setIsLoading,
   setErrorMessage,
   setSuccessMessage,
+  isLoading,
 }: {
   email: string;
   setIsLoading: (loading: boolean) => void;
   setErrorMessage: (message: string) => void;
   setSuccessMessage: (message: string) => void;
+  isLoading?: boolean;
 }) => {
   const locale = useLocale();
   const t = useTranslations("Profile.SecurityTab");
@@ -50,12 +52,9 @@ const SendRequest = ({
   };
 
   return (
-    <DynamicButton
-      handleAction={handleAction}
-      className="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-5 py-2 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none"
-    >
+    <BrandButton loading={isLoading} onClick={() => handleAction}>
       {t("send_reset_link")}
-    </DynamicButton>
+    </BrandButton>
   );
 };
 

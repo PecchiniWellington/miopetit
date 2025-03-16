@@ -8,7 +8,7 @@ import SendRequest from "./send-request-change-btn";
 
 const ResetPasswordForm = () => {
   const [email, setEmail] = useState("");
-  const [, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
@@ -33,6 +33,7 @@ const ResetPasswordForm = () => {
 
       {/* Integrazione del componente SendRequest */}
       <SendRequest
+        isLoading={isLoading}
         email={email}
         setIsLoading={setIsLoading}
         setErrorMessage={setErrorMessage}

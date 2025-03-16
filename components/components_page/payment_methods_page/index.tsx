@@ -1,10 +1,10 @@
 "use client";
-import DynamicButton from "@/components/dynamic-button";
 import ApplePay from "@/components/icons/ApplePay";
 import GooglePay from "@/components/icons/GooglePay";
 import McPay from "@/components/icons/McPay";
 import PayPalIcon from "@/components/icons/PayPalIcon";
 import VisaPay from "@/components/icons/VisaPay";
+import BrandButton from "@/components/shared/brand-components/brand-button";
 import {
   Form,
   FormControl,
@@ -22,7 +22,7 @@ import {
   PAYMENT_METHODS,
 } from "@/lib/constants/payment-methods";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowRight, Banknote, Loader, Wallet } from "lucide-react";
+import { ArrowRight, Banknote, Wallet } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { JSX, useState } from "react";
@@ -156,14 +156,14 @@ const ConfigPaymentMethodsPage = ({
           />
 
           <div className="flex w-full items-center justify-center">
-            <DynamicButton className="flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-5 py-2 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none">
-              {isPending ? (
-                <Loader className="size-5 animate-spin" />
-              ) : (
-                <ArrowRight className="size-5" />
-              )}
+            <BrandButton
+              type="submit"
+              loading={isPending}
+              variant="primary"
+              icon={<ArrowRight className="size-4" />}
+            >
               {t("continue_button")}
-            </DynamicButton>
+            </BrandButton>
           </div>
         </form>
       </Form>

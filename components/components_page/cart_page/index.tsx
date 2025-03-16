@@ -71,17 +71,19 @@ export const ConfigCartPage = ({
   };
 
   const handleAddToCart = async (item: ICartItem) => {
-    const updatedCart = cleanedCartProduct.map((cartItem) =>
-      cartItem.productId === item.productId
-        ? { ...cartItem, qty: cartItem.qty + 1 }
-        : cartItem
-    );
-    if (userLogged?.id) {
-      await addItemToCart({ ...item, userId: userLogged.id });
-    } else {
-      setStoredValue(updatedCart);
-    }
-    setCleanedCartProduct(updatedCart);
+    startTransition(async () => {
+      const updatedCart = cleanedCartProduct.map((cartItem) =>
+        cartItem.productId === item.productId
+          ? { ...cartItem, qty: cartItem.qty + 1 }
+          : cartItem
+      );
+      if (userLogged?.id) {
+        await addItemToCart({ ...item, userId: userLogged.id });
+      } else {
+        setStoredValue(updatedCart);
+      }
+      setCleanedCartProduct(updatedCart);
+    });
   };
 
   const cancelProduct = (item: ICartItem) => {

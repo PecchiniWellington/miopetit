@@ -6,11 +6,11 @@ import UserGrowthChart from "@/components/admin/users/UserGrowthChart";
 import UsersTable from "@/components/admin/users/UsersTable";
 import CardWorking from "@/components/dev/card-working";
 import DownloadCSV from "@/components/download-csv";
-import DynamicButton from "@/components/dynamic-button";
 import { getAllUsers } from "@/core/actions/admin/admin.actions";
 import { getOrderSummary } from "@/core/actions/order/order.action";
 import Link from "next/link";
 import UsersCard from "./users-card";
+import BrandButton from "@/components/shared/brand-components/brand-button";
 
 const userStats = {
   totalUsers: 152845,
@@ -51,9 +51,9 @@ const UsersPage = async (props: {
 
       <main className="mx-auto max-w-7xl px-4 py-6 lg:px-8 ">
         <div className="mb-4 flex gap-2">
-          <DynamicButton>
+          <BrandButton variant="flat">
             <Link href="/admin/users/create">Create User</Link>
-          </DynamicButton>
+          </BrandButton>
           <DownloadCSV csvData={users} />
         </div>
         {/* STATS */}

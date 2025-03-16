@@ -1,6 +1,6 @@
 "use client";
 
-import DynamicButton from "@/components/dynamic-button";
+import BrandButton from "@/components/shared/brand-components/brand-button";
 import {
   Form,
   FormControl,
@@ -83,9 +83,10 @@ const ProfileForm = () => {
             )}
           />
         </div>
-        <DynamicButton isPending={form.formState.isSubmitting}>
-          {form.formState.isSubmitting ? "Salvando..." : "Salva"}
-        </DynamicButton>
+
+        <BrandButton loading={form.formState.isSubmitting} variant="flat">
+          Salva
+        </BrandButton>
       </form>
     </Form>
   );

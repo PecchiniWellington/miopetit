@@ -176,6 +176,7 @@ const ProfileTabsConfig = ({
         {activeTab === "subscriptions" && <SubscriptionTab />}
         {activeTab === "security" && (
           <SecurityTab
+            isLoading={false}
             email={user.email}
             setIsLoading={() => {}}
             setErrorMessage={() => {}}

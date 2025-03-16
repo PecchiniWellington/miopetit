@@ -1,4 +1,4 @@
-import DynamicButton from "@/components/dynamic-button";
+import BrandButton from "@/components/shared/brand-components/brand-button";
 import { updateOrderToPaidCOD } from "@/core/actions/admin/admin.actions";
 import { IOrder } from "@/core/validators";
 import { useToast } from "@/hooks/use-toast";
@@ -15,10 +15,9 @@ export const MarkAsPaidButton = ({
   const { toast } = useToast();
   const t = useTranslations("OrderConfirmation");
   return (
-    <DynamicButton
-      className="flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-5 py-2 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none"
-      isPending={isPending}
-      handleAction={() =>
+    <BrandButton
+      loading={isPending}
+      onClick={() =>
         setIsPending(async () => {
           const res = await updateOrderToPaidCOD(order.id);
           toast({
@@ -28,7 +27,7 @@ export const MarkAsPaidButton = ({
         })
       }
     >
-      {isPending ? "Processing..." : t("mark_as_paid")}
-    </DynamicButton>
+      {t("mark_as_paid")}
+    </BrandButton>
   );
 };

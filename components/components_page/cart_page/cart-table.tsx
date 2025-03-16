@@ -1,4 +1,4 @@
-import DynamicButton from "@/components/dynamic-button";
+import BrandButton from "@/components/shared/brand-components/brand-button";
 import {
   Table,
   TableBody,
@@ -8,7 +8,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ICartItem } from "@/core/validators";
-import { Button } from "@react-email/components";
 import { Minus, Plus, Trash } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
@@ -63,34 +62,35 @@ const CartTable = ({
             <TableCell className="gap-2 text-center">€{item?.price}</TableCell>
             <TableCell className="gap-2 text-center">
               <div className="flex items-center justify-center space-x-2">
-                <DynamicButton
-                  isPending={isPending}
-                  handleAction={() => handleRemoveFromCart(item)}
-                  className="flex size-10 items-center justify-center rounded-full border-2 border-gray-300 bg-white bg-gradient-to-r from-indigo-500 to-purple-600 text-gray-600 shadow transition-all duration-300 hover:border-red-400 hover:bg-red-50 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-red-300 active:scale-95"
-                >
-                  {!isPending && <Minus className="size-5" />}
-                </DynamicButton>
+                <BrandButton
+                  loading={isPending}
+                  variant="primary"
+                  onClick={() => handleRemoveFromCart(item)}
+                  iconPosition="left"
+                  icon={<Minus className="size-5" />}
+                />
 
                 <span className="w-10 text-center text-lg font-semibold text-gray-800">
                   {item.qty}
                 </span>
 
-                <DynamicButton
-                  isPending={isPending}
-                  handleAction={() => handleAddToCart(item)}
-                  className="flex size-10 items-center justify-center rounded-full border-2 border-gray-300 bg-white bg-gradient-to-r from-indigo-500 to-purple-600 text-gray-600 shadow transition-all duration-300 hover:border-green-400 hover:bg-green-50 hover:text-green-600 focus:outline-none focus:ring-2 focus:ring-green-300 active:scale-95"
-                >
-                  {!isPending && <Plus className="size-5" />}
-                </DynamicButton>
+                <BrandButton
+                  loading={isPending}
+                  variant="primary"
+                  onClick={() => handleAddToCart(item)}
+                  iconPosition="left"
+                  icon={<Plus className="size-5" />}
+                />
               </div>
             </TableCell>
             <TableCell className="w-16 text-center">
-              <Button
+              <BrandButton
+                loading={isPending}
+                variant="flat"
                 onClick={() => cancelProduct(item)}
-                className="flex items-center justify-center rounded-full bg-white text-red-600 shadow transition-all duration-300 hover:border-red-400 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-red-300 active:scale-95"
               >
-                {!isPending && <Trash />}
-              </Button>
+                <Trash className="text-red-600" />
+              </BrandButton>
             </TableCell>
           </TableRow>
         ))}

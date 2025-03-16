@@ -1,8 +1,8 @@
 "use client";
-import DynamicButton from "@/components/dynamic-button";
+import BrandButton from "@/components/shared/brand-components/brand-button";
 import { createOrder } from "@/core/actions/order/order.action";
 import useLocalStorage from "@/hooks/use-local-storage";
-import { Check, Loader } from "lucide-react";
+import { Check } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -24,15 +24,16 @@ const SubmitButtonOrder = () => {
 
   const PlaceOrderButton = () => {
     const { pending } = useFormStatus();
+
     return (
-      <DynamicButton className="mt-10 flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-5 py-2 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none">
-        {pending ? (
-          <Loader className="size-4 animate-spin" />
-        ) : (
-          <Check className="size-4 " />
-        )}
+      <BrandButton
+        type="submit"
+        loading={pending}
+        variant="primary"
+        icon={<Check className="size-4" />}
+      >
         {t("place_order")}
-      </DynamicButton>
+      </BrandButton>
     );
   };
   return (

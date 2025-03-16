@@ -1,5 +1,4 @@
 "use client";
-import DynamicButton from "@/components/dynamic-button";
 import DynamicFormField from "@/components/shared/dynamic-form-field";
 
 import { updateUser } from "@/core/actions/admin/admin.actions";
@@ -9,7 +8,7 @@ import { USER_ROLES } from "@/lib/constants/roles";
 import { USER_STATUS } from "@/lib/constants/user-status";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Loader2 } from "lucide-react";
+import BrandButton from "@/components/shared/brand-components/brand-button";
 import { useRouter } from "next/navigation";
 import { Control, FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -145,16 +144,9 @@ const UpdateUserForm = ({ user }: { user: IUser }) => {
 
         {/* Submit Button */}
         <div className="flex-between">
-          <DynamicButton disabled={formState.isSubmitting}>
-            {formState.isSubmitting ? (
-              <div className="flex items-center gap-2">
-                <Loader2 className="size-5 animate-spin" />
-                Uploading & Updating...
-              </div>
-            ) : (
-              "Update User"
-            )}
-          </DynamicButton>
+          <BrandButton loading={formState.isSubmitting} variant="primary">
+            Update User
+          </BrandButton>
         </div>
       </form>
     </FormProvider>

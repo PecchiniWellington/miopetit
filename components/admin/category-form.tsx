@@ -3,7 +3,6 @@
 import { useToast } from "@/hooks/use-toast";
 import { CATEGORIES_DEFAULT_VALUES } from "@/lib/constants";
 
-import DynamicButton from "@/components/dynamic-button";
 import DynamicFormField from "@/components/shared/dynamic-form-field";
 import {
   createCategory,
@@ -13,6 +12,7 @@ import { categorySchema, ICategory } from "@/core/validators";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
+import BrandButton from "../shared/brand-components/brand-button";
 import { Form } from "../ui/form";
 import SlugFormField from "./product-form/slug-form-field";
 
@@ -103,9 +103,10 @@ const CategoryForm = ({
 
         <div>
           {/* Submit */}
-          <DynamicButton isPending={form.formState.isSubmitting}>
-            {form.formState.isSubmitting ? "Submitting..." : `${type} Category`}
-          </DynamicButton>
+
+          <BrandButton loading={form.formState.isSubmitting} variant="flat">
+            {`${type} Category`}
+          </BrandButton>
         </div>
       </form>
     </Form>

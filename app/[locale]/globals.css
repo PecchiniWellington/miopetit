@@ -12,6 +12,27 @@ body {
 }
 
 @layer utilities {
+  .btn-base {
+    @apply flex  items-center justify-center gap-2 rounded-full px-5 py-2 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none;
+  }
+  .btn-flat {
+    @apply bg-slate-100 p-3 gap-0 border border-white text-primary-500;
+  }
+  .btn-primary {
+    @apply bg-gradient-to-r from-indigo-500 to-purple-600;
+  }
+  .btn-secondary {
+    @apply bg-gradient-to-r from-green-400 to-emerald-600;
+  }
+  .btn-danger {
+    @apply bg-gradient-to-r from-red-500 to-pink-600;
+  }
+  .btn-confirm {
+    @apply bg-gradient-to-r  from-green-500 to-teal-700;
+  }
+  .btn-loading {
+    @apply opacity-70 cursor-not-allowed;
+  }
   .max-w-8xl {
     max-width: 87.5rem;
   }

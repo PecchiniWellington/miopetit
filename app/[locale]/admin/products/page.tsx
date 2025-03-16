@@ -3,7 +3,7 @@ import Header from "@/components/admin/common/Header";
 import ProductsTable from "@/components/admin/products/ProductsTable";
 import SalesTrendChart from "@/components/admin/products/SalesTrendChart";
 import DownloadCSV from "@/components/download-csv";
-import DynamicButton from "@/components/dynamic-button";
+import BrandButton from "@/components/shared/brand-components/brand-button";
 import { getAllProducts } from "@/core/actions/products";
 import { getAllCategories } from "@/core/actions/products/product-infos.ts/get-product-category.action";
 import Link from "next/link";
@@ -35,9 +35,9 @@ const ProductsPage = async (props: {
 
       <main className="mx-auto max-w-7xl px-4 py-6 lg:px-8">
         <div className="mb-6 flex w-full gap-2">
-          <DynamicButton>
+          <BrandButton variant="flat">
             <Link href="/admin/products/create">Create Product</Link>
-          </DynamicButton>
+          </BrandButton>
           <DownloadCSV csvData={products.data} />
         </div>
         {/* STATS */}

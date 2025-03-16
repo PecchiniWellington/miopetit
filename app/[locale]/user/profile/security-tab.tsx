@@ -3,6 +3,7 @@ import SendRequest from "../../forgot-password/send-request-change-btn";
 
 interface SecurityTabProps {
   email: string;
+  isLoading?: boolean;
   setIsLoading: (isLoading: boolean) => void;
   setErrorMessage: (message: string) => void;
   setSuccessMessage: (message: string) => void;
@@ -11,6 +12,7 @@ interface SecurityTabProps {
 export const SecurityTab: React.FC<SecurityTabProps> = ({
   email,
   setIsLoading,
+  isLoading,
   setErrorMessage,
   setSuccessMessage,
 }) => {
@@ -21,6 +23,7 @@ export const SecurityTab: React.FC<SecurityTabProps> = ({
       <p className="mt-2 text-gray-600">{t("handle_your_your_password")}</p>
       <div className="w-min">
         <SendRequest
+          isLoading={isLoading}
           email={email}
           setIsLoading={setIsLoading}
           setErrorMessage={setErrorMessage}

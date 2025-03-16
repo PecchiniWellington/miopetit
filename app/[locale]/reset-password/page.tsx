@@ -1,6 +1,6 @@
 "use client";
 
-import DynamicButton from "@/components/dynamic-button";
+import BrandButton from "@/components/shared/brand-components/brand-button";
 import {
   Card,
   CardContent,
@@ -128,12 +128,10 @@ const ResetPasswordForm = () => {
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
               />
-              <DynamicButton
-                isPending={isLoading}
-                className="flex w-full items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-5 py-2 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none"
-              >
-                {isLoading ? "Resettando..." : "Reset Password"}
-              </DynamicButton>
+
+              <BrandButton loading={isLoading} variant="flat">
+                Reset Password
+              </BrandButton>
             </form>
           </CardContent>
         </Card>

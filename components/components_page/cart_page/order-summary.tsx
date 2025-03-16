@@ -1,4 +1,4 @@
-import DynamicButton from "@/components/dynamic-button";
+import BrandButton from "@/components/shared/brand-components/brand-button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { formatCurrency } from "@/lib/utils";
@@ -133,17 +133,14 @@ const OrderSummary = ({
           </span>
         </div>
 
-        <DynamicButton
-          className="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-5 py-2 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none"
-          handleAction={checkIfGoToCheckout}
+        <BrandButton
+          onClick={() => checkIfGoToCheckout()}
+          loading={isPending}
+          variant="primary"
+          icon={<ArrowRight className="size-4" />}
         >
-          {isPending ? (
-            <Loader className="size-4 animate-spin" />
-          ) : (
-            <ArrowRight className="size-4 " />
-          )}
           {t("checkout_button")}
-        </DynamicButton>
+        </BrandButton>
       </CardContent>
     </Card>
   );

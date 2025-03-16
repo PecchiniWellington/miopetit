@@ -1,5 +1,5 @@
 "use client";
-import DynamicButton from "@/components/dynamic-button";
+import BrandButton from "@/components/shared/brand-components/brand-button";
 import { Button } from "@/components/ui/button";
 import useCountdown from "@/hooks/use-countdown";
 import { motion } from "framer-motion";
@@ -50,9 +50,9 @@ const DealCountdown = () => {
             This deal is no longer available. Check out our latest promotions.
           </p>
           <div className="mt-4">
-            <DynamicButton className="bg-white text-gray-900 hover:bg-gray-200">
+            <BrandButton type="button" variant="flat">
               <Link href="/search">View Products</Link>
-            </DynamicButton>
+            </BrandButton>
           </div>
         </div>
         <div className="flex justify-center">
