@@ -74,7 +74,7 @@ export const ConfigRootPage = ({
 
       <div className="mt-12">
         <Image
-          src={`${imagePath}shipping_fast.png`}
+          src={`${imagePath}shipping-fast.png`}
           alt="product"
           width={1920}
           height={400}
