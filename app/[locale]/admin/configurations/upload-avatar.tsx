@@ -1,5 +1,6 @@
 "use client";
 
+import BrandButton from "@/components/shared/brand-components/brand-button";
 import { FormControl, FormItem, FormLabel } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { XCircle } from "lucide-react";
@@ -54,13 +55,13 @@ export default function UploadAvatar({
             <div className="relative flex size-32 cursor-pointer items-center justify-center rounded-full border-2 border-dashed border-gray-300">
               {preview ? (
                 <div className="relative size-full">
-                  <button
-                    type="button"
-                    className="absolute right-0 top-0 rounded-full bg-red-500 p-1 text-white hover:bg-red-600"
-                    onClick={handleRemoveImage}
+                  <BrandButton
+                    variant="danger"
+                    className="absolute right-0 top-0 "
+                    onClick={() => handleRemoveImage()}
                   >
                     <XCircle className="size-5" />
-                  </button>
+                  </BrandButton>
                   <Image
                     height={120}
                     width={120}

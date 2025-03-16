@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/components/ui/button";
+import BrandButton from "@/components/shared/brand-components/brand-button";
 import { ICategory } from "@/core/validators";
 import { IProductFeatureOnProduct } from "@/core/validators/product-feature.validator";
 import { IProduct } from "@/core/validators/product.validator";
@@ -64,9 +64,13 @@ const ProductForm = ({
           product={product}
         />
 
-        <Button disabled={form.formState.isSubmitting}>
-          {form.formState.isSubmitting ? "Submitting..." : `${type} Product`}
-        </Button>
+        <BrandButton
+          type="submit"
+          loading={form.formState.isSubmitting}
+          disabled={form.formState.isSubmitting}
+        >
+          {`${type} Product`}
+        </BrandButton>
       </form>
     </Form>
   );

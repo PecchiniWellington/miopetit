@@ -1,5 +1,6 @@
 "use client";
 
+import BrandButton from "@/components/shared/brand-components/brand-button";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
@@ -49,18 +50,20 @@ const ProductCarousel = ({
         </AnimatePresence>
 
         {/* Pulsanti di navigazione */}
-        <button
-          onClick={prevImage}
-          className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-white p-2 shadow-md hover:bg-gray-200"
+        <BrandButton
+          variant="flat"
+          onClick={() => prevImage()}
+          className="absolute left-2 top-1/2 -translate-y-1/2 "
         >
           <ChevronLeft size={24} />
-        </button>
-        <button
-          onClick={nextImage}
-          className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-white p-2 shadow-md hover:bg-gray-200"
+        </BrandButton>
+        <BrandButton
+          onClick={() => nextImage()}
+          variant="flat"
+          className="absolute right-2 top-1/2 -translate-y-1/2 "
         >
           <ChevronRight size={24} />
-        </button>
+        </BrandButton>
       </div>
 
       {/* Miniature */}

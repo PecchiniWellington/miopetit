@@ -16,8 +16,9 @@ body {
     @apply flex  items-center justify-center gap-2 rounded-full px-5 py-2 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none;
   }
   .btn-flat {
-    @apply bg-slate-100 p-3 gap-0 border border-white text-primary-500;
+    @apply bg-slate-100 p-3 gap-2 border border-white text-primary-500;
   }
+
   .btn-primary {
     @apply bg-gradient-to-r from-indigo-500 to-purple-600;
   }
@@ -26,6 +27,9 @@ body {
   }
   .btn-danger {
     @apply bg-gradient-to-r from-red-500 to-pink-600;
+  }
+  .warning {
+    @apply bg-yellow-600 py-2 text-white hover:bg-yellow-700;
   }
   .btn-confirm {
     @apply bg-gradient-to-r  from-green-500 to-teal-700;

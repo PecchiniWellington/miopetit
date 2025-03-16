@@ -1,5 +1,6 @@
 "use client";
 
+import BrandButton from "@/components/shared/brand-components/brand-button";
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
@@ -15,10 +16,7 @@ const AccordionFaq2 = ({
 
   return (
     <div className="border-b border-gray-200 dark:border-gray-700">
-      <button
-        className="flex w-full items-center justify-between py-4 text-left text-lg font-medium text-gray-900 dark:text-white"
-        onClick={() => setIsOpen(!isOpen)}
-      >
+      <BrandButton variant="flat" onClick={() => setIsOpen(!isOpen)}>
         {question}
         <motion.div
           animate={{ rotate: isOpen ? 180 : 0 }}
@@ -26,7 +24,7 @@ const AccordionFaq2 = ({
         >
           <ChevronDown className="size-5 text-gray-600 dark:text-gray-400" />
         </motion.div>
-      </button>
+      </BrandButton>
       <motion.div
         initial={{ height: 0, opacity: 0 }}
         animate={{ height: isOpen ? "auto" : 0, opacity: isOpen ? 1 : 0 }}

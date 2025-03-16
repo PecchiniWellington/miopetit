@@ -1,7 +1,7 @@
 "use client";
 
+import BrandButton from "@/components/shared/brand-components/brand-button";
 import { Alert } from "@/components/ui/alert"; // Alert per messaggi
-import { Button } from "@/components/ui/button"; // Bottone per l'upload
 import { Input } from "@/components/ui/input"; // Input per la selezione file
 import { Progress } from "@/components/ui/progress"; // Barra di progresso
 import Image from "next/image";
@@ -84,12 +84,12 @@ export default function UploadImage() {
             multiple
             className="min-h-48 w-full rounded-lg border bg-white p-3 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          <Button
+          <BrandButton
             type="submit"
             className="w-32 rounded-lg bg-blue-600 py-2 text-white hover:bg-blue-700"
           >
             Upload Images
-          </Button>
+          </BrandButton>
         </div>
       </form>
 

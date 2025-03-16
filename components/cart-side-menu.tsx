@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { getMyCart } from "@/core/actions/cart/cart.actions";
@@ -15,6 +14,7 @@ import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import BrandButton from "./shared/brand-components/brand-button";
 
 const CartSideMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -68,19 +68,19 @@ const CartSideMenu = () => {
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       {showCartButton && (
         <SheetTrigger asChild>
-          <Button
+          <BrandButton
             className={`fixed bottom-5 right-5 z-50 flex items-center ${
               isMobile ? "p-3 shadow-md" : "gap-2 px-5 py-2 shadow-lg"
-            } rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none`}
+            }  transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none`}
+            icon={<ShoppingCart className="size-6" />}
           >
-            <ShoppingCart className="size-6" />
             {totalCount > 0 && (
               <span className="absolute -right-2 -top-2 flex size-6 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
                 {totalCount}
               </span>
             )}
-            {!isMobile && <span>{t("Shared.cart")}</span>}
-          </Button>
+            {!isMobile && t("Shared.cart")}
+          </BrandButton>
         </SheetTrigger>
       )}
       <SheetContent
@@ -97,9 +97,9 @@ const CartSideMenu = () => {
           <h2 className="text-lg font-semibold">
             {t("Shared.your")} {t("Shared.cart")}
           </h2>
-          <button onClick={() => setIsOpen(false)} className="p-1">
+          <BrandButton onClick={() => setIsOpen(false)} className="p-1">
             <X className="size-6 text-white" />
-          </button>
+          </BrandButton>
         </div>
 
         {/* Lista dei prodotti */}
@@ -152,9 +152,9 @@ const CartSideMenu = () => {
             </div>
 
             <Link href="/shipping-address">
-              <Button className="mt-4 w-full rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 py-3 text-lg font-semibold text-white hover:from-indigo-600 hover:to-purple-700">
+              <BrandButton className="mt-4">
                 {t("Shared.proceed_to")} {t("Shared.checkout")}
-              </Button>
+              </BrandButton>
             </Link>
           </div>
         )}

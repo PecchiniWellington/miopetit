@@ -1,8 +1,8 @@
 "use client";
 
 import AccordionFaq from "@/components/shared/accordion";
+import BrandButton from "@/components/shared/brand-components/brand-button";
 import TicketSupport from "@/components/shared/modals/ticket-support";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   createSupportTicket,
@@ -193,9 +193,7 @@ export default function SupportTab() {
             />
           ))}
           <Link href="/faq">
-            <Button className="mt-4 flex w-full items-center gap-2 rounded-lg bg-gray-600 px-4 py-2 text-white transition hover:bg-gray-700 sm:shadow-md">
-              📖 {t("see_all_faq")}
-            </Button>
+            <BrandButton variant="flat">📖 {t("see_all_faq")}</BrandButton>
           </Link>
         </CardContent>
       </Card>

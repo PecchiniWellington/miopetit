@@ -1,4 +1,5 @@
 "use client";
+import BrandButton from "@/components/shared/brand-components/brand-button";
 import DeleteDialog from "@/components/shared/delete-dialog";
 import { Badge } from "@/components/ui/badge";
 import { deleteUser } from "@/core/actions/admin/admin.actions";
@@ -166,12 +167,11 @@ const UsersTable = ({ users }: { users?: IUser[] }) => {
                 </td>
 
                 <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-300">
-                  <button className="mr-2 text-indigo-400 hover:text-indigo-300">
+                  <BrandButton>
                     <Link href={`/admin/users/${user.id}`}>
-                      {" "}
                       <Edit size={18} />
                     </Link>
-                  </button>
+                  </BrandButton>
                   <DeleteDialog id={user.id} action={deleteUser} />
                 </td>
               </motion.tr>

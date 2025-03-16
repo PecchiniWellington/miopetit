@@ -1,5 +1,4 @@
 import { BadgeStatus } from "@/components/shared/badge-status";
-import BrandButton from "@/components/shared/brand-components/brand-button";
 import { getAllCategories } from "@/core/actions/products/product-infos.ts/get-product-category.action";
 import { STATUS } from "@/lib/constants";
 import Link from "next/link";
@@ -198,9 +197,7 @@ const SearchPage = async (props: {
             (category !== "all" && category !== "") ||
             rating !== "all" ||
             price !== "all" ? (
-              <BrandButton type="button" variant="flat">
-                <Link href="/search">Clear</Link>
-              </BrandButton>
+              <Link href="/search">Clear</Link>
             ) : null}
           </div>
           <div>

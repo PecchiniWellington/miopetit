@@ -5,7 +5,7 @@ import { useFilterContext } from "@/context/filter-context";
 import { STATUS } from "@/lib/constants";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { Button } from "../ui/button";
+import BrandButton from "../shared/brand-components/brand-button";
 
 const ActiveFilters = () => {
   const searchParams = useSearchParams();
@@ -60,12 +60,11 @@ const ActiveFilters = () => {
       )}
 
       {Object.keys(filters).length > 0 && (
-        <Button
-          onClick={onResetFilter} // ✅ Chiama la funzione di reset dal padre
-          className="flex items-center gap-2 rounded-full border border-purple-500 bg-white px-4 py-2 text-sm font-medium text-purple-700 shadow-md transition-all hover:bg-purple-100 hover:text-purple-900"
+        <BrandButton
+          onClick={() => onResetFilter()} // ✅ Chiama la funzione di reset dal padre
         >
           🔄 Reset Filtri
-        </Button>
+        </BrandButton>
       )}
     </div>
   );

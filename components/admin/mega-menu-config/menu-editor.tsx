@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import CustomSelect from "../../shared/selects/custom-select";
+import BrandButton from "@/components/shared/brand-components/brand-button";
 
 const ItemType = {
   CATEGORY: "CATEGORY",
@@ -80,12 +81,12 @@ export default function MenuEditor() {
             className="hidden"
             onChange={handleFileUpload}
           />
-          <button
+          <BrandButton
             onClick={() => fileInputRef.current?.click()}
-            className="mb-4 rounded bg-green-500 px-4 py-2 text-white"
+            variant="confirm"
           >
             Carica JSON 📂
-          </button>
+          </BrandButton>
         </div>
         {/* Input per il Titolo e l'Immagine del menu */}
         <div className="mb-4">
@@ -103,14 +104,13 @@ export default function MenuEditor() {
           <CustomSelect onChange={(value) => setMenuImage(value)} />
         </div>
 
-        <button
+        <BrandButton
           onClick={() =>
             setMenu([...menu, { title: "Nuova Categoria", items: [] }])
           }
-          className="mb-4 rounded bg-blue-600 px-4 py-2 text-white"
         >
           Aggiungi Categoria
-        </button>
+        </BrandButton>
 
         {menu.length > 0 && (
           <div className="rounded bg-[#1F2937] p-4">
@@ -183,19 +183,19 @@ const CategoryItem = ({
             })
           }
         />
-        <button
+        <BrandButton
           onClick={() =>
             setMenu((prevMenu: Category[]) =>
               prevMenu?.filter((_, i) => i !== index)
             )
           }
-          className="ml-2 rounded bg-red-500 px-2 py-1 text-white"
+          variant="danger"
         >
           X
-        </button>
+        </BrandButton>
       </div>
 
-      <button
+      <BrandButton
         onClick={() =>
           setMenu((prevMenu: Category[]) => {
             const updatedMenu = [...prevMenu];
@@ -206,10 +206,10 @@ const CategoryItem = ({
             return updatedMenu;
           })
         }
-        className="mb-2 rounded bg-green-500 px-3 py-1 text-white"
+        variant="confirm"
       >
         Aggiungi Voce di Menu
-      </button>
+      </BrandButton>
 
       <div className="rounded bg-[#1F2937] p-2">
         {category.items.map((item, itemIndex) => (
@@ -239,7 +239,7 @@ const CategoryItem = ({
                 })
               }
             />
-            <button
+            <BrandButton
               onClick={() =>
                 setMenu((prevMenu: Category[]) => {
                   const updatedMenu = [...prevMenu];
@@ -249,10 +249,10 @@ const CategoryItem = ({
                   return updatedMenu;
                 })
               }
-              className="ml-2 text-red-700"
+              variant="danger"
             >
               <Trash2 />
-            </button>
+            </BrandButton>
           </div>
         ))}
       </div>

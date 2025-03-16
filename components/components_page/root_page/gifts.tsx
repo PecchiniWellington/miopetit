@@ -24,7 +24,6 @@ const Gifts = () => {
     hasSize: false,
   });
 
-  console.log("imagePath", imagePath);
   return (
     <div className="my-12 ">
       {/* Titolo */}
@@ -50,7 +49,9 @@ const Gifts = () => {
             className="group relative  rounded-3xl bg-white   transition-transform duration-300 hover:scale-105 "
             whileHover={{ scale: 1.05 }}
           >
-            <AnimalAvatar name={name} image={`${imagePath}${image}`} />
+            {imagePath && (
+              <AnimalAvatar name={name} image={`${imagePath}${image}`} />
+            )}
             <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
               <p className="text-lg font-bold text-white">{name}</p>
             </div>
@@ -81,11 +82,13 @@ const Gifts = () => {
                     className="overflow-hidden rounded-lg bg-white p-4 shadow-md transition-transform duration-300 hover:scale-105"
                     whileHover={{ scale: 1.05 }}
                   >
-                    <AnimalAvatar
-                      key={name}
-                      name={name}
-                      image={`${imagePath}${image}`}
-                    />
+                    {imagePath && (
+                      <AnimalAvatar
+                        key={name}
+                        name={name}
+                        image={`${imagePath}${image}`}
+                      />
+                    )}
                   </motion.div>
                 </div>
               </CarouselItem>

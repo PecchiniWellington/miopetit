@@ -1,9 +1,9 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { APP_NAME } from "@/lib/constants";
 import { getCurrentYear } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
+import BrandButton from "../brand-components/brand-button";
 
 const Footer = () => {
   const t = useTranslations("Footer");
@@ -47,15 +47,15 @@ const Footer = () => {
               </Link>
             </li>
             <li>
-              <Button
+              <BrandButton
                 className="-my-5 p-0 text-base font-normal hover:text-purple-600"
-                onClick={(e) => {
+                onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                   e.preventDefault();
                   window.location.href = `/user/profile#orders`;
                 }}
               >
                 {t("shipping_returns")}
-              </Button>
+              </BrandButton>
             </li>
             <li>
               <Link href="/contact" className="hover:text-purple-600">
@@ -109,12 +109,12 @@ const Footer = () => {
               placeholder={t("email_placeholder")}
               className="w-full flex-1 rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-1 focus:ring-purple-500 sm:rounded-l-md sm:rounded-r-none"
             />
-            <button
+            <BrandButton
               type="submit"
               className="w-full rounded-md bg-purple-600 px-4 py-2 text-white transition hover:bg-purple-700 sm:w-auto sm:rounded-l-none sm:rounded-r-md"
             >
               {t("subscribe")}
-            </button>
+            </BrandButton>
           </form>
         </div>
       </div>

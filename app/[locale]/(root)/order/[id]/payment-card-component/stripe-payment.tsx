@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import BrandButton from "@/components/shared/brand-components/brand-button";
 import { BASE_URL } from "@/lib/constants";
 import { formatCurrency } from "@/lib/utils";
 import {
@@ -90,15 +90,13 @@ const StripePayment = ({
           />
         </div>
 
-        <Button
-          className="mt-4 w-full rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 py-3 text-lg font-semibold text-white hover:from-indigo-600 hover:to-purple-700"
-          size="lg"
+        <BrandButton
+          loading={isLoading}
+          type="submit"
           disabled={stripe == null || elements == null || isLoading}
         >
-          {isLoading
-            ? "Purchasing..."
-            : `Purchase ${formatCurrency(priceInCents / 100)}`}
-        </Button>
+          {`Purchase ${formatCurrency(priceInCents / 100)}`}
+        </BrandButton>
       </form>
     );
   };

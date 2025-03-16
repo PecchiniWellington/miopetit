@@ -1,6 +1,7 @@
 "use client";
 
 import Papa from "papaparse";
+import BrandButton from "./shared/brand-components/brand-button";
 
 const DownloadCSV = ({ csvData }: { csvData: unknown[] }) => {
   const downloadCSV = () => {
@@ -21,14 +22,7 @@ const DownloadCSV = ({ csvData }: { csvData: unknown[] }) => {
     document.body.removeChild(link);
   };
 
-  return (
-    <button
-      onClick={downloadCSV}
-      className="rounded-md bg-green-600 px-4 py-2 text-white hover:bg-green-700"
-    >
-      Download CSV
-    </button>
-  );
+  return <BrandButton onClick={() => downloadCSV()}>Download CSV</BrandButton>;
 };
 
 export default DownloadCSV;

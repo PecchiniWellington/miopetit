@@ -1,5 +1,6 @@
 "use client";
 
+import BrandButton from "@/components/shared/brand-components/brand-button";
 import { motion } from "framer-motion";
 import { Star, ThumbsDown, ThumbsUp } from "lucide-react";
 import { useState } from "react";
@@ -89,12 +90,9 @@ const ReviewsTab = () => {
 
               {/* Feedback sui commenti */}
               <div className="mt-4 flex items-center gap-4">
-                <button
-                  className={`flex items-center gap-1 text-sm ${
-                    feedback[review.id] === "like"
-                      ? "text-green-600"
-                      : "text-gray-500"
-                  }`}
+                <BrandButton
+                  variant={feedback[review.id] === "like" ? "confirm" : "flat"}
+                  icon={<ThumbsUp className="size-4" />}
                   onClick={() =>
                     setFeedback((prev) => ({
                       ...prev,
@@ -102,14 +100,11 @@ const ReviewsTab = () => {
                     }))
                   }
                 >
-                  <ThumbsUp className="size-4" /> {review.likes}
-                </button>
-                <button
-                  className={`flex items-center gap-1 text-sm ${
-                    feedback[review.id] === "dislike"
-                      ? "text-red-600"
-                      : "text-gray-500"
-                  }`}
+                  {review.likes}
+                </BrandButton>
+                <BrandButton
+                  variant={feedback[review.id] === "like" ? "danger" : "flat"}
+                  icon={<ThumbsDown className="size-4" />}
                   onClick={() =>
                     setFeedback((prev) => ({
                       ...prev,
@@ -118,8 +113,8 @@ const ReviewsTab = () => {
                     }))
                   }
                 >
-                  <ThumbsDown className="size-4" /> {review.dislikes}
-                </button>
+                  {review.dislikes}
+                </BrandButton>
               </div>
             </motion.div>
           ))}

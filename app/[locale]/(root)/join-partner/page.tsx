@@ -1,7 +1,7 @@
 "use client";
 
+import BrandButton from "@/components/shared/brand-components/brand-button";
 import DynamicFormFieldFE from "@/components/shared/dynamic-form-field-fe";
-import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
@@ -221,12 +221,15 @@ export default function JoinPartner() {
           />
 
           {/* 📌 Submit */}
-          <Button
-            className="flex min-w-52 items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-5 py-2 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none"
+
+          <BrandButton
+            icon={<ArrowRight className="size-5" />}
+            type="submit"
             disabled={formState.isSubmitting}
+            loading={formState.isSubmitting}
           >
-            <ArrowRight className="ml-2 size-5" /> Invia la Richiesta
-          </Button>
+            Invia la Richiesta
+          </BrandButton>
 
           {/* 📌 Messaggi di errore sotto ai campi */}
         </form>

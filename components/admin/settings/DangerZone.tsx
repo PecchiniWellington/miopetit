@@ -1,4 +1,5 @@
 "use client";
+import BrandButton from "@/components/shared/brand-components/brand-button";
 import { motion } from "framer-motion";
 import { Trash2 } from "lucide-react";
 
@@ -17,12 +18,9 @@ const DangerZone = () => {
       <p className="mb-4 text-gray-300">
         Permanently delete your account and all of your content.
       </p>
-      <button
-        className="rounded bg-red-600 px-4 py-2 font-bold text-white transition 
-      duration-200 hover:bg-red-700"
-      >
+      <BrandButton type="submit" variant="danger">
         Delete Account
-      </button>
+      </BrandButton>
     </motion.div>
   );
 };

@@ -1,6 +1,5 @@
 "use client";
 import BrandButton from "@/components/shared/brand-components/brand-button";
-import { Button } from "@/components/ui/button";
 import useCountdown from "@/hooks/use-countdown";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
@@ -90,11 +89,11 @@ const DealCountdown = () => {
           <StatBox label="Seconds" value={seconds} />
         </ul>
         <div className="mt-6">
-          <Button className="w-full rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-md transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none sm:w-64">
+          <BrandButton>
             <Link href="/search">
               {t("Shared.view") + " " + t("Shared.product")}
             </Link>
-          </Button>
+          </BrandButton>
         </div>
       </div>
       <div className="flex justify-center">

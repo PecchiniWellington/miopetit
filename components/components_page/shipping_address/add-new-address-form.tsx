@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/components/ui/button";
+import BrandButton from "@/components/shared/brand-components/brand-button";
 import {
   Form,
   FormControl,
@@ -132,12 +132,7 @@ const AddNewAddressForm = ({
             />
           ))}
 
-          <Button
-            type="submit"
-            className="mt-10 flex w-full items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-5 py-2 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none md:w-fit"
-          >
-            {t("add_address_button")}
-          </Button>
+          <BrandButton type="submit">{t("add_address_button")}</BrandButton>
         </form>
         <FormMessage />
       </Form>

@@ -16,9 +16,11 @@ const getLocaleImagePath = ({
 };
 
 const getDeviceSize = () => {
-  if (window.innerWidth < 768) return "mobile";
-  /*  if (window.innerWidth < 1024) return "tablet"; */
-  return "desktop";
+  if (typeof window !== "undefined") {
+    if (window.innerWidth < 768) return "mobile";
+    return "desktop";
+  }
+  return "desktop"; // fallback lato server
 };
 
 export const useLocalImage = ({
@@ -30,13 +32,14 @@ export const useLocalImage = ({
   subFolder?: string;
   hasSize?: boolean;
 }) => {
-  const [size, setSize] = useState(getDeviceSize());
-
-  const [imagePath, setImagePath] = useState(
-    getLocaleImagePath({ locale, subFolder, size: hasSize ? size : null })
-  );
+  const [size, setSize] = useState<"mobile" | "desktop" | null>(null);
+  const [imagePath, setImagePath] = useState<string | null>(null);
 
   useEffect(() => {
+    const initialSize = hasSize ? getDeviceSize() : null;
+    setSize(initialSize);
+    setImagePath(getLocaleImagePath({ locale, subFolder, size: initialSize }));
+
     const handleResize = () => {
       const newSize = getDeviceSize();
       if (newSize !== size && hasSize) {
@@ -47,7 +50,7 @@ export const useLocalImage = ({
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [locale, subFolder, size]);
+  }, [locale, subFolder, hasSize]);
 
   return imagePath;
 };

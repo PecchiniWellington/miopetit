@@ -4,13 +4,15 @@ import { ReactNode } from "react";
 
 interface BrandButtonProps {
   type?: "submit" | "reset" | "button";
-  onClick?: (...args: never[]) => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   loading?: boolean;
   children?: ReactNode;
   icon?: ReactNode;
   disabled?: boolean;
   iconPosition?: "left" | "right";
-  variant?: "primary" | "secondary" | "danger" | "confirm" | "flat";
+  variant?: "primary" | "secondary" | "danger" | "confirm" | "flat" | "warning";
+  className?: string;
+  ref?: React.ForwardedRef<HTMLButtonElement>;
 }
 
 const BrandButton = ({
@@ -22,6 +24,8 @@ const BrandButton = ({
   icon,
   iconPosition = "left",
   variant = "primary",
+  className,
+  ref,
 }: BrandButtonProps) => {
   const variantClass = {
     primary: "btn-primary",
@@ -29,21 +33,20 @@ const BrandButton = ({
     danger: "btn-danger",
     confirm: "btn-confirm",
     flat: "btn-flat",
+    warning: "btn-warning",
   };
 
   return (
     <Button
-      onClick={type !== "submit" ? onClick : undefined}
-      disabled={disabled}
+      ref={ref}
       type={type}
-      className={`btn-base ${variantClass[variant]} ${loading ? "btn-loading" : ""}`}
+      onClick={onClick}
+      disabled={disabled || loading}
+      className={`btn-base ${variantClass[variant]} ${loading ? "btn-loading" : ""} ${className}`}
     >
       {loading && <Loader2 className="size-4 animate-spin" />}
-
       {!loading && icon && iconPosition === "left" && icon}
-
       {children && <span>{children}</span>}
-
       {!loading && icon && iconPosition === "right" && icon}
     </Button>
   );

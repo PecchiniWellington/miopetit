@@ -1,4 +1,5 @@
 "use client";
+import BrandButton from "@/components/shared/brand-components/brand-button";
 import { Lock } from "lucide-react";
 import { useState } from "react";
 import SettingSection from "./SettingSection";
@@ -15,13 +16,7 @@ const Security = () => {
         onToggle={() => setTwoFactor(!twoFactor)}
       />
       <div className="mt-4">
-        <button
-          className="rounded bg-indigo-600 px-4 py-2 font-bold text-white transition 
-        duration-200 hover:bg-indigo-700
-        "
-        >
-          Change Password
-        </button>
+        <BrandButton type="submit">Change Password</BrandButton>
       </div>
     </SettingSection>
   );

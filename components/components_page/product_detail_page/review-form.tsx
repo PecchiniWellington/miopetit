@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import BrandButton from "@/components/shared/brand-components/brand-button";
 import {
   Form,
   FormControl,
@@ -24,7 +24,7 @@ import { insertReviewSchema } from "@/core/validators";
 import { useToast } from "@/hooks/use-toast";
 import { REVIEW_FORM_DEFAULT_VALUES } from "@/lib/constants";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader, Send, StarIcon } from "lucide-react";
+import { Send, StarIcon } from "lucide-react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -146,17 +146,13 @@ const ReviewForm = ({
             )}
           />
         </div>
-        <Button
+        <BrandButton
           type="submit"
-          className="flex w-full items-center justify-center gap-2 rounded-lg bg-indigo-600 px-6 py-3 text-lg font-medium text-white transition-all duration-300 hover:bg-indigo-700 active:scale-95 dark:bg-indigo-500 dark:hover:bg-indigo-400"
+          loading={form.formState.isSubmitting}
+          icon={<Send className="size-6" />}
         >
-          {false ? (
-            <Loader className="size-4 animate-spin" />
-          ) : (
-            <Send className="size-6" />
-          )}
-          <span>Invia</span>
-        </Button>
+          Invia
+        </BrandButton>
       </form>
     </Form>
   );

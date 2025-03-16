@@ -101,13 +101,13 @@ const CategoryForm = ({
           />
         </div>
 
-        <div>
-          {/* Submit */}
-
-          <BrandButton loading={form.formState.isSubmitting} variant="flat">
-            {`${type} Category`}
-          </BrandButton>
-        </div>
+        <BrandButton
+          loading={form.formState.isSubmitting}
+          variant="flat"
+          type="submit"
+        >
+          {`${type} Category`}
+        </BrandButton>
       </form>
     </Form>
   );

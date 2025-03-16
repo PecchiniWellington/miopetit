@@ -6,13 +6,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Button } from "@/components/ui/button";
 import { useFilterContext } from "@/context/filter-context";
 
 import { STATUS } from "@/lib/constants";
 import { transformKey } from "@/lib/utils";
 import { FilterIcon, X } from "lucide-react";
 import { useSearchParams } from "next/navigation";
+import BrandButton from "../shared/brand-components/brand-button";
 
 const Filter = ({
   productFilters,
@@ -46,24 +46,25 @@ const Filter = ({
 
   return (
     <div className={`w-full ${className}`}>
-      <Button
+      <BrandButton
         onClick={() => setIsAccordionOpen(true)}
-        className="flex w-full items-center gap-2 rounded-lg border px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm hover:bg-gray-100 md:hidden"
+        variant="flat"
+        icon={<FilterIcon size={18} />}
       >
-        <FilterIcon size={18} /> Filtri
-      </Button>
+        Filtri
+      </BrandButton>
 
       <aside
         className={`fixed inset-y-0 left-0 z-10 w-3/4 max-w-xs bg-white px-6 py-12 transition-transform md:relative md:block md:w-full md:translate-x-0 md:p-0 ${
           isAccordionOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <Button
+        <BrandButton
           onClick={() => setIsAccordionOpen(false)}
           className="absolute right-4 top-4 md:hidden"
         >
           <X size={24} />
-        </Button>
+        </BrandButton>
 
         <div>
           {Object.entries(productFilters).map(([key, values]) => (
@@ -86,13 +87,11 @@ const Filter = ({
 
                         return (
                           <li key={filterValue}>
-                            <Button
+                            <BrandButton
                               onClick={() =>
                                 updateFilters(key, filterValue.toString())
                               }
-                              className={`block w-full rounded-lg px-3 py-2 text-left text-gray-700 hover:bg-gray-100 ${
-                                isActive ? "bg-gray-200" : ""
-                              }`}
+                              variant="flat"
                             >
                               <BadgeStatus
                                 status={
@@ -109,7 +108,7 @@ const Filter = ({
                                       ? `${value.unitValue ?? ""} ${value.unitOfMeasure ?? ""}`
                                       : ""}
                               </BadgeStatus>
-                            </Button>
+                            </BrandButton>
                           </li>
                         );
                       })}

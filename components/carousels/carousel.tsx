@@ -2,6 +2,7 @@
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { JSX, useEffect, useRef, useState } from "react";
+import BrandButton from "../shared/brand-components/brand-button";
 
 interface CarouselProps<T> {
   data: T[];
@@ -102,18 +103,20 @@ const DynamicCarousel = <T,>({
       </div>
 
       {/* Pulsanti di navigazione */}
-      <button
-        onClick={prevSlide}
-        className="absolute left-4 top-1/2 z-10 flex -translate-y-1/2 items-center justify-center rounded-full bg-black/50 p-3 text-white transition hover:bg-black/80"
+      <BrandButton
+        variant="flat"
+        onClick={() => prevSlide()}
+        className="absolute left-4 top-1/2 z-10 flex -translate-y-1/2 items-center justify-center "
       >
         <ChevronLeft size={32} />
-      </button>
-      <button
-        onClick={nextSlide}
-        className="absolute right-4 top-1/2 z-10 flex -translate-y-1/2 items-center justify-center rounded-full bg-black/50 p-3 text-white transition hover:bg-black/80"
+      </BrandButton>
+      <BrandButton
+        variant="flat"
+        onClick={() => nextSlide()}
+        className="absolute right-4 top-1/2 z-10 flex -translate-y-1/2 items-center justify-center"
       >
         <ChevronRight size={32} />
-      </button>
+      </BrandButton>
 
       {/* Indicatori */}
       <div className="absolute inset-x-0 bottom-0 flex justify-center pb-4">

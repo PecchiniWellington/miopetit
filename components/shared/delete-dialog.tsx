@@ -12,7 +12,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
-import { Button } from "../ui/button";
 import BrandButton from "./brand-components/brand-button";
 
 const DeleteDialog = ({
@@ -42,13 +41,13 @@ const DeleteDialog = ({
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
-        <Button>
+        <BrandButton>
           <Trash2
             height={10}
             width={10}
             className="text-red-400 hover:text-red-300"
           />
-        </Button>
+        </BrandButton>
       </AlertDialogTrigger>
       <AlertDialogContent className="bg-slate-200 dark:bg-slate-900 dark:text-slate-100">
         <AlertDialogHeader>

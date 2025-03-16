@@ -1,4 +1,5 @@
 "use client";
+import BrandButton from "@/components/shared/brand-components/brand-button";
 import { Badge } from "@/components/ui/badge";
 import { IOrder } from "@/core/validators";
 import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
@@ -178,9 +179,9 @@ const OrdersTable = ({ orders }: { orders: { data: IOrder[] } }) => {
                 </td>
 
                 <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-300">
-                  <button className="mr-2 text-indigo-400 hover:text-indigo-300">
+                  <BrandButton>
                     <Eye size={18} />
-                  </button>
+                  </BrandButton>
                 </td>
               </motion.tr>
             ))}

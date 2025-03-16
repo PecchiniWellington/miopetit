@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import BrandButton from "@/components/shared/brand-components/brand-button";
 import {
   Form,
   FormControl,
@@ -186,26 +186,23 @@ export const AddressesTab = ({ user }: { user: IUser }) => {
               </div>
               <div className="flex gap-2">
                 {!address.isDefault && (
-                  <Button
-                    variant="outline"
-                    size="icon"
+                  <BrandButton
+                    variant="flat"
                     onClick={() =>
                       address.id && handleSetDefault(address.id, user.id)
                     }
                   >
                     <CheckCircle className="size-4 text-green-500" />
-                  </Button>
+                  </BrandButton>
                 )}
-                <Button
-                  variant="outline"
-                  size="icon"
+                <BrandButton
+                  variant="flat"
                   onClick={() => handleEditAddress(address)}
                 >
                   <Pencil className="size-4 text-gray-500" />
-                </Button>
-                <Button
-                  variant="outline"
-                  size="icon"
+                </BrandButton>
+                <BrandButton
+                  variant="flat"
                   onClick={() => {
                     if (address.id) {
                       deleteUserAddress(address.id, user.id);
@@ -214,24 +211,24 @@ export const AddressesTab = ({ user }: { user: IUser }) => {
                   }}
                 >
                   <Trash className="size-4 text-red-500" />
-                </Button>
+                </BrandButton>
               </div>
             </div>
           ))}
       </div>
 
       {/* Bottone Aggiungi Indirizzo */}
-      <Button
+      <BrandButton
         className="mt-4 flex items-center gap-2"
         onClick={() => {
           setEditingAddress(null);
           form.reset(SHIPPING_ADDRESS_DEFAULT_VALUES);
           setIsModalOpen(true);
         }}
+        icon={<Plus className="size-5" />}
       >
-        <Plus className="size-5" />
         {t("add_address")}
-      </Button>
+      </BrandButton>
 
       {/* Overlay Modale Aggiunta/Modifica */}
       {isModalOpen && (
@@ -297,14 +294,11 @@ export const AddressesTab = ({ user }: { user: IUser }) => {
                   )
                 )}
 
-                <Button
-                  type="submit"
-                  className="w-full bg-indigo-600 text-white hover:bg-indigo-700"
-                >
+                <BrandButton type="submit">
                   {editingAddress
                     ? t("modal_add_address.add_address_button")
                     : t("modal_add_address.edit_address_button")}
-                </Button>
+                </BrandButton>
               </form>
             </Form>
           </div>

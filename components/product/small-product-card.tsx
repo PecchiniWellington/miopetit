@@ -1,5 +1,6 @@
 import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
+import BrandButton from "../shared/brand-components/brand-button";
 
 const SmallProductCard = () => {
   return (
@@ -31,9 +32,9 @@ const SmallProductCard = () => {
             <span className="text-lg font-bold text-red-600">€3,19</span>
           </div>
           <div className="flex justify-end">
-            <button className="flex size-10 items-center justify-center rounded-full bg-primary-500 text-black shadow-md transition hover:bg-primary-700">
+            <BrandButton>
               <ShoppingCart size={20} />
-            </button>
+            </BrandButton>
           </div>
         </div>
 

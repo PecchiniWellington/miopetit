@@ -11,6 +11,7 @@ import { Edit, Eye } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import AdminSearch, { SearchProvider } from "../admin-search";
+import BrandButton from "@/components/shared/brand-components/brand-button";
 
 const ProductsTable = ({
   products,
@@ -83,16 +84,16 @@ const ProductsTable = ({
                 {product.rating}
               </td>
               <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-300">
-                <button className="mr-2 text-indigo-400 hover:text-indigo-300">
+                <BrandButton>
                   <Link href={`/admin/products/${product.id}/edit`}>
                     <Edit size={18} />
                   </Link>
-                </button>
-                <button className="ml-2 text-orange-400 hover:text-orange-300">
+                </BrandButton>
+                <BrandButton variant="warning">
                   <Link href={`/admin/products/${product.id}/resume`}>
                     <Eye size={18} />
                   </Link>
-                </button>
+                </BrandButton>
                 <DeleteDialog id={product.id} action={deleteProduct} />
               </td>
             </motion.tr>

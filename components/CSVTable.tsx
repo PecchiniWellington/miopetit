@@ -11,6 +11,7 @@ import {
 import Image from "next/image";
 import Papa from "papaparse";
 import { useEffect, useState } from "react";
+import BrandButton from "./shared/brand-components/brand-button";
 
 export default function CSVTable({ CSV_URL }: { CSV_URL: string }) {
   const [data, setData] = useState<string[][]>([]);
@@ -130,23 +131,23 @@ export default function CSVTable({ CSV_URL }: { CSV_URL: string }) {
       </Table>
 
       <div className="pagination mt-4">
-        <button
+        <BrandButton
           onClick={() => paginate(currentPage - 1)}
           disabled={currentPage === 1}
-          className="mr-2 rounded bg-gray-200 px-4 py-2"
+          variant="flat"
         >
           Precedente
-        </button>
+        </BrandButton>
         <span>
           {currentPage} di {totalPages}
         </span>
-        <button
+        <BrandButton
           onClick={() => paginate(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="ml-2 rounded bg-gray-200 px-4 py-2"
+          variant="flat"
         >
           Successivo
-        </button>
+        </BrandButton>
       </div>
     </div>
   );

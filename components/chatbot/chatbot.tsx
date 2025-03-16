@@ -2,6 +2,7 @@
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { MessageCircle, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import BrandButton from "../shared/brand-components/brand-button";
 
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
@@ -67,12 +68,12 @@ export default function Chatbot() {
   return (
     <div>
       {/* Pulsante flottante per aprire la chat */}
-      <button
-        className={`fixed right-4 z-50 ${bottomOffset} flex size-14 items-center justify-center rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg transition-all duration-300 hover:scale-110`}
+      <BrandButton
+        className={`fixed right-4 z-50 ${bottomOffset} flex size-14 items-center justify-center transition-all duration-300 hover:scale-110`}
         onClick={() => setIsOpen(!isOpen)}
       >
         {isOpen ? <X size={28} /> : <MessageCircle size={28} />}
-      </button>
+      </BrandButton>
 
       {/* Box della chat */}
       {isOpen && (
@@ -127,17 +128,15 @@ export default function Chatbot() {
               placeholder="Scrivi un messaggio..."
               disabled={isLoading} // Disabilita input mentre il bot risponde
             />
-            <button
-              onClick={sendMessage}
-              className={`ml-2 rounded-lg px-4 py-2 text-white ${
-                isLoading
-                  ? "cursor-not-allowed bg-gray-400"
-                  : "bg-purple-500 hover:bg-purple-600"
-              }`}
+            <BrandButton
+              loading={isLoading}
+              onClick={() => sendMessage()}
+              variant={isLoading ? "flat" : "primary"}
+              className={`ml-2`}
               disabled={isLoading}
             >
-              {isLoading ? "..." : "Invia"}
-            </button>
+              Invia
+            </BrandButton>
           </div>
         </div>
       )}

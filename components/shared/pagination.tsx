@@ -1,6 +1,7 @@
 "use client";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import BrandButton from "./brand-components/brand-button";
 
 type PaginationProps = {
   page: number | string;
@@ -28,7 +29,7 @@ const Pagination = ({
   return (
     <div className="mt-6 flex items-center justify-center gap-3">
       {/* Bottone "Indietro" */}
-      <button
+      <BrandButton
         onClick={() => updatePageUrl(currentPage - 1)}
         disabled={currentPage <= 1}
         className={`flex items-center gap-1 rounded-full px-4 py-2 text-sm font-semibold transition-all 
@@ -36,7 +37,7 @@ const Pagination = ({
         `}
       >
         <ChevronLeft size={18} /> Indietro
-      </button>
+      </BrandButton>
 
       {/* Indicatore pagina */}
       <span className="rounded-md bg-gray-700 px-4 py-2 text-sm font-semibold text-white shadow">
@@ -44,15 +45,16 @@ const Pagination = ({
       </span>
 
       {/* Bottone "Avanti" */}
-      <button
+      <BrandButton
+        icon={<ChevronRight size={18} />}
+        iconPosition="right"
         onClick={() => updatePageUrl(currentPage + 1)}
         disabled={currentPage >= totalPages}
-        className={`flex items-center gap-1 rounded-full px-4 py-2 text-sm font-semibold transition-all 
-          ${currentPage >= totalPages ? "cursor-not-allowed bg-gray-600 text-gray-400" : "bg-purple-600 text-white hover:bg-purple-700"}
-        `}
+        variant={`${currentPage >= totalPages ? "flat" : "primary"}`}
+        className={currentPage >= totalPages ? "cursor-not-allowed " : ""}
       >
-        Avanti <ChevronRight size={18} />
-      </button>
+        Avanti
+      </BrandButton>
     </div>
   );
 };

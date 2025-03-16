@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import BrandButton from "@/components/shared/brand-components/brand-button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import {
@@ -65,10 +65,9 @@ export default function ProfileNotificationsTab() {
         <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
           🔔 Notifiche
         </h2>
-        <Button variant="outline" size="sm" className="flex items-center gap-2">
-          <Settings className="size-5" />
+        <BrandButton variant="flat" icon={<Settings className="size-5" />}>
           Preferenze Notifiche
-        </Button>
+        </BrandButton>
       </div>
 
       {/* 📩 Lista Notifiche */}
@@ -91,21 +90,19 @@ export default function ProfileNotificationsTab() {
                 </div>
                 <div className="flex gap-2">
                   {!notif.read && (
-                    <Button
-                      size="icon"
-                      variant="ghost"
+                    <BrandButton
+                      variant="flat"
                       onClick={() => markAsRead(notif.id)}
                     >
                       <CheckCircle className="size-5 text-green-600 hover:text-green-700" />
-                    </Button>
+                    </BrandButton>
                   )}
-                  <Button
-                    size="icon"
-                    variant="ghost"
+                  <BrandButton
+                    variant="flat"
                     onClick={() => deleteNotification(notif.id)}
                   >
                     <Trash2 className="size-5 text-red-600 hover:text-red-700" />
-                  </Button>
+                  </BrandButton>
                 </div>
               </CardContent>
             </Card>

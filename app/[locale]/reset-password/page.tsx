@@ -129,7 +129,7 @@ const ResetPasswordForm = () => {
                 required
               />
 
-              <BrandButton loading={isLoading} variant="flat">
+              <BrandButton type="submit" loading={isLoading} variant="flat">
                 Reset Password
               </BrandButton>
             </form>

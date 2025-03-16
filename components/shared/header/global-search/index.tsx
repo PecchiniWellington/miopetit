@@ -2,13 +2,14 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { SearchIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 import BestProduct from "./best-product";
 import { useSearch } from "./global-search-context";
 import SearchCategorySelect from "./search-categories-select";
 import SearchField from "./search-field";
 import SuggestedBrand from "./suggested-brand";
-import { useTranslations } from "next-intl";
+import BrandButton from "../../brand-components/brand-button";
 
 const Search = () => {
   const { isDropdownVisible, setIsDropdownVisible, searchRef, searchTerm } =
@@ -46,13 +47,9 @@ const Search = () => {
           </span>
 
           <SearchField />
-          <button
-            disabled={true}
-            type="submit"
-            className="flex items-center justify-center rounded-full bg-indigo-600 p-3 text-white transition-all duration-300 hover:bg-indigo-700"
-          >
+          <BrandButton disabled={true} type="submit">
             <SearchIcon height={16} width={16} />
-          </button>
+          </BrandButton>
         </form>
         <AnimatePresence>
           {isDropdownVisible && (

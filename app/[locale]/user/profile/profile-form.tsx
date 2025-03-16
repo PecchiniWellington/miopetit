@@ -84,7 +84,11 @@ const ProfileForm = () => {
           />
         </div>
 
-        <BrandButton loading={form.formState.isSubmitting} variant="flat">
+        <BrandButton
+          type="submit"
+          loading={form.formState.isSubmitting}
+          variant="flat"
+        >
           Salva
         </BrandButton>
       </form>

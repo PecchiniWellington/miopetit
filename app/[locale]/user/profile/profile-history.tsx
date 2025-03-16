@@ -1,7 +1,7 @@
 "use client";
 
+import BrandButton from "@/components/shared/brand-components/brand-button";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { formatDateTime } from "@/lib/utils";
@@ -66,9 +66,9 @@ export default function HistoryTab() {
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
         />
-        <Button variant="outline">
+        <BrandButton type="submit" variant="flat">
           <Filter className="size-5 text-gray-600" />
-        </Button>
+        </BrandButton>
       </div>
 
       {/* 📦 Cronologia Ordini */}
@@ -105,10 +105,8 @@ export default function HistoryTab() {
           )}
 
           <Link href="/orders">
-            <Button className="mt-4 flex w-full items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-white shadow-md transition hover:bg-indigo-700">
-              <Package className="size-5" />
-              Vedi tutti gli ordini
-            </Button>
+            <Package className="size-5" />
+            Vedi tutti gli ordini
           </Link>
         </CardContent>
       </Card>

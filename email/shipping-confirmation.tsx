@@ -3,7 +3,6 @@ import { ICartItem, IOrder } from "@/core/validators";
 import { formatCurrency } from "@/lib/utils";
 import {
   Body,
-  Button,
   Column,
   Container,
   Head,
@@ -16,6 +15,7 @@ import {
   Tailwind,
   Text,
 } from "@react-email/components";
+import Link from "next/link";
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 require("dotenv").config();
 
@@ -84,12 +84,7 @@ export default function ShippingConfirmationEmail({
                 <b>Corriere:</b> Express Delivery <br />
                 <b>Numero di Tracking:</b> {order.trackingNumber}
               </Text>
-              <Button
-                className="mt-2 rounded-md bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-500"
-                href={order.trackingUrl}
-              >
-                📍 Traccia il tuo pacco
-              </Button>
+              <Link href={order.trackingUrl}>📍 Traccia il tuo pacco</Link>
             </Section>
 
             <Section className="my-6 rounded-lg border border-gray-300 p-4">

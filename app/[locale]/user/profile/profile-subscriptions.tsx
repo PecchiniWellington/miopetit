@@ -1,7 +1,7 @@
 "use client";
 
+import BrandButton from "@/components/shared/brand-components/brand-button";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { CheckCircle, CreditCard, RefreshCcw, XCircle } from "lucide-react";
 import Link from "next/link";
@@ -76,30 +76,27 @@ export default function SubscriptionTab() {
 
               <div className="mt-5 flex flex-col gap-3 md:flex-row">
                 <Link href="/subscriptions">
-                  <Button className="flex w-full items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-white shadow-md transition hover:bg-indigo-700">
-                    <RefreshCcw className="size-5" />
+                  <BrandButton
+                    icon={<RefreshCcw className="size-5 animate-spin" />}
+                  >
                     Cambia Piano
-                  </Button>
+                  </BrandButton>
                 </Link>
 
-                <Button
-                  variant="destructive"
-                  className="flex w-full max-w-fit items-center gap-2 rounded-lg bg-red-500 px-4 py-2 text-white shadow-md transition hover:bg-red-600"
-                  onClick={handleCancelSubscription}
+                <BrandButton
+                  variant="danger"
+                  icon={
+                    isCancelling ? (
+                      <RefreshCcw className="size-5 animate-spin" />
+                    ) : (
+                      <XCircle className="size-5" />
+                    )
+                  }
+                  onClick={() => handleCancelSubscription()}
                   disabled={isCancelling}
                 >
-                  {isCancelling ? (
-                    <>
-                      <RefreshCcw className="size-5 animate-spin" />
-                      Annullamento in corso...
-                    </>
-                  ) : (
-                    <>
-                      <XCircle className="size-5" />
-                      Disdici Abbonamento
-                    </>
-                  )}
-                </Button>
+                  Disdici Abbonamento
+                </BrandButton>
               </div>
             </div>
           </CardContent>
@@ -114,9 +111,7 @@ export default function SubscriptionTab() {
             Scopri i vantaggi e abbonati per ottenere offerte esclusive.
           </p>
           <Link href="/subscriptions">
-            <Button className="mt-3 flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-white shadow-md transition hover:bg-indigo-700">
-              🎟️ Scopri i Piani
-            </Button>
+            <BrandButton>🎟️ Scopri i Piani</BrandButton>
           </Link>
         </div>
       )}

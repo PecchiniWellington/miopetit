@@ -1,9 +1,9 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
+import BrandButton from "../shared/brand-components/brand-button";
 
 const sortOrders = ["newest", "lowest", "highest", "rating"];
 
@@ -30,13 +30,14 @@ const SortProduct = ({
 
   return (
     <div className={`relative z-20 ${className}`}>
-      <Button
+      <BrandButton
         onClick={() => setIsSortOpen(!isSortOpen)}
-        className="flex w-full items-center gap-2 rounded-lg border px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm hover:bg-gray-100"
+        variant="flat"
+        iconPosition="right"
+        icon={<ChevronDown size={16} />}
       >
         <span className="font-bold text-primary-500">{currentSort}</span>{" "}
-        <ChevronDown size={16} />
-      </Button>
+      </BrandButton>
 
       {isSortOpen && (
         <ul className="absolute right-0 mt-2 w-40 rounded-lg border bg-white shadow-md">

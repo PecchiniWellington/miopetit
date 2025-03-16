@@ -144,7 +144,11 @@ const UpdateUserForm = ({ user }: { user: IUser }) => {
 
         {/* Submit Button */}
         <div className="flex-between">
-          <BrandButton loading={formState.isSubmitting} variant="primary">
+          <BrandButton
+            type="submit"
+            loading={formState.isSubmitting}
+            variant="primary"
+          >
             Update User
           </BrandButton>
         </div>

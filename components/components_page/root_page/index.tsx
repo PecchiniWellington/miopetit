@@ -3,6 +3,7 @@ import { ICart, IProduct } from "@/core/validators";
 import { useLocalImage } from "@/hooks/use-local-image";
 import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
+
 import AnimalCategory from "./animals-catergory";
 import BestSellingProduct from "./best-selling-products";
 import DealCountdown from "./deal-countdown";
@@ -36,14 +37,16 @@ export const ConfigRootPage = ({
       </div>
 
       <div className="mt-12">
-        <Image
-          src={`${imagePath}bring-friend.png`}
-          alt="product"
-          width={1920}
-          height={400}
-          className="size-full object-cover object-center"
-          priority
-        />
+        {imagePath && (
+          <Image
+            src={`${imagePath}bring-friend.png`}
+            alt="product"
+            width={1920}
+            height={400}
+            className="size-full object-cover object-center"
+            priority
+          />
+        )}
       </div>
 
       <div className="mt-12">
@@ -73,14 +76,16 @@ export const ConfigRootPage = ({
       />
 
       <div className="mt-12">
-        <Image
-          src={`${imagePath}shipping-fast.png`}
-          alt="product"
-          width={1920}
-          height={400}
-          className="size-full object-cover object-center"
-          priority
-        />
+        {imagePath && (
+          <Image
+            src={`${imagePath}shipping-fast.png`}
+            alt="product"
+            width={1920}
+            height={400}
+            className="size-full object-cover object-center"
+            priority
+          />
+        )}
       </div>
     </>
   );

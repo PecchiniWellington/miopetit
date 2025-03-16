@@ -1,12 +1,12 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import BrandButton from "@/components/shared/brand-components/brand-button";
 import { setDefaultAddress } from "@/core/actions/user/set-user-default-address.action";
 import { IUser } from "@/core/validators";
 import { IAddress } from "@/core/validators/user-address.validator";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
-import { CheckCircle, Loader2, MapPin } from "lucide-react";
+import { CheckCircle, MapPin } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -97,9 +97,9 @@ const DefaultAddressLoggedUser = ({
                   </div>
                   <div className="flex gap-2">
                     {!address.isDefault && (
-                      <Button
-                        variant="outline"
-                        size="icon"
+                      <BrandButton
+                        variant="flat"
+                        loading={isUpdating}
                         onClick={() =>
                           address.id &&
                           user.id &&
@@ -107,30 +107,22 @@ const DefaultAddressLoggedUser = ({
                         }
                         disabled={isUpdating}
                       >
-                        {isUpdating ? (
-                          <Loader2 className="size-4 animate-spin text-gray-500" />
-                        ) : (
-                          <CheckCircle className="size-4 text-gray-500 hover:text-blue-500" />
-                        )}
-                      </Button>
+                        <CheckCircle className="size-4 text-gray-500 hover:text-blue-500" />
+                      </BrandButton>
                     )}
                   </div>
                 </motion.div>
               ))}
           </div>
 
-          <Button
-            variant="outline"
-            className="mt-10 flex w-full items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-5 py-2 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none md:w-fit"
-            onClick={updateAddress}
+          <BrandButton
+            className="mt-4"
+            onClick={() => updateAddress()}
             disabled={isUpdating}
+            loading={isUpdating}
           >
-            {isUpdating ? (
-              <Loader2 className="size-5 animate-spin" />
-            ) : (
-              t("continue_button")
-            )}
-          </Button>
+            {t("continue_button")}
+          </BrandButton>
         </div>
       )}
     </div>

@@ -1,8 +1,8 @@
 "use client";
 
+import BrandButton from "@/components/shared/brand-components/brand-button";
 import SearchSelect from "@/components/shared/selects/search-select";
 import { Alert } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Papa from "papaparse";
 import { useRef, useState } from "react";
@@ -184,13 +184,14 @@ export default function UploadFiles() {
           className={` w-full rounded-lg border border-slate-700 bg-transparent  p-3 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500`}
         />
 
-        <Button
-          onClick={uploadOnDb}
+        <BrandButton
+          onClick={() => uploadOnDb()}
+          variant="warning"
+          loading={loading}
           disabled={!csvFile || loading}
-          className="mt-2 w-full rounded-lg bg-yellow-600 py-2 text-white hover:bg-yellow-700"
         >
-          {loading ? "Uploading..." : "Start Upload"}
-        </Button>
+          Start Upload
+        </BrandButton>
       </div>
 
       {errorMessage && (

@@ -5,6 +5,7 @@ import { ArrowLeft, ChevronRight, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import BrandButton from "../brand-components/brand-button";
 import UserButton from "./user-button";
 
 interface IMenuItem {
@@ -62,33 +63,27 @@ export default function SidebarMenu({
                   className="mx-auto rounded-full"
                 />
                 <div className="mt-2 flex items-center justify-between">
-                  <button
+                  <BrandButton
                     onClick={() => {
                       setSelectedCategory(null);
                       setActiveCategory(null);
                     }}
-                    className="flex items-center text-gray-600 hover:text-black"
+                    variant="flat"
                   >
                     <ArrowLeft className="mr-2" size={18} />
                     {selectedCategory.mainTitle}
-                  </button>
-                  <button
-                    onClick={onClose}
-                    className="text-gray-600 hover:text-black"
-                  >
+                  </BrandButton>
+                  <BrandButton onClick={() => onClose()} variant="flat">
                     <X size={22} />
-                  </button>
+                  </BrandButton>
                 </div>
               </>
             ) : (
               <div className="flex items-center justify-between">
                 <h2 className="text-lg font-semibold">Categorie</h2>
-                <button
-                  onClick={onClose}
-                  className="text-gray-600 hover:text-black"
-                >
+                <BrandButton variant="flat" onClick={() => onClose()}>
                   <X size={22} />
-                </button>
+                </BrandButton>
               </div>
             )}
           </div>
@@ -104,9 +99,9 @@ export default function SidebarMenu({
                 className="mt-4 space-y-3 "
               >
                 {categories.map((category, index) => (
-                  <button
+                  <BrandButton
                     key={index}
-                    className="flex w-full items-center justify-between rounded-lg border-b border-gray-200 px-3 py-2 text-left text-gray-700 hover:bg-gray-100"
+                    variant="flat"
                     onClick={() => {
                       setSelectedCategory({
                         mainTitle: category.mainTitle,
@@ -125,7 +120,7 @@ export default function SidebarMenu({
                       <span>{category.mainTitle}</span>
                     </div>
                     <ChevronRight size={18} />
-                  </button>
+                  </BrandButton>
                 ))}
               </motion.div>
             ) : !activeCategory ? (
@@ -142,13 +137,13 @@ export default function SidebarMenu({
                   ?.menu.map((subCategory, index) => (
                     <div key={index}>
                       {subCategory.items.length > 0 ? (
-                        <button
-                          className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-gray-700 hover:bg-gray-100"
+                        <BrandButton
+                          variant="flat"
                           onClick={() => setActiveCategory(subCategory)}
                         >
                           <span>{subCategory.title}</span>
                           <ChevronRight size={18} />
-                        </button>
+                        </BrandButton>
                       ) : (
                         <Link
                           href={`/category/${subCategory.title.toLowerCase().replace(/\s+/g, "-")}`}

@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowDown, ArrowUp, XCircle } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { JSX } from "react";
+import BrandButton from "./brand-components/brand-button";
 
 interface SortableTableProps<T> {
   columns: { key: keyof T; label: string }[];
@@ -72,12 +73,9 @@ const SortableTable = <T,>({
               Ordinamento attivo: <strong>{sortKey.toUpperCase()}</strong> (
               {sortOrder === "asc" ? "Ascendente" : "Discendente"})
             </span>
-            <button
-              onClick={resetSort}
-              className="flex items-center gap-1 rounded-md bg-red-600 px-3 py-1 text-sm font-medium text-white transition-all hover:bg-red-700"
-            >
+            <BrandButton onClick={() => resetSort()} variant="danger">
               <XCircle size={16} /> Reset Sort
-            </button>
+            </BrandButton>
           </motion.div>
         )}
       </AnimatePresence>

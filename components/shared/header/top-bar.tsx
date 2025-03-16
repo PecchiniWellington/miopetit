@@ -1,9 +1,9 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
+import BrandButton from "../brand-components/brand-button";
 
 export default function TopBar() {
   const locale = useLocale();
@@ -20,15 +20,14 @@ export default function TopBar() {
 
         {/* 🔗 Link Assistenza e Ordini */}
         <div className="flex gap-6">
-          <Button
-            className={`flex items-center gap-1 transition hover:scale-105 hover:text-yellow-300`}
-            onClick={(e) => {
+          <BrandButton
+            onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
               e.preventDefault();
               window.location.href = `${session.data?.user.id ? "/user/profile#support" : "/faq"}`;
             }}
           >
             {t("support")}
-          </Button>
+          </BrandButton>
           <Link
             href={`/${locale}/user/profile#orders`}
             className={`flex items-center gap-1 transition hover:scale-105 hover:text-yellow-300 `}

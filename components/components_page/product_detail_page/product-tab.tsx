@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Info, Star } from "lucide-react";
 import { useState } from "react";
 import ReviewsTab from "./review-tab";
+import BrandButton from "@/components/shared/brand-components/brand-button";
 
 const tabs = [
   {
@@ -27,16 +28,15 @@ const ProductTabs = ({
       {/* Tab Navigation */}
       <div className="relative flex items-center border-b dark:border-gray-700">
         {tabs.map((tab) => (
-          <button
+          <BrandButton
             key={tab.id}
-            className={`relative flex w-1/2 items-center justify-center gap-2 py-3 text-lg font-medium transition-all duration-300 ${
-              activeTab === tab.id
-                ? "text-indigo-600 dark:text-indigo-400"
-                : "text-gray-500 hover:text-indigo-500 dark:text-gray-300"
-            }`}
+            variant={activeTab === tab.id ? "primary" : "flat"}
+            className={
+              "relative flex w-1/2 items-center justify-center gap-2 py-3 text-lg font-medium transition-all duration-300"
+            }
             onClick={() => setActiveTab(tab.id)}
+            icon={tab.icon}
           >
-            {tab.icon}
             {tab.label}
             {activeTab === tab.id && (
               <motion.div
@@ -44,7 +44,7 @@ const ProductTabs = ({
                 className="absolute bottom-0 h-[3px] w-full rounded bg-indigo-500"
               />
             )}
-          </button>
+          </BrandButton>
         ))}
       </div>
 

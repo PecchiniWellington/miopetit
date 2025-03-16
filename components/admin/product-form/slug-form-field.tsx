@@ -1,8 +1,8 @@
 import DynamicFormField from "@/components/shared/dynamic-form-field";
-import { Button } from "@/components/ui/button";
 import slugify from "slugify";
 
 import { FieldValues, Path, PathValue, UseFormReturn } from "react-hook-form";
+import BrandButton from "@/components/shared/brand-components/brand-button";
 interface SlugFormFieldProps<T extends FieldValues> {
   form: UseFormReturn<T>;
 }
@@ -28,12 +28,11 @@ const SlugFormField = <T extends FieldValues>({
         title="Slug"
         placeholder="Enter slug"
       />
-      <Button
-        className={`btn w-[200px] focus-visible:ring-0 focus-visible:ring-offset-0`}
-        onClick={(e) => handleSetValue(e)}
+      <BrandButton
+        onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleSetValue(e)}
       >
         Generate
-      </Button>
+      </BrandButton>
     </div>
   );
 };

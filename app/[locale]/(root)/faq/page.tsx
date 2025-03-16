@@ -1,6 +1,7 @@
 "use client";
 
 import AccordionFaq from "@/components/shared/accordion";
+import BrandButton from "@/components/shared/brand-components/brand-button";
 import TicketSupport from "@/components/shared/modals/ticket-support";
 import { createSupportTicket } from "@/core/actions/support-ticket/create-support-ticket";
 import { supportTicketSchema } from "@/core/validators/support-ticket.validator";
@@ -104,17 +105,17 @@ export default function FAQPage() {
       {/* 📌 Categories */}
       <div className="mt-6 flex flex-wrap gap-3">
         {faqCategories.map((category) => (
-          <button
-            key={category.id}
+          <BrandButton
+            icon={category.icon}
+            variant={openCategory === category.id ? "primary" : "flat"}
             onClick={() => {
               setOpenCategory(category.id);
               setSearchTerm("");
             }}
-            className={`flex items-center gap-2 rounded-lg px-4 py-2 transition ${openCategory === category.id ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-800 hover:bg-blue-500 hover:text-white"}`}
+            key={category.id}
           >
-            {category.icon}
             {category.name}
-          </button>
+          </BrandButton>
         ))}
       </div>
 

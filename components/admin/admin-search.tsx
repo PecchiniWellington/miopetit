@@ -9,6 +9,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import BrandButton from "../shared/brand-components/brand-button";
 import { Input } from "../ui/input";
 
 // **Tipizzazione del contesto**
@@ -99,20 +100,17 @@ const AdminSearch = () => {
       />
 
       {searchQuery && (
-        <button
-          onClick={clearSearch}
-          className="absolute right-12 flex items-center justify-center rounded-full bg-red-600 p-2 text-white hover:bg-gray-500"
-        >
+        <BrandButton onClick={() => clearSearch()} variant="danger">
           <X size={18} />
-        </button>
+        </BrandButton>
       )}
       {/* Bottone di ricerca */}
-      <button
-        onClick={triggerSearch} // Cliccando l'icona avvia la ricerca
-        className="absolute right-3 flex items-center justify-center rounded-full bg-gray-600 p-2 text-white hover:bg-gray-500"
+      <BrandButton
+        onClick={() => triggerSearch()} // Cliccando l'icona avvia la ricerca
+        variant="flat"
       >
         <Search size={18} />
-      </button>
+      </BrandButton>
     </div>
   );
 };

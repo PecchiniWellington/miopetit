@@ -159,7 +159,6 @@ const ConfigPaymentMethodsPage = ({
             <BrandButton
               type="submit"
               loading={isPending}
-              variant="primary"
               icon={<ArrowRight className="size-4" />}
             >
               {t("continue_button")}

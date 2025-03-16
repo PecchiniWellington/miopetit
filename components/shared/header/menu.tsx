@@ -5,6 +5,7 @@ import menuDog from "@/core/db-static/mega-menu/menu-dogs.json";
 import menuSmallAnimals from "@/core/db-static/mega-menu/menu-small-animals.json";
 import { MenuIcon } from "lucide-react";
 import { useState } from "react";
+import BrandButton from "../brand-components/brand-button";
 const categoriesData = [
   ...(Array.isArray(menuDog) ? menuDog : [menuDog]),
   ...(Array.isArray(menuCat) ? menuCat : [menuCat]),
@@ -16,12 +17,9 @@ export default function Menu({ className }: { className: string }) {
 
   return (
     <div className={className}>
-      <button
-        onClick={() => setIsSidebarOpen(true)}
-        className="rounded  px-2 py-1 text-white"
-      >
+      <BrandButton variant="flat" onClick={() => setIsSidebarOpen(true)}>
         <MenuIcon />
-      </button>
+      </BrandButton>
 
       {isSidebarOpen && (
         <SidebarMenu

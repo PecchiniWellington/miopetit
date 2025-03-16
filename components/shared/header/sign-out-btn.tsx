@@ -1,6 +1,6 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { signOutUser } from "@/core/actions/auth/auth.actions";
+import BrandButton from "../brand-components/brand-button";
 
 const SignOutBtn = () => {
   /*  const [, setValue] = useLocalStorage("cart", []); */
@@ -11,9 +11,9 @@ const SignOutBtn = () => {
         await signOutUser();
       }}
     >
-      <Button type="submit" className="btn-ghost">
+      <BrandButton type="submit" variant="flat">
         Sign Out
-      </Button>
+      </BrandButton>
     </form>
   );
 };

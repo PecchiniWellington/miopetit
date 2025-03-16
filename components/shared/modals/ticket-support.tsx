@@ -1,11 +1,11 @@
-import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { Loader, MessageCircle, X } from "lucide-react";
+import { MessageCircle, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { FieldValues, Path, UseFormReturn } from "react-hook-form";
 
 import { Form } from "@/components/ui/form";
 import { useState } from "react";
+import BrandButton from "../brand-components/brand-button";
 import DynamicFormField from "../dynamic-form-field";
 
 interface SlugFormFieldProps<T extends FieldValues> {
@@ -23,12 +23,12 @@ const TicketSupport = <T extends FieldValues>({
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="flex w-full justify-end">
-      <button
+      <BrandButton
         onClick={() => setIsOpen(true)}
-        className="flex w-full max-w-xs items-center justify-center gap-2 rounded-lg bg-indigo-600 px-6 py-3 text-white shadow-lg transition hover:scale-105 hover:bg-blue-700 hover:shadow-lg"
+        icon={<MessageCircle className="size-5" />}
       >
-        <MessageCircle className="size-5" /> {t("open_ticket")}
-      </button>
+        {t("open_ticket")}
+      </BrandButton>
 
       {isOpen && (
         <Form {...form}>
@@ -46,12 +46,9 @@ const TicketSupport = <T extends FieldValues>({
             >
               {/* 🔘 Bottone di Chiusura */}
 
-              <button
-                onClick={() => setIsOpen(false)}
-                className="absolute right-4 top-4 flex size-8 items-center justify-center rounded-full bg-gray-300 text-gray-700 transition-all hover:bg-gray-400 hover:text-gray-900"
-              >
+              <BrandButton onClick={() => setIsOpen(false)}>
                 <X className="size-5" />
-              </button>
+              </BrandButton>
 
               <div className="rounded-lg border bg-gray-50 p-4">
                 <h2 className="text-lg font-bold">📩 {t("open_ticket")}</h2>
@@ -100,14 +97,13 @@ const TicketSupport = <T extends FieldValues>({
                     placeholder={t("describe_your_request")}
                   />
 
-                  <Button
+                  <BrandButton
+                    loading={isPending}
                     type="submit"
                     disabled={isPending}
-                    className="w-full bg-indigo-600 text-white"
                   >
-                    {isPending && <Loader className="size-4 animate-spin" />}
                     {t("send_ticket")}
-                  </Button>
+                  </BrandButton>
                 </form>
               </div>
             </motion.div>

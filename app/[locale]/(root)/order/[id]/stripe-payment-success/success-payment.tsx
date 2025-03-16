@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import Link from "next/link"; // CORRETTO IMPORT
 
@@ -63,14 +62,12 @@ const SuccessPayment = ({ id }: { id: string }) => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.8, duration: 0.5, ease: "easeOut" }}
       >
-        <Button asChild>
-          <Link
-            href={`/order/${id}`}
-            className="mt-8 flex items-center gap-2 rounded-full bg-yellow-400 px-8 py-3 text-lg font-semibold text-gray-900 shadow-lg transition-all duration-300 hover:scale-105 hover:bg-yellow-500"
-          >
-            📦 Visualizza Ordine
-          </Link>
-        </Button>
+        <Link
+          href={`/order/${id}`}
+          className="mt-8 flex items-center gap-2 rounded-full bg-yellow-400 px-8 py-3 text-lg font-semibold text-gray-900 shadow-lg transition-all duration-300 hover:scale-105 hover:bg-yellow-500"
+        >
+          📦 Visualizza Ordine
+        </Link>
       </motion.div>
     </motion.div>
   );

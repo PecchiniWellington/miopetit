@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import BrandButton from "@/components/shared/brand-components/brand-button";
 import {
   Form,
   FormControl,
@@ -115,9 +115,13 @@ const ProfileForm = ({ user }: { user: IUser }) => {
           </div>
         </div>
 
-        <Button className="mt-2 inline-block w-full rounded-lg bg-indigo-600 px-5 py-2 text-center text-white shadow-md transition hover:bg-indigo-700">
-          {form.formState.isSubmitting ? t("form.saving") : t("form.save")}
-        </Button>
+        <BrandButton
+          type="submit"
+          loading={form.formState.isSubmitting}
+          variant="flat"
+        >
+          {t("form.save")}
+        </BrandButton>
       </form>
     </Form>
   );

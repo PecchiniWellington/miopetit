@@ -1,7 +1,7 @@
 "use client";
 
+import BrandButton from "@/components/shared/brand-components/brand-button";
 import LanguageSwitcher from "@/components/switcher-language";
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -80,10 +80,12 @@ const SettingsTab = () => {
         </div> */}
 
         {/* 🚀 Salva le Modifiche */}
-        <Button className="w-full bg-indigo-600 text-white shadow-md hover:bg-indigo-700">
-          <Check className="mr-2 size-5" />
+        <BrandButton
+          className="w-full bg-indigo-600 text-white shadow-md hover:bg-indigo-700"
+          icon={<Check className="mr-2 size-5" />}
+        >
           {t("save_changes")}
-        </Button>
+        </BrandButton>
 
         {/* 🗑️ Elimina Account */}
         <div className="mt-6 rounded-lg border border-red-500 bg-red-50 p-6 shadow-md dark:border-red-700 dark:bg-red-900">
@@ -94,14 +96,13 @@ const SettingsTab = () => {
             {t("delete_account_message")}
           </p>
 
-          <Button
-            variant="destructive"
-            className="mt-4 w-full bg-red-600 text-white shadow-md transition-all hover:bg-red-700 focus:ring-2 focus:ring-red-400"
+          <BrandButton
+            variant="danger"
             onClick={() => setOpen(true)}
+            icon={<Trash2 className="mr-2 size-5" />}
           >
-            <Trash2 className="mr-2 size-5" />
             {t("delete_account_button")}
-          </Button>
+          </BrandButton>
 
           {/* Modale di conferma */}
           <Dialog open={open} onOpenChange={setOpen}>
@@ -117,22 +118,20 @@ const SettingsTab = () => {
               </p>
 
               <DialogFooter className="flex justify-between">
-                <Button
-                  variant="outline"
-                  className="flex items-center text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
+                <BrandButton
+                  variant="danger"
                   onClick={() => setOpen(false)}
+                  icon={<X className="mr-2 size-5" />}
                 >
-                  <X className="mr-2 size-5" />
                   {t("delete_account_modal.cancel_button")}
-                </Button>
-                <Button
-                  variant="destructive"
-                  className="bg-red-600 text-white shadow-md hover:bg-red-700"
-                  onClick={handleDelete}
+                </BrandButton>
+                <BrandButton
+                  variant="danger"
+                  onClick={() => handleDelete()}
+                  icon={<Trash2 className="mr-2 size-5" />}
                 >
-                  <Trash2 className="mr-2 size-5" />
                   {t("delete_account_modal.delete_button")}
-                </Button>
+                </BrandButton>
               </DialogFooter>
             </DialogContent>
           </Dialog>

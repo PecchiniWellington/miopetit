@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
+import BrandButton from "@/components/shared/brand-components/brand-button";
 import { Form, FormControl, FormItem } from "@/components/ui/form";
 import { updateUser } from "@/core/actions/admin/admin.actions";
 import { IUser, updateUserProfileSchema } from "@/core/validators";
@@ -147,13 +148,12 @@ export const PublicUserAvatar = ({ user }: { user: IUser }) => {
                 )}
 
                 {preview && preview !== "/images/user-avatar.png" && (
-                  <button
-                    type="button"
-                    className="absolute -right-3 -top-3 flex size-8 items-center justify-center rounded-full bg-red-500 p-1 text-white shadow-md transition-all hover:scale-110 hover:bg-red-600"
-                    onClick={handleRemoveImage}
+                  <BrandButton
+                    variant="danger"
+                    onClick={() => handleRemoveImage()}
                   >
                     <XCircle className="size-5" />
-                  </button>
+                  </BrandButton>
                 )}
               </div>
 

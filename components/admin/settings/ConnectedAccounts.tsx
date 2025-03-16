@@ -1,4 +1,5 @@
 "use client";
+import BrandButton from "@/components/shared/brand-components/brand-button";
 import { HelpCircle, Plus } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
@@ -42,12 +43,8 @@ const ConnectedAccounts = () => {
             />
             <span className="text-gray-300">{account.name}</span>
           </div>
-          <button
-            className={`rounded px-3 py-1 ${
-              account.connected
-                ? "bg-green-600 hover:bg-green-700"
-                : "bg-gray-600 hover:bg-gray-700"
-            } transition duration-200`}
+          <BrandButton
+            variant={account.connected ? "confirm" : "flat"}
             onClick={() => {
               setConnectedAccounts(
                 connectedAccounts.map((acc) => {
@@ -63,12 +60,12 @@ const ConnectedAccounts = () => {
             }}
           >
             {account.connected ? "Connected" : "Connect"}
-          </button>
+          </BrandButton>
         </div>
       ))}
-      <button className="mt-4 flex items-center text-indigo-400 transition duration-200 hover:text-indigo-300">
-        <Plus size={18} className="mr-2" /> Add Account
-      </button>
+      <BrandButton type="submit" icon={<Plus size={18} className="mr-2" />}>
+        Add Account
+      </BrandButton>
     </SettingSection>
   );
 };
