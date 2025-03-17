@@ -80,6 +80,18 @@ body {
     @apply flex justify-between items-center rounded-xl border border-gray-600 bg-white p-3 text-gray-900 shadow-md transition-all focus:border-blue-500 focus:ring focus:ring-blue-300 disabled:cursor-not-allowed disabled:bg-gray-200;
   }
 
+  /* BACKGROUNDS */
+
+  .bg-p {
+    @apply bg-gradient-to-r from-indigo-500 to-purple-600;
+  }
+  .bg-p-reverse {
+    @apply bg-gradient-to-r to-indigo-500 from-purple-600;
+  }
+  .bg-s {
+    @apply bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500;
+  }
+
   .max-w-8xl {
     max-width: 87.5rem;
   }

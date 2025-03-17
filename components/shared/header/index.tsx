@@ -29,7 +29,7 @@ const Header = async () => {
       <SearchProvider>
         <TopBar />
 
-        <div className=" bg-gradient-to-r from-indigo-500 to-purple-600 ">
+        <div className="bg-p">
           <div className="md:wrapper flex items-center justify-between   px-4 py-3 ">
             {/* 🍔 Menu Mobile */}
             <Menu className="flex items-center px-4 py-3 md:hidden" />

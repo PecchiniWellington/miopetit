@@ -1,6 +1,6 @@
 import { IProduct } from "@/core/validators";
 import { useMemo } from "react";
-import CustomProduct from "./customProduct";
+import BrandProductCard from "./brand-product-card";
 
 interface IProductListProps {
   product: IProduct[];
@@ -26,7 +26,7 @@ const ProductList = ({
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {limitedData ? (
             limitedData.map((product: IProduct) => (
-              <CustomProduct
+              <BrandProductCard
                 key={product.id}
                 product={product}
                 getProductQuantity={getProductQuantity(product.id)}

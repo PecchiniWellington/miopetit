@@ -1,5 +1,5 @@
 "use client";
-import CustomProduct from "@/components/product/customProduct";
+import BrandProductCard from "@/components/product/brand-product-card";
 import { ICart, IProduct, IUser } from "@/core/validators";
 import useLocalStorage from "@/hooks/use-local-storage";
 import { useTranslations } from "next-intl";
@@ -51,7 +51,7 @@ export const FavoritesTab = ({
           ) : (
             <div className="mt-6 grid h-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {storedFavorites?.map((product: IProduct) => (
-                <CustomProduct
+                <BrandProductCard
                   key={product.id}
                   product={product}
                   getProductQuantity={getProductQuantity(product.id)}

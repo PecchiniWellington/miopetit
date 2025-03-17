@@ -11,7 +11,7 @@ export default function TopBar() {
   const t = useTranslations("TopBar");
 
   return (
-    <div className="w-full bg-gradient-to-r from-purple-500 to-indigo-500 px-6 py-2 text-xs text-white">
+    <div className="bg-p-reverse w-full px-6 py-2 text-xs text-white">
       <div className="wrapper container mx-auto flex flex-col items-center justify-between gap-2 sm:flex-row">
         {/* 📦 Testo di spedizione */}
         <p className="text-center font-medium tracking-wide">

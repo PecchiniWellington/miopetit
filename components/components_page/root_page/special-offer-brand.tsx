@@ -1,6 +1,6 @@
 "use client";
 import DynamicCarousel from "@/components/carousels/carousel";
-import CustomProduct from "@/components/product/customProduct";
+import BrandProductCard from "@/components/product/brand-product-card";
 import { ICart, IProduct } from "@/core/validators";
 import useLocalStorage from "@/hooks/use-local-storage";
 import { motion } from "framer-motion";
@@ -106,7 +106,7 @@ const SpecialOfferBrand = ({
           itemsPerView={3}
           gap={20}
           renderItem={(memoizedData) => (
-            <CustomProduct
+            <BrandProductCard
               userId={userId}
               key={memoizedData.id}
               product={memoizedData}

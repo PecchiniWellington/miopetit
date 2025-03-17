@@ -69,7 +69,7 @@ const DealCountdown = () => {
   }
 
   return (
-    <section className="relative my-20 grid grid-cols-1 gap-10 rounded-lg bg-gradient-to-r from-blue-600 to-purple-500 p-10 text-white md:grid-cols-2">
+    <section className="bg-p relative my-20 grid grid-cols-1 gap-10 rounded-lg bg-gradient-to-r p-10 text-white md:grid-cols-2">
       <div className="flex flex-col justify-center gap-4">
         <motion.h3
           className="text-4xl font-extrabold"
@@ -89,7 +89,7 @@ const DealCountdown = () => {
           <StatBox label="Seconds" value={seconds} />
         </ul>
         <div className="mt-6">
-          <BrandButton>
+          <BrandButton variant="danger">
             <Link href="/search">
               {t("Shared.view") + " " + t("Shared.product")}
             </Link>

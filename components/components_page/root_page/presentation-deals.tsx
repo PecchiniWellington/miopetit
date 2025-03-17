@@ -18,7 +18,7 @@ export default function PresentationDeals() {
           >
             {/* Contenitore con bordo sfumato animato */}
             <motion.div
-              className="relative rounded-lg bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500 p-1 shadow-lg"
+              className="bg-s relative rounded-lg p-1 shadow-lg"
               whileHover={{ scale: 1.05 }}
               animate={{
                 transition: { duration: 2 },

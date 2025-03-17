@@ -223,7 +223,7 @@ const SearchPage = async (props: {
           }
           {/* products.data.map((product) => ( */
           /*  [].map((product: any) => (
-              <CustomProduct
+              <BrandProductCard
                 product={product}
                 key={product.id}
                 id={product.id}

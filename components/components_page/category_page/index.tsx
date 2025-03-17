@@ -3,7 +3,7 @@ import IndispensableList from "@/components/carousels/carousel-indispensable";
 import ActiveFilters from "@/components/category/active-filters";
 import Filter from "@/components/category/filter";
 import SortProduct from "@/components/category/sort-product";
-import CustomProduct from "@/components/product/customProduct";
+import BrandProductCard from "@/components/product/brand-product-card";
 import { FilterProvider } from "@/context/filter-context";
 import { ICart, IProduct } from "@/core/validators";
 import useLocalStorage from "@/hooks/use-local-storage";
@@ -88,7 +88,7 @@ const ConfigCategoryPage = ({
       <>
         {/* product.data?? */}
         {products?.map((product: IProduct) => (
-          <CustomProduct
+          <BrandProductCard
             userId={userId}
             key={product.id}
             product={product}

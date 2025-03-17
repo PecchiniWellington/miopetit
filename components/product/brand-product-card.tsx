@@ -9,8 +9,10 @@ import { Heart, ShoppingCart } from "lucide-react";
 import { default as image, default as Image } from "next/image";
 import Link from "next/link";
 import { startTransition, useEffect, useState } from "react";
+import BrandButton from "../shared/brand-components/brand-button";
+import BrandNotificationNumber from "../shared/notification-number";
 
-export default function CustomProduct({
+export default function BrandProductCard({
   product,
   getProductQuantity,
   userId,
@@ -82,12 +84,14 @@ export default function CustomProduct({
         ).toFixed(2)
       : null;
 
+  /*    <span className="absolute left-3 top-3 rounded-full bg-red-500 px-3 py-1 text-xs font-semibold text-white shadow">
+         </span> */
   return (
     <Card className="relative z-10 overflow-hidden rounded-xl border bg-white p-4 shadow-md transition hover:shadow-lg">
       <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
         <div className="relative flex items-center justify-center rounded-lg bg-gray-100 p-6">
           {oldPrice && (
-            <span className="absolute left-3 top-3 rounded-full bg-red-500 px-3 py-1 text-xs font-semibold text-white shadow">
+            <BrandNotificationNumber className="left-3 top-3 w-fit px-1 shadow-2xl">
               -
               {Math.round(
                 ((parseFloat(oldPrice) - parseFloat(product.price)) /
@@ -95,7 +99,7 @@ export default function CustomProduct({
                   100
               )}
               %
-            </span>
+            </BrandNotificationNumber>
           )}
 
           <Link href={`/product/${product?.slug}`}>
@@ -166,19 +170,21 @@ export default function CustomProduct({
         {/*  {product.pricePerKg && <p className="text-xs text-gray-500">({pricePerKg})</p>} */}
       </div>
 
-      <motion.button
-        onClick={() => handlerAddToCart(product)}
-        whileTap={{ scale: 0.9 }}
-        className="absolute bottom-4 right-4 flex size-12 items-center justify-center rounded-full bg-black p-2 transition hover:bg-gray-800"
-      >
-        <ShoppingCart className="size-6 text-white" />
+      <div className="absolute bottom-4 right-4 size-14 rounded-full border-2 border-primary-900 bg-white p-1 shadow-2xl">
+        <BrandButton
+          onClick={() => handlerAddToCart(product)}
+          variant="tertiary"
+          className="size-full shadow-2xl "
+        >
+          <ShoppingCart className="size-6 text-white" />
 
-        {getProductQuantity > 0 && (
-          <span className="absolute -right-1 -top-1 flex size-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
-            {getProductQuantity}
-          </span>
-        )}
-      </motion.button>
+          {getProductQuantity > 0 && (
+            <BrandNotificationNumber>
+              {getProductQuantity}
+            </BrandNotificationNumber>
+          )}
+        </BrandButton>
+      </div>
     </Card>
   );
 }

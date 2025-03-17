@@ -1,7 +1,7 @@
 "use client";
 
 import DynamicCarousel from "@/components/carousels/carousel";
-import CustomProduct from "@/components/product/customProduct";
+import BrandProductCard from "@/components/product/brand-product-card";
 import ProductList from "@/components/product/product-list";
 import { brands } from "@/core/db-static/db_root_page";
 import { ICart, IProduct } from "@/core/validators";
@@ -106,7 +106,7 @@ const BestSellingProduct = ({
             itemsPerView={3}
             gap={20}
             renderItem={(memoizedData) => (
-              <CustomProduct
+              <BrandProductCard
                 userId={userId}
                 key={memoizedData.id}
                 product={memoizedData}

@@ -15,6 +15,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import BrandButton from "./shared/brand-components/brand-button";
+import BrandNotificationNumber from "./shared/notification-number";
 
 const CartSideMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -75,9 +76,7 @@ const CartSideMenu = () => {
             icon={<ShoppingCart className="size-6" />}
           >
             {totalCount > 0 && (
-              <span className="absolute -right-2 -top-2 flex size-6 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
-                {totalCount}
-              </span>
+              <BrandNotificationNumber>{totalCount}</BrandNotificationNumber>
             )}
             {!isMobile && t("Shared.cart")}
           </BrandButton>
