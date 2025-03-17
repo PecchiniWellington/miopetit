@@ -9,8 +9,8 @@ import { default as image, default as Image } from "next/image";
 import Link from "next/link";
 import { startTransition, useEffect, useState } from "react";
 import BrandButton from "../shared/brand-components/brand-button";
+import BrandCard from "../shared/brand-components/brand-card";
 import BrandNotificationNumber from "../shared/notification-number";
-import GenericCard from "../shared/brand-components/brand-card";
 
 export default function BrandProductCard({
   product,
@@ -90,7 +90,7 @@ export default function BrandProductCard({
   /*    <span className="absolute left-3 top-3 rounded-full bg-red-500 px-3 py-1 text-xs font-semibold text-white shadow">
          </span> */
   return (
-    <GenericCard>
+    <BrandCard>
       {/* Glow + inward border effect */}
       <div className="pointer-events-none absolute inset-0 rounded-xl">
         <div className="absolute inset-0 rounded-xl shadow-[0_0_80px_rgba(255,255,255,1)] ring-2 ring-white blur-[6px]"></div>
@@ -202,6 +202,6 @@ export default function BrandProductCard({
           )}
         </BrandButton>
       </div>
-    </GenericCard>
+    </BrandCard>
   );
 }

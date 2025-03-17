@@ -1,6 +1,6 @@
 import { AddToCart } from "@/components/product/add-to-cart/add-to-cart";
 import ProductPrice from "@/components/product/product-price";
-import GenericCard from "@/components/shared/brand-components/brand-card";
+import BrandCard from "@/components/shared/brand-components/brand-card";
 import { Badge } from "@/components/ui/badge";
 import { ICart, IProduct } from "@/core/validators";
 import { CheckCircle, XCircle } from "lucide-react";
@@ -16,7 +16,7 @@ export const ProductPageRightCard = ({
   userId?: string;
   productQtyInCart?: number;
 }) => (
-  <GenericCard className="flex w-full max-w-sm flex-col space-y-6 rounded-lg border bg-white p-6 shadow-lg dark:bg-gray-800 md:max-w-md lg:max-w-lg">
+  <BrandCard className="flex w-full max-w-sm flex-col space-y-6 rounded-lg border bg-white p-6 shadow-lg dark:bg-gray-800 md:max-w-md lg:max-w-lg">
     {/* Prezzo */}
     {product && (
       <>
@@ -56,5 +56,5 @@ export const ProductPageRightCard = ({
         />
       </div>
     )}
-  </GenericCard>
+  </BrandCard>
 );

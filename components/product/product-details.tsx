@@ -3,7 +3,7 @@
 import { Badge } from "@/components/ui/badge";
 import { IProduct } from "@/core/validators";
 import { BadgeCheck } from "lucide-react";
-import GenericCard from "../shared/brand-components/brand-card";
+import BrandCard from "../shared/brand-components/brand-card";
 import Rating from "./rating";
 
 export default function ProductDetails({
@@ -107,7 +107,7 @@ export default function ProductDetails({
         {/* Specifiche prodotto */}
         <div className="mt-6">
           <h2 className="text-lg font-semibold">Specifiche prodotto</h2>
-          <GenericCard>
+          <BrandCard>
             <table className="w-full border-collapse text-sm">
               <tbody>
                 {extractProductData.map((p) => (
@@ -120,7 +120,7 @@ export default function ProductDetails({
                 ))}
               </tbody>
             </table>
-          </GenericCard>
+          </BrandCard>
         </div>
       </div>
     </>

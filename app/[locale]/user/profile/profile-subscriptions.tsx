@@ -1,7 +1,7 @@
 "use client";
 
 import BrandButton from "@/components/shared/brand-components/brand-button";
-import GenericCard from "@/components/shared/brand-components/brand-card";
+import BrandCard from "@/components/shared/brand-components/brand-card";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle, CreditCard, RefreshCcw, XCircle } from "lucide-react";
 import Link from "next/link";
@@ -46,7 +46,7 @@ export default function SubscriptionTab() {
       </p>
 
       {subscription ? (
-        <GenericCard className="mt-5 border border-gray-300 dark:border-gray-700">
+        <BrandCard className="mt-5 border border-gray-300 dark:border-gray-700">
           <div className="flex flex-col space-y-4">
             <div className="flex items-center justify-between">
               <span className="text-xl font-bold text-indigo-600 dark:text-indigo-400">
@@ -98,7 +98,7 @@ export default function SubscriptionTab() {
               </BrandButton>
             </div>
           </div>
-        </GenericCard>
+        </BrandCard>
       ) : (
         <div className="mt-5 flex flex-col items-center space-y-4 rounded-lg border border-gray-300 p-5 text-center dark:border-gray-700">
           <CreditCard className="size-10 text-gray-500 dark:text-gray-400" />

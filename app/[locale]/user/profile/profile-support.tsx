@@ -2,7 +2,7 @@
 
 import AccordionFaq from "@/components/shared/accordion";
 import BrandButton from "@/components/shared/brand-components/brand-button";
-import GenericCard from "@/components/shared/brand-components/brand-card";
+import BrandCard from "@/components/shared/brand-components/brand-card";
 import TicketSupport from "@/components/shared/modals/ticket-support";
 import {
   createSupportTicket,
@@ -117,7 +117,7 @@ export default function SupportTab() {
         </AnimatePresence>
       </div>
       {/* Sezione Ticket Aperto */}
-      <GenericCard
+      <BrandCard
         title={t("your_tickets")}
         className="mt-5 border-none p-0 shadow-none md:border md:border-gray-300 md:dark:border-gray-700"
       >
@@ -171,12 +171,12 @@ export default function SupportTab() {
             ))}
           </div>
         )}
-      </GenericCard>
+      </BrandCard>
 
       {/* Sezione Apertura Nuovo Ticket */}
 
       {/* Sezione FAQ */}
-      <GenericCard
+      <BrandCard
         title={
           <>
             <h3 className="text-lg font-bold text-gray-800 dark:text-white">
@@ -199,7 +199,7 @@ export default function SupportTab() {
         <Link href="/faq">
           <BrandButton variant="flat">📖 {t("see_all_faq")}</BrandButton>
         </Link>
-      </GenericCard>
+      </BrandCard>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { OurFileRouter } from "@/app/api/uploadthing/core";
-import GenericCard from "@/components/shared/brand-components/brand-card";
+import BrandCard from "@/components/shared/brand-components/brand-card";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   FormControl,
@@ -24,7 +24,7 @@ export const UploadImageFeaturedProduct: React.FC<
   UploadImageFeaturedProductProps
 > = ({ isFeatured, banner, form }) => {
   return (
-    <GenericCard className="flex border-slate-700 ">
+    <BrandCard className="flex border-slate-700 ">
       <FormField
         control={form.control}
         name="isFeatured"
@@ -64,7 +64,7 @@ export const UploadImageFeaturedProduct: React.FC<
           }}
         />
       )}
-    </GenericCard>
+    </BrandCard>
   );
 };
 

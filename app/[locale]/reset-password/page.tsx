@@ -1,7 +1,7 @@
 "use client";
 
 import BrandButton from "@/components/shared/brand-components/brand-button";
-import GenericCard from "@/components/shared/brand-components/brand-card";
+import BrandCard from "@/components/shared/brand-components/brand-card";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { Separator } from "@radix-ui/react-separator";
@@ -82,7 +82,7 @@ const ResetPasswordForm = () => {
   return (
     <div className="container mx-auto flex flex-col items-center justify-center p-6">
       <div className="mx-auto w-full max-w-md">
-        <GenericCard
+        <BrandCard
           iconSrc="/images/miopetit.svg"
           title="🔑 Reset Password"
           description=" Inserisci la nuova password"
@@ -111,7 +111,7 @@ const ResetPasswordForm = () => {
               Reset Password
             </BrandButton>
           </form>
-        </GenericCard>
+        </BrandCard>
       </div>
     </div>
   );

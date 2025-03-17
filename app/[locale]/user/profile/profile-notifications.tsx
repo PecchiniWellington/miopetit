@@ -1,7 +1,7 @@
 "use client";
 
 import BrandButton from "@/components/shared/brand-components/brand-button";
-import GenericCard from "@/components/shared/brand-components/brand-card";
+import BrandCard from "@/components/shared/brand-components/brand-card";
 import { Switch } from "@/components/ui/switch";
 import {
   CheckCircle,
@@ -74,7 +74,7 @@ export default function ProfileNotificationsTab() {
       <div className="space-y-4">
         {notifications.length > 0 ? (
           notifications.map((notif) => (
-            <GenericCard
+            <BrandCard
               title={
                 <>
                   <p className="text-lg font-medium text-gray-800 dark:text-white">
@@ -105,7 +105,7 @@ export default function ProfileNotificationsTab() {
                   <Trash2 className="size-5 text-red-600 hover:text-red-700" />
                 </BrandButton>
               </div>
-            </GenericCard>
+            </BrandCard>
           ))
         ) : (
           <p className="text-center text-gray-500">Nessuna notifica recente</p>

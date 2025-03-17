@@ -1,6 +1,7 @@
 "use client";
 
-import DeleteDialog from "@/components/shared/delete-dialog";
+import BrandButton from "@/components/shared/brand-components/brand-button";
+import DeleteDialog from "@/components/shared/modals/delete-dialog";
 import Pagination from "@/components/shared/pagination";
 import SortableTable from "@/components/shared/sortable-table";
 import { deleteProduct } from "@/core/actions/products";
@@ -11,7 +12,6 @@ import { Edit, Eye } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import AdminSearch, { SearchProvider } from "../admin-search";
-import BrandButton from "@/components/shared/brand-components/brand-button";
 
 const ProductsTable = ({
   products,

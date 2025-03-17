@@ -2,7 +2,7 @@ import { auth } from "@/auth";
 import { SIGN_IN_DEFAULT_VALUES } from "@/lib/constants";
 import { Metadata } from "next";
 
-import GenericCard from "@/components/shared/brand-components/brand-card";
+import BrandCard from "@/components/shared/brand-components/brand-card";
 import { redirect } from "next/navigation";
 import SubmitForm from "../shared/submit-form";
 
@@ -22,13 +22,13 @@ const SignInPage = async (props: {
   }
 
   return (
-    <GenericCard
+    <BrandCard
       iconSrc="/images/miopetit.svg"
       title="Sign In"
       description="Enter your information below to sign in"
     >
       <SubmitForm formType="sign-in" defaultValues={SIGN_IN_DEFAULT_VALUES} />
-    </GenericCard>
+    </BrandCard>
   );
 };
 

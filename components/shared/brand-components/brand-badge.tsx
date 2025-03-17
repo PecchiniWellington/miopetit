@@ -1,5 +1,5 @@
 import { XCircle } from "lucide-react";
-import BrandButton from "./brand-components/brand-button";
+import BrandButton from "./brand-button";
 
 const BrandBadge = ({
   onCloseBadge,
@@ -31,7 +31,9 @@ const BrandBadge = ({
           </BrandButton>
         </div>
       )}
-      <span className="flex justify-center">{icon ? icon : null}</span>
+      {icon ? (
+        <span className="flex justify-center font-bold"> icon</span>
+      ) : null}
     </div>
   );
 };

@@ -1,7 +1,7 @@
 "use client";
 
 import BrandButton from "@/components/shared/brand-components/brand-button";
-import GenericCard from "@/components/shared/brand-components/brand-card";
+import BrandCard from "@/components/shared/brand-components/brand-card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { formatDateTime } from "@/lib/utils";
@@ -72,7 +72,7 @@ export default function HistoryTab() {
       </div>
 
       {/* 📦 Cronologia Ordini */}
-      <GenericCard
+      <BrandCard
         title=" 🛒 Ordini Passati"
         className="mt-5 border border-gray-300 dark:border-gray-700"
       >
@@ -106,10 +106,10 @@ export default function HistoryTab() {
           <Package className="size-5" />
           Vedi tutti gli ordini
         </Link>
-      </GenericCard>
+      </BrandCard>
 
       {/* 🔄 Attività Recenti */}
-      <GenericCard
+      <BrandCard
         title=" 🔄 Attività Recenti"
         className="mt-5 border border-gray-300 dark:border-gray-700"
       >
@@ -137,7 +137,7 @@ export default function HistoryTab() {
             Nessuna attività recente.
           </p>
         )}
-      </GenericCard>
+      </BrandCard>
     </div>
   );
 }

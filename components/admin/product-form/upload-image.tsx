@@ -1,6 +1,6 @@
 "use client";
 import { OurFileRouter } from "@/app/api/uploadthing/core";
-import GenericCard from "@/components/shared/brand-components/brand-card";
+import BrandCard from "@/components/shared/brand-components/brand-card";
 import {
   FormControl,
   FormField,
@@ -28,7 +28,7 @@ export const UploadImage = ({
       render={() => (
         <FormItem className="w-full">
           <FormLabel>Images</FormLabel>
-          <GenericCard className="mt-2 min-h-8 space-y-2 border-slate-700">
+          <BrandCard className="mt-2 min-h-8 space-y-2 border-slate-700">
             <div className="flex-start space-x-2">
               {Array.isArray(images) ? (
                 images.map((image: string) => (
@@ -68,7 +68,7 @@ export const UploadImage = ({
                 />
               </FormControl>
             </div>
-          </GenericCard>
+          </BrandCard>
           <FormMessage />
         </FormItem>
       )}

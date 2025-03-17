@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ReactNode } from "react";
 
-type GenericCardProps = {
+type BrandCardProps = {
   iconSrc?: string;
   iconHref?: string;
   iconSize?: number;
@@ -16,7 +16,7 @@ type GenericCardProps = {
   arragementChild?: string;
 };
 
-const GenericCard = ({
+const BrandCard = ({
   iconSrc,
   iconHref = "/",
   iconSize = 40,
@@ -27,7 +27,7 @@ const GenericCard = ({
   footer,
   className = "",
   arragementChild = "",
-}: GenericCardProps) => {
+}: BrandCardProps) => {
   return (
     <div
       className={clsx(
@@ -74,4 +74,4 @@ const GenericCard = ({
   );
 };
 
-export default GenericCard;
+export default BrandCard;

@@ -1,4 +1,4 @@
-import GenericCard from "@/components/shared/brand-components/brand-card";
+import BrandCard from "@/components/shared/brand-components/brand-card";
 import {
   Table,
   TableBody,
@@ -17,7 +17,7 @@ const PlaceOrderTableResume = ({ myCart }: { myCart: ICart }) => {
   const t = useTranslations("Checkout.PlaceOrder");
 
   return (
-    <GenericCard
+    <BrandCard
       title={t("order_items")}
       className="p-6  shadow-lg transition-all hover:shadow-xl md:col-span-2"
     >
@@ -58,7 +58,7 @@ const PlaceOrderTableResume = ({ myCart }: { myCart: ICart }) => {
           ))}
         </TableBody>
       </Table>
-    </GenericCard>
+    </BrandCard>
   );
 };
 

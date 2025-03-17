@@ -1,5 +1,5 @@
 import BrandButton from "@/components/shared/brand-components/brand-button";
-import GenericCard from "@/components/shared/brand-components/brand-card";
+import BrandCard from "@/components/shared/brand-components/brand-card";
 import { IAddress } from "@/core/validators/user-address.validator";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
@@ -11,7 +11,7 @@ const PlaceOrderShippingAddress = ({
 }) => {
   const t = useTranslations("Checkout.PlaceOrder");
   return defaultAddress ? (
-    <GenericCard
+    <BrandCard
       title={t("shipping_address")}
       className="p-6 shadow-lg transition-all hover:shadow-xl md:col-span-2"
     >
@@ -25,7 +25,7 @@ const PlaceOrderShippingAddress = ({
       <BrandButton className="mt-8">
         <Link href="/shipping-address">{t("edit_address")}</Link>
       </BrandButton>
-    </GenericCard>
+    </BrandCard>
   ) : null;
 };
 

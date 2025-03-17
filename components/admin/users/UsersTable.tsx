@@ -1,6 +1,6 @@
 "use client";
 import BrandButton from "@/components/shared/brand-components/brand-button";
-import DeleteDialog from "@/components/shared/delete-dialog";
+import DeleteDialog from "@/components/shared/modals/delete-dialog";
 import { Badge } from "@/components/ui/badge";
 import { deleteUser } from "@/core/actions/admin/admin.actions";
 import { IUser } from "@/core/validators";

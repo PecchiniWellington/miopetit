@@ -1,7 +1,7 @@
 "use client";
 
 import Rating from "@/components/product/rating";
-import GenericCard from "@/components/shared/brand-components/brand-card";
+import BrandCard from "@/components/shared/brand-components/brand-card";
 import { getReviews } from "@/core/actions/reviews/review.action";
 import { IReview } from "@/core/validators";
 import useReview from "@/hooks/use-reviews";
@@ -57,7 +57,7 @@ const ReviewList = ({
 
         <div className="flex flex-col gap-3">
           {reviews.map((review: IReview) => (
-            <GenericCard
+            <BrandCard
               title={review.title}
               description={review.description}
               key={review.id}
@@ -74,7 +74,7 @@ const ReviewList = ({
                   {formatDateTime(review.createdAt.toString()).dateTime}
                 </div>
               </div>
-            </GenericCard>
+            </BrandCard>
           ))}
         </div>
       </div>

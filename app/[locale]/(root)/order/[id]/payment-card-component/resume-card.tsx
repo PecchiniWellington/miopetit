@@ -1,5 +1,5 @@
 import SubmitButtonOrder from "@/components/components_page/place_order_page/submit-button-order";
-import GenericCard from "@/components/shared/brand-components/brand-card";
+import BrandCard from "@/components/shared/brand-components/brand-card";
 import { formatCurrency } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
@@ -18,7 +18,7 @@ export const ResumeCard = ({
 }) => {
   const t = useTranslations("Checkout.PlaceOrder");
   return (
-    <GenericCard className="space-y-6 p-6 shadow-lg transition-all hover:shadow-xl">
+    <BrandCard className="space-y-6 p-6 shadow-lg transition-all hover:shadow-xl">
       {/* Title */}
       <h2 className="text-xl font-bold text-gray-800 dark:text-white">
         {t("order_summary")}
@@ -50,6 +50,6 @@ export const ResumeCard = ({
 
       {/* Place Order button */}
       {showPlaceOrder && <SubmitButtonOrder />}
-    </GenericCard>
+    </BrandCard>
   );
 };

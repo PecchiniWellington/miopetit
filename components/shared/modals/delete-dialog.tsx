@@ -11,8 +11,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "../ui/alert-dialog";
-import BrandButton from "./brand-components/brand-button";
+} from "../../ui/alert-dialog";
+import BrandButton from "../brand-components/brand-button";
 
 const DeleteDialog = ({
   id,

@@ -1,5 +1,5 @@
 "use client";
-import GenericCard from "@/components/shared/brand-components/brand-card";
+import BrandCard from "@/components/shared/brand-components/brand-card";
 import { useFeatures } from "@/core/db-static/db_root_page/features";
 import { motion } from "framer-motion";
 
@@ -7,7 +7,7 @@ const IconBoxes = () => {
   const features = useFeatures();
 
   return (
-    <GenericCard arragementChild="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+    <BrandCard arragementChild="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
       {features.map((feature, index) => (
         <motion.div
           key={index}
@@ -29,7 +29,7 @@ const IconBoxes = () => {
           </div>
         </motion.div>
       ))}
-    </GenericCard>
+    </BrandCard>
   );
 };
 

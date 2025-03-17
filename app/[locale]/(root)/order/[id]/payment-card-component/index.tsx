@@ -1,3 +1,4 @@
+import BrandCard from "@/components/shared/brand-components/brand-card";
 import { IOrder } from "@/core/validators";
 import { PAYMENT_METHODS_TYPE } from "@/lib/constants/payment-methods";
 import { MarkAsDeliveredButton } from "./mark-as-delivered";
@@ -5,7 +6,6 @@ import { MarkAsPaidButton } from "./mark-as-paid";
 import PayPalPayment from "./paypal-payment";
 import { ResumeCard } from "./resume-card";
 import StripePayment from "./stripe-payment";
-import GenericCard from "@/components/shared/brand-components/brand-card";
 
 interface PaymentCardProps {
   order: /* IOrder */ Omit<IOrder, "paymentResult">;
@@ -35,7 +35,7 @@ const PaymentCard: React.FC<PaymentCardProps> = ({
   stripeClientSecret,
 }) => {
   return (
-    <GenericCard className="p-4">
+    <BrandCard className="p-4">
       <div className="space-y-4">
         {/* Resume */}
         <ResumeCard
@@ -74,7 +74,7 @@ const PaymentCard: React.FC<PaymentCardProps> = ({
           <MarkAsDeliveredButton order={order} />
         )}
       </div>
-    </GenericCard>
+    </BrandCard>
   );
 };
 

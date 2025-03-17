@@ -1,5 +1,5 @@
 import BrandButton from "@/components/shared/brand-components/brand-button";
-import GenericCard from "@/components/shared/brand-components/brand-card";
+import BrandCard from "@/components/shared/brand-components/brand-card";
 import { useToast } from "@/hooks/use-toast";
 import { formatCurrency } from "@/lib/utils";
 import { ArrowRight, Loader } from "lucide-react";
@@ -76,7 +76,7 @@ const OrderSummary = ({
     }
   };
   return (
-    <GenericCard
+    <BrandCard
       title={t("title")}
       className="mt-10 gap-4 rounded-lg border p-4 shadow-md md:mt-0"
     >
@@ -141,7 +141,7 @@ const OrderSummary = ({
       >
         {t("checkout_button")}
       </BrandButton>
-    </GenericCard>
+    </BrandCard>
   );
 };
 

@@ -1,5 +1,5 @@
 import BrandBadge from "@/components/shared/brand-components/brand-badge";
-import GenericCard from "@/components/shared/brand-components/brand-card";
+import BrandCard from "@/components/shared/brand-components/brand-card";
 import { formatDateTime } from "@/lib/utils";
 import { Calendar, CheckCircle, XCircle } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -28,7 +28,7 @@ const OrderCard = ({
   }, [isPaid]);
 
   return (
-    <GenericCard className="rounded-2xl border-gray-300 shadow-lg dark:border-gray-700 dark:bg-gray-900">
+    <BrandCard className="rounded-2xl border-gray-300 shadow-lg dark:border-gray-700 dark:bg-gray-900">
       {/* Header con titolo e badge */}
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
@@ -69,7 +69,7 @@ const OrderCard = ({
 
       {/* Extra Content */}
       {children && <div className="mt-2">{children}</div>}
-    </GenericCard>
+    </BrandCard>
   );
 };
 
