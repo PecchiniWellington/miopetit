@@ -53,10 +53,7 @@ const NotFound = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6, duration: 0.5, ease: "easeOut" }}
       >
-        <Link
-          href="/"
-          className="mt-8 inline-block rounded-full bg-pink-500 px-8 py-4 text-xl font-semibold text-white shadow-lg transition-transform duration-300 hover:scale-110 hover:bg-pink-600"
-        >
+        <Link href="/" className="btn-base btn-tertiary mt-4">
           🔙 Go Back Home
         </Link>
       </motion.div>

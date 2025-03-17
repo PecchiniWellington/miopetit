@@ -5,7 +5,7 @@ import { addItemToCart } from "@/core/actions/cart/cart.actions";
 import { ICartItem, IProduct } from "@/core/validators";
 import useLocalStorage from "@/hooks/use-local-storage";
 import { motion } from "framer-motion";
-import { Heart, ShoppingCart } from "lucide-react";
+import { Heart, Loader2, ShoppingCart } from "lucide-react";
 import { default as image, default as Image } from "next/image";
 import Link from "next/link";
 import { startTransition, useEffect, useState } from "react";
@@ -22,6 +22,7 @@ export default function BrandProductCard({
   userId?: string;
 }) {
   const [isWishlisted, setWishlisted] = useState(false);
+  const [isPending, setIsPending] = useState(false);
   const [favorites, setFavorites] = useLocalStorage<IProduct[]>(
     "favorites",
     []
@@ -50,6 +51,7 @@ export default function BrandProductCard({
   };
 
   const handlerAddToCart = async (item: IProduct) => {
+    setIsPending(true);
     startTransition(async () => {
       const existingItem = storedValue.find(
         (cartItem) => cartItem.productId === item.id
@@ -73,6 +75,7 @@ export default function BrandProductCard({
       } else {
         setStoredValue(updatedCart);
       }
+      setIsPending(false);
     });
   };
 
@@ -87,9 +90,20 @@ export default function BrandProductCard({
   /*    <span className="absolute left-3 top-3 rounded-full bg-red-500 px-3 py-1 text-xs font-semibold text-white shadow">
          </span> */
   return (
-    <Card className="relative z-10 overflow-hidden rounded-xl border bg-white p-4 shadow-md transition hover:shadow-lg">
-      <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-        <div className="relative flex items-center justify-center rounded-lg bg-gray-100 p-6">
+    <Card className="relative z-10 overflow-hidden rounded-xl border border-white  p-4 shadow-md transition hover:shadow-lg">
+      {/* Glow + inward border effect */}
+      <div className="pointer-events-none absolute inset-0 rounded-xl">
+        <div className="absolute inset-0 rounded-xl shadow-[0_0_80px_rgba(255,255,255,1)] ring-2 ring-white blur-[6px]"></div>
+        <div className="absolute inset-[2px] rounded-[11px]  shadow-inner"></div>
+      </div>
+
+      {/* CONTENUTO CARD */}
+      <motion.div
+        className="relative z-10"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <div className="flex items-center justify-center rounded-lg bg-gray-100 p-6">
           {oldPrice && (
             <BrandNotificationNumber className="left-3 top-3 w-fit px-1 shadow-2xl">
               -
@@ -135,7 +149,8 @@ export default function BrandProductCard({
         </div>
       </motion.div>
 
-      <div className="mt-4 space-y-2">
+      {/* testo e dettagli */}
+      <div className="relative z-10 mt-4 space-y-2">
         <h3 className="text-sm font-semibold text-gray-900">{product.name}</h3>
         {product.productBrand && (
           <p className="text-xs text-gray-500">{product.productBrand.name}</p>
@@ -166,17 +181,19 @@ export default function BrandProductCard({
             €{product.price}
           </span>
         </div>
-
-        {/*  {product.pricePerKg && <p className="text-xs text-gray-500">({pricePerKg})</p>} */}
       </div>
 
-      <div className="absolute bottom-4 right-4 size-14 rounded-full border-2 border-primary-900 bg-white p-1 shadow-2xl">
+      <div className="absolute bottom-4 right-4 z-10 size-14 rounded-full border-2 border-primary-900 bg-white p-1 shadow-2xl">
         <BrandButton
           onClick={() => handlerAddToCart(product)}
           variant="tertiary"
-          className="size-full shadow-2xl "
+          className="relative size-full shadow-2xl"
         >
-          <ShoppingCart className="size-6 text-white" />
+          {isPending ? (
+            <Loader2 className="size-4 animate-spin text-white" />
+          ) : (
+            <ShoppingCart className="size-6 text-white" />
+          )}
 
           {getProductQuantity > 0 && (
             <BrandNotificationNumber>
