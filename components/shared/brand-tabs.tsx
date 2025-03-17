@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { createContext, ReactNode, useContext, useState } from "react";
 
 // Context to share activeTab state
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const TabsContext = createContext<any>(null);
 
 export const TabsContainer = ({
