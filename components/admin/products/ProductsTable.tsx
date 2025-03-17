@@ -3,7 +3,7 @@
 import BrandButton from "@/components/shared/brand-components/brand-button";
 import DeleteDialog from "@/components/shared/modals/delete-dialog";
 import Pagination from "@/components/shared/pagination";
-import SortableTable from "@/components/shared/sortable-table";
+import SortableTable from "@/components/shared/tables/sortable-table";
 import { deleteProduct } from "@/core/actions/products";
 import { IProduct } from "@/core/validators";
 import { formatId } from "@/lib/utils";

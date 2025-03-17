@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowDown, ArrowUp, XCircle } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { JSX } from "react";
-import BrandButton from "./brand-components/brand-button";
+import BrandButton from "../brand-components/brand-button";
 
 interface SortableTableProps<T> {
   columns: { key: keyof T; label: string }[];

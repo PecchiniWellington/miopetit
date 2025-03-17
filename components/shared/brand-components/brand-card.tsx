@@ -54,11 +54,7 @@ const BrandCard = ({
       )}
 
       {/* TITLE */}
-      {title && (
-        <h1 className="mb-2 text-center text-2xl font-bold text-gray-900">
-          {title}
-        </h1>
-      )}
+      {title}
 
       {/* DESCRIPTION */}
       {description && (
