@@ -2,8 +2,8 @@
 
 import AccordionFaq from "@/components/shared/accordion";
 import BrandButton from "@/components/shared/brand-components/brand-button";
+import GenericCard from "@/components/shared/brand-components/brand-card";
 import TicketSupport from "@/components/shared/modals/ticket-support";
-import { Card, CardContent } from "@/components/ui/card";
 import {
   createSupportTicket,
   getUserTickets,
@@ -117,86 +117,89 @@ export default function SupportTab() {
         </AnimatePresence>
       </div>
       {/* Sezione Ticket Aperto */}
-      <Card className="mt-5 border-none p-0 shadow-none md:border md:border-gray-300 md:dark:border-gray-700">
-        <CardContent className="border-none p-0">
-          <h2 className="text-lg font-bold"> {t("your_tickets")}</h2>
-          {tickets.length === 0 ? (
-            <div className="mt-4 rounded-lg bg-gray-50 p-4 text-center sm:shadow-sm">
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                {t("here_you_can_see_status")}
-              </p>
-              <p className="mt-4 italic text-gray-500"> {t("no_tickets")}</p>
-            </div>
-          ) : (
-            <div className="mt-4 space-y-4">
-              {tickets.map((ticket) => (
-                <div
-                  key={ticket.id}
-                  className="rounded-lg bg-gray-100 p-4 transition-all duration-300 hover:shadow-lg dark:bg-gray-800 sm:shadow"
-                >
-                  {/* Oggetto del Ticket */}
-                  <div className="flex flex-wrap items-center justify-between">
-                    <p className="text-base font-semibold">{ticket.subject}</p>
-                    <span
-                      className={`mt-2 rounded-full px-3 py-1 text-xs font-medium sm:mt-0 ${
-                        ticket.status === "PENDING"
-                          ? "bg-yellow-200 text-yellow-800"
-                          : ticket.status === "ANSWERED"
-                            ? "bg-green-200 text-green-800"
-                            : "bg-gray-300 text-gray-700"
-                      }`}
-                    >
-                      {tStatus(ticket.status)}
-                    </span>
-                  </div>
-
-                  {/* Dettagli del Ticket */}
-                  <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                    {t("open_at")}{" "}
-                    {ticket.createdAt &&
-                      formatDateTime(ticket.createdAt.toString()).dateTime}
-                  </p>
-
-                  {/* Email dell'utente */}
-                  <p className="mt-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                    📧 Email: {ticket.email || "Non specificata"}
-                  </p>
-
-                  {/* Corpo del Messaggio */}
-                  <p className="mt-2 text-sm text-gray-700 dark:text-gray-300">
-                    📝 <span className="italic">{ticket.description}</span>
-                  </p>
+      <GenericCard
+        title={t("your_tickets")}
+        className="mt-5 border-none p-0 shadow-none md:border md:border-gray-300 md:dark:border-gray-700"
+      >
+        {tickets.length === 0 ? (
+          <div className="mt-4 rounded-lg bg-gray-50 p-4 text-center sm:shadow-sm">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              {t("here_you_can_see_status")}
+            </p>
+            <p className="mt-4 italic text-gray-500"> {t("no_tickets")}</p>
+          </div>
+        ) : (
+          <div className="mt-4 space-y-4">
+            {tickets.map((ticket) => (
+              <div
+                key={ticket.id}
+                className="rounded-lg bg-gray-100 p-4 transition-all duration-300 hover:shadow-lg dark:bg-gray-800 sm:shadow"
+              >
+                {/* Oggetto del Ticket */}
+                <div className="flex flex-wrap items-center justify-between">
+                  <p className="text-base font-semibold">{ticket.subject}</p>
+                  <span
+                    className={`mt-2 rounded-full px-3 py-1 text-xs font-medium sm:mt-0 ${
+                      ticket.status === "PENDING"
+                        ? "bg-yellow-200 text-yellow-800"
+                        : ticket.status === "ANSWERED"
+                          ? "bg-green-200 text-green-800"
+                          : "bg-gray-300 text-gray-700"
+                    }`}
+                  >
+                    {tStatus(ticket.status)}
+                  </span>
                 </div>
-              ))}
-            </div>
-          )}
-        </CardContent>
-      </Card>
+
+                {/* Dettagli del Ticket */}
+                <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                  {t("open_at")}{" "}
+                  {ticket.createdAt &&
+                    formatDateTime(ticket.createdAt.toString()).dateTime}
+                </p>
+
+                {/* Email dell'utente */}
+                <p className="mt-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                  📧 Email: {ticket.email || "Non specificata"}
+                </p>
+
+                {/* Corpo del Messaggio */}
+                <p className="mt-2 text-sm text-gray-700 dark:text-gray-300">
+                  📝 <span className="italic">{ticket.description}</span>
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
+      </GenericCard>
 
       {/* Sezione Apertura Nuovo Ticket */}
 
       {/* Sezione FAQ */}
-      <Card className="mt-5 border-none md:border md:border-gray-300 md:dark:border-gray-700">
-        <CardContent className="p-5">
-          <h3 className="text-lg font-bold text-gray-800 dark:text-white">
-            {t("faq_answers")}
-          </h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400">
-            {t("find_common_questions")}
-          </p>
-
-          {firstFAQs.map((faq, index) => (
-            <AccordionFaq
-              key={index}
-              answer={faq.answer}
-              question={faq.question}
-            />
-          ))}
-          <Link href="/faq">
-            <BrandButton variant="flat">📖 {t("see_all_faq")}</BrandButton>
-          </Link>
-        </CardContent>
-      </Card>
+      <GenericCard
+        title={
+          <>
+            <h3 className="text-lg font-bold text-gray-800 dark:text-white">
+              {t("faq_answers")}
+            </h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              {t("find_common_questions")}
+            </p>
+          </>
+        }
+        className="mt-5 border-none md:border md:border-gray-300 md:dark:border-gray-700"
+      >
+        {firstFAQs.map((faq, index) => (
+          <AccordionFaq
+            key={index}
+            answer={faq.answer}
+            question={faq.question}
+          />
+        ))}
+        <Link href="/faq">
+          <BrandButton variant="flat">📖 {t("see_all_faq")}</BrandButton>
+        </Link>
+      </GenericCard>
     </div>
   );
 }

@@ -1,13 +1,7 @@
 "use client";
 
 import Rating from "@/components/product/rating";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import GenericCard from "@/components/shared/brand-components/brand-card";
 import { getReviews } from "@/core/actions/reviews/review.action";
 import { IReview } from "@/core/validators";
 import useReview from "@/hooks/use-reviews";
@@ -63,30 +57,24 @@ const ReviewList = ({
 
         <div className="flex flex-col gap-3">
           {reviews.map((review: IReview) => (
-            <Card key={review.id}>
-              <CardHeader>
-                <div className="flex-between">
-                  <CardTitle>{review.title}</CardTitle>
+            <GenericCard
+              title={review.title}
+              description={review.description}
+              key={review.id}
+            >
+              <div className="flex space-x-4 text-sm text-gray-400">
+                {/* RATING */}
+                <Rating value={review.rating} />
+                <div className="flex items-center">
+                  <User className="mr-1 size-3" />
+                  {review.user ? review.user.name : "Anonymous"}
                 </div>
-                <CardDescription className="flex space-x-4 text-sm text-gray-400">
-                  {review.description}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex space-x-4 text-sm text-gray-400">
-                  {/* RATING */}
-                  <Rating value={review.rating} />
-                  <div className="flex items-center">
-                    <User className="mr-1 size-3" />
-                    {review.user ? review.user.name : "Anonymous"}
-                  </div>
-                  <div className="flex items-center">
-                    <Calendar className="mr-1 size-3" />
-                    {formatDateTime(review.createdAt.toString()).dateTime}
-                  </div>
+                <div className="flex items-center">
+                  <Calendar className="mr-1 size-3" />
+                  {formatDateTime(review.createdAt.toString()).dateTime}
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </GenericCard>
           ))}
         </div>
       </div>

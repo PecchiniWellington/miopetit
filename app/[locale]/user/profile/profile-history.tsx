@@ -1,8 +1,8 @@
 "use client";
 
 import BrandButton from "@/components/shared/brand-components/brand-button";
+import GenericCard from "@/components/shared/brand-components/brand-card";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { formatDateTime } from "@/lib/utils";
 
@@ -72,78 +72,72 @@ export default function HistoryTab() {
       </div>
 
       {/* 📦 Cronologia Ordini */}
-      <Card className="mt-5 border border-gray-300 dark:border-gray-700">
-        <CardContent className="p-5">
-          <h3 className="text-lg font-bold text-gray-800 dark:text-white">
-            🛒 Ordini Passati
-          </h3>
+      <GenericCard
+        title=" 🛒 Ordini Passati"
+        className="mt-5 border border-gray-300 dark:border-gray-700"
+      >
+        {filteredOrders.length > 0 ? (
+          <ul className="mt-3 space-y-3">
+            {filteredOrders.map((order) => (
+              <li
+                key={order.id}
+                className="flex items-center justify-between rounded-lg border p-3 transition hover:bg-gray-100 dark:border-gray-700 dark:hover:bg-gray-900"
+              >
+                <div>
+                  <p className="font-medium text-gray-900 dark:text-white">
+                    Ordine #{order.id}
+                  </p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    Data: {formatDateTime(order.date).dateTime} -{" "}
+                    <span className="font-semibold">{order.total}</span>
+                  </p>
+                </div>
+                <Badge>{order.status}</Badge>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
+            Nessun ordine trovato.
+          </p>
+        )}
 
-          {filteredOrders.length > 0 ? (
-            <ul className="mt-3 space-y-3">
-              {filteredOrders.map((order) => (
-                <li
-                  key={order.id}
-                  className="flex items-center justify-between rounded-lg border p-3 transition hover:bg-gray-100 dark:border-gray-700 dark:hover:bg-gray-900"
-                >
-                  <div>
-                    <p className="font-medium text-gray-900 dark:text-white">
-                      Ordine #{order.id}
-                    </p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      Data: {formatDateTime(order.date).dateTime} -{" "}
-                      <span className="font-semibold">{order.total}</span>
-                    </p>
-                  </div>
-                  <Badge>{order.status}</Badge>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
-              Nessun ordine trovato.
-            </p>
-          )}
-
-          <Link href="/orders">
-            <Package className="size-5" />
-            Vedi tutti gli ordini
-          </Link>
-        </CardContent>
-      </Card>
+        <Link href="/orders">
+          <Package className="size-5" />
+          Vedi tutti gli ordini
+        </Link>
+      </GenericCard>
 
       {/* 🔄 Attività Recenti */}
-      <Card className="mt-5 border border-gray-300 dark:border-gray-700">
-        <CardContent className="p-5">
-          <h3 className="text-lg font-bold text-gray-800 dark:text-white">
-            🔄 Attività Recenti
-          </h3>
-
-          {actions.length > 0 ? (
-            <ul className="mt-3 space-y-3">
-              {actions.map((action) => (
-                <li
-                  key={action.id}
-                  className="flex items-center gap-3 rounded-lg border p-3 transition hover:bg-gray-100 dark:border-gray-700 dark:hover:bg-gray-900"
-                >
-                  {action.icon}
-                  <div>
-                    <p className="font-medium text-gray-900 dark:text-white">
-                      {action.description}
-                    </p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      {formatDateTime(action.date).dateTime}
-                    </p>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
-              Nessuna attività recente.
-            </p>
-          )}
-        </CardContent>
-      </Card>
+      <GenericCard
+        title=" 🔄 Attività Recenti"
+        className="mt-5 border border-gray-300 dark:border-gray-700"
+      >
+        {actions.length > 0 ? (
+          <ul className="mt-3 space-y-3">
+            {actions.map((action) => (
+              <li
+                key={action.id}
+                className="flex items-center gap-3 rounded-lg border p-3 transition hover:bg-gray-100 dark:border-gray-700 dark:hover:bg-gray-900"
+              >
+                {action.icon}
+                <div>
+                  <p className="font-medium text-gray-900 dark:text-white">
+                    {action.description}
+                  </p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    {formatDateTime(action.date).dateTime}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
+            Nessuna attività recente.
+          </p>
+        )}
+      </GenericCard>
     </div>
   );
 }

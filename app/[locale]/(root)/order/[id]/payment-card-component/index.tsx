@@ -1,4 +1,3 @@
-import { Card, CardContent } from "@/components/ui/card";
 import { IOrder } from "@/core/validators";
 import { PAYMENT_METHODS_TYPE } from "@/lib/constants/payment-methods";
 import { MarkAsDeliveredButton } from "./mark-as-delivered";
@@ -6,6 +5,7 @@ import { MarkAsPaidButton } from "./mark-as-paid";
 import PayPalPayment from "./paypal-payment";
 import { ResumeCard } from "./resume-card";
 import StripePayment from "./stripe-payment";
+import GenericCard from "@/components/shared/brand-components/brand-card";
 
 interface PaymentCardProps {
   order: /* IOrder */ Omit<IOrder, "paymentResult">;
@@ -35,8 +35,9 @@ const PaymentCard: React.FC<PaymentCardProps> = ({
   stripeClientSecret,
 }) => {
   return (
-    <Card>
-      <CardContent className="gap-4 space-y-4 p-4">
+    <GenericCard className="p-4">
+      <div className="space-y-4">
+        {/* Resume */}
         <ResumeCard
           itemsPrice={itemsPrice}
           taxPrice={taxPrice}
@@ -49,6 +50,7 @@ const PaymentCard: React.FC<PaymentCardProps> = ({
         {!isPaid && paymentMethod === PAYMENT_METHODS_TYPE.PAYPAL && (
           <PayPalPayment paypalClientId={paypalClientId} order={order} />
         )}
+
         {/* Stripe Payment */}
         {!isPaid &&
           paymentMethod === PAYMENT_METHODS_TYPE.STRIPE &&
@@ -59,18 +61,20 @@ const PaymentCard: React.FC<PaymentCardProps> = ({
               clientSecret={stripeClientSecret}
             />
           )}
+
         {/* Cash On Delivery Payment */}
         {isAdmin &&
           !isPaid &&
           paymentMethod === PAYMENT_METHODS_TYPE.CASH_ON_DELIVERY && (
             <MarkAsPaidButton order={order} />
           )}
-        {/*Mark as Paid */}
+
+        {/* Mark as Delivered */}
         {isAdmin && isPaid && !isDelivered && (
           <MarkAsDeliveredButton order={order} />
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </GenericCard>
   );
 };
 

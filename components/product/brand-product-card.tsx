@@ -1,6 +1,5 @@
 "use client";
 
-import { Card } from "@/components/ui/card";
 import { addItemToCart } from "@/core/actions/cart/cart.actions";
 import { ICartItem, IProduct } from "@/core/validators";
 import useLocalStorage from "@/hooks/use-local-storage";
@@ -11,6 +10,7 @@ import Link from "next/link";
 import { startTransition, useEffect, useState } from "react";
 import BrandButton from "../shared/brand-components/brand-button";
 import BrandNotificationNumber from "../shared/notification-number";
+import GenericCard from "../shared/brand-components/brand-card";
 
 export default function BrandProductCard({
   product,
@@ -90,7 +90,7 @@ export default function BrandProductCard({
   /*    <span className="absolute left-3 top-3 rounded-full bg-red-500 px-3 py-1 text-xs font-semibold text-white shadow">
          </span> */
   return (
-    <Card className="relative z-10 overflow-hidden rounded-xl border border-white  p-4 shadow-md transition hover:shadow-lg">
+    <GenericCard>
       {/* Glow + inward border effect */}
       <div className="pointer-events-none absolute inset-0 rounded-xl">
         <div className="absolute inset-0 rounded-xl shadow-[0_0_80px_rgba(255,255,255,1)] ring-2 ring-white blur-[6px]"></div>
@@ -202,6 +202,6 @@ export default function BrandProductCard({
           )}
         </BrandButton>
       </div>
-    </Card>
+    </GenericCard>
   );
 }

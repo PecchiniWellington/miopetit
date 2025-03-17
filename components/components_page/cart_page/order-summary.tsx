@@ -1,5 +1,5 @@
 import BrandButton from "@/components/shared/brand-components/brand-button";
-import { Card, CardContent } from "@/components/ui/card";
+import GenericCard from "@/components/shared/brand-components/brand-card";
 import { useToast } from "@/hooks/use-toast";
 import { formatCurrency } from "@/lib/utils";
 import { ArrowRight, Loader } from "lucide-react";
@@ -76,73 +76,72 @@ const OrderSummary = ({
     }
   };
   return (
-    <Card className="mt-10 rounded-lg border shadow-md md:mt-0">
-      <CardContent className="gap-4 p-4">
-        <h2 className="text-2xl font-semibold text-gray-800">{t("title")}</h2>
-
-        <div className="space-y-2 text-gray-600">
-          <div className="flex justify-between">
-            <span>{t("subtotal")}</span>
-            <span className="font-bold">
-              {isPending ? (
-                <Loader className="size-4 animate-spin" />
-              ) : (
-                formatCurrency(resume?.itemsPrice)
-              )}
-            </span>
-          </div>
-
-          <div className="flex justify-between">
-            <span>{t("discount")}</span>
-            <span className="font-bold text-green-600">
-              -{formatCurrency(10.0)} {/* Sconto Mockato */}
-            </span>
-          </div>
-
-          <div className="flex justify-between">
-            <span>{t("shipping")}</span>
-            <span className="font-bold">
-              {formatCurrency(resume?.taxPrice)} {/* Spedizione Mockata */}
-            </span>
-          </div>
-
-          <hr className="my-2" />
-
-          <div className="flex items-center justify-between text-xl font-semibold text-gray-800">
-            <span>{t("total")}</span>
-            <span>
-              {isPending ? (
-                <Loader className="size-4 animate-spin" />
-              ) : (
-                formatCurrency((Number(resume?.totalPrice) || 0) - 10.0 + 5.99)
-              )}
-            </span>
-          </div>
-        </div>
-
-        <hr className="my-4" />
-
-        <div className="flex items-center gap-2 pb-3 text-lg text-gray-700">
-          {t("total_items")}
-          <span className=" font-semibold">
+    <GenericCard
+      title={t("title")}
+      className="mt-10 gap-4 rounded-lg border p-4 shadow-md md:mt-0"
+    >
+      <div className="space-y-2 text-gray-600">
+        <div className="flex justify-between">
+          <span>{t("subtotal")}</span>
+          <span className="font-bold">
             {isPending ? (
               <Loader className="size-4 animate-spin" />
             ) : (
-              resume.totalItems
+              formatCurrency(resume?.itemsPrice)
             )}
           </span>
         </div>
 
-        <BrandButton
-          onClick={() => checkIfGoToCheckout()}
-          loading={isPending}
-          variant="primary"
-          icon={<ArrowRight className="size-4" />}
-        >
-          {t("checkout_button")}
-        </BrandButton>
-      </CardContent>
-    </Card>
+        <div className="flex justify-between">
+          <span>{t("discount")}</span>
+          <span className="font-bold text-green-600">
+            -{formatCurrency(10.0)} {/* Sconto Mockato */}
+          </span>
+        </div>
+
+        <div className="flex justify-between">
+          <span>{t("shipping")}</span>
+          <span className="font-bold">
+            {formatCurrency(resume?.taxPrice)} {/* Spedizione Mockata */}
+          </span>
+        </div>
+
+        <hr className="my-2" />
+
+        <div className="flex items-center justify-between text-xl font-semibold text-gray-800">
+          <span>{t("total")}</span>
+          <span>
+            {isPending ? (
+              <Loader className="size-4 animate-spin" />
+            ) : (
+              formatCurrency((Number(resume?.totalPrice) || 0) - 10.0 + 5.99)
+            )}
+          </span>
+        </div>
+      </div>
+
+      <hr className="my-4" />
+
+      <div className="flex items-center gap-2 pb-3 text-lg text-gray-700">
+        {t("total_items")}
+        <span className=" font-semibold">
+          {isPending ? (
+            <Loader className="size-4 animate-spin" />
+          ) : (
+            resume.totalItems
+          )}
+        </span>
+      </div>
+
+      <BrandButton
+        onClick={() => checkIfGoToCheckout()}
+        loading={isPending}
+        variant="primary"
+        icon={<ArrowRight className="size-4" />}
+      >
+        {t("checkout_button")}
+      </BrandButton>
+    </GenericCard>
   );
 };
 

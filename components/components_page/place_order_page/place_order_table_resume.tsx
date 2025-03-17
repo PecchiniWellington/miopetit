@@ -1,4 +1,4 @@
-import { Card, CardContent } from "@/components/ui/card";
+import GenericCard from "@/components/shared/brand-components/brand-card";
 import {
   Table,
   TableBody,
@@ -17,52 +17,48 @@ const PlaceOrderTableResume = ({ myCart }: { myCart: ICart }) => {
   const t = useTranslations("Checkout.PlaceOrder");
 
   return (
-    <Card className="shadow-lg transition-all hover:shadow-xl md:col-span-2">
-      <CardContent className="space-y-5 p-6">
-        <h2 className="text-xl font-bold text-gray-800 dark:text-white">
-          {t("order_items")}
-        </h2>
-        <Table>
-          <TableHeader>
-            <TableRow className="bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-white">
-              <TableHead>{t("product")}</TableHead>
-              <TableHead className="text-center">{t("quantity")}</TableHead>
-              <TableHead className="text-center">{t("price")}</TableHead>
+    <GenericCard
+      title={t("order_items")}
+      className="p-6  shadow-lg transition-all hover:shadow-xl md:col-span-2"
+    >
+      <Table>
+        <TableHeader>
+          <TableRow className="bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-white">
+            <TableHead>{t("product")}</TableHead>
+            <TableHead className="text-center">{t("quantity")}</TableHead>
+            <TableHead className="text-center">{t("price")}</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {myCart?.items.map((item: ICartItem) => (
+            <TableRow
+              key={item.slug}
+              className="transition hover:bg-gray-50 dark:hover:bg-gray-900"
+            >
+              <TableCell>
+                <Link
+                  href={`/product/${item.slug}`}
+                  className="flex items-center gap-4"
+                >
+                  <Image
+                    src={item.image || "/images/placeholder.jpg"}
+                    alt={item.name}
+                    width={60}
+                    height={60}
+                    className="rounded-lg border shadow-sm"
+                  />
+                  <span className="font-medium">{item.name}</span>
+                </Link>
+              </TableCell>
+              <TableCell className="text-center text-lg">{item.qty}</TableCell>
+              <TableCell className="text-center text-lg">
+                {formatCurrency(item?.price)}
+              </TableCell>
             </TableRow>
-          </TableHeader>
-          <TableBody>
-            {myCart?.items.map((item: ICartItem) => (
-              <TableRow
-                key={item.slug}
-                className="transition hover:bg-gray-50 dark:hover:bg-gray-900"
-              >
-                <TableCell>
-                  <Link
-                    href={`/product/${item.slug}`}
-                    className="flex items-center gap-4"
-                  >
-                    <Image
-                      src={item.image || "/images/placeholder.jpg"}
-                      alt={item.name}
-                      width={60}
-                      height={60}
-                      className="rounded-lg border shadow-sm"
-                    />
-                    <span className="font-medium">{item.name}</span>
-                  </Link>
-                </TableCell>
-                <TableCell className="text-center text-lg">
-                  {item.qty}
-                </TableCell>
-                <TableCell className="text-center text-lg">
-                  {formatCurrency(item?.price)}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </CardContent>
-    </Card>
+          ))}
+        </TableBody>
+      </Table>
+    </GenericCard>
   );
 };
 

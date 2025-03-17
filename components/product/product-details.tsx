@@ -1,9 +1,9 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
 import { IProduct } from "@/core/validators";
 import { BadgeCheck } from "lucide-react";
+import GenericCard from "../shared/brand-components/brand-card";
 import Rating from "./rating";
 
 export default function ProductDetails({
@@ -107,22 +107,20 @@ export default function ProductDetails({
         {/* Specifiche prodotto */}
         <div className="mt-6">
           <h2 className="text-lg font-semibold">Specifiche prodotto</h2>
-          <Card className="mt-3">
-            <CardContent className="p-0">
-              <table className="w-full border-collapse text-sm">
-                <tbody>
-                  {extractProductData.map((p) => (
-                    <tr key={p.key} className="border-t last:border-b">
-                      <td className="bg-gray-100 px-4 py-2 text-gray-700">
-                        {p.key}
-                      </td>
-                      <td className="px-4 py-2 text-black">{p.value}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </CardContent>
-          </Card>
+          <GenericCard>
+            <table className="w-full border-collapse text-sm">
+              <tbody>
+                {extractProductData.map((p) => (
+                  <tr key={p.key} className="border-t last:border-b">
+                    <td className="bg-gray-100 px-4 py-2 text-gray-700">
+                      {p.key}
+                    </td>
+                    <td className="px-4 py-2 text-black">{p.value}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </GenericCard>
         </div>
       </div>
     </>

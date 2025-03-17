@@ -1,7 +1,7 @@
 "use client";
 
 import BrandButton from "@/components/shared/brand-components/brand-button";
-import { Card, CardContent } from "@/components/ui/card";
+import GenericCard from "@/components/shared/brand-components/brand-card";
 import { Switch } from "@/components/ui/switch";
 import {
   CheckCircle,
@@ -74,12 +74,9 @@ export default function ProfileNotificationsTab() {
       <div className="space-y-4">
         {notifications.length > 0 ? (
           notifications.map((notif) => (
-            <Card
-              key={notif.id}
-              className={`shadow-md ${notif.read ? "opacity-70" : "bg-yellow-50 dark:bg-gray-900"} transition-all`}
-            >
-              <CardContent className="flex items-center justify-between p-4">
-                <div>
+            <GenericCard
+              title={
+                <>
                   <p className="text-lg font-medium text-gray-800 dark:text-white">
                     {notif.title}
                   </p>
@@ -87,25 +84,28 @@ export default function ProfileNotificationsTab() {
                     {notif.message}
                   </p>
                   <span className="text-xs text-gray-500">{notif.date}</span>
-                </div>
-                <div className="flex gap-2">
-                  {!notif.read && (
-                    <BrandButton
-                      variant="flat"
-                      onClick={() => markAsRead(notif.id)}
-                    >
-                      <CheckCircle className="size-5 text-green-600 hover:text-green-700" />
-                    </BrandButton>
-                  )}
+                </>
+              }
+              key={notif.id}
+              className={`shadow-md ${notif.read ? "opacity-70" : "bg-yellow-50 dark:bg-gray-900"} transition-all`}
+            >
+              <div className="flex gap-2">
+                {!notif.read && (
                   <BrandButton
                     variant="flat"
-                    onClick={() => deleteNotification(notif.id)}
+                    onClick={() => markAsRead(notif.id)}
                   >
-                    <Trash2 className="size-5 text-red-600 hover:text-red-700" />
+                    <CheckCircle className="size-5 text-green-600 hover:text-green-700" />
                   </BrandButton>
-                </div>
-              </CardContent>
-            </Card>
+                )}
+                <BrandButton
+                  variant="flat"
+                  onClick={() => deleteNotification(notif.id)}
+                >
+                  <Trash2 className="size-5 text-red-600 hover:text-red-700" />
+                </BrandButton>
+              </div>
+            </GenericCard>
           ))
         ) : (
           <p className="text-center text-gray-500">Nessuna notifica recente</p>

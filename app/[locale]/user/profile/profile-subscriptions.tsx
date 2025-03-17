@@ -1,8 +1,8 @@
 "use client";
 
 import BrandButton from "@/components/shared/brand-components/brand-button";
+import GenericCard from "@/components/shared/brand-components/brand-card";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
 import { CheckCircle, CreditCard, RefreshCcw, XCircle } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
@@ -46,61 +46,59 @@ export default function SubscriptionTab() {
       </p>
 
       {subscription ? (
-        <Card className="mt-5 border border-gray-300 dark:border-gray-700">
-          <CardContent className="p-5">
-            <div className="flex flex-col space-y-4">
-              <div className="flex items-center justify-between">
-                <span className="text-xl font-bold text-indigo-600 dark:text-indigo-400">
-                  {subscription.plan}
-                </span>
-                <Badge>Attivo</Badge>
-              </div>
-              <p className="text-lg text-gray-700 dark:text-gray-300">
-                {subscription.price}
-              </p>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Prossimo rinnovo:{" "}
-                <span className="font-semibold text-gray-800 dark:text-white">
-                  {subscription.renewalDate}
-                </span>
-              </p>
-
-              <ul className="mt-3 space-y-2 text-sm text-gray-600 dark:text-gray-300">
-                {subscription.features.map((feature, index) => (
-                  <li key={index} className="flex items-center gap-2">
-                    <CheckCircle className="size-5 text-green-500" />
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-
-              <div className="mt-5 flex flex-col gap-3 md:flex-row">
-                <Link href="/subscriptions">
-                  <BrandButton
-                    icon={<RefreshCcw className="size-5 animate-spin" />}
-                  >
-                    Cambia Piano
-                  </BrandButton>
-                </Link>
-
-                <BrandButton
-                  variant="danger"
-                  icon={
-                    isCancelling ? (
-                      <RefreshCcw className="size-5 animate-spin" />
-                    ) : (
-                      <XCircle className="size-5" />
-                    )
-                  }
-                  onClick={() => handleCancelSubscription()}
-                  disabled={isCancelling}
-                >
-                  Disdici Abbonamento
-                </BrandButton>
-              </div>
+        <GenericCard className="mt-5 border border-gray-300 dark:border-gray-700">
+          <div className="flex flex-col space-y-4">
+            <div className="flex items-center justify-between">
+              <span className="text-xl font-bold text-indigo-600 dark:text-indigo-400">
+                {subscription.plan}
+              </span>
+              <Badge>Attivo</Badge>
             </div>
-          </CardContent>
-        </Card>
+            <p className="text-lg text-gray-700 dark:text-gray-300">
+              {subscription.price}
+            </p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Prossimo rinnovo:{" "}
+              <span className="font-semibold text-gray-800 dark:text-white">
+                {subscription.renewalDate}
+              </span>
+            </p>
+
+            <ul className="mt-3 space-y-2 text-sm text-gray-600 dark:text-gray-300">
+              {subscription.features.map((feature, index) => (
+                <li key={index} className="flex items-center gap-2">
+                  <CheckCircle className="size-5 text-green-500" />
+                  {feature}
+                </li>
+              ))}
+            </ul>
+
+            <div className="mt-5 flex flex-col gap-3 md:flex-row">
+              <Link href="/subscriptions">
+                <BrandButton
+                  icon={<RefreshCcw className="size-5 animate-spin" />}
+                >
+                  Cambia Piano
+                </BrandButton>
+              </Link>
+
+              <BrandButton
+                variant="danger"
+                icon={
+                  isCancelling ? (
+                    <RefreshCcw className="size-5 animate-spin" />
+                  ) : (
+                    <XCircle className="size-5" />
+                  )
+                }
+                onClick={() => handleCancelSubscription()}
+                disabled={isCancelling}
+              >
+                Disdici Abbonamento
+              </BrandButton>
+            </div>
+          </div>
+        </GenericCard>
       ) : (
         <div className="mt-5 flex flex-col items-center space-y-4 rounded-lg border border-gray-300 p-5 text-center dark:border-gray-700">
           <CreditCard className="size-10 text-gray-500 dark:text-gray-400" />

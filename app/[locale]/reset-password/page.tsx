@@ -1,19 +1,10 @@
 "use client";
 
 import BrandButton from "@/components/shared/brand-components/brand-button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import GenericCard from "@/components/shared/brand-components/brand-card";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { APP_NAME } from "@/lib/constants";
 import { Separator } from "@radix-ui/react-separator";
-import Image from "next/image";
-import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -91,50 +82,36 @@ const ResetPasswordForm = () => {
   return (
     <div className="container mx-auto flex flex-col items-center justify-center p-6">
       <div className="mx-auto w-full max-w-md">
-        <Card>
-          <CardHeader title="Sign In" className="space-y-4">
-            <Link href="/" className="flex-center">
-              <Image
-                src="/images/miopetit.svg"
-                width={100}
-                height={100}
-                alt={`${APP_NAME} logo`}
-                priority={true}
-              />
-            </Link>
-          </CardHeader>
-          <CardTitle className="text-center"> 🔑 Reset Password</CardTitle>
-          <CardDescription className="text-center">
-            Inserisci la nuova password
-          </CardDescription>
-
+        <GenericCard
+          iconSrc="/images/miopetit.svg"
+          title="🔑 Reset Password"
+          description=" Inserisci la nuova password"
+        >
           <Separator className="my-6 bg-slate-100" />
-          <CardContent className="mt-6 space-y-4">
-            <form
-              onSubmit={handleSubmit}
-              className="mt-6 flex w-full max-w-sm flex-col items-center space-y-4"
-            >
-              <Input
-                type="password"
-                placeholder="Nuova Password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                required
-              />
-              <Input
-                type="password"
-                placeholder="Conferma Nuova Password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-              />
+          <form
+            onSubmit={handleSubmit}
+            className="mt-6 flex w-full max-w-sm flex-col items-center space-y-4"
+          >
+            <Input
+              type="password"
+              placeholder="Nuova Password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              required
+            />
+            <Input
+              type="password"
+              placeholder="Conferma Nuova Password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
 
-              <BrandButton type="submit" loading={isLoading} variant="flat">
-                Reset Password
-              </BrandButton>
-            </form>
-          </CardContent>
-        </Card>
+            <BrandButton type="submit" loading={isLoading} variant="flat">
+              Reset Password
+            </BrandButton>
+          </form>
+        </GenericCard>
       </div>
     </div>
   );

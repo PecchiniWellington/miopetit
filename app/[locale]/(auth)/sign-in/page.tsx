@@ -1,9 +1,8 @@
 import { auth } from "@/auth";
-import { APP_NAME, SIGN_IN_DEFAULT_VALUES } from "@/lib/constants";
+import { SIGN_IN_DEFAULT_VALUES } from "@/lib/constants";
 import { Metadata } from "next";
 
-import Image from "next/image";
-import Link from "next/link";
+import GenericCard from "@/components/shared/brand-components/brand-card";
 import { redirect } from "next/navigation";
 import SubmitForm from "../shared/submit-form";
 
@@ -23,35 +22,13 @@ const SignInPage = async (props: {
   }
 
   return (
-    <div className="mx-auto w-full max-w-md">
-      <div className="relative space-y-6 rounded-xl border border-gray-200 bg-white p-6 shadow-md">
-        <div className="space-y-4">
-          <Link href="/" className="flex justify-center">
-            <Image
-              src="/images/miopetit.svg"
-              width={40}
-              height={40}
-              alt={`${APP_NAME} logo`}
-              priority={true}
-            />
-          </Link>
-        </div>
-
-        <h1 className="text-center text-2xl font-bold text-gray-900">
-          Sign In
-        </h1>
-        <p className="text-center text-sm text-gray-600">
-          Sign in to your account
-        </p>
-
-        <div className="space-y-4">
-          <SubmitForm
-            formType="sign-in"
-            defaultValues={SIGN_IN_DEFAULT_VALUES}
-          />
-        </div>
-      </div>
-    </div>
+    <GenericCard
+      iconSrc="/images/miopetit.svg"
+      title="Sign In"
+      description="Enter your information below to sign in"
+    >
+      <SubmitForm formType="sign-in" defaultValues={SIGN_IN_DEFAULT_VALUES} />
+    </GenericCard>
   );
 };
 

@@ -1,18 +1,10 @@
 import { auth } from "@/auth";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { APP_NAME, SIGN_UP_DEFAULT_VALUES } from "@/lib/constants";
+import { SIGN_UP_DEFAULT_VALUES } from "@/lib/constants";
 import { Metadata } from "next";
 
-import Image from "next/image";
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import SubmitForm from "../shared/submit-form";
+import GenericCard from "@/components/shared/brand-components/brand-card";
 
 export const metadata: Metadata = {
   title: "SignUp",
@@ -30,29 +22,13 @@ const SignUpPage = async (props: {
   }
   return (
     <div className="mx-auto w-full max-w-md">
-      <Card>
-        <CardHeader title="Sign Un" className="space-y-4">
-          <Link href="/" className="flex-center">
-            <Image
-              src="/images/miopetit.svg"
-              width={40}
-              height={40}
-              alt={`${APP_NAME} logo`}
-              priority={true}
-            />
-          </Link>
-        </CardHeader>
-        <CardTitle className="text-center">Create Account</CardTitle>
-        <CardDescription className="text-center">
-          Enter your information below to sign up
-        </CardDescription>
-        <CardContent className="space-y-4">
-          <SubmitForm
-            formType="sign-up"
-            defaultValues={SIGN_UP_DEFAULT_VALUES}
-          />
-        </CardContent>
-      </Card>
+      <GenericCard
+        iconSrc="/images/miopetit.svg"
+        title="Create Account"
+        description="Enter your information below to sign up"
+      >
+        <SubmitForm formType="sign-up" defaultValues={SIGN_UP_DEFAULT_VALUES} />
+      </GenericCard>
     </div>
   );
 };
