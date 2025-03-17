@@ -39,13 +39,15 @@ export const TabsList = ({
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
             className={`flex items-center gap-2 px-4 py-2 ${
-              activeTab === tab.id
-                ? "border-b-2 border-indigo-600 text-indigo-600"
-                : "text-gray-600"
+              activeTab === tab.id ? "tab-header" : "text-gray-600"
             }`}
           >
             {Icon && <Icon className="size-5" />}
-            {tab.label}
+            <span
+              className={activeTab === tab.id ? "text-gradient-primary" : ""}
+            >
+              {tab.label}
+            </span>
           </button>
         );
       })}
@@ -67,16 +69,7 @@ export const TabsPanel = ({
   if (withAnimation) {
     return (
       <AnimatePresence mode="wait">
-        {activeTab === tabId && (
-          <motion.div
-            key={tabId}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
-          >
-            {children}
-          </motion.div>
-        )}
+        {activeTab === tabId && <motion.div key={tabId}>{children}</motion.div>}
       </AnimatePresence>
     );
   }

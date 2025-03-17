@@ -20,7 +20,14 @@ const AboutUs = () => {
       {/* Hero Section */}
       <motion.section initial="hidden" animate="visible" variants={fadeIn}>
         <Hero
-          title={"Benvenuto in MioPetit 🐾"}
+          title={
+            <span className="flex items-center gap-2">
+              <span>Benvenuto in MioPetit</span>
+              <span className="size-10 rounded-full bg-white p-2 text-xl">
+                🐾
+              </span>
+            </span>
+          }
           description={
             "L&apos;e-commerce dedicato a chi ama gli animali! Scopri prodotti selezionati con cura per il benessere del tuo amico a quattro zampe."
           }

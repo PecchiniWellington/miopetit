@@ -3,7 +3,7 @@ const Hero = ({
   title,
 }: {
   description: string;
-  title: string;
+  title: React.ReactNode;
 }) => {
   return (
     <div className="flex flex-col items-center justify-center bg-gradient-to-r from-purple-500 to-indigo-600 py-20 text-center text-white">

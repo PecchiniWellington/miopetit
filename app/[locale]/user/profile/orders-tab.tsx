@@ -125,9 +125,10 @@ export const OrdersTab = () => {
             </div>
 
             {/* 🔗 Pulsante per i dettagli */}
+
             <Link
               href={`/order/${order.id}`}
-              className="mt-2 inline-block w-full rounded-lg bg-indigo-600 px-5 py-2 text-center text-white shadow-md transition hover:bg-indigo-700"
+              className="btn-base btn-primary btn-medium w-fit"
             >
               {t("order_card.details_button")}
             </Link>

@@ -81,13 +81,13 @@ export default function CareersPage() {
               </ul>
 
               {/* 📌 Pulsante per candidarsi */}
-              <div className="mt-6 text-right">
-                <a
+              <div className="mt-6 flex w-full items-center justify-end  text-right">
+                <Link
                   href={`/careers/apply?id=${job.id}`} // Puoi creare una pagina di candidatura
-                  className="inline-flex items-center rounded-full bg-indigo-600 px-5 py-2 text-white shadow-md transition hover:bg-indigo-700"
+                  className="btn-base btn-primary btn-medium w-fit"
                 >
                   Candidati Ora <ArrowRight className="ml-2 size-5" />
-                </a>
+                </Link>
               </div>
             </motion.div>
           ))

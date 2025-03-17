@@ -101,7 +101,7 @@ const ProfileTabsConfig = ({
                   className={`flex w-full items-center gap-3 rounded-md p-3 text-left text-sm font-medium transition-all
           ${
             activeTab === tab.id
-              ? "bg-indigo-600 text-white shadow-lg"
+              ? "bg-p "
               : "text-gray-600 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-700"
           }`}
                   onClick={() => handleActiveTab(tab.id)}
