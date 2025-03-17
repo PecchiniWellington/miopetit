@@ -1,7 +1,7 @@
 "use client";
 
 import Papa from "papaparse";
-import BrandButton from "./shared/brand-components/brand-button";
+import BrandButton from "./brand-components/brand-button";
 
 const DownloadCSV = ({ csvData }: { csvData: unknown[] }) => {
   const downloadCSV = () => {

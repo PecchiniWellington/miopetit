@@ -1,4 +1,4 @@
-import BrandBadge from "@/components/shared/brand-badge";
+import BrandBadge from "@/components/shared/brand-components/brand-badge";
 import { getAllCategories } from "@/core/actions/products/product-infos.ts/get-product-category.action";
 import Link from "next/link";
 

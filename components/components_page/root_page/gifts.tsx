@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 
-import AnimalAvatar from "@/components/animal-avatar";
+import AnimalAvatar from "@/components/shared/animal-avatar";
 import {
   Carousel,
   CarouselContent,

@@ -5,7 +5,7 @@ import UserDemographicsChart from "@/components/admin/users/UserDemographicsChar
 import UserGrowthChart from "@/components/admin/users/UserGrowthChart";
 import UsersTable from "@/components/admin/users/UsersTable";
 import CardWorking from "@/components/dev/card-working";
-import DownloadCSV from "@/components/download-csv";
+import DownloadCSV from "@/components/shared/download-csv";
 import { getAllUsers } from "@/core/actions/admin/admin.actions";
 import { getOrderSummary } from "@/core/actions/order/order.action";
 import Link from "next/link";

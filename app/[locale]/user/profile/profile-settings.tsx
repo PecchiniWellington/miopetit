@@ -1,7 +1,7 @@
 "use client";
 
 import BrandButton from "@/components/shared/brand-components/brand-button";
-import LanguageSwitcher from "@/components/switcher-language";
+import LanguageSwitcher from "@/components/shared/switcher-language";
 import {
   Dialog,
   DialogContent,

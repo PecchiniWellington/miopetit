@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import AnimalAvatar from "../animal-avatar";
+import AnimalAvatar from "../shared/animal-avatar";
 import DynamicCarousel from "./carousel";
 
 const IndispensableList = ({

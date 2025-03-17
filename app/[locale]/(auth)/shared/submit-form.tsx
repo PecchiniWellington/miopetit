@@ -1,6 +1,6 @@
 "use client";
 
-import SignInButtonWhitProvider from "@/components/sign-in-with-provider";
+import SignInButtonWhitProvider from "@/components/shared/sign-in-with-provider";
 import { Input } from "@/components/ui/input";
 import { signUpUser } from "@/core/actions/auth/auth.actions"; // Import SignUp
 import { signIn, useSession } from "next-auth/react";

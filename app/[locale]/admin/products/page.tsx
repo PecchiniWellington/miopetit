@@ -2,7 +2,7 @@ import Header from "@/components/admin/common/Header";
 
 import ProductsTable from "@/components/admin/products/ProductsTable";
 import SalesTrendChart from "@/components/admin/products/SalesTrendChart";
-import DownloadCSV from "@/components/download-csv";
+import DownloadCSV from "@/components/shared/download-csv";
 import { getAllProducts } from "@/core/actions/products";
 import { getAllCategories } from "@/core/actions/products/product-infos.ts/get-product-category.action";
 import Link from "next/link";

@@ -11,7 +11,7 @@ import {
 import Image from "next/image";
 import Papa from "papaparse";
 import { useEffect, useState } from "react";
-import BrandButton from "./shared/brand-components/brand-button";
+import BrandButton from "./brand-components/brand-button";
 
 export default function CSVTable({ CSV_URL }: { CSV_URL: string }) {
   const [data, setData] = useState<string[][]>([]);

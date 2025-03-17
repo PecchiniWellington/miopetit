@@ -8,7 +8,7 @@ import BrandButton from "../brand-components/brand-button";
 const Footer = () => {
   const t = useTranslations("Footer");
   return (
-    <footer className="bg-gray-100 text-gray-700">
+    <footer className="w-full bg-gray-100 text-gray-700">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-6 py-10 md:grid-cols-4">
         {/* 🛍️ Sezione Shop */}
         <div>

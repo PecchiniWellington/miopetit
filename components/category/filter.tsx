@@ -10,8 +10,8 @@ import { useFilterContext } from "@/context/filter-context";
 import { transformKey } from "@/lib/utils";
 import { FilterIcon, X } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import BrandBadge from "../shared/brand-badge";
 import BrandButton from "../shared/brand-components/brand-button";
+import BrandBadge from "../shared/brand-components/brand-badge";
 
 const Filter = ({
   productFilters,

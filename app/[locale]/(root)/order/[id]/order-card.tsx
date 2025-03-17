@@ -1,4 +1,4 @@
-import BrandBadge from "@/components/shared/brand-badge";
+import BrandBadge from "@/components/shared/brand-components/brand-badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { formatDateTime } from "@/lib/utils";
 import { Calendar, CheckCircle, XCircle } from "lucide-react";

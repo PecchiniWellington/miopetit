@@ -1,7 +1,7 @@
 "use client";
 
-import AnimalAvatar from "@/components/animal-avatar";
 import DynamicCarousel from "@/components/carousels/carousel";
+import AnimalAvatar from "@/components/shared/animal-avatar";
 import { animals_categories } from "@/core/db-static/db_root_page";
 import { useTranslations } from "next-intl";
 import Link from "next/link";

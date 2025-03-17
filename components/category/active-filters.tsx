@@ -2,8 +2,8 @@
 "use client";
 
 import { useFilterContext } from "@/context/filter-context";
-import BrandBadge from "../shared/brand-badge";
 import BrandButton from "../shared/brand-components/brand-button";
+import BrandBadge from "../shared/brand-components/brand-badge";
 
 const ActiveFilters = () => {
   const { filters, resetFilters, setIsAccordionOpen } = useFilterContext();

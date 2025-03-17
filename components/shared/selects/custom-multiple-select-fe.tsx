@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import BrandBadge from "../brand-badge";
+import BrandBadge from "../brand-components/brand-badge";
 
 interface OptionType {
   value: string;

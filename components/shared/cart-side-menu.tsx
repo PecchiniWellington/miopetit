@@ -14,8 +14,8 @@ import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import BrandButton from "./shared/brand-components/brand-button";
-import BrandNotificationNumber from "./shared/notification-number";
+import BrandButton from "./brand-components/brand-button";
+import BrandNotificationNumber from "./notification-number";
 
 const CartSideMenu = () => {
   const [isOpen, setIsOpen] = useState(false);

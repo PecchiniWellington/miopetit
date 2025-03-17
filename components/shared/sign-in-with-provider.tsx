@@ -2,8 +2,8 @@
 
 import { signInWithGoogle } from "@/core/actions/auth/auth.actions";
 import { useFormStatus } from "react-dom";
-import Google from "./icons/Google";
-import BrandButton from "./shared/brand-components/brand-button";
+import Google from "../icons/Google";
+import BrandButton from "./brand-components/brand-button";
 
 export default function SignInButtonWhitProvider({ formType = "sign-in" }) {
   const { pending } = useFormStatus();

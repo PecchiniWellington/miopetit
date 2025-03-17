@@ -1,4 +1,4 @@
-import BrandBadge from "@/components/shared/brand-badge";
+import BrandBadge from "@/components/shared/brand-components/brand-badge";
 import { getMyOrders } from "@/core/actions/order/order.action";
 import { IOrder, IOrderItem } from "@/core/validators";
 import { formatCurrency } from "@/lib/utils";
