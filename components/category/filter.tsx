@@ -1,22 +1,13 @@
 "use client";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { useFilterContext } from "@/context/filter-context";
-
 import { transformKey } from "@/lib/utils";
-import { FilterIcon, X } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { ChevronDown, FilterIcon, X } from "lucide-react";
 import { useSearchParams } from "next/navigation";
+import { useState } from "react";
 import BrandButton from "../shared/brand-components/brand-button";
-import BrandBadge from "../shared/brand-components/brand-badge";
 
-const Filter = ({
-  productFilters,
-  className,
-}: {
+interface FilterProps {
   productFilters: {
     [key: string]:
       | string
@@ -36,16 +27,27 @@ const Filter = ({
           [key: string]: string | number;
         };
   };
-
   className?: string;
-}) => {
+}
+
+const Filter: React.FC<FilterProps> = ({ productFilters, className }) => {
   const { updateFilters, isAccordionOpen, setIsAccordionOpen } =
     useFilterContext();
   const searchParams = useSearchParams();
 
+  const [openKeys, setOpenKeys] = useState<Record<string, boolean>>({});
+
+  const toggleAccordion = (key: string) => {
+    setOpenKeys((prev) => ({
+      ...prev,
+      [key]: !prev[key],
+    }));
+  };
+
   return (
     <div className={`w-full ${className}`}>
       <BrandButton
+        className="md:hidden"
         onClick={() => setIsAccordionOpen(true)}
         variant="flat"
         icon={<FilterIcon size={18} />}
@@ -66,54 +68,78 @@ const Filter = ({
         </BrandButton>
 
         <div>
-          {Object.entries(productFilters).map(([key, values]) => (
-            <Accordion key={key} type="single" collapsible className="w-full">
-              <AccordionItem value={key}>
-                <AccordionTrigger className="text-lg font-semibold">
-                  {transformKey(key.charAt(0).toUpperCase() + key.slice(1))}
-                </AccordionTrigger>
-                <AccordionContent>
-                  <ul>
-                    {Array.isArray(values) &&
-                      values.map((value) => {
-                        const filterValue =
-                          typeof value === "string"
-                            ? value
-                            : typeof value === "object"
-                              ? value.slug || value.id || ""
-                              : "";
-                        const isActive = searchParams.get(key) === filterValue;
+          {Object.entries(productFilters).map(([key, values]) => {
+            const isOpen = !!openKeys[key];
 
-                        return (
-                          <li key={filterValue}>
+            return (
+              <motion.div
+                key={key}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="mt-4 rounded-lg border border-gray-200 bg-gray-50 p-4 shadow-sm transition hover:shadow-md"
+              >
+                <div
+                  className="flex cursor-pointer items-center justify-between font-medium text-gray-800"
+                  onClick={() => toggleAccordion(key)}
+                >
+                  {transformKey(key.charAt(0).toUpperCase() + key.slice(1))}
+                  <ChevronDown
+                    className={`transition-transform ${
+                      isOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </div>
+
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      key="content"
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="mt-2 space-y-2 overflow-hidden"
+                    >
+                      {Array.isArray(values) &&
+                        values.map((value) => {
+                          const filterValue =
+                            typeof value === "string"
+                              ? value
+                              : typeof value === "object"
+                                ? value.slug || value.id || ""
+                                : "";
+                          const isActive =
+                            searchParams.get(key) === filterValue;
+
+                          return (
                             <BrandButton
+                              size="small"
+                              key={filterValue}
                               onClick={() =>
                                 updateFilters(key, filterValue.toString())
                               }
-                              variant="flat"
+                              className="h-fit"
+                              variant={isActive ? "primary" : "outline"}
                             >
-                              <BrandBadge
-                                variant={isActive ? "primary" : "default"}
-                                label={
-                                  typeof value === "string"
-                                    ? value
-                                    : typeof value === "object" &&
-                                        "name" in value
-                                      ? value.name
-                                      : typeof value === "object"
-                                        ? `${value.unitValue ?? ""} ${value.unitOfMeasure ?? ""}`
-                                        : ""
-                                }
-                              />
+                              {typeof value === "string"
+                                ? value
+                                : typeof value === "object" && "name" in value
+                                  ? value.name
+                                  : typeof value === "object"
+                                    ? `${value.unitValue ?? ""} ${
+                                        value.unitOfMeasure ?? ""
+                                      }`
+                                    : ""}
                             </BrandButton>
-                          </li>
-                        );
-                      })}
-                  </ul>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-          ))}
+                          );
+                        })}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            );
+          })}
         </div>
       </aside>
     </div>

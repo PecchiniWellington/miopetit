@@ -2,9 +2,9 @@
 
 import BrandButton from "@/components/shared/brand-components/brand-button";
 import DynamicFormFieldFE from "@/components/shared/dynamic-form-field-fe";
+import Hero from "@/components/shared/hero";
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -55,19 +55,11 @@ export default function ContactUs() {
   return (
     <div className="mx-auto w-full max-w-4xl px-6 py-16">
       {/* 📌 Hero Section */}
-      <motion.section
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="mb-10 text-center"
-      >
-        <h2 className="text-4xl font-bold text-gray-900 dark:text-white">
-          Contattaci! 🚀
-        </h2>
-        <p className="mt-3 text-lg text-gray-600 dark:text-gray-300">
-          Siamo lieti di ascoltare ciò che ci chiedi.
-        </p>
-      </motion.section>
+
+      <Hero
+        title="Contattaci!"
+        description="Siamo lieti di ascoltare ciò che ci chiedi."
+      />
 
       {/* 📌 Form */}
       <FormProvider {...form}>

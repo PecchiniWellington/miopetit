@@ -1,6 +1,7 @@
 "use client";
 
 import BecomePartnerFaq from "@/components/components_page/become_a_partner_page/become_a_partner";
+import Hero from "@/components/shared/hero";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
@@ -51,30 +52,14 @@ export default function BecomePartner() {
     partnerContentTab[0];
 
   return (
-    <div className="mx-auto w-full max-w-7xl px-6 py-16">
+    <div className="mx-auto flex w-full max-w-7xl flex-col gap-12 px-6">
       {/* 📌 Hero Section */}
-      <motion.section
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="mb-16 flex flex-col items-center text-center"
-      >
-        <h2 className="text-5xl font-bold text-gray-900 dark:text-white">
-          {partnerContent.hero.title}
-        </h2>
-        <p className="mt-6 max-w-3xl text-lg text-gray-600 dark:text-gray-300">
-          {partnerContent.hero.description}
-        </p>
-        <Image
-          src={partnerContent.hero.image}
-          alt="Partner Program"
-          width={750}
-          height={500}
-          className="mt-10 rounded-2xl shadow-xl"
-        />
-      </motion.section>
+      <Hero
+        title={partnerContent.hero.title}
+        description={partnerContent.hero.description}
+      />
       {/* 📌 Tabs */}
-      <div className="relative mb-10 border-b border-gray-300 dark:border-gray-700">
+      <div className="relative  border-b border-gray-300 dark:border-gray-700">
         <div
           ref={scrollRef}
           className="scrollbar-hide flex space-x-6 overflow-x-auto px-2 py-4 md:justify-center"
@@ -103,7 +88,7 @@ export default function BecomePartner() {
       </div>
       {/* 📌 Contenuto della Tab Selezionata */}
       {activeContent && (
-        <div className="mt-12 rounded-2xl bg-white p-10 shadow-lg dark:bg-gray-800">
+        <div className=" rounded-2xl bg-white p-10 shadow-lg dark:bg-gray-800">
           <motion.div
             key={activeContent.id}
             initial={{ opacity: 0, y: 10 }}
@@ -138,7 +123,7 @@ export default function BecomePartner() {
         </div>
       )}
       {/* 📌 Benefici */}
-      <div className="mt-20 grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3">
+      <div className=" grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3">
         {partnerContent.benefits.map((benefit, index) => {
           const Icon = icons[benefit.icon as keyof typeof icons] || Store; // Fallback icona
           return (
@@ -159,7 +144,7 @@ export default function BecomePartner() {
         })}
       </div>
       {/* 📌 Testimonianze */}
-      <div className="mt-24 rounded-2xl bg-gray-100 p-12">
+      <div className=" rounded-2xl bg-gray-100 p-12">
         <h2 className="text-center text-4xl font-bold">
           Cosa Dicono i Nostri Partner?
         </h2>
@@ -191,7 +176,7 @@ export default function BecomePartner() {
       {BecomePartnerFaq && <BecomePartnerFaq />}{" "}
       {/* Verifica esistenza componente */}
       {/* 📌 Call to Action */}
-      <div className="mt-24 text-center">
+      <div className=" text-center">
         <h2 className="text-4xl font-bold">{partnerContent.cta.title}</h2>
         <p className="mt-4 text-lg text-gray-600">
           {partnerContent.cta.description}

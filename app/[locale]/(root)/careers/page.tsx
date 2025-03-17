@@ -1,5 +1,6 @@
 "use client";
 
+import Hero from "@/components/shared/hero";
 import { APP_NAME } from "@/lib/constants";
 import { motion } from "framer-motion";
 import { ArrowRight, Briefcase, MapPin } from "lucide-react";
@@ -30,22 +31,14 @@ export default function CareersPage() {
   }, []);
 
   return (
-    <div className="mx-auto w-full max-w-5xl px-6 py-16">
+    <div className="mx-auto flex  w-full flex-col gap-12 px-6 ">
       {/* 📌 Hero Section */}
-      <motion.section
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="mb-10 text-center"
-      >
-        <h2 className="text-4xl font-bold text-gray-900 dark:text-white">
-          Lavora con Noi 🚀
-        </h2>
-        <p className="mt-3 text-lg text-gray-600 dark:text-gray-300">
-          Entra a far parte del team di MioPetit! Siamo sempre alla ricerca di
-          talenti appassionati.
-        </p>
-      </motion.section>
+
+      <Hero
+        title="Lavora con Noi 🚀"
+        description="Entra a far parte del team di MioPetit! Siamo sempre alla ricerca di
+          talenti appassionati."
+      />
 
       {/* 📌 Lista delle Posizioni */}
       <div className="space-y-8">

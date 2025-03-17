@@ -24,6 +24,7 @@ interface BrandButtonProps {
     | "ghost-white";
   className?: string;
   ref?: React.ForwardedRef<HTMLButtonElement>;
+  size?: "small" | "medium" | "large";
 }
 
 const BrandButton = ({
@@ -37,6 +38,7 @@ const BrandButton = ({
   variant = "primary",
   className,
   ref,
+  size = "medium",
 }: BrandButtonProps) => {
   const variantClass = {
     primary: "btn-primary",
@@ -52,13 +54,19 @@ const BrandButton = ({
     "ghost-white": "btn-ghost-white",
   };
 
+  const sizeClass = {
+    small: "btn-small",
+    medium: "btn-medium",
+    large: "btn-large",
+  };
+
   return (
     <Button
       ref={ref}
       type={type}
       onClick={onClick}
       disabled={disabled || loading}
-      className={`btn-base ${variantClass[variant]} ${loading ? "btn-loading" : ""} ${className}`}
+      className={`btn-base  ${variantClass[variant]} ${sizeClass[size]} ${loading ? "btn-loading" : ""} ${className}`}
     >
       {loading && <Loader2 className="size-4 animate-spin" />}
       {!loading && icon && iconPosition === "left" && icon}

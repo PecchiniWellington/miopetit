@@ -2,11 +2,11 @@
 
 import AboutUsCallToAction from "@/components/components_page/about_us_page/call_to_action_about_us";
 import AboutUsFaq from "@/components/components_page/about_us_page/faq_about_us";
-import AboutUsHero from "@/components/components_page/about_us_page/hero";
 import AboutUsHowWeWork from "@/components/components_page/about_us_page/how_we_works";
 import AboutUsReview from "@/components/components_page/about_us_page/review_about_us";
 import AboutUsWhatWeDo from "@/components/components_page/about_us_page/what_we_do";
 import AboutUsWhyUs from "@/components/components_page/about_us_page/why_us";
+import Hero from "@/components/shared/hero";
 import { motion } from "framer-motion";
 
 const fadeIn = {
@@ -16,10 +16,15 @@ const fadeIn = {
 
 const AboutUs = () => {
   return (
-    <div className="space-y-16">
+    <div>
       {/* Hero Section */}
       <motion.section initial="hidden" animate="visible" variants={fadeIn}>
-        <AboutUsHero />
+        <Hero
+          title={"Benvenuto in MioPetit 🐾"}
+          description={
+            "L&apos;e-commerce dedicato a chi ama gli animali! Scopri prodotti selezionati con cura per il benessere del tuo amico a quattro zampe."
+          }
+        />
       </motion.section>
 
       {/* Come Funzioniamo */}

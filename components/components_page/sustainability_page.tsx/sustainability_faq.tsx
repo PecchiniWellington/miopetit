@@ -1,4 +1,4 @@
-import AccordionFaq2 from "../about_us_page/accordiont_test";
+import AccordionFaq from "@/components/shared/accordion";
 
 const faqs = [
   {
@@ -31,7 +31,7 @@ export default function SustainabilityFaq() {
       </h2>
       <div className="mt-6 space-y-4">
         {faqs.map((faq, index) => (
-          <AccordionFaq2
+          <AccordionFaq
             key={index}
             question={faq.question}
             answer={faq.answer}
