@@ -49,10 +49,11 @@ const DynamicFormFieldFE = <T extends FieldValues>({
                 placeholder={placeholder}
                 {...field}
                 value={typeof field.value === "string" ? field.value : ""}
-                className={`resize-none rounded-xl border border-gray-600 bg-white p-3 text-gray-900 shadow-md transition-all focus:border-blue-500 focus:ring focus:ring-blue-300 disabled:cursor-not-allowed disabled:bg-gray-200 ${className}`}
+                className={` resize-none ${className} input-base-fe`}
               />
             ) : type === "select" ? (
               <SearchSelectFe
+                className={`input-base-fe ${className}`}
                 value={
                   options?.find((option) => option.value === field.value)?.value
                 }
@@ -63,6 +64,7 @@ const DynamicFormFieldFE = <T extends FieldValues>({
               />
             ) : type === "multiple-select" ? (
               <CustomMultipleSelectFe
+                className={`input-base-fe ${className}`}
                 value={
                   Array.isArray(field.value) &&
                   field.value.every((item: unknown) => typeof item === "string")
@@ -79,7 +81,7 @@ const DynamicFormFieldFE = <T extends FieldValues>({
                 placeholder={placeholder}
                 {...field}
                 value={typeof field.value === "string" ? field.value : ""}
-                className={`rounded-xl border border-gray-600 bg-white p-3 text-gray-900 shadow-md transition-all focus:border-blue-500 focus:ring focus:ring-blue-300 disabled:cursor-not-allowed disabled:bg-gray-200 ${className}`}
+                className={` input-base-fe ${className}`}
               />
             )}
           </FormControl>

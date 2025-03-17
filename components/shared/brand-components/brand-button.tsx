@@ -10,7 +10,18 @@ interface BrandButtonProps {
   icon?: ReactNode;
   disabled?: boolean;
   iconPosition?: "left" | "right";
-  variant?: "primary" | "secondary" | "danger" | "confirm" | "flat" | "warning";
+  variant?:
+    | "primary"
+    | "secondary"
+    | "danger"
+    | "confirm"
+    | "flat"
+    | "warning"
+    | "tertiary"
+    | "outline"
+    | "outline-white"
+    | "ghost"
+    | "ghost-white";
   className?: string;
   ref?: React.ForwardedRef<HTMLButtonElement>;
 }
@@ -30,10 +41,15 @@ const BrandButton = ({
   const variantClass = {
     primary: "btn-primary",
     secondary: "btn-secondary",
+    tertiary: "btn-tertiary",
     danger: "btn-danger",
     confirm: "btn-confirm",
     flat: "btn-flat",
     warning: "btn-warning",
+    outline: "btn-outline",
+    "outline-white": "btn-outline-white",
+    ghost: "btn-ghost",
+    "ghost-white": "btn-ghost-white",
   };
 
   return (
@@ -46,7 +62,7 @@ const BrandButton = ({
     >
       {loading && <Loader2 className="size-4 animate-spin" />}
       {!loading && icon && iconPosition === "left" && icon}
-      {children && <span>{children}</span>}
+      {children && <span className="flex items-center gap-2">{children}</span>}
       {!loading && icon && iconPosition === "right" && icon}
     </Button>
   );

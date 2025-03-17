@@ -1,4 +1,4 @@
-import { BadgeStatus } from "@/components/shared/badge-status";
+import BrandBadge from "@/components/shared/brand-badge";
 import { getMyOrders } from "@/core/actions/order/order.action";
 import { IOrder, IOrderItem } from "@/core/validators";
 import { formatCurrency } from "@/lib/utils";
@@ -70,24 +70,26 @@ export const OrdersTab = () => {
               </div>
 
               {/* 🏷️ Stato dell'Ordine */}
-              <BadgeStatus status={order.isDelivered ? "success" : "warning"}>
-                {order.isDelivered ? (
-                  <>
-                    <CheckCircle className="mr-2 size-4" />
-                    {t("order_card.status.shipped")}
-                  </>
-                ) : order.isPaid ? (
-                  <>
-                    <Truck className=" mr-2 size-4" />
-                    {t("order_card.status.shipping")}
-                  </>
-                ) : (
-                  <>
-                    <Clock className=" mr-2 size-4" /> In{" "}
-                    {t("order_card.status.pending_payment")}
-                  </>
-                )}
-              </BadgeStatus>
+
+              <BrandBadge
+                variant={order.isDelivered ? "success" : "warning"}
+                icon={
+                  order.isDelivered ? (
+                    <CheckCircle className="size-4" />
+                  ) : order.isPaid ? (
+                    <Truck className=" size-4" />
+                  ) : (
+                    <Clock className=" size-4" />
+                  )
+                }
+                label={
+                  order.isDelivered
+                    ? t("order_card.status.shipped")
+                    : order.isPaid
+                      ? t("order_card.status.shipping")
+                      : t("order_card.status.pending_payment")
+                }
+              />
             </div>
 
             {/* 📦 Dettagli Prodotti */}

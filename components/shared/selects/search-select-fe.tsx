@@ -11,6 +11,7 @@ interface SearchSelectProps {
   placeholder?: string;
   value?: string;
   defaultValue?: string;
+  className?: string;
 }
 
 export default function SearchSelectFe({
@@ -19,6 +20,7 @@ export default function SearchSelectFe({
   placeholder = "Seleziona un'opzione",
   value,
   defaultValue,
+  className,
 }: SearchSelectProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedOption, setSelectedOption] = useState<string | null>(
@@ -47,10 +49,7 @@ export default function SearchSelectFe({
   return (
     <div className="relative w-full">
       {/* 📌 Trigger per aprire il dropdown */}
-      <div
-        className="flex cursor-pointer items-center justify-between rounded-xl border border-gray-600 bg-white p-3 shadow-md transition-all hover:bg-gray-50"
-        onClick={() => setIsOpen(!isOpen)}
-      >
+      <div className={`${className}`} onClick={() => setIsOpen(!isOpen)}>
         <span>
           {selectedOption
             ? options.find((opt) => opt.value === selectedOption)?.label ||

@@ -1,6 +1,5 @@
-import { BadgeStatus } from "@/components/shared/badge-status";
+import BrandBadge from "@/components/shared/brand-badge";
 import { getAllCategories } from "@/core/actions/products/product-infos.ts/get-product-category.action";
-import { STATUS } from "@/lib/constants";
 import Link from "next/link";
 
 const prices = [
@@ -208,11 +207,10 @@ const SearchPage = async (props: {
                 href={getFilterUrl({ s })}
                 className={`mx-2 ${sort === s && "font-bold"}`}
               >
-                <BadgeStatus
-                  status={sort === s ? STATUS.PRIMARY_ACTIVE : STATUS.PRIMARY}
-                >
-                  {s}
-                </BadgeStatus>
+                <BrandBadge
+                  variant={sort === s ? "primary" : "default"}
+                  label={s}
+                />
               </Link>
             ))}
           </div>

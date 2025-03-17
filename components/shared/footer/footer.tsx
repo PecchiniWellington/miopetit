@@ -46,9 +46,10 @@ const Footer = () => {
                 {t("faq")}
               </Link>
             </li>
-            <li>
+            <li className="-my-6">
               <BrandButton
-                className="-my-5 p-0 text-base font-normal hover:text-purple-600"
+                variant="ghost"
+                className=" text-base font-normal  hover:text-purple-600"
                 onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                   e.preventDefault();
                   window.location.href = `/user/profile#orders`;

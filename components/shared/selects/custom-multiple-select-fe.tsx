@@ -1,8 +1,9 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown, XCircle } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import BrandBadge from "../brand-badge";
 
 interface OptionType {
   value: string;
@@ -15,6 +16,7 @@ interface CustomMultipleSelectProps {
   onSelect: (value: string[]) => void;
   placeholder?: string;
   defaultValue?: string[];
+  className?: string;
 }
 
 export default function CustomMultipleSelectFe({
@@ -23,6 +25,7 @@ export default function CustomMultipleSelectFe({
   onSelect,
   placeholder = "Seleziona una o più opzioni",
   defaultValue = [],
+  className,
 }: CustomMultipleSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState<OptionType[]>([]);
@@ -87,10 +90,7 @@ export default function CustomMultipleSelectFe({
       ref={dropdownRef}
     >
       {/* 📌 Trigger per aprire il dropdown */}
-      <div
-        className="flex cursor-pointer items-center justify-between rounded-xl border border-gray-600 bg-white p-3 shadow-md transition-all hover:bg-gray-50"
-        onClick={() => setIsOpen(!isOpen)}
-      >
+      <div className={`${className}`} onClick={() => setIsOpen(!isOpen)}>
         <span className="truncate">
           {selectedOptions.length > 0
             ? selectedOptions.map((opt) => opt.label).join(", ")
@@ -121,7 +121,7 @@ export default function CustomMultipleSelectFe({
                     key={option.value}
                     className={`cursor-pointer px-4 py-3 transition-all ${
                       selectedOptions.some((opt) => opt.value === option.value)
-                        ? "bg-blue-500 text-white"
+                        ? "bg-primary-200 font-bold text-white"
                         : "hover:bg-gray-100"
                     }`}
                     onClick={() => handleSelect(option.value)}
@@ -137,23 +137,14 @@ export default function CustomMultipleSelectFe({
         )}
       </AnimatePresence>
 
-      {/* 📌 Selezioni attive */}
       {selectedOptions.length > 0 && (
         <div className="mt-2 flex flex-wrap gap-2">
           {selectedOptions.map((opt) => (
-            <motion.div
-              key={opt.value}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.2 }}
-              className="flex items-center rounded-full bg-blue-500 px-3 py-1 text-white"
-            >
-              {opt.label}
-              <XCircle
-                className="ml-2 size-4 cursor-pointer text-gray-300 hover:text-red-500"
-                onClick={() => handleSelect(opt.value)}
-              />
-            </motion.div>
+            <BrandBadge
+              key={opt.label}
+              label={opt.label}
+              onCloseBadge={() => handleSelect(opt.value)}
+            />
           ))}
         </div>
       )}

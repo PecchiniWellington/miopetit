@@ -1,5 +1,4 @@
 "use client";
-import { BadgeStatus } from "@/components/shared/badge-status";
 import {
   Accordion,
   AccordionContent,
@@ -8,10 +7,10 @@ import {
 } from "@/components/ui/accordion";
 import { useFilterContext } from "@/context/filter-context";
 
-import { STATUS } from "@/lib/constants";
 import { transformKey } from "@/lib/utils";
 import { FilterIcon, X } from "lucide-react";
 import { useSearchParams } from "next/navigation";
+import BrandBadge from "../shared/brand-badge";
 import BrandButton from "../shared/brand-components/brand-button";
 
 const Filter = ({
@@ -93,21 +92,19 @@ const Filter = ({
                               }
                               variant="flat"
                             >
-                              <BadgeStatus
-                                status={
-                                  isActive
-                                    ? STATUS.PRIMARY_ACTIVE
-                                    : STATUS.DEFAULT
+                              <BrandBadge
+                                variant={isActive ? "primary" : "default"}
+                                label={
+                                  typeof value === "string"
+                                    ? value
+                                    : typeof value === "object" &&
+                                        "name" in value
+                                      ? value.name
+                                      : typeof value === "object"
+                                        ? `${value.unitValue ?? ""} ${value.unitOfMeasure ?? ""}`
+                                        : ""
                                 }
-                              >
-                                {typeof value === "string"
-                                  ? value
-                                  : typeof value === "object" && "name" in value
-                                    ? value.name
-                                    : typeof value === "object"
-                                      ? `${value.unitValue ?? ""} ${value.unitOfMeasure ?? ""}`
-                                      : ""}
-                              </BadgeStatus>
+                              />
                             </BrandButton>
                           </li>
                         );

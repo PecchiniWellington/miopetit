@@ -1,6 +1,7 @@
 "use client";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { MessageCircle, X } from "lucide-react";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import BrandButton from "../shared/brand-components/brand-button";
 
@@ -69,10 +70,11 @@ export default function Chatbot() {
     <div>
       {/* Pulsante flottante per aprire la chat */}
       <BrandButton
+        variant="tertiary"
         className={`fixed right-4 z-50 ${bottomOffset} flex size-14 items-center justify-center transition-all duration-300 hover:scale-110`}
         onClick={() => setIsOpen(!isOpen)}
       >
-        {isOpen ? <X size={28} /> : <MessageCircle size={28} />}
+        {isOpen ? <X size={28} /> : <MessageCircle size={26} />}
       </BrandButton>
 
       {/* Box della chat */}
@@ -80,30 +82,22 @@ export default function Chatbot() {
         <div
           className={`fixed right-6 z-40 ${chatBottomOffset} w-80 rounded-2xl border border-gray-200 bg-white p-4 shadow-2xl transition-all duration-300`}
         >
-          <h2 className="mb-2 text-lg font-bold text-purple-600">
-            Chat Support{" "}
-            {/*  <Image
-              priority
-              src="/images/petitLogo.png"
-              alt="Bot"
-              width={24}
-              height={24}
-              className="rounded-full object-cover"
-            /> */}
+          <h2 className="mb-2 flex gap-2 text-lg font-bold text-purple-600">
+            <span>Chat Support </span>
           </h2>
           <div className="h-64 overflow-y-auto rounded-lg border p-2">
             {chat.map((msg, i) => (
               <div key={i} className="my-1 flex items-start gap-2">
                 {/* Avatar per il bot */}
-                {/*   {msg.sender === "bot" && (
+                {msg.sender === "bot" && (
                   <Image
-                    src="/images/petitLogo.png" // CORRETTO PERCORSO: il file deve essere in "public/"
+                    src="/images/petitLogo.png"
                     alt="Bot"
                     width={24}
                     height={24}
                     className="rounded-full"
                   />
-                )} */}
+                )}
                 <div
                   className={`rounded-md p-2 ${
                     msg.sender === "user"

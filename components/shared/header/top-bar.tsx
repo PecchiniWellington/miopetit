@@ -21,6 +21,7 @@ export default function TopBar() {
         {/* 🔗 Link Assistenza e Ordini */}
         <div className="flex gap-6">
           <BrandButton
+            variant="ghost-white"
             onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
               e.preventDefault();
               window.location.href = `${session.data?.user.id ? "/user/profile#support" : "/faq"}`;

@@ -97,6 +97,7 @@ const SettingsTab = () => {
           </p>
 
           <BrandButton
+            className="mt-4"
             variant="danger"
             onClick={() => setOpen(true)}
             icon={<Trash2 className="mr-2 size-5" />}

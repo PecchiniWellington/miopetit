@@ -1,6 +1,5 @@
-import { BadgeStatus } from "@/components/shared/badge-status";
+import BrandBadge from "@/components/shared/brand-badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { STATUS } from "@/lib/constants";
 import { formatDateTime } from "@/lib/utils";
 import { Calendar, CheckCircle, XCircle } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -37,22 +36,17 @@ const OrderCard = ({
           </h2>
 
           {confirmedType || toConfirmType ? (
-            <BadgeStatus
-              status={isPaid ? "success" : STATUS.DANGER}
-              className="flex items-center gap-1 px-3 py-1 text-sm font-medium"
-            >
-              {isPaid ? (
-                <>
+            <BrandBadge
+              variant={isPaid ? "success" : "danger"}
+              icon={
+                isPaid ? (
                   <CheckCircle className="size-4 text-green-500" />
-                  {confirmedType}
-                </>
-              ) : (
-                <>
+                ) : (
                   <XCircle className="size-4 text-red-500" />
-                  {toConfirmType}
-                </>
-              )}
-            </BadgeStatus>
+                )
+              }
+              label={isPaid ? confirmedType : toConfirmType}
+            />
           ) : null}
         </div>
 
