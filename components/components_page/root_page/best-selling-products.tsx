@@ -100,7 +100,6 @@ const BestSellingProduct = ({
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          {/*  <CarouselProducts data={latestProducts} /> */}
           <DynamicCarousel
             data={memoizedData}
             itemsPerView={3}

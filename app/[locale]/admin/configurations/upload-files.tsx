@@ -2,7 +2,6 @@
 
 import BrandButton from "@/components/shared/brand-components/brand-button";
 import SearchSelect from "@/components/shared/selects/search-select";
-import { Alert } from "@/components/ui/alert";
 import { Input } from "@/components/ui/input";
 import Papa from "papaparse";
 import { useRef, useState } from "react";
@@ -195,15 +194,17 @@ export default function UploadFiles() {
       </div>
 
       {errorMessage && (
-        <Alert variant="destructive" className="mb-4">
+        <div>{errorMessage}</div>
+        /*   <Alert variant="destructive" className="mb-4">
           {errorMessage}
-        </Alert>
+        </Alert> */
       )}
 
       {success && (
-        <Alert variant="default" className="mb-4">
+        <div> Upload successful! ✅</div>
+        /*  <Alert variant="default" className="mb-4">
           Upload successful! ✅
-        </Alert>
+        </Alert> */
       )}
     </>
   );

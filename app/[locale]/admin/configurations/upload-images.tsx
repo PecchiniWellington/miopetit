@@ -1,9 +1,7 @@
 "use client";
 
 import BrandButton from "@/components/shared/brand-components/brand-button";
-import { Alert } from "@/components/ui/alert"; // Alert per messaggi
 import { Input } from "@/components/ui/input"; // Input per la selezione file
-import { Progress } from "@/components/ui/progress"; // Barra di progresso
 import Image from "next/image";
 import { useRef, useState } from "react";
 
@@ -94,15 +92,16 @@ export default function UploadImage() {
       </form>
 
       {errorMessage && (
-        <Alert variant="destructive" className="mb-4">
+        /*  <Alert variant="destructive" className="mb-4">
           {errorMessage}
-        </Alert>
+        </Alert> */
+        <div>{errorMessage}</div>
       )}
 
       {uploadProgress > 0 && (
         <div className="mb-4">
           <p>Caricamento in corso...</p>
-          <Progress value={uploadProgress} max={100} />
+          {/*  <Progress value={uploadProgress} max={100} /> */}
         </div>
       )}
 

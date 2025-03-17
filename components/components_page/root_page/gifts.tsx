@@ -2,14 +2,8 @@
 
 import { motion } from "framer-motion";
 
+import DynamicCarousel from "@/components/carousels/carousel";
 import AnimalAvatar from "@/components/shared/animal-avatar";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
 import { useGiftData } from "@/core/db-static/db_root_page/gift_data";
 import { useLocalImage } from "@/hooks/use-local-image";
 import { useLocale, useTranslations } from "next-intl";
@@ -60,43 +54,34 @@ const Gifts = () => {
       </motion.div>
 
       {/* Layout Mobile - Carousel */}
+
       <motion.div
         className="relative block w-full md:hidden"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.7 }}
       >
-        <Carousel
-          className="mb-12 w-full"
-          opts={{
-            loop: true,
-            startIndex: 0,
-            align: "start",
-          }}
-        >
-          <CarouselContent>
-            {gift_data.map(({ name, image }) => (
-              <CarouselItem key={name} className="md:basis-1/2 lg:basis-1/4">
-                <div className="relative mx-auto h-full">
-                  <motion.div
-                    className="overflow-hidden rounded-lg bg-white p-4 shadow-md transition-transform duration-300 hover:scale-105"
-                    whileHover={{ scale: 1.05 }}
-                  >
-                    {imagePath && (
-                      <AnimalAvatar
-                        key={name}
-                        name={name}
-                        image={`${imagePath}${image}`}
-                      />
-                    )}
-                  </motion.div>
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2" />
-          <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2" />
-        </Carousel>
+        <DynamicCarousel
+          data={gift_data}
+          itemsPerView={4}
+          gap={20}
+          renderItem={(item) => (
+            <div className="relative mx-auto h-full">
+              <motion.div
+                className="overflow-hidden rounded-lg bg-white p-4 shadow-md transition-transform duration-300 hover:scale-105"
+                whileHover={{ scale: 1.05 }}
+              >
+                {imagePath && (
+                  <AnimalAvatar
+                    key={item.name}
+                    name={item.name}
+                    image={`${imagePath}${item.image}`}
+                  />
+                )}
+              </motion.div>
+            </div>
+          )}
+        />
       </motion.div>
     </div>
   );

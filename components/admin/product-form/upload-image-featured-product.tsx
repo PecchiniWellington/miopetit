@@ -1,12 +1,6 @@
 import { OurFileRouter } from "@/app/api/uploadthing/core";
 import BrandCard from "@/components/shared/brand-components/brand-card";
-import { Checkbox } from "@/components/ui/checkbox";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
+import { FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { IProduct } from "@/core/validators";
 import { toast } from "@/hooks/use-toast";
 
@@ -30,12 +24,11 @@ export const UploadImageFeaturedProduct: React.FC<
         name="isFeatured"
         render={({ field }) => (
           <FormItem className="flex  items-center space-x-2">
-            <FormControl>
-              <Checkbox
-                checked={!!field.value}
-                onCheckedChange={field.onChange}
-              />
-            </FormControl>
+            <input
+              type="checkbox"
+              checked={!!field.value}
+              onChange={(e) => field.onChange(e.target.checked)}
+            />
             <FormLabel>Featured Product</FormLabel>
           </FormItem>
         )}

@@ -66,13 +66,13 @@ export default function MegaMenu({ data, brands = [], imgSrc }: MegaMenuProps) {
           </div>
 
           <motion.div
-            className="col-span-1 flex justify-center bg-primary-500 bg-gradient-to-r from-indigo-500 to-purple-600 align-bottom"
+            className="bg-p col-span-1 flex justify-center align-bottom"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3 }}
           >
             {/* Immagine Principale */}
-            <div className="col-span-1 flex justify-center bg-primary-500 bg-gradient-to-r from-indigo-500 to-purple-600 align-bottom">
+            <div className="col-span-1 flex justify-center align-bottom">
               <motion.div
                 className="mt-auto"
                 initial={{ opacity: 0, x: 30 }}
