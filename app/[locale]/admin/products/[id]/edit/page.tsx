@@ -38,6 +38,8 @@ const AdminProductUpdatePage = async (props: {
   console.log("brands", brands);
   console.log("pathologies", pathologies);
   console.log("proteins", proteins);
+  console.log("unitValues", unitValues);
+  console.log("unitOfMeasure", unitOfMeasure);
 
   if (!product) return notFound();
 

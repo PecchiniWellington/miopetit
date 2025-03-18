@@ -4,11 +4,23 @@ import { InputHTMLAttributes, forwardRef } from "react";
 
 interface CustomInputProps extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;
-  variant?: "default" | "admin"; // <-- aggiunta della variante
+  isNumber?: boolean;
+  variant?: "default" | "admin";
 }
 
 const BrandInput = forwardRef<HTMLInputElement, CustomInputProps>(
-  ({ className = "", variant = "default", ...props }, ref) => {
+  (
+    {
+      className = "",
+      variant = "default",
+      type = "text",
+      isNumber = false,
+      ...props
+    },
+    ref
+  ) => {
+    const inputType = isNumber ? "number" : type;
+
     const baseClasses =
       "block w-full rounded-lg border px-4 py-2 text-sm shadow-lg  transition placeholder:text-gray-400 focus:outline-none";
 
@@ -19,11 +31,23 @@ const BrandInput = forwardRef<HTMLInputElement, CustomInputProps>(
         "border-slate-700 bg-slate-900 text-white focus:border-slate-500 focus:ring-2 focus:ring-slate-500",
     };
 
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (
+        inputType === "number" &&
+        !/[0-9]/.test(event.key) &&
+        event.key !== "Backspace"
+      ) {
+        event.preventDefault();
+      }
+    };
+
     return (
       <input
         ref={ref}
         {...props}
+        type={inputType}
         className={`${baseClasses} ${variants[variant]} ${className}`}
+        onKeyDown={handleKeyDown}
       />
     );
   }

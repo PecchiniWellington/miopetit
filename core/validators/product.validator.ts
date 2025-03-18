@@ -6,7 +6,7 @@ export const productSchema = z.object({
   name: z.string(),
   slug: z.string(),
   price: z.string().regex(/^\d+(\.\d{1,2})?$/, "Invalid price format"),
-  stock: z.number().int().nonnegative(),
+  stock: z.preprocess((val) => Number(val), z.number().int().nonnegative()),
   rating: z.number().min(0).max(5).default(0),
   banner: z.string().optional().nullable(),
   numReviews: z.number().int().nonnegative(),
@@ -29,8 +29,15 @@ export const productSchema = z.object({
   productUnitFormat: z
     .object({
       id: z.string().uuid(),
-      unitValue: z.number(),
-      unitOfMeasure: z.string(),
+      unitValue: z.object({
+        id: z.string().uuid(),
+        value: z.number(),
+      }),
+      unitOfMeasure: z.object({
+        id: z.string().uuid(),
+        code: z.string(),
+        name: z.string(),
+      }),
       slug: z.string(),
     })
     .nullable(),

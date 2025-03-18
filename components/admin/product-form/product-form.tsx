@@ -45,7 +45,7 @@ const ProductForm = ({
         onSubmit={form.handleSubmit(
           (data) => {
             console.log("✅ Dati inviati:", data);
-            onSubmit(data);
+            /*  onSubmit(data); */
           },
           (errors) => {
             console.log("❌ Errori nel form:", errors);

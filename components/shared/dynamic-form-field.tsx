@@ -17,6 +17,7 @@ interface DynamicFormFieldProps<T extends FieldValues> {
   options?: Option[];
   defaultValue?: string | string[];
   variant?: "default" | "admin";
+  isNumber?: boolean;
 }
 
 import { FieldValues } from "react-hook-form";
@@ -27,6 +28,7 @@ import BrandTextArea from "./brand-components/brand-textarea";
 
 const DynamicFormField = <T extends FieldValues>({
   disabled,
+  isNumber,
   control,
   name,
   title,
@@ -79,11 +81,12 @@ const DynamicFormField = <T extends FieldValues>({
               />
             ) : (
               <BrandInput
+                isNumber={isNumber}
                 variant={variant}
                 disabled={disabled}
                 placeholder={placeholder}
                 {...field}
-                value={typeof field.value === "string" ? field.value : ""}
+                value={field.value?.toString() || ""}
                 className={`border-slate-700 bg-transparent ${className}`}
               />
             )}

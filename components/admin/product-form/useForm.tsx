@@ -24,7 +24,35 @@ export function useProductForm({
       type === "Create"
         ? { id: "" }
         : product
-          ? { ...product, id: product.id ?? "" } // 👈 Assicura che id sia sempre string
+          ? {
+              ...product,
+              id: product.id ?? "",
+              productCategories:
+                product.productCategories?.map((cat) => cat.id) || [],
+              productPathologies:
+                product.productPathologies?.map((p) => p.id) || [],
+              productProteins: product.productProteins?.map((p) => p.id) || [],
+              productFeature: product.productFeature?.map((f) => f.id) || [],
+              productBrand: product.productBrand?.id || "",
+              productUnitFormat: product.productUnitFormat
+                ? {
+                    unitValue: product.productUnitFormat.unitValue.id,
+                    unitOfMeasure: product.productUnitFormat.unitOfMeasure.id,
+                    id: product.productUnitFormat.id,
+                    slug: product.productUnitFormat.slug,
+                  }
+                : {
+                    unitValue: "",
+                    unitOfMeasure: "",
+                    id: "",
+                    slug: "",
+                  },
+              images: product.images || [],
+              banner: product.banner || "",
+              isFeatured: product.isFeatured || false,
+              animalAge: product.animalAge || "",
+              stock: product.stock || 0,
+            }
           : { id: "" },
   });
 

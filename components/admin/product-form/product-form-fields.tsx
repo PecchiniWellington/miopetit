@@ -81,10 +81,6 @@ export function ProductFormFields({
     label: key,
   }));
 
-  const images = form.watch("images");
-  const isFeatured = form.watch("isFeatured");
-  const banner = form.watch("banner");
-
   return (
     <>
       <div className="flex flex-col gap-5 md:flex-row">
@@ -169,22 +165,21 @@ export function ProductFormFields({
             type="select"
             options={formatterForUnitValue}
             control={form.control}
-            name="productUnitFormat"
+            name="productUnitFormat.unitValue"
             title="Unit value"
-            defaultValue={product?.productUnitFormat?.unitValue.toString()}
+            defaultValue={product?.productUnitFormat?.unitValue.id || ""}
             placeholder="Enter unit value"
           />
-          {/* UnitOfMeasure */}
 
           <DynamicFormField
             variant="admin"
             type="select"
             options={formatterForUnitOfMeasure}
             control={form.control}
-            name="productUnitFormat"
+            name="productUnitFormat.unitOfMeasure"
             title="Unit of measure"
-            placeholder="Enter brand"
-            defaultValue={product?.productUnitFormat?.unitOfMeasure.toString()}
+            defaultValue={product?.productUnitFormat?.unitOfMeasure.id || ""}
+            placeholder="Enter unit of measure"
           />
         </div>
         <DynamicFormField
@@ -207,8 +202,10 @@ export function ProductFormFields({
           title="Price"
           placeholder="Enter price"
         />
+
         {/* Stock */}
         <DynamicFormField
+          isNumber={true}
           variant="admin"
           control={form.control}
           name="stock"
@@ -216,19 +213,34 @@ export function ProductFormFields({
           placeholder="Enter stock"
         />
       </div>
-      <div className="upload-field flex flex-col gap-5 md:flex-row">
+      <div className="upload-field">
         {/* Images */}
-        <UploadImage form={form} image={banner} />
+        Product Images
+        <UploadImage
+          isFeatured={false}
+          multiple
+          images={form.watch("images") || []}
+          onChange={(data) => {
+            form.setValue("images", data.images);
+          }}
+        />
       </div>
       <div className="upload-field">
         {/* isFeatured */}
         Featured Product
-        <UploadImage form={form} image={banner} multiple />
-        {/* <UploadImageFeaturedProduct
-          isFeatured={isFeatured}
-          banner={banner}
-          form={form}
-        /> */}
+        <UploadImage
+          isFeatured={true}
+          images={[form.watch("banner")].filter((img): img is string => !!img)}
+          onChange={(data) => {
+            if (data.isFeatured) {
+              form.setValue("isFeatured", true);
+              form.setValue("banner", data.images[0] || "");
+            } else {
+              form.setValue("isFeatured", false);
+              form.setValue("banner", "");
+            }
+          }}
+        />
       </div>
       <div>
         {/* Description */}
