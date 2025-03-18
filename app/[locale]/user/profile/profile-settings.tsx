@@ -52,7 +52,7 @@ const SettingsTab = () => {
               Attiva/disattiva le notifiche
             </p>
           </div>
-          <Switch checked={notifications} onCheckedChange={setNotifications} />
+          <CustomSwitch checked={notifications} onCheckedChange={setNotifications} />
         </div> */}
 
         {/* 🔒 Autenticazione a Due Fattori */}
@@ -65,7 +65,7 @@ const SettingsTab = () => {
               Aggiungi un ulteriore livello di sicurezza
             </p>
           </div>
-          <Switch checked={twoFactorAuth} onCheckedChange={setTwoFactorAuth} />
+          <CustomSwitch checked={twoFactorAuth} onCheckedChange={setTwoFactorAuth} />
         </div> */}
 
         {/* 🚀 Salva le Modifiche */}

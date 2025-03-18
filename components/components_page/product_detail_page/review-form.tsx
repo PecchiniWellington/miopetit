@@ -1,6 +1,8 @@
 "use client";
 
 import BrandButton from "@/components/shared/brand-components/brand-button";
+import BrandSelect from "@/components/shared/brand-components/brand-select";
+import BrandTextArea from "@/components/shared/brand-components/brand-textarea";
 import {
   Form,
   FormControl,
@@ -10,14 +12,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
 import { createUpdateReview } from "@/core/actions/reviews/review.action";
 
 import { insertReviewSchema } from "@/core/validators";
@@ -113,7 +107,7 @@ const ReviewForm = ({
               <FormItem>
                 <FormLabel>Description</FormLabel>
                 <FormControl>
-                  <Textarea {...field} placeholder="Enter Description" />
+                  <BrandTextArea {...field} placeholder="Enter Description" />
                 </FormControl>
               </FormItem>
             )}
@@ -124,23 +118,17 @@ const ReviewForm = ({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Rating</FormLabel>
-                <Select
-                  onValueChange={(value) => field.onChange(Number(value))}
+                <BrandSelect
                   value={field.value.toString()}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select Slug" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent className="bg-slate-100 dark:bg-slate-800 dark:text-white">
-                    {Array.from({ length: 5 }).map((_, index) => (
-                      <SelectItem key={index} value={(index + 1).toString()}>
-                        {index + 1} <StarIcon className="inline size-4" />
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                  onValueChange={(value) => field.onChange(Number(value))}
+                  placeholder="Select Slug"
+                  options={Array.from({ length: 5 }).map((_, index) => ({
+                    value: (index + 1).toString(),
+                    label: `${index + 1}`,
+                    icon: <StarIcon className="inline size-4" />,
+                  }))}
+                />
+
                 <FormMessage />
               </FormItem>
             )}

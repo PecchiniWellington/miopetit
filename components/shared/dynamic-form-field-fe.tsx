@@ -2,7 +2,6 @@ import { Control, Controller, Path } from "react-hook-form";
 
 import { FormControl, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
 
 interface Option {
   label: string;
@@ -23,6 +22,7 @@ interface DynamicFormFieldProps<T extends FieldValues> {
 import { FieldValues } from "react-hook-form";
 import CustomMultipleSelectFe from "./selects/custom-multiple-select-fe";
 import SearchSelectFe from "./selects/search-select-fe";
+import BrandTextArea from "./brand-components/brand-textarea";
 
 const DynamicFormFieldFE = <T extends FieldValues>({
   disabled,
@@ -44,7 +44,7 @@ const DynamicFormFieldFE = <T extends FieldValues>({
           <FormLabel>{title}</FormLabel>
           <FormControl>
             {type === "textarea" ? (
-              <Textarea
+              <BrandTextArea
                 disabled={disabled}
                 placeholder={placeholder}
                 {...field}

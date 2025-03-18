@@ -1,58 +1,40 @@
 "use client";
-
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { ICategory } from "@/core/validators";
-import { Loader } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useSearch } from "./global-search-context";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import BrandSelect from "../../brand-components/brand-select";
+import { useSearch } from "./global-search-context";
 
+// Dentro SearchCategorySelect:
 const SearchCategorySelect = () => {
-  const router = useRouter();
   const { searchCategories, isLoading, fetchSearchCategories } = useSearch();
+  const [isOpen, setIsOpen] = useState(false);
   const t = useTranslations("Shared");
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isOpen && searchCategories.length === 0) {
+      fetchSearchCategories();
+    }
+  }, [isOpen]);
 
   return (
-    <Select
-      name="category"
-      onValueChange={(value) => {
-        router.push(`/${value}`);
-      }}
-      onOpenChange={(isOpen) => {
-        if (isOpen) {
-          fetchSearchCategories();
-        }
-      }}
+    <BrandSelect
+      value=""
+      onValueChange={(value) => router.push(`/${value}`)}
+      onOpenChange={setIsOpen}
       disabled={isLoading}
-    >
-      <SelectTrigger className="w-44 rounded-full bg-gray-200 px-4 py-2 text-gray-700 shadow-md transition-all duration-300 hover:bg-gray-300 focus:ring-2 focus:ring-indigo-500 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700">
-        <SelectValue placeholder={isLoading ? t("loading") : t("all")} />
-      </SelectTrigger>
-      <SelectContent className="bg-gray-100 dark:bg-slate-800 dark:text-white">
-        {isLoading ? (
-          <div className="flex items-center justify-center p-4">
-            <Loader className="size-6 animate-spin text-indigo-600" />
-          </div>
-        ) : (
-          (searchCategories as ICategory[]).map((x: ICategory) => (
-            <SelectItem
-              value={x.slug}
-              key={x.id}
-              className="rounded-md transition-all duration-200 hover:bg-indigo-100 dark:hover:bg-indigo-900"
-            >
-              {x.name}
-            </SelectItem>
-          ))
-        )}
-      </SelectContent>
-    </Select>
+      placeholder={isLoading ? t("loading") : t("all")}
+      options={
+        isLoading
+          ? []
+          : (searchCategories as ICategory[]).map((x) => ({
+              value: x.slug,
+              label: x.name,
+            }))
+      }
+    />
   );
 };
-
 export default SearchCategorySelect;

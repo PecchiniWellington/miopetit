@@ -2,7 +2,7 @@
 
 import BrandButton from "@/components/shared/brand-components/brand-button";
 import BrandCard from "@/components/shared/brand-components/brand-card";
-import { Switch } from "@/components/ui/switch";
+import CustomSwitch from "@/components/shared/brand-components/brand-switch";
 import {
   CheckCircle,
   Globe,
@@ -149,7 +149,7 @@ const NotificationSetting = ({
         {icon}
         <span className="text-lg font-medium">{label}</span>
       </div>
-      <Switch checked={enabled} onCheckedChange={setEnabled} />
+      <CustomSwitch checked={enabled} onCheckedChange={setEnabled} />
     </div>
   );
 };

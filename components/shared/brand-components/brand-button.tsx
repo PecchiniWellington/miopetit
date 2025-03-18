@@ -8,6 +8,7 @@ interface BrandButtonProps {
   children?: ReactNode;
   icon?: ReactNode;
   disabled?: boolean;
+  tabIndex?: number;
   iconPosition?: "left" | "right";
   variant?:
     | "primary"
@@ -28,6 +29,7 @@ interface BrandButtonProps {
 
 const BrandButton = ({
   type = "button",
+  tabIndex,
   disabled,
   onClick,
   children,
@@ -61,6 +63,7 @@ const BrandButton = ({
 
   return (
     <button
+      tabIndex={tabIndex}
       ref={ref}
       type={type}
       onClick={onClick}
