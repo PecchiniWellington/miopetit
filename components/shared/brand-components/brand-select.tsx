@@ -18,6 +18,18 @@ interface CustomSelectProps {
   disabled?: boolean;
   className?: string;
   variant?: "default" | "admin";
+  btnVariant?:
+    | "primary"
+    | "secondary"
+    | "danger"
+    | "confirm"
+    | "flat"
+    | "warning"
+    | "tertiary"
+    | "outline"
+    | "outline-white"
+    | "ghost"
+    | "ghost-white";
   defaultValue?: string | string[];
 }
 
@@ -31,6 +43,7 @@ const BrandSelect = ({
   className = "",
   variant = "default",
   defaultValue = "",
+  btnVariant,
 }: CustomSelectProps) => {
   const [open, setOpen] = useState(false);
   const [internalValue, setInternalValue] = useState<string>(
@@ -76,12 +89,12 @@ const BrandSelect = ({
   }, []);
 
   const baseClasses =
-    "block w-full rounded-lg border px-4 py-2 text-sm shadow-sm transition placeholder:text-gray-400 focus:outline-none";
+    "block w-full rounded-lg border px-4 py-2 text-sm  transition placeholder:text-gray-400 focus:outline-none";
 
   const buttonStyles =
     variant === "admin"
       ? `border-slate-700 bg-slate-900 text-white focus:border-slate-500 focus:ring-2 focus:ring-slate-500 ${baseClasses}`
-      : `border-slate-700 bg-white text-gray-800 shadow-sm dark:border-slate-700 dark:bg-slate-900 dark:text-white ${baseClasses}`;
+      : `border-slate-700 bg-white text-gray-800  dark:border-slate-700 dark:bg-slate-900 dark:text-white ${baseClasses}`;
 
   return (
     <div ref={ref} className={`relative w-full ${className}`}>
@@ -90,7 +103,7 @@ const BrandSelect = ({
         tabIndex={0}
         onClick={toggleOpen}
         disabled={disabled}
-        className={`flex w-full items-center justify-between px-4 py-2 text-sm transition-all  ${buttonStyles} ${disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"}`}
+        className={`flex w-full items-center justify-between px-4 py-2 text-sm  transition-all  ${buttonStyles} ${disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"} ${btnVariant === "ghost" ? "border-0 shadow-none" : "shadow-lg "}`}
       >
         <span>
           {options.find((o) => o.value === internalValue)?.label || placeholder}
@@ -102,7 +115,7 @@ const BrandSelect = ({
 
       {open && (
         <div
-          className={`absolute z-50 mt-2 ${variant === "admin" ? "w-full  border-slate-700 bg-slate-900 text-white focus:border-slate-500 focus:ring-2 focus:ring-slate-500" : "w-full rounded-md border border-slate-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-900"} ${className} `}
+          className={`absolute z-50 mt-2 ${variant === "admin" ? "w-full  border-slate-700 bg-slate-900 text-white focus:border-slate-500 focus:ring-2 focus:ring-slate-500" : "w-full min-w-fit rounded-md border border-slate-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-900"} ${className} `}
         >
           <div className="relative max-h-56 overflow-y-auto">
             {options.length === 0 ? (

@@ -47,6 +47,7 @@ const DynamicFormField = <T extends FieldValues>({
           <FormControl>
             {type === "textarea" ? (
               <BrandTextArea
+                variant={variant}
                 disabled={disabled}
                 placeholder={placeholder}
                 {...field}

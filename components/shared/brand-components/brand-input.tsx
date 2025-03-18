@@ -10,7 +10,7 @@ interface CustomInputProps extends InputHTMLAttributes<HTMLInputElement> {
 const BrandInput = forwardRef<HTMLInputElement, CustomInputProps>(
   ({ className = "", variant = "default", ...props }, ref) => {
     const baseClasses =
-      "block w-full rounded-lg border px-4 py-2 text-sm shadow-sm transition placeholder:text-gray-400 focus:outline-none";
+      "block w-full rounded-lg border px-4 py-2 text-sm shadow-lg  transition placeholder:text-gray-400 focus:outline-none";
 
     const variants = {
       default:

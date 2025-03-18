@@ -1,9 +1,9 @@
 "use client";
 import MenuEditor from "@/components/admin/mega-menu-config/menu-editor";
+import UploadImage from "@/components/admin/product-form/upload-image";
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import UploadFiles from "./upload-files";
-import UploadImage from "./upload-images";
 
 const AccordionConfiguration = () => {
   return (
@@ -53,9 +53,7 @@ const AccordionConfiguration = () => {
             Carica Immagine
             <ChevronDown className="transition-transform group-open:rotate-180" />
           </summary>
-          <div className="mt-2">
-            <UploadImage />
-          </div>
+          <div className="mt-2">{<UploadImage />}</div>
         </details>
       </motion.div>
     </>

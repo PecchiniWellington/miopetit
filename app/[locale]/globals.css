@@ -34,7 +34,7 @@ body {
   }
 
   .btn-ghost {
-    @apply bg-transparent border-none text-gray-700 shadow-none  hover:shadow-none p-0 m-0 hover:scale-x-100 h-fit !important;
+    @apply bg-transparent border-none text-gray-700 shadow-none  hover:shadow-none p-0 m-0 hover:scale-x-100 h-fit;
   }
   .btn-ghost-white {
     @apply bg-transparent border-none text-white   shadow-none  hover:shadow-none p-0 m-0 hover:scale-x-100 h-fit;

@@ -1,10 +1,9 @@
+import { auth } from "@/auth";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError } from "uploadthing/server";
-import { auth } from "@/auth";
 
 const f = createUploadthing();
 
-// FileRouter for your app, can contain multiple FileRoutes
 export const ourFileRouter = {
   imageUploader: f({
     image: {
@@ -12,13 +11,18 @@ export const ourFileRouter = {
     },
   })
     .middleware(async () => {
-      const session = await auth();
+      if (process.env.NODE_ENV === "development") {
+        // 🔓 Bypass auth solo in dev
+        return { userId: "dev-user" };
+      }
 
+      const session = await auth();
       if (!session) throw new UploadThingError("Unauthorized");
 
-      return { userId: session?.user?.id };
+      return { userId: session.user.id };
     })
-    .onUploadComplete(async ({ metadata }) => {
+    .onUploadComplete(async ({ metadata, file }) => {
+      // Puoi anche loggare o salvare `file` se vuoi
       return { uploadedBy: metadata.userId };
     }),
 } satisfies FileRouter;

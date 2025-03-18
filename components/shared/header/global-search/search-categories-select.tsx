@@ -21,6 +21,7 @@ const SearchCategorySelect = () => {
 
   return (
     <BrandSelect
+      btnVariant="ghost"
       value=""
       onValueChange={(value) => router.push(`/${value}`)}
       onOpenChange={setIsOpen}

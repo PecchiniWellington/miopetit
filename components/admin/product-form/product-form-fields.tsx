@@ -11,7 +11,6 @@ import { IBrand, IPathology, IProtein } from "@/types/index";
 import { UseFormReturn } from "react-hook-form";
 import SlugFormField from "./slug-form-field";
 import UploadImage from "./upload-image";
-import UploadImageFeaturedProduct from "./upload-image-featured-product";
 
 export function ProductFormFields({
   form,
@@ -219,20 +218,22 @@ export function ProductFormFields({
       </div>
       <div className="upload-field flex flex-col gap-5 md:flex-row">
         {/* Images */}
-        <UploadImage form={form} images={images || []} />
+        <UploadImage form={form} image={banner} />
       </div>
       <div className="upload-field">
         {/* isFeatured */}
         Featured Product
-        <UploadImageFeaturedProduct
+        <UploadImage form={form} image={banner} multiple />
+        {/* <UploadImageFeaturedProduct
           isFeatured={isFeatured}
           banner={banner}
           form={form}
-        />
+        /> */}
       </div>
       <div>
         {/* Description */}
         <DynamicFormField
+          variant="admin"
           control={form.control}
           name="description"
           title="Description"

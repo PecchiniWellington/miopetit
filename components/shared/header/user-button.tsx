@@ -31,17 +31,19 @@ const UserButton = () => {
     );
   }
 
+  console.log("user", user);
   return (
     <CustomDropdown
       trigger={
-        <button className="flex items-center gap-2 rounded-full border border-gray-300 bg-white p-1 shadow-sm transition-all duration-300 hover:shadow-lg dark:border-gray-600 dark:bg-gray-800">
+        <button className="flex  items-center  rounded-full border-4 border-gray-300 bg-white bg-gradient-to-r from-indigo-500 to-purple-600  shadow-sm transition-all duration-300 hover:shadow-lg dark:border-gray-600 dark:bg-gray-800">
           {user?.image ? (
             <Image
               alt="User Avatar"
               src={user.image || "/images/placeholder.jpg"}
-              height={42}
-              width={42}
-              className="rounded-full border-2 border-transparent bg-gradient-to-r from-indigo-500 to-purple-600 p-[2px] transition-all duration-300 hover:scale-105 hover:border-indigo-400 dark:border-gray-500"
+              height={40}
+              width={40}
+              objectFit="fill"
+              className="rounded-full   object-contain  transition-all duration-300 hover:scale-105 hover:border-purple-400 dark:border-gray-500"
             />
           ) : (
             <div className="flex size-10 items-center justify-center overflow-hidden rounded-full border-2 border-gray-500 bg-gray-300 text-lg font-bold text-gray-700 shadow-md dark:border-gray-300 dark:bg-gray-700 dark:text-white">
@@ -53,9 +55,15 @@ const UserButton = () => {
     >
       <div className="flex flex-col gap-3">
         <div className="flex flex-col border-b border-gray-300 pb-3 text-sm font-semibold text-gray-700 dark:border-gray-600 dark:text-gray-300">
-          <span className="text-lg font-bold">{user?.name}</span>
+          <span className="text-lg font-bold">
+            {(user?.name ?? "").length > 20
+              ? `${(user?.name ?? "").substring(0, 20)}...`
+              : user?.name}
+          </span>
           <span className="text-sm text-gray-500 dark:text-gray-400">
-            {user?.email}
+            {(user?.email ?? "").length > 30
+              ? `${(user?.email ?? "").substring(0, 30)}...`
+              : user?.email}
           </span>
         </div>
         <Link href="/user/profile">

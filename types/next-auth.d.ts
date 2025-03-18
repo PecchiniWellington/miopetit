@@ -4,6 +4,7 @@ declare module "next-auth" {
   interface User extends DefaultUser {
     id: string;
     role?: string;
+    image?: string;
   }
 
   interface Session {
@@ -14,5 +15,6 @@ declare module "next-auth" {
     id: string;
     role?: string;
     name?: string;
+    image?: string;
   }
 }

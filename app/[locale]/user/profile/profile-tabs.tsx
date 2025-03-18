@@ -13,10 +13,11 @@ import { updateUserProfile } from "@/core/actions/user";
 import { IUser, updateUserProfileSchema } from "@/core/validators";
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { undefined, z } from "zod";
+import { z } from "zod";
 import { PublicUserAvatar } from "./public-user-avatar";
 
 export const ProfileTab = ({ user }: { user: IUser }) => {
@@ -29,6 +30,7 @@ export const ProfileTab = ({ user }: { user: IUser }) => {
 
 /** 📌 Form Profili */
 const ProfileForm = ({ user }: { user: IUser }) => {
+  const { update } = useSession();
   const form = useForm<z.infer<typeof updateUserProfileSchema>>({
     resolver: zodResolver(updateUserProfileSchema),
     defaultValues: {
@@ -58,6 +60,8 @@ const ProfileForm = ({ user }: { user: IUser }) => {
         description: res.message,
       });
     }
+    console.log("SONO QUI????");
+    await update({ name: values.name });
 
     toast({
       description: res.message,
@@ -73,7 +77,13 @@ const ProfileForm = ({ user }: { user: IUser }) => {
       >
         <div className="grid grid-cols-1 gap-5 md:grid-cols-1">
           {/* Sezione Avatar */}
-          <PublicUserAvatar user={user} />
+          <PublicUserAvatar
+            email={user.email}
+            userId={user.id}
+            role={user.role}
+            name={form.watch("name")}
+            image={user.image}
+          />
 
           {/* Form Profilo */}
 

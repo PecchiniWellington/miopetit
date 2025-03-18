@@ -47,6 +47,7 @@ export const config = {
               name: user.name,
               email: user.email,
               role: user.role,
+              image: user.image,
             };
           }
         }
@@ -59,13 +60,28 @@ export const config = {
       if (token.sub) session.user.id = token.sub;
       if (typeof token.role === "string") session.user.role = token.role;
       session.user.name = token.name;
+      session.user.image = token.image as string | null | undefined;
       return session;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger }) {
+      if (trigger === "update") {
+        const updatedUser = await prisma.user.findUnique({
+          where: { id: token.sub },
+        });
+
+        console.log("🔄 Aggiornamento token per", updatedUser?.email);
+
+        if (updatedUser) {
+          token.name = updatedUser.name;
+          token.image = updatedUser.image;
+          token.role = updatedUser.role;
+        }
+      }
       if (user) {
         token.id = user.id;
         token.role = user.role;
         token.name = user.name;
+        token.image = user.image;
       }
       return token;
     },

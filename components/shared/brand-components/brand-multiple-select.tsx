@@ -15,7 +15,7 @@ interface BrandMultipleSelectProps {
   options: OptionType[];
   onSelect: (value: string[]) => void;
   placeholder?: string;
-  defaultValue?: string[];
+  defaultValue?: string[] | string;
   className?: string;
   variant?: "default" | "admin";
 }
@@ -31,7 +31,7 @@ export default function BrandMultiSelect({
 }: BrandMultipleSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState<OptionType[]>(
-    defaultValue.map(
+    (Array.isArray(defaultValue) ? defaultValue : [defaultValue]).map(
       (value) => options.find((option) => option.value === value)!
     )
   );
@@ -86,12 +86,12 @@ export default function BrandMultiSelect({
   };
 
   const baseClasses =
-    "block w-full rounded-lg border px-4 py-2 text-sm shadow-sm transition placeholder:text-gray-400 focus:outline-none";
+    "block w-full rounded-lg border px-4 py-2 text-sm shadow-lg  transition placeholder:text-gray-400 focus:outline-none";
 
   const buttonStyles =
     variant === "admin"
       ? `border-slate-700 bg-slate-900 text-white focus:border-slate-500 focus:ring-2 focus:ring-slate-500 ${baseClasses}`
-      : `border-slate-700 bg-white text-gray-800 shadow-sm dark:border-slate-700 dark:bg-slate-900 dark:text-white ${baseClasses}`;
+      : `border-slate-700 bg-white text-gray-800  dark:border-slate-700 dark:bg-slate-900 dark:text-white ${baseClasses}`;
 
   return (
     <motion.div

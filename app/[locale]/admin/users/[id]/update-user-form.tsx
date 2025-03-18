@@ -9,6 +9,7 @@ import { USER_STATUS } from "@/lib/constants/user-status";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import BrandButton from "@/components/shared/brand-components/brand-button";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Control, FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -17,6 +18,7 @@ import UploadAvatar from "../../configurations/upload-avatar";
 const UpdateUserForm = ({ user }: { user: IUser }) => {
   const router = useRouter();
   const { toast } = useToast();
+  const { update } = useSession();
 
   const form = useForm<z.infer<typeof updateUserSchema> & { image: string }>({
     resolver: zodResolver(updateUserSchema),
@@ -70,7 +72,7 @@ const UpdateUserForm = ({ user }: { user: IUser }) => {
         title: "Success",
         description: "Utente aggiornato con successo!",
       });
-
+      await update({ image: values.image, name });
       reset();
       router.push("/admin/users");
     } catch (error) {
