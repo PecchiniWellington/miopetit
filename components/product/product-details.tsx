@@ -1,8 +1,8 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
 import { IProduct } from "@/core/validators";
 import { BadgeCheck } from "lucide-react";
+import BrandBadge from "../shared/brand-components/brand-badge";
 import BrandCard from "../shared/brand-components/brand-card";
 import Rating from "./rating";
 
@@ -52,13 +52,12 @@ export default function ProductDetails({
       <div className="col-span-2 px-6">
         {/* Punti fedeltà */}
         <div className="flex items-center gap-2 text-sm font-medium text-yellow-600">
-          <Badge
-            variant="outline"
+          <BrandBadge
+            variant="warning"
             className="bg-yellow-300 px-3 py-1 text-black"
-          >
-            <BadgeCheck className="mr-2 inline-block size-4" />
-            52 PUNTI
-          </Badge>
+            icon={<BadgeCheck className="mr-2 inline-block size-4" />}
+            label="52 PUNTI"
+          />
         </div>
 
         {/* Brand */}

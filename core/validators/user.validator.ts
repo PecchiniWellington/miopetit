@@ -14,7 +14,7 @@ export const updateUserSchema = updateUserProfileSchema.extend({
 
 export const userSchema = z.object({
   id: z.string(),
-  name: z.string(),
+  name: z.string().optional(),
   email: z.string(),
   emailVerified: z.date().nullable().optional(),
   image: z.string().nullable().optional(),

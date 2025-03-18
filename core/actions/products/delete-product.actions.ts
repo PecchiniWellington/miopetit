@@ -18,7 +18,10 @@ export async function deleteProduct(id: string) {
 
     revalidatePath("/admin/products");
 
-    return { success: true, error: "Product deleted successfully" };
+    return {
+      success: true,
+      message: "Product deleted successfully",
+    };
   } catch (error) {
     return { success: false, error: formatError(error) };
   }

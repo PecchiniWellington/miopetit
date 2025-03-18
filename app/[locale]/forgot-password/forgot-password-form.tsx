@@ -1,7 +1,6 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import { Separator } from "@radix-ui/react-separator";
 import Link from "next/link";
 import { useState } from "react";
 import SendRequest from "./send-request-change-btn";
@@ -31,7 +30,6 @@ const ResetPasswordForm = () => {
         <p className="text-sm text-green-600">{successMessage}</p>
       )}
 
-      {/* Integrazione del componente SendRequest */}
       <SendRequest
         isLoading={isLoading}
         email={email}
@@ -40,7 +38,7 @@ const ResetPasswordForm = () => {
         setSuccessMessage={setSuccessMessage}
       />
 
-      <Separator className="my-4 bg-slate-100" />
+      <div className="my-4 h-px bg-slate-100" />
 
       <Link href="/sign-in" className="text-blue-500 underline" target="_self">
         Torna al login

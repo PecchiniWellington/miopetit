@@ -1,14 +1,15 @@
 "use client";
 
 import BrandButton from "@/components/shared/brand-components/brand-button";
-import DeleteDialog from "@/components/shared/modals/delete-dialog";
+import GenericModal from "@/components/shared/modals/delete-dialog";
 import Pagination from "@/components/shared/pagination";
 import SortableTable from "@/components/shared/tables/sortable-table";
 import { deleteProduct } from "@/core/actions/products";
 import { IProduct } from "@/core/validators";
 import { formatId } from "@/lib/utils";
 import { motion } from "framer-motion";
-import { Edit, Eye } from "lucide-react";
+import { AlertTriangle, Edit, Eye, Trash2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import AdminSearch, { SearchProvider } from "../admin-search";
@@ -22,6 +23,7 @@ const ProductsTable = ({
   totalPages: number;
   page: number;
 }) => {
+  const t = useTranslations("ModalDelete.ProductDelete");
   return (
     <motion.div
       className="mb-8 rounded-xl border border-gray-700 bg-gray-800 bg-opacity-50 p-6 shadow-lg backdrop-blur-md"
@@ -94,7 +96,24 @@ const ProductsTable = ({
                     <Eye size={18} />
                   </Link>
                 </BrandButton>
-                <DeleteDialog id={product.id} action={deleteProduct} />
+
+                <GenericModal
+                  triggerButton={
+                    <BrandButton
+                      variant="danger"
+                      icon={<Trash2 className="mr-2 size-5" />}
+                    >
+                      {t("delete_account_button")}
+                    </BrandButton>
+                  }
+                  title={t("delete_account_modal.title")}
+                  description={t("delete_account_modal.description")}
+                  confirmText={t("delete_account_modal.delete_button")}
+                  cancelText={t("delete_account_modal.cancel_button")}
+                  icon={<AlertTriangle className="size-5 text-red-500" />}
+                  variant="danger"
+                  onConfirm={() => deleteProduct(product.id)}
+                />
               </td>
             </motion.tr>
           )}

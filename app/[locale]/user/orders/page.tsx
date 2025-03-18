@@ -1,5 +1,5 @@
+import BrandBadge from "@/components/shared/brand-components/brand-badge";
 import Pagination from "@/components/shared/pagination";
-import { Badge } from "@/components/ui/badge";
 import {
   Table,
   TableBody,
@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/table";
 import { getMyOrders } from "@/core/actions/order/order.action";
 import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
-import { Check, CircleAlert, ClockAlert } from "lucide-react";
+import { Check, CircleAlert } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
 
@@ -51,29 +51,38 @@ const UserOrdersPage = async (props: {
                 <TableCell>{formatCurrency(order.totalPrice)}</TableCell>
                 <TableCell>
                   {order.isPaid && order.paidAt ? (
-                    <Badge className="bg-green-100 text-green-700">
-                      {formatDateTime(order.paidAt.toString()).dateTime}
-
-                      <Check className="ml-2" height={15} width={15} />
-                    </Badge>
+                    <BrandBadge
+                      label={formatDateTime(order.paidAt.toString()).dateTime}
+                      variant="success"
+                      icon={<Check className="ml-2" height={15} width={15} />}
+                    />
                   ) : (
-                    <Badge className="bg-red-100 text-red-700">
-                      Not Paid{" "}
-                      <CircleAlert className="ml-2" height={15} width={15} />
-                    </Badge>
+                    <BrandBadge
+                      label="Not Paid"
+                      variant="danger"
+                      icon={
+                        <CircleAlert className="ml-2" height={15} width={15} />
+                      }
+                    />
                   )}
                 </TableCell>
                 <TableCell>
                   {order.isDelivered && order.deliveredAt ? (
-                    <Badge className="bg-green-100 text-green-700">
-                      {formatDateTime(order.deliveredAt.toString()).dateTime}
-                      <Check className="ml-2" height={15} width={15} />
-                    </Badge>
+                    <BrandBadge
+                      label={
+                        formatDateTime(order.deliveredAt.toString()).dateTime
+                      }
+                      variant="success"
+                      icon={<Check className="ml-2" height={15} width={15} />}
+                    />
                   ) : (
-                    <Badge className="bg-orange-100 text-orange-700">
-                      Not delivered{" "}
-                      <ClockAlert className="ml-2" height={15} width={15} />
-                    </Badge>
+                    <BrandBadge
+                      label="Not Delivered"
+                      variant="danger"
+                      icon={
+                        <CircleAlert className="ml-2" height={15} width={15} />
+                      }
+                    />
                   )}
                 </TableCell>
                 <TableCell>

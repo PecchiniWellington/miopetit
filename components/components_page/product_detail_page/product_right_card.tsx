@@ -1,7 +1,7 @@
 import { AddToCart } from "@/components/product/add-to-cart/add-to-cart";
 import ProductPrice from "@/components/product/product-price";
+import BrandBadge from "@/components/shared/brand-components/brand-badge";
 import BrandCard from "@/components/shared/brand-components/brand-card";
-import { Badge } from "@/components/ui/badge";
 import { ICart, IProduct } from "@/core/validators";
 import { CheckCircle, XCircle } from "lucide-react";
 
@@ -28,13 +28,17 @@ export const ProductPageRightCard = ({
         </div>
         <div className="flex items-center justify-between text-lg font-semibold text-gray-800 dark:text-gray-300">
           {product.stock > 0 ? (
-            <Badge className="flex items-center gap-1 bg-green-100 px-3 py-1 text-green-700 dark:bg-green-800 dark:text-green-300">
-              <CheckCircle className="size-4" /> Disponibile
-            </Badge>
+            <BrandBadge
+              icon={<CheckCircle className="size-4" />}
+              variant="success"
+              label="Disponibile"
+            />
           ) : (
-            <Badge className="flex items-center gap-1 bg-red-100 px-3 py-1 text-red-700 dark:bg-red-800 dark:text-red-300">
-              <XCircle className="size-4" /> Esaurito
-            </Badge>
+            <BrandBadge
+              label="Esaurito"
+              variant="danger"
+              icon={<XCircle className="size-4" />}
+            />
           )}
         </div>
       </>

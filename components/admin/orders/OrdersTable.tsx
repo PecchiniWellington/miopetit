@@ -1,10 +1,10 @@
 "use client";
+import BrandBadge from "@/components/shared/brand-components/brand-badge";
 import BrandButton from "@/components/shared/brand-components/brand-button";
-import { Badge } from "@/components/ui/badge";
 import { IOrder } from "@/core/validators";
 import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
 import { motion } from "framer-motion";
-import { Check, CircleAlert, ClockAlert, Eye, Search } from "lucide-react";
+import { Check, CircleAlert, Eye, Search } from "lucide-react";
 import { useState } from "react";
 
 const orderData = [
@@ -152,29 +152,38 @@ const OrdersTable = ({ orders }: { orders: { data: IOrder[] } }) => {
                 </td>
                 <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-100">
                   {order.isPaid && order.paidAt ? (
-                    <Badge className="bg-green-100 text-green-700">
-                      {formatDateTime(order.paidAt.toString()).dateTime}
-
-                      <Check className="ml-2" height={15} width={15} />
-                    </Badge>
+                    <BrandBadge
+                      label={formatDateTime(order.paidAt.toString()).dateTime}
+                      variant="success"
+                      icon={<Check className="ml-2" height={15} width={15} />}
+                    />
                   ) : (
-                    <Badge className="bg-red-100 text-red-700">
-                      Not Paid{" "}
-                      <CircleAlert className="ml-2" height={15} width={15} />
-                    </Badge>
+                    <BrandBadge
+                      label="Not Paid"
+                      variant="danger"
+                      icon={
+                        <CircleAlert className="ml-2" height={15} width={15} />
+                      }
+                    />
                   )}
                 </td>
                 <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-100">
                   {order.isDelivered && order.deliveredAt ? (
-                    <Badge className="bg-green-100 text-green-700">
-                      {formatDateTime(order.deliveredAt.toString()).dateTime}
-                      <Check className="ml-2" height={15} width={15} />
-                    </Badge>
+                    <BrandBadge
+                      label={
+                        formatDateTime(order.delivered.toString()).dateTime
+                      }
+                      variant="success"
+                      icon={<Check className="ml-2" height={15} width={15} />}
+                    />
                   ) : (
-                    <Badge className="bg-orange-100 text-orange-700">
-                      Not delivered{" "}
-                      <ClockAlert className="ml-2" height={15} width={15} />
-                    </Badge>
+                    <BrandBadge
+                      label="Not Delivered"
+                      variant="danger"
+                      icon={
+                        <CircleAlert className="ml-2" height={15} width={15} />
+                      }
+                    />
                   )}
                 </td>
 

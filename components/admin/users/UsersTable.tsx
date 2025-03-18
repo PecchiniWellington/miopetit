@@ -1,14 +1,15 @@
 "use client";
+import BrandBadge from "@/components/shared/brand-components/brand-badge";
 import BrandButton from "@/components/shared/brand-components/brand-button";
-import DeleteDialog from "@/components/shared/modals/delete-dialog";
-import { Badge } from "@/components/ui/badge";
+import GenericModal from "@/components/shared/modals/delete-dialog";
 import { deleteUser } from "@/core/actions/admin/admin.actions";
 import { IUser } from "@/core/validators";
 import ROLES from "@/lib/constants/roles";
 import { USER_STATUS_ACTIVATION } from "@/lib/constants/user-status";
 import { formatId } from "@/lib/utils";
 import { motion } from "framer-motion";
-import { Edit } from "lucide-react";
+import { AlertTriangle, Edit, Trash2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import AdminSearch, { SearchProvider } from "../admin-search";
@@ -17,65 +18,82 @@ const Roles = ({ userRole }: { userRole: string }) => {
   switch (userRole) {
     case ROLES.ADMIN:
       return (
-        <Badge className="bg-blue-100 text-blue-700"> {ROLES.ADMIN}</Badge>
+        <BrandBadge label={ROLES.ADMIN} className="bg-blue-100 text-blue-700" />
       );
 
     case ROLES.USER:
       return (
-        <Badge className="bg-purple-100 text-purple-700"> {ROLES.USER}</Badge>
+        <BrandBadge
+          label={ROLES.USER}
+          className="bg-purple-100 text-purple-700"
+        />
       );
 
     case ROLES.EDITOR:
       return (
-        <Badge className="bg-orange-100 text-orange-700">{ROLES.EDITOR}</Badge>
+        <BrandBadge
+          label={ROLES.EDITOR}
+          className="bg-orange-100 text-orange-700"
+        />
       );
 
     case ROLES.CONTRIBUTOR:
       return (
-        <Badge className="bg-teal-100 text-teal-700">{ROLES.CONTRIBUTOR}</Badge>
+        <BrandBadge
+          label={ROLES.CONTRIBUTOR}
+          className="bg-teal-100 text-teal-700"
+        />
       );
 
     default:
-      return <Badge className="bg-gray-400 text-gray-700">NO ROLE</Badge>;
+      return (
+        <BrandBadge label="NO ROLE" className="bg-gray-400 text-gray-700" />
+      );
   }
 };
 const Status = ({ userStatus }: { userStatus: string }) => {
   switch (userStatus) {
     case USER_STATUS_ACTIVATION.ACTIVE:
       return (
-        <Badge className="bg-teal-100 text-teal-700">
-          {USER_STATUS_ACTIVATION.ACTIVE}
-        </Badge>
+        <BrandBadge
+          label={USER_STATUS_ACTIVATION.ACTIVE}
+          className="bg-teal-100 text-teal-700"
+        />
       );
 
     case USER_STATUS_ACTIVATION.INACTIVE:
       return (
-        <Badge className="bg-orange-100 text-orange-700">
-          {" "}
-          {USER_STATUS_ACTIVATION.INACTIVE}
-        </Badge>
+        <BrandBadge
+          label={USER_STATUS_ACTIVATION.INACTIVE}
+          className="bg-orange-100 text-orange-700"
+        />
       );
 
     case USER_STATUS_ACTIVATION.PENDING:
       return (
-        <Badge className="bg-orange-100 text-orange-700">
-          {USER_STATUS_ACTIVATION.PENDING}
-        </Badge>
+        <BrandBadge
+          label={USER_STATUS_ACTIVATION.PENDING}
+          className="bg-orange-100 text-orange-700"
+        />
       );
 
     case USER_STATUS_ACTIVATION.BANNED:
       return (
-        <Badge className="bg-red-100 text-red-700">
-          {USER_STATUS_ACTIVATION.BANNED}
-        </Badge>
+        <BrandBadge
+          label={USER_STATUS_ACTIVATION.BANNED}
+          className="bg-red-100 text-red-700"
+        />
       );
 
     default:
-      return <Badge className="bg-gray-400 text-gray-700">NO ROLE</Badge>;
+      return (
+        <BrandBadge label="NO ROLE" className="bg-gray-400 text-gray-700" />
+      );
   }
 };
 
 const UsersTable = ({ users }: { users?: IUser[] }) => {
+  const t = useTranslations("ModalDelete");
   return (
     <motion.div
       className="rounded-xl border border-gray-700 bg-gray-800/50 p-6 shadow-lg backdrop-blur-md"
@@ -172,7 +190,23 @@ const UsersTable = ({ users }: { users?: IUser[] }) => {
                       <Edit size={18} />
                     </Link>
                   </BrandButton>
-                  <DeleteDialog id={user.id} action={deleteUser} />
+                  <GenericModal
+                    triggerButton={
+                      <BrandButton
+                        variant="danger"
+                        icon={<Trash2 className="mr-2 size-5" />}
+                      >
+                        {t("delete_account_button")}
+                      </BrandButton>
+                    }
+                    title={t("delete_account_modal.title")}
+                    description={t("delete_account_modal.description")}
+                    confirmText={t("delete_account_modal.delete_button")}
+                    cancelText={t("delete_account_modal.cancel_button")}
+                    icon={<AlertTriangle className="size-5 text-red-500" />}
+                    variant="danger"
+                    onConfirm={() => deleteUser(user.id)}
+                  />
                 </td>
               </motion.tr>
             ))}

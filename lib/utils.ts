@@ -328,3 +328,8 @@ export const getLocaleImagePath = (locale: string, subFolder?: string) => {
     ? `/images/locales_images/${locale}/${subFolder}/${locale}`
     : `/images/locales_images/${locale}/`;
 };
+export const getUsernameFromEmail = (email: string): string => {
+  if (!email.includes("@")) return email;
+  const username = email.split("@")[0];
+  return username.includes(".") ? username.split(".")[0] : username;
+};

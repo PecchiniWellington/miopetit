@@ -2,7 +2,7 @@
 import { signIn, signOut } from "@/auth";
 import { prisma } from "@/core/prisma/prisma";
 import { signInFormSchema, signUpFormSchema } from "@/core/validators";
-import { formatError } from "@/lib/utils";
+import { formatError, getUsernameFromEmail } from "@/lib/utils";
 import { hashSync } from "bcryptjs";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { cookies } from "next/headers";
@@ -43,7 +43,7 @@ export const signOutUser = async () => {
 export const signUpUser = async (prevState: unknown, formData: FormData) => {
   try {
     const user = signUpFormSchema.parse({
-      name: formData.get("name"),
+      name: getUsernameFromEmail(formData.get("email") as string),
       email: formData.get("email"),
       password: formData.get("password"),
       confirmPassword: formData.get("confirmPassword"),
@@ -55,7 +55,7 @@ export const signUpUser = async (prevState: unknown, formData: FormData) => {
 
     await prisma.user.create({
       data: {
-        name: user.name,
+        name: getUsernameFromEmail(formData.get("email") as string),
         email: user.email,
         password: hashPassword,
       },

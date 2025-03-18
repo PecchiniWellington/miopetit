@@ -1,8 +1,8 @@
 "use client";
 
+import BrandBadge from "@/components/shared/brand-components/brand-badge";
 import BrandButton from "@/components/shared/brand-components/brand-button";
 import BrandCard from "@/components/shared/brand-components/brand-card";
-import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { formatDateTime } from "@/lib/utils";
 
@@ -92,7 +92,7 @@ export default function HistoryTab() {
                     <span className="font-semibold">{order.total}</span>
                   </p>
                 </div>
-                <Badge>{order.status}</Badge>
+                <BrandBadge label={order.status} variant="default" />
               </li>
             ))}
           </ul>

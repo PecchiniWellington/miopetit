@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { ReactNode } from "react";
 
@@ -61,7 +60,7 @@ const BrandButton = ({
   };
 
   return (
-    <Button
+    <button
       ref={ref}
       type={type}
       onClick={onClick}
@@ -72,7 +71,7 @@ const BrandButton = ({
       {!loading && icon && iconPosition === "left" && icon}
       {children && <span className="flex items-center gap-2">{children}</span>}
       {!loading && icon && iconPosition === "right" && icon}
-    </Button>
+    </button>
   );
 };
 

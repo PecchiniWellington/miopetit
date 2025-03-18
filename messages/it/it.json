@@ -453,5 +453,25 @@
     "email": "Email",
     "order": "Numero Ordine",
     "description": "Descrizione"
+  },
+  "ModalDelete": {
+    "AccountDelete": {
+      "delete_account_button": "Elimina Account",
+      "delete_account_modal": {
+        "title": "Conferma Eliminazione Account",
+        "description": "Sei sicuro di voler eliminare definitivamente il tuo account? Questa azione non può essere annullata.",
+        "cancel_button": "Annulla",
+        "delete_button": "Sì, Elimina Account"
+      }
+    },
+    "ProductDelete": {
+      "delete_product_button": "Elimina Product",
+      "delete_product_modal": {
+        "title": "Conferma Eliminazione Product",
+        "description": "Sei sicuro di voler eliminare definitivamente il tuo product? Questa azione non può essere annullata.",
+        "cancel_button": "Annulla",
+        "delete_button": "Sì, Elimina Product"
+      }
+    }
   }
 }

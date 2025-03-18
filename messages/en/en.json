@@ -450,5 +450,25 @@
     "email": "Email",
     "order": "Order ID",
     "description": "Description"
+  },
+  "ModalDelete": {
+    "AccountDelete": {
+      "delete_account_button": "Delete Account",
+      "delete_account_modal": {
+        "title": "Confirm Delete Account",
+        "description": "Are you sure you want to permanently delete your account? This action cannot be undone.",
+        "cancel_button": "Cancel",
+        "delete_button": "Yes, Delete Account"
+      }
+    },
+    "ProductDelete": {
+      "delete_product_button": "Delete Product",
+      "delete_product_modal": {
+        "title": "Confirm Delete Product",
+        "description": "Are you sure you want to permanently delete your product? This action cannot be undone.",
+        "cancel_button": "Cancel",
+        "delete_button": "Yes, Delete Product"
+      }
+    }
   }
 }

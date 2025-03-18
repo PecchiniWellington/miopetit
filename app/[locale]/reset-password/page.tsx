@@ -4,7 +4,6 @@ import BrandButton from "@/components/shared/brand-components/brand-button";
 import BrandCard from "@/components/shared/brand-components/brand-card";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { Separator } from "@radix-ui/react-separator";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -87,7 +86,7 @@ const ResetPasswordForm = () => {
           title="🔑 Reset Password"
           description=" Inserisci la nuova password"
         >
-          <Separator className="my-6 bg-slate-100" />
+          <div className="my-6 w-full border-t border-slate-100" />
           <form
             onSubmit={handleSubmit}
             className="mt-6 flex w-full max-w-sm flex-col items-center space-y-4"

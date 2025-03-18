@@ -1,4 +1,3 @@
-import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 
 const ChangeForm = ({ formType = "sign-in" }) => {
@@ -13,7 +12,9 @@ const ChangeForm = ({ formType = "sign-in" }) => {
           Hai dimenticato la password?
         </Link>
       </div>
-      <Separator className="my-4  bg-slate-100" />
+
+      <div className="my-4 h-px bg-slate-100" />
+
       {formType === "sign-in"
         ? "Don't have an account? "
         : "Already have an account? "}

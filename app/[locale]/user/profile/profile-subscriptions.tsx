@@ -1,8 +1,8 @@
 "use client";
 
+import BrandBadge from "@/components/shared/brand-components/brand-badge";
 import BrandButton from "@/components/shared/brand-components/brand-button";
 import BrandCard from "@/components/shared/brand-components/brand-card";
-import { Badge } from "@/components/ui/badge";
 import { CheckCircle, CreditCard, RefreshCcw, XCircle } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
@@ -52,7 +52,8 @@ export default function SubscriptionTab() {
               <span className="text-xl font-bold text-indigo-600 dark:text-indigo-400">
                 {subscription.plan}
               </span>
-              <Badge>Attivo</Badge>
+
+              <BrandBadge variant="success" label="Attivo" />
             </div>
             <p className="text-lg text-gray-700 dark:text-gray-300">
               {subscription.price}
