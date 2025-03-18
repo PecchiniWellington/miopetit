@@ -1,8 +1,8 @@
 "use client";
 
 import BrandButton from "@/components/shared/brand-components/brand-button";
+import BrandInput from "@/components/shared/brand-components/brand-input";
 import { FormControl, FormItem, FormLabel } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { XCircle } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
@@ -71,7 +71,7 @@ export default function UploadAvatar({
                   />
                 </div>
               ) : (
-                <Input
+                <BrandInput
                   type="file"
                   accept="image/*"
                   ref={inputFileRef}

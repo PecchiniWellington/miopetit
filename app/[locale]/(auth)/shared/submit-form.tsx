@@ -1,13 +1,13 @@
 "use client";
 
 import SignInButtonWhitProvider from "@/components/shared/sign-in-with-provider";
-import { Input } from "@/components/ui/input";
 import { signUpUser } from "@/core/actions/auth/auth.actions"; // Import SignUp
 import { signIn, useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import ChangeForm from "./change-form";
 import SubmitButton from "./submit-button";
+import BrandInput from "@/components/shared/brand-components/brand-input";
 
 async function mergeCartOnLogin(
   userId: string,
@@ -148,14 +148,14 @@ export default function SubmitForm({
       <form onSubmit={handleSubmit} className="space-y-6">
         <input type="hidden" name="callbackUrl" value={callbackUrl} />
         <div className="flex flex-col items-center space-y-6">
-          <Input
+          <BrandInput
             type="email"
             name="email"
             placeholder="Email"
             defaultValue={defaultValues.email}
             required
           />
-          <Input
+          <BrandInput
             type="password"
             name="password"
             placeholder="Password"
@@ -164,7 +164,7 @@ export default function SubmitForm({
           />
 
           {formType === "sign-up" && (
-            <Input
+            <BrandInput
               type="password"
               name="confirmPassword"
               placeholder="Conferma Password"

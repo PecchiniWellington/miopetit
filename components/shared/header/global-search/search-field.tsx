@@ -1,7 +1,7 @@
-import { Input } from "@/components/ui/input";
 import { X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useSearch } from "./global-search-context";
+import BrandInput from "../../brand-components/brand-input";
 
 const SearchField = () => {
   const {
@@ -15,7 +15,7 @@ const SearchField = () => {
   const t = useTranslations("Shared");
   return (
     <div className="relative w-full">
-      <Input
+      <BrandInput
         autoComplete="off"
         name="q"
         type="text"

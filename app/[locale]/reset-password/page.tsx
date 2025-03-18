@@ -2,7 +2,7 @@
 
 import BrandButton from "@/components/shared/brand-components/brand-button";
 import BrandCard from "@/components/shared/brand-components/brand-card";
-import { Input } from "@/components/ui/input";
+import BrandInput from "@/components/shared/brand-components/brand-input";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -91,14 +91,14 @@ const ResetPasswordForm = () => {
             onSubmit={handleSubmit}
             className="mt-6 flex w-full max-w-sm flex-col items-center space-y-4"
           >
-            <Input
+            <BrandInput
               type="password"
               placeholder="Nuova Password"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               required
             />
-            <Input
+            <BrandInput
               type="password"
               placeholder="Conferma Nuova Password"
               value={confirmPassword}

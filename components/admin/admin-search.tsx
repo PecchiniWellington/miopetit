@@ -10,7 +10,7 @@ import {
   useState,
 } from "react";
 import BrandButton from "../shared/brand-components/brand-button";
-import { Input } from "../ui/input";
+import BrandInput from "../shared/brand-components/brand-input";
 
 // **Tipizzazione del contesto**
 interface SearchContextType {
@@ -90,7 +90,8 @@ const AdminSearch = () => {
   return (
     <div className="relative flex w-full items-center">
       {/* Input di ricerca */}
-      <Input
+      <BrandInput
+        variant="admin"
         type="text"
         placeholder="Cerca prodotti..."
         value={searchQuery}

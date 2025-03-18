@@ -1,7 +1,7 @@
 "use client";
 
 import BrandButton from "@/components/shared/brand-components/brand-button";
-import DynamicFormFieldFE from "@/components/shared/dynamic-form-field-fe";
+import DynamicFormField from "@/components/shared/dynamic-form-field";
 import Hero from "@/components/shared/hero";
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -68,7 +68,7 @@ export default function ContactUs() {
           className="space-y-6 rounded-xl bg-white p-8 shadow-lg dark:bg-gray-800"
         >
           {/* 📌 Campi comuni */}
-          <DynamicFormFieldFE
+          <DynamicFormField
             control={form.control}
             name="fullName"
             title="Nome Completo *"
@@ -76,21 +76,21 @@ export default function ContactUs() {
           />
           <ErrorMessage field="fullName" />
 
-          <DynamicFormFieldFE
+          <DynamicFormField
             control={form.control}
             name="object"
             title="Oggetto richiesta *"
             placeholder="Inserisci un titolo alla tua richiesta"
           />
           <ErrorMessage field="email" />
-          <DynamicFormFieldFE
+          <DynamicFormField
             control={form.control}
             name="email"
             title="Email *"
             placeholder="Inserisci la tua email"
           />
           <ErrorMessage field="email" />
-          <DynamicFormFieldFE
+          <DynamicFormField
             type="textarea"
             control={form.control}
             name="description"

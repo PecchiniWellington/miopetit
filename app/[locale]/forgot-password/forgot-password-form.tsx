@@ -1,9 +1,9 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { useState } from "react";
 import SendRequest from "./send-request-change-btn";
+import BrandInput from "@/components/shared/brand-components/brand-input";
 
 const ResetPasswordForm = () => {
   const [email, setEmail] = useState("");
@@ -14,7 +14,7 @@ const ResetPasswordForm = () => {
   return (
     <form className="space-y-4">
       {/* Input Email */}
-      <Input
+      <BrandInput
         type="email"
         placeholder="Inserisci la tua email"
         value={email}

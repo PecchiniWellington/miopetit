@@ -1,6 +1,7 @@
 "use client";
 
 import BrandButton from "@/components/shared/brand-components/brand-button";
+import BrandInput from "@/components/shared/brand-components/brand-input";
 import {
   Form,
   FormControl,
@@ -8,7 +9,6 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { updateUserProfile } from "@/core/actions/user";
 import { IUser, updateUserProfileSchema } from "@/core/validators";
 import { useToast } from "@/hooks/use-toast";
@@ -84,7 +84,7 @@ const ProfileForm = ({ user }: { user: IUser }) => {
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormControl>
-                    <Input
+                    <BrandInput
                       placeholder="Nome Completo"
                       className="input-field"
                       {...field}
@@ -101,7 +101,7 @@ const ProfileForm = ({ user }: { user: IUser }) => {
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormControl>
-                    <Input
+                    <BrandInput
                       disabled
                       placeholder="Email"
                       className="input-field cursor-not-allowed opacity-70"

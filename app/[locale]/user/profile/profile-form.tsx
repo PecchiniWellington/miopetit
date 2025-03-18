@@ -8,7 +8,6 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { updateUserProfile } from "@/core/actions/user";
 import { updateUserProfileSchema } from "@/core/validators";
 import { useToast } from "@/hooks/use-toast";
@@ -55,7 +54,7 @@ const ProfileForm = () => {
             render={({ field }) => (
               <FormItem className="w-full">
                 <FormControl>
-                  <Input
+                  <BrandInput
                     disabled
                     placeholder="Email"
                     className="input-field"
@@ -72,7 +71,7 @@ const ProfileForm = () => {
             render={({ field }) => (
               <FormItem className="w-full">
                 <FormControl>
-                  <Input
+                  <BrandInput
                     placeholder="Nome"
                     className="input-field"
                     {...field}

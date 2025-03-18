@@ -1,9 +1,6 @@
 import { Control, Controller, Path } from "react-hook-form";
 
 import { FormControl, FormItem, FormLabel, FormMessage } from "../ui/form";
-import { Input } from "../ui/input";
-import CustomMultipleSelect from "./selects/custom-multiple-select";
-import SearchSelect from "./selects/search-select";
 
 interface Option {
   label: string;
@@ -19,9 +16,13 @@ interface DynamicFormFieldProps<T extends FieldValues> {
   className?: string;
   options?: Option[];
   defaultValue?: string | string[];
+  variant?: "default" | "admin";
 }
 
 import { FieldValues } from "react-hook-form";
+import BrandInput from "./brand-components/brand-input";
+import BrandMultiSelect from "./brand-components/brand-multiple-select";
+import BrandSelect from "./brand-components/brand-select";
 import BrandTextArea from "./brand-components/brand-textarea";
 
 const DynamicFormField = <T extends FieldValues>({
@@ -34,6 +35,7 @@ const DynamicFormField = <T extends FieldValues>({
   className,
   options,
   defaultValue,
+  variant,
 }: DynamicFormFieldProps<T>) => {
   return (
     <Controller
@@ -52,17 +54,17 @@ const DynamicFormField = <T extends FieldValues>({
                 className={`resize-none border-slate-700 bg-transparent ${className}`}
               />
             ) : type === "select" ? (
-              <SearchSelect
-                value={
-                  options?.find((option) => option.value === field.value)?.value
-                }
-                options={options! || []}
-                onSelect={(value) => field.onChange(value)}
+              <BrandSelect
+                variant={variant}
+                value={field.value.toString()}
+                onValueChange={(value) => field.onChange(value)}
+                options={options || []}
                 placeholder="Choose an option"
-                defaultValue={defaultValue as string}
+                defaultValue={defaultValue}
               />
             ) : type === "multiple-select" ? (
-              <CustomMultipleSelect
+              <BrandMultiSelect
+                variant={variant}
                 value={
                   Array.isArray(field.value) &&
                   field.value.every((item: unknown) => typeof item === "string")
@@ -72,9 +74,11 @@ const DynamicFormField = <T extends FieldValues>({
                 options={options! || []}
                 onSelect={(value) => field.onChange(value)}
                 placeholder={"custom placeholder"}
+                defaultValue={defaultValue}
               />
             ) : (
-              <Input
+              <BrandInput
+                variant={variant}
                 disabled={disabled}
                 placeholder={placeholder}
                 {...field}

@@ -1,7 +1,7 @@
 "use client";
 
 import BrandButton from "@/components/shared/brand-components/brand-button";
-import { Input } from "@/components/ui/input"; // Input per la selezione file
+import BrandInput from "@/components/shared/brand-components/brand-input";
 import Image from "next/image";
 import { useRef, useState } from "react";
 
@@ -74,7 +74,7 @@ export default function UploadImage() {
 
       <form onSubmit={handleFileUpload} className="mb-4">
         <div className="flex flex-col gap-4">
-          <Input
+          <BrandInput
             name="files"
             ref={inputFileRef}
             type="file"

@@ -103,13 +103,13 @@ const ProductsTable = ({
                       variant="danger"
                       icon={<Trash2 className="mr-2 size-5" />}
                     >
-                      {t("delete_account_button")}
+                      {t("delete_product_button")}
                     </BrandButton>
                   }
-                  title={t("delete_account_modal.title")}
-                  description={t("delete_account_modal.description")}
-                  confirmText={t("delete_account_modal.delete_button")}
-                  cancelText={t("delete_account_modal.cancel_button")}
+                  title={t("delete_product_modal.title")}
+                  description={t("delete_product_modal.description")}
+                  confirmText={t("delete_product_modal.delete_button")}
+                  cancelText={t("delete_product_modal.cancel_button")}
                   icon={<AlertTriangle className="size-5 text-red-500" />}
                   variant="danger"
                   onConfirm={() => deleteProduct(product.id)}

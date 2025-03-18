@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Input } from "../../ui/input";
+import BrandInput from "../brand-components/brand-input";
 
 interface SearchSelectProps {
   options: { value: string; label: string }[];
@@ -56,7 +56,7 @@ export default function SearchSelect({
 
       {isOpen && (
         <div className="absolute left-0 z-10 mt-2 w-full rounded-md border border-slate-700 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 shadow-lg">
-          <Input
+          <BrandInput
             type="text"
             placeholder="Search..."
             className="w-full rounded-b-none border-none bg-gray-900 p-2 focus:outline-none"

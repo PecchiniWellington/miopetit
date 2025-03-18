@@ -91,18 +91,20 @@ export function ProductFormFields({
       <div className="flex flex-col gap-5 md:flex-row">
         {/* Name */}
         <DynamicFormField
+          variant="admin"
           control={form.control}
           name="name"
           title="Name"
           placeholder="Enter name"
         />
         {/* Slug */}
-        <SlugFormField form={form} />
+        <SlugFormField variant="admin" form={form} />
       </div>
       <div className="flex flex-col gap-5 md:flex-row">
         {/* Category */}
 
         <DynamicFormField
+          variant="admin"
           type="select"
           options={formatterForSelect(categories)}
           control={form.control}
@@ -115,6 +117,7 @@ export function ProductFormFields({
         {/* Pathologies */}
 
         <DynamicFormField
+          variant="admin"
           type="multiple-select"
           options={formatterForSelect(pathologies)}
           control={form.control}
@@ -127,6 +130,7 @@ export function ProductFormFields({
       <div className="flex flex-col gap-5 md:flex-row">
         {/* Brand */}
         <DynamicFormField
+          variant="admin"
           type="select"
           options={formatterForSelect(brands)}
           control={form.control}
@@ -137,6 +141,7 @@ export function ProductFormFields({
         />
         {/* Proteins */}
         <DynamicFormField
+          variant="admin"
           type="multiple-select"
           options={formatterForSelect(proteins)}
           control={form.control}
@@ -147,6 +152,7 @@ export function ProductFormFields({
         />
         {/* Features */}
         <DynamicFormField
+          variant="admin"
           type="multiple-select"
           options={formatterForFeature}
           control={form.control}
@@ -160,6 +166,7 @@ export function ProductFormFields({
         {/* Unit Value */}
         <div className="flex w-full">
           <DynamicFormField
+            variant="admin"
             type="select"
             options={formatterForUnitValue}
             control={form.control}
@@ -171,6 +178,7 @@ export function ProductFormFields({
           {/* UnitOfMeasure */}
 
           <DynamicFormField
+            variant="admin"
             type="select"
             options={formatterForUnitOfMeasure}
             control={form.control}
@@ -181,6 +189,7 @@ export function ProductFormFields({
           />
         </div>
         <DynamicFormField
+          variant="admin"
           type="select"
           options={animalAge}
           control={form.control}
@@ -193,6 +202,7 @@ export function ProductFormFields({
       <div className="flex flex-col gap-5 md:flex-row">
         {/* Price */}
         <DynamicFormField
+          variant="admin"
           control={form.control}
           name="price"
           title="Price"
@@ -200,6 +210,7 @@ export function ProductFormFields({
         />
         {/* Stock */}
         <DynamicFormField
+          variant="admin"
           control={form.control}
           name="stock"
           title="Stock"

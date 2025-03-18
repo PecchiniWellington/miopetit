@@ -1,5 +1,6 @@
 "use client";
 import BrandButton from "@/components/shared/brand-components/brand-button";
+import BrandInput from "@/components/shared/brand-components/brand-input";
 import {
   Form,
   FormControl,
@@ -8,7 +9,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { createUserAddress } from "@/core/actions/user/create-user-address.action";
 import { useAddNewAddress } from "@/core/db-static/db_checkout_pages/add_new_address";
 import { IUser } from "@/core/validators";
@@ -109,7 +109,7 @@ const AddNewAddressForm = ({
                     {label}
                   </FormLabel>
                   <FormControl>
-                    <Input
+                    <BrandInput
                       {...field}
                       type={type}
                       value={

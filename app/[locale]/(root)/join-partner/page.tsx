@@ -1,7 +1,8 @@
 "use client";
 
 import BrandButton from "@/components/shared/brand-components/brand-button";
-import DynamicFormFieldFE from "@/components/shared/dynamic-form-field-fe";
+import DynamicFormField from "@/components/shared/dynamic-form-field";
+
 import Hero from "@/components/shared/hero";
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -104,7 +105,7 @@ export default function JoinPartner() {
           className="space-y-6 rounded-xl bg-white p-8 shadow-lg dark:bg-gray-800"
         >
           {/* 📌 Campi comuni */}
-          <DynamicFormFieldFE
+          <DynamicFormField
             control={form.control}
             name="fullName"
             title="Nome Completo *"
@@ -112,7 +113,7 @@ export default function JoinPartner() {
           />
           <ErrorMessage field="fullName" />
 
-          <DynamicFormFieldFE
+          <DynamicFormField
             control={form.control}
             name="email"
             title="Email *"
@@ -120,14 +121,14 @@ export default function JoinPartner() {
           />
           <ErrorMessage field="email" />
 
-          <DynamicFormFieldFE
+          <DynamicFormField
             control={form.control}
             name="phone"
             title="Numero di Telefono *"
             placeholder="Inserisci il tuo numero"
           />
           <ErrorMessage field="phone" />
-          <DynamicFormFieldFE
+          <DynamicFormField
             control={form.control}
             name="businessName"
             title="Nome Azienda *"
@@ -135,7 +136,7 @@ export default function JoinPartner() {
           />
           <ErrorMessage field="businessName" />
           {/* 📌 Tipologia di Partner */}
-          <DynamicFormFieldFE
+          <DynamicFormField
             type="select"
             options={[
               { label: "Venditore", value: "venditore" },
@@ -153,21 +154,21 @@ export default function JoinPartner() {
           {/* 📌 Campi dinamici */}
           {businessType === "venditore" && (
             <>
-              <DynamicFormFieldFE
+              <DynamicFormField
                 control={form.control}
                 name="city"
                 title="Città *"
                 placeholder="Inserisci la tua città"
               />
               <ErrorMessage field="city" />
-              <DynamicFormFieldFE
+              <DynamicFormField
                 control={form.control}
                 name="estimatedSales"
                 title="Volume di Vendita *"
                 placeholder="Esempio: 500+ prodotti al mese"
               />
               <ErrorMessage field="estimatedSales" />
-              <DynamicFormFieldFE
+              <DynamicFormField
                 type="multiple-select"
                 control={form.control}
                 name="stockManagement"
@@ -180,7 +181,7 @@ export default function JoinPartner() {
                   },
                 ]}
               />
-              <DynamicFormFieldFE
+              <DynamicFormField
                 type="multiple-select"
                 control={form.control}
                 name="shippingMethods"
@@ -194,7 +195,7 @@ export default function JoinPartner() {
           )}
 
           {/* 📌 Campi comuni */}
-          <DynamicFormFieldFE
+          <DynamicFormField
             type="textarea"
             control={form.control}
             name="whyJoin"
@@ -204,7 +205,7 @@ export default function JoinPartner() {
 
           <ErrorMessage field="whyJoin" />
 
-          <DynamicFormFieldFE
+          <DynamicFormField
             type="textarea"
             control={form.control}
             name="additionalNotes"

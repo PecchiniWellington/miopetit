@@ -1,6 +1,7 @@
 "use client";
 
 import BrandButton from "@/components/shared/brand-components/brand-button";
+import BrandInput from "@/components/shared/brand-components/brand-input";
 import BrandSelect from "@/components/shared/brand-components/brand-select";
 import BrandTextArea from "@/components/shared/brand-components/brand-textarea";
 import {
@@ -11,7 +12,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { createUpdateReview } from "@/core/actions/reviews/review.action";
 
 import { insertReviewSchema } from "@/core/validators";
@@ -95,7 +95,7 @@ const ReviewForm = ({
               <FormItem>
                 <FormLabel>Title</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="Enter Title" />
+                  <BrandInput {...field} placeholder="Enter Title" />
                 </FormControl>
               </FormItem>
             )}

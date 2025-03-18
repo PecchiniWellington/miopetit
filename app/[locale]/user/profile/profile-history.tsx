@@ -3,7 +3,7 @@
 import BrandBadge from "@/components/shared/brand-components/brand-badge";
 import BrandButton from "@/components/shared/brand-components/brand-button";
 import BrandCard from "@/components/shared/brand-components/brand-card";
-import { Input } from "@/components/ui/input";
+import BrandInput from "@/components/shared/brand-components/brand-input";
 import { formatDateTime } from "@/lib/utils";
 
 import { Filter, Package, RefreshCw, ShieldCheck } from "lucide-react";
@@ -61,7 +61,7 @@ export default function HistoryTab() {
 
       {/* 🔍 Filtri */}
       <div className="mt-4 flex items-center gap-3">
-        <Input
+        <BrandInput
           placeholder="Filtra per ID ordine..."
           value={filter}
           onChange={(e) => setFilter(e.target.value)}

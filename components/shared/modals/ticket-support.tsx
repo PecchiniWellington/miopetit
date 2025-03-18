@@ -9,7 +9,6 @@ import { FieldValues, Path, UseFormReturn } from "react-hook-form";
 
 import { Form } from "@/components/ui/form";
 import BrandButton from "../brand-components/brand-button";
-import DynamicFormField from "../dynamic-form-field";
 
 interface SlugFormFieldProps<T extends FieldValues> {
   form: UseFormReturn<T>;

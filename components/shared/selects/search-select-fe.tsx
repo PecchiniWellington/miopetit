@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, Search } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Input } from "../../ui/input";
+import BrandInput from "../brand-components/brand-input";
 
 interface SearchSelectProps {
   options: { value: string; label: string }[];
@@ -77,7 +77,7 @@ export default function SearchSelectFe({
             {/* 🔍 Input di ricerca */}
             <div className="relative flex items-center">
               <Search className="absolute left-3 text-gray-500" />
-              <Input
+              <BrandInput
                 type="text"
                 placeholder="Cerca..."
                 className="w-full border-none py-2 pl-10 pr-3 focus:outline-none"

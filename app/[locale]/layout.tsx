@@ -1,4 +1,3 @@
-import { Toaster } from "@/components/ui/toaster";
 import { routing } from "@/i18n/routing";
 import { APP_DESCRIPTION, APP_NAME, BASE_URL } from "@/lib/constants";
 import type { Metadata } from "next";
@@ -47,7 +46,6 @@ export default async function RootLayout({
             {children}
           </NextIntlClientProvider>
         </SessionProvider>
-        <Toaster />
       </body>
     </html>
   );

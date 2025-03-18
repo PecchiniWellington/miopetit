@@ -1,6 +1,7 @@
 "use client";
 
 import BrandButton from "@/components/shared/brand-components/brand-button";
+import BrandInput from "@/components/shared/brand-components/brand-input";
 import {
   Form,
   FormControl,
@@ -9,7 +10,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { updateUserAddress } from "@/core/actions/user";
 import { createUserAddress } from "@/core/actions/user/create-user-address.action";
 import { deleteUserAddress } from "@/core/actions/user/delete-user-address.action";
@@ -275,7 +275,7 @@ export const AddressesTab = ({ user }: { user: IUser }) => {
                               {t("modal_add_address." + field.name)}
                             </FormLabel>
                             <FormControl>
-                              <Input
+                              <BrandInput
                                 {...field}
                                 value={field.value ?? ""}
                                 placeholder={

@@ -1,8 +1,8 @@
 "use client";
 
 import BrandButton from "@/components/shared/brand-components/brand-button";
+import BrandInput from "@/components/shared/brand-components/brand-input";
 import SearchSelect from "@/components/shared/selects/search-select";
-import { Input } from "@/components/ui/input";
 import Papa from "papaparse";
 import { useRef, useState } from "react";
 
@@ -175,7 +175,7 @@ export default function UploadFiles() {
       </div>
 
       <div className="mb-4">
-        <Input
+        <BrandInput
           type="file"
           accept=".csv"
           ref={inputFileRef}

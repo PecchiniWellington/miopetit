@@ -2,7 +2,6 @@
 
 import { ChevronDown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import BrandButton from "./brand-button";
 
 interface OptionType {
   value: string;
@@ -11,13 +10,15 @@ interface OptionType {
 }
 
 interface CustomSelectProps {
-  value: string;
+  value?: string;
   onValueChange: (value: string) => void;
   placeholder?: string;
   options: OptionType[];
   onOpenChange?: (isOpen: boolean) => void;
   disabled?: boolean;
   className?: string;
+  variant?: "default" | "admin";
+  defaultValue?: string | string[];
 }
 
 const BrandSelect = ({
@@ -28,27 +29,39 @@ const BrandSelect = ({
   onOpenChange,
   disabled = false,
   className = "",
+  variant = "default",
+  defaultValue = "",
 }: CustomSelectProps) => {
   const [open, setOpen] = useState(false);
+  const [internalValue, setInternalValue] = useState<string>(
+    Array.isArray(defaultValue) ? defaultValue[0] : defaultValue
+  );
   const ref = useRef<HTMLDivElement>(null);
+
+  // Sincronizza il valore esterno (per react-hook-form o simili)
+  useEffect(() => {
+    if (value !== undefined) {
+      setInternalValue(value);
+    }
+  }, [value]);
 
   const toggleOpen = () => {
     if (!disabled) {
       setOpen((prev) => {
         const next = !prev;
-        // Evita di chiamare setState esterni durante il render
         setTimeout(() => onOpenChange?.(next), 0);
         return next;
       });
     }
   };
+
   const handleOptionClick = (val: string) => {
+    setInternalValue(val);
     onValueChange(val);
     setOpen(false);
     onOpenChange?.(false);
   };
 
-  // Close on outside click
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) {
@@ -62,20 +75,36 @@ const BrandSelect = ({
     };
   }, []);
 
+  const baseClasses =
+    "block w-full rounded-lg border px-4 py-2 text-sm shadow-sm transition placeholder:text-gray-400 focus:outline-none";
+
+  const buttonStyles =
+    variant === "admin"
+      ? `border-slate-700 bg-slate-900 text-white focus:border-slate-500 focus:ring-2 focus:ring-slate-500 ${baseClasses}`
+      : `border-slate-700 bg-white text-gray-800 shadow-sm dark:border-slate-700 dark:bg-slate-900 dark:text-white ${baseClasses}`;
+
   return (
     <div ref={ref} className={`relative w-full ${className}`}>
-      <BrandButton tabIndex={0} onClick={toggleOpen}>
+      <button
+        type="button"
+        tabIndex={0}
+        onClick={toggleOpen}
+        disabled={disabled}
+        className={`flex w-full items-center justify-between px-4 py-2 text-sm transition-all  ${buttonStyles} ${disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"}`}
+      >
         <span>
-          {options.find((o) => o.value === value)?.label || placeholder}
+          {options.find((o) => o.value === internalValue)?.label || placeholder}
         </span>
         <ChevronDown
           className={`ml-2 transition-transform ${open ? "rotate-180" : ""}`}
         />
-      </BrandButton>
+      </button>
 
       {open && (
-        <div className="absolute z-50 mt-2  w-fit rounded-md border border-slate-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-900">
-          <div className="relative max-h-56 overflow-scroll">
+        <div
+          className={`absolute z-50 mt-2 ${variant === "admin" ? "w-full  border-slate-700 bg-slate-900 text-white focus:border-slate-500 focus:ring-2 focus:ring-slate-500" : "w-full rounded-md border border-slate-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-900"} ${className} `}
+        >
+          <div className="relative max-h-56 overflow-y-auto">
             {options.length === 0 ? (
               <div className="p-4 text-center text-sm text-gray-500 dark:text-gray-400">
                 No options
@@ -86,7 +115,7 @@ const BrandSelect = ({
                   role="button"
                   key={option.value}
                   onClick={() => handleOptionClick(option.value)}
-                  className="flex w-full items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-slate-100 dark:text-gray-200 dark:hover:bg-slate-800"
+                  className={`flex w-full items-center gap-2 px-4 py-2 text-sm ${variant === "admin" ? "text-gray-200 hover:bg-slate-800" : "text-gray-700 hover:bg-slate-100"}`}
                 >
                   {option.icon}
                   {option.label}
