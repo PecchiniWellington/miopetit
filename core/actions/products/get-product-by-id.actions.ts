@@ -41,7 +41,7 @@ export async function getProductById(id: string) {
       id: p.productProtein.id,
       name: p.productProtein.name,
     })),
-    productCategories:
+    productCategory:
       product.productCategory?.map((cat) => ({
         id: cat.category.id,
         name: cat.category.name,
@@ -83,6 +83,10 @@ export async function getProductById(id: string) {
   const totalRevenue = product.orderitems.reduce(
     (acc: number, item: IOrderItem) => acc + item.qty * Number(item.price),
     0
+  );
+  console.log(
+    "🚀 ~ file: get-product-by-id.actions.ts ~ line 68 ~ getProductById ~ transformedData",
+    transformedData
   );
 
   const result = productSchema.safeParse(transformedData);

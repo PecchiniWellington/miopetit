@@ -76,7 +76,7 @@ export async function getProductBySlug(slug: string) {
       id: p.productProtein.id,
       name: p.productProtein.name,
     })),
-    productCategories:
+    productCategory:
       product.productCategory?.map((cat) => ({
         id: cat.category.id,
         name: cat.category.name,

@@ -40,7 +40,7 @@ export function ProductFormFields({
     product?.productFeature?.map((feature) => feature.id) || [];
 
   const getOnlyProductCategory =
-    product?.productCategories?.map((category) => category.id)[0] || "";
+    product?.productCategory?.map((category) => category.id)[0] || "";
 
   const getOnlyPathologiesId =
     product?.productPathologies?.map((feature) => feature.id) || [];
@@ -103,7 +103,7 @@ export function ProductFormFields({
           type="select"
           options={formatterForSelect(categories)}
           control={form.control}
-          name="productCategories"
+          name="productCategory"
           title="Category"
           placeholder="Enter category"
           defaultValue={getOnlyProductCategory}

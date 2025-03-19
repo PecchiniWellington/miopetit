@@ -56,7 +56,7 @@ export const productSchema = z.object({
     })
   ),
 
-  productCategories: z.array(
+  productCategory: z.array(
     z.object({
       id: z.string().uuid(),
       name: z.string(),

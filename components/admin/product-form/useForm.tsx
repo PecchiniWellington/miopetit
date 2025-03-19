@@ -27,8 +27,8 @@ export function useProductForm({
           ? {
               ...product,
               id: product.id ?? "",
-              productCategories:
-                product.productCategories?.map((cat) => cat.id) || [],
+              productCategory:
+                product.productCategory?.map((cat) => cat.id) || [],
               productPathologies:
                 product.productPathologies?.map((p) => p.id) || [],
               productProteins: product.productProteins?.map((p) => p.id) || [],

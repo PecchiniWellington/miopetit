@@ -46,7 +46,7 @@ const ProductsTable = ({
             { key: "id", label: "ID" },
             { key: "name", label: "NAME" },
             { key: "price", label: "PRICE" },
-            { key: "productCategories", label: "CATEGORY" },
+            { key: "productCategory", label: "CATEGORY" },
             { key: "stock", label: "STOCK" },
             { key: "rating", label: "RATING" },
           ]}
@@ -75,7 +75,7 @@ const ProductsTable = ({
                 {product.price}
               </td>
               <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-300">
-                {product.productCategories
+                {product.productCategory
                   .map((p: { name: string }) => p.name)
                   .join(", ") || "N/A"}
               </td>

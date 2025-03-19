@@ -144,12 +144,12 @@ export async function getCategoryProductIds(categorySlug: string) {
     ...(await getAllSubCategoryIds(mainCategory.id)),
   ];
 
-  const productCategories = await prisma.productCategory.findMany({
+  const productCategory = await prisma.productCategory.findMany({
     where: { categoryId: { in: allCategoryIds } },
     select: { productId: true },
   });
 
-  return productCategories.map((pc) => pc.productId);
+  return productCategory.map((pc) => pc.productId);
 }
 
 export async function getFiltersForCategory(categorySlug: string) {

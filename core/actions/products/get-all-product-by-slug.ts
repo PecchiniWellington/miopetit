@@ -230,7 +230,7 @@ export async function getAllProductsBySlug({
       ...rest,
       productPathologies: productPathologyOnProduct.map((p) => p.pathology),
       productProteins: productProteinOnProduct.map((p) => p.productProtein),
-      productCategories: productCategory.map((c) => c.category),
+      productCategory: productCategory.map((c) => c.category),
       productUnitFormat: rest.productUnitFormat
         ? {
             id: rest.productUnitFormat.id,
