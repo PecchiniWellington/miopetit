@@ -30,7 +30,7 @@ interface CustomSelectProps {
     | "outline-white"
     | "ghost"
     | "ghost-white";
-  defaultValue?: string | string[];
+  defaultValue?: string | string[] | { id: string; name: string }[];
 }
 
 const BrandSelect = ({
@@ -47,10 +47,9 @@ const BrandSelect = ({
 }: CustomSelectProps) => {
   const [open, setOpen] = useState(false);
   const [internalValue, setInternalValue] = useState<string>(
-    Array.isArray(defaultValue) ? defaultValue[0] : defaultValue
+    typeof defaultValue === "string" ? defaultValue : ""
   );
   const ref = useRef<HTMLDivElement>(null);
-
   // Sincronizza il valore esterno (per react-hook-form o simili)
   useEffect(() => {
     if (value !== undefined) {

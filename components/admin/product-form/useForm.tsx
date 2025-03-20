@@ -26,35 +26,26 @@ export function useProductForm({
         : product
           ? {
               ...product,
-              id: product.id ?? "",
-              productCategory:
-                product.productCategory?.map((cat) => cat.id) || [],
-              productPathologies:
-                product.productPathologies?.map((p) => p.id) || [],
-              productProteins: product.productProteins?.map((p) => p.id) || [],
-              productFeature: product.productFeature?.map((f) => f.id) || [],
-              productBrand: product.productBrand?.id || "",
-              productUnitFormat: product.productUnitFormat
-                ? {
-                    unitValue: product.productUnitFormat.unitValue.id,
-                    unitOfMeasure: product.productUnitFormat.unitOfMeasure.id,
-                    id: product.productUnitFormat.id,
-                    slug: product.productUnitFormat.slug,
-                  }
-                : {
-                    unitValue: "",
-                    unitOfMeasure: "",
-                    id: "",
-                    slug: "",
-                  },
-              images: product.images || [],
-              banner: product.banner || "",
-              isFeatured: product.isFeatured || false,
-              animalAge: product.animalAge || "",
-              stock: product.stock || 0,
+              productBrand: product.productBrand || null,
+              productPathologies: product.productPathologies || [],
+              productProteins: product.productProteins || [],
+              productFeature: product.productFeature || [],
+              productCategory: product.productCategory || [],
             }
           : { id: "" },
   });
+
+  const uploadToBlob = async (fileUrl: string): Promise<string> => {
+    const file = await fetch(fileUrl).then((r) => r.blob());
+    const formData = new FormData();
+    formData.append("file", file);
+    const res = await fetch("/api/upload/images", {
+      method: "POST",
+      body: formData,
+    });
+    const json = await res.json();
+    return json.url;
+  };
 
   const onSubmit = async (data: z.infer<typeof productSchema>) => {
     const parsed = productSchema.safeParse(data);
@@ -62,6 +53,18 @@ export function useProductForm({
       console.log("🔴 Validation Errors:", parsed.error.format());
       return;
     }
+
+    console.log("✅ Dati Ricevuti:", data);
+
+    if (data.isFeatured && data.banner?.startsWith("blob:")) {
+      data.banner = await uploadToBlob(data.banner);
+    }
+
+    data.images = await Promise.all(
+      data.images.map(async (img) =>
+        img.startsWith("blob:") ? await uploadToBlob(img) : img
+      )
+    );
 
     const res =
       type === "Create"

@@ -15,7 +15,7 @@ interface DynamicFormFieldProps<T extends FieldValues> {
   type?: "input" | "textarea" | "select" | "multiple-select";
   className?: string;
   options?: Option[];
-  defaultValue?: string | string[];
+  defaultValue?: string | string[] | { id: string; name: string }[]; // lasciamolo ampio
   variant?: "default" | "admin";
   isNumber?: boolean;
 }
@@ -59,25 +59,67 @@ const DynamicFormField = <T extends FieldValues>({
             ) : type === "select" ? (
               <BrandSelect
                 variant={variant}
-                value={field.value.toString()}
-                onValueChange={(value) => field.onChange(value)}
+                value={
+                  typeof field.value === "object" && field.value !== null
+                    ? field.value.id
+                    : field.value || ""
+                }
+                onValueChange={(value) => {
+                  if (name === "animalAge") {
+                    // enum semplice
+                    field.onChange(value);
+                  } else if (name.includes("productUnitFormat.unitValue")) {
+                    // productUnitFormat.unitValue expects object
+                    const opt = options?.find((o) => o.value === value);
+                    field.onChange({
+                      id: value,
+                      value: Number(opt?.label) || 0,
+                    });
+                  } else if (name.includes("productUnitFormat.unitOfMeasure")) {
+                    // productUnitFormat.unitOfMeasure expects object
+                    const opt = options?.find((o) => o.value === value);
+                    field.onChange({
+                      id: value,
+                      code: opt?.label || "",
+                      name: opt?.label || "",
+                    });
+                  } else {
+                    const opt = options?.find((o) => o.value === value);
+                    field.onChange(
+                      opt
+                        ? { id: value, name: opt.label }
+                        : { id: value, name: value }
+                    );
+                  }
+                }}
                 options={options || []}
                 placeholder="Choose an option"
-                defaultValue={defaultValue}
               />
             ) : type === "multiple-select" ? (
               <BrandMultiSelect
                 variant={variant}
                 value={
-                  Array.isArray(field.value) &&
-                  field.value.every((item: unknown) => typeof item === "string")
-                    ? field.value
+                  Array.isArray(field.value)
+                    ? field.value.map((id: any) => {
+                        const opt = options?.find(
+                          (o) =>
+                            o.value === (typeof id === "string" ? id : id.id)
+                        );
+                        return opt
+                          ? { id: opt.value, name: opt.label }
+                          : { id: id as string, name: id as string };
+                      })
                     : []
                 }
                 options={options! || []}
                 onSelect={(value) => field.onChange(value)}
                 placeholder={"custom placeholder"}
-                defaultValue={defaultValue}
+                defaultValue={
+                  Array.isArray(defaultValue) &&
+                  typeof defaultValue[0] !== "string"
+                    ? (defaultValue as { id: string; name: string }[])
+                    : []
+                }
               />
             ) : (
               <BrandInput

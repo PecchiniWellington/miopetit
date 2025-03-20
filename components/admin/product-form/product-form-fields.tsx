@@ -8,6 +8,7 @@ import {
   IUnitValue,
 } from "@/core/validators/unitsFormat.validator";
 import { IBrand, IPathology, IProtein } from "@/types/index";
+import { useEffect } from "react";
 import { UseFormReturn } from "react-hook-form";
 import SlugFormField from "./slug-form-field";
 import UploadImage from "./upload-image";
@@ -42,8 +43,9 @@ export function ProductFormFields({
   const getOnlyProductCategory =
     product?.productCategory?.map((category) => category.id)[0] || "";
 
-  const getOnlyPathologiesId =
-    product?.productPathologies?.map((feature) => feature.id) || [];
+  const getOnlyPathologiesId = product?.productPathologies?.map(
+    (feature) => feature.id
+  );
 
   const formatterForSelect = (
     data: Array<ICategory | IBrand | IPathology | IProtein> = []
@@ -80,6 +82,12 @@ export function ProductFormFields({
     value: key,
     label: key,
   }));
+  useEffect(() => {
+    const subscription = form.watch((value, { name, type }) => {
+      console.log("Form changes:", { value, name, type });
+    });
+    return () => subscription.unsubscribe();
+  }, [form]);
 
   return (
     <>
@@ -100,7 +108,7 @@ export function ProductFormFields({
 
         <DynamicFormField
           variant="admin"
-          type="select"
+          type="multiple-select"
           options={formatterForSelect(categories)}
           control={form.control}
           name="productCategory"
@@ -123,7 +131,6 @@ export function ProductFormFields({
         />
       </div>
       <div className="flex flex-col gap-5 md:flex-row">
-        {/* Brand */}
         <DynamicFormField
           variant="admin"
           type="select"
@@ -134,6 +141,7 @@ export function ProductFormFields({
           placeholder="Enter brand"
           defaultValue={product?.productBrand?.id}
         />
+
         {/* Proteins */}
         <DynamicFormField
           variant="admin"

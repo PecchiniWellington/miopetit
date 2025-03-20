@@ -10,7 +10,7 @@ interface OptionType {
 }
 
 interface BrandMultipleSelectProps {
-  value?: { id: string; name: string }[];
+  value?: { id: string; name: string }[] | string[];
   options: OptionType[];
   onSelect: (value: { id: string; name: string }[]) => void;
   placeholder?: string;
@@ -51,15 +51,20 @@ export default function BrandMultiSelect({
   }, [defaultValue, options, value]);
 
   useEffect(() => {
-    if (value) {
-      const mapped = value.map((v) => ({
-        value: v.id,
-        label: v.name,
-      }));
-      console.log("VALUE", value);
+    if (value && Array.isArray(value)) {
+      const mapped = value.map((v) => {
+        if (typeof v === "string") {
+          const opt = options.find((o) => o.value === v);
+          return opt
+            ? { value: opt.value, label: opt.label }
+            : { value: v, label: v };
+        } else {
+          return { value: v.id, label: v.name };
+        }
+      });
       setSelectedOptions(mapped);
     }
-  }, [value]);
+  }, [value, options]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
