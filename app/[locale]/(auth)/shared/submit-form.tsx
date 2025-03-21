@@ -1,5 +1,6 @@
 "use client";
 
+import BrandInput from "@/components/shared/brand-components/brand-input";
 import SignInButtonWhitProvider from "@/components/shared/sign-in-with-provider";
 import { signUpUser } from "@/core/actions/auth/auth.actions"; // Import SignUp
 import { signIn, useSession } from "next-auth/react";
@@ -7,7 +8,6 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import ChangeForm from "./change-form";
 import SubmitButton from "./submit-button";
-import BrandInput from "@/components/shared/brand-components/brand-input";
 
 async function mergeCartOnLogin(
   userId: string,
@@ -132,7 +132,7 @@ export default function SubmitForm({
   };
 
   return (
-    <>
+    <div className="flex w-full flex-col items-center space-y-6">
       {/* 🟢 Overlay di caricamento */}
       {loading && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
@@ -145,9 +145,9 @@ export default function SubmitForm({
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="w-full space-y-6">
         <input type="hidden" name="callbackUrl" value={callbackUrl} />
-        <div className="flex flex-col items-center space-y-6">
+        <div className="flex w-full flex-col items-center space-y-6">
           <BrandInput
             type="email"
             name="email"
@@ -185,6 +185,6 @@ export default function SubmitForm({
           <ChangeForm formType={formType} />
         </div>
       </form>
-    </>
+    </div>
   );
 }

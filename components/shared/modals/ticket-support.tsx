@@ -9,6 +9,7 @@ import { FieldValues, Path, UseFormReturn } from "react-hook-form";
 
 import { Form } from "@/components/ui/form";
 import BrandButton from "../brand-components/brand-button";
+import DynamicFormField from "../dynamic-form-field";
 
 interface SlugFormFieldProps<T extends FieldValues> {
   form: UseFormReturn<T>;
@@ -38,10 +39,7 @@ const TicketSupport = <T extends FieldValues>({
 
   return (
     <>
-      <BrandButton
-        onClick={() => setIsOpen(true)}
-        icon={<MessageCircle className="size-5" />}
-      >
+      <BrandButton onClick={() => setIsOpen(true)} icon={<MessageCircle />}>
         {t("open_ticket")}
       </BrandButton>
 

@@ -22,13 +22,16 @@ const SignInPage = async (props: {
   }
 
   return (
-    <BrandCard
-      iconSrc="/images/miopetit.svg"
-      title="Sign In"
-      description="Enter your information below to sign in"
-    >
-      <SubmitForm formType="sign-in" defaultValues={SIGN_IN_DEFAULT_VALUES} />
-    </BrandCard>
+    <div className="mx-auto w-full max-w-md">
+      <BrandCard
+        iconSrc="/images/miopetit.svg"
+        title="Sign In"
+        description="Enter your information below to sign in"
+        className="flex w-full flex-col items-center justify-center"
+      >
+        <SubmitForm formType="sign-in" defaultValues={SIGN_IN_DEFAULT_VALUES} />
+      </BrandCard>
+    </div>
   );
 };
 

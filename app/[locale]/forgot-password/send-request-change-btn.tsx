@@ -18,16 +18,17 @@ const SendRequest = ({
 }) => {
   const locale = useLocale();
   const t = useTranslations("Profile.SecurityTab");
+
   const handleAction = async (
     e: React.MouseEvent<HTMLButtonElement> | unknown
   ) => {
+    console.log("email", e);
     if (e && e instanceof MouseEvent) {
       e.preventDefault();
     }
     setIsLoading(true);
     setErrorMessage("");
     setSuccessMessage("");
-
     try {
       const res = await fetch("/api/request-password", {
         method: "POST",
@@ -52,7 +53,7 @@ const SendRequest = ({
   };
 
   return (
-    <BrandButton loading={isLoading} onClick={() => handleAction}>
+    <BrandButton loading={isLoading} onClick={(e) => handleAction(e)}>
       {t("send_reset_link")}
     </BrandButton>
   );

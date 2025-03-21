@@ -72,7 +72,9 @@ const BrandButton = ({
     >
       {loading && <Loader2 className="size-4 animate-spin" />}
       {!loading && icon && iconPosition === "left" && icon}
-      {children && <span className="flex items-center gap-2">{children}</span>}
+      {children && (
+        <span className="flex w-max items-center gap-2">{children}</span>
+      )}
       {!loading && icon && iconPosition === "right" && icon}
     </button>
   );

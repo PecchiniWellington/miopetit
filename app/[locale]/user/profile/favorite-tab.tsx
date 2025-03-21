@@ -49,14 +49,16 @@ export const FavoritesTab = ({
           {storedFavorites.length === 0 ? (
             <p className="mt-4 text-gray-600">{t("no_favorites")}</p>
           ) : (
-            <div className="mt-6 grid h-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {storedFavorites?.map((product: IProduct) => (
-                <BrandProductCard
-                  key={product.id}
-                  product={product}
-                  getProductQuantity={getProductQuantity(product.id)}
-                />
-              ))}
+            <div className="mt-6 grid h-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {storedFavorites?.map((product: IProduct) =>
+                product.id ? (
+                  <BrandProductCard
+                    key={product.id}
+                    product={product}
+                    getProductQuantity={getProductQuantity(product.id)}
+                  />
+                ) : null
+              )}
             </div>
           )}
         </div>
