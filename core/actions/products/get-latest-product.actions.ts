@@ -44,8 +44,8 @@ export async function getLatestProducts({
         select: {
           id: true,
           slug: true,
-          unitValue: { select: { value: true } },
-          unitOfMeasure: { select: { code: true } },
+          unitValue: { select: { id: true, value: true } },
+          unitOfMeasure: { select: { id: true, code: true, name: true } },
         },
       },
 
@@ -73,7 +73,6 @@ export async function getLatestProducts({
     },
   });
 
-  /* prisma.$disconnect(); */
   const transformedData = products.map(
     ({
       productPathologyOnProduct,
@@ -89,9 +88,16 @@ export async function getLatestProducts({
       productUnitFormat: rest.productUnitFormat
         ? {
             id: rest.productUnitFormat.id,
-            unitValue: rest.productUnitFormat.unitValue.value,
-            unitOfMeasure: rest.productUnitFormat.unitOfMeasure.code,
             slug: rest.productUnitFormat.slug,
+            unitValue: {
+              id: rest.productUnitFormat.unitValue.id,
+              value: rest.productUnitFormat.unitValue.value,
+            },
+            unitOfMeasure: {
+              id: rest.productUnitFormat.unitOfMeasure.id,
+              code: rest.productUnitFormat.unitOfMeasure.code,
+              name: rest.productUnitFormat.unitOfMeasure.name,
+            },
           }
         : null,
       productFeature: productsFeatureOnProduct.map((f) => f.productFeature),

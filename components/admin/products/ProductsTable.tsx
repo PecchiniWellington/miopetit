@@ -85,13 +85,13 @@ const ProductsTable = ({
               <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-300">
                 {product.rating}
               </td>
-              <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-300">
-                <BrandButton>
+              <td className="flex gap-1 whitespace-nowrap px-6 py-4 text-sm text-gray-300">
+                <BrandButton size="small">
                   <Link href={`/admin/products/${product.id}/edit`}>
                     <Edit size={18} />
                   </Link>
                 </BrandButton>
-                <BrandButton variant="warning">
+                <BrandButton variant="warning" size="small">
                   <Link href={`/admin/products/${product.id}/resume`}>
                     <Eye size={18} />
                   </Link>
@@ -100,11 +100,10 @@ const ProductsTable = ({
                 <GenericModal
                   triggerButton={
                     <BrandButton
+                      size="small"
                       variant="danger"
-                      icon={<Trash2 className="mr-2 size-5" />}
-                    >
-                      {t("delete_product_button")}
-                    </BrandButton>
+                      icon={<Trash2 className="size-5" />}
+                    />
                   }
                   title={t("delete_product_modal.title")}
                   description={t("delete_product_modal.description")}

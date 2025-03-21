@@ -88,7 +88,7 @@ const AdminSearch = () => {
   };
 
   return (
-    <div className="relative flex w-full items-center">
+    <div className="relative flex w-full items-center gap-2">
       {/* Input di ricerca */}
       <BrandInput
         variant="admin"
@@ -101,7 +101,11 @@ const AdminSearch = () => {
       />
 
       {searchQuery && (
-        <BrandButton onClick={() => clearSearch()} variant="danger">
+        <BrandButton
+          onClick={() => clearSearch()}
+          variant="danger"
+          size="small"
+        >
           <X size={18} />
         </BrandButton>
       )}

@@ -109,7 +109,9 @@ const SpecialOfferBrand = ({
               userId={userId}
               key={memoizedData.id}
               product={memoizedData}
-              getProductQuantity={getProductQuantity(memoizedData.id)}
+              getProductQuantity={
+                memoizedData.id ? getProductQuantity(memoizedData.id) : 0
+              }
             />
           )}
         />

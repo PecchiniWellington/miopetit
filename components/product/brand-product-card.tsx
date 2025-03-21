@@ -63,13 +63,13 @@ export default function BrandProductCard({
               ? { ...cartItem, qty: cartItem.qty + 1 }
               : cartItem
           )
-        : [...storedValue, { ...item, productId: item.id, qty: 1 }];
+        : [...storedValue, { ...item, productId: item.id || "", qty: 1 }];
 
       if (userId) {
         await addItemToCart({
           ...item,
           qty: 1,
-          productId: item.id,
+          productId: item.id || "",
           userId: userId || "",
         });
       } else {
@@ -80,10 +80,10 @@ export default function BrandProductCard({
   };
 
   const oldPrice =
-    product.percentageDiscount > 0
+    (product.percentageDiscount ?? 0) > 0
       ? (
           parseFloat(product.price) /
-          (1 - product.percentageDiscount / 100)
+          (1 - (product.percentageDiscount ?? 0) / 100)
         ).toFixed(2)
       : null;
 
