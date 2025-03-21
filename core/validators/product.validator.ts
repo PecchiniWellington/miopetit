@@ -2,20 +2,20 @@ import { IBrand } from "@/types/index";
 import { z } from "zod";
 
 export const productSchema = z.object({
-  id: z.string().uuid(),
+  id: z.string().uuid().optional(),
   name: z.string(),
   slug: z.string(),
   price: z.string().regex(/^\d+(\.\d{1,2})?$/, "Invalid price format"),
   stock: z.preprocess((val) => Number(val), z.number().int().nonnegative()),
   rating: z.number().min(0).max(5).default(0),
   banner: z.string().optional().nullable(),
-  numReviews: z.number().int().nonnegative(),
+  numReviews: z.number().int().nonnegative().optional(),
   isFeatured: z.boolean(),
   createdAt: z.string().optional(),
   updatedAt: z.string().optional(),
   animalAge: z.enum(["PUPPY", "ADULT", "SENIOR"]),
-  categoryType: z.string(),
-  percentageDiscount: z.number().int().nonnegative().max(100),
+  categoryType: z.string().optional(),
+  percentageDiscount: z.number().int().nonnegative().max(100).optional(),
   images: z.array(z.string()),
   description: z.string(),
 
@@ -28,7 +28,7 @@ export const productSchema = z.object({
 
   productUnitFormat: z
     .object({
-      id: z.string().uuid(),
+      id: z.string().uuid().optional(),
       unitValue: z.object({
         id: z.string().uuid(),
         value: z.number(),
@@ -38,7 +38,7 @@ export const productSchema = z.object({
         code: z.string(),
         name: z.string(),
       }),
-      slug: z.string(),
+      slug: z.string().optional(),
     })
     .nullable(),
 
@@ -74,25 +74,72 @@ export const productSchema = z.object({
 });
 
 export const createProductSchema = z.object({
-  id: z.string().uuid(),
+  id: z.string().uuid().optional(),
   name: z.string(),
   slug: z.string(),
   price: z.string().regex(/^\d+(\.\d{1,2})?$/, "Invalid price format"),
-  stock: z.number().int().nonnegative(),
+  stock: z.preprocess((val) => Number(val), z.number().int().nonnegative()),
+  rating: z.number().min(0).max(5).default(0),
   banner: z.string().optional().nullable(),
+  numReviews: z.number().int().nonnegative().optional(),
   isFeatured: z.boolean(),
   createdAt: z.string().optional(),
+  updatedAt: z.string().optional(),
   animalAge: z.enum(["PUPPY", "ADULT", "SENIOR"]),
-  categoryType: z.string(),
-  percentageDiscount: z.number().int().nonnegative().max(100),
+  categoryType: z.string().optional(),
+  percentageDiscount: z.number().int().nonnegative().max(100).optional(),
   images: z.array(z.string()),
   description: z.string(),
-  productBrandId: z.string(),
-  unitValueId: z.string(),
-  unitOfMeasureId: z.string(),
-  productPathologyId: z.string(),
-  productProteinsId: z.array(z.string()),
-  productFeaturesId: z.array(z.string()),
+
+  productBrand: z
+    .object({
+      id: z.string().uuid(),
+      name: z.string(),
+    })
+    .nullable(), // Può essere null
+
+  productUnitFormat: z
+    .object({
+      unitValue: z.object({
+        id: z.string().uuid(),
+        value: z.number(),
+      }),
+      unitOfMeasure: z.object({
+        id: z.string().uuid(),
+        name: z.string(),
+      }),
+    })
+    .nullable(),
+
+  productPathologies: z.array(
+    z.object({
+      id: z.string().uuid(),
+      name: z.string(),
+    })
+  ),
+
+  productProteins: z.array(
+    z.object({
+      id: z.string().uuid(),
+      name: z.string(),
+    })
+  ),
+
+  productCategory: z.array(
+    z.object({
+      id: z.string().uuid(),
+      name: z.string(),
+      slug: z.string().optional(),
+      parentId: z.string().uuid().nullable().optional(),
+    })
+  ),
+
+  productFeature: z.array(
+    z.object({
+      id: z.string().uuid(),
+      name: z.string(),
+    })
+  ),
 });
 
 export type IFormattedProduct = IProduct & {

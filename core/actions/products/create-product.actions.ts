@@ -1,92 +1,107 @@
 import { prisma } from "@/core/prisma/prisma";
 import { createProductSchema } from "@/core/validators";
-import { convertToPlainObject } from "@/lib/utils";
+import { formatError } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
 
-export async function createProduct(data: unknown) {
+export async function createProduct(data: z.infer<typeof createProductSchema>) {
   try {
-    const product = createProductSchema.safeParse(data);
+    const product = createProductSchema.parse(data);
 
-    if (!product.success) {
-      return {
-        success: false,
-        error: "Validation failed",
-        details: product.error.flatten().fieldErrors, // Mostra i campi mancanti
-      };
-    }
+    const bannerUrl = product.banner;
+    const imageUrls = product.images;
 
-    const rest = product.data;
+    // STEP 1: Verifica/crea ProductUnitFormat (unitValueId + unitMeasureId)
+    let productUnitFormatId: string | null = null;
 
-    let unitValue = await prisma.unitValue.findUnique({
-      where: { id: rest.unitValueId ?? undefined },
-    });
+    const unitValueId = product.productUnitFormat?.unitValue?.id || null;
+    const unitMeasureId = product.productUnitFormat?.unitOfMeasure?.id || null;
 
-    if (!unitValue) {
-      unitValue = await prisma.unitValue.create({
-        data: {
-          id: rest.unitValueId ?? undefined,
-          value: parseInt(rest.unitValueId ?? "0"),
+    if (unitValueId && unitMeasureId) {
+      const existingFormat = await prisma.productUnitFormat.findUnique({
+        where: {
+          unitValueId_unitMeasureId: {
+            unitValueId,
+            unitMeasureId,
+          },
         },
       });
+
+      if (existingFormat) {
+        productUnitFormatId = existingFormat.id;
+      } else {
+        const slug = `${unitValueId}-${unitMeasureId}`;
+        const newFormat = await prisma.productUnitFormat.create({
+          data: {
+            unitValueId,
+            unitMeasureId,
+            slug,
+          },
+        });
+        productUnitFormatId = newFormat.id;
+      }
     }
 
-    let unitMeasure = await prisma.unitOfMeasure.findUnique({
-      where: { id: rest.unitOfMeasureId ?? undefined },
-    });
-
-    if (!unitMeasure) {
-      unitMeasure = await prisma.unitOfMeasure.create({
-        data: {
-          id: rest.unitOfMeasureId ?? undefined,
-          code: rest.unitOfMeasureId ?? "",
-        },
-      });
-    }
-
-    // 🔹 Trova o crea ProductUnitFormat
-    const productUnitFormat = await prisma.productUnitFormat.findUnique({
-      where: {
-        unitValueId_unitMeasureId: {
-          unitValueId: unitValue.id,
-          unitMeasureId: unitMeasure.id,
-        },
-      },
-    });
-
-    const productUnitFormatId = productUnitFormat
-      ? productUnitFormat.id
-      : undefined;
-
-    await prisma.product.create({
+    // STEP 2: Create prodotto
+    const createdProduct = await prisma.product.create({
       data: {
-        price: rest.price,
-        name: rest.name,
-        slug: rest.slug,
-        images: rest.images,
-        description: rest.description,
-        stock: rest.stock ?? undefined,
-        isFeatured: rest.isFeatured,
-        banner: rest.banner,
-        animalAge: rest.animalAge ?? "PUPPY",
-        productPathologyId: rest.productPathologyId,
-        productBrandId: rest.productBrandId,
-        productUnitFormatId: productUnitFormatId,
-        categoryType: rest.categoryType,
+        name: product.name,
+        slug: product.slug || "",
+        price: product.price,
+        stock: product.stock,
+        isFeatured: product.isFeatured,
+        createdAt: new Date(product.createdAt || new Date()),
+        updatedAt: new Date(),
+        animalAge: product.animalAge,
+        categoryType: product.categoryType || "",
+        percentageDiscount: product.percentageDiscount,
+        description: product.description,
+        banner: bannerUrl,
+        images: imageUrls,
+        productBrandId: product.productBrand?.id || null,
+        productUnitFormatId,
       },
+    });
+
+    // STEP 3: Relazioni many-to-many
+    await prisma.productCategory.createMany({
+      data: product.productCategory.map((category) => ({
+        productId: createdProduct.id,
+        categoryId: category.id,
+      })),
+    });
+
+    await prisma.productPathologyOnProduct.createMany({
+      data: product.productPathologies.map((p) => ({
+        productId: createdProduct.id,
+        pathologyId: p.id,
+      })),
+    });
+
+    await prisma.productProteinOnProduct.createMany({
+      data: product.productProteins.map((p) => ({
+        productId: createdProduct.id,
+        productProteinId: p.id,
+      })),
+    });
+
+    await prisma.productFeatureOnProduct.createMany({
+      data: product.productFeature.map((f) => ({
+        productId: createdProduct.id,
+        productFeatureId: f.id,
+      })),
     });
 
     revalidatePath("/admin/products");
 
-    return {
-      success: true,
-      message: "Product created successfully",
-      ...convertToPlainObject(product.data),
-    };
+    return { success: true, message: "Product created successfully" };
   } catch (error) {
     return {
       success: false,
       error:
-        error instanceof Error ? error.message : "An unknown error occurred",
+        error instanceof z.ZodError
+          ? formatError(error)
+          : (error as Error).message,
     };
   }
 }

@@ -48,6 +48,7 @@ const ProductForm = ({
             onSubmit(data);
           },
           (errors) => {
+            console.log("❌ Errori nel form:", form.getValues());
             console.log("❌ Errori nel form:", errors);
           }
         )}

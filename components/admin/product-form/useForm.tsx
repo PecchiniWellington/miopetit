@@ -1,5 +1,9 @@
 import { createProduct, updateProduct } from "@/core/actions/products";
-import { IProduct, productSchema } from "@/core/validators";
+import {
+  IProduct,
+  createProductSchema,
+  productSchema,
+} from "@/core/validators";
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -18,21 +22,36 @@ export function useProductForm({
   const router = useRouter();
   const { toast } = useToast();
 
-  const form = useForm<z.infer<typeof productSchema>>({
-    resolver: zodResolver(productSchema),
+  const schema = type === "Create" ? createProductSchema : productSchema;
+
+  const form = useForm<z.infer<typeof schema>>({
+    resolver: zodResolver(schema),
     defaultValues:
       type === "Create"
-        ? { id: "" }
-        : product
-          ? {
-              ...product,
-              productBrand: product.productBrand || null,
-              productPathologies: product.productPathologies || [],
-              productProteins: product.productProteins || [],
-              productFeature: product.productFeature || [],
-              productCategory: product.productCategory || [],
-            }
-          : { id: "" },
+        ? ({} as any)
+        : {
+            ...product,
+            productBrand: product?.productBrand || null,
+            productPathologies: product?.productPathologies || [],
+            productProteins: product?.productProteins || [],
+            productFeature: product?.productFeature || [],
+            productCategory: product?.productCategory || [],
+            productUnitFormat: product?.productUnitFormat
+              ? {
+                  id: product.productUnitFormat.id,
+                  slug: product.productUnitFormat.slug,
+                  unitValue: {
+                    id: product.productUnitFormat.unitValue.id,
+                    value: product.productUnitFormat.unitValue.value,
+                  },
+                  unitOfMeasure: {
+                    id: product.productUnitFormat.unitOfMeasure.id,
+                    code: product.productUnitFormat.unitOfMeasure.code,
+                    name: product.productUnitFormat.unitOfMeasure.name,
+                  },
+                }
+              : null,
+          },
   });
 
   const uploadToBlob = async (fileUrl: string): Promise<string> => {
@@ -47,30 +66,34 @@ export function useProductForm({
     return json.url;
   };
 
-  const onSubmit = async (data: z.infer<typeof productSchema>) => {
-    const parsed = productSchema.safeParse(data);
+  const onSubmit = async (data: any) => {
+    // Normalize before validation
+
+    const parsed = schema.safeParse({
+      ...data,
+      stock: Number(data.stock),
+    });
+
     if (!parsed.success) {
       console.log("🔴 Validation Errors:", parsed.error.format());
       return;
     }
-
-    console.log("✅ Dati Ricevuti:", data);
 
     if (data.isFeatured && data.banner?.startsWith("blob:")) {
       data.banner = await uploadToBlob(data.banner);
     }
 
     data.images = await Promise.all(
-      data.images.map(async (img) =>
+      data.images.map(async (img: string) =>
         img.startsWith("blob:") ? await uploadToBlob(img) : img
       )
     );
 
     const res =
       type === "Create"
-        ? await createProduct(data)
+        ? await createProduct(data as z.infer<typeof createProductSchema>)
         : await updateProduct({
-            ...data,
+            ...(data as z.infer<typeof productSchema>),
             id: productId as string,
           });
 
@@ -84,7 +107,7 @@ export function useProductForm({
       toast({
         className: "bg-green-100 text-green-700 px-5 py-2",
         title: "Success",
-        description: `Product ${data.name} updated successfully`,
+        description: `Product ${data.name} ${type === "Create" ? "created" : "updated"} successfully`,
       });
       router.push("/admin/products");
     }
