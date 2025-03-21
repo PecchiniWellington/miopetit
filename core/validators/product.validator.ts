@@ -100,6 +100,8 @@ export const createProductSchema = z.object({
 
   productUnitFormat: z
     .object({
+      id: z.string().uuid().optional(),
+      slug: z.string().optional(),
       unitValue: z.object({
         id: z.string().uuid(),
         value: z.number(),
@@ -107,6 +109,7 @@ export const createProductSchema = z.object({
       unitOfMeasure: z.object({
         id: z.string().uuid(),
         name: z.string(),
+        code: z.string().optional(),
       }),
     })
     .nullable(),

@@ -16,7 +16,7 @@ export function useProductForm({
   productId,
 }: {
   type: "Create" | "Update";
-  product?: IProduct & { id: string };
+  product?: IProduct;
   productId?: string;
 }) {
   const router = useRouter();
@@ -28,7 +28,7 @@ export function useProductForm({
     resolver: zodResolver(schema),
     defaultValues:
       type === "Create"
-        ? ({} as any)
+        ? {}
         : {
             ...product,
             productBrand: product?.productBrand || null,
@@ -66,7 +66,7 @@ export function useProductForm({
     return json.url;
   };
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: z.infer<typeof schema>) => {
     // Normalize before validation
 
     const parsed = schema.safeParse({

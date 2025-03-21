@@ -2,7 +2,7 @@ import DynamicFormField from "@/components/shared/dynamic-form-field";
 import { AnimalAge } from "@/core/actions/types";
 import { ICategory } from "@/core/validators";
 import { IProductFeatureOnProduct } from "@/core/validators/product-feature.validator";
-import { IProduct } from "@/core/validators/product.validator";
+import { ICreateProduct, IProduct } from "@/core/validators/product.validator";
 import {
   IUnitOfMeasure,
   IUnitValue,
@@ -24,7 +24,7 @@ export function ProductFormFields({
   allFeatures = [],
   product,
 }: {
-  form: UseFormReturn<IProduct>;
+  form: UseFormReturn<IProduct | ICreateProduct>;
   categories?: ICategory[];
   brands?: IBrand[];
   pathologies?: IPathology[];

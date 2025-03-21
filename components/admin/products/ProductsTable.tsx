@@ -59,7 +59,7 @@ const ProductsTable = ({
               transition={{ duration: 0.3 }}
             >
               <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-300">
-                {formatId(product.id)}
+                {product.id ? formatId(product.id) : "N/A"}
               </td>
               <td className="flex items-center gap-2 whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-100">
                 <Image
@@ -112,7 +112,10 @@ const ProductsTable = ({
                   cancelText={t("delete_product_modal.cancel_button")}
                   icon={<AlertTriangle className="size-5 text-red-500" />}
                   variant="danger"
-                  onConfirm={() => deleteProduct(product.id)}
+                  onConfirm={() => {
+                    console.log("delete product", product);
+                    return deleteProduct(product.id!);
+                  }}
                 />
               </td>
             </motion.tr>
