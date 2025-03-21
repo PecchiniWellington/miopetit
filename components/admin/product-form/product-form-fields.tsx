@@ -255,6 +255,14 @@ export function ProductFormFields({
         <DynamicFormField
           variant="admin"
           control={form.control}
+          name="short_description"
+          title="Short Description"
+          placeholder="Enter short description"
+          type="textarea"
+        />
+        <DynamicFormField
+          variant="admin"
+          control={form.control}
           name="description"
           title="Description"
           placeholder="Enter description"

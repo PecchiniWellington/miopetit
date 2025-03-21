@@ -1,10 +1,10 @@
 "use client";
 
+import BrandButton from "@/components/shared/brand-components/brand-button";
 import { AnimatePresence, motion } from "framer-motion";
 import { Info, Star } from "lucide-react";
 import { useState } from "react";
 import ReviewsTab from "./review-tab";
-import BrandButton from "@/components/shared/brand-components/brand-button";
 
 const tabs = [
   {
@@ -15,12 +15,7 @@ const tabs = [
   { id: "reviews", label: "Recensioni", icon: <Star className="size-5" /> },
 ];
 
-const ProductTabs = ({
-  description,
-}: {
-  description: string;
-  productId: string;
-}) => {
+const ProductTabs = ({ description }: { description: string }) => {
   const [activeTab, setActiveTab] = useState("description");
 
   return (

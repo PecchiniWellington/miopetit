@@ -18,7 +18,7 @@ export const ConfigProductDetailPage = ({
   return (
     <>
       <section className="grid grid-cols-1 md:grid-cols-5">
-        <ProductPageLeftImages />
+        <ProductPageLeftImages images={product?.images} />
         <ProductDetails product={product} />
         <ProductPageRightCard
           myCart={myCart}
@@ -28,12 +28,7 @@ export const ConfigProductDetailPage = ({
         />
       </section>
       <section className="mt-10">
-        {product && (
-          <ProductTabs
-            productId={product.id}
-            description={product.description}
-          />
-        )}
+        {product && <ProductTabs description={product.description} />}
       </section>
     </>
   );
