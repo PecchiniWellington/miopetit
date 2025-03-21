@@ -210,6 +210,22 @@ export function ProductFormFields({
           title="Price"
           placeholder="Enter price"
         />
+        <DynamicFormField
+          isNumber={true}
+          variant="admin"
+          control={form.control}
+          name="costPrice"
+          title="Cost Price"
+          placeholder="Enter Cost price"
+        />
+        <DynamicFormField
+          isNumber={true}
+          variant="admin"
+          control={form.control}
+          name="percentageDiscount"
+          title="Percentage discount price"
+          placeholder="Enter percentage price"
+        />
 
         {/* Stock */}
         <DynamicFormField
@@ -255,7 +271,7 @@ export function ProductFormFields({
         <DynamicFormField
           variant="admin"
           control={form.control}
-          name="short_description"
+          name="shortDescription"
           title="Short Description"
           placeholder="Enter short description"
           type="textarea"

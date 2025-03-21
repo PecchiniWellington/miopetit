@@ -26,6 +26,8 @@ export async function getLatestProducts({
       animalAge: true,
       categoryType: true,
       percentageDiscount: true,
+      costPrice: true,
+      shortDescription: true,
 
       productCategory: {
         select: {
@@ -73,6 +75,10 @@ export async function getLatestProducts({
     },
   });
 
+  console.log(
+    "🚀 ~ file: get-latest-product.actions.ts ~ line 74 ~ getLatestProducts ~ products",
+    products
+  );
   const transformedData = products.map(
     ({
       productPathologyOnProduct,
@@ -82,9 +88,12 @@ export async function getLatestProducts({
       ...rest
     }) => ({
       ...rest,
+      price: rest.price.toString(),
+      costPrice: rest.costPrice.toString(),
       productPathologies: productPathologyOnProduct.map((p) => p.pathology),
       productProteins: productProteinOnProduct.map((p) => p.productProtein),
       productCategory: productCategory.map((c) => c.category),
+
       productUnitFormat: rest.productUnitFormat
         ? {
             id: rest.productUnitFormat.id,

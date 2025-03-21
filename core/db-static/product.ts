@@ -5,10 +5,11 @@ const product = [
     slug: "cibo-secco",
     description:
       "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Id voluptate sunt quam harum molestiae magni non voluptates dicta ab necessitatibus cupiditate ducimus placeat modi, architecto blanditiis consectetur ex dolore illum!",
+    shortDescription: "Cibo secco per cani di tutte le razze e taglie",
     price: 19.99,
     numReviews: 120,
     rating: parseFloat((Math.random() * 5).toFixed(1)),
-
+    costPrice: 15.99,
     stock: Math.floor(Math.random() * 100) + 1,
     createdAt: "2025-02-10T09:26:23.964Z",
     updatedAt: "2025-02-10T09:26:23.964Z",
@@ -20,11 +21,12 @@ const product = [
     slug: "cibo-umido",
     description:
       "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Id voluptate sunt quam harum molestiae magni non voluptates dicta ab necessitatibus cupiditate ducimus placeat modi, architecto blanditiis consectetur ex dolore illum!",
+    shortDescription: "Cibo umido per cani di tutte le razze e taglie",
     price: 14.49,
     rating: parseFloat((Math.random() * 5).toFixed(1)),
     stock: Math.floor(Math.random() * 100) + 1,
     numReviews: 85,
-
+    costPrice: 10.99,
     createdAt: "2025-02-10T09:26:23.964Z",
     updatedAt: "2025-02-10T09:26:23.964Z",
     percentageDiscount: Math.floor(Math.random() * 11) + 5,
@@ -35,8 +37,9 @@ const product = [
     slug: "snack",
     description:
       "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Id voluptate sunt quam harum molestiae magni non voluptates dicta ab necessitatibus cupiditate ducimus placeat modi, architecto blanditiis consectetur ex dolore illum!",
+    shortDescription: "Snack per cani di tutte le razze e taglie",
     price: 7.99,
-
+    costPrice: 5.99,
     rating: parseFloat((Math.random() * 5).toFixed(1)),
     stock: Math.floor(Math.random() * 100) + 1,
     numReviews: 45,
@@ -51,12 +54,12 @@ const product = [
     slug: "diete-cibo-umido",
     description:
       "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Id voluptate sunt quam harum molestiae magni non voluptates dicta ab necessitatibus cupiditate ducimus placeat modi, architecto blanditiis consectetur ex dolore illum!",
+    shortDescription: "Diete cibo umido per cani di tutte le razze e taglie",
     price: 22.5,
-
+    costPrice: 18.5,
     rating: parseFloat((Math.random() * 5).toFixed(1)),
     stock: Math.floor(Math.random() * 100) + 1,
     numReviews: 60,
-
     createdAt: "2025-02-10T09:26:23.964Z",
     updatedAt: "2025-02-10T09:26:23.964Z",
     percentageDiscount: Math.floor(Math.random() * 11) + 5,
@@ -67,11 +70,12 @@ const product = [
     slug: "diete-cibo-secco",
     description:
       "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Id voluptate sunt quam harum molestiae magni non voluptates dicta ab necessitatibus cupiditate ducimus placeat modi, architecto blanditiis consectetur ex dolore illum!",
+    shortDescription: "Diete cibo secco per cani di tutte le razze e taglie",
     price: 25.99,
+    costPrice: 21.99,
     rating: parseFloat((Math.random() * 5).toFixed(1)),
     stock: Math.floor(Math.random() * 100) + 1,
     numReviews: 75,
-
     createdAt: "2025-02-10T09:26:23.964Z",
     updatedAt: "2025-02-10T09:26:23.964Z",
     percentageDiscount: Math.floor(Math.random() * 11) + 5,
@@ -82,11 +86,12 @@ const product = [
     slug: "accessori",
     description:
       "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Id voluptate sunt quam harum molestiae magni non voluptates dicta ab necessitatibus cupiditate ducimus placeat modi, architecto blanditiis consectetur ex dolore illum!",
+    shortDescription: "Accessori per cani di tutte le razze e taglie",
     price: 12.99,
+    costPrice: 8.99,
     rating: parseFloat((Math.random() * 5).toFixed(1)),
     stock: Math.floor(Math.random() * 100) + 1,
     numReviews: 30,
-
     createdAt: "2025-02-10T09:26:23.964Z",
     updatedAt: "2025-02-10T09:26:23.964Z",
     percentageDiscount: Math.floor(Math.random() * 11) + 5,
@@ -97,11 +102,12 @@ const product = [
     slug: "abbigliamento",
     description:
       "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Id voluptate sunt quam harum molestiae magni non voluptates dicta ab necessitatibus cupiditate ducimus placeat modi, architecto blanditiis consectetur ex dolore illum!",
+    shortDescription: "Abbigliamento per cani di tutte le razze e taglie",
     price: 29.99,
+    costPrice: 25.99,
     rating: parseFloat((Math.random() * 5).toFixed(1)),
     stock: Math.floor(Math.random() * 100) + 1,
     numReviews: 50,
-
     createdAt: "2025-02-10T09:26:23.964Z",
     updatedAt: "2025-02-10T09:26:23.964Z",
     percentageDiscount: Math.floor(Math.random() * 11) + 5,
@@ -112,11 +118,12 @@ const product = [
     slug: "addestramento",
     description:
       "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Id voluptate sunt quam harum molestiae magni non voluptates dicta ab necessitatibus cupiditate ducimus placeat modi, architecto blanditiis consectetur ex dolore illum!",
+    shortDescription: "Addestramento  per cani di tutte le razze e taglie",
     price: 18.75,
+    costPrice: 14.75,
     rating: parseFloat((Math.random() * 5).toFixed(1)),
     stock: Math.floor(Math.random() * 100) + 1,
     numReviews: 40,
-
     createdAt: "2025-02-10T09:26:23.964Z",
     updatedAt: "2025-02-10T09:26:23.964Z",
     percentageDiscount: Math.floor(Math.random() * 11) + 5,
@@ -127,11 +134,12 @@ const product = [
     slug: "contenitori-cibo",
     description:
       "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Id voluptate sunt quam harum molestiae magni non voluptates dicta ab necessitatibus cupiditate ducimus placeat modi, architecto blanditiis consectetur ex dolore illum!",
+    shortDescription: "Contenitori cibo per cani di tutte le razze e taglie",
     price: 15.99,
+    costPrice: 11.99,
     rating: parseFloat((Math.random() * 5).toFixed(1)),
     stock: Math.floor(Math.random() * 100) + 1,
     numReviews: 25,
-
     createdAt: "2025-02-10T09:26:23.964Z",
     updatedAt: "2025-02-10T09:26:23.964Z",
     percentageDiscount: Math.floor(Math.random() * 11) + 5,
@@ -142,11 +150,12 @@ const product = [
     slug: "toelettatura",
     description:
       "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Id voluptate sunt quam harum molestiae magni non voluptates dicta ab necessitatibus cupiditate ducimus placeat modi, architecto blanditiis consectetur ex dolore illum!",
+    shortDescription: "Toelettatura per cani di tutte le razze e taglie",
     price: 20.99,
+    costPrice: 16.99,
     rating: parseFloat((Math.random() * 5).toFixed(1)),
     stock: Math.floor(Math.random() * 100) + 1,
     numReviews: 35,
-
     createdAt: "2025-02-10T09:26:23.964Z",
     updatedAt: "2025-02-10T09:26:23.964Z",
     percentageDiscount: Math.floor(Math.random() * 11) + 5,
@@ -157,8 +166,9 @@ const product = [
     slug: "giochi",
     description:
       "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Id voluptate sunt quam harum molestiae magni non voluptates dicta ab necessitatibus cupiditate ducimus placeat modi, architecto blanditiis consectetur ex dolore illum!",
+    shortDescription: "Giochi per cani di tutte le razze e taglie",
     price: 9.99,
-
+    costPrice: 5.99,
     rating: parseFloat((Math.random() * 5).toFixed(1)),
     stock: Math.floor(Math.random() * 100) + 1,
     numReviews: 55,
@@ -173,7 +183,9 @@ const product = [
     slug: "guinzaglieria",
     description:
       "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Id voluptate sunt quam harum molestiae magni non voluptates dicta ab necessitatibus cupiditate ducimus placeat modi, architecto blanditiis consectetur ex dolore illum!",
+    shortDescription: "Guinzaglieria per cani di tutte le razze e taglie",
     price: 16.49,
+    costPrice: 12.49,
     rating: parseFloat((Math.random() * 5).toFixed(1)),
     stock: Math.floor(Math.random() * 100) + 1,
     numReviews: 65,
@@ -188,7 +200,10 @@ const product = [
     slug: "trasportini-e-viaggio",
     description:
       "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Id voluptate sunt quam harum molestiae magni non voluptates dicta ab necessitatibus cupiditate ducimus placeat modi, architecto blanditiis consectetur ex dolore illum!",
+    shortDescription:
+      "Trasportini e viaggio per cani di tutte le razze e taglie",
     price: 34.99,
+    costPrice: 30.99,
     rating: parseFloat((Math.random() * 5).toFixed(1)),
     stock: Math.floor(Math.random() * 100) + 1,
     numReviews: 70,
@@ -203,7 +218,9 @@ const product = [
     slug: "cucce-e-lettini",
     description:
       "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Id voluptate sunt quam harum molestiae magni non voluptates dicta ab necessitatibus cupiditate ducimus placeat modi, architecto blanditiis consectetur ex dolore illum!",
+    shortDescription: "Cucce e lettini per cani di tutte le razze e taglie",
     price: 45.99,
+    costPrice: 41.99,
     rating: parseFloat((Math.random() * 5).toFixed(1)),
     stock: Math.floor(Math.random() * 100) + 1,
     numReviews: 80,
@@ -218,7 +235,9 @@ const product = [
     slug: "igiene",
     description:
       "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Id voluptate sunt quam harum molestiae magni non voluptates dicta ab necessitatibus cupiditate ducimus placeat modi, architecto blanditiis consectetur ex dolore illum!",
+    shortDescription: "Igiene per cani di tutte le razze e taglie",
     price: 11.99,
+    costPrice: 7.99,
     rating: parseFloat((Math.random() * 5).toFixed(1)),
     stock: Math.floor(Math.random() * 100) + 1,
     numReviews: 20,
@@ -233,7 +252,9 @@ const product = [
     slug: "igiene-manto-e-cute",
     description:
       "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Id voluptate sunt quam harum molestiae magni non voluptates dicta ab necessitatibus cupiditate ducimus placeat modi, architecto blanditiis consectetur ex dolore illum!",
+    shortDescription: "Igiene manto e cute per cani di tutte le razze e taglie",
     price: 13.49,
+    costPrice: 9.49,
     rating: parseFloat((Math.random() * 5).toFixed(1)),
     stock: Math.floor(Math.random() * 100) + 1,
     numReviews: 25,
@@ -248,8 +269,9 @@ const product = [
     slug: "pannolini",
     description:
       "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Id voluptate sunt quam harum molestiae magni non voluptates dicta ab necessitatibus cupiditate ducimus placeat modi, architecto blanditiis consectetur ex dolore illum!",
+    shortDescription: "Pannolini per cani di tutte le razze e taglie",
     price: 8.99,
-
+    costPrice: 4.99,
     rating: parseFloat((Math.random() * 5).toFixed(1)),
     stock: Math.floor(Math.random() * 100) + 1,
     numReviews: 15,
@@ -264,8 +286,9 @@ const product = [
     slug: "sacchetti-igienici",
     description:
       "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Id voluptate sunt quam harum molestiae magni non voluptates dicta ab necessitatibus cupiditate ducimus placeat modi, architecto blanditiis consectetur ex dolore illum!",
+    shortDescription: "Sacchetti igienici per cani di tutte le razze e taglie",
     price: 5.99,
-
+    costPrice: 1.99,
     rating: parseFloat((Math.random() * 5).toFixed(1)),
     stock: Math.floor(Math.random() * 100) + 1,
     numReviews: 10,
@@ -280,8 +303,9 @@ const product = [
     slug: "porta-sacchettini",
     description:
       "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Id voluptate sunt quam harum molestiae magni non voluptates dicta ab necessitatibus cupiditate ducimus placeat modi, architecto blanditiis consectetur ex dolore illum!",
+    shortDescription: "Porta sacchettini per cani di tutte le razze e taglie",
     price: 6.49,
-
+    costPrice: 2.49,
     rating: parseFloat((Math.random() * 5).toFixed(1)),
     stock: Math.floor(Math.random() * 100) + 1,
     numReviews: 12,
@@ -296,7 +320,10 @@ const product = [
     slug: "traversine-igieniche",
     description:
       "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Id voluptate sunt quam harum molestiae magni non voluptates dicta ab necessitatibus cupiditate ducimus placeat modi, architecto blanditiis consectetur ex dolore illum!",
+    shortDescription:
+      "Traversine igieniche per cani di tutte le razze e taglie",
     price: 17.99,
+    costPrice: 13.99,
     rating: parseFloat((Math.random() * 5).toFixed(1)),
     stock: Math.floor(Math.random() * 100) + 1,
     numReviews: 18,
@@ -311,8 +338,9 @@ const product = [
     slug: "salviette",
     description:
       "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Id voluptate sunt quam harum molestiae magni non voluptates dicta ab necessitatibus cupiditate ducimus placeat modi, architecto blanditiis consectetur ex dolore illum!",
+    shortDescription: "Salviette per cani di tutte le razze e taglie",
     price: 4.99,
-
+    costPrice: 0.99,
     rating: parseFloat((Math.random() * 5).toFixed(1)),
     stock: Math.floor(Math.random() * 100) + 1,
     numReviews: 8,
@@ -327,7 +355,10 @@ const product = [
     slug: "antiparassitari-e-curativi",
     description:
       "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Id voluptate sunt quam harum molestiae magni non voluptates dicta ab necessitatibus cupiditate ducimus placeat modi, architecto blanditiis consectetur ex dolore illum!",
+    shortDescription:
+      "Antiparassitari e curativi per cani di tutte le razze e taglie",
     price: 21.99,
+    costPrice: 17.99,
     rating: parseFloat((Math.random() * 5).toFixed(1)),
     stock: Math.floor(Math.random() * 100) + 1,
     numReviews: 22,
@@ -342,7 +373,9 @@ const product = [
     slug: "antiparassitari",
     description:
       "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Id voluptate sunt quam harum molestiae magni non voluptates dicta ab necessitatibus cupiditate ducimus placeat modi, architecto blanditiis consectetur ex dolore illum!",
+    shortDescription: "Antiparassitari per cani di tutte le razze e taglie",
     price: 19.49,
+    costPrice: 15.49,
     rating: parseFloat((Math.random() * 5).toFixed(1)),
     stock: Math.floor(Math.random() * 100) + 1,
     numReviews: 28,
@@ -357,7 +390,9 @@ const product = [
     slug: "insettorepellenti",
     description:
       "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Id voluptate sunt quam harum molestiae magni non voluptates dicta ab necessitatibus cupiditate ducimus placeat modi, architecto blanditiis consectetur ex dolore illum!",
+    shortDescription: "Insettorepellenti per cani di tutte le razze e taglie",
     price: 12.49,
+    costPrice: 8.49,
     rating: parseFloat((Math.random() * 5).toFixed(1)),
     stock: Math.floor(Math.random() * 100) + 1,
     numReviews: 32,
@@ -372,8 +407,10 @@ const product = [
     slug: "alimenti-complementari",
     description:
       "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Id voluptate sunt quam harum molestiae magni non voluptates dicta ab necessitatibus cupiditate ducimus placeat modi, architecto blanditiis consectetur ex dolore illum!",
+    shortDescription:
+      "Alimenti complementari per cani di tutte le razze e taglie",
     price: 8.49,
-
+    costPrice: 4.49,
     rating: parseFloat((Math.random() * 5).toFixed(1)),
     stock: Math.floor(Math.random() * 100) + 1,
     numReviews: 14,
@@ -388,7 +425,9 @@ const product = [
     slug: "parafarmacia",
     description:
       "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Id voluptate sunt quam harum molestiae magni non voluptates dicta ab necessitatibus cupiditate ducimus placeat modi, architecto blanditiis consectetur ex dolore illum!",
+    shortDescription: "Parafarmacia per cani di tutte le razze e taglie",
     price: 23.99,
+    costPrice: 19.99,
     rating: parseFloat((Math.random() * 5).toFixed(1)),
     stock: Math.floor(Math.random() * 100) + 1,
     numReviews: 26,

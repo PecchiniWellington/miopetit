@@ -16,17 +16,20 @@ export const ProductPageRightCard = ({
   userId?: string;
   productQtyInCart?: number;
 }) => (
-  <BrandCard className="flex w-full max-w-sm flex-col space-y-6 rounded-lg border bg-white p-6 shadow-lg dark:bg-gray-800 md:max-w-md lg:max-w-lg">
+  <BrandCard
+    arragementChild="flex flex-col justify-between space-y-4  h-[100%]"
+    className="flex w-full max-w-sm flex-col justify-between space-y-6 rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800 md:max-w-md lg:max-w-lg"
+  >
     {/* Prezzo */}
     {product && (
-      <>
-        <div className="flex items-center justify-between text-lg font-semibold text-gray-800 dark:text-gray-300">
+      <div>
+        <div className="flex items-center justify-between  text-lg font-semibold text-gray-800 dark:text-gray-300">
           <span>💰 Prezzo</span>
           <span className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
             <ProductPrice value={Number(product.price)} />
           </span>
         </div>
-        <div className="flex items-center justify-between text-lg font-semibold text-gray-800 dark:text-gray-300">
+        <div className="flex items-center justify-between  text-lg font-semibold text-gray-800 dark:text-gray-300">
           {product.stock > 0 ? (
             <BrandBadge
               icon={<CheckCircle className="size-4" />}
@@ -41,16 +44,16 @@ export const ProductPageRightCard = ({
             />
           )}
         </div>
-      </>
+      </div>
     )}
 
     {product?.stock && product.stock > 0 && (
-      <div className="mt-4 flex justify-center">
+      <div className="mt-[100%] flex justify-center">
         <AddToCart
           userId={userId}
           myCart={myCart}
           item={{
-            productId: product.id.toString(),
+            productId: product?.id?.toString() || "",
             name: product.name,
             slug: product.slug,
             price: product.price.toString(),

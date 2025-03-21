@@ -31,8 +31,14 @@ export async function getProductBySlug(slug: string) {
 
   if (!product) return null;
 
+  console.log(
+    "🚀 ~ file: get-product-by-slug.actions.ts ~ line 22 ~ getProductBySlug ~ product",
+    product
+  );
   const transformedData = {
     ...product,
+    price: product.price.toString(),
+    costPrice: product.costPrice.toString(),
     productPathologies: product.productPathologyOnProduct.map((p) => ({
       id: p.pathology.id,
       name: p.pathology.name,

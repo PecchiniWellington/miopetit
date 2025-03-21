@@ -156,7 +156,9 @@ export async function getAllProductsBySlug({
       name: true,
       slug: true,
       price: true,
+      costPrice: true,
       description: true,
+      shortDescription: true,
       images: true,
       stock: true,
       rating: true,
@@ -227,6 +229,9 @@ export async function getAllProductsBySlug({
       ...rest
     }) => ({
       ...rest,
+
+      costPrice: rest.costPrice.toString(),
+      shortDescription: rest.shortDescription ?? "",
       productPathologies: productPathologyOnProduct.map((p) => p.pathology),
       productProteins: productProteinOnProduct.map((p) => p.productProtein),
       productCategory: productCategory.map((c) => c.category),

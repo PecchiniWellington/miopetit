@@ -33,6 +33,8 @@ export async function getProductById(id: string) {
 
   const transformedData = {
     ...product,
+    price: product.price.toString(),
+    costPrice: product.costPrice.toString(),
     productPathologies: product.productPathologyOnProduct.map((p) => ({
       id: p.pathology.id,
       name: p.pathology.name,

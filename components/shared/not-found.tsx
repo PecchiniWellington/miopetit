@@ -1,3 +1,4 @@
+"use client";
 import { APP_NAME } from "@/lib/constants";
 import { motion } from "framer-motion";
 import Image from "next/image";

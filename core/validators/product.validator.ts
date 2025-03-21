@@ -6,6 +6,7 @@ export const productSchema = z.object({
   name: z.string(),
   slug: z.string(),
   price: z.string().regex(/^\d+(\.\d{1,2})?$/, "Invalid price format"),
+  costPrice: z.string().regex(/^\d+(\.\d{1,2})?$/, "Invalid price format"),
   stock: z.preprocess((val) => Number(val), z.number().int().nonnegative()),
   rating: z.number().min(0).max(5).default(0),
   banner: z.string().optional().nullable(),
@@ -18,6 +19,7 @@ export const productSchema = z.object({
   percentageDiscount: z.number().int().nonnegative().max(100).optional(),
   images: z.array(z.string()),
   description: z.string(),
+  shortDescription: z.string(),
 
   productBrand: z
     .object({
@@ -78,6 +80,7 @@ export const createProductSchema = z.object({
   name: z.string(),
   slug: z.string(),
   price: z.string().regex(/^\d+(\.\d{1,2})?$/, "Invalid price format"),
+  costPrice: z.string().regex(/^\d+(\.\d{1,2})?$/, "Invalid price format"),
   stock: z.preprocess((val) => Number(val), z.number().int().nonnegative()),
   rating: z.number().min(0).max(5).default(0),
   banner: z.string().optional().nullable(),
@@ -90,6 +93,7 @@ export const createProductSchema = z.object({
   percentageDiscount: z.number().int().nonnegative().max(100).optional(),
   images: z.array(z.string()),
   description: z.string(),
+  shortDescription: z.string(),
 
   productBrand: z
     .object({

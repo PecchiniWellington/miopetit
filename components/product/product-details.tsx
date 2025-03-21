@@ -67,7 +67,7 @@ export default function ProductDetails({
 
         {/* Titolo del prodotto */}
         <h1 className="mt-1 text-2xl font-bold text-black">
-          {truncateText(product.description, 100)}
+          {truncateText(product.shortDescription, 100)}
         </h1>
 
         {/* Recensioni */}

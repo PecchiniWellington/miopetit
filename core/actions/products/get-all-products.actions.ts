@@ -122,6 +122,8 @@ export async function getAllProducts({
       animalAge: true,
       categoryType: true,
       percentageDiscount: true,
+      costPrice: true,
+      shortDescription: true,
 
       productCategory: {
         select: {
@@ -178,6 +180,7 @@ export async function getAllProducts({
   // Conteggio totale dei prodotti
   const productCount = await prisma.product.count({ where: dynamicFilters });
 
+  console.log(`🔍 Trovati  prodotti`, data);
   const transformedData = data.map(
     ({
       productPathologyOnProduct,
@@ -187,6 +190,8 @@ export async function getAllProducts({
       ...rest
     }) => ({
       ...rest,
+      costPrice: rest.costPrice.toString(),
+      shortDescription: rest.shortDescription,
       productPathologies: productPathologyOnProduct.map((p) => p.pathology),
       productProteins: productProteinOnProduct.map((p) => p.productProtein),
       productCategory: productCategory.map((c) => c.category),
