@@ -182,11 +182,9 @@ export async function getAllProductsBySlug({
       },
 
       productUnitFormat: {
-        select: {
-          id: true,
-          slug: true,
-          unitValue: { select: { value: true } },
-          unitOfMeasure: { select: { code: true } },
+        include: {
+          unitOfMeasure: true,
+          unitValue: true,
         },
       },
 
@@ -225,18 +223,26 @@ export async function getAllProductsBySlug({
       productProteinOnProduct,
       productCategory,
       productsFeatureOnProduct,
+      productUnitFormat,
       ...rest
     }) => ({
       ...rest,
       productPathologies: productPathologyOnProduct.map((p) => p.pathology),
       productProteins: productProteinOnProduct.map((p) => p.productProtein),
       productCategory: productCategory.map((c) => c.category),
-      productUnitFormat: rest.productUnitFormat
+      productUnitFormat: productUnitFormat
         ? {
-            id: rest.productUnitFormat.id,
-            unitValue: rest.productUnitFormat.unitValue.value,
-            unitOfMeasure: rest.productUnitFormat.unitOfMeasure.code,
-            slug: rest.productUnitFormat.slug,
+            id: productUnitFormat.id,
+            slug: productUnitFormat.slug,
+            unitValue: {
+              id: productUnitFormat.unitValue.id,
+              value: productUnitFormat.unitValue.value,
+            },
+            unitOfMeasure: {
+              id: productUnitFormat.unitOfMeasure.id,
+              code: productUnitFormat.unitOfMeasure.code,
+              name: productUnitFormat.unitOfMeasure.name,
+            },
           }
         : null,
       productFeature: productsFeatureOnProduct.map((f) => f.productFeature),

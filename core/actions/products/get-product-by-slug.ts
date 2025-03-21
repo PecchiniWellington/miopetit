@@ -1,65 +1,30 @@
 import { prisma } from "@/core/prisma/prisma";
-import { productSchema } from "@/core/validators";
+import { IOrderItem, productSchema } from "@/core/validators";
 import { convertToPlainObject, formatDateTime } from "@/lib/utils";
 
 export async function getProductBySlug(slug: string) {
   const product = await prisma.product.findFirst({
     where: { slug },
-    select: {
-      id: true,
-      name: true,
-      slug: true,
-      price: true,
-      description: true,
-      images: true,
-      stock: true,
-      rating: true,
-      numReviews: true,
-      isFeatured: true,
-      createdAt: true,
-      updatedAt: true,
-      animalAge: true,
-      categoryType: true,
-      percentageDiscount: true,
-
+    include: {
+      orderitems: true,
       productCategory: {
-        select: {
-          category: true,
-        },
+        include: { category: true },
       },
-
-      productBrand: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
-
-      productUnitFormat: {
-        select: {
-          id: true,
-          slug: true,
-          unitValue: { select: { value: true } },
-          unitOfMeasure: { select: { code: true } },
-        },
-      },
-
+      productBrand: true,
       productPathologyOnProduct: {
-        select: {
-          pathology: { select: { id: true, name: true } },
-        },
+        include: { pathology: true },
       },
-
       productsFeatureOnProduct: {
-        select: {
-          productFeature: { select: { id: true, name: true } },
+        include: { productFeature: true },
+      },
+      productUnitFormat: {
+        include: {
+          unitOfMeasure: true,
+          unitValue: true,
         },
       },
-
       productProteinOnProduct: {
-        select: {
-          productProtein: { select: { id: true, name: true } },
-        },
+        include: { productProtein: true },
       },
     },
   });
@@ -85,9 +50,16 @@ export async function getProductBySlug(slug: string) {
     productUnitFormat: product.productUnitFormat
       ? {
           id: product.productUnitFormat.id,
-          unitValue: product.productUnitFormat.unitValue.value,
-          unitOfMeasure: product.productUnitFormat.unitOfMeasure.code,
           slug: product.productUnitFormat.slug,
+          unitValue: {
+            id: product.productUnitFormat.unitValue.id,
+            value: product.productUnitFormat.unitValue.value,
+          },
+          unitOfMeasure: {
+            id: product.productUnitFormat.unitOfMeasure.id,
+            code: product.productUnitFormat.unitOfMeasure.code,
+            name: product.productUnitFormat.unitOfMeasure.name,
+          },
         }
       : null,
     productFeature: product.productsFeatureOnProduct.map((f) => ({
@@ -104,16 +76,28 @@ export async function getProductBySlug(slug: string) {
     updatedAt: formatDateTime(product.updatedAt.toString()).dateTime,
   };
 
+  const totalSales = product.orderitems.reduce(
+    (acc: number, item: IOrderItem) => acc + item.qty,
+    0
+  );
+  const totalRevenue = product.orderitems.reduce(
+    (acc: number, item: IOrderItem) => acc + item.qty * Number(item.price),
+    0
+  );
+  console.log(
+    "🚀 ~ file: get-product-by-id.actions.ts ~ line 68 ~ getProductById ~ transformedData",
+    transformedData
+  );
+
   const result = productSchema.safeParse(transformedData);
 
   if (!result.success) {
     console.error(
       "❌ Errore nella validazione dei prodotti:",
-      JSON.stringify(result.error.format(), null, 2)
+      result.error.format()
     );
-
     throw new Error("Errore di validazione dei prodotti");
   }
 
-  return convertToPlainObject(result.data);
+  return convertToPlainObject({ ...result.data, totalSales, totalRevenue });
 }

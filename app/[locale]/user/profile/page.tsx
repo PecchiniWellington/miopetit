@@ -7,7 +7,7 @@ import ProfileTabsConfig from "./profile-tabs-config";
 const ProfilePage = async () => {
   const loggedUser = await auth();
   if (!loggedUser) {
-    return <div>User not logged in</div>;
+    return <LogoutHandler />;
   }
   const userId = loggedUser?.user?.id;
   const user = userId ? await getUserById(userId) : null;

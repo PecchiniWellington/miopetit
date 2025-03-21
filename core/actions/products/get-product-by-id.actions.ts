@@ -50,6 +50,7 @@ export async function getProductById(id: string) {
     productUnitFormat: product.productUnitFormat
       ? {
           id: product.productUnitFormat.id,
+          slug: product.productUnitFormat.slug,
           unitValue: {
             id: product.productUnitFormat.unitValue.id,
             value: product.productUnitFormat.unitValue.value,
@@ -59,7 +60,6 @@ export async function getProductById(id: string) {
             code: product.productUnitFormat.unitOfMeasure.code,
             name: product.productUnitFormat.unitOfMeasure.name,
           },
-          slug: product.productUnitFormat.slug,
         }
       : null,
     productFeature: product.productsFeatureOnProduct.map((f) => ({

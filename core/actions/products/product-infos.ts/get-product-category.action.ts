@@ -169,6 +169,34 @@ export async function getFiltersForCategory(categorySlug: string) {
     _max: { price: true },
   });
 
+  const minPrice = Math.min(
+    ...filters.map((f) => parseFloat(f._min?.price?.toString() ?? "0"))
+  );
+  const maxPrice = Math.max(
+    ...filters.map((f) => parseFloat(f._max?.price?.toString() ?? "0"))
+  );
+
+  // Funzione per creare i range
+  function createPriceRanges(min: number, max: number, step: number) {
+    const ranges = [];
+    let currentMin = Math.floor(min / step) * step;
+    while (currentMin < max) {
+      const currentMax = currentMin + step - 0.01;
+      ranges.push({
+        min: currentMin,
+        max: currentMax > max ? max : currentMax,
+      });
+      currentMin += step;
+    }
+    return ranges;
+  }
+
+  const priceRanges = createPriceRanges(minPrice, maxPrice, 10);
+  const ranges = priceRanges.map((r) => ({
+    slug: `${r.min}-${r.max}`,
+    name: `€${r.min} - €${r.max}`,
+  }));
+
   const convert = convertToPlainObject({
     animalAge: Array.from(new Set(filters.map((f) => f.animalAge))),
     productFormats: (
@@ -257,14 +285,7 @@ export async function getFiltersForCategory(categorySlug: string) {
         ])
       ).values()
     ),
-    price: {
-      min: Math.min(
-        ...filters.map((f) => parseFloat(f._min?.price?.toString() ?? "0"))
-      ),
-      max: Math.max(
-        ...filters.map((f) => parseFloat(f._max?.price?.toString() ?? "0"))
-      ),
-    },
+    price: ranges,
   });
 
   return convertToPlainObject(convert);

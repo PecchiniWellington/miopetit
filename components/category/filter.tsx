@@ -70,7 +70,7 @@ const Filter: React.FC<FilterProps> = ({ productFilters, className }) => {
         <div>
           {Object.entries(productFilters).map(([key, values]) => {
             const isOpen = !!openKeys[key];
-
+            console.log("isOpen", values, key);
             return (
               <motion.div
                 key={key}
