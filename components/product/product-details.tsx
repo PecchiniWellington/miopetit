@@ -4,6 +4,7 @@ import { IProduct } from "@/core/validators";
 import { BadgeCheck } from "lucide-react";
 import BrandBadge from "../shared/brand-components/brand-badge";
 import BrandCard from "../shared/brand-components/brand-card";
+import ProductPrice from "./product-price";
 import Rating from "./rating";
 
 export default function ProductDetails({
@@ -83,27 +84,15 @@ export default function ProductDetails({
         {/* Prezzo */}
         <div className="mt-4 border-t pt-4">
           <p className="text-lg font-medium text-gray-600">Ordine singolo:</p>
-          <div className="flex items-baseline gap-2">
-            <span className="text-2xl font-bold text-black">
-              {(
-                Number(product.price) -
-                Number(product.price) *
-                  (Number(product.percentageDiscount) / 100)
-              ).toFixed(2)}
-            </span>
-            <span className="text-gray-500 line-through">{product.price}</span>
-            <span
-              className={`${product.percentageDiscount ? "block" : "hidden"} font-bold text-red-400`}
-            >
-              - {Number(product.percentageDiscount)}% SCONTO
-            </span>
-            {/* CREARE SCONTO in db */}
-          </div>
+          <ProductPrice
+            price={Number(product.price)}
+            percentageDiscount={product.percentageDiscount}
+          />
         </div>
 
         {/* Trust badges */}
         <div className="mt-4 flex gap-4">
-          <BrandBadge
+          {/* <BrandBadge
             variant="success"
             label="Spedizione 24/48h"
             className="text-xs"
@@ -112,7 +101,7 @@ export default function ProductDetails({
             variant="success"
             label="Reso gratuito"
             className="text-xs"
-          />
+          /> */}
           <BrandBadge
             variant="success"
             label="Pagamenti sicuri"

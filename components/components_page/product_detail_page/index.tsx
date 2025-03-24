@@ -1,8 +1,8 @@
 import ProductDetails from "@/components/product/product-details";
+import ProductImagesCarousel from "@/components/product/product-image/product-images";
 import BrandCard from "@/components/shared/brand-components/brand-card";
 import { ICart, IProduct } from "@/core/validators";
 import ProductTabs from "./product-tab";
-import { ProductPageLeftImages } from "./product_left_image";
 import { ProductPageRightCard } from "./product_right_card";
 
 export const ConfigProductDetailPage = ({
@@ -18,8 +18,9 @@ export const ConfigProductDetailPage = ({
 }) => {
   return (
     <>
-      <section className="grid grid-cols-1 md:grid-cols-5">
-        <ProductPageLeftImages images={product?.images} />
+      <section className="grid grid-cols-1 gap-6 md:grid-cols-4">
+        <ProductImagesCarousel images={product?.images} />
+
         <ProductDetails product={product} />
         <ProductPageRightCard
           myCart={myCart}

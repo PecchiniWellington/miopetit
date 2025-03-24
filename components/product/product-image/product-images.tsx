@@ -6,7 +6,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 
-const ProductCarousel = ({
+const ProductImagesCarousel = ({
   images = [
     "/images/royal-canin-4.jpg",
     "/images/brands/brand-2.avif",
@@ -26,9 +26,9 @@ const ProductCarousel = ({
   };
 
   return (
-    <div className="relative mx-auto w-full max-w-xl">
+    <div className="relative mx-auto w-full ">
       {/* Contenitore fisso per evitare resizing */}
-      <div className="relative flex h-[500px] w-full items-center justify-center overflow-hidden rounded-lg shadow-md">
+      <div className="relative flex h-[350px] w-full items-center justify-center overflow-hidden rounded-lg shadow-md">
         <AnimatePresence mode="wait">
           <motion.div
             key={current}
@@ -39,7 +39,6 @@ const ProductCarousel = ({
             className="absolute size-full"
           >
             <Image
-              /*  src={images[current] || "/images/placeholder.jpg"} */
               src={images[current] || "/images/placeholder.jpg"}
               alt={`Product image ${current + 1}`}
               layout="fill"
@@ -90,4 +89,4 @@ const ProductCarousel = ({
   );
 };
 
-export default ProductCarousel;
+export default ProductImagesCarousel;

@@ -29,16 +29,18 @@ export const ProductPageRightCard = ({
 }) => (
   <BrandCard
     arragementChild="flex flex-col justify-between space-y-4  h-[100%]"
-    className="flex w-full max-w-sm flex-col justify-between space-y-6 rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800 md:max-w-md lg:max-w-lg"
+    className="flex w-full min-w-fit max-w-sm flex-col justify-between space-y-6 rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800 md:max-w-md lg:max-w-lg"
   >
     {/* Prezzo */}
     {product && (
       <div>
-        <div className="flex items-center justify-between  text-lg font-semibold text-gray-800 dark:text-gray-300">
-          <span>💰 Prezzo</span>
-          <span className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
-            <ProductPrice value={Number(product.price)} />
-          </span>
+        <div className="flex items-start justify-start  gap-4 text-lg font-semibold text-gray-800 dark:text-gray-300">
+          <span className="flex min-w-fit">Prezzo</span>
+          <ProductPrice
+            isSmall={true}
+            price={Number(product.price)}
+            percentageDiscount={product.percentageDiscount}
+          />
         </div>
         <div className="flex items-center justify-between  text-lg font-semibold text-gray-800 dark:text-gray-300">
           {product && product.stock > 0 ? (
