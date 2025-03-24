@@ -190,7 +190,7 @@ export async function getAllProducts({
       ...rest
     }) => ({
       ...rest,
-      costPrice: rest.costPrice.toString(),
+      costPrice: Number(rest.costPrice),
       shortDescription: rest.shortDescription,
       productPathologies: productPathologyOnProduct.map((p) => p.pathology),
       productProteins: productProteinOnProduct.map((p) => p.productProtein),

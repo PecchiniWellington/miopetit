@@ -101,7 +101,36 @@ export default function ProductDetails({
           </div>
         </div>
 
-        {/* Punti fedeltà */}
+        {/* Trust badges */}
+        <div className="mt-4 flex gap-4">
+          <BrandBadge
+            variant="success"
+            label="Spedizione 24/48h"
+            className="text-xs"
+          />
+          <BrandBadge
+            variant="success"
+            label="Reso gratuito"
+            className="text-xs"
+          />
+          <BrandBadge
+            variant="success"
+            label="Pagamenti sicuri"
+            className="text-xs"
+          />
+        </div>
+
+        {/* Vantaggi chiave */}
+        <div className="mt-6">
+          <h2 className="text-lg font-semibold">
+            Perché scegliere questo prodotto?
+          </h2>
+          <ul className="mt-2 list-disc pl-5 text-sm text-gray-700 dark:text-gray-300">
+            <li>Ricco di proteine per una dieta bilanciata</li>
+            <li>Consigliato dai veterinari</li>
+            <li>Adatto anche a cani sterilizzati</li>
+          </ul>
+        </div>
 
         {/* Specifiche prodotto */}
         <div className="mt-6">

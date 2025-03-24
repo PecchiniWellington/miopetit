@@ -22,6 +22,7 @@ export function useProductForm({
   const router = useRouter();
   const { toast } = useToast();
 
+  console.log("🔵 Product:", product);
   const schema = type === "Create" ? createProductSchema : productSchema;
 
   const form = useForm<z.infer<typeof schema>>({
@@ -71,6 +72,7 @@ export function useProductForm({
 
     const parsed = schema.safeParse({
       ...data,
+      percentageDiscount: Number(data.percentageDiscount),
       stock: Number(data.stock),
     });
 

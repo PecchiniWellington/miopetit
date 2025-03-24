@@ -89,7 +89,7 @@ export async function getLatestProducts({
     }) => ({
       ...rest,
       price: rest.price.toString(),
-      costPrice: rest.costPrice.toString(),
+      costPrice: Number(rest.costPrice),
       productPathologies: productPathologyOnProduct.map((p) => p.pathology),
       productProteins: productProteinOnProduct.map((p) => p.productProtein),
       productCategory: productCategory.map((c) => c.category),

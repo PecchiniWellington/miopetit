@@ -6,6 +6,7 @@ interface CustomInputProps extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;
   isNumber?: boolean;
   variant?: "default" | "admin";
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const BrandInput = forwardRef<HTMLInputElement, CustomInputProps>(
@@ -15,6 +16,7 @@ const BrandInput = forwardRef<HTMLInputElement, CustomInputProps>(
       variant = "default",
       type = "text",
       isNumber = false,
+      onChange,
       ...props
     },
     ref
@@ -48,6 +50,7 @@ const BrandInput = forwardRef<HTMLInputElement, CustomInputProps>(
         type={inputType}
         className={`${baseClasses} ${variants[variant]} ${className}`}
         onKeyDown={handleKeyDown}
+        onChange={onChange}
       />
     );
   }

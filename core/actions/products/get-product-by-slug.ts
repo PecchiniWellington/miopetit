@@ -38,7 +38,7 @@ export async function getProductBySlug(slug: string) {
   const transformedData = {
     ...product,
     price: product.price.toString(),
-    costPrice: product.costPrice.toString(),
+    costPrice: Number(product.costPrice),
     productPathologies: product.productPathologyOnProduct.map((p) => ({
       id: p.pathology.id,
       name: p.pathology.name,

@@ -230,7 +230,7 @@ export async function getAllProductsBySlug({
     }) => ({
       ...rest,
 
-      costPrice: rest.costPrice.toString(),
+      costPrice: Number(rest.costPrice),
       shortDescription: rest.shortDescription ?? "",
       productPathologies: productPathologyOnProduct.map((p) => p.pathology),
       productProteins: productProteinOnProduct.map((p) => p.productProtein),
