@@ -15,7 +15,7 @@ export async function getProductsByContributor({
     throw new Error("Affiliate ID is required");
   }
 
-  // costruiamo la clausola where
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const where: any = {
     contributorId,
   };
@@ -80,8 +80,7 @@ export async function getProductsByContributor({
     };
   }
 
-  // ✅ gestione del sort
-  let orderBy: any = { createdAt: "desc" }; // default: newest
+  let orderBy: { [key: string]: "asc" | "desc" } = { createdAt: "desc" };
   switch (query.sort) {
     case "lowest":
       orderBy = { price: "asc" };

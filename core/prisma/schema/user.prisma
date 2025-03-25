@@ -21,6 +21,7 @@ model User {
     Review              Review[]
     SupportTicket       SupportTicket[]
     products            Product[]
+    userSlug            String?              @unique(map: "user_slug")
     contributorHomePage ContributorHomePage?
 
     @@map("users")

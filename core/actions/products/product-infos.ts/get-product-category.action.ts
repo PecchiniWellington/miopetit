@@ -291,9 +291,21 @@ export async function getFiltersForCategory(categorySlug: string) {
   return convert;
 }
 
-export async function getFiltersForCategoryByParentId(partnersId: string) {
+export async function getFiltersForCategoryByParentId(userSlug: string) {
+  const user = await prisma.user.findUnique({
+    where: { userSlug: userSlug },
+    select: { id: true },
+  });
+
+  if (!user) {
+    return {
+      success: false,
+      error: "User not found",
+    };
+  }
+
   const productIds = await prisma.product.findMany({
-    where: { contributorId: partnersId },
+    where: { contributorId: user.id },
     select: { id: true },
   });
   const filters = await prisma.product.groupBy({
@@ -303,7 +315,7 @@ export async function getFiltersForCategoryByParentId(partnersId: string) {
       "productUnitFormatId",
       "productPathologyId",
     ] as const,
-    where: { contributorId: partnersId },
+    where: { contributorId: user.id },
     _min: { price: true },
     _max: { price: true },
   });

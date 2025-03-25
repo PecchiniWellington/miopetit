@@ -79,12 +79,11 @@ const ConfigCategoryPage = ({
   );
 
   const AsideFilter = () => (
-    <div className="flex w-full flex-col gap-6 rounded-xl bg-slate-100 p-6 shadow-xl md:sticky md:top-4">
+    <div className="flex w-full flex-col gap-6 rounded-xl bg-slate-100 p-6 shadow-xl md:sticky md:top-4 ">
       <Filter productFilters={productFilters} className="w-full" />
       <SortProduct className="md:hidden" />
     </div>
   );
-
   const ActiveFilter = () => (
     <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
       <ActiveFilters />
@@ -112,7 +111,7 @@ const ConfigCategoryPage = ({
   };
 
   return (
-    <div className="relative mx-auto w-full max-w-7xl px-4">
+    <div className="relative mx-auto w-full ">
       <Wand2 className="pointer-events-none absolute right-0 top-0 -z-10 size-40 text-purple-200 blur-xl" />
 
       {indispensable && (
@@ -123,13 +122,13 @@ const ConfigCategoryPage = ({
         </div>
       )}
 
-      <section className="grid w-full grid-cols-1 gap-6 md:grid-cols-5">
+      <section className="grid w-full grid-cols-1 gap-6 md:grid-cols-8">
         <FilterProvider>
-          <aside className="md:col-span-1">
+          <aside className=" md:col-span-2 ">
             <AsideFilter />
           </aside>
 
-          <main className="space-y-8 md:col-span-4">
+          <main className="space-y-8 md:col-span-6">
             <div className="rounded-xl bg-slate-100 p-6 shadow-xl">
               <ActiveFilter />
             </div>

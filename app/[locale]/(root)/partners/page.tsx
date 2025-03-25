@@ -13,6 +13,7 @@ interface Partner {
   logo: string;
   category: string;
   description: string;
+  userSlug?: string;
 }
 
 const allPartners: Partner[] = [
@@ -20,6 +21,7 @@ const allPartners: Partner[] = [
     id: 1,
     name: "BioFarm Shop",
     logo: "/images/petitLogo.png",
+    userSlug: "pet-family",
     category: "Cibo Bio",
     description: "Prodotti biologici e sostenibili dal 2020.",
   },
@@ -28,6 +30,7 @@ const allPartners: Partner[] = [
     name: "Green Market",
     logo: "/images/logo2.png",
     category: "Supermercato",
+    userSlug: "green-market",
     description: "Spesa etica e locale con prodotti certificati.",
   },
   {
@@ -35,6 +38,7 @@ const allPartners: Partner[] = [
     name: "VeggieStyle",
     logo: "/images/logo3.png",
     category: "Moda",
+    userSlug: "veggie-style",
     description: "Abbigliamento vegano ed eco-compatibile.",
   },
 ];
@@ -132,14 +136,12 @@ export default function PartnersPage() {
               />
               <div className="flex gap-2">
                 <BrandButton variant="primary">
-                  <Link href={`/partners/${partner.name}`}>
+                  <Link href={`/partners/${partner.userSlug}`}>
                     Vai alla pagina
                   </Link>
                 </BrandButton>
                 <BrandButton variant="confirm">
-                  <Link
-                    href={`/partners/${"f232254a-b4fc-4b6b-8272-93d54a206b24"}/shop`}
-                  >
+                  <Link href={`/partners/${partner.userSlug}/shop`}>
                     Vai lo Shop
                   </Link>
                 </BrandButton>
