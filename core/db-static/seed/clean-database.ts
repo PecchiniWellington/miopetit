@@ -11,6 +11,7 @@ export async function cleanDatabase() {
   await prisma.productPathology.deleteMany();
   await prisma.productBrand.deleteMany();
   await prisma.user.deleteMany();
+  await prisma.contributor.deleteMany();
   await prisma.account.deleteMany();
   await prisma.session.deleteMany();
   await prisma.verificationToken.deleteMany();

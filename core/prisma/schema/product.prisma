@@ -37,7 +37,7 @@ model Product {
      */
     productBrand      ProductBrand?      @relation(fields: [productBrandId], references: [id])
     productUnitFormat ProductUnitFormat? @relation(fields: [productUnitFormatId], references: [id], onDelete: SetNull)
-    contributor       User?              @relation(fields: [contributorId], references: [id], onDelete: SetNull)
+    contributor       Contributor?       @relation(fields: [contributorId], references: [id])
 
     /**
      * RELAZIONE MANY-TO-MANY
@@ -48,4 +48,6 @@ model Product {
     productProteinOnProduct   ProductProteinOnProduct[]
     productsFeatureOnProduct  ProductFeatureOnProduct[]
     productPathologyOnProduct ProductPathologyOnProduct[]
+    User                      User?                       @relation(fields: [userId], references: [id])
+    userId                    String?                     @db.Uuid
 }

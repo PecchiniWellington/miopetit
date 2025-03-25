@@ -3,8 +3,8 @@ import ROLES from "@/lib/constants/roles";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   BarChart2,
-  Building,
   DollarSign,
+  HeartHandshake,
   Menu,
   MonitorCog,
   Settings,
@@ -69,11 +69,11 @@ const SIDEBAR_ITEMS = [
     role: [ROLES.ADMIN, ROLES.CONTRIBUTOR],
   },
   {
-    name: "Page Builder",
-    icon: Building,
+    name: "Contributors",
+    icon: HeartHandshake,
     color: "#ff5733", // Changed color
-    href: "/page-builder",
-    role: [ROLES.ADMIN, ROLES.CONTRIBUTOR],
+    href: "/contributors",
+    role: [ROLES.ADMIN],
   },
   {
     name: "Configurations",

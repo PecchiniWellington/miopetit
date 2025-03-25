@@ -1,0 +1,55 @@
+model Contributor {
+    id                String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    name              String
+    slug              String          @unique
+    type              ContributorType
+    email             String?
+    phone             String?
+    website           String?
+    logo              String?
+    coverImage        String?
+    description       String?
+    descriptionLong   String?
+    tags              String[]
+    address           String?
+    city              String?
+    province          String?
+    region            String?
+    zipCode           String?
+    latitude          Float?
+    longitude         Float?
+    partitaIva        String?
+    isOnlineShop      Boolean         @default(false)
+    isPickupAvailable Boolean         @default(false)
+    deliveryAvailable Boolean         @default(false)
+    openingHours      Json? // { lunedi: "9-18", martedi: "10-13", ... }
+
+    socialLinks    Json? // { instagram: "...", facebook: "...", tiktok: "..." }
+    whatsappNumber String?
+
+    animalsAvailable Int?
+    animalTypes      String[] // ["cani", "gatti"]
+
+    // Supporto (donazioni / volontariato)
+    acceptsDonations Boolean  @default(false)
+    donationLink     String?
+    volunteerNeeded  Boolean  @default(false)
+    needs            String[] // ["cibo", "volontari", "medicinali"]
+
+    // SEO
+    seoTitle       String?
+    seoDescription String?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    userId   String    @db.Uuid
+    user     User      @relation(fields: [userId], references: [id])
+    products Product[]
+}
+
+enum ContributorType {
+    PARTNER
+    CANILE
+    GATTILE
+}
