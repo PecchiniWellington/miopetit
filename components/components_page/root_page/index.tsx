@@ -56,7 +56,7 @@ export const ConfigRootPage = ({
           myCart={myCart}
           brandName="Royal Canin"
           image="/images/royalCanin-deal.webp"
-          animalName={t("Shared.dog")}
+          animalName={t("Shared.dogs")}
         />
       </div>
 
@@ -66,13 +66,13 @@ export const ConfigRootPage = ({
         userId={userId}
         myCart={myCart}
         data={data}
-        animalName={t("Shared.dog")}
+        animalName={t("Shared.dogs")}
       />
       <BestSellingProduct
         userId={userId}
         myCart={myCart}
         data={data}
-        animalName={t("Shared.cat")}
+        animalName={t("Shared.cats")}
       />
 
       <div className="mt-12">

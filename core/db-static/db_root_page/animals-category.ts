@@ -1,11 +1,11 @@
 export const animals_categories = [
   {
-    name: "dog",
+    name: "dogs",
     image: "dog.png",
     href: "/dog",
   },
   {
-    name: "cat",
+    name: "cats",
     image: "cat.png",
     href: "/cat",
   },

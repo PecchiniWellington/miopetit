@@ -1,3 +1,4 @@
+import Link from "next/link";
 import DynamicCarousel from "../carousels/carousel";
 import BrandProductCard from "../product/brand-product-card";
 import BrandButton from "../shared/brand-components/brand-button";
@@ -21,7 +22,9 @@ const BlockProducts = ({ products }: { products: any[] }) => {
         )}
       </div>
       <BrandButton className="mx-auto" variant="primary" size="medium">
-        Vedi tutti i prodotti
+        <Link href="/partners/f232254a-b4fc-4b6b-8272-93d54a206b24/shop">
+          Vedi tutti i prodotti
+        </Link>
       </BrandButton>
     </section>
   );

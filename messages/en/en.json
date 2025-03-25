@@ -1,7 +1,7 @@
 {
   "Shared": {
-    "dog": "Dog",
-    "cat": "Cat",
+    "dogs": "Dogs",
+    "cats": "Cats",
     "small_animals": "Small Animal",
     "bird": "Bird",
     "fish": "Fish",

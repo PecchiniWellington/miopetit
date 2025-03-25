@@ -1,22 +1,17 @@
 "use client";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import BrandButton from "../shared/brand-components/brand-button";
 
 const sortOrders = ["newest", "lowest", "highest", "rating"];
 
-const SortProduct = ({
-  mainCategory,
-  className,
-}: {
-  mainCategory?: string;
-  className: string;
-}) => {
+const SortProduct = ({ className }: { className: string }) => {
   const [isSortOpen, setIsSortOpen] = useState(false);
+  const pathname = usePathname();
   const searchParams = useSearchParams();
-  const currentSort = searchParams.get("sort") || "newest"; // ✅ Prende il valore dall'URL
+  const currentSort = searchParams.get("sort") || "newest";
 
   const getFilterUrl = ({ s }: { s?: string }) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -25,7 +20,7 @@ const SortProduct = ({
     } else {
       params.delete("sort");
     }
-    return `/${mainCategory || ""}?${params.toString()}`;
+    return `${pathname}?${params.toString()}`;
   };
 
   return (
@@ -36,7 +31,9 @@ const SortProduct = ({
         iconPosition="right"
         icon={<ChevronDown size={16} />}
       >
-        <span className="font-bold text-primary-500">{currentSort}</span>{" "}
+        <span className="font-bold capitalize text-primary-500">
+          {currentSort}
+        </span>
       </BrandButton>
 
       {isSortOpen && (

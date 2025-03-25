@@ -56,7 +56,7 @@ const Filter: React.FC<FilterProps> = ({ productFilters, className }) => {
       </BrandButton>
 
       <aside
-        className={`fixed inset-y-0 left-0 z-10 w-3/4 max-w-xs bg-white px-6 py-12 transition-transform md:relative md:block md:w-full md:translate-x-0 md:p-0 ${
+        className={`fixed inset-y-0 left-0 z-10 w-3/4 max-w-xs  px-6 py-12 transition-transform md:relative md:block md:w-full md:translate-x-0 md:p-0 ${
           isAccordionOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >

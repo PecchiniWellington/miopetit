@@ -10,33 +10,25 @@ const MainCategory = async ({
   searchParams,
   params,
 }: {
-  searchParams: Promise<{ [key: string]: string | string[] }>;
-  params: Promise<{ slug: string; sort: string }>;
+  searchParams: { [key: string]: string | string[] };
+  params: { slug: string };
 }) => {
-  const { slug } = await params;
-
-  console.log("categories", await params);
+  const { slug } = params;
 
   const userLogged = await auth();
   const userId = userLogged?.user?.id;
 
   const queries: IQueryParams = Object.fromEntries(
-    Object.entries(await searchParams).map(([key, value]) => [
+    Object.entries(searchParams).map(([key, value]) => [
       key,
       Array.isArray(value) ? value.join(",") : value.toString(),
     ])
   );
 
-  const productFilters: {
-    [key: string]:
-      | string
-      | number
-      | { [key: string]: string | number }
-      | Array<string | number | object>;
-  } = await getFiltersForCategoryByParentId(slug);
+  const productFilters = await getFiltersForCategoryByParentId(slug);
   const myCart = await getMyCart();
 
-  console.log("productFilters", productFilters);
+  console.log("queries", queries);
 
   const productsResponse = await getProductsByContributor({
     contributorId: "f232254a-b4fc-4b6b-8272-93d54a206b24",
@@ -44,6 +36,7 @@ const MainCategory = async ({
   });
 
   if (!productFilters || Object.keys(productFilters).length === 0) notFound();
+
   return (
     <ConfigCategoryPage
       mainCategory={slug}

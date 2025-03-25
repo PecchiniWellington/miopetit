@@ -15,7 +15,7 @@ export async function getProductsByContributor({
     throw new Error("Affiliate ID is required");
   }
 
-  // Costruzione dinamica dei filtri
+  // costruiamo la clausola where
   const where: any = {
     contributorId,
   };
@@ -25,22 +25,22 @@ export async function getProductsByContributor({
   }
 
   if (query.productBrand) {
-    const brand = await prisma.productBrand.findFirst({
+    const productBrand = await prisma.productBrand.findFirst({
       where: { slug: query.productBrand },
       select: { id: true },
     });
-    if (brand) {
-      where.productBrandId = brand.id;
+    if (productBrand) {
+      where.productBrandId = productBrand.id;
     }
   }
 
   if (query.productFormats) {
-    const format = await prisma.productUnitFormat.findFirst({
+    const productFormat = await prisma.productUnitFormat.findFirst({
       where: { slug: query.productFormats },
       select: { id: true },
     });
-    if (format) {
-      where.productUnitFormatId = format.id;
+    if (productFormat) {
+      where.productUnitFormatId = productFormat.id;
     }
   }
 
@@ -75,14 +75,32 @@ export async function getProductsByContributor({
   if (query.price) {
     const [min, max] = query.price.split("-").map(Number);
     where.price = {
-      gte: isNaN(min) ? 0 : min,
-      lte: isNaN(max) ? Number.MAX_SAFE_INTEGER : max,
+      gte: min || 0,
+      lte: max || Number.MAX_SAFE_INTEGER,
     };
   }
 
-  // ✅ Usa `where` con tutti i filtri
+  // ✅ gestione del sort
+  let orderBy: any = { createdAt: "desc" }; // default: newest
+  switch (query.sort) {
+    case "lowest":
+      orderBy = { price: "asc" };
+      break;
+    case "highest":
+      orderBy = { price: "desc" };
+      break;
+    case "rating":
+      orderBy = { rating: "desc" };
+      break;
+    case "newest":
+    default:
+      orderBy = { createdAt: "desc" };
+      break;
+  }
+
   const data = await prisma.product.findMany({
     where,
+    orderBy,
     select: {
       id: true,
       name: true,
@@ -136,7 +154,7 @@ export async function getProductsByContributor({
     },
   });
 
-  // Trasformazione
+  // trasformazione finale
   const transformedData = data.map(
     ({
       productPathologyOnProduct,
