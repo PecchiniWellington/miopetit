@@ -8,7 +8,7 @@ type BrandCardProps = {
   iconHref?: string;
   iconSize?: number;
   title?: string | React.ReactElement;
-  description?: string;
+  description?: string | React.ReactElement;
   children: ReactNode;
   header?: ReactNode;
   footer?: ReactNode;

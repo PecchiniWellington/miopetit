@@ -30,12 +30,14 @@ model Product {
     productBrandId      String? @db.Uuid
     productPathologyId  String? @db.Uuid
     productUnitFormatId String? @db.Uuid
+    contributorId       String? @db.Uuid
 
     /**
      * RELAZIONE 1-TO-MANY
      */
     productBrand      ProductBrand?      @relation(fields: [productBrandId], references: [id])
     productUnitFormat ProductUnitFormat? @relation(fields: [productUnitFormatId], references: [id], onDelete: SetNull)
+    contributor       User?              @relation(fields: [contributorId], references: [id], onDelete: SetNull)
 
     /**
      * RELAZIONE MANY-TO-MANY

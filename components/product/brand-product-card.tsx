@@ -18,7 +18,7 @@ export default function BrandProductCard({
   userId,
 }: {
   product: IProduct;
-  getProductQuantity: number;
+  getProductQuantity?: number;
   userId?: string;
 }) {
   const [isWishlisted, setWishlisted] = useState(false);
@@ -87,8 +87,6 @@ export default function BrandProductCard({
         ).toFixed(2)
       : null;
 
-  /*    <span className="absolute left-3 top-3 rounded-full bg-red-500 px-3 py-1 text-xs font-semibold text-white shadow">
-         </span> */
   return (
     <BrandCard>
       {/* Glow + inward border effect */}
@@ -195,7 +193,7 @@ export default function BrandProductCard({
             <ShoppingCart className="size-6 text-white" />
           )}
 
-          {getProductQuantity > 0 && (
+          {(getProductQuantity ?? 0) > 0 && (
             <BrandNotificationNumber>
               {getProductQuantity}
             </BrandNotificationNumber>

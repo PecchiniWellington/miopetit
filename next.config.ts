@@ -25,6 +25,11 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
+        hostname: "www.google.com",
+        port: "",
+      },
+      {
+        protocol: "https",
         hostname: "utfs.io",
         port: "",
       },

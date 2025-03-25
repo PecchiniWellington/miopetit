@@ -1,0 +1,18 @@
+model ContributorHomePage {
+    id               String   @id @default(cuid())
+    contributorId    String   @unique @db.Uuid
+    heroTitle        String
+    heroSubtitle     String
+    heroImage        String
+    aboutText        String
+    featuredProducts String // comma-separated IDs
+    ctaShopLink      String
+    bannerText       String
+    bannerLink       String
+    services         Json // array di { icon, title, description }
+    isPublished      Boolean  @default(false)
+    createdAt        DateTime @default(now())
+    updatedAt        DateTime @updatedAt
+
+    contributor User @relation(fields: [contributorId], references: [id])
+}

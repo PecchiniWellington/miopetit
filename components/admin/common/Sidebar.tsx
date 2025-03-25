@@ -1,7 +1,9 @@
 "use client";
+import ROLES from "@/lib/constants/roles";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   BarChart2,
+  Building,
   DollarSign,
   Menu,
   MonitorCog,
@@ -11,6 +13,7 @@ import {
   TrendingUp,
   Users,
 } from "lucide-react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -21,44 +24,70 @@ const SIDEBAR_ITEMS = [
     icon: BarChart2,
     color: "#6366f1",
     href: "/overview",
+    role: [ROLES.ADMIN],
   },
   {
     name: "Products",
     icon: ShoppingBag,
     color: "#8B5CF6",
     href: "/products",
+    role: [ROLES.ADMIN, ROLES.CONTRIBUTOR],
   },
-  { name: "Users", icon: Users, color: "#EC4899", href: "/users" },
-  { name: "Sales", icon: DollarSign, color: "#10B981", href: "/sales" },
+  {
+    name: "Users",
+    icon: Users,
+    color: "#EC4899",
+    href: "/users",
+    role: [ROLES.ADMIN],
+  },
+  {
+    name: "Sales",
+    icon: DollarSign,
+    color: "#10B981",
+    href: "/sales",
+    role: [ROLES.ADMIN],
+  },
   {
     name: "Orders",
     icon: ShoppingCart,
     color: "#F59E0B",
     href: "/orders",
+    role: [ROLES.ADMIN],
   },
   {
     name: "Analytics",
     icon: TrendingUp,
     color: "#3B82F6",
     href: "/analytics",
+    role: [ROLES.ADMIN],
   },
   {
     name: "Settings",
     icon: Settings,
     color: "#6EE7B7",
     href: "/settings",
+    role: [ROLES.ADMIN, ROLES.CONTRIBUTOR],
+  },
+  {
+    name: "Page Builder",
+    icon: Building,
+    color: "#ff5733", // Changed color
+    href: "/page-builder",
+    role: [ROLES.ADMIN, ROLES.CONTRIBUTOR],
   },
   {
     name: "Configurations",
     icon: MonitorCog,
     color: "#ff33c5",
     href: "/configurations",
+    role: [ROLES.ADMIN],
   },
 ];
 
 const Sidebar = () => {
   const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean | null>(null);
+  const user = useSession();
 
   // Determina se la sidebar deve essere aperta o chiusa in base alla larghezza dello schermo
   useEffect(() => {
@@ -92,7 +121,11 @@ const Sidebar = () => {
 
         {/* Menu di navigazione */}
         <nav className="mt-8 grow">
-          {SIDEBAR_ITEMS.map((item) => {
+          {SIDEBAR_ITEMS.filter((item) =>
+            user.data?.user.role
+              ? item.role.includes(user.data.user.role as ROLES)
+              : false
+          ).map((item) => {
             const isActive =
               (pathname.includes(item.href) && item.href.length > 1) ||
               pathname === item.href;

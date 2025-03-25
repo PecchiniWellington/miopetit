@@ -364,6 +364,26 @@ body {
   .no-focus {
     @apply focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 !important;
   }
+
+  .animate-float-slow {
+    animation: float 10s ease-in-out infinite;
+  }
+  .animate-float-medium {
+    animation: float 7s ease-in-out infinite;
+  }
+  .animate-float-fast {
+    animation: float 4s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
 }
 
 .custom-scrollbar::-webkit-scrollbar {
@@ -399,6 +419,10 @@ body {
     brightness(104%) contrast(106%) !important;
 }
 
+.dragging {
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+}
 .hash-span {
   margin-top: -140px;
   padding-bottom: 140px;
