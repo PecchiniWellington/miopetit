@@ -58,7 +58,9 @@ const BrandCard = ({
 
       {/* DESCRIPTION */}
       {description && (
-        <p className="mb-4 text-center text-sm text-gray-600">{description}</p>
+        <span className="mb-4 text-center text-sm text-gray-600">
+          {description}
+        </span>
       )}
 
       {/* BODY */}

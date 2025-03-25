@@ -1,10 +1,9 @@
 import { auth } from "@/auth";
 import ConfigCategoryPage from "@/components/components_page/category_page";
 import { getMyCart } from "@/core/actions/cart/cart.actions";
-import { getAllProductsBySlug } from "@/core/actions/products/get-all-product-by-slug";
-import { getFiltersForCategory } from "@/core/actions/products/product-infos.ts/get-product-category.action";
+import { getProductsByContributor } from "@/core/actions/products/get-all-product-by-contributor";
+import { getFiltersForCategoryByParentId } from "@/core/actions/products/product-infos.ts/get-product-category.action";
 import { IQueryParams } from "@/core/actions/types";
-import { indispensableDog } from "@/core/db-static/indispensable/indispensable-dog";
 import { notFound } from "next/navigation";
 
 const MainCategory = async ({
@@ -12,9 +11,12 @@ const MainCategory = async ({
   params,
 }: {
   searchParams: Promise<{ [key: string]: string | string[] }>;
-  params: Promise<{ categories: string; sort: string }>;
+  params: Promise<{ slug: string; sort: string }>;
 }) => {
-  const { categories } = await params;
+  const { slug } = await params;
+
+  console.log("categories", await params);
+
   const userLogged = await auth();
   const userId = userLogged?.user?.id;
 
@@ -31,19 +33,20 @@ const MainCategory = async ({
       | number
       | { [key: string]: string | number }
       | Array<string | number | object>;
-  } = await getFiltersForCategory(categories);
+  } = await getFiltersForCategoryByParentId(slug);
   const myCart = await getMyCart();
 
-  const productsResponse = await getAllProductsBySlug({
-    slug: categories,
+  console.log("productFilters", productFilters);
+
+  const productsResponse = await getProductsByContributor({
+    contributorId: "f232254a-b4fc-4b6b-8272-93d54a206b24",
     query: queries,
   });
 
   if (!productFilters || Object.keys(productFilters).length === 0) notFound();
   return (
     <ConfigCategoryPage
-      indispensable={indispensableDog}
-      mainCategory={categories}
+      mainCategory={slug}
       productFilters={productFilters}
       products={productsResponse}
       myCart={myCart}

@@ -5,7 +5,7 @@ import { JSX, useEffect, useRef, useState } from "react";
 import BrandButton from "../shared/brand-components/brand-button";
 
 interface CarouselProps<T> {
-  data: T[];
+  data?: T[];
   renderItem: (item: T, index: number) => JSX.Element;
   itemsPerView?: number;
   gap?: number;
@@ -17,7 +17,7 @@ const DynamicCarousel = <T,>({
   itemsPerView = 3,
   gap = 16,
 }: CarouselProps<T>) => {
-  const totalItems = data.length;
+  const totalItems = data?.length;
   const [currentIndex, setCurrentIndex] = useState(0);
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
@@ -36,14 +36,14 @@ const DynamicCarousel = <T,>({
   // ✅ Avanza di 1 elemento alla volta
   const nextSlide = () => {
     setCurrentIndex((prev) =>
-      prev + 1 >= totalItems - itemsToShow + 1 ? 0 : prev + 1
+      prev + 1 >= (totalItems ?? 0) - itemsToShow + 1 ? 0 : prev + 1
     );
   };
 
   // ✅ Torna indietro di 1 elemento alla volta
   const prevSlide = () => {
     setCurrentIndex((prev) =>
-      prev - 1 < 0 ? totalItems - itemsToShow : prev - 1
+      prev - 1 < 0 ? (totalItems ?? 0) - itemsToShow : prev - 1
     );
   };
 
@@ -88,7 +88,7 @@ const DynamicCarousel = <T,>({
           marginLeft: `calc(${gap * itemsPerView}px )`,
         }}
       >
-        {data.map((item, index) => (
+        {data?.map((item, index) => (
           <div
             key={index}
             className="shrink-0"
@@ -122,7 +122,7 @@ const DynamicCarousel = <T,>({
       <div className="absolute inset-x-0 bottom-0 flex justify-center pb-4">
         <div className="flex gap-2 rounded-lg bg-white/80 p-2 shadow-md">
           {Array.from({
-            length: totalItems - itemsToShow + 1,
+            length: (totalItems ?? 0) - itemsToShow + 1,
           }).map((_, index) => (
             <span
               key={index}

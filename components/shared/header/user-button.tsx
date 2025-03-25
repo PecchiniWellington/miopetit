@@ -31,7 +31,6 @@ const UserButton = () => {
     );
   }
 
-  console.log("user", user);
   return (
     <CustomDropdown
       trigger={

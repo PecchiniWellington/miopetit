@@ -31,7 +31,6 @@ const MainCategory = async ({
   });
   const myCart = await getMyCart();
 
-  console.log("productFilters", productFilters);
   if (!productFilters || Object.keys(productFilters).length === 0) notFound();
   return (
     <ConfigCategoryPage

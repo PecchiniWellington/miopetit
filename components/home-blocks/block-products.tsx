@@ -1,5 +1,6 @@
 import DynamicCarousel from "../carousels/carousel";
 import BrandProductCard from "../product/brand-product-card";
+import BrandButton from "../shared/brand-components/brand-button";
 
 const BlockProducts = ({ products }: { products: any[] }) => {
   return (
@@ -19,6 +20,9 @@ const BlockProducts = ({ products }: { products: any[] }) => {
           />
         )}
       </div>
+      <BrandButton className="mx-auto" variant="primary" size="medium">
+        Vedi tutti i prodotti
+      </BrandButton>
     </section>
   );
 };

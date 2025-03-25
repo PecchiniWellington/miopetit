@@ -20,6 +20,7 @@ export const productSchema = z.object({
   images: z.array(z.string()),
   description: z.string(),
   shortDescription: z.string(),
+  contributorId: z.string().uuid().optional(),
 
   productBrand: z
     .object({

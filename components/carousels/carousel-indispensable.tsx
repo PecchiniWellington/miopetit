@@ -8,7 +8,7 @@ const IndispensableList = ({
   indispensables,
   mainCategory,
 }: {
-  indispensables: { image: string; href: string; label: string }[];
+  indispensables?: { image: string; href: string; label: string }[];
   mainCategory: string;
 }) => {
   return (

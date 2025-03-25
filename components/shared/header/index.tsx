@@ -91,6 +91,12 @@ const Header = async () => {
               imgSrc="/images/bird.png"
               brands={["Royal Canin", "Purina", "Hill’s"]}
             />
+            <div className="cursor-pointer p-4 text-lg font-semibold text-gray-700 transition-all duration-300 hover:text-indigo-600 dark:text-gray-200 dark:hover:text-indigo-400">
+              <Link href={`/partners`}>Partners</Link>
+            </div>
+            <div className="cursor-pointer p-4 text-lg font-semibold text-gray-700 transition-all duration-300 hover:text-indigo-600 dark:text-gray-200 dark:hover:text-indigo-400">
+              <Link href={`/donations`}>Donations</Link>
+            </div>
           </nav>
         </div>
       </SearchProvider>

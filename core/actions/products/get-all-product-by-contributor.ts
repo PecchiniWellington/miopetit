@@ -2,16 +2,87 @@ import { prisma } from "@/core/prisma/prisma";
 import { productSchema } from "@/core/validators";
 import { convertToPlainObject, formatDateTime } from "@/lib/utils";
 import { z } from "zod";
+import { IQueryParams } from "./get-all-product-by-slug";
 
-export async function getProductsByContributor(affiliateId: string) {
-  if (!affiliateId) {
+export async function getProductsByContributor({
+  contributorId,
+  query,
+}: {
+  contributorId: string;
+  query: IQueryParams;
+}) {
+  if (!contributorId) {
     throw new Error("Affiliate ID is required");
   }
 
+  // Costruzione dinamica dei filtri
+  const where: any = {
+    contributorId,
+  };
+
+  if (query.animalAge) {
+    where.animalAge = query.animalAge;
+  }
+
+  if (query.productBrand) {
+    const brand = await prisma.productBrand.findFirst({
+      where: { slug: query.productBrand },
+      select: { id: true },
+    });
+    if (brand) {
+      where.productBrandId = brand.id;
+    }
+  }
+
+  if (query.productFormats) {
+    const format = await prisma.productUnitFormat.findFirst({
+      where: { slug: query.productFormats },
+      select: { id: true },
+    });
+    if (format) {
+      where.productUnitFormatId = format.id;
+    }
+  }
+
+  if (query.productPathologies) {
+    const pathology = await prisma.productPathology.findUnique({
+      where: { slug: query.productPathologies },
+      select: { id: true },
+    });
+    if (pathology) {
+      where.productPathologyOnProduct = {
+        some: {
+          pathologyId: pathology.id,
+        },
+      };
+    }
+  }
+
+  if (query.productProteins) {
+    const protein = await prisma.productProtein.findUnique({
+      where: { slug: query.productProteins },
+      select: { id: true },
+    });
+    if (protein) {
+      where.productProteinOnProduct = {
+        some: {
+          productProteinId: protein.id,
+        },
+      };
+    }
+  }
+
+  if (query.price) {
+    const [min, max] = query.price.split("-").map(Number);
+    where.price = {
+      gte: isNaN(min) ? 0 : min,
+      lte: isNaN(max) ? Number.MAX_SAFE_INTEGER : max,
+    };
+  }
+
+  // ✅ Usa `where` con tutti i filtri
   const data = await prisma.product.findMany({
-    where: {
-      affiliateId,
-    },
+    where,
     select: {
       id: true,
       name: true,
@@ -65,6 +136,7 @@ export async function getProductsByContributor(affiliateId: string) {
     },
   });
 
+  // Trasformazione
   const transformedData = data.map(
     ({
       productPathologyOnProduct,

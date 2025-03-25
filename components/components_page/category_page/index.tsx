@@ -17,7 +17,7 @@ const ConfigCategoryPage = ({
   userId,
   myCart,
 }: {
-  indispensable: { image: string; href: string; label: string }[];
+  indispensable?: { image: string; href: string; label: string }[];
   mainCategory: string;
   productFilters: {
     [key: string]:
@@ -61,6 +61,7 @@ const ConfigCategoryPage = ({
       mainCategory={mainCategory}
     />
   );
+
   /* CHOOSE FOR YOU */
   const ChooseForYou = () => <div></div>;
 
@@ -92,7 +93,7 @@ const ConfigCategoryPage = ({
             userId={userId}
             key={product.id}
             product={product}
-            getProductQuantity={getProductQuantity(product.id)}
+            getProductQuantity={product.id ? getProductQuantity(product.id) : 0}
           />
         ))}
       </>
@@ -100,14 +101,17 @@ const ConfigCategoryPage = ({
   };
   return (
     <>
-      <div className="mb-12 flex flex-col rounded-2xl bg-slate-100 p-6">
-        <section className="mb-6">
-          <Indispensable />
-        </section>
-        <section className="mb-6">
-          <ChooseForYou />
-        </section>
-      </div>
+      {indispensable && (
+        <div className="mb-12 flex flex-col rounded-2xl bg-slate-100 p-6">
+          <section className="mb-6">
+            {" "}
+            <Indispensable />
+          </section>
+          <section className="mb-6">
+            <ChooseForYou />
+          </section>
+        </div>
+      )}
       <section className="relative mb-6  grid  w-full grid-cols-1 items-start gap-4  md:grid-cols-5">
         <FilterProvider>
           <aside className="sticky top-2 flex w-full gap-4">
