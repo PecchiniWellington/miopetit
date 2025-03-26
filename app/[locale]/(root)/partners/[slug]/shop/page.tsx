@@ -1,10 +1,10 @@
 import { auth } from "@/auth";
 import ConfigCategoryPage from "@/components/components_page/category_page";
 import { getMyCart } from "@/core/actions/cart/cart.actions";
+import { getContributorBySlug } from "@/core/actions/contributors/get-contributor-by-slug";
 import { getProductsByContributor } from "@/core/actions/products/get-all-product-by-contributor";
 import { getFiltersForCategoryByParentId } from "@/core/actions/products/product-infos.ts/get-product-category.action";
 import { IQueryParams } from "@/core/actions/types";
-import { getUserByUserSlug } from "@/core/actions/user/get-user-by-user-slug";
 import { notFound } from "next/navigation";
 
 const MainCategory = async ({
@@ -40,12 +40,13 @@ const MainCategory = async ({
 
   console.log("queries", queries);
 
-  const productsResponse = await getProductsByContributor({
-    contributorId: "f232254a-b4fc-4b6b-8272-93d54a206b24",
-    query: queries,
-  });
-
-  const contributor = await getUserByUserSlug(slug);
+  const contributor = await getContributorBySlug(slug);
+  const productsResponse = contributor
+    ? await getProductsByContributor({
+        contributorId: contributor.id,
+        query: queries,
+      })
+    : null;
 
   if (!productFilters || Object.keys(productFilters).length === 0) notFound();
 
@@ -71,13 +72,25 @@ const MainCategory = async ({
         <div className="text-center text-red-600">Contributor non trovato</div>
       )}
 
-      <ConfigCategoryPage
-        mainCategory={slug}
-        productFilters={productFilters}
-        products={productsResponse}
-        myCart={myCart}
-        userId={userId}
-      />
+      {productsResponse && productsResponse.length > 0 ? (
+        <ConfigCategoryPage
+          mainCategory={slug}
+          productFilters={productFilters}
+          products={productsResponse || []}
+          myCart={myCart}
+          userId={userId}
+        />
+      ) : (
+        <div className="flex flex-col items-center justify-center py-10">
+          <h2 className="text-2xl font-semibold text-gray-700">
+            {contributor?.name || "Questo partner"} non ha ancora inserito
+            nessun prodotto
+          </h2>
+          <p className="mt-4 text-gray-500">
+            Torna presto per scoprire i prodotti che saranno disponibili!
+          </p>
+        </div>
+      )}
     </>
   );
 };
