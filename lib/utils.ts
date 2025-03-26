@@ -333,3 +333,11 @@ export const getUsernameFromEmail = (email: string): string => {
   const username = email.split("@")[0];
   return username.includes(".") ? username.split(".")[0] : username;
 };
+
+export const normalizeUrl = (url: string): string => {
+  if (!url) return "";
+  if (!/^https?:\/\//i.test(url)) {
+    return "https://" + url;
+  }
+  return url;
+};

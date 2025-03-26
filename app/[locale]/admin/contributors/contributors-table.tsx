@@ -1,11 +1,16 @@
 "use client";
 
 import AdminSearch, { SearchProvider } from "@/components/admin/admin-search";
+import BrandButton from "@/components/shared/brand-components/brand-button";
+import GenericModal from "@/components/shared/modals/delete-dialog";
 import Pagination from "@/components/shared/pagination";
 import SortableTable from "@/components/shared/tables/sortable-table";
+import { deleteProduct } from "@/core/actions/products";
 import { IContributor } from "@/core/validators/contributors.validator";
-import { formatId } from "@/lib/utils";
+import { formatDateTime, formatId } from "@/lib/utils";
 import { motion } from "framer-motion";
+import { AlertTriangle, Edit, Eye, Trash2 } from "lucide-react";
+import Link from "next/link";
 
 const ContributorsTable = ({
   contributors,
@@ -38,10 +43,10 @@ const ContributorsTable = ({
           columns={[
             { key: "id", label: "ID" },
             { key: "name", label: "NAME" },
-            /* { key: "price", label: "PRICE" },
-            { key: "productCategory", label: "CATEGORY" },
-            { key: "stock", label: "STOCK" },
-            { key: "rating", label: "RATING" }, */
+            { key: "type", label: "TYPE" },
+            { key: "createdAt", label: "CREATION" },
+            { key: "userEmail", label: "USER EMAIL" },
+            { key: "userName", label: "USER NAME" },
           ]}
           data={contributors}
           renderRow={(product) => (
@@ -54,38 +59,33 @@ const ContributorsTable = ({
               <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-300">
                 {product.id ? formatId(product.id) : "N/A"}
               </td>
-              {/* <td className="flex items-center gap-2 whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-100">
-                <Image
+              <td className="flex items-center gap-2 whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-100">
+                {/*  <Image
                   src={product.images?.[0] || "/images/placeholder.jpg"}
                   alt="Product img"
                   className="size-10 rounded-full"
                   height={40}
                   width={40}
-                />
+                /> */}
                 {product.name}
               </td>
               <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-300">
-                {product.price}
+                {product.type}
               </td>
               <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-300">
-                {product.productCategory
-                  .map((p: { name: string }) => p.name)
-                  .join(", ") || "N/A"}
+                {formatDateTime(product.createdAt as string).dateTime}
               </td>
               <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-300">
-                {product.stock}
-              </td>
-              <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-300">
-                {product.rating}
+                {product.user?.email || "N/A"}
               </td>
               <td className="flex gap-1 whitespace-nowrap px-6 py-4 text-sm text-gray-300">
                 <BrandButton size="small">
-                  <Link href={`/admin/products/${product.id}/edit`}>
+                  <Link href={`/admin/contributors/${product.id}/edit`}>
                     <Edit size={18} />
                   </Link>
                 </BrandButton>
                 <BrandButton variant="warning" size="small">
-                  <Link href={`/admin/products/${product.id}/resume`}>
+                  <Link href={`/admin/contributors/${product.id}/resume`}>
                     <Eye size={18} />
                   </Link>
                 </BrandButton>
@@ -98,10 +98,10 @@ const ContributorsTable = ({
                       icon={<Trash2 className="size-5" />}
                     />
                   }
-                  title={t("delete_product_modal.title")}
-                  description={t("delete_product_modal.description")}
-                  confirmText={t("delete_product_modal.delete_button")}
-                  cancelText={t("delete_product_modal.cancel_button")}
+                  title="Delete Contributor"
+                  description={`Are you sure you want to delete ${product.name}?`}
+                  confirmText={"Delete"}
+                  cancelText={"Cancel"}
                   icon={<AlertTriangle className="size-5 text-red-500" />}
                   variant="danger"
                   onConfirm={() => {
@@ -109,7 +109,7 @@ const ContributorsTable = ({
                     return deleteProduct(product.id!);
                   }}
                 />
-              </td> */}
+              </td>
             </motion.tr>
           )}
         />

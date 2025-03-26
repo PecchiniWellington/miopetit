@@ -3,44 +3,57 @@
 import { createContributor } from "@/core/actions/contributors/create-contributor";
 import { updateContributor } from "@/core/actions/contributors/update-contributor";
 import {
-  IContributor,
   contributorSchema,
+  IContributor,
 } from "@/core/validators/contributors.validator";
 import { useToast } from "@/hooks/use-toast";
+import { normalizeUrl } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-// Qui definisci i tuoi campi dinamici
-export const contributorFields = [
-  { name: "name", label: "Nome", type: "text" },
-  { name: "slug", label: "Slug", type: "text" },
-  {
-    name: "type",
-    label: "Tipo",
-    type: "select",
-    options: ["PARTNER", "CANILE", "GATTILE"],
-  },
-  { name: "email", label: "Email", type: "email" },
-  { name: "phone", label: "Telefono", type: "text" },
-  { name: "website", label: "Sito web", type: "url" },
-  { name: "logo", label: "Logo", type: "image" },
-  { name: "coverImage", label: "Cover", type: "image" },
-  { name: "description", label: "Descrizione", type: "textarea" },
-  { name: "descriptionLong", label: "Descrizione lunga", type: "textarea" },
-  { name: "tags", label: "Tags", type: "tags" },
-  { name: "city", label: "Città", type: "text" },
-  { name: "province", label: "Provincia", type: "text" },
-  { name: "region", label: "Regione", type: "text" },
-  { name: "zipCode", label: "CAP", type: "text" },
-  { name: "partitaIva", label: "Partita IVA", type: "text" },
-  { name: "acceptsDonations", label: "Accetta donazioni?", type: "checkbox" },
-  { name: "donationLink", label: "Link Donazione", type: "url" },
-  { name: "volunteerNeeded", label: "Cerca volontari?", type: "checkbox" },
-  { name: "seoTitle", label: "Titolo SEO", type: "text" },
-  { name: "seoDescription", label: "Descrizione SEO", type: "textarea" },
-];
+const rawSchema = contributorSchema.omit({
+  id: true,
+  user: true,
+  userEmail: true,
+  userName: true,
+});
+
+const createSchema = rawSchema.superRefine((data, ctx) => {
+  if (data.type === "CANILE" || data.type === "GATTILE") {
+    if (!data.donationLink || !data.donationLink.startsWith("http")) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["donationLink"],
+        message:
+          "Il link alla donazione è obbligatorio e deve essere un URL valido",
+      });
+    }
+    if (!data.animalTypes || data.animalTypes.length === 0) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["animalTypes"],
+        message: "Devi specificare almeno un tipo di animale",
+      });
+    }
+  }
+});
+
+const updateSchema = rawSchema.partial().superRefine((data, ctx) => {
+  if (
+    (data.type === "CANILE" || data.type === "GATTILE") &&
+    data.donationLink
+  ) {
+    if (!data.donationLink.startsWith("http")) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["donationLink"],
+        message: "Il link alla donazione deve essere un URL valido",
+      });
+    }
+  }
+});
 
 export function useContributorForm({
   type,
@@ -54,11 +67,69 @@ export function useContributorForm({
   const router = useRouter();
   const { toast } = useToast();
 
-  const schema = contributorSchema;
+  const schema = type === "Create" ? createSchema : updateSchema;
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
-    defaultValues: contributor ?? {},
+    defaultValues: contributor
+      ? {
+          ...contributor,
+          createdAt: contributor.createdAt
+            ? new Date(contributor.createdAt).toISOString()
+            : undefined,
+          updatedAt: contributor.updatedAt
+            ? new Date(contributor.updatedAt).toISOString()
+            : undefined,
+          type:
+            typeof contributor.type === "object"
+              ? contributor.type.id
+              : (contributor.type ?? "PARTNER"),
+          socialLinks: {
+            instagram: contributor.socialLinks?.instagram ?? "",
+            facebook: contributor.socialLinks?.facebook ?? "",
+            tiktok: contributor.socialLinks?.tiktok ?? "",
+          },
+        }
+      : {
+          type: "PARTNER",
+          name: "",
+          userId: "",
+          slug: "",
+          email: "",
+          phone: "",
+          website: "",
+          logo: "",
+          coverImage: "",
+          description: "",
+          descriptionLong: "",
+          tags: [],
+          address: "",
+          city: "",
+          province: "",
+          region: "",
+          zipCode: "",
+          latitude: undefined,
+          longitude: undefined,
+          partitaIva: "",
+          isOnlineShop: false,
+          isPickupAvailable: false,
+          deliveryAvailable: false,
+          openingHours: {},
+          socialLinks: {
+            instagram: "",
+            facebook: "",
+            tiktok: "",
+          },
+          whatsappNumber: "",
+          animalsAvailable: 0,
+          animalTypes: [],
+          acceptsDonations: false,
+          donationLink: "",
+          volunteerNeeded: false,
+          needs: [],
+          seoTitle: "",
+          seoDescription: "",
+        },
   });
 
   const uploadToBlob = async (fileUrl: string): Promise<string> => {
@@ -74,35 +145,103 @@ export function useContributorForm({
   };
 
   const onSubmit = async (data: z.infer<typeof schema>) => {
+    if (data.logo?.startsWith("blob:")) {
+      data.logo = await uploadToBlob(data.logo);
+    }
+    if (data.coverImage?.startsWith("blob:")) {
+      data.coverImage = await uploadToBlob(data.coverImage);
+    }
+
+    if (data.website) {
+      data.website = normalizeUrl(data.website);
+    }
+    if (data.donationLink) {
+      data.donationLink = normalizeUrl(data.donationLink);
+    }
+
+    if (data.type === "PARTNER") {
+      delete data.animalsAvailable;
+      delete data.animalTypes;
+      delete data.acceptsDonations;
+      delete data.donationLink;
+      delete data.volunteerNeeded;
+      delete data.needs;
+    }
+
+    const parsed = schema.safeParse(data);
+
+    if (!parsed.success) {
+      console.error("❌ Form validation failed:", parsed.error.format());
+      toast({
+        title: "Validation Error",
+        description: "Check required fields or data types",
+        className: "bg-red-100 text-red-800 px-5 py-2",
+      });
+      return;
+    }
+
+    const finalData = {
+      ...parsed.data,
+      type:
+        typeof parsed.data.type === "object"
+          ? parsed.data.type.id
+          : (parsed.data.type ?? "PARTNER"),
+      name: parsed.data.name ?? "Default Name",
+      userId: parsed.data.userId ?? contributor?.userId ?? "",
+      createdAt: parsed.data.createdAt
+        ? new Date(parsed.data.createdAt as string)
+        : undefined,
+      updatedAt: parsed.data.updatedAt
+        ? new Date(parsed.data.updatedAt as string)
+        : undefined,
+    };
+
+    if (!finalData.userId) {
+      toast({
+        title: "Errore",
+        description: "Nessun utente associato. Seleziona un utente valido.",
+        className: "bg-red-100 text-red-800 px-5 py-2",
+      });
+      return;
+    }
+
     try {
-      if (data.logo?.startsWith("blob:")) {
-        data.logo = await uploadToBlob(data.logo);
-      }
-
-      if (data.coverImage?.startsWith("blob:")) {
-        data.coverImage = await uploadToBlob(data.coverImage);
-      }
-
-      const res =
+      const result =
         type === "Create"
-          ? await createContributor(data)
-          : await updateContributor(contributorId as string, data);
+          ? await createContributor({
+              ...finalData,
+              userId: finalData.userId || "",
+              createdAt: finalData.createdAt
+                ? finalData.createdAt.toISOString()
+                : undefined,
+              updatedAt: finalData.updatedAt
+                ? finalData.updatedAt.toISOString()
+                : undefined,
+            })
+          : await updateContributor(contributorId as string, finalData);
 
       toast({
-        className: "bg-green-100 text-green-700 px-5 py-2",
-        title: "Successo",
-        description: `Contributor ${data.name} ${type === "Create" ? "creato" : "aggiornato"} con successo.`,
+        title: `${type} success`,
+        description: `${result.name} ${type === "Create" ? "created" : "updated"} successfully`,
+        className: "bg-green-100 text-green-800 px-5 py-2",
       });
 
       router.push("/admin/contributors");
-    } catch (error: any) {
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : "Unknown error";
       toast({
-        className: "bg-red-100 text-red-700 px-5 py-2",
-        title: "Errore",
-        description: error?.message ?? "Errore sconosciuto",
+        title: "Error",
+        description: errorMessage,
+        className: "bg-red-100 text-red-800 px-5 py-2",
       });
     }
+
+    console.log("🔵 Contributor submit:", {
+      mode: type,
+      id: contributorId,
+      data: finalData,
+    });
   };
 
-  return { form, onSubmit, fields: contributorFields };
+  return { form, onSubmit };
 }

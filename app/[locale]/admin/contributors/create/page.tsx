@@ -1,57 +1,31 @@
-import Header from "@/components/admin/common/Header";
-import ProductForm from "@/components/admin/product-form/product-form";
-import {
-  getAllBrands,
-  getAllFeatures,
-  getAllPathologies,
-  getAllProtein,
-} from "@/core/actions/products/product-infos.ts";
-import { getAllCategories } from "@/core/actions/products/product-infos.ts/get-product-category.action";
-import {
-  getUnitOfMeasure,
-  getUnitValue,
-} from "@/core/actions/products/product-infos.ts/get-product-formats.action";
+import { auth } from "@/auth";
+import { getAllUsers } from "@/core/actions/admin/admin.actions";
+import ROLES from "@/lib/constants/roles";
 import { Metadata } from "next";
+import ContributorForm from "../ContributorForm";
 
 export const metadata: Metadata = {
-  title: "Create Product",
+  title: "Update Contributor",
+  description: "Admin Contributor Update",
 };
 
-const CreateProductPage = async () => {
-  const categories = await getAllCategories();
-  const brands = await getAllBrands();
-  const pathologies = await getAllPathologies();
-  const proteins = await getAllProtein();
-  const unitValues = await getUnitValue();
-  const unitOfMeasure = await getUnitOfMeasure();
-  const allFeatures = await getAllFeatures();
-
+const AdminContributorUpdatePage = async () => {
+  const users = await getAllUsers({ query: "all", limit: 10, page: 1 });
+  const data = await auth();
+  console.log(
+    "🚀 ~ file: page.tsx ~ line 8 ~ AdminContributorUpdatePage ~ data",
+    users
+  );
   return (
-    <div className="relative z-50  ">
-      <Header title="Product Create" />
-      <div className="mx-auto my-8 max-w-5xl  space-y-8">
-        <ProductForm
-          type="Create"
-          categories={Array.isArray(categories.data) ? categories.data : []}
-          brands={brands?.map((brand) => ({
-            ...brand,
-            image: brand.image ?? "",
-          }))}
-          pathologies={pathologies}
-          proteins={proteins}
-          unitValues={unitValues ?? []}
-          unitOfMeasure={unitOfMeasure ?? []}
-          allFeatures={allFeatures?.map((feature) => ({
-            ...feature,
-            productFeature: {
-              ...feature.productFeature,
-              image: feature.productFeature.image ?? null,
-            },
-          }))}
-        />
-      </div>
+    <div className="relative z-10 mx-auto max-w-7xl flex-1 space-y-8 overflow-auto px-4 py-6 lg:px-8">
+      <h1 className="h2-bold">Update Contributor</h1>
+      <ContributorForm
+        type="Create"
+        users={users.data}
+        isAdmin={data?.user.role === ROLES.ADMIN}
+      />
     </div>
   );
 };
 
-export default CreateProductPage;
+export default AdminContributorUpdatePage;

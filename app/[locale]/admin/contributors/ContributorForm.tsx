@@ -1,22 +1,26 @@
-// contributor-form.tsx
-
 "use client";
 
 import BrandButton from "@/components/shared/brand-components/brand-button";
-import DynamicFormField from "@/components/shared/dynamic-form-field";
-import { Form } from "react-hook-form";
+import { Form } from "@/components/ui/form";
+import { IUser } from "@/core/validators";
+import { IContributor } from "@/core/validators/contributors.validator";
+import { ContributorFormFields } from "./contributor-form-fields";
 import { useContributorForm } from "./useContributorForm";
 
 const ContributorForm = ({
   type,
   contributor,
   contributorId,
+  users,
+  isAdmin,
 }: {
   type: "Create" | "Update";
-  contributor?: any;
+  contributor?: IContributor;
   contributorId?: string;
+  users: IUser[];
+  isAdmin?: boolean;
 }) => {
-  const { form, onSubmit, fields } = useContributorForm({
+  const { form, onSubmit } = useContributorForm({
     type,
     contributor,
     contributorId,
@@ -24,8 +28,21 @@ const ContributorForm = ({
 
   return (
     <Form {...form}>
-      <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
-        <DynamicFormField form={form} fields={fields} />
+      <form
+        className="space-y-8"
+        method="POST"
+        onSubmit={form.handleSubmit(
+          (data) => {
+            console.log("✅ Dati inviati:", data);
+            onSubmit(data);
+          },
+          (errors) => {
+            console.log("❌ Errori nel form:", form.getValues());
+            console.log("❌ Errori nel form:", errors);
+          }
+        )}
+      >
+        <ContributorFormFields form={form} users={users} isAdmin={isAdmin} />
 
         <BrandButton
           type="submit"

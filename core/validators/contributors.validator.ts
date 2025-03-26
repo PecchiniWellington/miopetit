@@ -10,8 +10,10 @@ export const contributorSchema = z.object({
   email: z.string().email().optional().nullable(),
   phone: z.string().optional().nullable(),
   website: z.string().url().optional().nullable(),
-  logo: z.string().url().optional().nullable(),
-  coverImage: z.string().url().optional().nullable(),
+  logo: z.string().optional().nullable(),
+  coverImage: z.string().optional().nullable(),
+  createdAt: z.string().optional().nullable(),
+  updatedAt: z.string().optional().nullable(),
   description: z.string().optional().nullable(),
   descriptionLong: z.string().optional().nullable(),
   tags: z.array(z.string()).optional().nullable(),
@@ -35,7 +37,15 @@ export const contributorSchema = z.object({
   animalTypes: z.array(z.string()).optional().nullable(),
 
   acceptsDonations: z.boolean().optional().nullable(),
-  donationLink: z.string().url().optional().nullable(),
+  donationLink: z
+    .preprocess(
+      (val) => {
+        if (val === "") return undefined;
+        return val;
+      },
+      z.string().url({ message: "URL non valido" }).optional()
+    )
+    .nullable(),
   volunteerNeeded: z.boolean().optional().nullable(),
   needs: z.array(z.string()).optional().nullable(),
 
@@ -65,6 +75,19 @@ export const contributorSchema = z.object({
     )
     .optional()
     .nullable(),
+
+  // 👇 aggiunto campo user per visualizzarlo in tabella
+  user: z
+    .object({
+      id: z.string(),
+      name: z.string().nullable(),
+      email: z.string().nullable(),
+    })
+    .optional(),
+
+  // 👇 aggiunta per sortable-table
+  userEmail: z.string().email().nullable().optional(),
+  userName: z.string().nullable().optional(),
 });
 
 export type IContributor = z.infer<typeof contributorSchema>;

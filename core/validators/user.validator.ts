@@ -22,7 +22,7 @@ export const userSchema = z
     image: z.string().nullable().optional(),
     password: z.string().nullable().optional(),
     role: z.string(),
-    userSlug: z.string(),
+    userSlug: z.string().nullable().optional(),
     defaultAddress: z
       .union([
         z.object({

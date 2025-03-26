@@ -12,15 +12,18 @@ interface DynamicFormFieldProps<T extends FieldValues> {
   name: Path<T>;
   title: string;
   placeholder?: string;
-  type?: "input" | "textarea" | "select" | "multiple-select";
+  type?: "input" | "textarea" | "select" | "multiple-select" | "checkbox";
   className?: string;
   options?: Option[];
   defaultValue?: string | string[] | { id: string; name: string }[]; // lasciamolo ampio
   variant?: "default" | "admin";
   isNumber?: boolean;
+  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
+  onChange?: (event: React.FocusEvent<HTMLInputElement>) => void;
 }
 
 import { FieldValues } from "react-hook-form";
+import BrandCheckbox from "./brand-components/brand-checkbox";
 import BrandInput from "./brand-components/brand-input";
 import BrandMultiSelect from "./brand-components/brand-multiple-select";
 import BrandSelect from "./brand-components/brand-select";
@@ -38,6 +41,8 @@ const DynamicFormField = <T extends FieldValues>({
   options,
   defaultValue,
   variant,
+  onChange,
+  onBlur,
 }: DynamicFormFieldProps<T>) => {
   return (
     <Controller
@@ -59,7 +64,15 @@ const DynamicFormField = <T extends FieldValues>({
                   placeholder={placeholder}
                   {...field}
                   value={typeof field.value === "string" ? field.value : ""}
-                  className={`resize-none border-slate-700 bg-transparent ${className}`}
+                  className={`${className}`}
+                />
+              ) : type === "checkbox" ? (
+                <BrandCheckbox
+                  label="Accetto le condizioni"
+                  variant="admin"
+                  placeholder="Seleziona"
+                  {...field}
+                  checked={field.value === true}
                 />
               ) : type === "select" ? (
                 <BrandSelect
@@ -70,33 +83,39 @@ const DynamicFormField = <T extends FieldValues>({
                       : field.value || ""
                   }
                   onValueChange={(value) => {
-                    if (name === "animalAge") {
-                      // enum semplice
-                      field.onChange(value);
-                    } else if (name.includes("productUnitFormat.unitValue")) {
-                      // productUnitFormat.unitValue expects object
-                      const opt = options?.find((o) => o.value === value);
-                      field.onChange({
-                        id: value,
-                        value: Number(opt?.label) || 0,
-                      });
-                    } else if (
-                      name.includes("productUnitFormat.unitOfMeasure")
-                    ) {
-                      // productUnitFormat.unitOfMeasure expects object
-                      const opt = options?.find((o) => o.value === value);
-                      field.onChange({
-                        id: value,
-                        code: opt?.label || "",
-                        name: opt?.label || "",
-                      });
+                    if (onChange) {
+                      onChange?.({
+                        target: { value },
+                      } as React.FocusEvent<HTMLInputElement>); // override esterno se definito
                     } else {
-                      const opt = options?.find((o) => o.value === value);
-                      field.onChange(
-                        opt
-                          ? { id: value, name: opt.label }
-                          : { id: value, name: value }
-                      );
+                      if (name === "animalAge") {
+                        // enum semplice
+                        field.onChange(value);
+                      } else if (name.includes("productUnitFormat.unitValue")) {
+                        // productUnitFormat.unitValue expects object
+                        const opt = options?.find((o) => o.value === value);
+                        field.onChange({
+                          id: value,
+                          value: Number(opt?.label) || 0,
+                        });
+                      } else if (
+                        name.includes("productUnitFormat.unitOfMeasure")
+                      ) {
+                        // productUnitFormat.unitOfMeasure expects object
+                        const opt = options?.find((o) => o.value === value);
+                        field.onChange({
+                          id: value,
+                          code: opt?.label || "",
+                          name: opt?.label || "",
+                        });
+                      } else {
+                        const opt = options?.find((o) => o.value === value);
+                        field.onChange(
+                          opt
+                            ? { id: value, name: opt.label }
+                            : { id: value, name: value }
+                        );
+                      }
                     }
                   }}
                   options={options || []}
@@ -130,6 +149,7 @@ const DynamicFormField = <T extends FieldValues>({
                 />
               ) : (
                 <BrandInput
+                  onBlur={onBlur}
                   isNumber={isNumber}
                   variant={variant}
                   disabled={disabled}

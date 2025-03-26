@@ -1,28 +1,51 @@
 import SlugFormField from "@/components/admin/product-form/slug-form-field";
 import UploadImage from "@/components/admin/product-form/upload-image";
 import DynamicFormField from "@/components/shared/dynamic-form-field";
+import { animalTypesOptions } from "@/core/db-static/db_contributors_page/animal_types_options";
+import { needsOptions } from "@/core/db-static/db_contributors_page/needs_options";
+import { IUser } from "@/core/validators";
 import { IContributor } from "@/core/validators/contributors.validator";
+import { normalizeUrl } from "@/lib/utils";
 import { UseFormReturn } from "react-hook-form";
 
 export function ContributorFormFields({
   form,
-  contributor,
+  users,
+  isAdmin,
 }: {
   form: UseFormReturn<IContributor>;
-  contributor?: IContributor;
+  users?: IUser[];
+  isAdmin?: boolean;
 }) {
+  const userOptions =
+    users?.map((user) => ({
+      label: user.name || "Unknown User",
+      value: user.id,
+    })) || [];
+
+  const contributorType = form.watch("type");
   return (
     <>
-      {/* Base info */}
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+      {/* 📌 Base info */}
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
         <DynamicFormField
           variant="admin"
           control={form.control}
           name="name"
-          title="Name"
+          title="Nome"
           placeholder="Nome del contributor"
         />
         <SlugFormField variant="admin" form={form} />
+        <DynamicFormField
+          type="select"
+          variant="admin"
+          options={userOptions}
+          control={form.control}
+          name="userId"
+          title="Persona fisica"
+          placeholder="Associa persona fisica"
+          onChange={(event) => form.setValue("userId", event.target.value)}
+        />
       </div>
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -47,21 +70,7 @@ export function ContributorFormFields({
         />
       </div>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        <DynamicFormField
-          variant="admin"
-          control={form.control}
-          name="phone"
-          title="Telefono"
-        />
-        <DynamicFormField
-          variant="admin"
-          control={form.control}
-          name="website"
-          title="Sito web"
-        />
-      </div>
-
+      {/* 📸 Immagini */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         <UploadImage
           images={[form.watch("logo")].filter((img): img is string => !!img)}
@@ -79,6 +88,7 @@ export function ContributorFormFields({
         />
       </div>
 
+      {/* 📝 Descrizioni */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         <DynamicFormField
           variant="admin"
@@ -96,24 +106,7 @@ export function ContributorFormFields({
         />
       </div>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        {/* <DynamicFormField
-          variant="admin"
-          type="tags"
-          control={form.control}
-          name="tags"
-          title="Tags"
-          placeholder="Inserisci tags"
-        /> */}
-        <DynamicFormField
-          variant="admin"
-          control={form.control}
-          name="partitaIva"
-          title="Partita IVA"
-        />
-      </div>
-
-      {/* Location */}
+      {/* 📍 Location */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         <DynamicFormField
           variant="admin"
@@ -147,46 +140,72 @@ export function ContributorFormFields({
         />
         <DynamicFormField
           variant="admin"
-          isNumber={true}
+          isNumber
           control={form.control}
           name="latitude"
           title="Latitudine"
         />
         <DynamicFormField
           variant="admin"
-          isNumber={true}
+          isNumber
           control={form.control}
           name="longitude"
           title="Longitudine"
         />
       </div>
 
-      {/* Disponibilità */}
-      {/* <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+      {/* 🧾 Info fiscali e contatto */}
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         <DynamicFormField
           variant="admin"
-          type="boolean"
+          control={form.control}
+          name="partitaIva"
+          title="Partita IVA"
+        />
+        <DynamicFormField
+          variant="admin"
+          control={form.control}
+          name="phone"
+          title="Telefono"
+        />
+        <DynamicFormField
+          variant="admin"
+          control={form.control}
+          name="website"
+          title="Sito web"
+          onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
+            const normalized = normalizeUrl(e.target.value);
+            form.setValue("website", normalized);
+          }}
+        />
+      </div>
+
+      {/* 🔄 Disponibilità */}
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <DynamicFormField
+          variant="admin"
+          type="checkbox"
           control={form.control}
           name="isOnlineShop"
           title="Shop online attivo"
         />
         <DynamicFormField
           variant="admin"
-          type="boolean"
+          type="checkbox"
           control={form.control}
           name="isPickupAvailable"
           title="Ritiro in sede disponibile"
         />
         <DynamicFormField
           variant="admin"
-          type="boolean"
+          type="checkbox"
           control={form.control}
           name="deliveryAvailable"
           title="Consegna disponibile"
         />
-      </div> */}
+      </div>
 
-      {/* Social e contatti */}
+      {/* 🌐 Social */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         <DynamicFormField
           control={form.control}
@@ -214,56 +233,61 @@ export function ContributorFormFields({
         />
       </div>
 
-      {/* Animali */}
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        <DynamicFormField
-          variant="admin"
-          isNumber={true}
-          control={form.control}
-          name="animalsAvailable"
-          title="Numero animali presenti"
-        />
-        {/* <DynamicFormField
-          variant="admin"
-          type="tags"
-          control={form.control}
-          name="animalTypes"
-          title="Tipi di animali"
-        /> */}
-      </div>
+      {/* 🐾 Solo per Canile/Gattile */}
+      {["CANILE", "GATTILE"].includes(contributorType) && (
+        <>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <DynamicFormField
+              variant="admin"
+              isNumber
+              control={form.control}
+              name="animalsAvailable"
+              title="Numero animali presenti"
+            />
+            <DynamicFormField
+              variant="admin"
+              type="multiple-select"
+              control={form.control}
+              name="animalTypes"
+              title="Tipi di animali"
+              options={animalTypesOptions}
+            />
+          </div>
 
-      {/* Volontariato & Donazioni */}
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        {/* <DynamicFormField
-          variant="admin"
-          type="boolean"
-          control={form.control}
-          name="acceptsDonations"
-          title="Accetta donazioni"
-        /> */}
-        <DynamicFormField
-          variant="admin"
-          control={form.control}
-          name="donationLink"
-          title="Link donazione"
-        />
-        {/* <DynamicFormField
-          variant="admin"
-          type="boolean"
-          control={form.control}
-          name="volunteerNeeded"
-          title="Ha bisogno di volontari"
-        />
-        <DynamicFormField
-          variant="admin"
-          type="tags"
-          control={form.control}
-          name="needs"
-          title="Necessità (es: cibo, volontari, ecc)"
-        /> */}
-      </div>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <DynamicFormField
+              variant="admin"
+              type="checkbox"
+              control={form.control}
+              name="acceptsDonations"
+              title="Accetta donazioni"
+            />
+            <DynamicFormField
+              variant="admin"
+              control={form.control}
+              name="donationLink"
+              title="Link donazione"
+            />
+            <DynamicFormField
+              variant="admin"
+              type="checkbox"
+              control={form.control}
+              name="volunteerNeeded"
+              title="Ha bisogno di volontari"
+            />
+            <DynamicFormField
+              variant="admin"
+              type="multiple-select"
+              control={form.control}
+              name="needs"
+              title="Necessità (es: cibo, volontari, ecc)"
+              options={needsOptions}
+            />
+          </div>
+        </>
+      )}
 
-      {/* SEO */}
+      {/* 🔍 SEO */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         <DynamicFormField
           variant="admin"
