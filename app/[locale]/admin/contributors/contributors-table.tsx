@@ -9,18 +9,24 @@ import { deleteProduct } from "@/core/actions/products";
 import { IContributor } from "@/core/validators/contributors.validator";
 import { formatDateTime, formatId } from "@/lib/utils";
 import { motion } from "framer-motion";
+
 import { AlertTriangle, Edit, Eye, Trash2 } from "lucide-react";
+import { DefaultSession, User } from "next-auth";
+import Image from "next/image";
 import Link from "next/link";
 
 const ContributorsTable = ({
   contributors,
   totalPages = 1,
   page = 1,
+  currentUser,
 }: {
   contributors: IContributor[];
   totalPages: number;
   page: number;
+  currentUser?: User & DefaultSession["user"];
 }) => {
+  console.log("contributors", contributors);
   /*  const t = useTranslations("ModalDelete.ProductDelete"); */
   return (
     <motion.div
@@ -60,13 +66,13 @@ const ContributorsTable = ({
                 {product.id ? formatId(product.id) : "N/A"}
               </td>
               <td className="flex items-center gap-2 whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-100">
-                {/*  <Image
-                  src={product.images?.[0] || "/images/placeholder.jpg"}
+                <Image
+                  src={product.logo || "/images/placeholder.jpg"}
                   alt="Product img"
                   className="size-10 rounded-full"
                   height={40}
                   width={40}
-                /> */}
+                />
                 {product.name}
               </td>
               <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-300">

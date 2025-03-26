@@ -1,6 +1,8 @@
+import { auth } from "@/auth";
 import { prisma } from "@/core/prisma/prisma";
 import { productSchema } from "@/core/validators/product.validator";
 import { PAGE_SIZE } from "@/lib/constants";
+import ROLES from "@/lib/constants/roles";
 import { convertToPlainObject, formatDateTime } from "@/lib/utils";
 import { Prisma } from "@prisma/client";
 import { z } from "zod";
@@ -20,6 +22,14 @@ export async function getAllProducts({
   page: number;
   sort?: string;
 }) {
+  const session = await auth();
+  const currentContributorId = (
+    await prisma.contributor.findFirst({
+      where: { userId: session?.user.id },
+    })
+  )?.id;
+  console.log("USER", session?.user.role, currentContributorId);
+
   // Filtro di ricerca per nome e descrizione del prodotto
   const queryFilter: Prisma.ProductWhereInput = query
     ? {
@@ -105,6 +115,10 @@ export async function getAllProducts({
     where: {
       ...queryFilter,
       ...dynamicFilters,
+      ...(session?.user.role === ROLES.CONTRIBUTOR &&
+        currentContributorId && {
+          contributorId: currentContributorId,
+        }),
     },
     select: {
       id: true,
@@ -180,7 +194,6 @@ export async function getAllProducts({
   // Conteggio totale dei prodotti
   const productCount = await prisma.product.count({ where: dynamicFilters });
 
-  console.log(`🔍 Trovati  prodotti`, data);
   const transformedData = data.map(
     ({
       productPathologyOnProduct,

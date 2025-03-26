@@ -4,7 +4,6 @@ import ProductsTable from "@/components/admin/products/ProductsTable";
 import SalesTrendChart from "@/components/admin/products/SalesTrendChart";
 import DownloadCSV from "@/components/shared/download-csv";
 import { getAllProducts } from "@/core/actions/products";
-import { getAllCategories } from "@/core/actions/products/product-infos.ts/get-product-category.action";
 import Link from "next/link";
 
 const ProductsPage = async (props: {
@@ -24,10 +23,7 @@ const ProductsPage = async (props: {
     limit: 10,
   });
 
-  const categories = await getAllCategories();
-
-  console.log("categories", categories);
-
+  console.log("PRoducts", products);
   return (
     <div className="relative z-10 flex-1 overflow-auto">
       <Header title="Products" />

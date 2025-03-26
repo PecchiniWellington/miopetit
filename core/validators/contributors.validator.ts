@@ -1,6 +1,7 @@
 // contributor.validator.ts
 
 import { z } from "zod";
+import { productSchema } from "./product.validator"; // Adjust the path as needed
 
 export const contributorSchema = z.object({
   id: z.string().uuid().optional().nullable(),
@@ -54,27 +55,7 @@ export const contributorSchema = z.object({
 
   userId: z.string().uuid(),
 
-  products: z
-    .array(
-      z.object({
-        name: z.string(),
-        slug: z.string(),
-        price: z.number(),
-        costPrice: z.number(),
-        stock: z.number().optional().nullable(),
-        description: z.string().optional().nullable(),
-        shortDescription: z.string().optional().nullable(),
-        images: z.array(z.string()).optional().nullable(),
-        rating: z.number().optional().nullable(),
-        numReviews: z.number().optional().nullable(),
-        isFeatured: z.boolean().optional().nullable(),
-        categoryType: z.string().optional().nullable(),
-        percentageDiscount: z.number().optional().nullable(),
-        animalAge: z.string().optional().nullable(),
-      })
-    )
-    .optional()
-    .nullable(),
+  products: productSchema.array().optional(),
 
   // 👇 aggiunto campo user per visualizzarlo in tabella
   user: z

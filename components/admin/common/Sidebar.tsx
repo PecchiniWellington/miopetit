@@ -1,16 +1,20 @@
 "use client";
+
 import ROLES from "@/lib/constants/roles";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   BarChart2,
+  ChevronDown,
   DollarSign,
   HeartHandshake,
+  Layout,
   Menu,
   MonitorCog,
   Settings,
   ShoppingBag,
   ShoppingCart,
   TrendingUp,
+  User,
   Users,
 } from "lucide-react";
 import { useSession } from "next-auth/react";
@@ -67,11 +71,25 @@ const SIDEBAR_ITEMS = [
     color: "#6EE7B7",
     href: "/settings",
     role: [ROLES.ADMIN, ROLES.CONTRIBUTOR],
+    children: [
+      {
+        name: "Profilo",
+        color: "#4ADE80",
+        icon: User,
+        href: "/settings/profile",
+      },
+      {
+        name: "Pagina pubblica",
+        color: "#F472B6",
+        icon: Layout,
+        href: "/settings/page-settings",
+      },
+    ],
   },
   {
     name: "Contributors",
     icon: HeartHandshake,
-    color: "#ff5733", // Changed color
+    color: "#ff5733",
     href: "/contributors",
     role: [ROLES.ADMIN],
   },
@@ -87,18 +105,17 @@ const SIDEBAR_ITEMS = [
 const Sidebar = () => {
   const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean | null>(null);
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
   const user = useSession();
 
-  // Determina se la sidebar deve essere aperta o chiusa in base alla larghezza dello schermo
   useEffect(() => {
     if (window.innerWidth < 768) {
-      setIsSidebarOpen(false); // Chiusa per i dispositivi mobili
+      setIsSidebarOpen(false);
     } else {
-      setIsSidebarOpen(true); // Aperta per i desktop
+      setIsSidebarOpen(true);
     }
   }, []);
 
-  // Se lo stato è null (ancora in fase di inizializzazione), non renderizza nulla
   if (isSidebarOpen === null) return null;
 
   return (
@@ -109,7 +126,6 @@ const Sidebar = () => {
       animate={{ width: isSidebarOpen ? 256 : 80 }}
     >
       <div className="flex h-full flex-col border-r border-gray-700 bg-gray-800/50 p-4 backdrop-blur-md">
-        {/* Bottone per aprire/chiudere la sidebar */}
         <motion.button
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
@@ -119,7 +135,6 @@ const Sidebar = () => {
           <Menu size={24} />
         </motion.button>
 
-        {/* Menu di navigazione */}
         <nav className="mt-8 grow">
           {SIDEBAR_ITEMS.filter((item) =>
             user.data?.user.role
@@ -129,6 +144,66 @@ const Sidebar = () => {
             const isActive =
               (pathname.includes(item.href) && item.href.length > 1) ||
               pathname === item.href;
+
+            const isOpen = openMenu === item.name;
+
+            if (item.children) {
+              return (
+                <div key={item.name} className="mb-2">
+                  <motion.div
+                    onClick={() => setOpenMenu(isOpen ? null : item.name)}
+                    className={`flex cursor-pointer items-center justify-between rounded-lg p-4 text-sm font-medium transition-colors hover:bg-gray-700 ${
+                      isActive ? "bg-gray-700" : ""
+                    }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <item.icon
+                        size={20}
+                        style={{ color: item.color, minWidth: "20px" }}
+                      />
+                      <AnimatePresence>
+                        {isSidebarOpen && (
+                          <motion.span
+                            className="whitespace-nowrap"
+                            initial={{ opacity: 0, width: 0 }}
+                            animate={{ opacity: 1, width: "auto" }}
+                            exit={{ opacity: 0, width: 0 }}
+                            transition={{ duration: 0.2, delay: 0.3 }}
+                          >
+                            {item.name}
+                          </motion.span>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                    {isSidebarOpen && (
+                      <ChevronDown
+                        className={`transition-transform ${isOpen ? "rotate-180" : "rotate-0"}`}
+                        size={16}
+                      />
+                    )}
+                  </motion.div>
+                  <AnimatePresence>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        className="ml-6 mt-2 space-y-1"
+                      >
+                        {item.children.map((child) => (
+                          <Link key={child.href} href={`/admin${child.href}`}>
+                            <div className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-gray-300 hover:bg-gray-700">
+                              <child.icon size={16} color={child.color} />
+                              {child.name}
+                            </div>
+                          </Link>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            }
 
             return (
               <Link key={item.href} href={`/admin${item.href}`}>

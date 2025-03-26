@@ -5,9 +5,12 @@ export const productSchema = z.object({
   id: z.string().uuid().optional(),
   name: z.string(),
   slug: z.string(),
-  price: z.string().regex(/^\d+(\.\d{1,2})?$/, "Invalid price format"),
-  costPrice: z.number().nonnegative().optional(),
-  stock: z.preprocess((val) => Number(val), z.number().int().nonnegative()),
+  price: z.preprocess((val) => Number(val), z.number()),
+  costPrice: z.preprocess((val) => Number(val), z.number()),
+  stock: z.preprocess(
+    (val) => (val === null ? null : Number(val)),
+    z.number().nullable().optional()
+  ),
   rating: z.number().min(0).max(5).default(0),
   banner: z.string().optional().nullable(),
   numReviews: z.number().int().nonnegative().optional(),
@@ -80,9 +83,12 @@ export const createProductSchema = z.object({
   id: z.string().uuid().optional(),
   name: z.string(),
   slug: z.string(),
-  price: z.string().regex(/^\d+(\.\d{1,2})?$/, "Invalid price format"),
-  costPrice: z.number().nonnegative().optional(),
-  stock: z.preprocess((val) => Number(val), z.number().int().nonnegative()),
+  price: z.preprocess((val) => Number(val), z.number()),
+  costPrice: z.preprocess((val) => Number(val), z.number()),
+  stock: z.preprocess(
+    (val) => (val === null ? null : Number(val)),
+    z.number().nullable().optional()
+  ),
   rating: z.number().min(0).max(5).default(0),
   banner: z.string().optional().nullable(),
   numReviews: z.number().int().nonnegative().optional(),

@@ -6,6 +6,7 @@ import Link from "next/link";
 
 export default async function PartnersPage() {
   const partners = await getAllContributors();
+  console.log(partners);
 
   return (
     <main className="mx-auto max-w-7xl space-y-16 px-6 py-16">
