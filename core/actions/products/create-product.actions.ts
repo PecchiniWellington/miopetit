@@ -1,11 +1,19 @@
+import { auth } from "@/auth";
 import { prisma } from "@/core/prisma/prisma";
 import { createProductSchema } from "@/core/validators";
+import ROLES from "@/lib/constants/roles";
 import { formatError } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 export async function createProduct(data: z.infer<typeof createProductSchema>) {
   try {
+    const session = await auth();
+    const currentContributorId = (
+      await prisma.contributor.findFirst({
+        where: { userId: session?.user.id },
+      })
+    )?.id;
     const product = createProductSchema.parse(data);
 
     const bannerUrl = product.banner;
@@ -48,7 +56,7 @@ export async function createProduct(data: z.infer<typeof createProductSchema>) {
         name: product.name,
         slug: product.slug || "",
         price: product.price,
-        stock: product.stock,
+        stock: product.stock ?? 0,
         isFeatured: product.isFeatured,
         createdAt: new Date(product.createdAt || new Date()),
         updatedAt: new Date(),
@@ -56,10 +64,15 @@ export async function createProduct(data: z.infer<typeof createProductSchema>) {
         categoryType: product.categoryType || "",
         percentageDiscount: product.percentageDiscount,
         description: product.description,
+        shortDescription: product.shortDescription || "", // Added shortDescription
         banner: bannerUrl,
         images: imageUrls,
         productBrandId: product.productBrand?.id || null,
         productUnitFormatId,
+        contributorId:
+          session?.user.role === ROLES.CONTRIBUTOR
+            ? currentContributorId
+            : null,
       },
     });
 

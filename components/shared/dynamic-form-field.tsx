@@ -157,9 +157,9 @@ const DynamicFormField = <T extends FieldValues>({
                   onChange={handleChange}
                   /*  {...field} */
                   value={
-                    !isNumber
-                      ? field.value?.toString()
-                      : Number(field.value) || ""
+                    isNumber
+                      ? Number(field.value ?? "") // fallback su "" che React accetta
+                      : (field.value ?? "").toString()
                   }
                   className={`${className}`}
                 />

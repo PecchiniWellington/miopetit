@@ -28,7 +28,6 @@ export async function getAllProducts({
       where: { userId: session?.user.id },
     })
   )?.id;
-  console.log("USER", session?.user.role, currentContributorId);
 
   // Filtro di ricerca per nome e descrizione del prodotto
   const queryFilter: Prisma.ProductWhereInput = query
