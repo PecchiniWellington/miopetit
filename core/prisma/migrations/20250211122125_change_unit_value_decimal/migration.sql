@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "UnitValue" ALTER COLUMN "value" SET DATA TYPE DECIMAL(10,2);

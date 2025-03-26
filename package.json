@@ -15,7 +15,8 @@
     "fake-data": "npx tsx ./core/db-static/seed/output.ts"
   },
   "prisma": {
-    "schema": "core/prisma/schema"
+    "schema": "core/prisma/schema",
+    "subfolders": true
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.7.4",

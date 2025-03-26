@@ -1,0 +1,31 @@
+enum Gender {
+    MALE
+    FEMALE
+}
+
+enum AnimalStatus {
+    ADOPTABLE
+    IN_CARE
+    ADOPTED
+    DECEASED
+}
+
+model Animal {
+    id            String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    name          String
+    microchipCode String       @unique
+    breed         String
+    gender        Gender
+    age           Int
+    intakeDate    DateTime
+    origin        String
+    description   String?
+    status        AnimalStatus
+    photoUrl      String?
+
+    contributorId String      @db.Uuid
+    contributor   Contributor @relation(fields: [contributorId], references: [id])
+
+    medicalRecords MedicalRecord[]
+    adoptions      Adoption[]
+}

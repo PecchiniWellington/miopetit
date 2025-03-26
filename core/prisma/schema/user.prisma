@@ -1,29 +1,45 @@
+enum Role {
+    SUPERADMIN
+    ADMIN
+    VETERINARIAN
+    VOLUNTEER
+    RETAILER
+    USER
+}
+
 model User {
-    id                  String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    name                String               @default("NO_NAME")
-    email               String               @unique(map: "user_email_idx")
-    emailVerified       DateTime?            @map("email_verified")
-    image               String?
-    password            String?
-    role                String               @default("USER")
-    paymentMethod       String?
-    status              String               @default("ACTIVE")
-    createdAt           DateTime             @default(now()) @map("created_at") @db.Timestamp(6)
-    updatedAt           DateTime             @updatedAt @map("updated_at")
-    resetToken          String?
-    resetTokenExpiry    DateTime?
-    defaultAddress      Json?                @db.Json
-    address             Address[]
-    accounts            Account[]
-    sessions            Session[]
-    Cart                Cart[]
-    Order               Order[]
-    Review              Review[]
-    SupportTicket       SupportTicket[]
-    products            Product[]
-    userSlug            String?              @unique(map: "user_slug")
-    contributorHomePage ContributorHomePage?
-    contributors        Contributor[]
+    id               String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    name             String    @default("NO_NAME")
+    email            String    @unique(map: "user_email_idx")
+    emailVerified    DateTime? @map("email_verified")
+    image            String?
+    password         String?
+    role             Role      @default(USER)
+    paymentMethod    String?
+    status           String    @default("ACTIVE")
+    createdAt        DateTime  @default(now()) @map("created_at") @db.Timestamp(6)
+    updatedAt        DateTime  @updatedAt @map("updated_at")
+    resetToken       String?
+    resetTokenExpiry DateTime?
+    defaultAddress   Json?     @db.Json
+    userSlug         String?   @unique(map: "user_slug")
+
+    /**
+     * MANY TO MANY
+     */
+    address              Address[]
+    accounts             Account[]
+    sessions             Session[]
+    Cart                 Cart[]
+    Order                Order[]
+    Review               Review[]
+    SupportTicket        SupportTicket[]
+    products             Product[]
+    contributorHomePage  ContributorHomePage?
+    adoptions            Adoption[]
+    schedules            Schedule[]
+    contributors         Contributor[]
+    PermissionAssignment PermissionAssignment[]
 
     @@map("users")
 }
