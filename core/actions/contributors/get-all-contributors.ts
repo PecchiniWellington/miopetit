@@ -51,7 +51,7 @@ function normalizeContributorData(data: any[]) {
 export async function getAllContributors() {
   const data = await prisma.contributor.findMany({
     include: {
-      user: {
+      users: {
         select: {
           id: true,
           name: true,

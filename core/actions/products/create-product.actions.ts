@@ -11,7 +11,13 @@ export async function createProduct(data: z.infer<typeof createProductSchema>) {
     const session = await auth();
     const currentContributorId = (
       await prisma.contributor.findFirst({
-        where: { userId: session?.user.id },
+        where: {
+          users: {
+            some: {
+              id: session?.user.id,
+            },
+          },
+        },
       })
     )?.id;
     const product = createProductSchema.parse(data);
@@ -70,9 +76,7 @@ export async function createProduct(data: z.infer<typeof createProductSchema>) {
         productBrandId: product.productBrand?.id || null,
         productUnitFormatId,
         contributorId:
-          session?.user.role === ROLES.CONTRIBUTOR
-            ? currentContributorId
-            : null,
+          session?.user.role === ROLES.RETAILER ? currentContributorId : null,
       },
     });
 

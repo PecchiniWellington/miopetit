@@ -25,6 +25,21 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
+        hostname: "cdn.jsdelivr.net",
+        port: "",
+      },
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com",
+        port: "",
+      },
+      {
+        protocol: "https",
+        hostname: "picsum.photos",
+        port: "",
+      },
+      {
+        protocol: "https",
         hostname: "www.google.com",
         port: "",
       },

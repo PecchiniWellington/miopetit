@@ -5,7 +5,7 @@ import { ICartItem, IProduct } from "@/core/validators";
 import useLocalStorage from "@/hooks/use-local-storage";
 import { motion } from "framer-motion";
 import { Heart, Loader2, ShoppingCart } from "lucide-react";
-import { default as image, default as Image } from "next/image";
+import { default as Image } from "next/image";
 import Link from "next/link";
 import { startTransition, useEffect, useState } from "react";
 import BrandButton from "../shared/brand-components/brand-button";
@@ -21,6 +21,7 @@ export default function BrandProductCard({
   getProductQuantity?: number;
   userId?: string;
 }) {
+  console.log(product);
   const [isWishlisted, setWishlisted] = useState(false);
   const [isPending, setIsPending] = useState(false);
   const [favorites, setFavorites] = useLocalStorage<IProduct[]>(
@@ -101,40 +102,32 @@ export default function BrandProductCard({
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
-        <div className="flex items-center justify-center rounded-lg bg-gray-100 p-6">
+        <div className="flex items-center justify-center rounded-lg bg-gray-100 ">
+          <div className="relative h-[180px] w-full overflow-hidden rounded-lg bg-gray-100">
+            <Link
+              href={`/product/${product?.slug}`}
+              className="block size-full"
+            >
+              <Image
+                src={product.images[0] || "/images/placeholder.jpg"}
+                alt={product.name}
+                fill
+                className="object-cover"
+                loading="lazy"
+              />
+            </Link>
+          </div>
           {oldPrice && (
             <BrandNotificationNumber className="left-3 top-3 w-fit px-1 shadow-2xl">
               -
               {Math.round(
-                ((parseFloat(oldPrice) - parseFloat(product.price)) /
+                ((parseFloat(oldPrice) - product.price) /
                   parseFloat(oldPrice)) *
                   100
               )}
               %
             </BrandNotificationNumber>
           )}
-
-          <Link href={`/product/${product?.slug}`}>
-            {Array.isArray(image) ? (
-              <Image
-                src={image[0] || "/images/placeholder.jpg"}
-                alt={product.name}
-                width={180}
-                height={180}
-                className="object-contain"
-                loading="lazy"
-              />
-            ) : (
-              <Image
-                src={product.images[0] || "/images/placeholder.jpg"}
-                alt={product.name}
-                width={180}
-                height={180}
-                className="object-contain"
-                loading="lazy"
-              />
-            )}
-          </Link>
           <motion.button
             onClick={toggleFavorite}
             whileTap={{ scale: 0.9 }}

@@ -6,6 +6,8 @@ import { createBaseData } from "./create-base-data";
 import { createCategories } from "./create-categories";
 import { createProductUnitFormats } from "./create-product-unit-form";
 import { createProducts } from "./create-products";
+import { createRetailerProducts } from "./create-retailer-product";
+import { seedContributorsData } from "./seed-contributor-data";
 
 // ✅ Funzione principale
 async function main() {
@@ -20,6 +22,8 @@ async function main() {
     await assignAddressesToUsers();
     const productUnitFormats = await createProductUnitFormats();
     await createProducts(productUnitFormats);
+    await createRetailerProducts();
+    await seedContributorsData();
 
     console.log(`✅ Database seeded successfully 🎉`);
   } catch (error) {
