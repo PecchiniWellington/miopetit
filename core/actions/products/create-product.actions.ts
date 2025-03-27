@@ -1,3 +1,4 @@
+"use server";
 import { auth } from "@/auth";
 import { prisma } from "@/core/prisma/prisma";
 import { createProductSchema } from "@/core/validators";

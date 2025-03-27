@@ -1,6 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { AnimalAge } from "@prisma/client";
-import { Decimal } from "@prisma/client/runtime/library";
+import { AnimalAge, Prisma } from "@prisma/client"; // ✅ corretto
 
 const animalAges: AnimalAge[] = ["PUPPY", "ADULT", "SENIOR"];
 
@@ -20,9 +19,11 @@ const generateFakeProducts = (count = 500) => {
       description: faker.commerce.productDescription(),
       shortDescription: faker.commerce.productAdjective(),
       stock,
-      price: new Decimal(price.toFixed(2)),
-      costPrice: new Decimal(costPrice.toFixed(2)),
-      rating: new Decimal(faker.number.float({ min: 1, max: 5 }).toFixed(2)),
+      price: new Prisma.Decimal(price.toFixed(2)),
+      costPrice: new Prisma.Decimal(costPrice.toFixed(2)),
+      rating: new Prisma.Decimal(
+        faker.number.float({ min: 1, max: 5 }).toFixed(2)
+      ),
       numReviews: faker.number.int({ min: 0, max: 100 }),
       isFeatured: faker.datatype.boolean(),
       banner: faker.image.url(),

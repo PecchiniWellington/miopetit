@@ -1,3 +1,4 @@
+"use server";
 import { auth } from "@/auth";
 import { prisma } from "@/core/prisma/prisma";
 import { productSchema } from "@/core/validators/product.validator";
@@ -23,13 +24,19 @@ export async function getAllProducts({
   sort?: string;
 }) {
   const session = await auth();
-  const currentContributorId = (
-    await prisma.contributor.findFirst({
-      where: { userId: session?.user.id },
-    })
-  )?.id;
 
-  // Filtro di ricerca per nome e descrizione del prodotto
+  const contributor = await prisma.contributor.findFirst({
+    where: {
+      users: {
+        some: {
+          id: session?.user.id,
+        },
+      },
+    },
+  });
+
+  const currentContributorId = contributor?.id;
+
   const queryFilter: Prisma.ProductWhereInput = query
     ? {
         OR: [
@@ -37,23 +44,21 @@ export async function getAllProducts({
             name: {
               contains: query,
               mode: "insensitive",
-            } as Prisma.StringFilter,
+            },
           },
           {
             description: {
               contains: query,
               mode: "insensitive",
-            } as Prisma.StringFilter,
+            },
           },
         ],
       }
     : {};
 
-  // Ottieni tutte le categorie e i brand
   const categories = await getAllCategories();
   const brands = await getAllBrands();
 
-  // Creazione di una mappa per categorie e brand
   const categoryMap = Object.fromEntries(
     categories?.data?.map((cat) => [cat.slug, cat.id]) || []
   );
@@ -61,7 +66,6 @@ export async function getAllProducts({
     brands?.map((brand) => [brand.name, brand.id]) || []
   );
 
-  // Lista di campi validi nella tabella `product`
   const validFields = new Set([
     "name",
     "slug",
@@ -74,7 +78,6 @@ export async function getAllProducts({
     "productUnitFormatId",
   ]);
 
-  // Costruzione dinamica dei filtri Prisma basati su queries
   const dynamicFilters: Prisma.ProductWhereInput = {};
 
   for (const [key, value] of Object.entries(queries)) {
@@ -104,80 +107,74 @@ export async function getAllProducts({
       (dynamicFilters as Record<string, string | number | Prisma.StringFilter>)[
         key
       ] = value;
-    } else {
-      console.warn(`⚠️ Il filtro '${key}' non è un campo valido per Prisma.`);
     }
   }
 
-  // Fetch dei prodotti con i filtri applicati
+  const select = {
+    id: true,
+    name: true,
+    slug: true,
+    price: true,
+    description: true,
+    images: true,
+    stock: true,
+    rating: true,
+    numReviews: true,
+    isFeatured: true,
+    createdAt: true,
+    updatedAt: true,
+    animalAge: true,
+    categoryType: true,
+    percentageDiscount: true,
+    costPrice: true,
+    shortDescription: true,
+
+    productCategory: {
+      select: {
+        category: true,
+      },
+    },
+    productBrand: {
+      select: {
+        id: true,
+        name: true,
+      },
+    },
+    productUnitFormat: {
+      select: {
+        id: true,
+        slug: true,
+        unitValue: true,
+        unitOfMeasure: true,
+      },
+    },
+    productPathologyOnProduct: {
+      select: {
+        pathology: { select: { id: true, name: true } },
+      },
+    },
+    productsFeatureOnProduct: {
+      select: {
+        productFeature: { select: { id: true, name: true } },
+      },
+    },
+    productProteinOnProduct: {
+      select: {
+        productProtein: { select: { id: true, name: true } },
+      },
+    },
+  };
+
   const data = await prisma.product.findMany({
     where: {
       ...queryFilter,
       ...dynamicFilters,
-      ...(session?.user.role === ROLES.CONTRIBUTOR &&
+      ...(session?.user.role === ROLES.RETAILER &&
         currentContributorId && {
           contributorId: currentContributorId,
         }),
     },
-    select: {
-      id: true,
-      name: true,
-      slug: true,
-      price: true,
-      description: true,
-      images: true,
-      stock: true,
-      rating: true,
-      numReviews: true,
-      isFeatured: true,
-      createdAt: true,
-      updatedAt: true,
-      animalAge: true,
-      categoryType: true,
-      percentageDiscount: true,
-      costPrice: true,
-      shortDescription: true,
-
-      productCategory: {
-        select: {
-          category: true,
-        },
-      },
-
-      productBrand: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
-
-      productUnitFormat: {
-        select: {
-          id: true,
-          slug: true,
-          unitValue: true,
-          unitOfMeasure: true,
-        },
-      },
-
-      productPathologyOnProduct: {
-        select: {
-          pathology: { select: { id: true, name: true } },
-        },
-      },
-
-      productsFeatureOnProduct: {
-        select: {
-          productFeature: { select: { id: true, name: true } },
-        },
-      },
-
-      productProteinOnProduct: {
-        select: {
-          productProtein: { select: { id: true, name: true } },
-        },
-      },
-    },
+    select,
     orderBy:
       sort === "lowest"
         ? { price: "asc" }
@@ -190,8 +187,16 @@ export async function getAllProducts({
     take: limit,
   });
 
-  // Conteggio totale dei prodotti
-  const productCount = await prisma.product.count({ where: dynamicFilters });
+  const productCount = await prisma.product.count({
+    where: {
+      ...queryFilter,
+      ...dynamicFilters,
+      ...(session?.user.role === ROLES.RETAILER &&
+        currentContributorId && {
+          contributorId: currentContributorId,
+        }),
+    },
+  });
 
   const transformedData = data.map(
     ({
@@ -202,8 +207,9 @@ export async function getAllProducts({
       ...rest
     }) => ({
       ...rest,
+      rating: Number(rest.rating ?? 0),
+      price: Number(rest.price),
       costPrice: Number(rest.costPrice),
-      shortDescription: rest.shortDescription,
       productPathologies: productPathologyOnProduct.map((p) => p.pathology),
       productProteins: productProteinOnProduct.map((p) => p.productProtein),
       productCategory: productCategory.map((c) => c.category),

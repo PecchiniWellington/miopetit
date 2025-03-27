@@ -30,7 +30,7 @@ export const productSchema = z.object({
       id: z.string().uuid(),
       name: z.string(),
     })
-    .nullable(), // Può essere null
+    .nullable(),
 
   productUnitFormat: z
     .object({
@@ -107,7 +107,7 @@ export const createProductSchema = z.object({
       id: z.string().uuid(),
       name: z.string(),
     })
-    .nullable(), // Può essere null
+    .nullable(),
 
   productUnitFormat: z
     .object({

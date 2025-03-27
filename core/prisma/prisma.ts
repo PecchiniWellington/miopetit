@@ -4,7 +4,7 @@ import { PrismaClient } from "@prisma/client";
 import ws from "ws";
 
 import dotenv from "dotenv";
-dotenv.config({ path: ".env.local" });
+dotenv.config({ path: ".env" });
 
 neonConfig.webSocketConstructor = ws;
 const connectionString = `${process.env.DATABASE_URL}`;
@@ -14,9 +14,9 @@ const pool = new Pool({ connectionString });
 const adapter = new PrismaNeon(pool);
 
 export const prisma = new PrismaClient({
-  log: ["error"],
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  adapter: adapter as unknown as any,
+  /* log: ["error"], */
+
+  adapter: adapter,
 }).$extends({
   result: {
     product: {

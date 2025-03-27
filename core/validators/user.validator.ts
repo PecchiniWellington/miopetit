@@ -52,7 +52,7 @@ export const userSchema = z
     Review: z.array(z.unknown()).optional(),
   })
   .refine(
-    (data) => data.role !== ROLES.CONTRIBUTOR || data.userSlug !== undefined,
+    (data) => data.role !== ROLES.RETAILER || data.userSlug !== undefined,
     {
       message: "userSlug è obbligatorio se il ruolo è Contributor",
       path: ["userSlug"],

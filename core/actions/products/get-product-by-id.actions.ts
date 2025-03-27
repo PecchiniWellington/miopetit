@@ -1,3 +1,4 @@
+"use server";
 import { prisma } from "@/core/prisma/prisma";
 import { IOrderItem, productSchema } from "@/core/validators";
 import { convertToPlainObject, formatDateTime } from "@/lib/utils";

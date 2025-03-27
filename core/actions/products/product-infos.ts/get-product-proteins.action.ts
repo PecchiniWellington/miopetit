@@ -1,3 +1,4 @@
+"use server";
 import { prisma } from "@/core/prisma/prisma";
 import { convertToPlainObject, formatValidationError } from "@/lib/utils";
 

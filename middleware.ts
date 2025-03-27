@@ -44,19 +44,19 @@ export default async function middleware(req: NextRequest) {
   // 🔹 3. Controlla l'autenticazione usando l'API endpoint
   const sessionToken = req.cookies.get("next-auth.session-token")?.value;
 
-  let isAuthenticated = false;
+  const isAuthenticated = false;
 
   if (sessionToken) {
     // Chiama l'API endpoint per verificare l'autenticazione
     try {
-      const authCheckUrl = new URL("/api/auth-check", req.url);
+      /*   const authCheckUrl = new URL("/api/auth-check", req.url);
       authCheckUrl.searchParams.set("sessionToken", sessionToken);
 
       const authResponse = await fetch(authCheckUrl);
       if (authResponse.ok) {
         const authData = await authResponse.json();
         isAuthenticated = authData.isAuthenticated;
-      }
+      } */
     } catch (error) {
       console.error("Errore durante la verifica dell'autenticazione:", error);
     }

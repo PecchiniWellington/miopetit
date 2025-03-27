@@ -35,7 +35,7 @@ const SIDEBAR_ITEMS = [
     icon: ShoppingBag,
     color: "#8B5CF6",
     href: "/products",
-    role: [ROLES.ADMIN, ROLES.CONTRIBUTOR],
+    role: [ROLES.ADMIN, ROLES.RETAILER],
   },
   {
     name: "Users",
@@ -70,7 +70,7 @@ const SIDEBAR_ITEMS = [
     icon: Settings,
     color: "#6EE7B7",
     href: "/settings",
-    role: [ROLES.ADMIN, ROLES.CONTRIBUTOR],
+    role: [ROLES.ADMIN, ROLES.RETAILER],
     children: [
       {
         name: "Profilo",

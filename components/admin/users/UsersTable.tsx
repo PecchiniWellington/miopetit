@@ -29,18 +29,18 @@ const Roles = ({ userRole }: { userRole: string }) => {
         />
       );
 
-    case ROLES.EDITOR:
+    case ROLES.VETERINARIAN:
       return (
         <BrandBadge
-          label={ROLES.EDITOR}
+          label={ROLES.VETERINARIAN}
           className="bg-orange-100 text-orange-700"
         />
       );
 
-    case ROLES.CONTRIBUTOR:
+    case ROLES.RETAILER:
       return (
         <BrandBadge
-          label={ROLES.CONTRIBUTOR}
+          label={ROLES.RETAILER}
           className="bg-teal-100 text-teal-700"
         />
       );
@@ -155,13 +155,13 @@ const UsersTable = ({ users }: { users?: IUser[] }) => {
                         {user.image ? (
                           <Image
                             src={user.image}
-                            alt={user.name}
+                            alt={user.name || "User"}
                             width={50}
                             height={50}
                             className="size-full object-cover"
                           />
                         ) : (
-                          <div>{user.name.charAt(0)}</div>
+                          <div>{user?.name?.charAt(0)}</div>
                         )}
                       </div>
                     </div>

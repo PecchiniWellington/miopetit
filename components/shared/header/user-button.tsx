@@ -70,7 +70,11 @@ const UserButton = () => {
             <User size={18} className="text-indigo-500" /> Profile
           </div>
         </Link>
-        {(user?.role === ROLES.ADMIN || user?.role === ROLES.CONTRIBUTOR) && (
+        {(user?.role === ROLES.ADMIN ||
+          user?.role === ROLES.RETAILER ||
+          user?.role === ROLES.SUPERADMIN ||
+          user?.role === ROLES.VETERINARIAN ||
+          user?.role === ROLES.VOLUNTEER) && (
           <Link href="/admin/overview">
             <div className="flex cursor-pointer items-center gap-3 rounded-md px-4 py-3 text-gray-700 transition-all duration-300 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
               <LayoutDashboard size={18} className="text-green-500" /> Admin

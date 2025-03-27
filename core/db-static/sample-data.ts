@@ -19,7 +19,7 @@ const sampleData = {
       name: "pekkins",
       email: "warthepekkins@gmail.com",
       password: hashSync("123456", 10),
-      role: ROLES.CONTRIBUTOR,
+      role: ROLES.RETAILER,
     },
     {
       name: "soundstudio",
