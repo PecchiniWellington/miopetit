@@ -35,8 +35,10 @@ export async function getAllProducts({
     },
   });
 
-  const currentContributorId = contributor?.id;
-
+  console.log(
+    "🚀 ~ file: get-all-products.actions.ts ~ line 38 ~ contributor",
+    { currentId: contributor?.id, session }
+  );
   const queryFilter: Prisma.ProductWhereInput = query
     ? {
         OR: [
@@ -164,15 +166,17 @@ export async function getAllProducts({
       },
     },
   };
+  console.log("CONTRIBUTOR", contributor);
+
+  if (!contributor?.id) {
+    return []; // oppure throw o un messaggio vuoto
+  }
 
   const data = await prisma.product.findMany({
     where: {
       ...queryFilter,
       ...dynamicFilters,
-      ...(session?.user.role === ROLES.RETAILER &&
-        currentContributorId && {
-          contributorId: currentContributorId,
-        }),
+      contributorId: contributor.id,
     },
     select,
     orderBy:
@@ -187,13 +191,15 @@ export async function getAllProducts({
     take: limit,
   });
 
+  console.log("🚀 ~ file: get-all-products.actions.ts ~ line 153 ~ data", data);
+
   const productCount = await prisma.product.count({
     where: {
       ...queryFilter,
       ...dynamicFilters,
       ...(session?.user.role === ROLES.RETAILER &&
-        currentContributorId && {
-          contributorId: currentContributorId,
+        contributor?.id && {
+          contributorId: contributor?.id,
         }),
     },
   });

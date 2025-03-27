@@ -41,91 +41,104 @@ const ProductsTable = ({
       </div>
 
       <div className="overflow-x-auto">
-        <SortableTable
-          columns={[
-            { key: "id", label: "ID" },
-            { key: "name", label: "NAME" },
-            { key: "price", label: "PRICE" },
-            { key: "productCategory", label: "CATEGORY" },
-            { key: "stock", label: "STOCK" },
-            { key: "rating", label: "RATING" },
-          ]}
-          data={products}
-          renderRow={(product) => (
-            <motion.tr
-              key={product.id}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.3 }}
-            >
-              <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-300">
-                {product.id ? formatId(product.id) : "N/A"}
-              </td>
-              <td className="flex items-center gap-2 whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-100">
-                <Image
-                  src={product.images?.[0] || "/images/placeholder.jpg"}
-                  alt="Product img"
-                  className="size-10 rounded-full"
-                  height={40}
-                  width={40}
-                />
-                {product.name}
-              </td>
-              <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-300">
-                {product.price}
-              </td>
-              <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-300">
-                {product.productCategory
-                  .map((p: { name: string }) => p.name)
-                  .join(", ") || "N/A"}
-              </td>
-              <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-300">
-                {product.stock}
-              </td>
-              <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-300">
-                {product.rating}
-              </td>
-              <td className="flex gap-1 whitespace-nowrap px-6 py-4 text-sm text-gray-300">
-                <BrandButton size="small">
-                  <Link href={`/admin/products/${product.id}/edit`}>
-                    <Edit size={18} />
-                  </Link>
-                </BrandButton>
-                <BrandButton variant="warning" size="small">
-                  <Link href={`/admin/products/${product.id}/resume`}>
-                    <Eye size={18} />
-                  </Link>
-                </BrandButton>
+        {products ? (
+          <SortableTable
+            columns={[
+              { key: "id", label: "ID" },
+              { key: "name", label: "NAME" },
+              { key: "price", label: "PRICE" },
+              { key: "productCategory", label: "CATEGORY" },
+              { key: "stock", label: "STOCK" },
+              { key: "rating", label: "RATING" },
+            ]}
+            data={products}
+            renderRow={(product) => (
+              <motion.tr
+                key={product.id}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+              >
+                <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-300">
+                  {product.id ? formatId(product.id) : "N/A"}
+                </td>
+                <td className="flex items-center gap-2 whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-100">
+                  <Image
+                    src={product.images?.[0] || "/images/placeholder.jpg"}
+                    alt="Product img"
+                    className="size-10 rounded-full"
+                    height={40}
+                    width={40}
+                  />
+                  {product.name}
+                </td>
+                <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-300">
+                  {product.price}
+                </td>
+                <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-300">
+                  {product.productCategory
+                    .map((p: { name: string }) => p.name)
+                    .join(", ") || "N/A"}
+                </td>
+                <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-300">
+                  {product.stock}
+                </td>
+                <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-300">
+                  {product.rating}
+                </td>
+                <td className="flex gap-1 whitespace-nowrap px-6 py-4 text-sm text-gray-300">
+                  <BrandButton size="small">
+                    <Link href={`/admin/products/${product.id}/edit`}>
+                      <Edit size={18} />
+                    </Link>
+                  </BrandButton>
+                  <BrandButton variant="warning" size="small">
+                    <Link href={`/admin/products/${product.id}/resume`}>
+                      <Eye size={18} />
+                    </Link>
+                  </BrandButton>
 
-                <GenericModal
-                  triggerButton={
-                    <BrandButton
-                      size="small"
-                      variant="danger"
-                      icon={<Trash2 className="size-5" />}
-                    />
-                  }
-                  title={t("delete_product_modal.title")}
-                  description={t("delete_product_modal.description")}
-                  confirmText={t("delete_product_modal.delete_button")}
-                  cancelText={t("delete_product_modal.cancel_button")}
-                  icon={<AlertTriangle className="size-5 text-red-500" />}
-                  variant="danger"
-                  onConfirm={() => {
-                    console.log("delete product", product);
-                    return deleteProduct(product.id!);
-                  }}
-                />
-              </td>
-            </motion.tr>
-          )}
-        />
+                  <GenericModal
+                    triggerButton={
+                      <BrandButton
+                        size="small"
+                        variant="danger"
+                        icon={<Trash2 className="size-5" />}
+                      />
+                    }
+                    title={t("delete_product_modal.title")}
+                    description={t("delete_product_modal.description")}
+                    confirmText={t("delete_product_modal.delete_button")}
+                    cancelText={t("delete_product_modal.cancel_button")}
+                    icon={<AlertTriangle className="size-5 text-red-500" />}
+                    variant="danger"
+                    onConfirm={() => {
+                      console.log("delete product", product);
+                      return deleteProduct(product.id!);
+                    }}
+                  />
+                </td>
+              </motion.tr>
+            )}
+          />
+        ) : (
+          <div className="flex flex-col items-center justify-center py-10">
+            <p className="text-lg font-semibold text-gray-300">
+              No Products found
+            </p>
+            <p className="text-sm text-gray-500">
+              Try adjusting your search or adding new Products.
+            </p>
+          </div>
+        )}
       </div>
 
       {/* PAGINAZIONE */}
-      <div className="mt-4 flex justify-between">
-        <Pagination page={Number(page) || 1} totalPages={totalPages} />
-      </div>
+      {products && (
+        <div className="mt-4 flex justify-between">
+          <Pagination page={Number(page) || 1} totalPages={totalPages} />
+        </div>
+      )}
     </motion.div>
   );
 };
