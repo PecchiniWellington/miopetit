@@ -1,10 +1,11 @@
 "use client";
 
+import { IContributor } from "@/core/validators/contributors.validator";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import BrandButton from "../shared/brand-components/brand-button";
 
-const BlockHero = ({ contributor }: { contributor: any }) => {
+const BlockHero = ({ contributor }: { contributor: IContributor }) => {
   const [offsetY, setOffsetY] = useState(0);
   const imageRef = useRef<HTMLDivElement>(null);
 
@@ -34,7 +35,7 @@ const BlockHero = ({ contributor }: { contributor: any }) => {
         }}
       >
         <Image
-          src={contributor.coverImage}
+          src={contributor.coverImage || "/images/placeholder.jpg"}
           alt="Cover"
           fill
           className="scale-110 object-cover "
@@ -45,7 +46,7 @@ const BlockHero = ({ contributor }: { contributor: any }) => {
       <div className="absolute inset-0 bg-black/60" />
       <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
         <Image
-          src={contributor.logo}
+          src={contributor.logo || "/images/placeholder.jpg"}
           alt="Logo"
           width={90}
           height={90}

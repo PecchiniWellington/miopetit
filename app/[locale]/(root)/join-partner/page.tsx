@@ -12,7 +12,7 @@ import { z } from "zod";
 
 // Schema di validazione con campi obbligatori
 const joinPartnerSchema = z.object({
-  fullName: z.string().min(3, "⚠️ Il nome deve contenere almeno 3 caratteri"),
+  fullName: z.string().optional().nullable(),
   email: z.string().email("⚠️ Inserisci un'email valida"),
   phone: z.string().min(10, "⚠️ Inserisci un numero di telefono valido"),
   businessName: z.string().min(3, "⚠️ Il nome dell'azienda è obbligatorio"),

@@ -11,7 +11,7 @@ import { z } from "zod";
 
 // Schema di validazione con campi obbligatori
 const contactUsSchema = z.object({
-  fullName: z.string().min(3, "⚠️ Il nome deve contenere almeno 3 caratteri"),
+  fullName: z.string().optional().nullable(),
   object: z.string().min(3, "⚠️ l'oggetto deve contenere almeno 3 caratteri"),
   email: z.string().email("⚠️ Inserisci un'email valida"),
   description: z.string().optional(),

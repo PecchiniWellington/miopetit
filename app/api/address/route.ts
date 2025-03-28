@@ -33,9 +33,14 @@ export async function POST(req: Request) {
     );
   }
 
-  const body = await req.json();
+  const body: unknown = await req.json();
 
-  if (!body || !body.street || !body.city) {
+  if (
+    typeof body !== "object" ||
+    !body ||
+    !("street" in body) ||
+    !("city" in body)
+  ) {
     return NextResponse.json(
       { success: false, message: "Dati mancanti" },
       { status: 400 }
@@ -68,11 +73,17 @@ export async function PUT(req: Request) {
   }
 
   // 🔥 Usa una variabile per assegnare `req.json()` e fai console.log del suo contenuto
-  const body = await req.json();
+  const body: unknown = await req.json();
   console.log("BODY PUT:", JSON.stringify(body)); // 🔥 Stampa il body per debugging
 
   // Verifica che il body contenga effettivamente i dati necessari
-  if (!body || !body.id || !body.street || !body.city) {
+  if (
+    typeof body !== "object" ||
+    !body ||
+    !("id" in body) ||
+    !("street" in body) ||
+    !("city" in body)
+  ) {
     return NextResponse.json(
       { success: false, message: "Dati mancanti" },
       { status: 400 }

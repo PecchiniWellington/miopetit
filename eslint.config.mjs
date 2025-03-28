@@ -22,6 +22,9 @@ const eslintConfig = [
   {
     rules: {
       "no-undef": "off",
+      "@typescript-eslint/no-unused-vars": "warn", // o "off"
+      "react-hooks/exhaustive-deps": "warn", // o "off"
+      "no-console": "off", // oppure "warn" per tenerli visibili ma non bloccare
     },
   },
   {

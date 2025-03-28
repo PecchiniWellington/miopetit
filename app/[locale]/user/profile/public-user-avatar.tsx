@@ -33,7 +33,7 @@ export const PublicUserAvatar: React.FC<PublicUserAvatarProps> = ({
 
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  ): Promise<void> => {
     const file = event.target.files?.[0];
     if (!file) return;
 
@@ -63,7 +63,7 @@ export const PublicUserAvatar: React.FC<PublicUserAvatarProps> = ({
     }
   };
 
-  const handleRemoveImage = async () => {
+  const handleRemoveImage = async (): Promise<void> => {
     setPreview(null);
     if (inputFileRef.current) inputFileRef.current.value = "";
 

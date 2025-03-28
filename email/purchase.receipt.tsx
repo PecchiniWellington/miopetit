@@ -32,7 +32,7 @@ PurchaseReceiptEmail.PreviewProps = {
       fullName: "Wellington",
       street: "123 Main St",
       city: "New York",
-      postalCode: "10001",
+      zipCode: "10001",
       country: "USA",
     },
     createdAt: new Date(),

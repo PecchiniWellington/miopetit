@@ -11,16 +11,16 @@ const MainCategory = async ({
   searchParams,
   params,
 }: {
-  searchParams: { [key: string]: string | string[] };
-  params: { slug: string };
+  searchParams: Promise<{ [key: string]: string | string[] }>;
+  params: Promise<{ slug: string }>;
 }) => {
-  const { slug } = params;
+  const { slug } = await params; // Await the params promise
 
   const userLogged = await auth();
   const userId = userLogged?.user?.id;
 
   const queries: IQueryParams = Object.fromEntries(
-    Object.entries(searchParams).map(([key, value]) => [
+    Object.entries(await searchParams).map(([key, value]) => [
       key,
       Array.isArray(value) ? value.join(",") : value.toString(),
     ])
@@ -81,8 +81,6 @@ const MainCategory = async ({
           initialProducts={initialProducts}
           myCart={myCart}
           userId={userId}
-          initialSlug={slug}
-          initialQuery={queries}
         />
       ) : (
         <div className="flex flex-col items-center justify-center py-10">

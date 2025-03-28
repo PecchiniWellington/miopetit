@@ -25,7 +25,7 @@ const AdminUserDetailPage = async (props: {
         fullName: "",
         street: "",
         city: "",
-        postalCode: "",
+        zipCode: "",
         country: "",
         id: undefined,
         userId: undefined,

@@ -12,7 +12,7 @@ interface SecurityTabProps {
 export const SecurityTab: React.FC<SecurityTabProps> = ({
   email,
   setIsLoading,
-  isLoading,
+  isLoading = false,
   setErrorMessage,
   setSuccessMessage,
 }) => {

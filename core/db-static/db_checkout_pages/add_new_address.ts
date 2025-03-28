@@ -32,7 +32,7 @@ export const useAddNewAddress = () => {
       de: "Berlin",
       default: "City",
     },
-    postalCode: {
+    zipCode: {
       it: "20100",
       en: "10001",
       es: "28001",

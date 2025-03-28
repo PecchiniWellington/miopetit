@@ -1,7 +1,6 @@
-import { motion } from "framer-motion";
-import { Star } from "lucide-react";
+import { IContributor } from "@/core/validators/contributors.validator";
 
-const BlockReviews = ({ contributor }: { contributor: any }) => {
+const BlockReviews = ({ contributor }: { contributor: IContributor }) => {
   return (
     <section className="relative mx-auto mt-32 w-full max-w-6xl px-6">
       <div className="pointer-events-none absolute inset-0 z-0 bg-gradient-to-br from-yellow-100 via-white to-purple-100 opacity-60 blur-xl" />
@@ -12,7 +11,7 @@ const BlockReviews = ({ contributor }: { contributor: any }) => {
         </h2>
 
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
-          {contributor.reviews.map((review: any) => (
+          {/* {contributor.reviews.map((review: any) => (
             <motion.div
               key={review.id}
               initial={{ opacity: 0, y: 20 }}
@@ -37,7 +36,7 @@ const BlockReviews = ({ contributor }: { contributor: any }) => {
                 “{review.comment}”
               </p>
             </motion.div>
-          ))}
+          ))} */}
         </div>
       </div>
     </section>

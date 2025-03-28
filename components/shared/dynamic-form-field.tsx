@@ -1,4 +1,4 @@
-import { Control, Controller, Path } from "react-hook-form";
+import { Control, Controller, Path, PathValue } from "react-hook-form";
 
 import { FormControl, FormItem, FormLabel, FormMessage } from "../ui/form";
 
@@ -79,7 +79,11 @@ const DynamicFormField = <T extends FieldValues>({
                   variant={variant}
                   value={
                     typeof field.value === "object" && field.value !== null
-                      ? field.value.id
+                      ? typeof field.value === "object" &&
+                        field.value !== null &&
+                        "id" in field.value
+                        ? field.value.id
+                        : ""
                       : field.value || ""
                   }
                   onValueChange={(value) => {
@@ -126,7 +130,7 @@ const DynamicFormField = <T extends FieldValues>({
                   variant={variant}
                   value={
                     Array.isArray(field.value)
-                      ? field.value.map((id: any) => {
+                      ? field.value.map((id: PathValue<T, Path<T>>) => {
                           const opt = options?.find(
                             (o) =>
                               o.value === (typeof id === "string" ? id : id.id)

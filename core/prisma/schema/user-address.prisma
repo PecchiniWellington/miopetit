@@ -1,10 +1,10 @@
 model Address {
-    id         String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    street     String
-    city       String
-    postalCode String?
-    country    String?
-    fullName   String?
+    id       String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    street   String
+    city     String
+    zipCode  String?
+    country  String?
+    fullName String?
 
     isDefault Boolean @default(false)
     userId    String  @db.Uuid // Cambia da Text a Uuid

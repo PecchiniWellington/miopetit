@@ -72,7 +72,7 @@ const OrderDetailsTable = ({
           >
             <p className="text-gray-700 dark:text-gray-300">
               {shippingAddress.street}, {shippingAddress.city},{" "}
-              {shippingAddress.postalCode}, {shippingAddress.country}
+              {shippingAddress.zipCode}, {shippingAddress.country}
             </p>
           </OrderCard>
 

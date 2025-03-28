@@ -52,7 +52,7 @@ export const AddressesTab = ({ user }: { user: IUser }) => {
           r.data.map((address) => ({
             ...address,
             fullName: address.fullName || "",
-            postalCode: address.postalCode || "",
+            zipCode: address.zipCode || "",
             country: address.country || "",
           }))
         );
@@ -74,7 +74,7 @@ export const AddressesTab = ({ user }: { user: IUser }) => {
     form.reset({
       street: address.street,
       city: address.city,
-      postalCode: address.postalCode || "",
+      zipCode: address.zipCode || "",
       country: address.country || "",
       fullName: address.fullName || "",
     });
@@ -261,7 +261,7 @@ export const AddressesTab = ({ user }: { user: IUser }) => {
                 method="post"
                 className="mt-4 space-y-4"
               >
-                {["fullName", "street", "city", "postalCode", "country"].map(
+                {["fullName", "street", "city", "zipCode", "country"].map(
                   (field) => (
                     <div key={field} className={field}>
                       <FormField

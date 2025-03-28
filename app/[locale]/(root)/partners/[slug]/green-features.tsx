@@ -16,7 +16,7 @@ export default function GreenFeaturesSection() {
               Fornitori certificati eco-friendly
             </h3>
             <p className="text-gray-400">
-              Scegliamo solo fornitori che rispettano l'ambiente.
+              Scegliamo solo fornitori che rispettano l&apos;ambiente.
             </p>
           </div>
         </div>

@@ -17,7 +17,7 @@ export async function updateUserAddress(data: IShippingAddress) {
     data: {
       street: address.street,
       city: address.city,
-      postalCode: address.postalCode,
+      zipCode: address.zipCode,
       country: address.country,
       fullName: address.fullName,
       isDefault: address.isDefault ?? false,

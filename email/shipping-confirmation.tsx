@@ -32,7 +32,7 @@ ShippingConfirmationEmail.PreviewProps = {
       fullName: "Wellington",
       street: "123 Main St",
       city: "New York",
-      postalCode: "10001",
+      zipCode: "10001",
       country: "USA",
     },
     createdAt: new Date(),
@@ -92,7 +92,7 @@ export default function ShippingConfirmationEmail({
               <Text>
                 {order.shippingAddress.fullName} <br />
                 {order.shippingAddress.street} <br />
-                {order.shippingAddress.city}, {order.shippingAddress.postalCode}{" "}
+                {order.shippingAddress.city}, {order.shippingAddress.zipCode}{" "}
                 <br />
                 {order.shippingAddress.country}
               </Text>

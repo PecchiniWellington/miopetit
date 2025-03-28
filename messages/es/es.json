@@ -396,7 +396,7 @@
         "fullName": "Nombre Completo",
         "street": "Dirección",
         "city": "Ciudad",
-        "postalCode": "Código Postal",
+        "zipCode": "Código Postal",
         "country": "País",
         "address_number": "Número de Calle"
       }

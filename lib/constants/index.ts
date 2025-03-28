@@ -28,7 +28,7 @@ export const SHIPPING_ADDRESS_DEFAULT_VALUES = {
   fullName: "",
   street: "",
   city: "",
-  postalCode: "",
+  zipCode: "",
   country: "",
 };
 

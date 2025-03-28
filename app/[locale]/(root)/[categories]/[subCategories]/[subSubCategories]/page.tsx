@@ -48,7 +48,7 @@ const MainCategory = async ({
       indispensable={indispensableDog}
       mainCategory={cat}
       productFilters={productFilters}
-      products={products}
+      initialProducts={products}
       myCart={myCart}
     />
   );

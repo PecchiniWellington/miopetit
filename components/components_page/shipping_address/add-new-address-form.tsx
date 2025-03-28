@@ -96,7 +96,7 @@ const AddNewAddressForm = ({
             { name: "email", label: t("email"), type: "email" },
             { name: "street", label: t("address"), type: "text" },
             { name: "city", label: t("city"), type: "text" },
-            { name: "postalCode", label: t("zip_code"), type: "text" },
+            { name: "zipCode", label: t("zip_code"), type: "text" },
             { name: "country", label: t("country"), type: "text" },
           ].map(({ name, label, type }) => (
             <FormField

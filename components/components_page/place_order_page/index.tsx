@@ -1,6 +1,7 @@
 import { ResumeCard } from "@/app/[locale]/(root)/order/[id]/payment-card-component/resume-card";
-import { ICart, IUser } from "@/core/validators";
+import { ICart } from "@/core/validators/cart.validator"; // Assuming a specific cart validator exists
 import { IAddress } from "@/core/validators/user-address.validator";
+import { IUser } from "@/core/validators/user.validator"; // Assuming a specific user validator exists
 import { useTranslations } from "next-intl";
 import { redirect } from "next/navigation";
 import PlaceOrderPaymentMethod from "./place_order_payment_method";
@@ -12,10 +13,11 @@ const ConfigPlaceOrderPage = ({
   user,
   myCart,
 }: {
-  defaultAddress?: IAddress | null;
+  defaultAddress: IAddress | null;
   user: IUser | null;
   myCart: ICart | null;
 }) => {
+  console.log("🚀 ConfigPlaceOrderPage", { user });
   if (!myCart || myCart.items.length === 0) redirect("/cart");
   if (!user?.defaultAddress) redirect("/shipping-address");
   if (!user?.paymentMethod) redirect("/payment-method");

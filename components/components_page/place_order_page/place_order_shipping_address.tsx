@@ -19,8 +19,8 @@ const PlaceOrderShippingAddress = ({
         {defaultAddress.fullName}
       </p>
       <p className="text-gray-600 dark:text-gray-400">
-        {defaultAddress.street}, {defaultAddress.city},{" "}
-        {defaultAddress.postalCode}, {defaultAddress.country}
+        {defaultAddress.street}, {defaultAddress.city}, {defaultAddress.zipCode}
+        , {defaultAddress.country}
       </p>
       <BrandButton className="mt-8">
         <Link href="/shipping-address">{t("edit_address")}</Link>

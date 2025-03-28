@@ -1,9 +1,10 @@
+import { IProduct } from "@/core/validators";
 import Link from "next/link";
 import DynamicCarousel from "../carousels/carousel";
 import BrandProductCard from "../product/brand-product-card";
 import BrandButton from "../shared/brand-components/brand-button";
 
-const BlockProducts = ({ products }: { products: any[] }) => {
+const BlockProducts = ({ products }: { products: IProduct[] }) => {
   return (
     <section className="mx-auto mt-20 w-full max-w-6xl space-y-8 px-6">
       <h2 className="text-center text-3xl font-bold text-purple-600">

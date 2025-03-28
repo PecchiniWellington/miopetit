@@ -2,7 +2,7 @@ const addressesData = [
   {
     street: "Via Roma 15",
     city: "Milano",
-    postalCode: "20121",
+    zipCode: "20121",
     country: "Italia",
     fullName: "Mario Rossi",
     isDefault: true,
@@ -10,7 +10,7 @@ const addressesData = [
   {
     street: "Corso Vittorio Emanuele II 25",
     city: "Torino",
-    postalCode: "10121",
+    zipCode: "10121",
     country: "Italia",
     fullName: "Giovanna Bianchi",
     isDefault: false,
@@ -18,7 +18,7 @@ const addressesData = [
   {
     street: "Piazza della Signoria 10",
     city: "Firenze",
-    postalCode: "50122",
+    zipCode: "50122",
     country: "Italia",
     fullName: "Luca Verdi",
     isDefault: false,
@@ -26,7 +26,7 @@ const addressesData = [
   {
     street: "Via Garibaldi 20",
     city: "Genova",
-    postalCode: "16124",
+    zipCode: "16124",
     country: "Italia",
     fullName: "Elena Ferrari",
     isDefault: false,
@@ -34,7 +34,7 @@ const addressesData = [
   {
     street: "Viale dei Colli 45",
     city: "Napoli",
-    postalCode: "80122",
+    zipCode: "80122",
     country: "Italia",
     fullName: "Riccardo Neri",
     isDefault: true,
@@ -42,7 +42,7 @@ const addressesData = [
   {
     street: "Piazza Duomo 2",
     city: "Bologna",
-    postalCode: "40121",
+    zipCode: "40121",
     country: "Italia",
     fullName: "Francesca Romano",
     isDefault: false,
@@ -50,7 +50,7 @@ const addressesData = [
   {
     street: "Via Dante 99",
     city: "Palermo",
-    postalCode: "90133",
+    zipCode: "90133",
     country: "Italia",
     fullName: "Giorgio Marini",
     isDefault: false,
@@ -58,7 +58,7 @@ const addressesData = [
   {
     street: "Via Libertà 55",
     city: "Catania",
-    postalCode: "95127",
+    zipCode: "95127",
     country: "Italia",
     fullName: "Alessia Conti",
     isDefault: false,

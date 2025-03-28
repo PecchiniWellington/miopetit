@@ -398,7 +398,7 @@
         "fullName": "full name",
         "street": "street",
         "city": "city",
-        "postalCode": "postalCode",
+        "zipCode": "zipCode",
         "country": "country",
         "address_number": "Address Number"
       }
