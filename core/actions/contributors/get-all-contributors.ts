@@ -1,6 +1,7 @@
 "use server";
 import { prisma } from "@/core/prisma/prisma";
 import { contributorSchema } from "@/core/validators/contributors.validator";
+import ROLES from "@/lib/constants/roles";
 import { convertToPlainObject } from "@/lib/utils";
 import { z } from "zod";
 
@@ -48,8 +49,13 @@ function normalizeContributorData(data: any[]) {
   }));
 }
 
-export async function getAllContributors() {
+export async function getAllContributors(
+  type: ROLES.SHELTER | ROLES.RETAILER | ROLES.ASSOCIATION
+) {
   const data = await prisma.contributor.findMany({
+    where: {
+      type,
+    },
     include: {
       users: {
         select: {

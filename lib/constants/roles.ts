@@ -5,6 +5,8 @@ export enum ROLES {
   VOLUNTEER = "VOLUNTEER",
   RETAILER = "RETAILER",
   USER = "USER",
+  SHELTER = "SHELTER",
+  ASSOCIATION = "ASSOCIATION",
 }
 
 export const USER_ROLES = process.env.USER_ROES
@@ -15,6 +17,8 @@ export const USER_ROLES = process.env.USER_ROES
       ROLES.VETERINARIAN,
       ROLES.ADMIN,
       ROLES.RETAILER,
+      ROLES.SHELTER,
+      ROLES.ASSOCIATION,
       ROLES.VOLUNTEER,
     ];
 

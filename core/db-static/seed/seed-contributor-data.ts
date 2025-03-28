@@ -1,5 +1,6 @@
 import { prisma } from "@/core/prisma/prisma";
 import { generateFakeAnimals } from "../animals";
+import contributorsData from "../contributors";
 import { generateFakeInventory } from "../inventory";
 import { generateFakeInventoryMovements } from "../inventory-movements";
 import { generatePermissionsByRole } from "../permissions-by-role";
@@ -7,6 +8,8 @@ import { generateFakeSchedules } from "../schedules";
 
 export async function seedContributorsData() {
   console.log("🚀 Inizio seed dati per contributor...");
+
+  await prisma.contributor.createMany({ data: contributorsData });
 
   const contributors = await prisma.contributor.findMany({
     include: { users: true },

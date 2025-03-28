@@ -7,7 +7,7 @@ export async function getContributorBySlug(slug: string) {
   const user = await prisma.contributor.findUnique({
     where: { slug },
     include: {
-      user: { select: { email: true, name: true } },
+      users: { select: { email: true, name: true } },
     },
   });
 

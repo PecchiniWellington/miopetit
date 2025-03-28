@@ -10,6 +10,10 @@ export async function cleanDatabase() {
   await prisma.productProtein.deleteMany();
   await prisma.productPathology.deleteMany();
   await prisma.productBrand.deleteMany();
+  await prisma.inventoryMovement.deleteMany();
+  await prisma.inventoryItem.deleteMany();
+  await prisma.animal.deleteMany();
+
   await prisma.user.deleteMany();
   await prisma.contributor.deleteMany();
   await prisma.account.deleteMany();

@@ -5,6 +5,7 @@ import { animalTypesOptions } from "@/core/db-static/db_contributors_page/animal
 import { needsOptions } from "@/core/db-static/db_contributors_page/needs_options";
 import { IUser } from "@/core/validators";
 import { IContributor } from "@/core/validators/contributors.validator";
+import ROLES from "@/lib/constants/roles";
 import { normalizeUrl } from "@/lib/utils";
 import { UseFormReturn } from "react-hook-form";
 
@@ -53,9 +54,11 @@ export function ContributorFormFields({
           variant="admin"
           type="select"
           options={[
-            { value: "PARTNER", label: "Partner" },
-            { value: "CANILE", label: "Canile" },
-            { value: "GATTILE", label: "Gattile" },
+            { value: ROLES.ADMIN, label: "Admin" },
+            { value: ROLES.RETAILER, label: "Retailer" },
+            { value: ROLES.USER, label: "User" },
+            { value: ROLES.VETERINARIAN, label: "Veterinary" },
+            { value: ROLES.VOLUNTEER, label: "Volunteer" },
           ]}
           control={form.control}
           name="type"
@@ -234,7 +237,7 @@ export function ContributorFormFields({
       </div>
 
       {/* 🐾 Solo per Canile/Gattile */}
-      {["CANILE", "GATTILE"].includes(contributorType) && (
+      {["ADMIN", "ADMIN"].includes(contributorType) && (
         <>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <DynamicFormField

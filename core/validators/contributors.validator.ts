@@ -1,5 +1,6 @@
 // contributor.validator.ts
 
+import ROLES from "@/lib/constants/roles";
 import { z } from "zod";
 import { productSchema } from "./product.validator"; // Adjust the path as needed
 
@@ -7,7 +8,7 @@ export const contributorSchema = z.object({
   id: z.string().uuid().optional().nullable(),
   name: z.string(),
   slug: z.string().optional().nullable(),
-  type: z.enum(["PARTNER", "CANILE", "GATTILE"]),
+  type: z.enum([ROLES.SHELTER, ROLES.RETAILER, ROLES.ASSOCIATION]),
   email: z.string().email().optional().nullable(),
   phone: z.string().optional().nullable(),
   website: z.string().url().optional().nullable(),
@@ -52,8 +53,6 @@ export const contributorSchema = z.object({
 
   seoTitle: z.string().optional().nullable(),
   seoDescription: z.string().optional().nullable(),
-
-  userId: z.string().uuid(),
 
   products: productSchema.array().optional(),
 

@@ -6,15 +6,17 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default async function PartnersPage() {
-  const partners = await getAllContributors(ROLES.RETAILER);
-  console.log("PARTNERS", partners);
+  const partners = await getAllContributors(ROLES.SHELTER);
 
   return (
     <main className="mx-auto max-w-7xl space-y-16 px-6 py-16">
       <div className="space-y-2 text-center">
-        <h1 className="text-gradient-primary text-5xl font-extrabold drop-shadow-xl">
-          Scopri i nostri Partner
+        <h1 className="text-5xl font-extrabold text-purple-700 drop-shadow-sm">
+          Aiutaci a sostenere le realtà in difficoltà
         </h1>
+        <p className="text-lg text-gray-600">
+          Filtra, cerca e trova le realtà che hanno più bisogno.
+        </p>
       </div>
 
       {/* Partner Cards */}

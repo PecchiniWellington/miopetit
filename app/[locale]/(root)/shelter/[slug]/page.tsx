@@ -27,7 +27,7 @@ import BlockWhyUs from "@/components/home-blocks/block-why-us";
 import { IProduct } from "@/core/validators";
 
 const contributor = {
-  name: "Canile di Roma",
+  name: "BioFarm Shop",
   logo: "/images/petitLogo.png",
   avgRating: 4,
   reviews: [

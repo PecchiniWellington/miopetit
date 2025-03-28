@@ -1,6 +1,7 @@
 "use server";
 import { prisma } from "@/core/prisma/prisma";
 import { convertToPlainObject, formatValidationError } from "@/lib/utils";
+import { getContributorBySlug } from "../../contributors/get-contributor-by-slug";
 
 /* GET ALL CATEGORIES CON GERARCHIA */
 export async function getAllCategories() {
@@ -293,20 +294,14 @@ export async function getFiltersForCategory(categorySlug: string) {
 }
 
 export async function getFiltersForCategoryByParentId(userSlug: string) {
-  const user = await prisma.user.findUnique({
-    where: { userSlug: userSlug },
-    select: { id: true },
-  });
+  const contributor = await getContributorBySlug(userSlug);
 
-  if (!user) {
-    return {
-      success: false,
-      error: "User not found",
-    };
+  if (!contributor) {
+    return {};
   }
 
   const productIds = await prisma.product.findMany({
-    where: { contributorId: user.id },
+    where: { contributorId: contributor.id },
     select: { id: true },
   });
   const filters = await prisma.product.groupBy({
@@ -316,7 +311,7 @@ export async function getFiltersForCategoryByParentId(userSlug: string) {
       "productUnitFormatId",
       "productPathologyId",
     ] as const,
-    where: { contributorId: user.id },
+    where: { contributorId: contributor.id },
     _min: { price: true },
     _max: { price: true },
   });

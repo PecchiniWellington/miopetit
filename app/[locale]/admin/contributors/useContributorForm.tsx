@@ -7,6 +7,7 @@ import {
   IContributor,
 } from "@/core/validators/contributors.validator";
 import { useToast } from "@/hooks/use-toast";
+import ROLES from "@/lib/constants/roles";
 import { normalizeUrl } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -21,7 +22,7 @@ const rawSchema = contributorSchema.omit({
 });
 
 const createSchema = rawSchema.superRefine((data, ctx) => {
-  if (data.type === "CANILE" || data.type === "GATTILE") {
+  if (data.type === "SHELTER" || data.type === "ASSOCIATION") {
     if (!data.donationLink || !data.donationLink.startsWith("http")) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
@@ -42,7 +43,7 @@ const createSchema = rawSchema.superRefine((data, ctx) => {
 
 const updateSchema = rawSchema.partial().superRefine((data, ctx) => {
   if (
-    (data.type === "CANILE" || data.type === "GATTILE") &&
+    (data.type === ROLES.SHELTER || data.type === ROLES.ASSOCIATION) &&
     data.donationLink
   ) {
     if (!data.donationLink.startsWith("http")) {
@@ -83,7 +84,7 @@ export function useContributorForm({
           type:
             typeof contributor.type === "object"
               ? contributor.type.id
-              : (contributor.type ?? "PARTNER"),
+              : (contributor.type ?? "RETAILER"),
           socialLinks: {
             instagram: contributor.socialLinks?.instagram ?? "",
             facebook: contributor.socialLinks?.facebook ?? "",
@@ -91,9 +92,8 @@ export function useContributorForm({
           },
         }
       : {
-          type: "PARTNER",
+          type: "RETAILER",
           name: "",
-          userId: "",
           slug: "",
           email: "",
           phone: "",
@@ -159,7 +159,7 @@ export function useContributorForm({
       data.donationLink = normalizeUrl(data.donationLink);
     }
 
-    if (data.type === "PARTNER") {
+    if (data.type === ROLES.RETAILER) {
       delete data.animalsAvailable;
       delete data.animalTypes;
       delete data.acceptsDonations;
@@ -185,9 +185,8 @@ export function useContributorForm({
       type:
         typeof parsed.data.type === "object"
           ? parsed.data.type.id
-          : (parsed.data.type ?? "PARTNER"),
+          : (parsed.data.type ?? "ADMIN"),
       name: parsed.data.name ?? "Default Name",
-      userId: parsed.data.userId ?? contributor?.userId ?? "",
       createdAt: parsed.data.createdAt
         ? new Date(parsed.data.createdAt as string)
         : undefined,
@@ -196,21 +195,11 @@ export function useContributorForm({
         : undefined,
     };
 
-    if (!finalData.userId) {
-      toast({
-        title: "Errore",
-        description: "Nessun utente associato. Seleziona un utente valido.",
-        className: "bg-red-100 text-red-800 px-5 py-2",
-      });
-      return;
-    }
-
     try {
       const result =
         type === "Create"
           ? await createContributor({
               ...finalData,
-              userId: finalData.userId || "",
               createdAt: finalData.createdAt
                 ? finalData.createdAt.toISOString()
                 : undefined,

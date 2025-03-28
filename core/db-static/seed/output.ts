@@ -8,6 +8,7 @@ import { createProductUnitFormats } from "./create-product-unit-form";
 import { createProducts } from "./create-products";
 import { createRetailerProducts } from "./create-retailer-product";
 import { seedContributorsData } from "./seed-contributor-data";
+import { seedProductsToContributors } from "./seed-products-to-contributor";
 
 // ✅ Funzione principale
 async function main() {
@@ -24,6 +25,7 @@ async function main() {
     await createProducts(productUnitFormats);
     await createRetailerProducts();
     await seedContributorsData();
+    await seedProductsToContributors();
 
     console.log(`✅ Database seeded successfully 🎉`);
   } catch (error) {
