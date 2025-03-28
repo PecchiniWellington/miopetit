@@ -96,12 +96,12 @@ export async function PUT(req: Request) {
   // Modifica l'indirizzo esistente
   const updatedAddress = await prisma.address.update({
     where: {
-      id: data.id,
+      id: data?.id,
     },
     data: {
-      street: data.street,
-      city: data.city,
-      isDefault: data.isDefault ?? false,
+      street: data?.street,
+      city: data?.city,
+      isDefault: data?.isDefault ?? false,
     },
   });
 

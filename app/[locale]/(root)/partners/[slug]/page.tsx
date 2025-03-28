@@ -24,55 +24,15 @@ import BlockProducts from "@/components/home-blocks/block-products";
 import BlockPromo from "@/components/home-blocks/block-promo";
 import BlockReviews from "@/components/home-blocks/block-reviews";
 import BlockWhyUs from "@/components/home-blocks/block-why-us";
+import { getAllContributors } from "@/core/actions/contributors/get-all-contributors";
 import { IProduct } from "@/core/validators";
-
-const contributor = {
-  name: "BioFarm Shop",
-  logo: "/images/petitLogo.png",
-  avgRating: 4,
-  reviews: [
-    { id: 1, rating: 4, comment: "Ottimo servizio e prodotti di qualità!" },
-    { id: 2, rating: 5, comment: "Veloci e professionali, consiglio!" },
-    { id: 3, rating: 4, comment: "Veloci e professionali, consiglio!" },
-  ],
-  coverImage: "/images/banner-1.jpg",
-  description: "Vendiamo prodotti biologici e sostenibili dal 2020.",
-  descriptionLong:
-    "Siamo un'azienda agricola a conduzione familiare che da oltre dieci anni coltiva con amore e rispetto per la natura. Offriamo prodotti locali a km 0 e servizi su misura per chi vuole riscoprire il gusto autentico del territorio.",
-  featuredProducts: [
-    {
-      id: 1,
-      name: "Miele Biologico",
-      images: ["/images/quaranta-percento.png"],
-      price: 9.99,
-    },
-    {
-      id: 2,
-      name: "Olio EVO",
-      images: ["/images/risparmia-30.png"],
-      price: 14.5,
-    },
-    {
-      id: 3,
-      name: "Confettura di Fichi",
-      images: ["/images/promo.jpg"],
-      price: 7.5,
-    },
-  ],
-  services: [
-    "Vendita diretta in azienda",
-    "Consegna a domicilio",
-    "Corsi di cucina bio",
-  ],
-  socialLinks: {
-    instagram: "https://instagram.com/biofarmshop",
-    linkedin: "https://linkedin.com/company/biofarmshop",
-  },
-};
+import { IContributor } from "@/core/validators/contributors.validator";
+import ROLES from "@/lib/constants/roles";
 
 export default function ContributorShowcase() {
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [products, setProducts] = useState<IProduct[]>([]);
+  const [contributor, setContributor] = useState<IContributor>();
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
@@ -95,6 +55,20 @@ export default function ContributorShowcase() {
     };
 
     fetchProducts();
+  }, []);
+
+  useEffect(() => {
+    const fetchContributors = async () => {
+      try {
+        const response = await getAllContributors(ROLES.RETAILER);
+        const randomIndex = Math.floor(Math.random() * response.length);
+        setContributor(response[randomIndex]);
+      } catch (error) {
+        console.error("Error fetching contributors:", error);
+      }
+    };
+
+    fetchContributors();
   }, []);
 
   useEffect(() => {
@@ -154,7 +128,7 @@ export default function ContributorShowcase() {
       />
 
       {/* SECTIONS */}
-      <BlockHero contributor={contributor} />
+      {contributor && <BlockHero contributor={contributor} />}
       <BlockPromo />
       <BlockAbout
         contributor={contributor}
@@ -164,8 +138,8 @@ export default function ContributorShowcase() {
       <BlockCategory />
       <BlockWhyUs />
       <BlockFeatures />
-      <BlockProducts products={contributor.featuredProducts} />
-      <BlockReviews contributor={contributor} />
+      {contributor && <BlockProducts products={contributor.products} />}
+      {contributor && <BlockReviews contributor={contributor} />}
       <BlockCTA />
 
       {/* FOOTER SPACING */}

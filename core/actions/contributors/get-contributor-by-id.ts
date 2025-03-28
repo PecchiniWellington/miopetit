@@ -6,7 +6,7 @@ export async function getContributorById(id: string) {
   return await prisma.contributor.findUnique({
     where: { id },
     include: {
-      user: { select: { email: true, name: true } },
+      users: { select: { email: true, name: true } },
     },
   });
 }

@@ -1,251 +1,185 @@
 "use server";
-import { auth } from "@/auth";
+
 import { prisma } from "@/core/prisma/prisma";
-import { productSchema } from "@/core/validators/product.validator";
-import { PAGE_SIZE } from "@/lib/constants";
+import {
+  contributorSchema,
+  IContributor,
+} from "@/core/validators/contributors.validator";
 import ROLES from "@/lib/constants/roles";
 import { convertToPlainObject, formatDateTime } from "@/lib/utils";
-import { Prisma } from "@prisma/client";
 import { z } from "zod";
-import { getAllBrands } from "./product-infos.ts";
-import { getAllCategories } from "./product-infos.ts/get-product-category.action";
 
-export async function getAllProducts({
-  queries = {},
-  query,
-  limit = PAGE_SIZE,
-  page,
-  sort,
-}: {
-  queries?: { [key: string]: string };
-  query?: string;
-  limit?: number;
-  page: number;
-  sort?: string;
-}) {
-  const session = await auth();
+interface RawProduct {
+  id: string;
+  name: string;
+  slug: string;
+  price: number;
+  costPrice: number;
+  description: string;
+  shortDescription: string;
+  images: string[];
+  stock: number;
+  rating: number;
+  numReviews: number;
+  isFeatured: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  animalAge: "PUPPY" | "ADULT" | "SENIOR";
+  categoryType: string;
+  percentageDiscount: number;
 
-  const contributor = await prisma.contributor.findFirst({
+  productCategory: { category: { id: string; name: string; slug?: string } }[];
+  productBrand: { id: string; name: string } | null;
+  productUnitFormat: {
+    id?: string;
+    slug?: string;
+    unitValue: { id: string; value: number };
+    unitOfMeasure: { id: string; code: string; name: string };
+  } | null;
+  productPathologyOnProduct: { pathology: { id: string; name: string } }[];
+  productProteinOnProduct: { productProtein: { id: string; name: string } }[];
+  productsFeatureOnProduct: { productFeature: { id: string; name: string } }[];
+}
+
+interface RawContributor extends Omit<IContributor, "products"> {
+  products: RawProduct[];
+}
+
+function normalizeContributorData(data: RawContributor[]): IContributor[] {
+  return data.map((contributor) => ({
+    ...contributor,
+    products: contributor.products.map((product) => {
+      const {
+        productCategory,
+        productUnitFormat,
+        productBrand,
+        productPathologyOnProduct,
+        productProteinOnProduct,
+        productsFeatureOnProduct,
+        createdAt,
+        updatedAt,
+        ...rest
+      } = product;
+
+      return {
+        ...rest,
+        productBrand: productBrand || null,
+        productPathologies: productPathologyOnProduct.map((p) => p.pathology),
+        productProteins: productProteinOnProduct.map((p) => p.productProtein),
+        productCategory: productCategory.map((c) => c.category),
+        productUnitFormat: productUnitFormat
+          ? {
+              id: productUnitFormat.id,
+              slug: productUnitFormat.slug,
+              unitValue: {
+                id: productUnitFormat.unitValue.id,
+                value: Number(productUnitFormat.unitValue.value),
+              },
+              unitOfMeasure: {
+                id: productUnitFormat.unitOfMeasure.id,
+                code: productUnitFormat.unitOfMeasure.code,
+                name: productUnitFormat.unitOfMeasure.name,
+              },
+            }
+          : null,
+        productFeature: productsFeatureOnProduct.map((f) => f.productFeature),
+        createdAt: formatDateTime(createdAt.toISOString()).dateTime,
+        updatedAt: formatDateTime(updatedAt.toISOString()).dateTime,
+      };
+    }),
+  }));
+}
+
+export async function getAllContributors(
+  type?: ROLES.SHELTER | ROLES.RETAILER | ROLES.ASSOCIATION
+) {
+  const data = await prisma.contributor.findMany({
     where: {
+      type,
+    },
+    include: {
       users: {
-        some: {
-          id: session?.user.id,
+        select: {
+          id: true,
+          name: true,
+          email: true,
+        },
+      },
+      products: {
+        select: {
+          id: true,
+          name: true,
+          slug: true,
+          price: true,
+          costPrice: true,
+          description: true,
+          shortDescription: true,
+          images: true,
+          stock: true,
+          rating: true,
+          numReviews: true,
+          isFeatured: true,
+          createdAt: true,
+          updatedAt: true,
+          animalAge: true,
+          categoryType: true,
+          percentageDiscount: true,
+
+          productCategory: {
+            select: {
+              category: true,
+            },
+          },
+
+          productBrand: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+
+          productUnitFormat: {
+            include: {
+              unitOfMeasure: true,
+              unitValue: true,
+            },
+          },
+
+          productPathologyOnProduct: {
+            select: {
+              pathology: { select: { id: true, name: true } },
+            },
+          },
+
+          productsFeatureOnProduct: {
+            select: {
+              productFeature: { select: { id: true, name: true } },
+            },
+          },
+
+          productProteinOnProduct: {
+            select: {
+              productProtein: { select: { id: true, name: true } },
+            },
+          },
         },
       },
     },
   });
 
-  console.log(
-    "🚀 ~ file: get-all-products.actions.ts ~ line 38 ~ contributor",
-    { currentId: contributor?.id, session }
+  const arraySchema = z.array(contributorSchema);
+  const normalized = normalizeContributorData(
+    convertToPlainObject(data) as unknown as RawContributor[]
   );
-  const queryFilter: Prisma.ProductWhereInput = query
-    ? {
-        OR: [
-          {
-            name: {
-              contains: query,
-              mode: "insensitive",
-            },
-          },
-          {
-            description: {
-              contains: query,
-              mode: "insensitive",
-            },
-          },
-        ],
-      }
-    : {};
+  const validated = arraySchema.safeParse(normalized);
 
-  const categories = await getAllCategories();
-  const brands = await getAllBrands();
-
-  const categoryMap = Object.fromEntries(
-    categories?.data?.map((cat) => [cat.slug, cat.id]) || []
-  );
-  const brandMap = Object.fromEntries(
-    brands?.map((brand) => [brand.name, brand.id]) || []
-  );
-
-  const validFields = new Set([
-    "name",
-    "slug",
-    "price",
-    "rating",
-    "stock",
-    "animalAge",
-    "productBrandId",
-    "productPathologyId",
-    "productUnitFormatId",
-  ]);
-
-  const dynamicFilters: Prisma.ProductWhereInput = {};
-
-  for (const [key, value] of Object.entries(queries)) {
-    if (!value || value === "all") continue;
-
-    if (key === "price" && value.includes("-")) {
-      const [min, max] = value.split("-").map(Number);
-      dynamicFilters.price = {
-        gte: min || 0,
-        lte: max || Infinity,
-      };
-    } else if (key === "rating") {
-      dynamicFilters.rating = {
-        gte: parseInt(value),
-      };
-    } else if (key === "category" && categoryMap[value]) {
-      dynamicFilters.productCategory = {
-        some: {
-          category: {
-            id: categoryMap[value],
-          },
-        },
-      };
-    } else if (key === "brand" && brandMap[value]) {
-      dynamicFilters.productBrandId = brandMap[value];
-    } else if (validFields.has(key)) {
-      (dynamicFilters as Record<string, string | number | Prisma.StringFilter>)[
-        key
-      ] = value;
-    }
-  }
-
-  const select = {
-    id: true,
-    name: true,
-    slug: true,
-    price: true,
-    description: true,
-    images: true,
-    stock: true,
-    rating: true,
-    numReviews: true,
-    isFeatured: true,
-    createdAt: true,
-    updatedAt: true,
-    animalAge: true,
-    categoryType: true,
-    percentageDiscount: true,
-    costPrice: true,
-    shortDescription: true,
-
-    productCategory: {
-      select: {
-        category: true,
-      },
-    },
-    productBrand: {
-      select: {
-        id: true,
-        name: true,
-      },
-    },
-    productUnitFormat: {
-      select: {
-        id: true,
-        slug: true,
-        unitValue: true,
-        unitOfMeasure: true,
-      },
-    },
-    productPathologyOnProduct: {
-      select: {
-        pathology: { select: { id: true, name: true } },
-      },
-    },
-    productsFeatureOnProduct: {
-      select: {
-        productFeature: { select: { id: true, name: true } },
-      },
-    },
-    productProteinOnProduct: {
-      select: {
-        productProtein: { select: { id: true, name: true } },
-      },
-    },
-  };
-  console.log("CONTRIBUTOR", contributor);
-
-  if (!contributor?.id) {
-    return []; // oppure throw o un messaggio vuoto
-  }
-
-  const data = await prisma.product.findMany({
-    where: {
-      ...queryFilter,
-      ...dynamicFilters,
-      contributorId: contributor.id,
-    },
-    select,
-    orderBy:
-      sort === "lowest"
-        ? { price: "asc" }
-        : sort === "highest"
-          ? { price: "desc" }
-          : sort === "rating"
-            ? { rating: "desc" }
-            : { createdAt: "desc" },
-    skip: (page - 1) * limit,
-    take: limit,
-  });
-
-  console.log("🚀 ~ file: get-all-products.actions.ts ~ line 153 ~ data", data);
-
-  const productCount = await prisma.product.count({
-    where: {
-      ...queryFilter,
-      ...dynamicFilters,
-      ...(session?.user.role === ROLES.RETAILER &&
-        contributor?.id && {
-          contributorId: contributor?.id,
-        }),
-    },
-  });
-
-  const transformedData = data.map(
-    ({
-      productPathologyOnProduct,
-      productProteinOnProduct,
-      productCategory,
-      productsFeatureOnProduct,
-      ...rest
-    }) => ({
-      ...rest,
-      rating: Number(rest.rating ?? 0),
-      price: Number(rest.price),
-      costPrice: Number(rest.costPrice),
-      productPathologies: productPathologyOnProduct.map((p) => p.pathology),
-      productProteins: productProteinOnProduct.map((p) => p.productProtein),
-      productCategory: productCategory.map((c) => c.category),
-      productUnitFormat: rest.productUnitFormat
-        ? {
-            id: rest.productUnitFormat.id,
-            unitValue: rest.productUnitFormat.unitValue,
-            unitOfMeasure: rest.productUnitFormat.unitOfMeasure,
-            slug: rest.productUnitFormat.slug,
-          }
-        : null,
-      productFeature: productsFeatureOnProduct.map((f) => f.productFeature),
-      createdAt: formatDateTime(rest.createdAt.toString()).dateTime,
-      updatedAt: formatDateTime(rest.updatedAt.toString()).dateTime,
-    })
-  );
-
-  const result = z.array(productSchema).safeParse(transformedData);
-
-  if (!result.success) {
+  if (!validated.success) {
     console.error(
-      "❌ Errore nella validazione dei prodotti:",
-      result.error.format()
+      "❌ Errore validazione contributor con user:",
+      validated.error.format()
     );
-    throw new Error("Errore di validazione dei prodotti");
+    throw new Error("Errore validazione contributor");
   }
 
-  return {
-    data: convertToPlainObject(result.data),
-    totalPages: Math.ceil(productCount / limit),
-    totalProducts: productCount,
-  };
+  return validated.data;
 }

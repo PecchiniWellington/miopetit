@@ -150,7 +150,7 @@ const ConfigCategoryPage = ({
             key={index}
             product={{
               ...product,
-              price: product.price.toString(), // Ensure price is a string
+              price: product.price, // Ensure price remains a number
             }}
             getProductQuantity={product.id ? getProductQuantity(product.id) : 0}
           />

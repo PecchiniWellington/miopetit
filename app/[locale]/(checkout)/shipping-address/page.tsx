@@ -25,10 +25,9 @@ const ShippingAddress = async () => {
     const user = await getUserById(userId);
     const userAddress = await getUserAddress(userId);
     if (user) {
-      const defaultAddress = user.defaultAddress;
       return (
         <ConfigShippingAddressPage
-          user={{ ...user, defaultAddress }}
+          user={user}
           userAddressList={userAddress.data}
         />
       );

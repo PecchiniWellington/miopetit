@@ -17,9 +17,27 @@ const AdminContributorUpdatePage = async ({
   params: Promise<{ id: string }>;
 }) => {
   const { id } = await params;
-  const contributor = await getContributorById(id);
+  const contributorData = await getContributorById(id);
+  if (!contributorData) return notFound();
 
-  if (!contributor) return notFound();
+  const contributor = {
+    ...contributorData,
+    createdAt: contributorData.createdAt?.toISOString(),
+    updatedAt: contributorData.updatedAt?.toISOString(),
+    openingHours:
+      contributorData.openingHours &&
+      typeof contributorData.openingHours === "object"
+        ? JSON.stringify(contributorData.openingHours)
+        : contributorData.openingHours &&
+            typeof contributorData.openingHours === "string"
+          ? contributorData.openingHours
+          : null,
+    socialLinks:
+      typeof contributorData.socialLinks === "string"
+        ? JSON.parse(contributorData.socialLinks)
+        : contributorData.socialLinks,
+  };
+
   const users = await getAllUsers({ query: "all", limit: 10, page: 1 });
   const data = await auth();
   console.log(

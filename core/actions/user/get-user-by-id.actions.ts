@@ -1,7 +1,7 @@
 import { prisma } from "@/core/prisma/prisma";
+import { userSchema } from "@/core/validators/user.validator";
 import { convertToPlainObject } from "@/lib/utils";
 
-// Get user by id
 export const getUserById = async (userId: string) => {
   const user = await prisma.user.findUnique({
     where: {
@@ -9,19 +9,31 @@ export const getUserById = async (userId: string) => {
     },
   });
 
-  /* if (!user) {
-    throw new Error("User not found");
-  } */
+  if (!user) return null;
 
-  /* const result = userSchema.safeParse(user);
-   */
-  /* if (!result.success) {
-    console.error(
-      "❌ Errore nella validazione dei prodotti:",
-      result.error.format()
-    );
-    throw new Error("Errore di validazione dei prodotti");
-  } */
+  let parsedAddress = user.defaultAddress;
 
-  return convertToPlainObject(user);
+  // 👇 Parsing sicuro
+  try {
+    if (typeof user.defaultAddress === "string") {
+      parsedAddress = JSON.parse(user.defaultAddress);
+    }
+  } catch (error) {
+    console.warn("⚠️ Errore nel parsing di defaultAddress:", error);
+    parsedAddress = null;
+  }
+
+  const parsedUser = {
+    ...user,
+    defaultAddress: parsedAddress,
+  };
+
+  const result = userSchema.safeParse(parsedUser);
+
+  if (!result.success) {
+    console.error("❌ Errore di validazione utente:", result.error.format());
+    return null;
+  }
+
+  return convertToPlainObject(result.data);
 };

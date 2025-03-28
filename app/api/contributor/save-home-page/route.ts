@@ -5,8 +5,8 @@ export async function POST(req: Request) {
   const data = await req.json();
   const { affiliateId, ...rest } = data;
 
-  const page = await prisma.affiliateHomePage.upsert({
-    where: { affiliateId },
+  const page = await prisma.contributorHomePage.upsert({
+    where: { contributorId: affiliateId },
     update: { ...rest },
     create: { affiliateId, ...rest },
   });

@@ -69,6 +69,8 @@ export function useContributorForm({
   const { toast } = useToast();
 
   const schema = type === "Create" ? createSchema : updateSchema;
+  const allowedTypes = ["SHELTER", "ASSOCIATION", "RETAILER"] as const;
+  type AllowedType = (typeof allowedTypes)[number];
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
@@ -81,10 +83,7 @@ export function useContributorForm({
           updatedAt: contributor.updatedAt
             ? new Date(contributor.updatedAt).toISOString()
             : undefined,
-          type:
-            typeof contributor.type === "object"
-              ? contributor.type.id
-              : (contributor.type ?? "RETAILER"),
+          type: contributor.type as AllowedType,
           socialLinks: {
             instagram: contributor.socialLinks?.instagram ?? "",
             facebook: contributor.socialLinks?.facebook ?? "",
@@ -114,7 +113,7 @@ export function useContributorForm({
           isOnlineShop: false,
           isPickupAvailable: false,
           deliveryAvailable: false,
-          openingHours: {},
+          openingHours: "",
           socialLinks: {
             instagram: "",
             facebook: "",
@@ -182,10 +181,7 @@ export function useContributorForm({
 
     const finalData = {
       ...parsed.data,
-      type:
-        typeof parsed.data.type === "object"
-          ? parsed.data.type.id
-          : (parsed.data.type ?? "ADMIN"),
+      type: parsed.data.type as AllowedType,
       name: parsed.data.name ?? "Default Name",
       createdAt: parsed.data.createdAt
         ? new Date(parsed.data.createdAt as string)
@@ -207,7 +203,18 @@ export function useContributorForm({
                 ? finalData.updatedAt.toISOString()
                 : undefined,
             })
-          : await updateContributor(contributorId as string, finalData);
+          : await updateContributor(
+              {
+                ...finalData,
+                createdAt: finalData.createdAt
+                  ? finalData.createdAt.toISOString()
+                  : undefined,
+                updatedAt: finalData.updatedAt
+                  ? finalData.updatedAt.toISOString()
+                  : undefined,
+              },
+              contributorId as string
+            );
 
       toast({
         title: `${type} success`,

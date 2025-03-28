@@ -1,6 +1,6 @@
 // contributor.validator.ts
 
-import ROLES from "@/lib/constants/roles";
+import { ContributorType } from "@prisma/client";
 import { z } from "zod";
 import { productSchema } from "./product.validator"; // Adjust the path as needed
 
@@ -8,7 +8,7 @@ export const contributorSchema = z.object({
   id: z.string().uuid().optional().nullable(),
   name: z.string(),
   slug: z.string().optional().nullable(),
-  type: z.enum([ROLES.SHELTER, ROLES.RETAILER, ROLES.ASSOCIATION]),
+  type: z.nativeEnum(ContributorType),
   email: z.string().email().optional().nullable(),
   phone: z.string().optional().nullable(),
   website: z.string().url().optional().nullable(),
@@ -30,7 +30,7 @@ export const contributorSchema = z.object({
   isOnlineShop: z.boolean().optional().nullable(),
   isPickupAvailable: z.boolean().optional().nullable(),
   deliveryAvailable: z.boolean().optional().nullable(),
-  openingHours: z.record(z.string()).optional().nullable(),
+  openingHours: z.string().optional().nullable(),
 
   socialLinks: z.record(z.string()).optional().nullable(),
   whatsappNumber: z.string().optional().nullable(),

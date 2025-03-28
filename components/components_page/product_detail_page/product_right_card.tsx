@@ -43,7 +43,7 @@ export const ProductPageRightCard = ({
           />
         </div>
         <div className="flex items-center justify-between  text-lg font-semibold text-gray-800 dark:text-gray-300">
-          {product && product.stock > 0 ? (
+          {(product?.stock ?? 0 > 0) ? (
             <BrandBadge
               icon={<CheckCircle className="size-4" />}
               variant="success"

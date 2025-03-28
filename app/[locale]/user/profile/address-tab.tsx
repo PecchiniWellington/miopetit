@@ -43,17 +43,19 @@ export const AddressesTab = ({ user }: { user: IUser }) => {
     defaultValues: SHIPPING_ADDRESS_DEFAULT_VALUES,
   });
 
-  const fetchAddresses = async () => {
+  const fetchAddresses = async (): Promise<void> => {
     try {
       const r = await getUserAddress(user.id);
 
       if (r.data) {
         setAddresses(
-          r.data.map((address) => ({
+          r.data.map((address: Partial<IAddress>) => ({
             ...address,
-            fullName: address.fullName || "",
-            zipCode: address.zipCode || "",
-            country: address.country || "",
+            street: address?.street ?? "",
+            city: address?.city ?? "",
+            fullName: address?.fullName ?? "",
+            zipCode: address?.zipCode ?? "",
+            country: address?.country ?? "",
           }))
         );
       }
@@ -66,36 +68,36 @@ export const AddressesTab = ({ user }: { user: IUser }) => {
     fetchAddresses();
   }, [toast, user]);
 
-  // 📌 Gestisce l'apertura del form per l'editing di un indirizzo
-  const handleEditAddress = (address: IAddress) => {
+  const handleEditAddress = (address: IAddress): void => {
     setEditingAddress(address?.id ?? null);
 
-    // 🔥 Reset dei valori del form con i dati dell'indirizzo selezionato
     form.reset({
-      street: address.street,
-      city: address.city,
-      zipCode: address.zipCode || "",
-      country: address.country || "",
-      fullName: address.fullName || "",
+      street: address?.street || "",
+      city: address?.city || "",
+      zipCode: address?.zipCode || "",
+      country: address?.country || "",
+      fullName: address?.fullName || "",
     });
 
     setIsModalOpen(true);
   };
 
-  // 📌 Salvataggio o Modifica dell'indirizzo
-  const handleSaveAddress = async (data: z.infer<typeof addressSchema>) => {
+  const handleSaveAddress = async (
+    data: z.infer<typeof addressSchema>
+  ): Promise<void> => {
     try {
-      // 🔥 Aggiungi isDefault se manca
-      const addressData = {
+      const addressData: IAddress = {
         ...data,
+        street: data?.street || "",
+        city: data?.city || "",
+        zipCode: data?.zipCode || "",
+        country: data?.country || "",
         isDefault:
           editingAddress !== null
-            ? (addresses.find((addr) => addr.id === editingAddress)
+            ? (addresses.find((addr) => addr?.id === editingAddress)
                 ?.isDefault ?? false)
             : false,
       };
-
-      console.log("addressData con isDefault:", addressData, editingAddress);
 
       const res = editingAddress
         ? await updateUserAddress({ id: editingAddress, ...addressData })
@@ -107,7 +109,7 @@ export const AddressesTab = ({ user }: { user: IUser }) => {
         });
         setIsModalOpen(false);
         setEditingAddress(null);
-        fetchAddresses(); // Aggiorna la lista degli indirizzi
+        fetchAddresses();
       } else {
         toast({
           variant: "destructive",
@@ -122,7 +124,10 @@ export const AddressesTab = ({ user }: { user: IUser }) => {
     }
   };
 
-  const handleSetDefault = async (id: string, userId: string) => {
+  const handleSetDefault = async (
+    id: string,
+    userId: string
+  ): Promise<void> => {
     try {
       const res = await setDefaultAddress(id, userId);
 
@@ -132,10 +137,18 @@ export const AddressesTab = ({ user }: { user: IUser }) => {
         });
 
         setAddresses((prevAddresses) =>
-          prevAddresses.map((addr) => ({
-            ...addr,
-            isDefault: addr.id === id,
-          }))
+          prevAddresses.map((addr) =>
+            addr
+              ? {
+                  ...addr,
+                  isDefault: addr.id === id,
+                  street: addr.street || "",
+                  city: addr.city || "",
+                  zipCode: addr.zipCode || "",
+                  country: addr.country || "",
+                }
+              : addr
+          )
         );
       } else {
         toast({
@@ -161,35 +174,34 @@ export const AddressesTab = ({ user }: { user: IUser }) => {
         {t("handle_your_addresses")}
       </p>
 
-      {/* Lista Indirizzi */}
       <div className="mt-4 space-y-4">
         {addresses
-          ?.sort((a, b) => (a.isDefault ? -1 : b.isDefault ? 1 : 0))
+          ?.sort((a, b) => (a?.isDefault ? -1 : b?.isDefault ? 1 : 0))
           .map((address) => (
             <div
-              key={address.id}
+              key={address?.id}
               className={`flex items-center justify-between rounded-md border p-4 transition ${
-                address.isDefault
+                address?.isDefault
                   ? "border-indigo-500 shadow-md"
                   : "border-gray-300"
               }`}
             >
               <div>
                 <p className="text-gray-800 dark:text-white">
-                  {address.street}, {address.city}
+                  {address?.street}, {address?.city}
                 </p>
-                {address.isDefault && (
+                {address?.isDefault && (
                   <span className="text-xs font-semibold text-indigo-600 dark:text-indigo-400">
                     ✅ {t("default_address")}
                   </span>
                 )}
               </div>
               <div className="flex gap-2">
-                {!address.isDefault && (
+                {!address?.isDefault && (
                   <BrandButton
                     variant="flat"
                     onClick={() =>
-                      address.id && handleSetDefault(address.id, user.id)
+                      address?.id && handleSetDefault(address?.id, user.id)
                     }
                   >
                     <CheckCircle className="size-4 text-green-500" />
@@ -204,8 +216,8 @@ export const AddressesTab = ({ user }: { user: IUser }) => {
                 <BrandButton
                   variant="flat"
                   onClick={() => {
-                    if (address.id) {
-                      deleteUserAddress(address.id, user.id);
+                    if (address?.id) {
+                      deleteUserAddress(address?.id, user.id);
                     }
                     fetchAddresses();
                   }}
@@ -217,7 +229,6 @@ export const AddressesTab = ({ user }: { user: IUser }) => {
           ))}
       </div>
 
-      {/* Bottone Aggiungi Indirizzo */}
       <BrandButton
         className="mt-4 flex items-center gap-2"
         onClick={() => {
@@ -230,7 +241,6 @@ export const AddressesTab = ({ user }: { user: IUser }) => {
         {t("add_address")}
       </BrandButton>
 
-      {/* Overlay Modale Aggiunta/Modifica */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="w-[90%] max-w-md rounded-lg bg-white p-6 shadow-lg">

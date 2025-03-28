@@ -10,6 +10,7 @@ const roles: Role[] = [
   "RETAILER",
 ];
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const usersData = async (): Promise<any[]> => {
   const passwordHash = await hashSync("password123", 10);
 

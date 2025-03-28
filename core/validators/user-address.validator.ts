@@ -1,18 +1,20 @@
 import { z } from "zod";
 
 // Schema per Address
-export const addressSchema = z.object({
+export const baseAddressSchema = z.object({
   id: z.string().optional(),
-  street: z.string().min(3, "La via deve avere almeno 3 caratteri"),
-  city: z.string().min(2, "La città deve avere almeno 2 caratteri"),
-  isDefault: z.boolean().optional(),
+  street: z.string().min(3),
+  city: z.string().min(2),
   fullName: z.string().optional().nullable(),
-  zipCode: z.string().min(5, "Il codice postale deve avere almeno 5 caratteri"),
-  country: z.string().min(2, "Il paese deve avere almeno 2 caratteri"),
+  zipCode: z.string().min(5),
+  country: z.string().min(2),
+  isDefault: z.boolean().optional(),
   userId: z.string().optional(),
 });
 
-export const createAddressSchema = addressSchema.omit({ id: true });
+export const addressSchema = baseAddressSchema.nullable().optional();
+
+export const createAddressSchema = baseAddressSchema.omit({ id: true });
 export const updateAddressSchema = addressSchema;
 
 export type IAddress = z.infer<typeof addressSchema>;

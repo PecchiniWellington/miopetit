@@ -37,16 +37,16 @@ export function ContributorFormFields({
           placeholder="Nome del contributor"
         />
         <SlugFormField variant="admin" form={form} />
-        <DynamicFormField
+        {/* <DynamicFormField
           type="select"
           variant="admin"
           options={userOptions}
           control={form.control}
-          name="userId"
+          name="users"
           title="Persona fisica"
           placeholder="Associa persona fisica"
           onChange={(event) => form.setValue("userId", event.target.value)}
-        />
+        /> */}
       </div>
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">

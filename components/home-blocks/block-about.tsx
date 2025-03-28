@@ -9,7 +9,7 @@ const BlockAbout = ({
   setShowFullDescription,
 }: {
   showFullDescription: boolean;
-  contributor: IContributor;
+  contributor?: IContributor;
   setShowFullDescription: (show: boolean) => void;
 }) => {
   return (
@@ -31,11 +31,11 @@ const BlockAbout = ({
 
         <p className="max-w-3xl text-lg text-gray-700">
           {showFullDescription
-            ? contributor.descriptionLong
-            : (contributor.descriptionLong ?? "").slice(0, 300) + "..."}
+            ? contributor?.descriptionLong
+            : (contributor?.descriptionLong ?? "").slice(0, 300) + "..."}
         </p>
 
-        {(contributor.descriptionLong ?? "").length > 300 && (
+        {(contributor?.descriptionLong ?? "").length > 300 && (
           <BrandButton
             variant="outline"
             onClick={() => setShowFullDescription(!showFullDescription)}
