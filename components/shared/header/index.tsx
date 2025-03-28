@@ -10,6 +10,7 @@ import FavoritesCounter from "./favourites-counter";
 import GlobalSearch from "./global-search";
 import { SearchProvider } from "./global-search/global-search-context";
 import Menu from "./menu";
+import NavLink from "./nav-link";
 import TopBar from "./top-bar";
 import UserButton from "./user-button";
 
@@ -91,12 +92,8 @@ const Header = async () => {
               imgSrc="/images/bird.png"
               brands={["Royal Canin", "Purina", "Hill’s"]}
             />
-            <div className="cursor-pointer p-4 text-lg font-semibold text-gray-700 transition-all duration-300 hover:text-indigo-600 dark:text-gray-200 dark:hover:text-indigo-400">
-              <Link href={`/partners`}>Partners</Link>
-            </div>
-            <div className="cursor-pointer p-4 text-lg font-semibold text-gray-700 transition-all duration-300 hover:text-indigo-600 dark:text-gray-200 dark:hover:text-indigo-400">
-              <Link href={`/shelter`}>Shelter</Link>
-            </div>
+            <NavLink href={`/partners`} label={"Partners"} />
+            <NavLink href={`/shelter`} label={"Shelter"} />
           </nav>
         </div>
       </SearchProvider>

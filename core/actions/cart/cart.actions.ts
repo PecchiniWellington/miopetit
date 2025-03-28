@@ -43,8 +43,6 @@ export async function addItemToCart(data: ICartItem & { userId: string }) {
 
     const sessionCartId = (await cookies()).get("sessionCartId")?.value;
 
-    /* if (!sessionCartId) throw new Error("Cart session not found"); */
-
     const session = await auth();
     const userId = session?.user?.id ? (session.user.id as string) : undefined;
 
@@ -52,8 +50,8 @@ export async function addItemToCart(data: ICartItem & { userId: string }) {
 
     const item = cartItemSchema.parse({
       ...data,
+      price: data.price.toString(), // Ensure price is a string
       image: Array.isArray(data.image) ? data.image[0] : data.image,
-      price: data?.price,
     });
     console.log("🔍 [addItemToCart] - Item:", item);
     await prisma.product.findMany();

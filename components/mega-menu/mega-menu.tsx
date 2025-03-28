@@ -1,10 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
-import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
+import NavLink from "../shared/header/nav-link";
 import { BrandSection } from "./brand-section";
 import { CategorySection } from "./category-section";
 
@@ -32,18 +33,22 @@ interface MegaMenuProps {
 export default function MegaMenu({ data, brands = [], imgSrc }: MegaMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const t = useTranslations("MegaMenu");
+  const path = usePathname();
+  const locale = useLocale();
 
+  const pathMenu = `/${locale}/${path}`;
+
+  console.log("MegaMenu data", pathMenu, data?.slug);
   return (
     <>
       {/* Main Title (Cani, Gatti, ecc.) */}
-      <div
-        className="cursor-pointer p-4 text-lg font-semibold text-gray-700 transition-all duration-300 hover:text-indigo-600 dark:text-gray-200 dark:hover:text-indigo-400"
-        onMouseEnter={() => setIsOpen(true)}
-        onMouseLeave={() => setIsOpen(false)}
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        <Link href={`/${data?.slug}`}>{t(data?.slug)}</Link>
-      </div>
+
+      <NavLink
+        href={`/${data?.slug}`}
+        label={t(data?.slug)}
+        setIsOpen={setIsOpen}
+        isOpen={isOpen}
+      />
 
       {isOpen && (
         <div className="absolute inset-x-0 top-full grid w-full grid-cols-5 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-lg">

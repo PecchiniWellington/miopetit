@@ -64,7 +64,15 @@ export default function BrandProductCard({
               ? { ...cartItem, qty: cartItem.qty + 1 }
               : cartItem
           )
-        : [...storedValue, { ...item, productId: item.id || "", qty: 1 }];
+        : [
+            ...storedValue,
+            {
+              ...item,
+              productId: item.id || "",
+              qty: 1,
+              price: item.price.toString(), // Ensure price is a string
+            },
+          ];
 
       if (userId) {
         await addItemToCart({
@@ -72,6 +80,7 @@ export default function BrandProductCard({
           qty: 1,
           productId: item.id || "",
           userId: userId || "",
+          price: item.price.toString(), // Ensure price is a string
         });
       } else {
         setStoredValue(updatedCart);
@@ -83,7 +92,7 @@ export default function BrandProductCard({
   const oldPrice =
     (product.percentageDiscount ?? 0) > 0
       ? (
-          parseFloat(product.price) /
+          parseFloat(product.price.toString()) /
           (1 - (product.percentageDiscount ?? 0) / 100)
         ).toFixed(2)
       : null;

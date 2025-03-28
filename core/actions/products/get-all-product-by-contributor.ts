@@ -7,15 +7,18 @@ import { IQueryParams } from "./get-all-product-by-slug";
 export async function getProductsByContributor({
   contributorId,
   query,
+  skip = 0,
+  take = 20,
 }: {
   contributorId: string;
   query: IQueryParams;
+  skip?: number;
+  take?: number;
 }) {
   if (!contributorId) {
     throw new Error("Affiliate ID is required");
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const where: any = {
     contributorId,
   };
@@ -80,6 +83,11 @@ export async function getProductsByContributor({
     };
   }
 
+  if (query.search) {
+    const search = query.search.toLowerCase();
+    where.OR = [{ name: { contains: search, mode: "insensitive" } }];
+  }
+
   let orderBy: { [key: string]: "asc" | "desc" } = { createdAt: "desc" };
   switch (query.sort) {
     case "lowest":
@@ -100,6 +108,8 @@ export async function getProductsByContributor({
   const data = await prisma.product.findMany({
     where,
     orderBy,
+    skip,
+    take,
     select: {
       id: true,
       name: true,
@@ -153,7 +163,6 @@ export async function getProductsByContributor({
     },
   });
 
-  // trasformazione finale
   const transformedData = data.map(
     ({
       productPathologyOnProduct,
@@ -192,6 +201,10 @@ export async function getProductsByContributor({
 
   const result = z.array(productSchema).safeParse(transformedData);
 
+  console.log(
+    "🚀 ~ file: get-all-product-by-contributor.ts:112 ~ transformedData:",
+    result.data
+  );
   if (!result.success) {
     console.error(
       "❌ Errore nella validazione dei prodotti:",

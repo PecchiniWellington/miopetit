@@ -25,27 +25,23 @@ const MainCategory = async ({
     ])
   );
 
-  const productFilters: {
-    [key: string]:
-      | string
-      | number
-      | { [key: string]: string | number }
-      | Array<string | number | object>;
-  } = await getFiltersForCategory(categories);
+  const productFilters = await getFiltersForCategory(categories);
   const myCart = await getMyCart();
-
   const productsResponse = await getAllProductsBySlug({
     slug: categories,
     query: queries,
+    skip: 0,
+    take: 20,
   });
 
   if (!productFilters || Object.keys(productFilters).length === 0) notFound();
+
   return (
     <ConfigCategoryPage
       indispensable={indispensableDog}
       mainCategory={categories}
       productFilters={productFilters}
-      products={productsResponse}
+      initialProducts={productsResponse}
       myCart={myCart}
       userId={userId}
     />

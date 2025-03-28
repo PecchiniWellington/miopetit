@@ -36,18 +36,20 @@ const MainCategory = async ({
           ])
         )
       : {};
+
   const myCart = await getMyCart();
-
-  console.log("queries", productFilters);
-
   const contributor = await getContributorBySlug(slug);
-  const productsResponse = contributor
+
+  const initialProducts = contributor
     ? await getProductsByContributor({
         contributorId: contributor.id,
         query: queries,
+        skip: 0,
+        take: 20,
       })
-    : null;
+    : [];
 
+  console.log(`🔍 Prodotti iniziali per il contributore `, initialProducts);
   if (!productFilters || Object.keys(productFilters).length === 0) notFound();
 
   return (
@@ -72,13 +74,15 @@ const MainCategory = async ({
         <div className="text-center text-red-600">Contributor non trovato</div>
       )}
 
-      {productsResponse && productsResponse.length > 0 ? (
+      {initialProducts && initialProducts.length > 0 ? (
         <ConfigCategoryPage
           mainCategory={slug}
           productFilters={productFilters}
-          products={productsResponse || []}
+          initialProducts={initialProducts}
           myCart={myCart}
           userId={userId}
+          initialSlug={slug}
+          initialQuery={queries}
         />
       ) : (
         <div className="flex flex-col items-center justify-center py-10">

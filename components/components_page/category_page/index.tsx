@@ -9,14 +9,14 @@ import { FilterProvider } from "@/context/filter-context";
 import { ICart, IProduct } from "@/core/validators";
 import useLocalStorage from "@/hooks/use-local-storage";
 import { Wand2 } from "lucide-react";
-import { useSearchParams } from "next/navigation";
-import { useCallback, useMemo } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const ConfigCategoryPage = ({
   indispensable,
   mainCategory,
   productFilters,
-  products,
+  initialProducts,
   userId,
   myCart,
 }: {
@@ -29,25 +29,70 @@ const ConfigCategoryPage = ({
       | { [key: string]: string | number }
       | Array<string | number | object>;
   };
-  products: IProduct[];
+  initialProducts: IProduct[];
   userId?: string;
   myCart: ICart | null;
 }) => {
   const searchParams = useSearchParams();
-  const sortQuery = searchParams.get("sort") || "newest";
+  const pathname = usePathname();
 
-  const sortedProducts = useMemo(() => {
-    const sortFn: Record<string, (a: IProduct, b: IProduct) => number> = {
-      newest: (a, b) =>
-        new Date(b.createdAt ?? 0).getTime() -
-        new Date(a.createdAt ?? 0).getTime(),
-      lowest: (a, b) => (Number(a.price) || 0) - (Number(b.price) || 0),
-      highest: (a, b) => (Number(b.price) || 0) - (Number(a.price) || 0),
-      rating: (a, b) => (b.rating ?? 0) - (a.rating ?? 0),
+  const [products, setProducts] = useState<IProduct[]>(initialProducts);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(
+    Array.isArray(initialProducts) && initialProducts.length === 20
+  );
+  const observerRef = useRef<HTMLDivElement | null>(null);
+
+  const buildQueryParams = () => {
+    const query: { [key: string]: string } = {};
+    searchParams.forEach((value, key) => {
+      query[key] = value;
+    });
+    return query;
+  };
+
+  const loadMore = useCallback(async () => {
+    if (loading || !hasMore) return;
+    setLoading(true);
+
+    const { getAllProductsBySlug } = await import(
+      "@/core/actions/products/get-all-product-by-slug"
+    );
+    const newProducts = await getAllProductsBySlug({
+      slug: pathname.split("/").pop() || "",
+      query: buildQueryParams(),
+      skip: page * 20,
+      take: 20,
+    });
+
+    if (newProducts.length < 20) setHasMore(false);
+    setProducts((prev) => [...prev, ...newProducts]);
+    setPage((prev) => prev + 1);
+    setLoading(false);
+  }, [loading, hasMore, page, pathname, searchParams]);
+
+  useEffect(() => {
+    setProducts(initialProducts);
+    setPage(1);
+    setHasMore(Array.isArray(initialProducts) && initialProducts.length === 20);
+  }, [initialProducts]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          loadMore();
+        }
+      },
+      { threshold: 1 }
+    );
+
+    if (observerRef.current) observer.observe(observerRef.current);
+    return () => {
+      if (observerRef.current) observer.unobserve(observerRef.current);
     };
-    const sortMethod = sortFn[sortQuery] || sortFn.newest;
-    return [...products].sort(sortMethod);
-  }, [products, sortQuery]);
+  }, [loadMore]);
 
   const [storedValue] = useLocalStorage<{ productId: string; qty: number }[]>(
     "cart",
@@ -84,6 +129,7 @@ const ConfigCategoryPage = ({
       <SortProduct className="md:hidden" />
     </div>
   );
+
   const ActiveFilter = () => (
     <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
       <ActiveFilters />
@@ -92,17 +138,20 @@ const ConfigCategoryPage = ({
   );
 
   const ProductsList = ({ products }: { products: IProduct[] }) => {
-    return products.length === 0 ? (
+    return !Array.isArray(products) || products.length === 0 ? (
       <div className="col-span-full text-center text-gray-500">
         Nessun prodotto trovato
       </div>
     ) : (
       <>
-        {products.map((product: IProduct) => (
+        {products.map((product: IProduct, index: number) => (
           <BrandProductCard
             userId={userId}
-            key={product.id}
-            product={product}
+            key={index}
+            product={{
+              ...product,
+              price: product.price.toString(), // Ensure price is a string
+            }}
             getProductQuantity={product.id ? getProductQuantity(product.id) : 0}
           />
         ))}
@@ -132,9 +181,31 @@ const ConfigCategoryPage = ({
             <div className="rounded-xl bg-slate-100 p-6 shadow-xl">
               <ActiveFilter />
             </div>
+
             <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
-              <ProductsList products={sortedProducts} />
+              <ProductsList products={products} />
             </div>
+
+            {hasMore && (
+              <div ref={observerRef} className="flex justify-center">
+                {loading ? (
+                  <div className="size-8 animate-spin rounded-full border-4 border-gray-300 border-t-purple-500" />
+                ) : (
+                  <button
+                    onClick={loadMore}
+                    className="mt-4 rounded bg-purple-600 px-4 py-2 text-white hover:bg-purple-700"
+                  >
+                    Carica altri prodotti
+                  </button>
+                )}
+              </div>
+            )}
+
+            {!hasMore && (
+              <p className="mt-6 text-center text-gray-500">
+                Hai visto tutti i prodotti.
+              </p>
+            )}
           </main>
         </FilterProvider>
       </section>
