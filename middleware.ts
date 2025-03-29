@@ -16,6 +16,7 @@ const BASIC_AUTH =
 export default async function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
   console.log("✅ Middleware attivo su:", pathname);
+  console.log(process.env.ADMIN_USERNAME);
 
   // 🔐 PROTEZIONE BASE (solo in produzione)
   if (process.env.NODE_ENV === "production") {
@@ -28,6 +29,8 @@ export default async function middleware(req: NextRequest) {
         },
       });
     }
+    console.log("Atteso BASIC_AUTH:", BASIC_AUTH);
+    console.log("Ricevuto authHeader:", authHeader);
   }
 
   // 🔹 1. Escludi API di NextAuth per evitare problemi
