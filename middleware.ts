@@ -9,9 +9,9 @@ const locales = ["en", "it", "de", "es"];
 const intlMiddleware = createMiddleware(routing);
 const BASIC_AUTH =
   "Basic " +
-  Buffer.from(
-    `${process.env.ADMIN_USERNAME ?? "admin"}:${process.env.ADMIN_PASSWORD ?? "admin"}`
-  ).toString("base64");
+  Buffer.from(`${username ?? "admin"}:${password ?? "admin"}`).toString(
+    "base64"
+  );
 
 export default async function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
