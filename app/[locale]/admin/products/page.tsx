@@ -17,13 +17,15 @@ const ProductsPage = async (props: {
   const page = Number(searchParams.page) || 1;
   const searchQuery = searchParams.query || "";
 
-  const products = await getAllProducts({
+  const products =
+    (await getAllProducts(/* {
     query: searchQuery,
     page,
     limit: 10,
-  });
+  } */)) || [];
+  const totalPages = 1; // Adjust this logic if pagination is implemented
 
-  console.log("PRoducts", products);
+  console.log("Products", products);
   return (
     <div className="relative z-10 flex-1 overflow-auto">
       <Header title="Products" />
@@ -31,14 +33,14 @@ const ProductsPage = async (props: {
       <main className="mx-auto max-w-7xl px-4 py-6 lg:px-8">
         <div className="mb-6 flex w-full gap-2">
           <Link href="/admin/products/create">Create Product</Link>
-          <DownloadCSV csvData={products.data} />
+          <DownloadCSV csvData={products} />
         </div>
         {/* STATS */}
 
         <ProductsTable
-          products={products.data}
+          products={products || []}
           page={page}
-          totalPages={products.totalPages}
+          totalPages={totalPages}
         />
 
         {/* CHARTS */}

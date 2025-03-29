@@ -19,7 +19,7 @@ const ProductsTable = ({
   totalPages,
   page,
 }: {
-  products: IProduct[];
+  products: IProduct[] | null;
   totalPages: number;
   page: number;
 }) => {

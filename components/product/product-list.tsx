@@ -29,7 +29,7 @@ const ProductList = ({
               <BrandProductCard
                 key={product.id}
                 product={product}
-                getProductQuantity={getProductQuantity(product.id)}
+                getProductQuantity={getProductQuantity(product.id ?? "")}
                 userId={userId}
               />
             ))

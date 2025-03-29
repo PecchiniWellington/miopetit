@@ -72,13 +72,13 @@ const DefaultAddressLoggedUser = ({
           <div className="mt-4 space-y-4">
             {addresses
               .sort((a, b) =>
-                a.isDefault === b.isDefault ? 0 : a.isDefault ? -1 : 1
+                a?.isDefault === b?.isDefault ? 0 : a?.isDefault ? -1 : 1
               )
               .map((address) => (
                 <motion.div
-                  key={address.id}
+                  key={address?.id}
                   className={`flex items-start justify-between rounded-lg border p-4 transition-shadow hover:shadow-lg ${
-                    address.isDefault
+                    address?.isDefault
                       ? "border-blue-500 bg-blue-50 dark:bg-blue-900"
                       : "border-gray-300 dark:border-gray-600"
                   }`}
@@ -87,21 +87,21 @@ const DefaultAddressLoggedUser = ({
                   <div>
                     <p className="text-gray-800 dark:text-white">
                       <MapPin className="mr-2 inline-block text-gray-600 dark:text-gray-400" />
-                      {address.street}, {address.city}
+                      {address?.street}, {address?.city}
                     </p>
-                    {address.isDefault && (
+                    {address?.isDefault && (
                       <span className="text-xs font-semibold text-blue-600 dark:text-blue-400">
                         ✅ {t("default_address")}
                       </span>
                     )}
                   </div>
                   <div className="flex gap-2">
-                    {!address.isDefault && (
+                    {!address?.isDefault && (
                       <BrandButton
                         variant="flat"
                         loading={isUpdating}
                         onClick={() =>
-                          address.id &&
+                          address?.id &&
                           user.id &&
                           handleSetDefault(address.id, user.id)
                         }

@@ -12,7 +12,10 @@ import {
 import { createUserAddress } from "@/core/actions/user/create-user-address.action";
 import { useAddNewAddress } from "@/core/db-static/db_checkout_pages/add_new_address";
 import { IUser } from "@/core/validators";
-import { addressSchema } from "@/core/validators/user-address.validator";
+import {
+  addressSchema,
+  baseAddressSchema,
+} from "@/core/validators/user-address.validator";
 import useLocalStorage from "@/hooks/use-local-storage";
 import { useToast } from "@/hooks/use-toast";
 import { SHIPPING_ADDRESS_DEFAULT_VALUES } from "@/lib/constants";
@@ -36,15 +39,16 @@ const AddNewAddressForm = ({
   const t = useTranslations("Checkout.new_address");
   const locale = useLocale();
 
-  const form = useForm<z.infer<typeof addressSchema>>({
-    resolver: zodResolver(addressSchema),
-    defaultValues: addresses?.[0] || SHIPPING_ADDRESS_DEFAULT_VALUES,
+  type AddressFormValues = z.infer<typeof baseAddressSchema>;
+
+  const form = useForm<AddressFormValues>({
+    resolver: zodResolver(baseAddressSchema),
+    defaultValues:
+      (addresses?.[0] as AddressFormValues) ?? SHIPPING_ADDRESS_DEFAULT_VALUES,
     mode: "onBlur",
   });
 
-  const onSubmit: SubmitHandler<z.infer<typeof addressSchema>> = async (
-    values
-  ) => {
+  const onSubmit: SubmitHandler<AddressFormValues> = async (values) => {
     startTransition(async () => {
       setStoredValue([values]);
 

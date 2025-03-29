@@ -12,7 +12,7 @@ import {
 import { sendOrderDeliverEmail } from "@/email";
 import { PAGE_SIZE } from "@/lib/constants";
 import { convertToPlainObject, formatError } from "@/lib/utils";
-import { Prisma } from "@prisma/client";
+import { Prisma, Role } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { updateOrderToPaid } from "../order/order.action";
@@ -45,7 +45,7 @@ export async function getAllUsers({
     },
     orderBy: { createdAt: "desc" },
     take: limit,
-    skip: limit * (page - 1),
+    skip: limit * ((page ?? 1) - 1),
   });
 
   const dataCount = await prisma.user.count();
@@ -111,7 +111,7 @@ export async function updateUser(user: z.infer<typeof updateUserSchema>) {
       },
       data: {
         name: user.name,
-        role: user.role,
+        role: user.role as Role, // ✅ cast a enum
         status: user.status,
         image: user.image,
       },

@@ -25,7 +25,7 @@ const sampleData = {
       name: "soundstudio",
       email: "wellintonesoundstudion@gmail.com",
       password: hashSync("123456", 10),
-      role: ROLES.EDITOR,
+      role: ROLES.ASSOCIATION,
     },
   ],
   products: [

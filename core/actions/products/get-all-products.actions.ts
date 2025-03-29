@@ -1,13 +1,10 @@
 "use server";
 
 import { prisma } from "@/core/prisma/prisma";
-import {
-  contributorSchema,
-  IContributor,
-} from "@/core/validators/contributors.validator";
+import { IProduct } from "@/core/validators";
+import { IContributor } from "@/core/validators/contributors.validator";
 import ROLES from "@/lib/constants/roles";
 import { convertToPlainObject, formatDateTime } from "@/lib/utils";
-import { z } from "zod";
 
 interface RawProduct {
   id: string;
@@ -45,10 +42,11 @@ interface RawContributor extends Omit<IContributor, "products"> {
   products: RawProduct[];
 }
 
-function normalizeContributorData(data: RawContributor[]): IContributor[] {
-  return data.map((contributor) => ({
-    ...contributor,
-    products: contributor.products.map((product) => {
+function normalizeContributorData(data: RawContributor[]): IProduct[] {
+  const allProducts: IProduct[] = [];
+
+  data.forEach((contributor) => {
+    contributor.products.forEach((product) => {
       const {
         productCategory,
         productUnitFormat,
@@ -61,7 +59,7 @@ function normalizeContributorData(data: RawContributor[]): IContributor[] {
         ...rest
       } = product;
 
-      return {
+      allProducts.push({
         ...rest,
         productBrand: productBrand || null,
         productPathologies: productPathologyOnProduct.map((p) => p.pathology),
@@ -85,12 +83,14 @@ function normalizeContributorData(data: RawContributor[]): IContributor[] {
         productFeature: productsFeatureOnProduct.map((f) => f.productFeature),
         createdAt: formatDateTime(createdAt.toISOString()).dateTime,
         updatedAt: formatDateTime(updatedAt.toISOString()).dateTime,
-      };
-    }),
-  }));
+      });
+    });
+  });
+
+  return allProducts;
 }
 
-export async function getAllContributors(
+export async function getAllProducts(
   type?: ROLES.SHELTER | ROLES.RETAILER | ROLES.ASSOCIATION
 ) {
   const data = await prisma.contributor.findMany({
@@ -167,19 +167,9 @@ export async function getAllContributors(
     },
   });
 
-  const arraySchema = z.array(contributorSchema);
   const normalized = normalizeContributorData(
     convertToPlainObject(data) as unknown as RawContributor[]
   );
-  const validated = arraySchema.safeParse(normalized);
 
-  if (!validated.success) {
-    console.error(
-      "❌ Errore validazione contributor con user:",
-      validated.error.format()
-    );
-    throw new Error("Errore validazione contributor");
-  }
-
-  return validated.data;
+  return normalized;
 }

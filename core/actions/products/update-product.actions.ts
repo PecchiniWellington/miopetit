@@ -8,6 +8,10 @@ export async function updateProduct(data: z.infer<typeof productSchema>) {
   try {
     const product = productSchema.parse(data);
 
+    if (!product.id) {
+      return { success: false, error: "Product ID mancante" };
+    }
+
     const productExist = await prisma.product.findFirst({
       where: { id: product.id },
     });
@@ -58,7 +62,7 @@ export async function updateProduct(data: z.infer<typeof productSchema>) {
         name: product.name,
         slug: product.slug,
         price: product.price,
-        stock: product.stock,
+        stock: product.stock ?? undefined,
         isFeatured: product.isFeatured,
         createdAt: new Date(product.createdAt || new Date()),
         updatedAt: new Date(),
@@ -79,7 +83,7 @@ export async function updateProduct(data: z.infer<typeof productSchema>) {
     });
     await prisma.productCategory.createMany({
       data: product.productCategory.map((category) => ({
-        productId: product.id,
+        productId: product.id!,
         categoryId: category.id,
       })),
     });
@@ -89,7 +93,7 @@ export async function updateProduct(data: z.infer<typeof productSchema>) {
     });
     await prisma.productPathologyOnProduct.createMany({
       data: product.productPathologies.map((p) => ({
-        productId: product.id,
+        productId: product.id!,
         pathologyId: p.id,
       })),
     });
@@ -99,7 +103,7 @@ export async function updateProduct(data: z.infer<typeof productSchema>) {
     });
     await prisma.productProteinOnProduct.createMany({
       data: product.productProteins.map((p) => ({
-        productId: product.id,
+        productId: product.id!,
         productProteinId: p.id,
       })),
     });
@@ -109,7 +113,7 @@ export async function updateProduct(data: z.infer<typeof productSchema>) {
     });
     await prisma.productFeatureOnProduct.createMany({
       data: product.productFeature.map((f) => ({
-        productId: product.id,
+        productId: product.id!,
         productFeatureId: f.id,
       })),
     });
