@@ -2,12 +2,33 @@ import createMiddleware from "next-intl/middleware";
 import { NextRequest, NextResponse } from "next/server";
 import { routing } from "./i18n/routing";
 
+const username = process.env.ADMIN_USERNAME;
+const password = process.env.ADMIN_PASSWORD;
+
 const locales = ["en", "it", "de", "es"];
 const intlMiddleware = createMiddleware(routing);
+const BASIC_AUTH =
+  "Basic " +
+  Buffer.from(
+    `${process.env.ADMIN_USERNAME ?? "admin"}:${process.env.ADMIN_PASSWORD ?? "admin"}`
+  ).toString("base64");
 
 export default async function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
   console.log("✅ Middleware attivo su:", pathname);
+
+  // 🔐 PROTEZIONE BASE (solo in produzione)
+  if (process.env.NODE_ENV === "production") {
+    const authHeader = req.headers.get("authorization");
+    if (authHeader !== BASIC_AUTH) {
+      return new NextResponse("🔒 Auth Required", {
+        status: 401,
+        headers: {
+          "WWW-Authenticate": 'Basic realm="MioPetit"',
+        },
+      });
+    }
+  }
 
   // 🔹 1. Escludi API di NextAuth per evitare problemi
   if (
