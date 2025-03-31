@@ -21,15 +21,16 @@ const PlaceOrderPage = async () => {
   const user: IUser | null = rawUser
     ? {
         ...rawUser,
-        defaultAddress:
-          typeof rawUser.defaultAddress === "string"
-            ? JSON.parse(rawUser.defaultAddress)
-            : (rawUser.defaultAddress ?? null),
       }
     : null;
 
   const myCart = user ? await getMyCart() : null;
-  const defaultAddress = user?.defaultAddress ?? null;
+  const defaultAddress = user?.defaultAddress
+    ? {
+        ...user.defaultAddress,
+        zipCode: user.defaultAddress.zipCode ?? "",
+      }
+    : null;
 
   return (
     <ConfigPlaceOrderPage

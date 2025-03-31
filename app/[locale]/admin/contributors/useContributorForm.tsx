@@ -16,7 +16,7 @@ import { z } from "zod";
 
 const rawSchema = contributorSchema.omit({
   id: true,
-  user: true,
+  users: true,
   userEmail: true,
   userName: true,
 });
@@ -113,7 +113,15 @@ export function useContributorForm({
           isOnlineShop: false,
           isPickupAvailable: false,
           deliveryAvailable: false,
-          openingHours: "",
+          openingHours: {
+            monday: null,
+            tuesday: null,
+            wednesday: null,
+            thursday: null,
+            friday: null,
+            saturday: null,
+            sunday: null,
+          },
           socialLinks: {
             instagram: "",
             facebook: "",
@@ -196,6 +204,15 @@ export function useContributorForm({
         type === "Create"
           ? await createContributor({
               ...finalData,
+              openingHours: finalData.openingHours || {
+                monday: null,
+                tuesday: null,
+                wednesday: null,
+                thursday: null,
+                friday: null,
+                saturday: null,
+                sunday: null,
+              },
               createdAt: finalData.createdAt
                 ? finalData.createdAt.toISOString()
                 : undefined,
@@ -206,6 +223,15 @@ export function useContributorForm({
           : await updateContributor(
               {
                 ...finalData,
+                openingHours: finalData.openingHours || {
+                  monday: null,
+                  tuesday: null,
+                  wednesday: null,
+                  thursday: null,
+                  friday: null,
+                  saturday: null,
+                  sunday: null,
+                },
                 createdAt: finalData.createdAt
                   ? finalData.createdAt.toISOString()
                   : undefined,

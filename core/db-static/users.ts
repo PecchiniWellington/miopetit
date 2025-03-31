@@ -33,6 +33,7 @@ const usersData = async (): Promise<any[]> => {
       status: "ACTIVE",
       resetToken: null,
       resetTokenExpiry: null,
+
       defaultAddress: {
         street: faker.location.streetAddress(),
         city: faker.location.city(),

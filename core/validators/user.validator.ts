@@ -30,7 +30,7 @@ export const userSchema = z
           street: z.string().min(3),
           city: z.string().min(2),
           fullName: z.string().optional().nullable(),
-          zipCode: z.string().min(5),
+          zipCode: z.string().optional().nullable(),
           country: z.string().min(2),
           isDefault: z.boolean().optional(),
           userId: z.string().optional(),

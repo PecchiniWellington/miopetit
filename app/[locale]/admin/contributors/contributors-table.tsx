@@ -52,8 +52,8 @@ const ContributorsTable = ({
               { key: "name", label: "NAME" },
               { key: "type", label: "TYPE" },
               { key: "createdAt", label: "CREATION" },
-              { key: "userEmail", label: "USER EMAIL" },
-              { key: "userName", label: "USER NAME" },
+              /*   { key: "userEmail", label: "USER EMAIL" },
+              { key: "userName", label: "USER NAME" }, */
             ]}
             data={contributors}
             renderRow={(product) => (
@@ -82,9 +82,9 @@ const ContributorsTable = ({
                 <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-300">
                   {formatDateTime(product.createdAt as string).dateTime}
                 </td>
-                <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-300">
-                  {product.user?.email || "N/A"}
-                </td>
+                {/*  <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-300">
+                  {product.users. || "N/A"}
+                </td> */}
                 <td className="flex gap-1 whitespace-nowrap px-6 py-4 text-sm text-gray-300">
                   <BrandButton size="small">
                     <Link href={`/admin/contributors/${product.id}/edit`}>

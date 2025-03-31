@@ -10,7 +10,14 @@ async function updateContributor(id: string, data: unknown) {
   }
 
   // 🔒 Destructure to remove non-updatable fields
-  const { id: _id, userName, userEmail, user, products, ...rest } = parsed.data;
+  const {
+    id: _id,
+    userName,
+    userEmail,
+    users,
+    products,
+    ...rest
+  } = parsed.data;
 
   const safeData = Object.fromEntries(
     Object.entries(rest).filter(([_, value]) => value !== null)

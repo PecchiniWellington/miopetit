@@ -11,7 +11,7 @@ export async function createContributor(data: IContributor) {
   const parsed = contributorSchema.safeParse(data);
   if (!parsed.success) throw new Error("Invalid contributor data");
 
-  const { id, user, products, ...rest } = parsed.data;
+  const { id, users, products, ...rest } = parsed.data;
 
   const contributor = await prisma.contributor.create({
     data: {
