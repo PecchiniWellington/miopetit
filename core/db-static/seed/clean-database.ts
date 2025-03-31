@@ -13,7 +13,7 @@ export async function cleanDatabase() {
   await prisma.inventoryMovement.deleteMany();
   await prisma.inventoryItem.deleteMany();
   await prisma.animal.deleteMany();
-
+  await prisma.animal.deleteMany();
   await prisma.user.deleteMany();
   await prisma.contributor.deleteMany();
   await prisma.account.deleteMany();

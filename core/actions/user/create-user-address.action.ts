@@ -43,6 +43,7 @@ export async function createUserAddress(req: IAddress) {
         city: data.city,
         fullName: data.fullName,
         country: data.country,
+        zipCode: data.zipCode,
         isDefault: data.isDefault ?? false,
         user: {
           connect: {

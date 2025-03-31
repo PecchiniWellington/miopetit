@@ -18,36 +18,47 @@ const Roles = ({ userRole }: { userRole: string }) => {
   switch (userRole) {
     case ROLES.ADMIN:
       return (
-        <BrandBadge label={ROLES.ADMIN} className="bg-blue-100 text-blue-700" />
+        <BrandBadge
+          className="flex items-center justify-center text-center font-bold"
+          label={ROLES.ADMIN}
+          variant="primary"
+        />
       );
 
     case ROLES.USER:
       return (
         <BrandBadge
+          className="flex items-center justify-center text-center font-bold"
           label={ROLES.USER}
-          className="bg-purple-100 text-purple-700"
+          variant="success"
         />
       );
 
     case ROLES.VETERINARIAN:
       return (
         <BrandBadge
+          className="flex items-center justify-center text-center font-bold"
           label={ROLES.VETERINARIAN}
-          className="bg-orange-100 text-orange-700"
+          variant="warning"
         />
       );
 
     case ROLES.RETAILER:
       return (
         <BrandBadge
+          className="flex items-center justify-center text-center font-bold"
           label={ROLES.RETAILER}
-          className="bg-teal-100 text-teal-700"
+          variant="danger"
         />
       );
 
     default:
       return (
-        <BrandBadge label="NO ROLE" className="bg-gray-400 text-gray-700" />
+        <BrandBadge
+          className="flex items-center justify-center text-center font-bold"
+          label="NO ROLE"
+          variant="default"
+        />
       );
   }
 };
@@ -57,7 +68,8 @@ const Status = ({ userStatus }: { userStatus: string }) => {
       return (
         <BrandBadge
           label={USER_STATUS_ACTIVATION.ACTIVE}
-          className="bg-teal-100 text-teal-700"
+          variant="success"
+          className="font-bold"
         />
       );
 
@@ -65,7 +77,8 @@ const Status = ({ userStatus }: { userStatus: string }) => {
       return (
         <BrandBadge
           label={USER_STATUS_ACTIVATION.INACTIVE}
-          className="bg-orange-100 text-orange-700"
+          variant="primary"
+          className="font-bold"
         />
       );
 
@@ -73,7 +86,8 @@ const Status = ({ userStatus }: { userStatus: string }) => {
       return (
         <BrandBadge
           label={USER_STATUS_ACTIVATION.PENDING}
-          className="bg-orange-100 text-orange-700"
+          variant="warning"
+          className="font-bold"
         />
       );
 
@@ -81,14 +95,13 @@ const Status = ({ userStatus }: { userStatus: string }) => {
       return (
         <BrandBadge
           label={USER_STATUS_ACTIVATION.BANNED}
-          className="bg-red-100 text-red-700"
+          variant="danger"
+          className="font-bold"
         />
       );
 
     default:
-      return (
-        <BrandBadge label="NO ROLE" className="bg-gray-400 text-gray-700" />
-      );
+      return <BrandBadge label="" className="font-bold" />;
   }
 };
 
@@ -184,7 +197,7 @@ const UsersTable = ({ users }: { users?: IUser[] }) => {
                   <Status userStatus={user.status} />
                 </td>
 
-                <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-300">
+                <td className="flex items-center gap-2 whitespace-nowrap px-6 py-4 text-sm text-gray-300">
                   <BrandButton>
                     <Link href={`/admin/users/${user.id}`}>
                       <Edit size={18} />
@@ -194,15 +207,19 @@ const UsersTable = ({ users }: { users?: IUser[] }) => {
                     triggerButton={
                       <BrandButton
                         variant="danger"
-                        icon={<Trash2 className="mr-2 size-5" />}
-                      >
-                        {t("delete_account_button")}
-                      </BrandButton>
+                        icon={<Trash2 className="size-5" />}
+                      />
                     }
-                    title={t("delete_account_modal.title")}
-                    description={t("delete_account_modal.description")}
-                    confirmText={t("delete_account_modal.delete_button")}
-                    cancelText={t("delete_account_modal.cancel_button")}
+                    title={t("AccountDelete.delete_account_modal.title")}
+                    description={t(
+                      "AccountDelete.delete_account_modal.description"
+                    )}
+                    confirmText={t(
+                      "AccountDelete.delete_account_modal.delete_button"
+                    )}
+                    cancelText={t(
+                      "AccountDelete.delete_account_modal.cancel_button"
+                    )}
                     icon={<AlertTriangle className="size-5 text-red-500" />}
                     variant="danger"
                     onConfirm={() => deleteUser(user.id)}

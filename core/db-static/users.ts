@@ -13,8 +13,31 @@ const roles: Role[] = [
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const usersData = async (): Promise<any[]> => {
   const passwordHash = await hashSync("password123", 10);
+  const superAdminPasswordHash = await hashSync("superpassword123", 10);
 
-  return Array.from({ length: 30 }).map((_, i) => {
+  const superAdmin = {
+    name: "Super Admin",
+    email: "superadmin@site.com",
+    emailVerified: new Date(),
+    image: "https://i.pravatar.cc/150?u=superadmin",
+    password: superAdminPasswordHash,
+    role: "ADMIN", // oppure puoi usare un ruolo custom come "SUPER_ADMIN" se lo supporti nel tuo schema
+    paymentMethod: "manual",
+    status: "ACTIVE",
+    resetToken: null,
+    resetTokenExpiry: null,
+    defaultAddress: {
+      street: "Via dei Super Admin, 1",
+      city: "Admin City",
+      zipCode: "00000",
+      country: "Italia",
+    },
+    userSlug: "super-admin",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
+
+  const randomUsers = Array.from({ length: 30 }).map((_, i) => {
     const role = faker.helpers.arrayElement(roles);
     const name = faker.person.fullName();
     const email = faker.internet.email({
@@ -33,7 +56,6 @@ const usersData = async (): Promise<any[]> => {
       status: "ACTIVE",
       resetToken: null,
       resetTokenExpiry: null,
-
       defaultAddress: {
         street: faker.location.streetAddress(),
         city: faker.location.city(),
@@ -45,6 +67,8 @@ const usersData = async (): Promise<any[]> => {
       updatedAt: new Date(),
     };
   });
+
+  return [superAdmin, ...randomUsers];
 };
 
 export default usersData;

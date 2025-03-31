@@ -25,6 +25,11 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
+        hostname: "i.pravatar.cc",
+        port: "",
+      },
+      {
+        protocol: "https",
         hostname: "loremflickr.com",
         port: "",
       },

@@ -449,5 +449,25 @@
     "email": "Correo Electrónico",
     "order": "Número de Pedido",
     "description": "Descripción"
+  },
+  "ModalDelete": {
+    "AccountDelete": {
+      "delete_account_button": "Eliminar Cuenta",
+      "delete_account_modal": {
+        "title": "Confirmar Eliminación de Cuenta",
+        "description": "¿Estás seguro de que quieres eliminar tu cuenta de forma permanente? Esta acción no se puede deshacer.",
+        "cancel_button": "Cancelar",
+        "delete_button": "Sí, Eliminar Cuenta"
+      }
+    },
+    "ProductDelete": {
+      "delete_product_button": "Eliminar Producto",
+      "delete_product_modal": {
+        "title": "Confirmar Eliminación de Producto",
+        "description": "¿Estás seguro de que quieres eliminar tu producto de forma permanente? Esta acción no se puede deshacer.",
+        "cancel_button": "Cancelar",
+        "delete_button": "Sí, Eliminar Producto"
+      }
+    }
   }
 }

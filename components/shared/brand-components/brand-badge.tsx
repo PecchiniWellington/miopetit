@@ -32,7 +32,9 @@ const BrandBadge = ({
         </div>
       )}
       {icon ? (
-        <span className="flex justify-center font-bold"> {icon}</span>
+        <span className="flex justify-center text-center font-bold">
+          {icon}
+        </span>
       ) : null}
     </div>
   );

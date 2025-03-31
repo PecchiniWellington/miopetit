@@ -24,6 +24,7 @@ export default function ContactUs() {
     defaultValues: {
       fullName: "",
       object: "",
+
       email: "",
       description: "",
     },
