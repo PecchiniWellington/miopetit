@@ -20,7 +20,7 @@ body {
     @apply px-5 py-2;
   }
   .btn-base {
-    @apply flex  items-center justify-center gap-2 rounded-full text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none;
+    @apply flex  items-center justify-center gap-2 rounded-full text-white shadow-lg transition-all duration-300  focus:outline-none;
   }
   .btn-flat {
     @apply bg-slate-100 p-3 gap-2 border border-white text-primary-500;

@@ -47,6 +47,12 @@ export default async function RootLayout({
       <body className={`${inter.className}  antialiased`}>
         <SessionProvider>
           <NextIntlClientProvider messages={messages || {}}>
+            <div className="w-full  bg-red-500  text-center font-extrabold text-white">
+              {process.env.NODE_ENV === "development" && <p>SEI IN DEV</p>}
+              {process.env.NEXT_PUBLIC_VERCEL_ENV === "preview" && (
+                <p>SEI IN PREVIEW</p>
+              )}
+            </div>
             {children}
           </NextIntlClientProvider>
         </SessionProvider>

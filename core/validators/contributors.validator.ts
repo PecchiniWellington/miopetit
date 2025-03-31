@@ -3,6 +3,7 @@
 import { ContributorType } from "@prisma/client";
 import { z } from "zod";
 import { productSchema } from "./product.validator"; // Adjust the path as needed
+import { userSchema } from "./user.validator";
 
 export const contributorSchema = z.object({
   id: z.string().uuid().optional().nullable(),
@@ -30,7 +31,15 @@ export const contributorSchema = z.object({
   isOnlineShop: z.boolean().optional().nullable(),
   isPickupAvailable: z.boolean().optional().nullable(),
   deliveryAvailable: z.boolean().optional().nullable(),
-  openingHours: z.string().optional().nullable(),
+  openingHours: z.object({
+    monday: z.string().optional().nullable(),
+    tuesday: z.string().optional().nullable(),
+    wednesday: z.string().optional().nullable(),
+    thursday: z.string().optional().nullable(),
+    friday: z.string().optional().nullable(),
+    saturday: z.string().optional().nullable(),
+    sunday: z.string().optional().nullable(),
+  }),
 
   socialLinks: z.record(z.string()).optional().nullable(),
   whatsappNumber: z.string().optional().nullable(),
@@ -57,13 +66,7 @@ export const contributorSchema = z.object({
   products: productSchema.array().optional(),
 
   // 👇 aggiunto campo user per visualizzarlo in tabella
-  user: z
-    .object({
-      id: z.string(),
-      name: z.string().nullable(),
-      email: z.string().nullable(),
-    })
-    .optional(),
+  users: z.array(userSchema).optional().nullable(),
 
   // 👇 aggiunta per sortable-table
   userEmail: z.string().email().nullable().optional(),

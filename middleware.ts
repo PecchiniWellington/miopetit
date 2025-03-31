@@ -19,7 +19,7 @@ export default async function middleware(req: NextRequest) {
   console.log(process.env.ADMIN_USERNAME);
 
   // 🔐 PROTEZIONE BASE (solo in produzione)
-  if (process.env.NODE_ENV === "production") {
+  /* if (process.env.NODE_ENV === "production") {
     const authHeader = req.headers.get("authorization");
     if (authHeader !== BASIC_AUTH) {
       return new NextResponse("🔒 Auth Required", {
@@ -31,7 +31,7 @@ export default async function middleware(req: NextRequest) {
     }
     console.log("Atteso BASIC_AUTH:", BASIC_AUTH);
     console.log("Ricevuto authHeader:", authHeader);
-  }
+  } */
 
   // 🔹 1. Escludi API di NextAuth per evitare problemi
   if (

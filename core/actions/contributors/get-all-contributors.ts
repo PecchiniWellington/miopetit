@@ -83,8 +83,8 @@ function normalizeContributorData(data: RawContributor[]): IContributor[] {
             }
           : null,
         productFeature: productsFeatureOnProduct.map((f) => f.productFeature),
-        createdAt: formatDateTime(createdAt.toISOString()).dateTime,
-        updatedAt: formatDateTime(updatedAt.toISOString()).dateTime,
+        createdAt: formatDateTime(new Date(createdAt).toISOString()).dateTime,
+        updatedAt: formatDateTime(new Date(updatedAt).toISOString()).dateTime,
       };
     }),
   }));
