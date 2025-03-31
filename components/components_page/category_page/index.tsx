@@ -29,14 +29,14 @@ const ConfigCategoryPage = ({
       | { [key: string]: string | number }
       | Array<string | number | object>;
   };
-  initialProducts: IProduct[];
+  initialProducts?: IProduct[];
   userId?: string;
   myCart: ICart | null;
 }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
 
-  const [products, setProducts] = useState<IProduct[]>(initialProducts);
+  const [products, setProducts] = useState<IProduct[]>(initialProducts || []);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(
@@ -74,7 +74,7 @@ const ConfigCategoryPage = ({
   }, [loading, hasMore, page, pathname, searchParams]);
 
   useEffect(() => {
-    setProducts(initialProducts);
+    setProducts(initialProducts || []);
     setPage(1);
     setHasMore(Array.isArray(initialProducts) && initialProducts.length === 20);
   }, [initialProducts]);

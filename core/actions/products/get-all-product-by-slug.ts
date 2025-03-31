@@ -61,6 +61,7 @@ export async function getAllProductsBySlug({
   const subCategoryIds = await getAllSubCategoryIds(mainCategory.id);
   const categoryIds = [mainCategory.id, ...subCategoryIds];
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const where: any = {
     OR: [
       { categoryType: slug },

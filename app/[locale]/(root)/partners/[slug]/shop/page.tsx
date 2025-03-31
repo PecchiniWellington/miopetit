@@ -2,7 +2,7 @@ import { auth } from "@/auth";
 import ConfigCategoryPage from "@/components/components_page/category_page";
 import { getMyCart } from "@/core/actions/cart/cart.actions";
 import { getContributorBySlug } from "@/core/actions/contributors/get-contributor-by-slug";
-import { getProductsByContributor } from "@/core/actions/products/get-all-product-by-contributor";
+import { getAllProducts } from "@/core/actions/products";
 import { getFiltersForCategoryByParentId } from "@/core/actions/products/product-infos.ts/get-product-category.action";
 import { IQueryParams } from "@/core/actions/types";
 import { notFound } from "next/navigation";
@@ -14,17 +14,19 @@ const MainCategory = async ({
   searchParams: Promise<{ [key: string]: string | string[] }>;
   params: Promise<{ slug: string }>;
 }) => {
-  const { slug } = await params; // Await the params promise
+  const { slug } = await params;
 
   const userLogged = await auth();
   const userId = userLogged?.user?.id;
 
-  const queries: IQueryParams = Object.fromEntries(
+  const queryParams = Object.fromEntries(
     Object.entries(await searchParams).map(([key, value]) => [
       key,
       Array.isArray(value) ? value.join(",") : value.toString(),
     ])
-  );
+  ) as IQueryParams;
+
+  const { search: query, ...filters } = queryParams;
 
   const rawProductFilters = await getFiltersForCategoryByParentId(slug);
   const productFilters =
@@ -40,16 +42,30 @@ const MainCategory = async ({
   const myCart = await getMyCart();
   const contributor = await getContributorBySlug(slug);
 
-  const initialProducts = contributor
-    ? await getProductsByContributor({
+  const productsResult = contributor
+    ? await getAllProducts({
         contributorId: contributor.id,
-        query: queries,
-        skip: 0,
-        take: 20,
+        query,
+        filters,
+        page: 1,
+        limit: 20,
       })
-    : [];
+    : { data: [] };
 
-  console.log(`🔍 Prodotti iniziali per il contributore `, initialProducts);
+  const initialProducts = productsResult.data.map((product) => ({
+    ...product,
+    price:
+      typeof product.price === "string"
+        ? parseFloat(product.price)
+        : product.price,
+    costPrice:
+      typeof product.costPrice === "string"
+        ? parseFloat(product.costPrice)
+        : (product.costPrice ?? 0),
+    rating: product.rating ?? 0,
+    isFeatured: product.isFeatured ?? false,
+  }));
+
   if (!productFilters || Object.keys(productFilters).length === 0) notFound();
 
   return (
@@ -74,7 +90,7 @@ const MainCategory = async ({
         <div className="text-center text-red-600">Contributor non trovato</div>
       )}
 
-      {initialProducts && initialProducts.length > 0 ? (
+      {initialProducts.length > 0 ? (
         <ConfigCategoryPage
           mainCategory={slug}
           productFilters={productFilters}

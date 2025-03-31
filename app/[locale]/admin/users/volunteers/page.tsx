@@ -36,7 +36,7 @@ const VolunteersPage = async (props: {
     role: ROLES.VOLUNTEER,
     query: searchQuery,
     page,
-    limit: 100,
+    limit: 10,
   });
 
   const summaryResponse = await getOrderSummary();

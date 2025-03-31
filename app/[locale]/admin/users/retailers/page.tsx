@@ -36,7 +36,7 @@ const RetailersPage = async (props: {
     role: ROLES.RETAILER,
     query: searchQuery,
     page,
-    limit: 100,
+    limit: 10,
   });
 
   const summaryResponse = await getOrderSummary();

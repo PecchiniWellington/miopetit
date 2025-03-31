@@ -1,175 +1,231 @@
 "use server";
 
+import { IQueryParams } from "@/core/actions/products/get-all-product-by-slug";
 import { prisma } from "@/core/prisma/prisma";
-import { IProduct } from "@/core/validators";
-import { IContributor } from "@/core/validators/contributors.validator";
-import ROLES from "@/lib/constants/roles";
+import { productSchema } from "@/core/validators";
 import { convertToPlainObject, formatDateTime } from "@/lib/utils";
 
-interface RawProduct {
-  id: string;
-  name: string;
-  slug: string;
-  price: number;
-  costPrice: number;
-  description: string;
-  shortDescription: string;
-  images: string[];
-  stock: number;
-  rating: number;
-  numReviews: number;
-  isFeatured: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-  animalAge: "PUPPY" | "ADULT" | "SENIOR";
-  categoryType: string;
-  percentageDiscount: number;
+export async function countAllProducts(
+  contributorId?: string,
+  query?: string
+): Promise<number> {
+  const isUuidQuery =
+    query &&
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
+      query
+    );
 
-  productCategory: { category: { id: string; name: string; slug?: string } }[];
-  productBrand: { id: string; name: string } | null;
-  productUnitFormat: {
-    id?: string;
-    slug?: string;
-    unitValue: { id: string; value: number };
-    unitOfMeasure: { id: string; code: string; name: string };
-  } | null;
-  productPathologyOnProduct: { pathology: { id: string; name: string } }[];
-  productProteinOnProduct: { productProtein: { id: string; name: string } }[];
-  productsFeatureOnProduct: { productFeature: { id: string; name: string } }[];
+  const where = {
+    AND: [
+      contributorId ? { contributorId } : {},
+      query
+        ? {
+            OR: [
+              {
+                name: {
+                  contains: query,
+                  mode: "insensitive" as const,
+                },
+              },
+              ...(isUuidQuery ? [{ id: query }] : []),
+            ],
+          }
+        : {},
+    ],
+  };
+
+  const totalCount = await prisma.product.count({ where });
+  return totalCount;
 }
 
-interface RawContributor extends Omit<IContributor, "products"> {
-  products: RawProduct[];
-}
+export async function getAllProducts({
+  contributorId,
+  page = 1,
+  limit = 10,
+  query,
+  filters,
+}: {
+  contributorId?: string;
+  page?: number;
+  limit?: number;
+  query?: string;
+  filters?: IQueryParams;
+}) {
+  const isUuidQuery =
+    query &&
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
+      query
+    );
 
-function normalizeContributorData(data: RawContributor[]): IProduct[] {
-  const allProducts: IProduct[] = [];
-
-  data.forEach((contributor) => {
-    contributor.products.forEach((product) => {
-      const {
-        productCategory,
-        productUnitFormat,
-        productBrand,
-        productPathologyOnProduct,
-        productProteinOnProduct,
-        productsFeatureOnProduct,
-        createdAt,
-        updatedAt,
-        ...rest
-      } = product;
-
-      allProducts.push({
-        ...rest,
-        productBrand: productBrand || null,
-        productPathologies: productPathologyOnProduct.map((p) => p.pathology),
-        productProteins: productProteinOnProduct.map((p) => p.productProtein),
-        productCategory: productCategory.map((c) => c.category),
-        productUnitFormat: productUnitFormat
-          ? {
-              id: productUnitFormat.id,
-              slug: productUnitFormat.slug,
-              unitValue: {
-                id: productUnitFormat.unitValue.id,
-                value: Number(productUnitFormat.unitValue.value),
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const where: any = {
+    AND: [
+      contributorId ? { contributorId } : {},
+      query
+        ? {
+            OR: [
+              {
+                name: {
+                  contains: query,
+                  mode: "insensitive" as const,
+                },
               },
-              unitOfMeasure: {
-                id: productUnitFormat.unitOfMeasure.id,
-                code: productUnitFormat.unitOfMeasure.code,
-                name: productUnitFormat.unitOfMeasure.name,
-              },
-            }
-          : null,
-        productFeature: productsFeatureOnProduct.map((f) => f.productFeature),
-        createdAt: formatDateTime(new Date(createdAt).toISOString()).dateTime,
-        updatedAt: formatDateTime(new Date(updatedAt).toISOString()).dateTime,
-      });
+              ...(isUuidQuery ? [{ id: query }] : []),
+            ],
+          }
+        : {},
+    ],
+  };
+
+  if (filters?.animalAge) {
+    where.AND.push({ animalAge: filters.animalAge });
+  }
+
+  if (filters?.productBrand) {
+    const brand = await prisma.productBrand.findFirst({
+      where: { slug: filters.productBrand },
+      select: { id: true },
     });
-  });
+    if (brand) {
+      where.AND.push({ productBrandId: brand.id });
+    }
+  }
 
-  return allProducts;
-}
+  if (filters?.productFormats) {
+    const format = await prisma.productUnitFormat.findFirst({
+      where: { slug: filters.productFormats },
+      select: { id: true },
+    });
+    if (format) {
+      where.AND.push({ productUnitFormatId: format.id });
+    }
+  }
 
-export async function getAllProducts(
-  type?: ROLES.SHELTER | ROLES.RETAILER | ROLES.ASSOCIATION
-) {
-  const data = await prisma.contributor.findMany({
-    where: {
-      type,
-    },
+  if (filters?.productPathologies) {
+    const pathology = await prisma.productPathology.findUnique({
+      where: { slug: filters.productPathologies },
+      select: { id: true },
+    });
+    if (pathology) {
+      where.AND.push({
+        productPathologyOnProduct: {
+          some: { pathologyId: pathology.id },
+        },
+      });
+    }
+  }
+
+  if (filters?.productProteins) {
+    const protein = await prisma.productProtein.findUnique({
+      where: { slug: filters.productProteins },
+      select: { id: true },
+    });
+    if (protein) {
+      where.AND.push({
+        productProteinOnProduct: {
+          some: { productProteinId: protein.id },
+        },
+      });
+    }
+  }
+
+  if (filters?.price) {
+    const [min, max] = filters.price.split("-").map(Number);
+    where.AND.push({
+      price: {
+        gte: min || 0,
+        lte: max || Number.MAX_SAFE_INTEGER,
+      },
+    });
+  }
+
+  let orderBy: { [key: string]: "asc" | "desc" } = { createdAt: "desc" };
+  switch (filters?.sort) {
+    case "lowest":
+      orderBy = { price: "asc" };
+      break;
+    case "highest":
+      orderBy = { price: "desc" };
+      break;
+    case "rating":
+      orderBy = { rating: "desc" };
+      break;
+    case "newest":
+    default:
+      orderBy = { createdAt: "desc" };
+      break;
+  }
+
+  const totalCount = await prisma.product.count({ where });
+
+  const products = await prisma.product.findMany({
+    where,
     include: {
-      users: {
-        select: {
-          id: true,
-          name: true,
-          email: true,
-        },
-      },
-      products: {
-        select: {
-          id: true,
-          name: true,
-          slug: true,
-          price: true,
-          costPrice: true,
-          description: true,
-          shortDescription: true,
-          images: true,
-          stock: true,
-          rating: true,
-          numReviews: true,
-          isFeatured: true,
-          createdAt: true,
-          updatedAt: true,
-          animalAge: true,
-          categoryType: true,
-          percentageDiscount: true,
-
-          productCategory: {
-            select: {
-              category: true,
-            },
-          },
-
-          productBrand: {
-            select: {
-              id: true,
-              name: true,
-            },
-          },
-
-          productUnitFormat: {
-            include: {
-              unitOfMeasure: true,
-              unitValue: true,
-            },
-          },
-
-          productPathologyOnProduct: {
-            select: {
-              pathology: { select: { id: true, name: true } },
-            },
-          },
-
-          productsFeatureOnProduct: {
-            select: {
-              productFeature: { select: { id: true, name: true } },
-            },
-          },
-
-          productProteinOnProduct: {
-            select: {
-              productProtein: { select: { id: true, name: true } },
-            },
-          },
-        },
-      },
+      contributor: { select: { id: true, name: true, type: true } },
+      productCategory: { select: { category: true } },
+      productBrand: { select: { id: true, name: true } },
+      productUnitFormat: { include: { unitOfMeasure: true, unitValue: true } },
+      productPathologyOnProduct: { select: { pathology: true } },
+      productsFeatureOnProduct: { select: { productFeature: true } },
+      productProteinOnProduct: { select: { productProtein: true } },
     },
+    take: limit,
+    skip: (page - 1) * limit,
+    orderBy,
   });
 
-  const normalized = normalizeContributorData(
-    convertToPlainObject(data) as unknown as RawContributor[]
-  );
+  const normalized = products.map((product) => {
+    const transformed = {
+      ...product,
+      costPrice: Number(product.costPrice),
+      price: Number(product.price),
+      rating: product.rating ?? 0,
+      isFeatured: product.isFeatured ?? false,
+      productPathologies: product.productPathologyOnProduct.map(
+        (p) => p.pathology
+      ),
+      productProteins: product.productProteinOnProduct.map(
+        (p) => p.productProtein
+      ),
+      productFeature: product.productsFeatureOnProduct.map(
+        (f) => f.productFeature
+      ),
+      productCategory: product.productCategory.map((c) => c.category),
+      productUnitFormat: product.productUnitFormat
+        ? {
+            id: product.productUnitFormat.id,
+            slug: product.productUnitFormat.slug,
+            unitValue: {
+              id: product.productUnitFormat.unitValue.id,
+              value: Number(product.productUnitFormat.unitValue.value),
+            },
+            unitOfMeasure: {
+              id: product.productUnitFormat.unitOfMeasure.id,
+              code: product.productUnitFormat.unitOfMeasure.code,
+              name: product.productUnitFormat.unitOfMeasure.name,
+            },
+          }
+        : null,
+      productBrand: product.productBrand || null,
+      createdAt: formatDateTime(product.createdAt.toISOString()).dateTime,
+      updatedAt: formatDateTime(product.updatedAt.toISOString()).dateTime,
+    };
 
-  return normalized;
+    const parsed = productSchema.safeParse(transformed);
+    if (!parsed.success) {
+      console.error(
+        "❌ Errore di validazione prodotto:",
+        parsed.error.format()
+      );
+      throw new Error("Errore nella validazione di un prodotto");
+    }
+
+    return parsed.data;
+  });
+
+  return {
+    data: convertToPlainObject(normalized),
+    totalPages: Math.ceil(totalCount / limit),
+    totalProducts: totalCount,
+  };
 }

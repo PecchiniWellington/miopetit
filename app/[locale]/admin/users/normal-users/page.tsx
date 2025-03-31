@@ -36,7 +36,7 @@ const NormalUserPage = async (props: {
     role: ROLES.USER,
     query: searchQuery,
     page,
-    limit: 100,
+    limit: 10,
   });
   const summaryResponse = await getOrderSummary();
 
