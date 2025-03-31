@@ -4,72 +4,86 @@ import { IQueryParams } from "@/core/actions/products/get-all-product-by-slug";
 import { prisma } from "@/core/prisma/prisma";
 import { productSchema } from "@/core/validators";
 import { convertToPlainObject, formatDateTime } from "@/lib/utils";
-
-export async function countAllProducts(
-  contributorId?: string,
-  query?: string
-): Promise<number> {
-  const isUuidQuery =
-    query &&
-    /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
-      query
-    );
-
-  const where = {
-    AND: [
-      contributorId ? { contributorId } : {},
-      query
-        ? {
-            OR: [
-              {
-                name: {
-                  contains: query,
-                  mode: "insensitive" as const,
-                },
-              },
-              ...(isUuidQuery ? [{ id: query }] : []),
-            ],
-          }
-        : {},
-    ],
-  };
-
-  const totalCount = await prisma.product.count({ where });
-  return totalCount;
-}
+import { DefaultSession, User } from "next-auth";
 
 export async function getAllProducts({
+  user,
   contributorId,
   page = 1,
   limit = 10,
   query,
   filters,
 }: {
+  user?: (User & DefaultSession["user"]) | null;
   contributorId?: string;
   page?: number;
   limit?: number;
   query?: string;
   filters?: IQueryParams;
 }) {
+  if (user) {
+    const contributor = await prisma.contributor.findFirst({
+      where: {
+        users: {
+          some: {
+            id: user.id,
+          },
+        },
+      },
+      select: { id: true },
+    });
+
+    if (contributor) {
+      contributorId = contributor.id;
+    } else {
+      console.warn("⛔ Nessun contributor associato trovato per l'utente");
+      return {
+        data: [],
+        totalPages: 0,
+        totalProducts: 0,
+      };
+    }
+  }
+
+  // 🔐 Restrizione: ADMIN può accedere solo ai contributor associati
+  if (user?.role === "ADMIN") {
+    const isUserAssociated = await prisma.contributor.findFirst({
+      where: {
+        id: contributorId,
+        users: {
+          some: {
+            id: user.id,
+          },
+        },
+      },
+    });
+
+    if (!isUserAssociated) {
+      console.warn(
+        "⛔ Accesso negato: ADMIN non associato al contributor richiesto"
+      );
+      return {
+        data: [],
+        totalPages: 0,
+        totalProducts: 0,
+      };
+    }
+  }
+
   const isUuidQuery =
     query &&
     /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
       query
     );
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // Costruisci query dinamica
   const where: any = {
     AND: [
       contributorId ? { contributorId } : {},
       query
         ? {
             OR: [
-              {
-                name: {
-                  contains: query,
-                  mode: "insensitive" as const,
-                },
-              },
+              { name: { contains: query, mode: "insensitive" } },
               ...(isUuidQuery ? [{ id: query }] : []),
             ],
           }
@@ -77,18 +91,15 @@ export async function getAllProducts({
     ],
   };
 
-  if (filters?.animalAge) {
-    where.AND.push({ animalAge: filters.animalAge });
-  }
+  // Filtri dinamici
+  if (filters?.animalAge) where.AND.push({ animalAge: filters.animalAge });
 
   if (filters?.productBrand) {
     const brand = await prisma.productBrand.findFirst({
       where: { slug: filters.productBrand },
       select: { id: true },
     });
-    if (brand) {
-      where.AND.push({ productBrandId: brand.id });
-    }
+    if (brand) where.AND.push({ productBrandId: brand.id });
   }
 
   if (filters?.productFormats) {
@@ -96,9 +107,7 @@ export async function getAllProducts({
       where: { slug: filters.productFormats },
       select: { id: true },
     });
-    if (format) {
-      where.AND.push({ productUnitFormatId: format.id });
-    }
+    if (format) where.AND.push({ productUnitFormatId: format.id });
   }
 
   if (filters?.productPathologies) {
@@ -139,6 +148,7 @@ export async function getAllProducts({
     });
   }
 
+  // Ordinamento
   let orderBy: { [key: string]: "asc" | "desc" } = { createdAt: "desc" };
   switch (filters?.sort) {
     case "lowest":
@@ -164,7 +174,9 @@ export async function getAllProducts({
       contributor: { select: { id: true, name: true, type: true } },
       productCategory: { select: { category: true } },
       productBrand: { select: { id: true, name: true } },
-      productUnitFormat: { include: { unitOfMeasure: true, unitValue: true } },
+      productUnitFormat: {
+        include: { unitOfMeasure: true, unitValue: true },
+      },
       productPathologyOnProduct: { select: { pathology: true } },
       productsFeatureOnProduct: { select: { productFeature: true } },
       productProteinOnProduct: { select: { productProtein: true } },
@@ -213,10 +225,7 @@ export async function getAllProducts({
 
     const parsed = productSchema.safeParse(transformed);
     if (!parsed.success) {
-      console.error(
-        "❌ Errore di validazione prodotto:",
-        parsed.error.format()
-      );
+      console.error("❌ Errore validazione prodotto:", parsed.error.format());
       throw new Error("Errore nella validazione di un prodotto");
     }
 

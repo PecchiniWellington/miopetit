@@ -1,3 +1,4 @@
+import { auth } from "@/auth";
 import Header from "@/components/admin/common/Header";
 
 import ProductsTable from "@/components/admin/products/ProductsTable";
@@ -16,9 +17,12 @@ const ProductsPage = async (props: {
   const searchParams = await props.searchParams;
   const page = Number(searchParams.page) || 1;
   const searchQuery = searchParams.query || "";
+  const userLogged = await auth();
+  const user = userLogged?.user;
 
   const products =
     (await getAllProducts({
+      user,
       query: searchQuery,
       page,
       limit: 10,

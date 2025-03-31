@@ -12,8 +12,8 @@ const roles: Role[] = [
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const usersData = async (): Promise<any[]> => {
-  const passwordHash = await hashSync("password123", 10);
-  const superAdminPasswordHash = await hashSync("superpassword123", 10);
+  const passwordHash = hashSync("password123", 10);
+  const superAdminPasswordHash = hashSync("superpassword123", 10);
 
   const superAdmin = {
     name: "Super Admin",

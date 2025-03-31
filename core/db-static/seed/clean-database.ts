@@ -14,7 +14,15 @@ export async function cleanDatabase() {
   await prisma.inventoryItem.deleteMany();
   await prisma.animal.deleteMany();
   await prisma.animal.deleteMany();
-  await prisma.user.deleteMany();
+
+  await prisma.permissionAssignment.deleteMany(); // prima quelli collegati all'utente
+  await prisma.schedule.deleteMany(); // se collegati all'utente
+  await prisma.cart.deleteMany(); // se collegati all'utente
+  await prisma.order.deleteMany(); // se collegati all'utente
+  await prisma.review.deleteMany(); // se collegati all'utente
+  await prisma.supportTicket.deleteMany(); // idem
+  await prisma.user.deleteMany(); // or
+
   await prisma.contributor.deleteMany();
   await prisma.account.deleteMany();
   await prisma.session.deleteMany();

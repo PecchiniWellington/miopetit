@@ -1,4 +1,5 @@
 import { prisma } from "@/core/prisma/prisma";
+import { hashSync } from "bcryptjs"; // opzionale se usi hash finto
 import { generateFakeAnimals } from "../animals";
 import contributorsData from "../contributors";
 import { generateFakeInventory } from "../inventory";
@@ -11,20 +12,50 @@ export async function seedContributorsData() {
 
   await prisma.contributor.createMany({ data: contributorsData });
 
-  const contributors = await prisma.contributor.findMany({
-    include: { users: true },
-  });
+  const contributors = await prisma.contributor.findMany();
 
   for (const contributor of contributors) {
     console.log(`🔧 Popolamento per: ${contributor.name}`);
 
-    // 1. Animali (solo se NON è retailer)
+    // 👥 Crea utenti base per contributor
+    const usersToCreate = [];
+
+    if (contributor.type === "SHELTER") {
+      usersToCreate.push("ADMIN", "VOLUNTEER", "VETERINARIAN");
+    } else if (contributor.type === "RETAILER") {
+      usersToCreate.push("ADMIN");
+    }
+
+    await Promise.all(
+      usersToCreate.map((role) =>
+        prisma.user.create({
+          data: {
+            email: `${contributor.slug}-${role.toLowerCase()}@example.com`,
+            name: `${role} ${contributor.name}`,
+            password: hashSync("test123", 10),
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            role: role as any,
+            contributors: {
+              connect: [{ id: contributor.id }],
+            },
+          },
+        })
+      )
+    );
+
+    // Ricarica i contributor con i loro utenti
+    const updatedContributor = await prisma.contributor.findUnique({
+      where: { id: contributor.id },
+      include: { users: true },
+    });
+
+    // 🐶 Animali (solo per SHELTER)
     if (contributor.type !== "RETAILER") {
       const animals = generateFakeAnimals(contributor.id, 10);
       await prisma.animal.createMany({ data: animals });
     }
 
-    // 2. Inventory + Movements (per tutti)
+    // 📦 Inventory + Movimenti
     const inventoryItems = generateFakeInventory(contributor.id, 10);
     const createdItems = await Promise.all(
       inventoryItems.map((item) => prisma.inventoryItem.create({ data: item }))
@@ -35,8 +66,8 @@ export async function seedContributorsData() {
       await prisma.inventoryMovement.createMany({ data: movements });
     }
 
-    // 3. Permessi + Schedules per ogni utente associato
-    for (const user of contributor.users) {
+    // 🛡️ Permessi + Orari per ogni utente
+    for (const user of updatedContributor!.users) {
       const permissions = generatePermissionsByRole(user.id, user.role);
       if (permissions.length) {
         await prisma.permissionAssignment.createMany({ data: permissions });

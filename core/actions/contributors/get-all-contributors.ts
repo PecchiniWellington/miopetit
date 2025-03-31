@@ -103,6 +103,10 @@ export async function getAllContributors(
           id: true,
           name: true,
           email: true,
+          role: true,
+          status: true,
+          createdAt: true,
+          updatedAt: true,
         },
       },
       products: {
