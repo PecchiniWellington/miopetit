@@ -51,6 +51,11 @@ const AdminContributorUpdatePage = async ({
       typeof contributorData.socialLinks === "string"
         ? JSON.parse(contributorData.socialLinks)
         : contributorData.socialLinks,
+    users: contributorData.users.map((user) => ({
+      ...user,
+      createdAt: user.createdAt.toISOString(),
+      updatedAt: user.updatedAt.toISOString(),
+    })),
   };
 
   return (
