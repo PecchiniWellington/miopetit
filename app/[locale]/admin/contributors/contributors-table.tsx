@@ -11,7 +11,6 @@ import { formatDateTime, formatId } from "@/lib/utils";
 import { motion } from "framer-motion";
 
 import { AlertTriangle, Edit, Eye, Trash2 } from "lucide-react";
-import { DefaultSession, User } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -19,18 +18,16 @@ const ContributorsTable = ({
   contributors,
   totalPages = 1,
   page = 1,
-  currentUser,
 }: {
   contributors: IContributor[];
   totalPages: number;
   page: number;
-  currentUser?: User & DefaultSession["user"];
 }) => {
   console.log("contributors", contributors);
   /*  const t = useTranslations("ModalDelete.ProductDelete"); */
   return (
     <motion.div
-      className="mb-8 rounded-xl border border-gray-700 bg-gray-800 bg-opacity-50 p-6 shadow-lg backdrop-blur-md"
+      className="mb-8 rounded-xl border border-gray-700 bg-gray-800  p-6 shadow-lg backdrop-blur-md"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.2 }}

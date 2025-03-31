@@ -130,7 +130,7 @@ export default function CSVTable({ CSV_URL }: { CSV_URL: string }) {
         </TableBody>
       </Table>
 
-      <div className="pagination mt-4">
+      <div className="mt-4">
         <BrandButton
           onClick={() => paginate(currentPage - 1)}
           disabled={currentPage === 1}

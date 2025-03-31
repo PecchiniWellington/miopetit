@@ -52,7 +52,7 @@ export default function PresentationDeals() {
                     <h3 className="p-2 font-bold md:text-lg lg:text-2xl">
                       {deal.title}
                     </h3>
-                    {/*  <p className="text-md">sotto il 15%</p> */}
+                    {/*  <p className="text-base">sotto il 15%</p> */}
                   </motion.div>
                 </motion.div>
               </div>

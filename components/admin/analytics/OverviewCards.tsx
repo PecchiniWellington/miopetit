@@ -23,7 +23,7 @@ const OverviewCards = () => {
       {overviewData.map((item, index) => (
         <motion.div
           key={item.name}
-          className="bg-opacity-50/50 rounded-xl border border-gray-700 bg-gray-800
+          className=" rounded-xl border border-gray-700 bg-gray-800
             p-6 shadow-lg backdrop-blur-lg"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -39,7 +39,7 @@ const OverviewCards = () => {
 
             <div
               className={`
-              rounded-full bg-opacity-20 p-3 ${item.change >= 0 ? "bg-green-500" : "bg-red-500"}
+              rounded-full  p-3 ${item.change >= 0 ? "bg-green-500" : "bg-red-500"}
               `}
             >
               <item.icon

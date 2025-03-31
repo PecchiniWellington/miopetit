@@ -71,7 +71,7 @@ const StripePayment = ({
     return (
       <form className="space-y-4" onSubmit={handleSubmit}>
         <div className="text-xl">Stripe Checkout</div>
-        {errorMessage && <div className="text-destructive">{errorMessage}</div>}
+        {errorMessage && <div>{errorMessage}</div>}
         <PaymentElement />
         <ExpressCheckoutElement
           onConfirm={onConfirmCheckout}

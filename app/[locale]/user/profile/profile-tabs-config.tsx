@@ -44,6 +44,7 @@ const ProfileTabsConfig = ({
         window.removeEventListener("hashchange", updateActiveTab);
       };
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleActiveTab = (tabId: string) => {
@@ -123,7 +124,7 @@ const ProfileTabsConfig = ({
               {/* Scroll Container */}
               <div
                 ref={scrollRef}
-                className="scrollbar-hide flex w-full space-x-4 overflow-x-auto p-4"
+                className=" flex w-full space-x-4 overflow-x-auto p-4"
               >
                 {tabs.map((tab) => (
                   <motion.button

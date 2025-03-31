@@ -94,7 +94,7 @@ const UpdateUserForm = ({ user }: { user: IUser }) => {
   return (
     <FormProvider {...form}>
       <form className="space-y-4" onSubmit={startUpload} method="POST">
-        <div className="upload-field flex flex-col gap-5 md:flex-row">
+        <div className=" flex flex-col gap-5 md:flex-row">
           <UploadAvatar
             name="image"
             control={

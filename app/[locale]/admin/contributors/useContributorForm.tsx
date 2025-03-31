@@ -69,8 +69,7 @@ export function useContributorForm({
   const { toast } = useToast();
 
   const schema = type === "Create" ? createSchema : updateSchema;
-  const allowedTypes = ["SHELTER", "ASSOCIATION", "RETAILER"] as const;
-  type AllowedType = (typeof allowedTypes)[number];
+  type AllowedType = "SHELTER" | "ASSOCIATION" | "RETAILER";
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),

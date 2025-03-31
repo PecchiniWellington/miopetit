@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { MessageCircle, X } from "lucide-react";

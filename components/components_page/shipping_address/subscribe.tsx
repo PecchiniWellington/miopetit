@@ -27,7 +27,7 @@ const SubscribeToast = () => {
           </svg>
           <span className="text-xl font-bold">Iscriviti subito! 🚀</span>
         </div>
-        <p className="text-md mt-2 font-medium">
+        <p className="mt-2 text-base font-medium">
           Se vuoi maggiori agevolazioni, <br /> iscriviti ora al sito e
           approfitta delle offerte! 🎉
         </p>

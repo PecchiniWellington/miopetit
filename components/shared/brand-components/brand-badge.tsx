@@ -11,7 +11,7 @@ const BrandBadge = ({
   onCloseBadge?: () => void;
   label?: string | React.ReactElement;
   className?: string;
-  variant?: "primary" | "success" | "danger" | "warning" | "default";
+  variant?: "primary" | "success" | "danger" | "warning" | "default" | "info";
   icon?: React.ReactNode;
 }) => {
   const variantClass = {
@@ -20,6 +20,7 @@ const BrandBadge = ({
     danger: "badge-danger",
     warning: "badge-warning",
     default: "badge-default",
+    info: "badge-info",
   };
   return (
     <div className={`badge-base ${variantClass[variant]}  ${className}`}>

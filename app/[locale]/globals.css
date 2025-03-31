@@ -81,6 +81,9 @@ body {
   .badge-default {
     @apply bg-gradient-to-r from-gray-400 to-gray-600 font-bold;
   }
+  .badge-info {
+    @apply bg-gradient-to-r from-blue-400 to-teal-600 font-bold;
+  }
   /* INPUTS / TEXTAREA / SELECTS */
   .input-base-fe {
     @apply flex justify-between items-center rounded-xl border border-gray-600 bg-white p-3 text-gray-900 shadow-md transition-all focus:border-blue-500 focus:ring focus:ring-blue-300 disabled:cursor-not-allowed disabled:bg-gray-200;

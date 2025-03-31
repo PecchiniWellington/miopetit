@@ -19,10 +19,12 @@ import { updateOrderToPaid } from "../order/order.action";
 
 // Get all the users
 export async function getAllUsers({
+  role,
   query,
   limit = PAGE_SIZE,
   page,
 }: {
+  role?: Role;
   query?: string;
   limit?: number;
   page?: number;
@@ -42,6 +44,7 @@ export async function getAllUsers({
   const userData = await prisma.user.findMany({
     where: {
       ...queryFilter,
+      ...(role ? { role } : {}),
     },
     orderBy: { createdAt: "desc" },
     take: limit,

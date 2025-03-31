@@ -24,7 +24,7 @@ const SALES_CHANNEL_DATA = [
 const SalesChannelChart = () => {
   return (
     <motion.div
-      className="rounded-xl border border-gray-700 bg-gray-800 bg-opacity-50 p-6 shadow-lg backdrop-blur-md lg:col-span-2"
+      className="rounded-xl border border-gray-700 bg-gray-800  p-6 shadow-lg backdrop-blur-md lg:col-span-2"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.4 }}

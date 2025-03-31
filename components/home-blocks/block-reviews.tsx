@@ -1,6 +1,4 @@
-import { IContributor } from "@/core/validators/contributors.validator";
-
-const BlockReviews = ({ contributor }: { contributor: IContributor }) => {
+const BlockReviews = () => {
   return (
     <section className="relative mx-auto mt-32 w-full max-w-6xl px-6">
       <div className="pointer-events-none absolute inset-0 z-0 bg-gradient-to-br from-yellow-100 via-white to-purple-100 opacity-60 blur-xl" />

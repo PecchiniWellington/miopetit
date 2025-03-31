@@ -21,7 +21,7 @@ export const ourFileRouter = {
 
       return { userId: session.user.id };
     })
-    .onUploadComplete(async ({ metadata, file }) => {
+    .onUploadComplete(async ({ metadata }) => {
       // Puoi anche loggare o salvare `file` se vuoi
       return { uploadedBy: metadata.userId };
     }),

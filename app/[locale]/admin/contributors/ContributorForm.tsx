@@ -2,7 +2,6 @@
 
 import BrandButton from "@/components/shared/brand-components/brand-button";
 import { Form } from "@/components/ui/form";
-import { IUser } from "@/core/validators";
 import { contributorSchema } from "@/core/validators/contributors.validator";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
@@ -15,14 +14,10 @@ const ContributorForm = ({
   type,
   contributor,
   contributorId,
-  users,
-  isAdmin,
 }: {
   type: "Create" | "Update";
   contributor?: ContributorFormSchema;
   contributorId?: string;
-  users: IUser[];
-  isAdmin?: boolean;
 }) => {
   const { form, onSubmit } = useContributorForm({
     type,
@@ -48,8 +43,6 @@ const ContributorForm = ({
       >
         <ContributorFormFields
           form={form as UseFormReturn<ContributorFormSchema>}
-          users={users}
-          isAdmin={isAdmin}
         />
 
         <BrandButton

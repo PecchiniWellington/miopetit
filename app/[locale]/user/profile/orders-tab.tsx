@@ -24,6 +24,7 @@ export const OrdersTab = () => {
 
   useEffect(() => {
     fetchOrders();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [toast]);
 
   const t = useTranslations("Profile.OrdersTab");

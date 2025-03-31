@@ -24,14 +24,14 @@ import BlockProducts from "@/components/home-blocks/block-products";
 import BlockPromo from "@/components/home-blocks/block-promo";
 import BlockReviews from "@/components/home-blocks/block-reviews";
 import BlockWhyUs from "@/components/home-blocks/block-why-us";
+import { getAllContributors } from "@/core/actions/contributors/get-all-contributors";
 import { IProduct } from "@/core/validators";
 import { IContributor } from "@/core/validators/contributors.validator";
-import { getAllContributors } from "@/core/actions/contributors/get-all-contributors";
 import ROLES from "@/lib/constants/roles";
 
 export default function ContributorShowcase() {
   const [showFullDescription, setShowFullDescription] = useState(false);
-  const [products, setProducts] = useState<IProduct[]>([]);
+  const [, setProducts] = useState<IProduct[]>([]);
   const [scrollY, setScrollY] = useState(0);
   const [contributor, setContributor] = useState<IContributor>();
 
@@ -139,7 +139,7 @@ export default function ContributorShowcase() {
       <BlockWhyUs />
       <BlockFeatures />
       {contributor && <BlockProducts products={contributor.products} />}
-      {contributor && <BlockReviews contributor={contributor} />}
+      {contributor && <BlockReviews /* contributor={contributor} */ />}
       <BlockCTA />
 
       {/* FOOTER SPACING */}

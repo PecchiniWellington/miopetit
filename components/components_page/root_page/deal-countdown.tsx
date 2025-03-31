@@ -13,7 +13,7 @@ const StatBox = ({ label, value }: { label: string; value: number }) => {
   const t = useTranslations();
   return (
     <motion.li
-      className="flex flex-col items-center justify-center rounded-lg bg-white bg-opacity-20 p-4 shadow-md backdrop-blur-md transition-transform duration-300 hover:scale-105"
+      className="flex flex-col items-center justify-center rounded-lg bg-white  p-4 shadow-md backdrop-blur-md transition-transform duration-300 hover:scale-105"
       whileHover={{ scale: 1.1 }}
     >
       <p className="text-4xl font-extrabold text-white">{value}</p>

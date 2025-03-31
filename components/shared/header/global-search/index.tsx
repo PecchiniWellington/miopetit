@@ -4,12 +4,12 @@ import { AnimatePresence, motion } from "framer-motion";
 import { SearchIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
+import BrandButton from "../../brand-components/brand-button";
 import BestProduct from "./best-product";
 import { useSearch } from "./global-search-context";
 import SearchCategorySelect from "./search-categories-select";
 import SearchField from "./search-field";
 import SuggestedBrand from "./suggested-brand";
-import BrandButton from "../../brand-components/brand-button";
 
 const Search = () => {
   const { isDropdownVisible, setIsDropdownVisible, searchRef, searchTerm } =
@@ -33,7 +33,7 @@ const Search = () => {
   return (
     <>
       {isDropdownVisible && (
-        <div className="fixed inset-0 z-20 bg-black bg-opacity-65 transition-opacity"></div>
+        <div className="fixed inset-0 z-20 bg-black  transition-opacity"></div>
       )}
 
       <div ref={searchRef} className="relative z-30  w-full md:max-w-lg">

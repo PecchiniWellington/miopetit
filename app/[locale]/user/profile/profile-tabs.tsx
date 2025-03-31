@@ -96,7 +96,7 @@ const ProfileForm = ({ user }: { user: IUser }) => {
                   <FormControl>
                     <BrandInput
                       placeholder="Nome Completo"
-                      className="input-field"
+                      className=""
                       {...field}
                     />
                   </FormControl>
@@ -114,7 +114,7 @@ const ProfileForm = ({ user }: { user: IUser }) => {
                     <BrandInput
                       disabled
                       placeholder="Email"
-                      className="input-field cursor-not-allowed opacity-70"
+                      className=" cursor-not-allowed opacity-70"
                       {...field}
                     />
                   </FormControl>

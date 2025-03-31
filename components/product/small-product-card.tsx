@@ -4,7 +4,7 @@ import BrandButton from "../shared/brand-components/brand-button";
 
 const SmallProductCard = () => {
   return (
-    <div className="w-46 rounded-2xl border border-gray-200 bg-white p-4 shadow-md transition hover:shadow-lg">
+    <div className="w-48 rounded-2xl border border-gray-200 bg-white p-4 shadow-md transition hover:shadow-lg">
       {/* Immagine prodotto */}
       <div className="relative flex justify-center p-4">
         <Image
@@ -18,7 +18,7 @@ const SmallProductCard = () => {
 
       {/* Info Prodotto */}
       <div className="border-t border-gray-100 pt-3">
-        <h2 className="text-md font-extrabold uppercase tracking-wide">
+        <h2 className="text-base font-extrabold uppercase tracking-wide">
           VIRTUS
         </h2>
         <p className="text-sm text-gray-600">

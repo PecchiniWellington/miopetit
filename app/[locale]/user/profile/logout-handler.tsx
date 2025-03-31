@@ -18,6 +18,7 @@ const LogoutHandler = () => {
     }, 5000);
 
     return () => clearTimeout(logoutTimer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

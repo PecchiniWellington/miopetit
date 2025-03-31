@@ -3,7 +3,6 @@ import UploadImage from "@/components/admin/product-form/upload-image";
 import DynamicFormField from "@/components/shared/dynamic-form-field";
 import { animalTypesOptions } from "@/core/db-static/db_contributors_page/animal_types_options";
 import { needsOptions } from "@/core/db-static/db_contributors_page/needs_options";
-import { IUser } from "@/core/validators";
 import { IContributor } from "@/core/validators/contributors.validator";
 import ROLES from "@/lib/constants/roles";
 import { normalizeUrl } from "@/lib/utils";
@@ -11,19 +10,9 @@ import { UseFormReturn } from "react-hook-form";
 
 export function ContributorFormFields({
   form,
-  users,
-  isAdmin,
 }: {
   form: UseFormReturn<IContributor>;
-  users?: IUser[];
-  isAdmin?: boolean;
 }) {
-  const userOptions =
-    users?.map((user) => ({
-      label: user.name || "Unknown User",
-      value: user.id,
-    })) || [];
-
   const contributorType = form.watch("type");
   return (
     <>

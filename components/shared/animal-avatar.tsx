@@ -10,7 +10,7 @@ const AnimalAvatar = ({
   rounded?: string;
 }) => {
   return (
-    <div className="align-center flex-col justify-center gap-4 rounded-lg p-4">
+    <div className="flex-col items-center justify-center gap-4 rounded-lg p-4">
       <div
         className={`relative mx-auto flex justify-center overflow-hidden ${rounded} align-middle`}
       >

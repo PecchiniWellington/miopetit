@@ -28,6 +28,9 @@ const PlaceOrderPage = async () => {
   const defaultAddress = user?.defaultAddress
     ? {
         ...user.defaultAddress,
+        street: user.defaultAddress.street ?? "",
+        city: user.defaultAddress.city ?? "",
+        country: user.defaultAddress.country ?? "",
         zipCode: user.defaultAddress.zipCode ?? "",
       }
     : null;

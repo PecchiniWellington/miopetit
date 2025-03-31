@@ -43,7 +43,7 @@ const AIPoweredInsights = () => {
       <div className="space-y-4">
         {INSIGHTS.map((item, index) => (
           <div key={index} className="flex items-center space-x-3">
-            <div className={`rounded-full p-2 ${item.color} bg-opacity-20`}>
+            <div className={`rounded-full p-2 ${item.color} `}>
               <item.icon className={`size-6 ${item.color}`} />
             </div>
             <p className="text-gray-300">{item.insight}</p>

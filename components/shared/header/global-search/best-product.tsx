@@ -11,7 +11,7 @@ const BestProduct = () => {
   return (
     <div className="flex gap-8">
       {/* 🛒 Colonna sinistra - Prodotti */}
-      <div className="flex-3 max-h-[300px] overflow-y-auto pr-4">
+      <div className=" max-h-[300px] overflow-y-auto pr-4">
         <h3 className="mb-4 text-lg font-bold text-gray-900">
           {t("best_results_for")}
           <span className="text-indigo-600">“{searchTerm}”</span>
@@ -35,7 +35,7 @@ const BestProduct = () => {
                 <p className="text-sm font-semibold text-gray-800">
                   {product.name}
                 </p>
-                <p className="text-md font-bold text-indigo-600">
+                <p className="text-base font-bold text-indigo-600">
                   {product.price}€
                 </p>
               </div>
@@ -46,7 +46,7 @@ const BestProduct = () => {
 
       {/* 💡 Colonna destra - Brand */}
       <div className="">
-        <h3 className="text-md mb-4 font-bold text-gray-900">
+        <h3 className="mb-4 text-base font-bold text-gray-900">
           {t("category")}
         </h3>
         <div className="mt-2 flex flex-col gap-2">

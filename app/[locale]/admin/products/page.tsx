@@ -15,7 +15,6 @@ const ProductsPage = async (props: {
 }) => {
   const searchParams = await props.searchParams;
   const page = Number(searchParams.page) || 1;
-  const searchQuery = searchParams.query || "";
 
   const products =
     (await getAllProducts(/* {

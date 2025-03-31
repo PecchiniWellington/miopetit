@@ -1,7 +1,9 @@
 "use client";
+
 import BrandBadge from "@/components/shared/brand-components/brand-badge";
 import BrandButton from "@/components/shared/brand-components/brand-button";
 import GenericModal from "@/components/shared/modals/delete-dialog";
+import SortableTable from "@/components/shared/tables/sortable-table";
 import { deleteUser } from "@/core/actions/admin/admin.actions";
 import { IUser } from "@/core/validators";
 import ROLES from "@/lib/constants/roles";
@@ -15,98 +17,59 @@ import Link from "next/link";
 import AdminSearch, { SearchProvider } from "../admin-search";
 
 const Roles = ({ userRole }: { userRole: string }) => {
-  switch (userRole) {
-    case ROLES.ADMIN:
-      return (
-        <BrandBadge
-          className="flex items-center justify-center text-center font-bold"
-          label={ROLES.ADMIN}
-          variant="primary"
-        />
-      );
+  const roleMap = {
+    [ROLES.ADMIN]: "primary",
+    [ROLES.USER]: "success",
+    [ROLES.VETERINARIAN]: "warning",
+    [ROLES.RETAILER]: "danger",
+    [ROLES.VOLUNTEER]: "info",
+  };
 
-    case ROLES.USER:
-      return (
-        <BrandBadge
-          className="flex items-center justify-center text-center font-bold"
-          label={ROLES.USER}
-          variant="success"
-        />
-      );
-
-    case ROLES.VETERINARIAN:
-      return (
-        <BrandBadge
-          className="flex items-center justify-center text-center font-bold"
-          label={ROLES.VETERINARIAN}
-          variant="warning"
-        />
-      );
-
-    case ROLES.RETAILER:
-      return (
-        <BrandBadge
-          className="flex items-center justify-center text-center font-bold"
-          label={ROLES.RETAILER}
-          variant="danger"
-        />
-      );
-
-    default:
-      return (
-        <BrandBadge
-          className="flex items-center justify-center text-center font-bold"
-          label="NO ROLE"
-          variant="default"
-        />
-      );
-  }
+  return (
+    <BrandBadge
+      className="flex items-center justify-center text-center font-bold"
+      label={userRole || "NO ROLE"}
+      variant={
+        (roleMap[userRole as keyof typeof roleMap] || "default") as
+          | "primary"
+          | "success"
+          | "warning"
+          | "danger"
+          | "info"
+          | "default"
+      }
+    />
+  );
 };
+
 const Status = ({ userStatus }: { userStatus: string }) => {
-  switch (userStatus) {
-    case USER_STATUS_ACTIVATION.ACTIVE:
-      return (
-        <BrandBadge
-          label={USER_STATUS_ACTIVATION.ACTIVE}
-          variant="success"
-          className="font-bold"
-        />
-      );
+  const statusMap = {
+    [USER_STATUS_ACTIVATION.ACTIVE]: "success",
+    [USER_STATUS_ACTIVATION.INACTIVE]: "primary",
+    [USER_STATUS_ACTIVATION.PENDING]: "warning",
+    [USER_STATUS_ACTIVATION.BANNED]: "danger",
+  };
 
-    case USER_STATUS_ACTIVATION.INACTIVE:
-      return (
-        <BrandBadge
-          label={USER_STATUS_ACTIVATION.INACTIVE}
-          variant="primary"
-          className="font-bold"
-        />
-      );
-
-    case USER_STATUS_ACTIVATION.PENDING:
-      return (
-        <BrandBadge
-          label={USER_STATUS_ACTIVATION.PENDING}
-          variant="warning"
-          className="font-bold"
-        />
-      );
-
-    case USER_STATUS_ACTIVATION.BANNED:
-      return (
-        <BrandBadge
-          label={USER_STATUS_ACTIVATION.BANNED}
-          variant="danger"
-          className="font-bold"
-        />
-      );
-
-    default:
-      return <BrandBadge label="" className="font-bold" />;
-  }
+  return (
+    <BrandBadge
+      label={userStatus}
+      variant={
+        (statusMap[userStatus as keyof typeof statusMap] || "default") as
+          | "primary"
+          | "success"
+          | "warning"
+          | "danger"
+          | "info"
+          | "default"
+      }
+      className="font-bold"
+    />
+  );
 };
 
 const UsersTable = ({ users }: { users?: IUser[] }) => {
   const t = useTranslations("ModalDelete");
+
   return (
     <motion.div
       className="rounded-xl border border-gray-700 bg-gray-800/50 p-6 shadow-lg backdrop-blur-md"
@@ -124,39 +87,24 @@ const UsersTable = ({ users }: { users?: IUser[] }) => {
       </div>
 
       <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-700">
-          <thead>
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-400">
-                Id
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-400">
-                Name
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-400">
-                Email
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-400">
-                Role
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-400">
-                Status
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-400">
-                Actions
-              </th>
-            </tr>
-          </thead>
-
-          <tbody className="divide-y divide-gray-700">
-            {users?.map((user: IUser) => (
+        {users ? (
+          <SortableTable
+            columns={[
+              { key: "id", label: "ID" },
+              { key: "name", label: "NAME" },
+              { key: "email", label: "EMAIL" },
+              { key: "role", label: "ROLE" },
+              { key: "status", label: "STATUS" },
+            ]}
+            data={users}
+            renderRow={(user: IUser) => (
               <motion.tr
                 key={user.id}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.3 }}
               >
-                <td className="whitespace-nowrap px-6 py-4">
+                <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-300">
                   <span className="inline-flex rounded-full bg-blue-800 px-2 text-xs font-semibold leading-5 text-blue-100">
                     {formatId(user.id)}
                   </span>
@@ -185,18 +133,15 @@ const UsersTable = ({ users }: { users?: IUser[] }) => {
                     </div>
                   </div>
                 </td>
-
-                <td className="whitespace-nowrap px-6 py-4">
-                  <div className="text-sm text-gray-300">{user.email}</div>
+                <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-300">
+                  {user.email}
                 </td>
                 <td className="whitespace-nowrap px-6 py-4">
                   <Roles userRole={user.role} />
                 </td>
-
                 <td className="whitespace-nowrap px-6 py-4">
                   <Status userStatus={user.status} />
                 </td>
-
                 <td className="flex items-center gap-2 whitespace-nowrap px-6 py-4 text-sm text-gray-300">
                   <BrandButton>
                     <Link href={`/admin/users/${user.id}`}>
@@ -226,11 +171,21 @@ const UsersTable = ({ users }: { users?: IUser[] }) => {
                   />
                 </td>
               </motion.tr>
-            ))}
-          </tbody>
-        </table>
+            )}
+          />
+        ) : (
+          <div className="flex flex-col items-center justify-center py-10">
+            <p className="text-lg font-semibold text-gray-300">
+              No Users found
+            </p>
+            <p className="text-sm text-gray-500">
+              Try adjusting your search or adding new Users.
+            </p>
+          </div>
+        )}
       </div>
     </motion.div>
   );
 };
+
 export default UsersTable;

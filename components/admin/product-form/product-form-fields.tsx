@@ -237,7 +237,7 @@ export function ProductFormFields({
           placeholder="Enter stock"
         />
       </div>
-      <div className="upload-field">
+      <div className="">
         {/* Images */}
         Product Images
         <UploadImage
@@ -249,7 +249,7 @@ export function ProductFormFields({
           }}
         />
       </div>
-      <div className="upload-field">
+      <div className="">
         {/* isFeatured */}
         Featured Product
         <UploadImage

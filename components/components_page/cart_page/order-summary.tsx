@@ -51,7 +51,7 @@ const OrderSummary = ({
               </svg>
               <span className="text-xl font-bold">Iscriviti subito! 🚀</span>
             </div>
-            <p className="text-md mt-2 font-medium">
+            <p className="mt-2 text-base font-medium">
               Per procedere devi prima iscriverti, <br /> iscriviti ora al sito
               e approfitta delle offerte! 🎉
             </p>

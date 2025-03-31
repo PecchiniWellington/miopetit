@@ -37,6 +37,7 @@ const UploadImage: React.FC<UploadImageProps> = ({
     if (images && JSON.stringify(images) !== JSON.stringify(previews)) {
       setPreviews(images);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [images]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {

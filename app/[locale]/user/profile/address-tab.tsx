@@ -66,6 +66,7 @@ export const AddressesTab = ({ user }: { user: IUser }) => {
 
   useEffect(() => {
     fetchAddresses();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [toast, user]);
 
   const handleEditAddress = (address: IAddress): void => {
@@ -242,7 +243,7 @@ export const AddressesTab = ({ user }: { user: IUser }) => {
       </BrandButton>
 
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black ">
           <div className="w-[90%] max-w-md rounded-lg bg-white p-6 shadow-lg">
             <span className="flex items-center justify-between">
               <h3 className="text-lg font-semibold text-gray-900">

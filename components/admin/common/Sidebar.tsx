@@ -4,6 +4,7 @@ import ROLES from "@/lib/constants/roles";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   BarChart2,
+  BriefcaseMedical,
   ChevronDown,
   DollarSign,
   HeartHandshake,
@@ -25,24 +26,62 @@ import { useEffect, useState } from "react";
 const SIDEBAR_ITEMS = [
   {
     name: "Overview",
-    icon: BarChart2,
+    icon: Layout,
     color: "#6366f1",
     href: "/overview",
     role: [ROLES.ADMIN],
   },
   {
     name: "Products",
-    icon: ShoppingBag,
+    icon: ShoppingCart,
     color: "#8B5CF6",
     href: "/products",
     role: [ROLES.ADMIN, ROLES.RETAILER],
   },
   {
     name: "Users",
-    icon: Users,
+    icon: User,
     color: "#EC4899",
     href: "/users",
     role: [ROLES.ADMIN],
+    children: [
+      {
+        name: "All",
+        color: "#8B5CF6",
+        icon: Users,
+        href: "/users/overview",
+      },
+      {
+        name: "Volunteers",
+        color: "#4ADE80",
+        icon: Users,
+        href: "/users/volunteers",
+      },
+      {
+        name: "Veterinarians",
+        color: "#F59E0B",
+        icon: BriefcaseMedical,
+        href: "/users/veterinarians",
+      },
+      {
+        name: "Users",
+        color: "#F472B6",
+        icon: HeartHandshake,
+        href: "/users/normal-users",
+      },
+      {
+        name: "Retailers",
+        color: "#ff5733",
+        icon: ShoppingBag,
+        href: "/users/retailers",
+      },
+      {
+        name: "Admins",
+        color: "#6366f1",
+        icon: MonitorCog,
+        href: "/users/admins",
+      },
+    ],
   },
   {
     name: "Sales",
@@ -53,7 +92,7 @@ const SIDEBAR_ITEMS = [
   },
   {
     name: "Orders",
-    icon: ShoppingCart,
+    icon: BarChart2,
     color: "#F59E0B",
     href: "/orders",
     role: [ROLES.ADMIN],
@@ -88,14 +127,14 @@ const SIDEBAR_ITEMS = [
   },
   {
     name: "Contributors",
-    icon: HeartHandshake,
+    icon: Users,
     color: "#ff5733",
     href: "/contributors",
     role: [ROLES.ADMIN],
   },
   {
     name: "Configurations",
-    icon: MonitorCog,
+    icon: Settings,
     color: "#ff33c5",
     href: "/configurations",
     role: [ROLES.ADMIN],
@@ -142,8 +181,11 @@ const Sidebar = () => {
               : false
           ).map((item) => {
             const isActive =
-              (pathname.includes(item.href) && item.href.length > 1) ||
-              pathname === item.href;
+              pathname === `/admin${item.href}` ||
+              (item.children &&
+                item.children.some(
+                  (child) => `/admin${child.href}` === pathname
+                ));
 
             const isOpen = openMenu === item.name;
 

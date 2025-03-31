@@ -17,6 +17,7 @@ const SearchCategorySelect = () => {
     if (isOpen && searchCategories.length === 0) {
       fetchSearchCategories();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
   return (

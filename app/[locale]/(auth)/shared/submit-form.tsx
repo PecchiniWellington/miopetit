@@ -81,6 +81,7 @@ export default function SubmitForm({
       }
     };
     handleLogin();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status, session]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -135,7 +136,7 @@ export default function SubmitForm({
     <div className="flex w-full flex-col items-center space-y-6">
       {/* 🟢 Overlay di caricamento */}
       {loading && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black ">
           <div className="rounded-lg bg-white p-6 text-center shadow-lg">
             <p className="text-lg font-semibold">{loadingMessage}</p>
             <div className="mt-4 flex justify-center">

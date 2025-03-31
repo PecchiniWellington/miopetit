@@ -6,17 +6,7 @@ import ROLES from "@/lib/constants/roles";
 import Link from "next/link";
 import ContributorsTable from "./contributors-table";
 
-const ContributorsPage = async (props: {
-  searchParams: Promise<{
-    query: string;
-    page: string;
-    category: string;
-  }>;
-}) => {
-  const searchParams = await props.searchParams;
-  const page = Number(searchParams.page) || 1;
-  const searchQuery = searchParams.query || "";
-
+const ContributorsPage = async () => {
   const contributors = await getAllContributors();
   const currentUser = await auth();
 
@@ -32,7 +22,6 @@ const ContributorsPage = async (props: {
           </div>
         )}
         <ContributorsTable
-          currentUser={currentUser?.user}
           contributors={contributors}
           page={1}
           totalPages={1}

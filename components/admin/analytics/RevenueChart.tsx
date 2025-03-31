@@ -27,7 +27,7 @@ const RevenueChart = () => {
 
   return (
     <motion.div
-      className="mb-8 rounded-xl border border-gray-700 bg-gray-800 bg-opacity-50 p-6 shadow-lg backdrop-blur-lg"
+      className="mb-8 rounded-xl border border-gray-700 bg-gray-800  p-6 shadow-lg backdrop-blur-lg"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.2 }}

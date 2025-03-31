@@ -31,7 +31,7 @@ import ROLES from "@/lib/constants/roles";
 
 export default function ContributorShowcase() {
   const [showFullDescription, setShowFullDescription] = useState(false);
-  const [products, setProducts] = useState<IProduct[]>([]);
+  const [, setProducts] = useState<IProduct[]>([]);
   const [contributor, setContributor] = useState<IContributor>();
   const [scrollY, setScrollY] = useState(0);
 
@@ -139,7 +139,7 @@ export default function ContributorShowcase() {
       <BlockWhyUs />
       <BlockFeatures />
       {contributor && <BlockProducts products={contributor.products} />}
-      {contributor && <BlockReviews contributor={contributor} />}
+      {contributor && <BlockReviews /* contributor={contributor} */ />}
       <BlockCTA />
 
       {/* FOOTER SPACING */}

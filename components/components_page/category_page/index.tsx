@@ -70,6 +70,7 @@ const ConfigCategoryPage = ({
     setProducts((prev) => [...prev, ...newProducts]);
     setPage((prev) => prev + 1);
     setLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading, hasMore, page, pathname, searchParams]);
 
   useEffect(() => {
@@ -90,6 +91,7 @@ const ConfigCategoryPage = ({
 
     if (observerRef.current) observer.observe(observerRef.current);
     return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       if (observerRef.current) observer.unobserve(observerRef.current);
     };
   }, [loadMore]);

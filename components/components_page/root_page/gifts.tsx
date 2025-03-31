@@ -46,7 +46,7 @@ const Gifts = () => {
             {imagePath && (
               <AnimalAvatar name={name} image={`${imagePath}${image}`} />
             )}
-            <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            <div className="absolute inset-0 flex items-center justify-center bg-black  opacity-0 transition-opacity duration-300 group-hover:opacity-100">
               <p className="text-lg font-bold text-white">{name}</p>
             </div>
           </motion.div>

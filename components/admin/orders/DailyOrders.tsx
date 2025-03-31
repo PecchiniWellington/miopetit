@@ -1,14 +1,14 @@
 "use client";
 import { motion } from "framer-motion";
 import {
-  LineChart,
+  CartesianGrid,
+  Legend,
   Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
 } from "recharts";
 
 const dailyOrdersData = [
@@ -24,12 +24,12 @@ const dailyOrdersData = [
 const DailyOrders = () => {
   return (
     <motion.div
-      className="bg-gray-800 bg-opacity-50 backdrop-blur-md shadow-lg rounded-xl p-6 border border-gray-700"
+      className="rounded-xl  border border-gray-700 bg-gray-800 p-6 shadow-lg backdrop-blur-md"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.2 }}
     >
-      <h2 className="text-xl font-semibold text-gray-100 mb-4">Daily Orders</h2>
+      <h2 className="mb-4 text-xl font-semibold text-gray-100">Daily Orders</h2>
 
       <div style={{ width: "100%", height: 300 }}>
         <ResponsiveContainer>

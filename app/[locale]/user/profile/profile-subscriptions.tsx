@@ -37,7 +37,7 @@ export default function SubscriptionTab() {
   };
 
   return (
-    <div className="bg-whiteshadow-lg relative rounded-lg dark:bg-gray-800">
+    <div className="relative rounded-lg bg-white shadow-lg dark:bg-gray-800">
       <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
         🎟️ Il tuo Abbonamento
       </h2>

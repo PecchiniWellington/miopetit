@@ -1,9 +1,9 @@
 import { ArrowLeftFromLine } from "lucide-react";
 import Link from "next/link";
 
-const Header = ({ title }: { title: string }) => {
+const Header = ({ title }: { title?: string }) => {
   return (
-    <header className="bg-opacity/50 border-b border-gray-700 bg-gray-800 shadow-lg backdrop-blur-md">
+    <header className=" border-b border-gray-700 bg-gray-800 shadow-lg backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-start p-4 sm:px-6 lg:px-8">
         <Link
           href="/"
