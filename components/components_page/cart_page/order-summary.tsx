@@ -1,5 +1,6 @@
 import BrandButton from "@/components/shared/brand-components/brand-button";
 import BrandCard from "@/components/shared/brand-components/brand-card";
+import { IContributor } from "@/core/validators/contributors.validator";
 import { useToast } from "@/hooks/use-toast";
 import { formatCurrency } from "@/lib/utils";
 import { ArrowRight, Loader } from "lucide-react";
@@ -12,6 +13,7 @@ const OrderSummary = ({
   resume,
   goToCheckout,
   userLogged,
+  hasContributor,
 }: {
   isPending: boolean;
   resume: {
@@ -25,9 +27,11 @@ const OrderSummary = ({
     role: string;
   } & User;
   goToCheckout: () => void;
+  hasContributor?: IContributor | null;
 }) => {
   const { toast } = useToast();
   const t = useTranslations("Cart.order_summary");
+  console.log("hasContributor", hasContributor);
   const checkIfGoToCheckout = () => {
     if (userLogged?.id) {
       return goToCheckout();
@@ -139,7 +143,7 @@ const OrderSummary = ({
         variant="primary"
         icon={<ArrowRight className="size-4" />}
       >
-        {t("checkout_button")}
+        {hasContributor ? "Procedi alla richiesta" : t("checkout_button")}
       </BrandButton>
     </BrandCard>
   );

@@ -39,7 +39,9 @@ model User {
     adoptions            Adoption[]
     schedules            Schedule[]
     contributors         Contributor[]
-    PermissionAssignment PermissionAssignment[]
+    permissionAssignment PermissionAssignment[]
+    donation             Donation[]
+    notifications        Notification[]
 
     @@map("users")
 }

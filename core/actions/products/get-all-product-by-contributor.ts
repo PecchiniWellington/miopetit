@@ -19,7 +19,6 @@ export async function getProductsByContributor({
     throw new Error("Affiliate ID is required");
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const where: any = {
     contributorId,
   };

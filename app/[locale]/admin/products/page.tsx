@@ -5,6 +5,7 @@ import ProductsTable from "@/components/admin/products/ProductsTable";
 import SalesTrendChart from "@/components/admin/products/SalesTrendChart";
 import DownloadCSV from "@/components/shared/download-csv";
 import { getAllProducts } from "@/core/actions/products";
+import ROLES from "@/lib/constants/roles";
 import Link from "next/link";
 
 const ProductsPage = async (props: {
@@ -36,7 +37,10 @@ const ProductsPage = async (props: {
 
       <main className="mx-auto max-w-7xl px-4 py-6 lg:px-8">
         <div className="mb-6 flex w-full gap-2">
-          <Link href="/admin/products/create">Create Product</Link>
+          {user?.role === ROLES.ADMIN ||
+            (user?.role === ROLES.SUPERADMIN && (
+              <Link href="/admin/products/create">Create Product</Link>
+            ))}
           <DownloadCSV csvData={products.data} />
         </div>
         {/* STATS */}

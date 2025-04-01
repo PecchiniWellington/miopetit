@@ -9,6 +9,7 @@ import { createProducts } from "./create-products";
 import { createRetailerProducts } from "./create-retailer-product";
 import { seedContributorsData } from "./seed-contributor-data";
 import { seedProductsToContributors } from "./seed-products-to-contributor";
+import { seedRequestedProductsForShelters } from "./create-shetler-request-products";
 
 // ✅ Funzione principale
 async function main() {
@@ -26,6 +27,7 @@ async function main() {
     await createRetailerProducts();
     await seedContributorsData();
     await seedProductsToContributors();
+    await seedRequestedProductsForShelters();
 
     console.log(`✅ Database seeded successfully 🎉`);
   } catch (error) {

@@ -2,7 +2,6 @@
 import { auth } from "@/auth";
 import { prisma } from "@/core/prisma/prisma";
 import { createProductSchema } from "@/core/validators";
-import ROLES from "@/lib/constants/roles";
 import { formatError } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
@@ -76,8 +75,7 @@ export async function createProduct(data: z.infer<typeof createProductSchema>) {
         images: imageUrls,
         productBrandId: product.productBrand?.id || null,
         productUnitFormatId,
-        contributorId:
-          session?.user.role === ROLES.RETAILER ? currentContributorId : null,
+        contributorId: currentContributorId,
       },
     });
 

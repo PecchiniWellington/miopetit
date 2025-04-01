@@ -5,6 +5,7 @@ import {
   removeItemFromCart,
 } from "@/core/actions/cart/cart.actions";
 import { ICartItem } from "@/core/validators";
+import { IContributor } from "@/core/validators/contributors.validator";
 import useLocalStorage from "@/hooks/use-local-storage";
 import { calcPrice } from "@/lib/utils";
 import { User } from "next-auth";
@@ -18,11 +19,13 @@ import OrderSummary from "./order-summary";
 export const ConfigCartPage = ({
   userLogged,
   cart,
+  hasContributor,
 }: {
   userLogged?: {
     role: string;
   } & User;
   cart: ICartItem[];
+  hasContributor?: IContributor | null;
 }) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -125,6 +128,7 @@ export const ConfigCartPage = ({
           </div>
 
           <OrderSummary
+            hasContributor={hasContributor}
             resume={{
               itemsPrice: Number(resume.itemsPrice),
               shippingPrice: Number(resume.shippingPrice),

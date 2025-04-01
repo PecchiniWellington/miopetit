@@ -139,6 +139,11 @@ const ConfigCategoryPage = ({
     </div>
   );
 
+  console.log(
+    "🚀 ~ file: page.tsx:45 ~ ConfigCategoryPage ~ products:",
+    products
+  );
+
   const ProductsList = ({ products }: { products: IProduct[] }) => {
     return !Array.isArray(products) || products.length === 0 ? (
       <div className="col-span-full text-center text-gray-500">

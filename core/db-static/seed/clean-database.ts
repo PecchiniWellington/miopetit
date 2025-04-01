@@ -1,8 +1,11 @@
 import { prisma } from "@/core/prisma/prisma";
 
-// ✅ Funzione per eliminare i dati esistenti
 export async function cleanDatabase() {
   console.log(`✅ Start cleaning previous database...`);
+
+  await prisma.requestedProduct.deleteMany(); // 🔥 PRIMA di contributor
+  await prisma.donation.deleteMany(); // 🔥 se esiste
+
   await prisma.address.deleteMany();
   await prisma.productCategory.deleteMany();
   await prisma.product.deleteMany();
@@ -13,21 +16,21 @@ export async function cleanDatabase() {
   await prisma.inventoryMovement.deleteMany();
   await prisma.inventoryItem.deleteMany();
   await prisma.animal.deleteMany();
-  await prisma.animal.deleteMany();
 
-  await prisma.permissionAssignment.deleteMany(); // prima quelli collegati all'utente
-  await prisma.schedule.deleteMany(); // se collegati all'utente
-  await prisma.cart.deleteMany(); // se collegati all'utente
-  await prisma.order.deleteMany(); // se collegati all'utente
-  await prisma.review.deleteMany(); // se collegati all'utente
-  await prisma.supportTicket.deleteMany(); // idem
-  await prisma.user.deleteMany(); // or
+  await prisma.permissionAssignment.deleteMany();
+  await prisma.schedule.deleteMany();
+  await prisma.cart.deleteMany();
+  await prisma.order.deleteMany();
+  await prisma.review.deleteMany();
+  await prisma.supportTicket.deleteMany();
+  await prisma.user.deleteMany();
 
-  await prisma.contributor.deleteMany();
+  await prisma.contributor.deleteMany(); // ✅ ORA è sicuro
   await prisma.account.deleteMany();
   await prisma.session.deleteMany();
   await prisma.verificationToken.deleteMany();
   await prisma.unitValue.deleteMany();
   await prisma.unitOfMeasure.deleteMany();
+
   console.log(`✅ Previous data deleted.`);
 }

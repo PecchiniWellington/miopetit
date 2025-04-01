@@ -1,8 +1,7 @@
 import { auth } from "@/auth";
-import ConfigCategoryPage from "@/components/components_page/category_page";
-import { getMyCart } from "@/core/actions/cart/cart.actions";
+import ProductDonationCard from "@/components/product/brand-product-donation-card";
 import { getContributorBySlug } from "@/core/actions/contributors/get-contributor-by-slug";
-import { getProductsByContributor } from "@/core/actions/products/get-all-product-by-contributor";
+import { getAllRequestedProduct } from "@/core/actions/products/get-all-requested-product";
 import { getFiltersForCategoryByParentId } from "@/core/actions/products/product-infos.ts/get-product-category.action";
 import { IQueryParams } from "@/core/actions/types";
 import { notFound } from "next/navigation";
@@ -36,18 +35,19 @@ const MainCategory = async ({
           ])
         )
       : {};
-  const myCart = await getMyCart();
-
-  console.log("queries", productFilters);
 
   const contributor = await getContributorBySlug(slug);
   const productsResponse = contributor
-    ? await getProductsByContributor({
+    ? await getAllRequestedProduct({
         contributorId: contributor.id,
         query: queries,
       })
     : null;
 
+  console.log(
+    "🚀 ~ file: page.tsx:45 ~ MainCategory ~ productsResponse:",
+    productsResponse
+  );
   if (!productFilters || Object.keys(productFilters).length === 0) notFound();
 
   return (
@@ -73,13 +73,16 @@ const MainCategory = async ({
       )}
 
       {productsResponse && productsResponse.length > 0 ? (
-        <ConfigCategoryPage
-          mainCategory={slug}
-          productFilters={productFilters}
-          initialProducts={productsResponse || []}
-          myCart={myCart}
-          userId={userId}
-        />
+        <div className="grid grid-cols-1 gap-6 px-4 sm:grid-cols-2 md:grid-cols-3 md:px-8 lg:grid-cols-4">
+          {productsResponse.map((product, index) => (
+            <ProductDonationCard
+              contributor={contributor}
+              userId={userId}
+              key={index}
+              product={product}
+            />
+          ))}
+        </div>
       ) : (
         <div className="flex flex-col items-center justify-center py-10">
           <h2 className="text-2xl font-semibold text-gray-700">

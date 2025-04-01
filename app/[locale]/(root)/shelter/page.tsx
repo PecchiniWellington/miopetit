@@ -44,13 +44,11 @@ export default async function PartnersPage() {
               />
               <div className="flex gap-2">
                 <BrandButton variant="primary">
-                  <Link href={`/partners/${partner.slug}`}>
-                    Vai alla pagina
-                  </Link>
+                  <Link href={`/shelter/${partner.slug}`}>Vai alla pagina</Link>
                 </BrandButton>
                 {partner.products && (
                   <BrandButton variant="confirm">
-                    <Link href={`/partners/${partner.slug}/shop`}>
+                    <Link href={`/shelter/${partner.slug}/shop`}>
                       Vai lo Shop
                     </Link>
                   </BrandButton>

@@ -7,8 +7,6 @@ enum ContributorType {
 model Contributor {
     id                String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     name              String
-    slug              String          @unique
-    type              ContributorType
     email             String?
     phone             String?
     website           String?
@@ -25,6 +23,9 @@ model Contributor {
     latitude          Float?
     longitude         Float?
     partitaIva        String?
+    type              ContributorType
+    slug              String          @unique
+    hasFundedBadge    Boolean         @default(false)
     isOnlineShop      Boolean         @default(false)
     isPickupAvailable Boolean         @default(false)
     deliveryAvailable Boolean         @default(false)
@@ -49,8 +50,9 @@ model Contributor {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    users     User[]
-    animals   Animal[]
-    inventory InventoryItem[]
-    products  Product[]
+    users             User[]
+    animals           Animal[]
+    inventory         InventoryItem[]
+    products          Product[]
+    requestedProducts RequestedProduct[]
 }
