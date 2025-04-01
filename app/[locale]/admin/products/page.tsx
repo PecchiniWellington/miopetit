@@ -2,9 +2,11 @@ import { auth } from "@/auth";
 import Header from "@/components/admin/common/Header";
 
 import ProductsTable from "@/components/admin/products/ProductsTable";
-import SalesTrendChart from "@/components/admin/products/SalesTrendChart";
+import RequestedProductsTable from "@/components/admin/products/request-products-table";
 import DownloadCSV from "@/components/shared/download-csv";
+import { getContributorByUserId } from "@/core/actions/contributors/get-contributor-by-user-id";
 import { getAllProducts } from "@/core/actions/products";
+import { getRequestedProductsByContributor } from "@/core/actions/products/get-all-request-product-shelter.action";
 import ROLES from "@/lib/constants/roles";
 import Link from "next/link";
 
@@ -20,6 +22,8 @@ const ProductsPage = async (props: {
   const searchQuery = searchParams.query || "";
   const userLogged = await auth();
   const user = userLogged?.user;
+  const contributor = await getContributorByUserId(user?.id);
+  console.log("user", contributor);
 
   const products =
     (await getAllProducts({
@@ -28,9 +32,22 @@ const ProductsPage = async (props: {
       page,
       limit: 10,
     })) || [];
-  // Adjust this logic if pagination is implemented
 
-  console.log("Products", products);
+  console.log("products", products);
+
+  const {
+    data: requestedProducts,
+    totalPages,
+    totalRequestedProducts,
+  } = await getRequestedProductsByContributor({
+    user,
+    contributorId: contributor?.id ?? undefined,
+    query: searchQuery,
+    page,
+    limit: 10,
+  });
+
+  // Adjust this logic if pagination is implemented
   return (
     <div className="relative z-10 flex-1 overflow-auto">
       <Header title="Products" />
@@ -45,18 +62,22 @@ const ProductsPage = async (props: {
         </div>
         {/* STATS */}
 
-        <ProductsTable
-          products={products.data || []}
-          page={page}
-          totalPages={products.totalPages}
-        />
-
-        {/* CHARTS */}
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-          <SalesTrendChart />
-
-          {/* <CategoryDistributionChart categories={categories} /> */}
-        </div>
+        {requestedProducts.length > 0 ? (
+          <RequestedProductsTable
+            products={requestedProducts.map((product) => ({
+              ...product,
+              createdAt: product.createdAt.toISOString(),
+            }))}
+            page={page}
+            totalPages={totalPages}
+          />
+        ) : (
+          <ProductsTable
+            products={products.data || []}
+            page={page}
+            totalPages={products.totalPages}
+          />
+        )}
       </main>
     </div>
   );

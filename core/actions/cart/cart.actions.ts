@@ -19,7 +19,7 @@ const calcPrice = (items: ICartItem[]) => {
   );
 
   const shippingPrice = round2(itemsPrice > 100 ? 0 : 10); // Free shipping over €100
-  const taxPrice = round2(0.15 * itemsPrice); // 15% tax
+  const taxPrice = round2(0.22 * itemsPrice); // 15% tax
   const totalPrice = round2(itemsPrice + shippingPrice + taxPrice); // Total price
 
   return {

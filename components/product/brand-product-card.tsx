@@ -69,6 +69,8 @@ export default function BrandProductCard({
             {
               ...item,
               productId: item.id || "",
+              costPrice:
+                item.costPrice !== undefined ? Number(item.costPrice) : 0,
               qty: 1,
               price: item.price.toString(), // Ensure price is a string
             },
@@ -81,6 +83,7 @@ export default function BrandProductCard({
           productId: item.id || "",
           userId: userId || "",
           price: item.price.toString(), // Ensure price is a string
+          costPrice: item.costPrice !== undefined ? Number(item.costPrice) : 0,
         });
       } else {
         setStoredValue(updatedCart);

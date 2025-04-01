@@ -94,7 +94,7 @@ export default function ProductDonationCard({
   const shareUrl = `${typeof window !== "undefined" ? window.location.origin : ""}/donazioni/${product.id}`;
   const shareText = `Aiutami a donare per ${product.name}! 💚`;
 
-  console.log("contributor", contributor);
+  console.log("contributor", contributor, product);
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
@@ -112,7 +112,7 @@ export default function ProductDonationCard({
 
       <div className="group relative h-48 w-full overflow-hidden rounded-xl">
         <Image
-          src={product.image || "/images/placeholder.jpg"}
+          src={product.baseProduct?.images?.[0] ?? "/images/placeholder.jpg"}
           alt={product.name}
           fill
           className="object-cover transition-transform duration-300 group-hover:scale-105"

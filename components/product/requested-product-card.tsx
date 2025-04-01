@@ -1,10 +1,11 @@
+"use client";
 import { Button } from "@react-email/components";
 import { Badge } from "lucide-react";
 import Image from "next/image";
 import { ProgressBar } from "../progress-bar";
 
 interface RequestedProductCardProps {
-  id: string;
+  id?: string;
   name: string;
   image?: string;
   description?: string;
@@ -49,7 +50,10 @@ export default function RequestedProductCard({
         </p>
       </div>
       {status !== "DELIVERED" && (
-        <Button onClick={() => onDonateClick?.(id)} className="mt-2 w-full">
+        <Button
+          onClick={() => id && onDonateClick?.(id)}
+          className="mt-2 w-full"
+        >
           Dona ora
         </Button>
       )}

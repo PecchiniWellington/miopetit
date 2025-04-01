@@ -95,14 +95,14 @@ const OrderSummary = ({
             )}
           </span>
         </div>
-
-        <div className="flex justify-between">
-          <span>{t("discount")}</span>
-          <span className="font-bold text-green-600">
-            -{formatCurrency(10.0)} {/* Sconto Mockato */}
-          </span>
-        </div>
-
+        {!hasContributor && (
+          <div className="flex justify-between">
+            <span>{t("discount")}</span>
+            <span className="font-bold text-green-600">
+              && `-${formatCurrency(10.0)}`{/* Sconto Mockato */}
+            </span>
+          </div>
+        )}
         <div className="flex justify-between">
           <span>{t("shipping")}</span>
           <span className="font-bold">
@@ -118,7 +118,7 @@ const OrderSummary = ({
             {isPending ? (
               <Loader className="size-4 animate-spin" />
             ) : (
-              formatCurrency((Number(resume?.totalPrice) || 0) - 10.0 + 5.99)
+              formatCurrency(Number(resume?.totalPrice) || 0)
             )}
           </span>
         </div>

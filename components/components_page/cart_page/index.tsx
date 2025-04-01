@@ -104,7 +104,11 @@ export const ConfigCartPage = ({
   };
 
   const goToCheckout = () => {
-    startTransition(() => router.push("/shipping-address"));
+    if (!hasContributor) {
+      startTransition(() => router.push("/shipping-address"));
+    } else {
+      startTransition(() => router.push("/request-product"));
+    }
   };
 
   return (
