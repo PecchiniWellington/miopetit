@@ -55,6 +55,12 @@ type RequestedProductDisplay = {
   status: "PENDING" | "FUNDED" | "DELIVERED";
   notes?: string;
   quantity?: number;
+  contributor: {
+    id: string;
+    name: string;
+    slug: string;
+    type: "SHELTER" | "ASSOCIATION" | "RETAILER";
+  };
   baseProduct?: {
     id?: string;
     slug?: string;
@@ -88,6 +94,7 @@ export default function ProductDonationCard({
   const shareUrl = `${typeof window !== "undefined" ? window.location.origin : ""}/donazioni/${product.id}`;
   const shareText = `Aiutami a donare per ${product.name}! 💚`;
 
+  console.log("contributor", contributor);
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}

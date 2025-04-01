@@ -76,10 +76,36 @@ const MainCategory = async ({
         <div className="grid grid-cols-1 gap-6 px-4 sm:grid-cols-2 md:grid-cols-3 md:px-8 lg:grid-cols-4">
           {productsResponse.map((product, index) => (
             <ProductDonationCard
-              contributor={contributor}
-              userId={userId}
+              contributor={
+                contributor
+                  ? {
+                      id: contributor.id,
+                      slug: contributor.slug,
+                      name: contributor.name,
+                      type: "SHELTER", // Adjust this value based on your logic
+                      openingHours:
+                        typeof contributor.openingHours === "object" &&
+                        contributor.openingHours !== null &&
+                        !Array.isArray(contributor.openingHours)
+                          ? contributor.openingHours
+                          : {}, // Ensure compatibility with expected type
+                    }
+                  : undefined
+              }
               key={index}
-              product={product}
+              product={{
+                ...product,
+                image: product.image ?? undefined, // Ensure image is undefined if null
+                notes: product.notes ?? undefined, // Ensure notes is undefined if null
+                baseProduct: product.baseProduct
+                  ? {
+                      ...product.baseProduct,
+                      productBrand: product.baseProduct.productBrand
+                        ? { name: product.baseProduct.productBrand.name }
+                        : undefined,
+                    }
+                  : undefined, // Ensure baseProduct is compatible or undefined
+              }}
             />
           ))}
         </div>

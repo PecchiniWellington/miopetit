@@ -1,58 +1,73 @@
-// /pages/api/donate.ts
-
 import { prisma } from "@/core/prisma/prisma";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextResponse } from "next/server";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  if (req.method !== "POST") return res.status(405).end();
+export async function POST(req: Request) {
+  try {
+    const body = await req.json();
+    const { userId, requestedProductId, amount, message } = body;
 
-  const { userId, requestedProductId, amount, message } = req.body;
+    if (!userId || !requestedProductId || !amount) {
+      return NextResponse.json(
+        { error: "Dati mancanti o non validi." },
+        { status: 400 }
+      );
+    }
 
-  const requestedProduct = await prisma.requestedProduct.findUnique({
-    where: { id: requestedProductId },
-  });
-
-  if (!requestedProduct)
-    return res.status(404).json({ error: "Requested product not found." });
-
-  const newTotal = requestedProduct.fundedAmount + amount;
-  const isFunded = newTotal >= requestedProduct.targetAmount;
-
-  await prisma.donation.create({
-    data: {
-      userId,
-      requestedProductId,
-      amount,
-      message,
-    },
-  });
-
-  await prisma.requestedProduct.update({
-    where: { id: requestedProductId },
-    data: {
-      fundedAmount: newTotal,
-      status: isFunded ? "FUNDED" : "PENDING",
-    },
-  });
-
-  // (Opzionale) verifica se tutti i prodotti dello shelter sono funded e assegna il badge
-  if (isFunded) {
-    const requested = await prisma.requestedProduct.findMany({
-      where: { contributorId: requestedProduct.contributorId },
+    const requestedProduct = await prisma.requestedProduct.findUnique({
+      where: { id: requestedProductId },
     });
 
-    const allFunded = requested.every((r) => r.status === "FUNDED");
-
-    if (allFunded) {
-      await prisma.contributor.update({
-        where: { id: requestedProduct.contributorId },
-        data: { hasFundedBadge: true },
-      });
+    if (!requestedProduct) {
+      return NextResponse.json(
+        { error: "Prodotto richiesto non trovato." },
+        { status: 404 }
+      );
     }
-  }
 
-  return res.status(200).json({ success: true });
+    const newTotal = requestedProduct.fundedAmount + amount;
+    const isFunded = newTotal >= requestedProduct.targetAmount;
+
+    // Crea la donazione
+    await prisma.donation.create({
+      data: {
+        userId,
+        requestedProductId,
+        amount,
+        message,
+      },
+    });
+
+    // Aggiorna lo stato del prodotto richiesto
+    await prisma.requestedProduct.update({
+      where: { id: requestedProductId },
+      data: {
+        fundedAmount: newTotal,
+        status: isFunded ? "FUNDED" : "PENDING",
+      },
+    });
+
+    // Se tutti i prodotti dello shelter sono finanziati, assegna il badge
+    if (isFunded) {
+      const allRequested = await prisma.requestedProduct.findMany({
+        where: { contributorId: requestedProduct.contributorId },
+      });
+
+      const allFunded = allRequested.every((r) => r.status === "FUNDED");
+
+      if (allFunded) {
+        await prisma.contributor.update({
+          where: { id: requestedProduct.contributorId },
+          data: { hasFundedBadge: true },
+        });
+      }
+    }
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("Errore nella donazione:", error);
+    return NextResponse.json(
+      { error: "Errore interno del server." },
+      { status: 500 }
+    );
+  }
 }
