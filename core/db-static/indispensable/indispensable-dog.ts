@@ -2,46 +2,46 @@ export const indispensableDog = [
   {
     image: "indispensabili-dog/dog-accessori.png",
     label: "Accessori",
-    href: "/dog/accessori",
+    href: "/dogs/accessories",
   },
   {
     image: "indispensabili-dog/dog-antiparassitari.png",
     label: "Antiparassitari",
-    href: "/dog/antiparassitari",
+    href: "/dogs/antiparasitic",
   },
   {
     image: "indispensabili-dog/dog-cibo-secco.png",
     label: "Cibo secco",
-    href: "/dog/cibo-secco",
+    href: "/dogs/dry-food",
   },
   {
     image: "indispensabili-dog/dog-cibo-umido.png",
     label: "Cibo umido",
-    href: "/dog/cibo-umido",
+    href: "/dogs/wet-food",
   },
   {
     image: "indispensabili-dog/dog-cucce.png",
     label: "Cucce",
-    href: "/dog/cucce",
+    href: "/dogs/kennels",
   },
   {
     image: "indispensabili-dog/dog-guinzaglieria.png",
     label: "Guinzaglieria",
-    href: "/dog/guinzaglieria",
+    href: "/dog/leashes",
   },
   {
     image: "indispensabili-dog/dog-igiene.png",
     label: "Igiene",
-    href: "/dog/igiene",
+    href: "/dogs/hygiene",
   },
   {
     image: "indispensabili-dog/dog-snack.png",
     label: "Snack",
-    href: "/dog/snack",
+    href: "/dogs/snack",
   },
   {
-    image: "indispensabili-dog/dog-trasportini.png",
+    image: "indispensabili-dog/dog-transportini.png",
     label: "Trasportini",
-    href: "/dog/trasportini",
+    href: "/dogs/carriers",
   },
 ];

@@ -36,6 +36,7 @@ const MainCategory = async ({
 
   if (!productFilters || Object.keys(productFilters).length === 0) notFound();
 
+  console.log("productFilters", productsResponse);
   return (
     <ConfigCategoryPage
       indispensable={indispensableDog}

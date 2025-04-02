@@ -10,10 +10,10 @@ import CircularProgress from "./circular-progress-bar";
 export default async function RequestedProductDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const requestedProduct = await prisma.requestedProduct.findUnique({
-    where: { id: params.id },
+    where: { id: (await params).id },
     include: {
       contributor: {
         select: {
