@@ -1,4 +1,5 @@
 import ROLES from "@/lib/constants/roles";
+import { Role } from "@prisma/client";
 import { z } from "zod";
 
 export const updateUserProfileSchema = z.object({
@@ -9,7 +10,7 @@ export const updateUserProfileSchema = z.object({
 
 export const updateUserSchema = updateUserProfileSchema.extend({
   id: z.string().min(1, "ID is required"),
-  role: z.string().min(1, "Role is required"),
+  role: z.nativeEnum(Role),
   status: z.string().optional(),
 });
 
@@ -21,7 +22,7 @@ export const userSchema = z
     emailVerified: z.date().nullable().optional(),
     image: z.string().nullable().optional(),
     password: z.string().nullable().optional(),
-    role: z.string(),
+    role: z.nativeEnum(Role),
     userSlug: z.string().nullable().optional(),
     defaultAddress: z
       .union([
@@ -43,8 +44,8 @@ export const userSchema = z
     address: z.unknown().nullable().optional(),
     paymentMethod: z.string().nullable().optional(),
     status: z.string(),
-    createdAt: z.string(),
-    updatedAt: z.string(),
+    createdAt: z.union([z.string(), z.date()]),
+    updatedAt: z.union([z.string(), z.date()]),
     accounts: z.array(z.unknown()).optional(),
     sessions: z.array(z.unknown()).optional(),
     Cart: z.array(z.unknown()).optional(),

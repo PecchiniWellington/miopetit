@@ -6,8 +6,10 @@ import UserGrowthChart from "@/components/admin/users/UserGrowthChart";
 import UsersTable from "@/components/admin/users/UsersTable";
 import CardWorking from "@/components/dev/card-working";
 import DownloadCSV from "@/components/shared/download-csv";
-import { getAllUsers } from "@/core/actions/admin/admin.actions";
+import { getAllUsersByRoleAndContributor } from "@/core/actions/admin/admin.actions";
 import { getOrderSummary } from "@/core/actions/order/order.action";
+import ROLES from "@/lib/constants/roles";
+import { Role } from "@prisma/client";
 import Link from "next/link";
 import UsersCard from "../users-card";
 
@@ -31,9 +33,17 @@ const UsersPage = async (props: {
   const page = Number(searchParams.page) || 1;
   const searchQuery = searchParams.query || "";
 
-  const usersResponse = await getAllUsers({
+  console.log("searchParams", session?.user.role);
+
+  const usersResponse = await getAllUsersByRoleAndContributor({
+    currentUserId: session?.user.id ?? "",
+    currentUserRole: (Object.values(ROLES) as string[]).includes(
+      session?.user.role ?? ""
+    )
+      ? (session?.user.role as Role)
+      : ROLES.USER,
     query: searchQuery,
-    page,
+    page: page,
     limit: 10,
   });
 

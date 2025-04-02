@@ -72,7 +72,7 @@ const UserButton = () => {
         </Link>
         {(user?.role === ROLES.ADMIN ||
           user?.role === ROLES.RETAILER ||
-          user?.role === ROLES.SUPERADMIN ||
+          user?.role === ROLES.SUPER_ADMIN ||
           user?.role === ROLES.VETERINARIAN ||
           user?.role === ROLES.VOLUNTEER) && (
           <Link href="/admin/overview">

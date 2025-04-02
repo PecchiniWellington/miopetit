@@ -24,6 +24,7 @@ const ProductsPage = async (props: {
   const userLogged = await auth();
   const user = userLogged?.user;
   const contributor = await getContributorByUserId(user?.id);
+  console.log("contributor", user);
 
   const products =
     (await getAllProducts({
@@ -54,7 +55,7 @@ const ProductsPage = async (props: {
       <main className="mx-auto max-w-7xl px-4 py-6 lg:px-8">
         <div className="mb-6 flex w-full gap-2">
           {user?.role === ROLES.ADMIN ||
-            (user?.role === ROLES.SUPERADMIN && (
+            (user?.role === ROLES.SUPER_ADMIN && (
               <Link href="/admin/products/create">Create Product</Link>
             ))}
           <DownloadCSV csvData={products.data} />

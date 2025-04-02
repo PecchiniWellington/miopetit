@@ -21,7 +21,7 @@ export async function getAllProducts({
   query?: string;
   filters?: IQueryParams;
 }) {
-  if (user) {
+  if (user && user.role !== "SUPER_ADMIN") {
     const contributor = await prisma.contributor.findFirst({
       where: {
         users: {
@@ -77,9 +77,10 @@ export async function getAllProducts({
     );
 
   // Costruisci query dinamica
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const where: any = {
     AND: [
-      contributorId ? { contributorId } : {},
+      user?.role !== "SUPER_ADMIN" && contributorId ? { contributorId } : {},
       query
         ? {
             OR: [

@@ -1,5 +1,5 @@
 enum Role {
-    SUPERADMIN
+    SUPER_ADMIN
     ADMIN
     VETERINARIAN
     VOLUNTEER

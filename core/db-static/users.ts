@@ -13,15 +13,15 @@ const roles: Role[] = [
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const usersData = async (): Promise<any[]> => {
   const passwordHash = hashSync("password123", 10);
-  const superAdminPasswordHash = hashSync("superpassword123", 10);
+  const superAdminPasswordHash = hashSync("superadmin123", 10);
 
   const superAdmin = {
     name: "Super Admin",
-    email: "superadmin@site.com",
+    email: "superadmin@miopetit.com",
     emailVerified: new Date(),
     image: "https://i.pravatar.cc/150?u=superadmin",
     password: superAdminPasswordHash,
-    role: "ADMIN", // oppure puoi usare un ruolo custom come "SUPER_ADMIN" se lo supporti nel tuo schema
+    role: Role.SUPER_ADMIN, // oppure puoi usare un ruolo custom come "SUPER_ADMIN" se lo supporti nel tuo schema
     paymentMethod: "manual",
     status: "ACTIVE",
     resetToken: null,

@@ -1,5 +1,5 @@
 export enum ROLES {
-  SUPERADMIN = "SUPERADMIN",
+  SUPER_ADMIN = "SUPER_ADMIN",
   ADMIN = "ADMIN",
   VETERINARIAN = "VETERINARIAN",
   VOLUNTEER = "VOLUNTEER",
@@ -13,7 +13,7 @@ export const USER_ROLES = process.env.USER_ROES
   ? process.env.USER_ROES.split(",")
   : [
       ROLES.USER,
-      ROLES.SUPERADMIN,
+      ROLES.SUPER_ADMIN,
       ROLES.VETERINARIAN,
       ROLES.ADMIN,
       ROLES.RETAILER,

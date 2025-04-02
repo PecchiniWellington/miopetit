@@ -17,6 +17,100 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { updateOrderToPaid } from "../order/order.action";
 
+import { getContributorByUserId } from "@/core/actions/contributors/get-contributor-by-user-id";
+
+export async function getAllUsersByRoleAndContributor({
+  currentUserId,
+  currentUserRole,
+  role,
+  query,
+  limit = PAGE_SIZE,
+  page = 1,
+}: {
+  currentUserId: string;
+  currentUserRole: Role;
+  role?: Role;
+  query?: string;
+  limit?: number;
+  page?: number;
+}) {
+  let userIdsFilter: string[] | null = null;
+
+  // Se l'utente è un ADMIN, ottieni gli utenti del contributor
+  if (currentUserRole === "ADMIN") {
+    const contributor = await getContributorByUserId(currentUserId);
+    if (!contributor || !contributor.users?.length) {
+      return { data: [], totalPages: 0, totalUsers: 0 };
+    }
+
+    userIdsFilter = contributor.users.map((u) => u.id);
+  }
+
+  const where: Prisma.UserWhereInput = {
+    ...(query && query !== "all"
+      ? {
+          name: {
+            contains: query,
+            mode: "insensitive",
+          },
+        }
+      : {}),
+    ...(role ? { role } : {}),
+    ...(currentUserRole === "ADMIN" && userIdsFilter
+      ? { id: { in: userIdsFilter } }
+      : {}),
+    // se non sei SUPER_ADMIN, puoi vedere solo te stesso o chi è associato a te
+    ...(currentUserRole !== "SUPER_ADMIN" && userIdsFilter
+      ? { id: { in: userIdsFilter } }
+      : {}),
+  };
+
+  const userData = await prisma.user.findMany({
+    where,
+    orderBy: { createdAt: "desc" },
+    take: limit,
+    skip: limit * (page - 1),
+  });
+
+  const totalUsers = await prisma.user.count({ where });
+
+  const sanitizedUserData = userData.map((user) => ({
+    ...user,
+    createdAt:
+      user.createdAt instanceof Date
+        ? user.createdAt.toISOString()
+        : user.createdAt,
+    updatedAt:
+      user.updatedAt instanceof Date
+        ? user.updatedAt.toISOString()
+        : user.updatedAt,
+  }));
+
+  const parsed = z.array(userSchema).safeParse(sanitizedUserData);
+
+  if (!parsed.success) {
+    console.error(
+      "❌ Errore nella validazione degli utenti:",
+      parsed.error.format()
+    );
+    throw new Error("Errore di validazione degli utenti");
+  }
+
+  const users = parsed.data.map((user) => ({
+    ...convertToPlainObject(user),
+    defaultAddress:
+      typeof user.defaultAddress === "string"
+        ? JSON.parse(user.defaultAddress)
+        : user.defaultAddress,
+  }));
+
+  return {
+    data: users,
+    totalPages: Math.ceil(totalUsers / limit),
+    totalUsers,
+  };
+}
+
 // Get all the users
 export async function getAllUsers({
   role,
