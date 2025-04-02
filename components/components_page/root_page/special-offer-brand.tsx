@@ -12,24 +12,17 @@ interface IProductListProps {
   data: IProduct[];
   myCart: ICart | null;
   userId?: string;
-  brandName: string;
-  image: string;
-  animalName: string;
 }
 
-const SpecialOfferBrand = ({
-  data,
-  brandName,
-  myCart,
-  userId,
-  image,
-  animalName,
-}: IProductListProps) => {
+const SpecialOfferBrand = ({ data, myCart, userId }: IProductListProps) => {
   const [storedValue] = useLocalStorage<{ productId: string; qty: number }[]>(
     "cart",
     []
   );
   const t = useTranslations();
+  const brandName = "Royal Canin";
+  const image = "/images/royalCanin-deal.webp";
+  const animalName = t("Shared.dogs");
 
   const memoizedData = useMemo(() => data, [data]);
 

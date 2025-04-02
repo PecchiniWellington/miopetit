@@ -16,8 +16,8 @@ const StatBox = ({ label, value }: { label: string; value: number }) => {
       className="flex flex-col items-center justify-center rounded-lg bg-white  p-4 shadow-md backdrop-blur-md transition-transform duration-300 hover:scale-105"
       whileHover={{ scale: 1.1 }}
     >
-      <p className="text-4xl font-extrabold text-white">{value}</p>
-      <p className="text-lg font-medium text-white">
+      <p className="text-4xl font-extrabold text-black">{value}</p>
+      <p className="text-lg font-medium text-black">
         {t("Shared." + label.toLowerCase())}
       </p>
     </motion.li>

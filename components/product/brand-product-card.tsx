@@ -21,7 +21,6 @@ export default function BrandProductCard({
   getProductQuantity?: number;
   userId?: string;
 }) {
-  console.log(product);
   const [isWishlisted, setWishlisted] = useState(false);
   const [isPending, setIsPending] = useState(false);
   const [favorites, setFavorites] = useLocalStorage<IProduct[]>(

@@ -7,10 +7,11 @@ import Pagination from "@/components/shared/pagination";
 import SortableTable from "@/components/shared/tables/sortable-table";
 import { formatId } from "@/lib/utils";
 import { motion } from "framer-motion";
-import { AlertTriangle, Edit, Eye, Trash2 } from "lucide-react";
+import { AlertTriangle, Eye, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
+import { useTransition } from "react";
 import AdminSearch, { SearchProvider } from "../admin-search";
 
 interface RequestedProduct {
@@ -34,13 +35,25 @@ const RequestedProductsTable = ({
   products,
   totalPages,
   page,
+  removeRequestedProductAction,
 }: {
   products: RequestedProduct[] | null;
   totalPages: number;
   page: number;
+  removeRequestedProductAction: (id: string) => Promise<void>;
 }) => {
+  const [isPending, startTransition] = useTransition();
   const t = useTranslations("ModalDelete.ProductDelete");
 
+  function handleRemove(productId: string): Promise<void> {
+    return new Promise((resolve) => {
+      startTransition(async () => {
+        await removeRequestedProductAction(productId);
+        window.location.reload(); // oppure refetch con router.refresh()
+        resolve();
+      });
+    });
+  }
   return (
     <motion.div
       className="mb-8 rounded-xl border border-gray-700 bg-gray-800 p-6 shadow-lg backdrop-blur-md"
@@ -97,7 +110,7 @@ const RequestedProductsTable = ({
                 </td>
                 <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-300">
                   <BrandBadge
-                    className="text-xs font-semibold"
+                    className="flex justify-center text-xs font-semibold"
                     variant={
                       product.status === "PENDING"
                         ? "warning"
@@ -116,13 +129,10 @@ const RequestedProductsTable = ({
                 </td>
 
                 <td className="flex gap-1 whitespace-nowrap px-6 py-4 text-sm text-gray-300">
-                  <BrandButton size="small">
-                    <Link href={`/admin/requested-products/${product.id}/edit`}>
-                      <Edit size={18} />
-                    </Link>
-                  </BrandButton>
                   <BrandButton variant="warning" size="small">
-                    <Link href={`/admin/requested-products/${product.id}`}>
+                    <Link
+                      href={`/admin/products/${product.id}/requested-product`}
+                    >
                       <Eye size={18} />
                     </Link>
                   </BrandButton>
@@ -140,11 +150,7 @@ const RequestedProductsTable = ({
                     cancelText={t("delete_product_modal.cancel_button")}
                     icon={<AlertTriangle className="size-5 text-red-500" />}
                     variant="danger"
-                    onConfirm={async () => {
-                      console.log("delete requestedProduct", product.id);
-                      // await deleteRequestedProduct(product.id); // TODO
-                      return Promise.resolve();
-                    }}
+                    onConfirm={() => handleRemove(product.id)}
                   />
                 </td>
               </motion.tr>

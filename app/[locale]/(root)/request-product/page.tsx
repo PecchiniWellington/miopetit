@@ -1,7 +1,7 @@
 import SummaryRequestCard from "@/components/product/summary-request-card";
 import { getMyCart } from "@/core/actions/cart/cart.actions";
 import { getContributorByUserId } from "@/core/actions/contributors/get-contributor-by-user-id";
-import { formatCurrency, round2 } from "@/lib/utils";
+import { formatCurrency } from "@/lib/utils";
 import ClientCartAction from "./client-cart-action";
 
 export default async function ShelterCartPage() {
@@ -13,15 +13,6 @@ export default async function ShelterCartPage() {
       (acc, item) => acc + Number(item.costPrice) * item.qty,
       0
     ) ?? 0;
-
-  console.log("🚀 [ShelterCartPage] - myCart:", myCart);
-
-  const totalWithExtras =
-    round2(0.22 * Number(total)) +
-    Number(total) +
-    Number(myCart?.shippingPrice);
-
-  const savings = totalWithExtras - Number(total);
 
   return (
     <div className="container mx-auto px-4 py-10">
@@ -52,7 +43,7 @@ export default async function ShelterCartPage() {
               <h3 className="mb-4 text-2xl font-bold text-gray-800">
                 Totale prodotti richiesti
               </h3>
-              <p className="text-primary text-3xl font-bold">
+              <p className=" text-3xl font-bold">
                 {formatCurrency(total ?? 0)}
               </p>
               <p className="mt-2 text-sm text-gray-400 line-through">

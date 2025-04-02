@@ -7,6 +7,7 @@ import DownloadCSV from "@/components/shared/download-csv";
 import { getContributorByUserId } from "@/core/actions/contributors/get-contributor-by-user-id";
 import { getAllProducts } from "@/core/actions/products";
 import { getRequestedProductsByContributor } from "@/core/actions/products/get-all-request-product-shelter.action";
+import { removeRequestedProductFromContributor } from "@/core/actions/products/remove-request-product.actoin";
 import ROLES from "@/lib/constants/roles";
 import Link from "next/link";
 
@@ -23,7 +24,6 @@ const ProductsPage = async (props: {
   const userLogged = await auth();
   const user = userLogged?.user;
   const contributor = await getContributorByUserId(user?.id);
-  console.log("user", contributor);
 
   const products =
     (await getAllProducts({
@@ -35,17 +35,16 @@ const ProductsPage = async (props: {
 
   console.log("products", products);
 
-  const {
-    data: requestedProducts,
-    totalPages,
-    totalRequestedProducts,
-  } = await getRequestedProductsByContributor({
-    user,
-    contributorId: contributor?.id ?? undefined,
-    query: searchQuery,
-    page,
-    limit: 10,
-  });
+  const { data: requestedProducts, totalPages } =
+    await getRequestedProductsByContributor({
+      user,
+      contributorId: contributor?.id ?? undefined,
+      query: searchQuery,
+      page,
+      limit: 10,
+    });
+
+  console.log("requestedProducts", requestedProducts);
 
   // Adjust this logic if pagination is implemented
   return (
@@ -70,6 +69,14 @@ const ProductsPage = async (props: {
             }))}
             page={page}
             totalPages={totalPages}
+            removeRequestedProductAction={async (requestedProductId) => {
+              "use server";
+              await removeRequestedProductFromContributor({
+                user,
+                contributorId: contributor?.id ?? undefined,
+                requestedProductId,
+              });
+            }}
           />
         ) : (
           <ProductsTable
