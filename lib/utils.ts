@@ -250,14 +250,15 @@ export function debounce<T extends (...args: any[]) => void>(
   wait: number
 ) {
   let timeout: NodeJS.Timeout;
-  return function executedFunction(...args: Parameters<T>) {
-    const later = () => {
-      clearTimeout(timeout);
-      func(...args);
-    };
+
+  const debounced = (...args: Parameters<T>) => {
     clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
+    timeout = setTimeout(() => func(...args), wait);
   };
+
+  debounced.cancel = () => clearTimeout(timeout);
+
+  return debounced;
 }
 
 export const isEqual = (

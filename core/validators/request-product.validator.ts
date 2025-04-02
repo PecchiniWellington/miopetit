@@ -5,7 +5,6 @@ export const requestedProductSchema = z.object({
   name: z.string(),
   image: z.string().nullable(),
   price: z.number(),
-  costPrice: z.number(),
   quantity: z.number(),
   targetAmount: z.number(),
   fundedAmount: z.number(),
@@ -33,6 +32,7 @@ export const requestedProductSchema = z.object({
         name: z.string(),
       }),
     })
+    .optional()
     .nullable(),
   donations: z
     .array(
@@ -51,13 +51,10 @@ export const requestedProductSchema = z.object({
     .optional(),
   createdAt: z.string(),
   updatedAt: z.string(),
-  isRequestedProduct: z.literal(true),
-  progressPercentage: z.number(),
-  type: z.literal("requested"),
 });
 
 export const requestedProductArraySchema = z.array(requestedProductSchema);
-
+export type IRequestedProduct = z.infer<typeof requestedProductSchema>;
 // Esempio di union con productSchema:
 // import { productSchema } from "@/core/validators";
 // export const unifiedProductSchema = z.union([productSchema, requestedProductSchema]);

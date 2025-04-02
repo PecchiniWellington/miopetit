@@ -7,7 +7,7 @@ import Pagination from "@/components/shared/pagination";
 import SortableTable from "@/components/shared/tables/sortable-table";
 import { formatId } from "@/lib/utils";
 import { motion } from "framer-motion";
-import { AlertTriangle, Eye, Trash2 } from "lucide-react";
+import { AlertTriangle, Edit, Eye, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
@@ -129,6 +129,13 @@ const RequestedProductsTable = ({
                 </td>
 
                 <td className="flex gap-1 whitespace-nowrap px-6 py-4 text-sm text-gray-300">
+                  <BrandButton size="small">
+                    <Link
+                      href={`/admin/products/${product.id}/edit/requested-product`}
+                    >
+                      <Edit size={18} />
+                    </Link>
+                  </BrandButton>
                   <BrandButton variant="warning" size="small">
                     <Link
                       href={`/admin/products/${product.id}/requested-product`}

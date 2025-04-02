@@ -14,9 +14,11 @@ export async function getContributorByUserId(userId?: string) {
     },
     include: {
       users: true,
+      requestedProducts: true,
     },
   });
 
+  console.log("contributor", contributor);
   if (!contributor) return null;
 
   // 🛠️ Convertiamo createdAt/updatedAt degli utenti in stringhe ISO
@@ -28,6 +30,11 @@ export async function getContributorByUserId(userId?: string) {
       ...user,
       createdAt: user.createdAt.toISOString(),
       updatedAt: user.updatedAt.toISOString(),
+    })),
+    requestedProducts: contributor.requestedProducts.map((product) => ({
+      ...product,
+      createdAt: product.createdAt.toISOString(),
+      updatedAt: product.updatedAt.toISOString(),
     })),
   };
 

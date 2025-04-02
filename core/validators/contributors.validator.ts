@@ -3,6 +3,7 @@
 import { ContributorType } from "@prisma/client";
 import { z } from "zod";
 import { productSchema } from "./product.validator"; // Adjust the path as needed
+import { requestedProductSchema } from "./request-product.validator";
 import { userSchema } from "./user.validator";
 
 export const contributorSchema = z.object({
@@ -40,6 +41,8 @@ export const contributorSchema = z.object({
     saturday: z.string().optional().nullable(),
     sunday: z.string().optional().nullable(),
   }),
+
+  requestedProduct: z.array(requestedProductSchema).optional().nullable(),
 
   socialLinks: z.record(z.string()).optional().nullable(),
   whatsappNumber: z.string().optional().nullable(),
