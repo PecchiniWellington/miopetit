@@ -52,7 +52,31 @@ export const PublicUserAvatar: React.FC<PublicUserAvatarProps> = ({
       const { url } = await response.json();
       if (!url) throw new Error("URL immagine non valido");
 
-      await updateUser({ id: userId, role, image: url, name, email });
+      if (
+        ![
+          "RETAILER",
+          "SUPER_ADMIN",
+          "ADMIN",
+          "VETERINARIAN",
+          "VOLUNTEER",
+          "USER",
+        ].includes(role)
+      ) {
+        throw new Error("Invalid role provided");
+      }
+      await updateUser({
+        id: userId,
+        role: role as
+          | "RETAILER"
+          | "SUPER_ADMIN"
+          | "ADMIN"
+          | "VETERINARIAN"
+          | "VOLUNTEER"
+          | "USER",
+        image: url,
+        name,
+        email,
+      });
       await update({ image: url, name });
       toast({ description: "Avatar aggiornato con successo!" });
     } catch (error) {
@@ -68,7 +92,19 @@ export const PublicUserAvatar: React.FC<PublicUserAvatarProps> = ({
     if (inputFileRef.current) inputFileRef.current.value = "";
 
     try {
-      await updateUser({ id: userId, role, image: "", name, email });
+      await updateUser({
+        id: userId,
+        role: role as
+          | "RETAILER"
+          | "SUPER_ADMIN"
+          | "ADMIN"
+          | "VETERINARIAN"
+          | "VOLUNTEER"
+          | "USER",
+        image: "",
+        name,
+        email,
+      });
       await update({ image: "", name });
       toast({ description: "Avatar rimosso con successo!" });
     } catch (error) {

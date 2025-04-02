@@ -7,8 +7,13 @@ import { notFound } from "next/navigation";
 import CircularProgress from "../../requested-product/circular-progress-bar";
 import RequestedProductActions from "./config-request-product";
 
-const RequestedProductPage = async ({ params }: { params: { id: string } }) => {
-  const requestedProduct = await getAllRequestedProductById(params.id);
+const RequestedProductPage = async ({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) => {
+  const { id } = await params;
+  const requestedProduct = await getAllRequestedProductById(id);
 
   if (!requestedProduct) return notFound();
 
@@ -53,7 +58,10 @@ const RequestedProductPage = async ({ params }: { params: { id: string } }) => {
             <p>
               Created At:{" "}
               <strong>
-                {formatDateTime(requestedProduct.createdAt).dateTime}
+                {
+                  formatDateTime(requestedProduct.createdAt.toISOString())
+                    .dateTime
+                }
               </strong>
             </p>
             <p>
@@ -68,6 +76,8 @@ const RequestedProductPage = async ({ params }: { params: { id: string } }) => {
           <RequestedProductActions
             requestedProduct={{
               ...requestedProduct,
+              createdAt: requestedProduct.createdAt.toISOString(),
+              updatedAt: requestedProduct.updatedAt.toISOString(),
             }}
           />
         </div>
