@@ -6,7 +6,7 @@ import UserGrowthChart from "@/components/admin/users/UserGrowthChart";
 import UsersTable from "@/components/admin/users/UsersTable";
 import CardWorking from "@/components/dev/card-working";
 import DownloadCSV from "@/components/shared/download-csv";
-import { getAllUsers } from "@/core/actions/admin/admin.actions";
+import { getContributorUsersByRole } from "@/core/actions/contributors/get-contributors-users-by-role.action";
 import { getOrderSummary } from "@/core/actions/order/order.action";
 import ROLES from "@/lib/constants/roles";
 import Link from "next/link";
@@ -32,19 +32,19 @@ const VolunteersPage = async (props: {
   const page = Number(searchParams.page) || 1;
   const searchQuery = searchParams.query || "";
 
-  const usersResponse = await getAllUsers({
+  if (!session) {
+    throw new Error("Session is null. User must be authenticated.");
+  }
+
+  const users = await getContributorUsersByRole({
+    userId: session.user.id || "",
     role: ROLES.VOLUNTEER,
     query: searchQuery,
-    page,
+    page: page,
     limit: 10,
   });
 
   const summaryResponse = await getOrderSummary();
-
-  const users = usersResponse.data.filter(
-    (user: { id: string }) => user.id !== session?.user.id
-  );
-  const summary = summaryResponse;
 
   return (
     <div className="relative z-10 flex-1 overflow-auto">
@@ -53,16 +53,20 @@ const VolunteersPage = async (props: {
       <main className="mx-auto max-w-7xl px-4 py-6 lg:px-8 ">
         <div className="mb-4 flex gap-2">
           <Link href="/admin/users/create">Create User</Link>
-          <DownloadCSV csvData={users} />
+          <DownloadCSV csvData={users.data} />
         </div>
         {/* STATS */}
-        <UsersCard userStats={userStats} summary={summary} users={users} />
+        <UsersCard
+          userStats={userStats}
+          summary={summaryResponse}
+          users={users.data}
+        />
 
-        <UsersTable users={users} />
+        <UsersTable users={users.data} />
 
         {/* USER CHARTS */}
         <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
-          <UserGrowthChart users={users} />
+          <UserGrowthChart users={users.data} />
           <CardWorking>
             <UserActivityHeatmap />
           </CardWorking>

@@ -28,9 +28,6 @@ export async function getAllUsers({
   query?: string;
   limit?: number;
   page?: number;
-  price?: string;
-  rating?: string;
-  sort?: string;
 }) {
   const queryFilter: Prisma.UserWhereInput =
     query && query !== "all"
@@ -65,12 +62,6 @@ export async function getAllUsers({
     totalPages: Math.ceil(dataCount / limit),
     totalUsers: dataCount,
   };
-
-  /* return {
-    data,
-    totalPages: Math.ceil(dataCount / limit),
-    totalUsers: dataCount,
-  }; */
 }
 
 // Delete a user

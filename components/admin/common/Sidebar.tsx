@@ -5,15 +5,20 @@ import { AnimatePresence, motion } from "framer-motion";
 import {
   BarChart2,
   BriefcaseMedical,
+  Cat,
   ChevronDown,
+  Dog,
   DollarSign,
+  Heart,
   HeartHandshake,
   Layout,
   Menu,
   MonitorCog,
+  PawPrint,
   Settings,
   ShoppingBag,
   ShoppingCart,
+  Squirrel,
   TrendingUp,
   User,
   Users,
@@ -29,57 +34,63 @@ const SIDEBAR_ITEMS = [
     icon: Layout,
     color: "#6366f1",
     href: "/overview",
-    role: [ROLES.ADMIN],
+    role: [ROLES.ADMIN, ROLES.SUPERADMIN],
   },
   {
     name: "Products",
     icon: ShoppingCart,
     color: "#8B5CF6",
     href: "/products",
-    role: [ROLES.ADMIN, ROLES.RETAILER],
+    role: [ROLES.ADMIN, ROLES.SUPERADMIN, ROLES.RETAILER],
   },
   {
     name: "Users",
     icon: User,
     color: "#EC4899",
     href: "/users",
-    role: [ROLES.ADMIN],
+    role: [ROLES.ADMIN, ROLES.SUPERADMIN],
     children: [
       {
         name: "All",
         color: "#8B5CF6",
         icon: Users,
         href: "/users/overview",
+        role: [ROLES.SUPERADMIN],
       },
       {
         name: "Volunteers",
         color: "#4ADE80",
         icon: Users,
         href: "/users/volunteers",
+        role: [ROLES.ADMIN, ROLES.SUPERADMIN],
       },
       {
         name: "Veterinarians",
         color: "#F59E0B",
         icon: BriefcaseMedical,
         href: "/users/veterinarians",
+        role: [ROLES.ADMIN, ROLES.SUPERADMIN],
       },
       {
         name: "Users",
         color: "#F472B6",
         icon: HeartHandshake,
         href: "/users/normal-users",
+        role: [ROLES.SUPERADMIN],
       },
       {
         name: "Retailers",
         color: "#ff5733",
         icon: ShoppingBag,
         href: "/users/retailers",
+        role: [ROLES.SUPERADMIN],
       },
       {
         name: "Admins",
         color: "#6366f1",
         icon: MonitorCog,
         href: "/users/admins",
+        role: [ROLES.SUPERADMIN],
       },
     ],
   },
@@ -88,40 +99,81 @@ const SIDEBAR_ITEMS = [
     icon: DollarSign,
     color: "#10B981",
     href: "/sales",
-    role: [ROLES.ADMIN],
+    role: [ROLES.SUPERADMIN],
   },
   {
     name: "Orders",
     icon: BarChart2,
     color: "#F59E0B",
     href: "/orders",
-    role: [ROLES.ADMIN],
+    role: [ROLES.SUPERADMIN],
   },
+  {
+    name: "Animals",
+    icon: PawPrint,
+    color: "#10B981", // verde smeraldo
+    href: "/animals",
+    role: [ROLES.ADMIN],
+    children: [
+      {
+        name: "All",
+        color: "#F472B6", // giallo dorato
+        icon: Heart,
+        href: "/animals/all",
+        role: [ROLES.ADMIN, ROLES.SUPERADMIN],
+      },
+      {
+        name: "Cani",
+        color: "#FBBF24", // giallo dorato
+        icon: Dog,
+        href: "/animals/dogs",
+        role: [ROLES.ADMIN, ROLES.SUPERADMIN],
+      },
+      {
+        name: "Cat",
+        color: "#FB7185", // rosa fragola
+        icon: Cat,
+        href: "/animals/cats",
+        role: [ROLES.ADMIN, ROLES.SUPERADMIN],
+      },
+
+      {
+        name: "Piccoli animali",
+        color: "#A78BFA", // lilla
+        icon: Squirrel, // simile a un roditore/piccolo animale
+        href: "/animals/small-animals",
+        role: [ROLES.ADMIN, ROLES.SUPERADMIN],
+      },
+    ],
+  },
+
   {
     name: "Analytics",
     icon: TrendingUp,
     color: "#3B82F6",
     href: "/analytics",
-    role: [ROLES.ADMIN],
+    role: [ROLES.SUPERADMIN],
   },
   {
     name: "Settings",
     icon: Settings,
     color: "#6EE7B7",
     href: "/settings",
-    role: [ROLES.ADMIN, ROLES.RETAILER],
+    role: [ROLES.ADMIN, ROLES.SUPERADMIN, ROLES.RETAILER],
     children: [
       {
         name: "Profilo",
         color: "#4ADE80",
         icon: User,
         href: "/settings/profile",
+        role: [ROLES.ADMIN, ROLES.SUPERADMIN, ROLES.RETAILER],
       },
       {
         name: "Pagina pubblica",
         color: "#F472B6",
         icon: Layout,
         href: "/settings/page-settings",
+        role: [ROLES.ADMIN, ROLES.SUPERADMIN, ROLES.RETAILER],
       },
     ],
   },
@@ -130,14 +182,14 @@ const SIDEBAR_ITEMS = [
     icon: Users,
     color: "#ff5733",
     href: "/contributors",
-    role: [ROLES.ADMIN],
+    role: [ROLES.SUPERADMIN],
   },
   {
     name: "Configurations",
     icon: Settings,
     color: "#ff33c5",
     href: "/configurations",
-    role: [ROLES.ADMIN],
+    role: [ROLES.ADMIN, ROLES.SUPERADMIN],
   },
 ];
 
@@ -232,14 +284,23 @@ const Sidebar = () => {
                         exit={{ height: 0, opacity: 0 }}
                         className="ml-6 mt-2 space-y-1"
                       >
-                        {item.children.map((child) => (
-                          <Link key={child.href} href={`/admin${child.href}`}>
-                            <div className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-gray-300 hover:bg-gray-700">
-                              <child.icon size={16} color={child.color} />
-                              {child.name}
-                            </div>
-                          </Link>
-                        ))}
+                        {item.children
+                          .filter((child) =>
+                            user.data?.user.role
+                              ? !child.role ||
+                                child.role.includes(
+                                  user.data.user.role as ROLES
+                                )
+                              : false
+                          )
+                          .map((child) => (
+                            <Link key={child.href} href={`/admin${child.href}`}>
+                              <div className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-gray-300 hover:bg-gray-700">
+                                <child.icon size={16} color={child.color} />
+                                {child.name}
+                              </div>
+                            </Link>
+                          ))}
                       </motion.div>
                     )}
                   </AnimatePresence>
