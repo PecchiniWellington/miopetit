@@ -92,6 +92,7 @@ const Header = async () => {
               imgSrc="/images/bird.png"
               brands={["Royal Canin", "Purina", "Hill’s"]}
             />
+            <NavLink href={`/brand`} label={"Brand"} />
             {process.env.NODE_ENV !== "production" && (
               <>
                 <NavLink href={`/partners`} label={"Partners"} />

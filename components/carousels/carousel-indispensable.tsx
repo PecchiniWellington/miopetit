@@ -12,11 +12,11 @@ const IndispensableList = ({
   mainCategory: string;
 }) => {
   return (
-    <section className="relative mx-auto w-full max-w-7xl ">
-      {/* Gradient background effect */}
-      <div className="pointer-events-none absolute inset-0 -z-10  opacity-60 blur-2xl" />
+    <section className="relative mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      {/* Soft blurred background */}
+      <div className="pointer-events-none absolute inset-0 -z-10 rounded-3xl bg-gradient-to-br from-purple-100/30 via-white to-green-50/30 opacity-40 blur-3xl" />
 
-      <h2 className="mb-10 text-center text-4xl font-extrabold tracking-tight text-purple-700">
+      <h2 className="mb-10 text-center text-3xl font-bold tracking-tight text-purple-700 sm:text-4xl">
         Indispensabile per il tuo{" "}
         <span className="capitalize text-green-600">{mainCategory} 🐾</span>
       </h2>
@@ -27,11 +27,8 @@ const IndispensableList = ({
         gap={24}
         renderItem={({ image, label, href }) => (
           <Link href={`/${href}`}>
-            <div className="relative mx-auto flex h-full flex-col items-center justify-center rounded-xl bg-white p-4 shadow-md transition hover:scale-[1.03] hover:shadow-xl">
+            <div className="group relative mx-auto flex size-full flex-col items-center justify-center rounded-2xl border border-gray-100 bg-white p-5 shadow-sm transition-all duration-300 hover:scale-[1.02] hover:shadow-md">
               <AnimalAvatar image={"/images/" + image} name={label} />
-              {/* <span className="mt-4 text-center text-sm font-semibold text-gray-700">
-                {label}
-              </span> */}
             </div>
           </Link>
         )}

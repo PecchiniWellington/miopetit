@@ -122,8 +122,9 @@ export default function BrandProductCard({
               <Image
                 src={product.images[0] || "/images/placeholder.jpg"}
                 alt={product.name}
-                fill
-                className="object-cover"
+                width={400}
+                height={300}
+                className="h-auto w-full object-cover"
                 loading="lazy"
               />
             </Link>
