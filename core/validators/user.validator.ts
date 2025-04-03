@@ -9,7 +9,7 @@ export const updateUserProfileSchema = z.object({
 });
 
 export const updateUserSchema = updateUserProfileSchema.extend({
-  id: z.string().min(1, "ID is required"),
+  id: z.string().nullable(),
   role: z.nativeEnum(Role),
   status: z.string().optional(),
 });

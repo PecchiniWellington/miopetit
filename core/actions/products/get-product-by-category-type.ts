@@ -37,14 +37,16 @@ async function findRootCategory(slug: string) {
 
   if (!category) return null;
 
+  let last = category;
   while (category && category.parentId) {
     category = await prisma.category.findFirst({
       where: { id: category.parentId },
       select: { id: true, parentId: true },
     });
+    if (category) last = category;
   }
 
-  return category;
+  return last;
 }
 
 export async function getProductsByMainCategory(input: {
@@ -62,7 +64,8 @@ export async function getProductsByMainCategory(input: {
 
   const mainCategory = await findRootCategory(mainCategorySlug);
   if (!mainCategory) {
-    throw new Error("Main category not found");
+    console.warn("⚠️ Main category not found:", mainCategorySlug);
+    return []; // oppure return convertToPlainObject([]) se serve
   }
 
   const subCategoryIds = await getAllSubCategoryIds(mainCategory.id);

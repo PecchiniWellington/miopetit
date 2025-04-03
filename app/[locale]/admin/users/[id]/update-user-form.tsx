@@ -1,7 +1,6 @@
 "use client";
 import DynamicFormField from "@/components/shared/dynamic-form-field";
 
-import { updateUser } from "@/core/actions/admin/admin.actions";
 import { IUser, updateUserSchema } from "@/core/validators/user.validator";
 import { useToast } from "@/hooks/use-toast";
 import { USER_ROLES } from "@/lib/constants/roles";
@@ -9,6 +8,7 @@ import { USER_STATUS } from "@/lib/constants/user-status";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import BrandButton from "@/components/shared/brand-components/brand-button";
+import { updateUser } from "@/core/actions/admin/user/update-user.action";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Control, FormProvider, useForm } from "react-hook-form";
@@ -74,7 +74,7 @@ const UpdateUserForm = ({ user }: { user: IUser }) => {
       });
       await update({ image: values.image, name });
       reset();
-      router.push("/admin/users");
+      router.push("/admin/users/all");
     } catch (error) {
       toast({
         className: "bg-red-100 text-red-700 px-5 py-2",

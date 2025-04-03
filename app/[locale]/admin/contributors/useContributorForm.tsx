@@ -142,7 +142,7 @@ export function useContributorForm({
     const file = await fetch(fileUrl).then((r) => r.blob());
     const formData = new FormData();
     formData.append("file", file);
-    const res = await fetch("/api/upload/images", {
+    const res = await fetch("/api/upload/images/create", {
       method: "POST",
       body: formData,
     });

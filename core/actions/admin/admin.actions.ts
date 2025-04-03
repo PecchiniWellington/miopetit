@@ -6,7 +6,6 @@ import {
   ICategory,
   IPaymentResult,
   IShippingAddress,
-  updateUserSchema,
   userSchema,
 } from "@/core/validators";
 import { sendOrderDeliverEmail } from "@/email";
@@ -112,105 +111,8 @@ export async function getAllUsersByRoleAndContributor({
 }
 
 // Get all the users
-export async function getAllUsers({
-  role,
-  query,
-  limit = PAGE_SIZE,
-  page,
-}: {
-  role?: Role;
-  query?: string;
-  limit?: number;
-  page?: number;
-}) {
-  const queryFilter: Prisma.UserWhereInput =
-    query && query !== "all"
-      ? {
-          name: {
-            contains: query,
-            mode: "insensitive",
-          },
-        }
-      : {};
-  const userData = await prisma.user.findMany({
-    where: {
-      ...queryFilter,
-      ...(role ? { role } : {}),
-    },
-    orderBy: { createdAt: "desc" },
-    take: limit,
-    skip: limit * ((page ?? 1) - 1),
-  });
-
-  const dataCount = await prisma.user.count();
-
-  const { data, success, error } = z.array(userSchema).safeParse(userData);
-
-  if (!success) {
-    console.error("❌ Errore nella validazione dei prodotti:", error.format());
-    throw new Error("Errore di validazione dei prodotti");
-  }
-
-  return {
-    data: convertToPlainObject(data),
-    totalPages: Math.ceil(dataCount / limit),
-    totalUsers: dataCount,
-  };
-}
-
-// Delete a user
-export async function deleteUser(userId: string) {
-  try {
-    const user = await prisma.user.findFirst({
-      where: {
-        id: userId,
-      },
-    });
-
-    if (!user) throw new Error("User not found");
-
-    await prisma.user.delete({
-      where: {
-        id: user.id,
-      },
-    });
-
-    revalidatePath("/admin/users");
-
-    return { success: true, message: "User deleted successfully" };
-  } catch (error) {
-    return { success: false, message: formatError(error) };
-  }
-}
 
 // update a user
-export async function updateUser(user: z.infer<typeof updateUserSchema>) {
-  try {
-    const userExists = await prisma.user.findFirst({
-      where: {
-        id: user.id,
-      },
-    });
-    if (!userExists) throw new Error("User not found");
-
-    await prisma.user.update({
-      where: {
-        id: user.id,
-      },
-      data: {
-        name: user.name,
-        role: user.role as Role, // ✅ cast a enum
-        status: user.status,
-        image: user.image,
-      },
-    });
-
-    revalidatePath("/admin/users");
-    return { success: true, message: "User updated successfully" };
-  } catch (error) {
-    return { success: false, message: formatError(error) };
-  }
-}
 
 // Get All orders
 export async function getAllOrders({

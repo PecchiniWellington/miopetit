@@ -1,8 +1,7 @@
-"use server";
+import UserForm from "@/components/admin/users/user-form";
 import { getUserById } from "@/core/actions/user";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import UpdateUserForm from "./update-user-form";
 
 export const metadata: Metadata = {
   title: "Admin User Detail",
@@ -14,32 +13,13 @@ const AdminUserDetailPage = async (props: {
 }) => {
   const { id } = await props.params;
 
-  let user = await getUserById(id);
-
-  if (
-    user &&
-    (!user.defaultAddress || typeof user.defaultAddress !== "object")
-  ) {
-    user = {
-      ...user,
-      defaultAddress: {
-        fullName: "",
-        street: "",
-        city: "",
-        zipCode: "",
-        country: "",
-        id: undefined,
-        userId: undefined,
-        isDefault: undefined,
-      },
-    };
-  }
+  const user = await getUserById(id);
 
   if (!user) notFound();
 
   return (
     <div className="relative z-10 mx-auto  max-w-7xl flex-1 space-y-8 px-4 py-6 lg:px-8">
-      <UpdateUserForm user={user} />
+      <UserForm user={user} type="Update" />
     </div>
   );
 };

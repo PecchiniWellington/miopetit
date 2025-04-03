@@ -4,7 +4,7 @@ import BrandBadge from "@/components/shared/brand-components/brand-badge";
 import BrandButton from "@/components/shared/brand-components/brand-button";
 import GenericModal from "@/components/shared/modals/delete-dialog";
 import SortableTable from "@/components/shared/tables/sortable-table";
-import { deleteUser } from "@/core/actions/admin/admin.actions";
+import { deleteUser } from "@/core/actions/admin/user/delete-user.action";
 import { IUser } from "@/core/validators";
 import ROLES from "@/lib/constants/roles";
 import { USER_STATUS_ACTIVATION } from "@/lib/constants/user-status";
@@ -144,7 +144,7 @@ const UsersTable = ({ users }: { users?: IUser[] }) => {
                 </td>
                 <td className="flex items-center gap-2 whitespace-nowrap px-6 py-4 text-sm text-gray-300">
                   <BrandButton>
-                    <Link href={`/admin/users/${user.id}`}>
+                    <Link href={`/admin/users/${user.id}/edit`}>
                       <Edit size={18} />
                     </Link>
                   </BrandButton>
