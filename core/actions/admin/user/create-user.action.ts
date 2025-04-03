@@ -1,13 +1,17 @@
 "use server";
 
+import { auth } from "@/auth";
 import { prisma } from "@/core/prisma/prisma";
 import {
   IUpdateUser,
   updateUserSchema,
 } from "@/core/validators/user.validator";
+import { getContributorByUserId } from "../../contributors/get-contributor-by-user-id";
 
 export async function createUser(data: IUpdateUser) {
   const parsed = updateUserSchema.safeParse(data);
+  const currentUser = await auth();
+  const currentUserRole = currentUser?.user.role;
 
   if (!parsed.success) {
     return {
@@ -28,9 +32,30 @@ export async function createUser(data: IUpdateUser) {
       },
     });
 
+    // 🔐 Se l'utente NON è SUPER_ADMIN, collega il nuovo utente al suo contributor
+    if (currentUserRole !== "SUPER_ADMIN") {
+      const contributor = await getContributorByUserId(
+        currentUser?.user.id as string
+      );
+
+      if (contributor?.id) {
+        await prisma.contributor.update({
+          where: { id: contributor.id },
+          data: {
+            users: {
+              connect: { id: createdUser.id },
+            },
+          },
+        });
+      }
+    }
+
     return {
       success: true,
-      message: "Utente creato con successo",
+      message:
+        currentUserRole === "SUPER_ADMIN"
+          ? "Utente creato con successo"
+          : "Utente creato e associato al contributor",
       data: createdUser,
     };
   } catch (error) {

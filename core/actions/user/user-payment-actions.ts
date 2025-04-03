@@ -13,7 +13,6 @@ export async function updateUserPaymentMethod(data: IPaymentMethod) {
         id: session?.user?.id,
       },
     });
-    console.log("SONO QUIIII", currentUser);
 
     if (!currentUser) throw new Error("User not found");
 

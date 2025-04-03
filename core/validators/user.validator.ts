@@ -14,6 +14,11 @@ export const updateUserSchema = updateUserProfileSchema.extend({
   status: z.string().optional(),
 });
 
+export const createUserSchema = updateUserProfileSchema.extend({
+  role: z.nativeEnum(Role),
+  status: z.string().optional(),
+});
+
 export const userSchema = z
   .object({
     id: z.string(),
@@ -84,5 +89,6 @@ export const forgotPasswordSchema = z.object({
 export type IRequestPasswordReset = z.infer<typeof requestPasswordResetSchema>;
 export type IResetPassword = z.infer<typeof resetPasswordSchema>;
 export type IUpdateUser = z.infer<typeof updateUserSchema>;
+export type ICreateUser = z.infer<typeof createUserSchema>;
 export type IUpdateUserProfile = z.infer<typeof updateUserProfileSchema>;
 export type IUser = z.infer<typeof userSchema>;

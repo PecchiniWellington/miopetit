@@ -1,7 +1,7 @@
 "use client";
 
 import DynamicFormField from "@/components/shared/dynamic-form-field";
-import { IUpdateUser } from "@/core/validators/user.validator";
+import { ICreateUser, IUpdateUser } from "@/core/validators/user.validator";
 
 import { USER_ROLES } from "@/lib/constants/roles";
 import { USER_STATUS } from "@/lib/constants/user-status";
@@ -12,8 +12,8 @@ export function UserFormFields({
   form,
   user,
 }: {
-  form: UseFormReturn<IUpdateUser>;
-  user: IUpdateUser;
+  form: UseFormReturn<IUpdateUser | ICreateUser>;
+  user?: IUpdateUser;
 }) {
   return (
     <div className="space-y-6">
@@ -43,7 +43,7 @@ export function UserFormFields({
           title="Ruolo"
           options={USER_ROLES.map((role) => ({ label: role, value: role }))}
           placeholder="Seleziona il ruolo"
-          defaultValue={user.role}
+          defaultValue={user?.role}
           onChange={(event) =>
             form.setValue(
               "role",
@@ -68,7 +68,7 @@ export function UserFormFields({
             value: status,
           }))}
           placeholder="Seleziona lo stato"
-          defaultValue={user.status}
+          defaultValue={user?.status}
           onChange={(event) => form.setValue("status", event.target.value)} // ✅ forza il tipo stringa
         />
       </div>

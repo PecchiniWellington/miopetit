@@ -1,6 +1,7 @@
 "use server";
 
 import { prisma } from "@/core/prisma/prisma";
+import { revalidatePath } from "next/cache";
 
 export async function deleteUser(userId: string) {
   try {
@@ -8,6 +9,9 @@ export async function deleteUser(userId: string) {
       where: { id: userId },
     });
 
+    revalidatePath("/admin/users/all");
+    revalidatePath("/admin/users/volunteers");
+    revalidatePath("/admin/users/veterinarians");
     return {
       success: true,
       message: "Utente eliminato con successo",

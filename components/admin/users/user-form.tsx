@@ -10,12 +10,13 @@ import { UserFormFields } from "./user-form-fields";
 export default function UserForm({
   type,
   user,
+  folder,
 }: {
   type: "Create" | "Update";
-  user: IUpdateUser;
+  user?: IUpdateUser;
+  folder?: string;
 }) {
-  console.log("UserForm", type, user);
-  const { form, onSubmit } = useUserForm({ type, user });
+  const { form, onSubmit } = useUserForm({ type, user, folder });
 
   return (
     <Form {...form}>

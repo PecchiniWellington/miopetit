@@ -36,7 +36,6 @@ export const requestPasswordReset = async (email: string, locale?: string) => {
     const resetUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/reset-password?token=${token}`;
 
     const t = await sendPasswordResetEmail({ user, resetUrl });
-    console.log("MANNNAGGIAATE", t);
     return { success: true, message: "Email di reset inviata!" };
   } catch (error) {
     console.log("ERROR", error);

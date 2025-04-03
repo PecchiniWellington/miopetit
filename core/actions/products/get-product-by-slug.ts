@@ -32,10 +32,6 @@ export async function getProductBySlug(slug: string) {
 
   if (!product) return null;
 
-  console.log(
-    "🚀 ~ file: get-product-by-slug.actions.ts ~ line 22 ~ getProductBySlug ~ product",
-    product
-  );
   const transformedData = {
     ...product,
     price: product.price.toString(),
@@ -90,10 +86,6 @@ export async function getProductBySlug(slug: string) {
   const totalRevenue = product.orderitems.reduce(
     (acc: number, item: IOrderItem) => acc + item.qty * Number(item.price),
     0
-  );
-  console.log(
-    "🚀 ~ file: get-product-by-id.actions.ts ~ line 68 ~ getProductById ~ transformedData",
-    transformedData
   );
 
   const result = productSchema.safeParse(transformedData);

@@ -18,7 +18,6 @@ export async function getContributorByUserId(userId?: string) {
     },
   });
 
-  console.log("contributor", contributor);
   if (!contributor) return null;
 
   // 🛠️ Convertiamo createdAt/updatedAt degli utenti in stringhe ISO
