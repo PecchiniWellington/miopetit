@@ -1,4 +1,3 @@
-import Header from "@/components/admin/common/Header";
 import SalesChannelChart from "@/components/admin/overview/SalesChannelChart";
 import SalesOverviewChart from "@/components/admin/overview/SalesOverviewChart";
 import OverviewCard from "./overview-card";
@@ -9,8 +8,6 @@ const OverviewPage = async () => {
 
   return (
     <div className="relative z-10 flex-1 overflow-auto">
-      <Header title="Overview" />
-
       <main className="mx-auto max-w-7xl px-4 py-6 lg:px-8">
         {/* STATS */}
         <OverviewCard />

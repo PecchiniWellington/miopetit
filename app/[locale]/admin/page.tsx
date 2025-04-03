@@ -1,5 +1,4 @@
 "use client";
-import Header from "@/components/admin/common/Header";
 import StatCard from "@/components/admin/common/StatCard";
 import UserActivityHeatmap from "@/components/admin/users/UserActivityHeatmap";
 import UserDemographicsChart from "@/components/admin/users/UserDemographicsChart";
@@ -7,7 +6,6 @@ import UserGrowthChart from "@/components/admin/users/UserGrowthChart";
 import UsersTable from "@/components/admin/users/UsersTable";
 import { motion } from "framer-motion";
 import { UserCheck, UserPlus, UsersIcon, UserX } from "lucide-react";
-import { usePathname } from "next/navigation";
 
 const userStats = {
   totalUsers: 152845,
@@ -17,13 +15,11 @@ const userStats = {
 };
 
 const Admin2Page = () => {
-  const pathname = usePathname();
-  const lastSegment = pathname.split("/").filter(Boolean).pop();
+  /*  const pathname = usePathname();
+  const lastSegment = pathname.split("/").filter(Boolean).pop(); */
 
   return (
     <div className="relative z-10 flex-1 overflow-auto">
-      <Header title={lastSegment} />
-
       <main className="mx-auto max-w-7xl px-4 py-6 lg:px-8">
         {/* STATS */}
         <motion.div

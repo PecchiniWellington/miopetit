@@ -1,4 +1,3 @@
-import Header from "@/components/admin/common/Header";
 import OrderDistribution from "@/components/admin/orders/OrderDistribution";
 import SalesTrendChart from "@/components/admin/products/SalesTrendChart";
 import UserDemographicsChart from "@/components/admin/users/UserDemographicsChart";
@@ -19,8 +18,6 @@ const ProductsOverviewPage = async (props: {
 
   return (
     <div className="relative z-10 flex-1 overflow-auto">
-      <Header title="Products" />
-
       <main className="mx-auto max-w-7xl px-4 py-6 lg:px-8">
         <ProductResumeCard product={product} />
         <div className=" mb-8">

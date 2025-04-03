@@ -53,6 +53,7 @@ export default async function RootLayout({
                 <p>SEI IN PREVIEW</p>
               )}
             </div>
+
             {children}
           </NextIntlClientProvider>
         </SessionProvider>

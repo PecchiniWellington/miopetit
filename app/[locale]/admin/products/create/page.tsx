@@ -1,4 +1,3 @@
-import Header from "@/components/admin/common/Header";
 import ProductForm from "@/components/admin/product-form/product-form";
 import {
   getAllBrands,
@@ -28,7 +27,6 @@ const CreateProductPage = async () => {
 
   return (
     <div className="relative z-50  ">
-      <Header title="Product Create" />
       <div className="mx-auto my-8 max-w-5xl  space-y-8">
         <ProductForm
           type="Create"

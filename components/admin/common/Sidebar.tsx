@@ -54,8 +54,8 @@ const SIDEBAR_ITEMS = [
         name: "All",
         color: "#8B5CF6",
         icon: Users,
-        href: "/users/overview",
-        role: [ROLES.SUPER_ADMIN],
+        href: "/users/all",
+        role: [ROLES.ADMIN, ROLES.SUPER_ADMIN],
       },
       {
         name: "Volunteers",

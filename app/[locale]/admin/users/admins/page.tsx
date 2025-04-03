@@ -1,5 +1,4 @@
 import { auth } from "@/auth";
-import Header from "@/components/admin/common/Header";
 import UserActivityHeatmap from "@/components/admin/users/UserActivityHeatmap";
 import UserDemographicsChart from "@/components/admin/users/UserDemographicsChart";
 import UserGrowthChart from "@/components/admin/users/UserGrowthChart";
@@ -48,8 +47,6 @@ const AdminsPage = async (props: {
 
   return (
     <div className="relative z-10 flex-1 overflow-auto">
-      <Header title="Users" />
-
       <main className="mx-auto max-w-7xl px-4 py-6 lg:px-8 ">
         <div className="mb-4 flex gap-2">
           <Link href="/admin/users/create">Create User</Link>

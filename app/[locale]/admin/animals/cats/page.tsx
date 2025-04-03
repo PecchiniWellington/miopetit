@@ -1,7 +1,6 @@
 "use server";
 import { auth } from "@/auth";
 import AnimalsTable from "@/components/admin/animals/animals-table";
-import Header from "@/components/admin/common/Header";
 import { getAnimalsByContributorWithFilters } from "@/core/actions/admin/animals/get-all-animals-by-contributor.action";
 import { getContributorByUserId } from "@/core/actions/contributors/get-contributor-by-user-id";
 
@@ -36,8 +35,6 @@ const CatPage = async (props: {
 
   return (
     <div className="relative z-10 flex-1 overflow-auto">
-      <Header title="Admins" />
-
       <main className="mx-auto max-w-7xl px-4 py-6 lg:px-8 ">
         <AnimalsTable animals={users} />
       </main>

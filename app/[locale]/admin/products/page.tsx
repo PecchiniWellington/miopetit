@@ -1,5 +1,4 @@
 import { auth } from "@/auth";
-import Header from "@/components/admin/common/Header";
 
 import ProductsTable from "@/components/admin/products/ProductsTable";
 import RequestedProductsTable from "@/components/admin/products/request-products-table";
@@ -50,8 +49,6 @@ const ProductsPage = async (props: {
   // Adjust this logic if pagination is implemented
   return (
     <div className="relative z-10 flex-1 overflow-auto">
-      <Header title="Products" />
-
       <main className="mx-auto max-w-7xl px-4 py-6 lg:px-8">
         <div className="mb-6 flex w-full gap-2">
           {user?.role === ROLES.ADMIN ||

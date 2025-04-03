@@ -1,4 +1,3 @@
-import Header from "@/components/admin/common/Header";
 import BrandBadge from "@/components/shared/brand-components/brand-badge";
 import { prisma } from "@/core/prisma/prisma";
 import { formatDateTime } from "@/lib/utils";
@@ -37,7 +36,6 @@ export default async function RequestedProductDetailPage({
 
   return (
     <div className="relative z-10 flex-1 overflow-auto">
-      <Header title="Requested Product Detail" />
       <main className="mx-auto max-w-5xl px-4 py-8">
         <div className="space-y-6 rounded-xl border border-gray-700 bg-gray-800 p-6 text-gray-100 shadow-lg">
           <div className="flex items-center gap-6">

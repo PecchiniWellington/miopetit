@@ -4,7 +4,7 @@ import AnimalsTable from "@/components/admin/animals/animals-table";
 import { getAnimalsByContributorWithFilters } from "@/core/actions/admin/animals/get-all-animals-by-contributor.action";
 import { getContributorByUserId } from "@/core/actions/contributors/get-contributor-by-user-id";
 
-const DogPage = async (props: {
+const AllAnimalsPage = async (props: {
   searchParams: Promise<{
     query: string;
     page: string;
@@ -21,11 +21,13 @@ const DogPage = async (props: {
 
   const usersResponse = await getAnimalsByContributorWithFilters({
     contributorId: contributorId,
-    animalType: "dog", // es: "cani", "gatti", "roditori"
+
     search: searchQuery,
     page,
     pageSize: 10,
   });
+
+  console.log("usersResponse", usersResponse);
 
   const users = usersResponse.data.filter(
     (user: { id: string }) => user.id !== session?.user.id
@@ -39,4 +41,4 @@ const DogPage = async (props: {
     </div>
   );
 };
-export default DogPage;
+export default AllAnimalsPage;
