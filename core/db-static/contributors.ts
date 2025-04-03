@@ -58,7 +58,7 @@ const contributorsData = Array.from({ length: 20 }).map((_, i) => {
     animalsAvailable: isRetailer
       ? null
       : faker.number.int({ min: 10, max: 50 }),
-    animalTypes: isRetailer ? [] : ["cani", "gatti"],
+    animalTypes: isRetailer ? [] : ["cat", "dog", "small-animal"],
     acceptsDonations: !isRetailer && faker.datatype.boolean(),
     donationLink: !isRetailer ? faker.internet.url() : null,
     volunteerNeeded: !isRetailer && faker.datatype.boolean(),

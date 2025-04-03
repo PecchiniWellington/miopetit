@@ -1,3 +1,4 @@
+"use server";
 // actions/animals/deleteAnimal.ts
 import { prisma } from "@/core/prisma/prisma";
 import { convertToPlainObject } from "@/lib/utils";

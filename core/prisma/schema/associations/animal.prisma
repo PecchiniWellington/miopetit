@@ -22,6 +22,7 @@ model Animal {
     description   String?
     status        AnimalStatus
     photoUrl      String?
+    animalType    String
 
     contributorId String      @db.Uuid
     contributor   Contributor @relation(fields: [contributorId], references: [id])

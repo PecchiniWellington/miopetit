@@ -1,3 +1,4 @@
+"user server";
 // actions/animals/createAnimal.ts
 import { prisma } from "@/core/prisma/prisma";
 import { convertToPlainObject } from "@/lib/utils";

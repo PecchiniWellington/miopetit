@@ -1,26 +1,28 @@
+"use server";
 import { prisma } from "@/core/prisma/prisma";
+import { convertToPlainObject } from "@/lib/utils";
 import { AnimalStatus } from "@prisma/client";
 
 /* await getAnimalsByContributorWithFilters({
   contributorId: "uuid-contributor",
-  status: "ADOPTABLE", // 👈 solo animali adottabili
+  status: "ADOPTABLE", // 👈 only adoptable animals
   page: 1,
   pageSize: 10
 }); */
 export async function getAnimalsByContributorWithFilters({
   contributorId,
-  animalType, // es: "cani", "gatti", "roditori"
+  animalType, // e.g., "dogs", "cats", "rodents"
   search,
   page = 1,
   pageSize = 10,
-  status, // 👈 nuovo filtro
+  status, // 👈 new filter
 }: {
   contributorId: string;
   animalType?: string;
   search?: string;
   page?: number;
   pageSize?: number;
-  status?: AnimalStatus; // 👈 accetta un valore del tipo enum
+  status?: AnimalStatus; // 👈 accepts a value of the enum type
 }) {
   const skip = (page - 1) * pageSize;
 
@@ -32,12 +34,12 @@ export async function getAnimalsByContributorWithFilters({
   });
 
   if (!contributor) {
-    throw new Error("Contributor non trovato");
+    throw new Error("Contributor not found");
   }
 
   if (animalType && !contributor.animalTypes.includes(animalType)) {
     throw new Error(
-      `Il contributor non gestisce animali di tipo: ${animalType}`
+      `The contributor does not manage animals of type: ${animalType}`
     );
   }
 
@@ -60,7 +62,10 @@ export async function getAnimalsByContributorWithFilters({
 
   const [animals, total] = await Promise.all([
     prisma.animal.findMany({
-      where: filters,
+      where: {
+        ...filters,
+        ...(animalType ? { animalType } : {}), // Include animalType filter only if it exists
+      },
       skip,
       take: pageSize,
       orderBy: {
@@ -68,12 +73,15 @@ export async function getAnimalsByContributorWithFilters({
       },
     }),
     prisma.animal.count({
-      where: filters,
+      where: {
+        ...filters,
+        ...(animalType ? { animalType } : {}), // Include animalType filter only if it exists
+      },
     }),
   ]);
 
   return {
-    animals,
+    data: convertToPlainObject(animals),
     pagination: {
       total,
       page,
