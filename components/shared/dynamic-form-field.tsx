@@ -12,7 +12,13 @@ interface DynamicFormFieldProps<T extends FieldValues> {
   name: Path<T>;
   title: string;
   placeholder?: string;
-  type?: "input" | "textarea" | "select" | "multiple-select" | "checkbox";
+  type?:
+    | "input"
+    | "textarea"
+    | "select"
+    | "multiple-select"
+    | "checkbox"
+    | "date";
   className?: string;
   options?: Option[];
   defaultValue?: string | string[] | { id: string; name: string }[]; // lasciamolo ampio
@@ -25,6 +31,7 @@ interface DynamicFormFieldProps<T extends FieldValues> {
 import { FieldValues } from "react-hook-form";
 import BrandCheckbox from "./brand-components/brand-checkbox";
 import BrandInput from "./brand-components/brand-input";
+import BrandInputCalendar from "./brand-components/brand-input-calendar";
 import BrandMultiSelect from "./brand-components/brand-multiple-select";
 import BrandSelect from "./brand-components/brand-select";
 import BrandTextArea from "./brand-components/brand-textarea";
@@ -150,6 +157,21 @@ const DynamicFormField = <T extends FieldValues>({
                       ? (defaultValue as { id: string; name: string }[])
                       : []
                   }
+                />
+              ) : type === "date" ? (
+                <BrandInputCalendar
+                  field={field}
+                  variant={variant}
+                  disabled={disabled}
+                  className={className}
+                  placeholder={placeholder}
+                  onChange={(e) => {
+                    field.onChange(e.target.value);
+                    onChange?.(
+                      e as unknown as React.FocusEvent<HTMLInputElement>
+                    ); // trigger esterno se serve
+                  }}
+                  onBlur={field.onBlur}
                 />
               ) : (
                 <BrandInput

@@ -1,15 +1,10 @@
 import { auth } from "@/auth";
-import UserActivityHeatmap from "@/components/admin/users/UserActivityHeatmap";
-import UserDemographicsChart from "@/components/admin/users/UserDemographicsChart";
-import UserGrowthChart from "@/components/admin/users/UserGrowthChart";
 import UsersTable from "@/components/admin/users/UsersTable";
-import CardWorking from "@/components/dev/card-working";
 import DownloadCSV from "@/components/shared/download-csv";
 import { getContributorUsersByRole } from "@/core/actions/contributors/get-contributors-users-by-role.action";
 import { getOrderSummary } from "@/core/actions/order/order.action";
 import ROLES from "@/lib/constants/roles";
 import Link from "next/link";
-import UsersCard from "../users-card";
 
 const userStats = {
   totalUsers: 152845,
@@ -53,20 +48,8 @@ const VeterinariansPage = async (props: {
           <DownloadCSV csvData={users.data} />
         </div>
         {/* STATS */}
-        <UsersCard userStats={userStats} summary={summary} users={users.data} />
 
         <UsersTable users={users.data} />
-
-        {/* USER CHARTS */}
-        <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
-          <UserGrowthChart users={users.data} />
-          <CardWorking>
-            <UserActivityHeatmap />
-          </CardWorking>
-          <CardWorking>
-            <UserDemographicsChart />
-          </CardWorking>
-        </div>
       </main>
     </div>
   );

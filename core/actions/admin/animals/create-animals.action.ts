@@ -1,4 +1,4 @@
-"user server";
+"use server";
 // actions/animals/createAnimal.ts
 import { prisma } from "@/core/prisma/prisma";
 import { convertToPlainObject } from "@/lib/utils";
@@ -18,7 +18,10 @@ export async function createAnimal(data: {
   contributorId: string;
 }) {
   const animal = await prisma.animal.create({
-    data,
+    data: {
+      ...data,
+      animalType: "defaultType", // Replace "defaultType" with the appropriate value
+    },
   });
 
   return convertToPlainObject(animal);

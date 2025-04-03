@@ -130,7 +130,7 @@ const AnimalsTable = ({ animals }: { animals?: any[] }) => {
                 </td>
                 <td className="flex items-center gap-2 whitespace-nowrap px-6 py-4 text-sm text-gray-300">
                   <BrandButton>
-                    <Link href={`/admin/animals/${animal.id}`}>
+                    <Link href={`/admin/animals/${animal.id}/edit`}>
                       <Edit size={18} />
                     </Link>
                   </BrandButton>

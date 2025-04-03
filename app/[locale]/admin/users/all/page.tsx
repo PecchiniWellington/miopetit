@@ -1,9 +1,5 @@
 import { auth } from "@/auth";
-import UserActivityHeatmap from "@/components/admin/users/UserActivityHeatmap";
-import UserDemographicsChart from "@/components/admin/users/UserDemographicsChart";
-import UserGrowthChart from "@/components/admin/users/UserGrowthChart";
 import UsersTable from "@/components/admin/users/UsersTable";
-import CardWorking from "@/components/dev/card-working";
 import DownloadCSV from "@/components/shared/download-csv";
 import { getAllUsersByRoleAndContributor } from "@/core/actions/admin/admin.actions";
 import { getOrderSummary } from "@/core/actions/order/order.action";
@@ -64,17 +60,6 @@ const UsersPage = async (props: {
         <UsersCard userStats={userStats} summary={summary} users={users} />
 
         <UsersTable users={users} />
-
-        {/* USER CHARTS */}
-        <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
-          <UserGrowthChart users={users} />
-          <CardWorking>
-            <UserActivityHeatmap />
-          </CardWorking>
-          <CardWorking>
-            <UserDemographicsChart />
-          </CardWorking>
-        </div>
       </main>
     </div>
   );
