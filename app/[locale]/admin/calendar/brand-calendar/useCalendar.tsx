@@ -29,7 +29,10 @@ export const getIconaCategoria = (nome: string): JSX.Element => {
 };
 
 export const useCalendar = () => {
-  const [dataCorrente] = useState(new Date(2025, 3));
+  const [dataCorrente, setDataCorrente] = useState(new Date(2025, 3));
+  const [vista, setVista] = useState<"day" | "week" | "month" | "year">(
+    "month"
+  );
   const [eventi, setEventi] = useState<
     Record<string, { titolo: string; descrizione: string; categoria: string }[]>
   >({
@@ -64,6 +67,33 @@ export const useCalendar = () => {
   const primoGiornoSettimana = (anno: number, mese: number) =>
     new Date(anno, mese, 1).getDay();
   const formattaData = (data: Date) => data.toISOString().split("T")[0];
+
+  const cambiaData = (direzione: "avanti" | "indietro") => {
+    const nuovaData = new Date(dataCorrente);
+    switch (vista) {
+      case "day":
+        nuovaData.setDate(
+          dataCorrente.getDate() + (direzione === "avanti" ? 1 : -1)
+        );
+        break;
+      case "week":
+        nuovaData.setDate(
+          dataCorrente.getDate() + (direzione === "avanti" ? 7 : -7)
+        );
+        break;
+      case "month":
+        nuovaData.setMonth(
+          dataCorrente.getMonth() + (direzione === "avanti" ? 1 : -1)
+        );
+        break;
+      case "year":
+        nuovaData.setFullYear(
+          dataCorrente.getFullYear() + (direzione === "avanti" ? 1 : -1)
+        );
+        break;
+    }
+    setDataCorrente(nuovaData);
+  };
 
   const aggiungiEvento = () => {
     if (!formEventoData) return;
@@ -201,6 +231,10 @@ export const useCalendar = () => {
 
   return {
     dataCorrente,
+    setDataCorrente,
+    cambiaData,
+    vista,
+    setVista,
     eventi,
     setEventi,
     eventoSelezionato,

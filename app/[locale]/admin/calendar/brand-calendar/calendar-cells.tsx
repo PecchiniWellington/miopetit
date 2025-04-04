@@ -9,10 +9,10 @@ const CalendarCells = ({
   eventi,
   setEventoSelezionato,
   setFormEventoData,
-  view = "year",
 }: any) => {
   const { setEventi, categoriaColori } = useCalendarContext();
 
+  const view = "year";
   const handleDrop = (e: React.DragEvent<HTMLDivElement>, dataStr: string) => {
     const json = e.dataTransfer.getData("application/json");
     const { titolo, descrizione, categoria, origine } = JSON.parse(json);
