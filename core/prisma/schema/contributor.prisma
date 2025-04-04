@@ -55,4 +55,6 @@ model Contributor {
     inventory         InventoryItem[]
     products          Product[]
     requestedProducts RequestedProduct[]
+    events            Event[]
+    categoryEvents    CategoryEvent[]
 }

@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import {
   BarChart2,
   BriefcaseMedical,
+  Calendar,
   Cat,
   ChevronDown,
   Dog,
@@ -147,6 +148,13 @@ const SIDEBAR_ITEMS = [
     ],
   },
 
+  {
+    name: "Calendar",
+    icon: Calendar,
+    color: "#F472B6",
+    href: "/calendar",
+    role: [ROLES.SUPER_ADMIN, ROLES.ADMIN],
+  },
   {
     name: "Analytics",
     icon: TrendingUp,

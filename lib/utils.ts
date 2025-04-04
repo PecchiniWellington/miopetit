@@ -1,5 +1,6 @@
 import { ICartItem } from "@/core/validators";
 import { clsx, type ClassValue } from "clsx";
+import saveAs from "file-saver";
 import qs from "query-string";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
@@ -341,4 +342,60 @@ export const normalizeUrl = (url: string): string => {
     return "https://" + url;
   }
   return url;
+};
+
+export function convertToICS(events: any[]): string {
+  const lines: string[] = [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "CALSCALE:GREGORIAN",
+    "PRODID:-//Wellintone//Calendar Export//EN",
+  ];
+
+  events.forEach((event) => {
+    const start =
+      new Date(event.start).toISOString().replace(/[-:]/g, "").split(".")[0] +
+      "Z";
+    const end =
+      new Date(event.end).toISOString().replace(/[-:]/g, "").split(".")[0] +
+      "Z";
+
+    lines.push("BEGIN:VEVENT");
+    lines.push(`UID:${event.id || crypto.randomUUID()}`);
+    lines.push(
+      `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, "").split(".")[0]}Z`
+    );
+    lines.push(`DTSTART:${start}`);
+    lines.push(`DTEND:${end}`);
+    lines.push(`SUMMARY:${event.title}`);
+    lines.push("END:VEVENT");
+  });
+
+  lines.push("END:VCALENDAR");
+  return lines.join("\r\n");
+}
+
+/* CALENDAR */
+
+export const exportToCSV = (events: any[]) => {
+  const csvRows = [
+    ["Titolo", "Inizio", "Fine", "Categoria"],
+    ...events.map((e) => [e.title, e.start, e.end, e.categoryEventId]),
+  ];
+  const csvContent = csvRows.map((row) => row.join(",")).join("\n");
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  saveAs(blob, "calendar-events.csv");
+};
+
+export const exportToICS = (events: any[]) => {
+  const icsContent = convertToICS(events);
+  const blob = new Blob([icsContent], {
+    type: "text/calendar;charset=utf-8",
+  });
+  saveAs(blob, "calendar-events.ics");
+};
+
+export const categoryColor = (categories: any, categoryId?: string) => {
+  const match = categories?.find((c) => c.id === categoryId);
+  return match?.color || "bg-blue-400";
 };
