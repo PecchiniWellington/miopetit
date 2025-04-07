@@ -1,18 +1,17 @@
-enum MedicalType {
-    VACCINE
-    SURGERY
-    CHECKUP
-    MEDICATION
+model MedicalRecord {
+  id           String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  animalId     String      @db.Uuid
+  type         MedicalType
+  description  String
+  date         DateTime
+  veterinarian String?
+  reminderDate DateTime?
+  animal       Animal      @relation(fields: [animalId], references: [id])
 }
 
-model MedicalRecord {
-    id           String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    animalId     String      @db.Uuid
-    type         MedicalType
-    description  String
-    date         DateTime
-    veterinarian String?
-    reminderDate DateTime?
-
-    animal Animal @relation(fields: [animalId], references: [id])
+enum MedicalType {
+  VACCINE
+  SURGERY
+  CHECKUP
+  MEDICATION
 }

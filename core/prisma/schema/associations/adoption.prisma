@@ -1,20 +1,19 @@
 model Adoption {
-    id           String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    animalId     String         @db.Uuid
-    userId       String         @db.Uuid
-    status       AdoptionStatus
-    preHomeCheck Boolean
-    adoptionDate DateTime?
-    documents    Json?
-
-    animal Animal @relation(fields: [animalId], references: [id])
-    user   User   @relation(fields: [userId], references: [id])
+  id           String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  animalId     String         @db.Uuid
+  userId       String         @db.Uuid
+  status       AdoptionStatus
+  preHomeCheck Boolean
+  adoptionDate DateTime?
+  documents    Json?
+  animal       Animal         @relation(fields: [animalId], references: [id])
+  user         User           @relation(fields: [userId], references: [id])
 }
 
 enum AdoptionStatus {
-    PENDING
-    IN_REVIEW
-    APPROVED
-    REJECTED
-    COMPLETED
+  PENDING
+  IN_REVIEW
+  APPROVED
+  REJECTED
+  COMPLETED
 }

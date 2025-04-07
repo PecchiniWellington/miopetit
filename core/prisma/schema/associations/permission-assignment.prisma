@@ -1,20 +1,19 @@
-enum Permission {
-    VIEW_ANIMALS
-    EDIT_ANIMALS
-    VIEW_INVENTORY
-    EDIT_INVENTORY
-    VIEW_ADOPTIONS
-    EDIT_ADOPTIONS
-    VIEW_VOLUNTEERS
-    EDIT_VOLUNTEERS
+model PermissionAssignment {
+  id         String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId     String     @db.Uuid
+  permission Permission
+  user       User       @relation(fields: [userId], references: [id])
+
+  @@unique([userId, permission])
 }
 
-model PermissionAssignment {
-    id         String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    userId     String     @db.Uuid
-    permission Permission
-
-    user User @relation(fields: [userId], references: [id])
-
-    @@unique([userId, permission])
+enum Permission {
+  VIEW_ANIMALS
+  EDIT_ANIMALS
+  VIEW_INVENTORY
+  EDIT_INVENTORY
+  VIEW_ADOPTIONS
+  EDIT_ADOPTIONS
+  VIEW_VOLUNTEERS
+  EDIT_VOLUNTEERS
 }

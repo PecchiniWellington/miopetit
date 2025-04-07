@@ -1,10 +1,8 @@
-// 🔹 MODELLO DI COLLEGAMENTO MANY-TO-MANY
 model ProductFeatureOnProduct {
-    productId        String @db.Uuid
-    productFeatureId String @db.Uuid
+  productId        String          @db.Uuid
+  productFeatureId String          @db.Uuid
+  productFeature   ProductFeatures @relation(fields: [productFeatureId], references: [id], onDelete: Cascade)
+  product          Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
 
-    product        Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
-    productFeature ProductFeatures @relation(fields: [productFeatureId], references: [id], onDelete: Cascade)
-
-    @@id([productId, productFeatureId])
+  @@id([productId, productFeatureId])
 }

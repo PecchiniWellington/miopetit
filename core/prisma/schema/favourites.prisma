@@ -1,5 +1,5 @@
 model Favorite {
-    id        String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    userId    String
-    productId String
+  id        String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId    String
+  productId String
 }

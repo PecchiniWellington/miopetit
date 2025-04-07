@@ -1,14 +1,12 @@
 model UnitValue {
-    id    String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    value Decimal @default(0.0) @db.Decimal(10, 2)
-
-    productUnitFormats ProductUnitFormat[]
+  id                 String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  value              Decimal             @default(0.0) @db.Decimal(10, 2)
+  productUnitFormats ProductUnitFormat[]
 }
 
 model UnitOfMeasure {
-    id   String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    name String @unique @default("Kilogram")
-    code String @unique @default("Kg")
-
-    productUnitFormats ProductUnitFormat[]
+  id                 String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name               String              @unique @default("Kilogram")
+  code               String              @unique @default("Kg")
+  productUnitFormats ProductUnitFormat[]
 }

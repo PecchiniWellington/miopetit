@@ -1,24 +1,24 @@
 model CategoryEvent {
-    id            String      @id @default(cuid())
-    name          String
-    color         String
-    contributor   Contributor @relation(fields: [contributorId], references: [id])
-    contributorId String      @db.Uuid
-    events        Event[]
+  id            String      @id @default(cuid())
+  name          String
+  color         String
+  contributorId String      @db.Uuid
+  contributor   Contributor @relation(fields: [contributorId], references: [id])
+  events        Event[]
 
-    @@unique([name, contributorId]) // evita doppioni
+  @@unique([name, contributorId])
 }
 
 model Event {
-    id              String        @id @default(cuid())
-    title           String
-    description     String?
-    start           DateTime
-    end             DateTime
-    categoryEvent   CategoryEvent @relation(fields: [categoryEventId], references: [id])
-    categoryEventId String
-    contributor     Contributor   @relation(fields: [contributorId], references: [id])
-    contributorId   String        @db.Uuid
-    createdAt       DateTime      @default(now())
-    updatedAt       DateTime      @updatedAt
+  id              String        @id @default(cuid())
+  title           String
+  description     String?
+  start           DateTime
+  end             DateTime
+  contributorId   String        @db.Uuid
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  categoryEventId String
+  categoryEvent   CategoryEvent @relation(fields: [categoryEventId], references: [id])
+  contributor     Contributor   @relation(fields: [contributorId], references: [id])
 }

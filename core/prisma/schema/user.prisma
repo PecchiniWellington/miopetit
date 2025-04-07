@@ -1,47 +1,43 @@
-enum Role {
-    SUPER_ADMIN
-    ADMIN
-    VETERINARIAN
-    VOLUNTEER
-    RETAILER
-    USER
+model User {
+  id                   String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                 String                 @default("NO_NAME")
+  email                String                 @unique(map: "user_email_idx")
+  emailVerified        DateTime?              @map("email_verified")
+  image                String?
+  password             String?
+  role                 Role                   @default(USER)
+  paymentMethod        String?
+  status               String                 @default("ACTIVE")
+  createdAt            DateTime               @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt            DateTime               @updatedAt @map("updated_at")
+  resetToken           String?
+  resetTokenExpiry     DateTime?
+  defaultAddress       Json?                  @db.Json
+  userSlug             String?                @unique(map: "user_slug")
+  accounts             Account[]
+  address              Address[]
+  adoptions            Adoption[]
+  Cart                 Cart[]
+  contributorHomePage  ContributorHomePage?
+  donation             Donation[]
+  notifications        Notification[]
+  Order                Order[]
+  permissionAssignment PermissionAssignment[]
+  products             Product[]
+  Review               Review[]
+  schedules            Schedule[]
+  sessions             Session[]
+  SupportTicket        SupportTicket[]
+  contributors         Contributor[]          @relation("ContributorToUser")
+
+  @@map("users")
 }
 
-model User {
-    id               String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    name             String    @default("NO_NAME")
-    email            String    @unique(map: "user_email_idx")
-    emailVerified    DateTime? @map("email_verified")
-    image            String?
-    password         String?
-    role             Role      @default(USER)
-    paymentMethod    String?
-    status           String    @default("ACTIVE")
-    createdAt        DateTime  @default(now()) @map("created_at") @db.Timestamp(6)
-    updatedAt        DateTime  @updatedAt @map("updated_at")
-    resetToken       String?
-    resetTokenExpiry DateTime?
-    defaultAddress   Json?     @db.Json
-    userSlug         String?   @unique(map: "user_slug")
-
-    /**
-     * MANY TO MANY
-     */
-    address              Address[]
-    accounts             Account[]
-    sessions             Session[]
-    Cart                 Cart[]
-    Order                Order[]
-    Review               Review[]
-    SupportTicket        SupportTicket[]
-    products             Product[]
-    contributorHomePage  ContributorHomePage?
-    adoptions            Adoption[]
-    schedules            Schedule[]
-    contributors         Contributor[]
-    permissionAssignment PermissionAssignment[]
-    donation             Donation[]
-    notifications        Notification[]
-
-    @@map("users")
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  VETERINARIAN
+  VOLUNTEER
+  RETAILER
+  USER
 }

@@ -1,60 +1,52 @@
-enum ContributorType {
-    SHELTER
-    ASSOCIATION
-    RETAILER
+model Contributor {
+  id                String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name              String
+  slug              String             @unique
+  type              ContributorType
+  email             String?
+  phone             String?
+  website           String?
+  logo              String?
+  coverImage        String?
+  description       String?
+  descriptionLong   String?
+  tags              String[]
+  address           String?
+  city              String?
+  province          String?
+  region            String?
+  zipCode           String?
+  latitude          Float?
+  longitude         Float?
+  partitaIva        String?
+  isOnlineShop      Boolean            @default(false)
+  isPickupAvailable Boolean            @default(false)
+  deliveryAvailable Boolean            @default(false)
+  openingHours      Json?
+  socialLinks       Json?
+  whatsappNumber    String?
+  animalsAvailable  Int?
+  animalTypes       String[]
+  acceptsDonations  Boolean            @default(false)
+  donationLink      String?
+  volunteerNeeded   Boolean            @default(false)
+  needs             String[]
+  seoTitle          String?
+  seoDescription    String?
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  hasFundedBadge    Boolean            @default(false)
+  animals           Animal[]
+  categoryEvents    CategoryEvent[]
+  events            Event[]
+  inventory         InventoryItem[]
+  products          Product[]
+  requestedProducts RequestedProduct[]
+  users             User[]             @relation("ContributorToUser")
 }
 
-model Contributor {
-    id                String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    name              String
-    email             String?
-    phone             String?
-    website           String?
-    logo              String?
-    coverImage        String?
-    description       String?
-    descriptionLong   String?
-    tags              String[]
-    address           String?
-    city              String?
-    province          String?
-    region            String?
-    zipCode           String?
-    latitude          Float?
-    longitude         Float?
-    partitaIva        String?
-    type              ContributorType
-    slug              String          @unique
-    hasFundedBadge    Boolean         @default(false)
-    isOnlineShop      Boolean         @default(false)
-    isPickupAvailable Boolean         @default(false)
-    deliveryAvailable Boolean         @default(false)
-    openingHours      Json? // { lunedi: "9-18", martedi: "10-13", ... }
-
-    socialLinks    Json? // { instagram: "...", facebook: "...", tiktok: "..." }
-    whatsappNumber String?
-
-    animalsAvailable Int?
-    animalTypes      String[] // ["cani", "gatti"]
-
-    // Supporto (donazioni / volontariato)
-    acceptsDonations Boolean  @default(false)
-    donationLink     String?
-    volunteerNeeded  Boolean  @default(false)
-    needs            String[] // ["cibo", "volontari", "medicinali"]
-
-    // SEO
-    seoTitle       String?
-    seoDescription String?
-
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    users             User[]
-    animals           Animal[]
-    inventory         InventoryItem[]
-    products          Product[]
-    requestedProducts RequestedProduct[]
-    events            Event[]
-    categoryEvents    CategoryEvent[]
+enum ContributorType {
+  SHELTER
+  ASSOCIATION
+  RETAILER
 }

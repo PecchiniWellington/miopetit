@@ -1,29 +1,24 @@
 model RequestedProduct {
-    id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-
-    name         String
-    image        String?
-    price        Float // Prezzo unitario
-    quantity     Int // Quantità richiesta
-    targetAmount Float // price * quantity
-    fundedAmount Float                  @default(0)
-    status       RequestedProductStatus @default(PENDING)
-    notes        String?
-
-    contributorId String  @db.Uuid
-    baseProductId String? @db.Uuid
-
-    baseProduct Product?    @relation(fields: [baseProductId], references: [id])
-    contributor Contributor @relation(fields: [contributorId], references: [id], onDelete: Cascade)
-
-    donations Donation[]
-
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+  id            String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  contributorId String                 @db.Uuid
+  name          String
+  price         Float
+  targetAmount  Float
+  quantity      Int
+  fundedAmount  Float                  @default(0)
+  status        RequestedProductStatus @default(PENDING)
+  notes         String?
+  baseProductId String?                @db.Uuid
+  createdAt     DateTime               @default(now())
+  updatedAt     DateTime               @updatedAt
+  image         String?
+  donations     Donation[]
+  baseProduct   Product?               @relation(fields: [baseProductId], references: [id])
+  contributor   Contributor            @relation(fields: [contributorId], references: [id], onDelete: Cascade)
 }
 
 enum RequestedProductStatus {
-    PENDING
-    FUNDED
-    DELIVERED
+  PENDING
+  FUNDED
+  DELIVERED
 }

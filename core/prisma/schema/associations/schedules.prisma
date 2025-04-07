@@ -1,15 +1,14 @@
 model Schedule {
-    id     String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    userId String   @db.Uuid
-    date   DateTime
-    shift  Shift
-    notes  String?
-
-    user User @relation(fields: [userId], references: [id])
+  id     String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId String   @db.Uuid
+  date   DateTime
+  shift  Shift
+  notes  String?
+  user   User     @relation(fields: [userId], references: [id])
 }
 
 enum Shift {
-    MORNING
-    AFTERNOON
-    EVENING
+  MORNING
+  AFTERNOON
+  EVENING
 }

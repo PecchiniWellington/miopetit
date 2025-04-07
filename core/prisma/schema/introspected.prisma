@@ -1,0 +1,7 @@
+model discount_record {
+  id               BigInt    @id @default(autoincrement())
+  created_at       DateTime? @db.Timestamp(6)
+  discounted_price Float
+  original_price   Float
+  percentage       Float
+}

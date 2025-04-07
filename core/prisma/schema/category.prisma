@@ -1,9 +1,9 @@
 model Category {
-    id              String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid // ID univoco
-    name            String
-    slug            String            @unique // URL-friendly slug
-    parentId        String?           @db.Uuid
-    parent          Category?         @relation("CategoryParent", fields: [parentId], references: [id], onDelete: Cascade)
-    children        Category[]        @relation("CategoryParent")
-    productCategory ProductCategory[]
+  id              String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name            String
+  slug            String            @unique
+  parentId        String?           @db.Uuid
+  parent          Category?         @relation("CategoryParent", fields: [parentId], references: [id], onDelete: Cascade)
+  children        Category[]        @relation("CategoryParent")
+  productCategory ProductCategory[]
 }

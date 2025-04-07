@@ -1,13 +1,10 @@
 model Donation {
-    id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-
-    amount    Float
-    message   String?
-    createdAt DateTime @default(now())
-
-    requestedProductId String  @db.Uuid
-    userId             String? @db.Uuid
-
-    user             User?            @relation(fields: [userId], references: [id])
-    requestedProduct RequestedProduct @relation(fields: [requestedProductId], references: [id])
+  id                 String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  requestedProductId String           @db.Uuid
+  userId             String?          @db.Uuid
+  amount             Float
+  message            String?
+  createdAt          DateTime         @default(now())
+  requestedProduct   RequestedProduct @relation(fields: [requestedProductId], references: [id])
+  user               User?            @relation(fields: [userId], references: [id])
 }

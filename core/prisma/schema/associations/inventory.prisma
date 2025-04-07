@@ -1,36 +1,33 @@
 model InventoryItem {
-    id          String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    name        String
-    type        InventoryType
-    quantity    Int
-    minQuantity Int
-    unit        String
-    notes       String?
-
-    contributorId String      @db.Uuid
-    contributor   Contributor @relation(fields: [contributorId], references: [id])
-
-    movements InventoryMovement[]
+  id            String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name          String
+  type          InventoryType
+  quantity      Int
+  minQuantity   Int
+  unit          String
+  notes         String?
+  contributorId String              @db.Uuid
+  contributor   Contributor         @relation(fields: [contributorId], references: [id])
+  movements     InventoryMovement[]
 }
 
 model InventoryMovement {
-    id       String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    itemId   String                @db.Uuid
-    type     InventoryMovementType
-    quantity Int
-    date     DateTime
-    note     String?
-
-    item InventoryItem @relation(fields: [itemId], references: [id])
+  id       String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  itemId   String                @db.Uuid
+  type     InventoryMovementType
+  quantity Int
+  date     DateTime
+  note     String?
+  item     InventoryItem         @relation(fields: [itemId], references: [id])
 }
 
 enum InventoryType {
-    FOOD
-    MEDICINE
-    EQUIPMENT
+  FOOD
+  MEDICINE
+  EQUIPMENT
 }
 
 enum InventoryMovementType {
-    IN
-    OUT
+  IN
+  OUT
 }

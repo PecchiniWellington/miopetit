@@ -1,17 +1,16 @@
 model Session {
-    sessionToken String   @unique @map("session_token")
-    userId       String   @db.Uuid
-    expires      DateTime @db.Timestamp(6)
-    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-    createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(6)
-    updatedAt DateTime @updatedAt @map("updated_at")
+  sessionToken String   @unique @map("session_token")
+  userId       String   @db.Uuid
+  expires      DateTime @db.Timestamp(6)
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt    DateTime @updatedAt @map("updated_at")
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model VerificationToken {
-    identifier String
-    token      String
-    expires    DateTime
+  identifier String
+  token      String
+  expires    DateTime
 
-    @@id([identifier, token])
+  @@id([identifier, token])
 }
